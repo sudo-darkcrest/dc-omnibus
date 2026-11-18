@@ -1,0 +1,366 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Module 07 · Home Computing | Datacenter Omnibus</title>
+<meta name="description" content="Home networks, ISP connection types, router settings, smart home protocols, home media, choosing devices, personal security and home troubleshooting.">
+<link rel="stylesheet" href="assets/omnibus.css">
+<style>
+  #hn-canvas { width: 100%; max-width: 720px; height: auto; display: block; margin: 0 auto; border-radius: 10px; touch-action: none; background: #fff; }
+  .legend { display: flex; gap: 10px; flex-wrap: wrap; font-size: .85rem; justify-content: center; }
+  .legend i { display: inline-block; width: 14px; height: 14px; border-radius: 3px; vertical-align: middle; margin-right: 4px; }
+  .spec-line { display: block; width: 100%; text-align: left; margin: 4px 0; font-family: var(--mono); font-size: .9rem; }
+</style>
+</head>
+<body data-module="7">
+<a class="skip" href="#main">Skip to content</a>
+<div id="topbar"></div>
+<main class="page" id="main">
+
+<section class="intro">
+  <div class="kicker">Part 2 · Hardware, OS and Home · Module 07</div>
+  <h1>Home Computing and Consumer Tech</h1>
+  <p class="why"><b>Why this matters.</b> Everyone becomes the family IT person eventually, and A+ tests SOHO (small office/home office) networking, wireless security and personal device support directly. Homes are also where many attacks start: a reused password, a cheap camera with default credentials, an old router. This module turns you into the person who sets up a home network properly and keeps the household safe.</p>
+  <h3>You will be able to</h3>
+  <ul class="outcomes">
+    <li>Explain modem vs router vs access point vs mesh, and compare ISP connection types.</li>
+    <li>Configure a home router securely: SSID, WPA3, guest network, DHCP, port forwarding, firmware and parental controls.</li>
+    <li>Choose between Wi-Fi, Zigbee, Z-Wave, Thread and Matter for smart home devices, and isolate IoT safely.</li>
+    <li>Read a device spec sheet and match it to the user's needs.</li>
+    <li>Protect a household with password managers, MFA, updates, backups and phishing awareness.</li>
+    <li>Fix common home problems: slow Wi-Fi, dead spots, printer and charging issues.</li>
+  </ul>
+  <nav class="jumpnav" id="jumpnav" aria-label="On this page"></nav>
+</section>
+
+<section class="certmap" id="certmap">
+  <h2>Cert map</h2>
+  <div id="certmap-badges"></div>
+</section>
+
+<section class="lesson" id="home-net">
+  <h2>1. Setting up a home network</h2>
+  <div class="tablewrap"><table>
+    <thead><tr><th>Device</th><th>Plain meaning</th><th>What it really does</th></tr></thead>
+    <tbody>
+      <tr><td><b>Modem</b></td><td>The translator between your home and the ISP's line.</td><td>Modulates/demodulates the ISP's signal (cable DOCSIS, DSL). For fiber, the equivalent is the <b>ONT</b> (optical network terminal).</td></tr>
+      <tr><td><b>Router</b></td><td>The traffic director between your home network and the internet.</td><td>Routes between your LAN and the ISP (WAN), performs NAT, runs a DHCP server, DNS forwarding and a firewall.</td></tr>
+      <tr><td><b>Switch</b></td><td>Adds more wired ports.</td><td>Forwards Ethernet frames between devices on the same LAN by MAC address (Module 12).</td></tr>
+      <tr><td><b>Access point (AP)</b></td><td>Makes the Wi-Fi.</td><td>Bridges wireless clients onto the wired LAN.</td></tr>
+      <tr><td><b>Mesh system</b></td><td>Several Wi-Fi boxes that work as one network.</td><td>Multiple nodes sharing one SSID, with wireless (or wired, "Ethernet backhaul") links between nodes and coordinated roaming.</td></tr>
+    </tbody>
+  </table></div>
+  <p>Most ISPs supply a "gateway" that combines modem, router, switch and AP in one box. You can put it in <b>bridge mode</b> to use your own router instead.</p>
+  <h3 id="isp">ISP connection types</h3>
+  <div class="tablewrap"><table>
+    <thead><tr><th>Type</th><th>Medium</th><th>Typical speeds</th><th>Notes</th></tr></thead>
+    <tbody>
+      <tr><td>DSL (ADSL/VDSL)</td><td>Telephone copper</td><td>ADSL up to ~24 Mbps; VDSL2 ~100 Mbps</td><td>Speed drops with distance from the exchange; asymmetric (download faster than upload).</td></tr>
+      <tr><td>Cable (DOCSIS 3.0/3.1/4.0)</td><td>Coaxial (hybrid fiber-coax)</td><td>Hundreds of Mbps to multi-gigabit</td><td>Bandwidth shared with neighbors on the node; upload lower than download.</td></tr>
+      <tr><td>Fiber (FTTH/FTTP)</td><td>Optical fiber to an ONT in the home</td><td>1 to 10 Gbps, often symmetric</td><td>Usually GPON or XGS-PON passive optical networks (Module 11).</td></tr>
+      <tr><td>Fixed wireless</td><td>Radio from a tower to a roof antenna</td><td>25 to several hundred Mbps</td><td>Needs line of sight; weather can affect it; common in rural areas.</td></tr>
+      <tr><td>5G / 4G home internet</td><td>Cellular network</td><td>100 Mbps to 1+ Gbps</td><td>Easy setup; varies with signal and network load.</td></tr>
+      <tr><td>Satellite (GEO)</td><td>Satellite ~35,786 km up</td><td>25 to 100+ Mbps</td><td>High latency (~600 ms round trip), poor for gaming and calls.</td></tr>
+      <tr><td>Satellite (LEO)</td><td>Low Earth orbit constellations (~340 to 1,200 km)</td><td>50 to 300+ Mbps</td><td>Latency ~25 to 60 ms; needs a clear view of the sky.</td></tr>
+    </tbody>
+  </table></div>
+  <h3 id="router-settings">Router settings checklist</h3>
+  <ol>
+    <li>Change the <b>default admin password</b> (and username if possible); disable remote administration from the WAN.</li>
+    <li><b>Update firmware</b> (enable automatic updates if available). Replace routers that no longer get updates.</li>
+    <li>Set the <b>SSID</b> (network name). Hiding it gives no real security.</li>
+    <li>Use <b>WPA3-Personal</b> (SAE), or WPA2/WPA3 transition mode for older devices, with a long passphrase. Never WEP or WPA (TKIP).</li>
+    <li>Disable <b>WPS</b> (its PIN method can be brute-forced).</li>
+    <li>Enable a <b>guest network</b> with client isolation for visitors, and ideally a separate network or VLAN for IoT.</li>
+    <li><b>DHCP</b>: the router hands out addresses (e.g. 192.168.1.100 to .199). Use <b>DHCP reservations</b> so printers and NAS boxes keep the same IP.</li>
+    <li><b>Port forwarding</b>: maps an external port to an internal device (e.g. TCP 25565 to a game server). Only forward what you need. Disable <b>UPnP</b> if you do not need devices to open ports automatically.</li>
+    <li><b>Parental controls / content filtering</b>: schedules and DNS-based filtering.</li>
+    <li>Change the default LAN range if it clashes with a VPN, and consider setting custom DNS servers.</li>
+  </ol>
+</section>
+
+<section class="lesson" id="smart-home">
+  <h2>2. Smart home and IoT</h2>
+  <div class="tablewrap"><table>
+    <thead><tr><th>Protocol</th><th>Radio</th><th>Range</th><th>Power use</th><th>Mesh?</th><th>Hub needed?</th></tr></thead>
+    <tbody>
+      <tr><td>Wi-Fi</td><td>2.4 / 5 GHz (IEEE 802.11)</td><td>House-wide via router</td><td>High</td><td>Only with mesh Wi-Fi</td><td>No (uses your router)</td></tr>
+      <tr><td>Zigbee</td><td>2.4 GHz (IEEE 802.15.4)</td><td>~10 to 20 m per hop</td><td>Very low</td><td>Yes</td><td>Yes (Zigbee coordinator)</td></tr>
+      <tr><td>Z-Wave</td><td>Sub-GHz (908.42 MHz US, 868.42 MHz EU)</td><td>~30 m+ per hop; passes walls well</td><td>Very low</td><td>Yes</td><td>Yes (Z-Wave controller)</td></tr>
+      <tr><td>Thread</td><td>2.4 GHz (IEEE 802.15.4), IPv6-based</td><td>~10 to 30 m per hop</td><td>Very low</td><td>Yes, self-healing</td><td>A Thread border router (often built into speakers or hubs)</td></tr>
+      <tr><td>Bluetooth LE</td><td>2.4 GHz</td><td>~10 m</td><td>Low</td><td>Bluetooth Mesh exists</td><td>No (phone)</td></tr>
+    </tbody>
+  </table></div>
+  <p><b>Matter</b> (from the Connectivity Standards Alliance, first released 2022) is not a radio: it is an application-layer standard that runs over Wi-Fi, Ethernet and Thread so devices work across Apple Home, Google Home, Amazon Alexa and SmartThings.</p>
+  <ul>
+    <li>Voice assistants, smart TVs, cameras, doorbells, thermostats and plugs all collect data. Review privacy settings, microphone and camera permissions, and vendor update policies.</li>
+    <li><b>Risks</b>: default passwords, no updates, cloud account takeover, devices used in botnets (Mirai, 2016).</li>
+    <li><b>Segment IoT</b> onto its own SSID/VLAN or guest network so a compromised bulb cannot reach your laptop.</li>
+  </ul>
+</section>
+
+<section class="lesson" id="media">
+  <h2>3. Home media</h2>
+  <ul>
+    <li><b>Streaming</b>: 4K streams need roughly 15 to 25 Mbps each; wire the TV with Ethernet if Wi-Fi is weak.</li>
+    <li><b>NAS</b> (network attached storage): a small file server with drives (often RAID 1 or 5) for backups and media. Still keep an off-site copy.</li>
+    <li><b>Media servers</b> (Plex, Jellyfin, Kodi) organize and stream your own files.</li>
+    <li><b>HDMI-CEC</b> (Consumer Electronics Control): one remote controls several HDMI devices.</li>
+    <li><b>ARC / eARC</b> (enhanced Audio Return Channel): sends audio from the TV back down the HDMI cable to a soundbar or receiver; eARC supports lossless and object-based formats such as Dolby Atmos (TrueHD).</li>
+  </ul>
+</section>
+
+<section class="lesson" id="devices">
+  <h2>4. Choosing personal devices</h2>
+  <ul>
+    <li><b>Laptop</b>: portable, battery; choose by CPU class, RAM (16 GB is a sensible minimum for most users now), SSD size, screen, weight and battery life.</li>
+    <li><b>Desktop</b>: more power per dollar, upgradeable, better cooling; best for gaming and heavy editing.</li>
+    <li><b>Tablet</b>: media, reading, light work, drawing.</li>
+    <li><b>Phone</b>: always with you; pick by OS ecosystem, update support length, camera and battery.</li>
+  </ul>
+  <p>Decode a real spec sheet in <a href="#lab-spec">Lab 3</a>.</p>
+</section>
+
+<section class="lesson" id="personal-sec">
+  <h2>5. Personal security at home</h2>
+  <ul>
+    <li><b>Passwords</b>: long passphrases (four or more random words, 16+ characters) beat short complex ones. Never reuse passwords; use a <b>password manager</b> (it generates and fills unique passwords and spots phishing domains).</li>
+    <li><b>MFA</b> (multifactor authentication): add an authenticator app, a hardware security key or a <b>passkey</b>. SMS codes are better than nothing but can be stolen by SIM swapping.</li>
+    <li><b>Phishing</b> at home: fake delivery texts, "your account is locked" emails, tech-support scam pop-ups and calls. Go to the site yourself instead of clicking links; never let a caller remote into your PC.</li>
+    <li><b>Updates</b>: OS, browser, router and apps. Enable automatic updates.</li>
+    <li><b>Backups</b>: 3-2-1 (Module 6), with one copy offline or versioned in the cloud to survive ransomware.</li>
+    <li><b>Antivirus</b>: built-in Microsoft Defender is good; macOS has XProtect. Avoid "cleaner" apps.</li>
+    <li><b>Safe browsing</b>: check for HTTPS but remember HTTPS does not mean a site is honest; use an ad/tracker blocker; download only from official sources.</li>
+    <li><b>Kids and older relatives</b>: parental controls, separate standard (non-admin) accounts, app store restrictions, scam-call awareness, credit freezes, and a trusted person to ask before paying anyone.</li>
+  </ul>
+</section>
+
+<section class="lesson" id="home-ts">
+  <h2>6. Home troubleshooting</h2>
+  <div class="tablewrap"><table>
+    <thead><tr><th>Problem</th><th>Check</th><th>Fixes</th></tr></thead>
+    <tbody>
+      <tr><td>Slow Wi-Fi</td><td>Wired speed test vs Wi-Fi speed test; signal strength; number of devices; channel congestion</td><td>Move router to a central, high, open spot; use 5/6 GHz; change channel; update firmware; upgrade to Wi-Fi 6/7; check ISP plan</td></tr>
+      <tr><td>Dead spots</td><td>Walls (brick, concrete, metal), floors, distance, mirrors, aquariums</td><td>Mesh nodes, wired access points, Ethernet backhaul or powerline/MoCA adapters</td></tr>
+      <tr><td>Printer won't connect</td><td>Same network/SSID? IP changed? Printer asleep?</td><td>DHCP reservation for the printer, re-add it by IP, update driver, avoid guest network isolation for printers</td></tr>
+      <tr><td>Device won't charge</td><td>Cable, adapter wattage, lint in the port, battery health, overheating</td><td>Try a known-good cable and adapter; clean the port gently; check battery health settings; replace swollen batteries immediately</td></tr>
+      <tr><td>No internet at all</td><td>Modem/ONT lights, ISP outage page, 169.254.x.x address (no DHCP)</td><td>Power-cycle modem then router (wait 30+ seconds), check cables, call ISP</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section class="lesson" id="power">
+  <h2>7. Power at home</h2>
+  <ul>
+    <li><b>Surge protector</b>: diverts voltage spikes using MOVs (metal oxide varistors). Rated in joules (higher is better) and clamping voltage (lower is better). MOVs wear out with each surge. A plain power strip has no protection.</li>
+    <li><b>UPS</b> (uninterruptible power supply): a battery that keeps devices running through outages and brownouts long enough to save work and shut down cleanly. Size it in VA and W (Module 18). Put the modem, router and NAS on a small UPS to keep internet up during short outages.</li>
+    <li><b>Battery care</b> (lithium-ion): avoid heat and staying at 100% for long periods (use optimized/limited charging), avoid deep discharges, recycle properly, and never use a swollen battery.</li>
+  </ul>
+</section>
+
+<section class="lab" id="labs">
+  <h2>Interactive labs</h2>
+
+  <div class="lab-card" id="lab-home" data-lab="Home Network Builder: place a router and mesh nodes on a floor plan and see a Wi-Fi heat map with walls weakening the signal.">
+    <h3>Lab 1: Home Network Builder</h3>
+    <p>Drag the router (R) and mesh nodes (M) around the floor plan. Click a node and use the arrow keys to move it with the keyboard. Brick outer walls weaken signal more than interior drywall.</p>
+    <div class="row"><button type="button" id="hn-add">+ Add mesh node</button><button type="button" id="hn-rem">− Remove mesh node</button>
+      <label>Band <select id="hn-band"><option value="2.4">2.4 GHz (longer range)</option><option value="5" selected>5 GHz (faster, shorter range)</option><option value="6">6 GHz (fastest, shortest)</option></select></label></div>
+    <div class="stage"><canvas id="hn-canvas" width="720" height="440" tabindex="0" aria-label="Floor plan with Wi-Fi heat map. Click to select a node, arrow keys to move it."></canvas>
+      <div class="legend"><span><i style="background:#16a34a"></i>Excellent (> −55 dBm)</span><span><i style="background:#84cc16"></i>Good (−55 to −67)</span><span><i style="background:#facc15"></i>Fair (−67 to −75)</span><span><i style="background:#f97316"></i>Weak (−75 to −82)</span><span><i style="background:#dc2626"></i>Dead (< −82)</span></div></div>
+    <div class="caption" id="hn-cap" aria-live="polite"></div>
+  </div>
+
+  <div class="lab-card" id="lab-pw" data-lab="Password Strength Tester: estimate crack time by length and character set, computed locally, and see why length beats complexity.">
+    <h3>Lab 2: Password Strength Tester</h3>
+    <p>Everything is computed in your browser. Nothing is sent anywhere. Still, do not type a real password you use.</p>
+    <label class="field"><span>Try a password</span><input type="text" id="pw-in" value="Summer2025!" autocomplete="off" spellcheck="false" style="max-width:420px"></label>
+    <div class="meter"><i id="pw-meter"></i></div>
+    <div class="tablewrap"><table><tbody id="pw-out"></tbody></table></div>
+    <h4>Length vs complexity</h4>
+    <div class="tablewrap"><table><thead><tr><th>Example</th><th>Length</th><th>Character set</th><th>Offline crack time (10<sup>11</sup> guesses/s)</th></tr></thead><tbody id="pw-cmp"></tbody></table></div>
+    <div class="caption" id="pw-cap" aria-live="polite"></div>
+  </div>
+
+  <div class="lab-card" id="lab-spec" data-lab="Spec Sheet Decoder: hover each line of a laptop spec sheet to see what it means and whether it matters for gaming, office work or video editing.">
+    <h3>Lab 3: Spec Sheet Decoder</h3>
+    <div class="row"><label>Laptop <select id="sp-pick"><option value="0">Budget office laptop</option><option value="1">Thin-and-light premium</option><option value="2">Gaming laptop</option></select></label>
+      <label>I mainly do <select id="sp-use"><option value="office">Office work</option><option value="game">Gaming</option><option value="video">Video editing</option></select></label></div>
+    <div class="grid2"><div id="sp-lines"></div><div class="tile" id="sp-info" aria-live="polite"><h4>Hover or click a line</h4></div></div>
+    <div class="caption" id="sp-cap" aria-live="polite"></div>
+  </div>
+
+  <div class="lab-card" id="lab-proto" data-lab="Smart Home Protocol Picker: answer a few questions and get the right smart home protocol with a comparison.">
+    <h3>Lab 4: Smart Home Protocol Picker</h3>
+    <div id="pr-q"></div>
+    <div class="tile" id="pr-out"></div>
+    <div class="caption" id="pr-cap" aria-live="polite"></div>
+  </div>
+</section>
+
+<section class="glossary" id="glossary">
+  <h2>Key terms</h2>
+  <div id="glossary-list"></div>
+</section>
+
+<section class="memory" id="memory">
+  <h2>Memory aids</h2>
+  <div class="mnemonic"><b>M</b>odem <b>M</b>eets the ISP, <b>R</b>outer <b>R</b>outes (and NATs), <b>S</b>witch <b>S</b>preads ports, <b>A</b>P <b>A</b>dds air.</div>
+  <div class="mnemonic">Router hardening: <b>P-F-W-G</b> → change the <b>P</b>assword, update <b>F</b>irmware, use <b>W</b>PA3 (disable WPS), add a <b>G</b>uest/IoT network.</div>
+  <div class="mnemonic">Smart home: <b>Z-Wave is the Wave below Wi-Fi</b> (sub-GHz, goes through walls); <b>Zigbee and Thread buzz at 2.4</b>; <b>Matter</b> is the shared language on top.</div>
+  <div class="tablewrap"><table><thead><tr><th>Exam trap</th><th>Why it is wrong</th></tr></thead><tbody>
+    <tr><td>"Hiding the SSID secures Wi-Fi."</td><td>The SSID is still visible in probe traffic; use WPA3 and a strong passphrase.</td></tr>
+    <tr><td>"MAC filtering stops attackers."</td><td>MAC addresses are easily spoofed. It is a minor hurdle at most.</td></tr>
+    <tr><td>"A power strip protects against surges."</td><td>Only a surge protector (or UPS with protection) does.</td></tr>
+    <tr><td>"Matter is a wireless radio."</td><td>Matter is an application standard over Wi-Fi, Thread and Ethernet.</td></tr>
+    <tr><td>"P@ssw0rd! is strong because it has symbols."</td><td>Predictable substitutions are in every cracking dictionary; length and randomness matter more.</td></tr>
+  </tbody></table></div>
+</section>
+
+<section class="quiz" id="quiz">
+  <h2>Knowledge check</h2>
+  <div id="quiz-area"></div>
+</section>
+
+<section class="flashcards" id="flashcards">
+  <h2>Flashcards</h2>
+  <div id="deck-area"></div>
+</section>
+
+<section class="deeper" id="deeper">
+  <h2>Go deeper (official sources)</h2>
+  <ul>
+    <li><a href="https://pages.nist.gov/800-63-4/" rel="noopener">NIST SP 800-63B: Digital identity guidelines (passwords and authenticators)</a></li>
+    <li><a href="https://www.wi-fi.org/discover-wi-fi/security" rel="noopener">Wi-Fi Alliance: Wi-Fi security (WPA3)</a></li>
+    <li><a href="https://csa-iot.org/all-solutions/matter/" rel="noopener">Connectivity Standards Alliance: Matter</a></li>
+    <li><a href="https://www.cisa.gov/secure-our-world" rel="noopener">CISA: Secure Our World (home security basics)</a></li>
+    <li><a href="https://www.cablelabs.com/specifications" rel="noopener">CableLabs DOCSIS specifications</a></li>
+    <li><a href="https://www.comptia.org/en-us/certifications/a/" rel="noopener">CompTIA A+ exam objectives</a></li>
+  </ul>
+</section>
+</main>
+<footer class="foot">Datacenter Omnibus · Original study material. Not affiliated with or endorsed by any certification body.</footer>
+
+<script src="data/catalog.js"></script>
+<script src="assets/omnibus.js"></script>
+<script src="data/m07.js"></script>
+<script>
+(function () {
+  var h = OMNI.h, $ = function (id) { return document.getElementById(id); };
+
+  /* ================= Lab 1: Home network heat map ================= */
+  var cv = $("hn-canvas"), ctx = cv.getContext("2d"), W = cv.width, H = cv.height, M_PER_PX = 0.035;
+  // walls: [x1,y1,x2,y2, loss dB, label]
+  var walls = [[20, 20, 700, 20, 12], [700, 20, 700, 420, 12], [700, 420, 20, 420, 12], [20, 420, 20, 20, 12],
+    [260, 20, 260, 170, 4], [260, 240, 260, 420, 4], [460, 20, 460, 250, 4], [460, 320, 460, 420, 4], [20, 230, 200, 230, 4], [460, 250, 700, 250, 4], [300, 300, 440, 300, 10]];
+  var nodes = [{ k: "R", x: 120, y: 120 }], sel = 0, modem = { x: 40, y: 60 };
+  var bands = { "2.4": { tx: -28, n: 2.8, wall: 1 }, "5": { tx: -32, n: 3.0, wall: 1.5 }, "6": { tx: -34, n: 3.2, wall: 1.8 } };
+  function segInt(ax, ay, bx, by, cx, cy, dx, dy) { function o(px, py, qx, qy, rx, ry) { return (qx - px) * (ry - py) - (qy - py) * (rx - px); } var d1 = o(cx, cy, dx, dy, ax, ay), d2 = o(cx, cy, dx, dy, bx, by), d3 = o(ax, ay, bx, by, cx, cy), d4 = o(ax, ay, bx, by, dx, dy); return (d1 * d2 < 0) && (d3 * d4 < 0); }
+  function rssi(px, py, n, b) { var d = Math.max(1, Math.hypot(px - n.x, py - n.y) * M_PER_PX); var loss = 0; walls.forEach(function (w) { if (segInt(px, py, n.x, n.y, w[0], w[1], w[2], w[3])) loss += w[4] * b.wall; }); return b.tx - 10 * b.n * Math.log10(d) - loss; }
+  function color(v) { return v > -55 ? [22, 163, 74] : v > -67 ? [132, 204, 22] : v > -75 ? [250, 204, 21] : v > -82 ? [249, 115, 22] : [220, 38, 38]; }
+  function draw() {
+    var b = bands[$("hn-band").value], cell = 10, counts = [0, 0, 0, 0, 0], total = 0;
+    ctx.clearRect(0, 0, W, H);
+    for (var y = 20; y < 420; y += cell) for (var x = 20; x < 700; x += cell) {
+      var best = -200; nodes.forEach(function (n) { best = Math.max(best, rssi(x + 5, y + 5, n, b)); });
+      var c = color(best); ctx.fillStyle = "rgba(" + c[0] + "," + c[1] + "," + c[2] + ",0.55)"; ctx.fillRect(x, y, cell, cell);
+      counts[best > -55 ? 0 : best > -67 ? 1 : best > -75 ? 2 : best > -82 ? 3 : 4]++; total++;
+    }
+    walls.forEach(function (w) { ctx.strokeStyle = w[4] >= 10 ? "#7c2d12" : "#475569"; ctx.lineWidth = w[4] >= 10 ? 7 : 4; ctx.beginPath(); ctx.moveTo(w[0], w[1]); ctx.lineTo(w[2], w[3]); ctx.stroke(); });
+    ctx.fillStyle = "#1c2330"; ctx.font = "13px system-ui"; [["Living room", 60, 330], ["Office", 330, 80], ["Kitchen", 540, 120], ["Bedroom", 540, 360], ["Hall", 330, 200], ["Bathroom (tiled)", 315, 360], ["Garage", 60, 200]].forEach(function (t) { ctx.fillText(t[0], t[1], t[2]); });
+    ctx.fillStyle = "#334155"; ctx.fillRect(modem.x - 12, modem.y - 10, 24, 20); ctx.fillStyle = "#fff"; ctx.font = "bold 11px system-ui"; ctx.fillText("ONT", modem.x - 11, modem.y + 4);
+    nodes.forEach(function (n, i) {
+      if (i > 0) { ctx.strokeStyle = "rgba(37,99,235,.6)"; ctx.setLineDash([5, 5]); ctx.lineWidth = 2; ctx.beginPath(); ctx.moveTo(nodes[0].x, nodes[0].y); ctx.lineTo(n.x, n.y); ctx.stroke(); ctx.setLineDash([]); }
+      ctx.beginPath(); ctx.arc(n.x, n.y, 16, 0, 7); ctx.fillStyle = i === sel ? "#1d4ed8" : "#2563eb"; ctx.fill(); ctx.lineWidth = i === sel ? 4 : 2; ctx.strokeStyle = "#fff"; ctx.stroke();
+      ctx.fillStyle = "#fff"; ctx.font = "bold 14px system-ui"; ctx.fillText(n.k, n.x - 5, n.y + 5);
+    });
+    var good = Math.round(100 * (counts[0] + counts[1]) / total), dead = Math.round(100 * counts[4] / total);
+    var tips = [];
+    if (dead > 5) tips.push("there are dead zones: add a mesh node between the router and the red area, or wire an access point");
+    if (nodes[0].x < 140 && nodes[0].y < 140) tips.push("the router is in a corner: move it toward the center of the home");
+    if ($("hn-band").value !== "2.4" && dead > 10) tips.push("2.4 GHz reaches further through walls (but is slower and more crowded)");
+    nodes.slice(1).forEach(function (n, i) { if (rssi(n.x, n.y, nodes[0], b) < -72) tips.push("mesh node " + (i + 1) + " is too far from the router for a good wireless backhaul: move it closer, or use Ethernet backhaul"); });
+    OMNI.say("hn-cap", good + "% of the floor has good or excellent signal, " + dead + "% is dead. " + (tips.length ? "Tips: " + tips.join("; ") + "." : "Nice placement! Strong coverage everywhere."));
+  }
+  function pos(e) { var r = cv.getBoundingClientRect(); return { x: (e.clientX - r.left) * W / r.width, y: (e.clientY - r.top) * H / r.height }; }
+  var drag = -1;
+  cv.addEventListener("pointerdown", function (e) { var p = pos(e); nodes.forEach(function (n, i) { if (Math.hypot(n.x - p.x, n.y - p.y) < 22) { drag = i; sel = i; } }); if (drag >= 0) cv.setPointerCapture(e.pointerId); draw(); });
+  cv.addEventListener("pointermove", function (e) { if (drag < 0) return; var p = pos(e); nodes[drag].x = OMNI.clamp(p.x, 30, 690); nodes[drag].y = OMNI.clamp(p.y, 30, 410); draw(); });
+  cv.addEventListener("pointerup", function () { drag = -1; });
+  cv.addEventListener("keydown", function (e) { var d = { ArrowUp: [0, -10], ArrowDown: [0, 10], ArrowLeft: [-10, 0], ArrowRight: [10, 0] }[e.key]; if (e.key === "Tab" && e.shiftKey) return; if (d) { e.preventDefault(); var n = nodes[sel]; n.x = OMNI.clamp(n.x + d[0], 30, 690); n.y = OMNI.clamp(n.y + d[1], 30, 410); draw(); } else if (e.key === " ") { e.preventDefault(); sel = (sel + 1) % nodes.length; draw(); } });
+  $("hn-add").onclick = function () { if (nodes.length >= 4) return; nodes.push({ k: "M", x: 360 + nodes.length * 60, y: 230 }); sel = nodes.length - 1; draw(); };
+  $("hn-rem").onclick = function () { if (nodes.length > 1) { nodes.pop(); sel = 0; draw(); } };
+  $("hn-band").onchange = draw;
+  draw();
+
+  /* ================= Lab 2: Password tester ================= */
+  var common = ["password", "123456", "qwerty", "letmein", "welcome", "admin", "iloveyou", "monkey", "dragon", "football", "summer", "winter", "spring", "autumn", "sunshine", "princess", "baseball", "master", "shadow", "trustno1"];
+  function charset(p) { var n = 0; if (/[a-z]/.test(p)) n += 26; if (/[A-Z]/.test(p)) n += 26; if (/\d/.test(p)) n += 10; if (/[^a-zA-Z0-9]/.test(p)) n += 33; return n || 1; }
+  function human(sec) { if (sec < 1) return "instantly"; var u = [[31536000 * 1e9, "billion years"], [31536000 * 1e6, "million years"], [31536000 * 1e3, "thousand years"], [31536000, "years"], [86400, "days"], [3600, "hours"], [60, "minutes"], [1, "seconds"]]; for (var i = 0; i < u.length; i++) if (sec >= u[i][0]) return OMNI.fmt(sec / u[i][0], 1) + " " + u[i][1]; return "instantly"; }
+  function pw() {
+    var p = $("pw-in").value, cs = charset(p), bits = p.length * Math.log2(cs), low = p.toLowerCase().replace(/[@4]/g, "a").replace(/[3]/g, "e").replace(/[0]/g, "o").replace(/[1!]/g, "i").replace(/\$/g, "s");
+    var hit = common.filter(function (w) { return low.indexOf(w) >= 0; })[0], pattern = /(19|20)\d\d/.test(p) || /(.)\1\1/.test(p) || /1234|abcd|qwer/i.test(p);
+    var eff = bits; if (hit) eff = Math.min(bits, 20 + (p.length - hit.length) * 3.5); if (pattern) eff -= 6; eff = Math.max(0, eff);
+    var guesses = Math.pow(2, eff) / 2;
+    $("pw-out").innerHTML = "";
+    [["Length", p.length + " characters"], ["Character set size", cs + " (" + [/[a-z]/.test(p) && "lowercase", /[A-Z]/.test(p) && "uppercase", /\d/.test(p) && "digits", /[^a-zA-Z0-9]/.test(p) && "symbols"].filter(Boolean).join(", ") + ")"], ["Raw entropy", OMNI.fmt(bits, 1) + " bits"], ["Effective strength", OMNI.fmt(eff, 1) + " bits" + (hit ? " (contains the common word \"" + hit + "\")" : "") + (pattern ? " (predictable pattern: year, repeat or sequence)" : "")],
+      ["Online attack (100 guesses/s, rate-limited)", human(guesses / 100)], ["Offline fast hash (10¹¹ guesses/s GPU rig)", human(guesses / 1e11)], ["Offline slow hash (bcrypt/Argon2, 10⁴ guesses/s)", human(guesses / 1e4)]].forEach(function (r) { $("pw-out").appendChild(h("tr", null, [h("td", null, h("b", null, r[0])), h("td", null, r[1])])); });
+    $("pw-meter").style.width = Math.min(100, eff) + "%"; $("pw-meter").style.background = eff < 40 ? "var(--bad)" : eff < 60 ? "var(--warn)" : "var(--good)";
+    OMNI.say("pw-cap", eff < 40 ? "Weak. A password like this falls quickly in an offline attack after a breach. " + (hit ? "Dictionary words with substitutions are tried first." : "Add length.") : eff < 60 ? "Moderate. Fine for an online account with MFA, but a longer passphrase is much safer." : "Strong. Length did most of the work. Store it in a password manager and use it on one site only.");
+  }
+  $("pw-in").addEventListener("input", pw); pw();
+  [["P@ss1", 5], ["Tr0ub4dor&3", 11], ["correcthorsebattery", 19], ["correct horse battery staple", 28], ["7Hx!q2Lm#v9Z", 12]].forEach(function (e) { var cs = charset(e[0]), b = e[1] * Math.log2(cs); $("pw-cmp").appendChild(h("tr", null, [h("td", { class: "mono" }, e[0]), h("td", null, String(e[1])), h("td", null, String(cs)), h("td", null, human(Math.pow(2, b) / 2 / 1e11))])); });
+
+  /* ================= Lab 3: Spec sheet decoder ================= */
+  var sheets = [
+    [["CPU: Intel Core i3-1315U (6 cores, up to 4.5 GHz)", "Entry-level 15 W laptop chip. 'U' = low power for long battery.", 3, 1, 1], ["RAM: 8 GB DDR4-3200 (soldered)", "8 GB is tight for modern browsers and Teams; soldered means no upgrade later.", 2, 1, 0], ["Storage: 256 GB NVMe SSD", "Fast but small; fills quickly with photos or games.", 2, 1, 0], ["Display: 15.6\" 1920×1080 TN, 250 nits, 60 Hz", "TN panels have poor angles and color; 250 nits is dim near windows.", 2, 1, 0], ["Graphics: Intel UHD (integrated)", "Fine for video playback and office; not for modern games.", 3, 0, 0], ["Battery: 41 Wh", "Small battery: perhaps 6 to 8 hours of light use.", 2, 2, 1], ["Wi-Fi 6 (802.11ax), Bluetooth 5.2", "Modern wireless; good.", 3, 3, 3], ["Ports: 2× USB-A, 1× USB-C (data only), HDMI 1.4", "USB-C without charging or DisplayPort limits docking; HDMI 1.4 caps 4K at 30 Hz.", 2, 2, 1]],
+    [["CPU: Apple M4 / Intel Core Ultra 7 258V class", "Efficient, fast chips with strong integrated GPU and NPU.", 3, 2, 2], ["RAM: 16 GB unified LPDDR5X", "Plenty for office and photo work; soldered, so buy enough up front.", 3, 2, 2], ["Storage: 1 TB NVMe SSD", "Good size for most users.", 3, 2, 2], ["Display: 14\" 2880×1800 OLED, 120 Hz, 500 nits", "Sharp, color-accurate, smooth: great for media and editing.", 3, 2, 3], ["Graphics: integrated (high-end iGPU)", "Handles light gaming and 4K editing; not for heavy AAA gaming.", 3, 1, 2], ["Battery: 60 to 70 Wh", "All-day battery life.", 3, 2, 2], ["Wi-Fi 7, Bluetooth 5.4", "Latest wireless standards.", 3, 3, 3], ["Ports: 2× Thunderbolt 4 / USB4", "One-cable docking with displays, charging and fast storage.", 3, 2, 3]],
+    [["CPU: AMD Ryzen 9 / Intel Core i9 HX (16+ cores)", "'HX' = high-power desktop-class mobile chip: fast, hot and hungry.", 1, 3, 3], ["RAM: 32 GB DDR5-5600 (2× SODIMM)", "Generous and upgradeable.", 2, 3, 3], ["Storage: 2 TB NVMe SSD + free M.2 slot", "Room for games and project files; easy to expand.", 2, 3, 3], ["Display: 16\" 2560×1600 IPS, 240 Hz, G-Sync", "High refresh rate matters for fast games.", 2, 3, 2], ["Graphics: NVIDIA RTX 5070 Ti Laptop GPU (12 GB, 140 W)", "Strong dedicated GPU: great for gaming and GPU-accelerated video export.", 1, 3, 3], ["Battery: 90 Wh, 330 W charger", "Big battery, but gaming drains it in about an hour; heavy brick.", 1, 2, 2], ["Weight: 2.6 kg", "Heavy to carry daily.", 1, 2, 2], ["Ports: Thunderbolt 5, HDMI 2.1, 2.5 GbE", "HDMI 2.1 drives 4K 120 Hz TVs; 2.5 GbE for fast wired gaming.", 2, 3, 3]]
+  ];
+  var useIdx = { office: 2, game: 3, video: 4 };
+  function drawSpec() {
+    var s = sheets[+$("sp-pick").value], u = useIdx[$("sp-use").value], host = $("sp-lines"); host.innerHTML = "";
+    var score = 0;
+    s.forEach(function (l) { score += l[u];
+      var b = h("button", { type: "button", class: "spec-line" }, l[0]);
+      function show() { OMNI.$$(".spec-line", host).forEach(function (x) { x.classList.remove("sel"); }); b.classList.add("sel"); var v = ["Not great", "Weak", "OK", "Great"][l[u]]; $("sp-info").innerHTML = "<h4>" + l[0].split(":")[0] + "</h4><p>" + l[1] + "</p><p><b>For " + $("sp-use").selectedOptions[0].text.toLowerCase() + ":</b> " + "<span class='" + (l[u] >= 2 ? "pill-ok" : "pill-no") + "'>" + v + "</span></p><p class='figcap'>Office: " + ["✗", "~", "✓", "✓✓"][l[2]] + " · Gaming: " + ["✗", "~", "✓", "✓✓"][l[3]] + " · Video: " + ["✗", "~", "✓", "✓✓"][l[4]] + "</p>"; }
+      b.addEventListener("mouseenter", show); b.addEventListener("focus", show); b.addEventListener("click", show); host.appendChild(b); });
+    var pct = Math.round(100 * score / (s.length * 3));
+    OMNI.say("sp-cap", "Fit score for " + $("sp-use").selectedOptions[0].text.toLowerCase() + ": <b>" + pct + "%</b>. " + (pct >= 75 ? "A strong match." : pct >= 55 ? "Usable, with compromises (see weak lines)." : "A poor match: look at the lines marked Weak or Not great."));
+  }
+  $("sp-pick").onchange = drawSpec; $("sp-use").onchange = drawSpec; drawSpec();
+
+  /* ================= Lab 4: Protocol picker ================= */
+  var qs = [
+    ["ecosystem", "Do you want devices that work with Apple, Google and Amazon at the same time?", ["Yes", "Do not care"]],
+    ["battery", "Will many devices run on batteries (door sensors, motion sensors)?", ["Yes", "No, mostly plugged in"]],
+    ["walls", "Is the house large or full of thick walls, or do devices need to reach a garage/outbuilding?", ["Yes", "No"]],
+    ["hub", "Are you OK adding a hub or border router?", ["Yes", "No hubs, please"]],
+    ["video", "Are cameras or video doorbells involved?", ["Yes", "No"]]
+  ];
+  var ans = {};
+  qs.forEach(function (q) { var row = h("div", { class: "row", role: "group", "aria-label": q[1] }, [h("span", { style: "flex:1 1 300px" }, q[1])]);
+    q[2].forEach(function (o, i) { var b = h("button", { type: "button", "aria-pressed": "false" }, o); b.onclick = function () { ans[q[0]] = i === 0; OMNI.$$("button", row).forEach(function (x) { x.setAttribute("aria-pressed", x === b ? "true" : "false"); }); pick(); }; row.appendChild(b); });
+    $("pr-q").appendChild(row); });
+  function pick() {
+    var rec = [], why = [];
+    if (ans.video) { rec.push("Wi-Fi"); why.push("cameras need the bandwidth only Wi-Fi (or Ethernet) gives"); }
+    if (ans.ecosystem) { rec.push("Matter over Thread" + (ans.video ? " (and Matter over Wi-Fi for powered devices)" : "")); why.push("Matter certification gives cross-ecosystem control"); }
+    if (ans.battery && !ans.ecosystem) { rec.push(ans.walls ? "Z-Wave" : "Zigbee or Thread"); why.push("low-power mesh radios let sensors run for years on a coin cell"); }
+    if (ans.walls && ans.ecosystem && ans.battery) why.push("Thread is a self-healing mesh; add a border router or two to reach far rooms");
+    if (ans.walls && !ans.ecosystem && !ans.battery) { rec.push("Z-Wave"); why.push("sub-GHz Z-Wave passes through walls better than 2.4 GHz"); }
+    if (ans.hub === false) { rec = rec.filter(function (r) { return /Wi-Fi/.test(r) || /Matter/.test(r); }); if (!rec.length) rec.push("Wi-Fi"); why.push("you want no hub: Wi-Fi devices use your router (Thread needs a border router, often already built into a smart speaker)"); }
+    if (!rec.length) { rec.push("Wi-Fi (simple) or Matter for the future"); why.push("with few constraints, Wi-Fi is simplest; Matter keeps options open"); }
+    rec = rec.filter(function (v, i, a) { return a.indexOf(v) === i; });
+    $("pr-out").innerHTML = "<h4>Recommendation: " + rec.join(" + ") + "</h4><p>Why: " + why.join("; ") + ".</p><p class='figcap'>Whatever you choose, put smart devices on a separate guest or IoT network and keep their firmware updated.</p>";
+    OMNI.say("pr-cap", "Answered " + Object.keys(ans).length + " of " + qs.length + " questions. The recommendation updates as you answer.");
+  }
+  pick();
+})();
+</script>
+<!-- module-data:start -->
+<script type="application/json" id="module-data">{"module":7,"title":"Home Computing","glossary":[["Modem","Translates between your home network and the ISP's line.","Modulator-demodulator: converts digital data to and from the carrier signal (DOCSIS cable, DSL).","modulator-demodulator"],["ONT","The fiber box in a fiber-to-the-home install.","Optical Network Terminal: converts the PON fiber signal to Ethernet at the customer premises.","Optical Network Terminal"],["Router","Connects your home network to the internet.","A Layer 3 device that forwards packets between networks; home routers also provide NAT, DHCP, DNS forwarding and a firewall.",""],["Mesh Wi-Fi","Several boxes making one big Wi-Fi network.","A WLAN of multiple cooperating nodes sharing one SSID with coordinated backhaul and client steering.",""],["Bridge mode","Turning off the routing on an ISP box.","A mode in which a gateway passes traffic through without NAT/routing so another router can handle it.",""],["DOCSIS","The standard for cable internet.","Data Over Cable Service Interface Specification (CableLabs): versions 3.0, 3.1 and 4.0.","Data Over Cable Service Interface Specification"],["DSL","Internet over phone lines.","Digital Subscriber Line: broadband over telephone copper (ADSL, VDSL2); speed falls with distance.","Digital Subscriber Line"],["SSID","The Wi-Fi network's name.","Service Set Identifier: the up-to-32-byte name of an 802.11 network.","Service Set Identifier"],["WPA3","Current Wi-Fi security.","Wi-Fi Protected Access 3: uses SAE for personal mode (resists offline guessing) and 192-bit mode for enterprise.","Wi-Fi Protected Access 3"],["WPS","Push-button Wi-Fi pairing (insecure).","Wi-Fi Protected Setup: easy-pairing method whose PIN mode is vulnerable to brute force; disable it.","Wi-Fi Protected Setup"],["DHCP reservation","Always give a device the same IP.","A DHCP configuration mapping a MAC address to a fixed IP within the scope.",""],["Port forwarding","Letting outside traffic reach one inside device.","A NAT rule mapping an external port on the router's public IP to an internal IP and port.",""],["UPnP","Lets devices open router ports by themselves.","Universal Plug and Play: protocols that include automatic port mapping; convenient but risky.","Universal Plug and Play"],["Zigbee","Low-power mesh radio for smart devices.","IEEE 802.15.4-based 2.4 GHz mesh protocol from the Connectivity Standards Alliance; needs a coordinator hub.",""],["Z-Wave","Sub-GHz mesh radio for smart homes.","Low-power mesh protocol around 908/868 MHz with good wall penetration; requires a controller.",""],["Thread","IP-based low-power mesh for smart homes.","IPv6-based IEEE 802.15.4 mesh networking protocol; connects to other networks through border routers.",""],["Matter","One smart home language for all brands.","CSA application-layer standard running over Wi-Fi, Ethernet and Thread for interoperable smart home devices.",""],["NAS","A file server box for your home.","Network Attached Storage: a dedicated file storage device shared over the network (SMB, NFS).","Network Attached Storage"],["eARC","Sends TV audio to a soundbar over HDMI.","Enhanced Audio Return Channel (HDMI 2.1): carries lossless and object-based audio from TV to audio device.","Enhanced Audio Return Channel"],["HDMI-CEC","One remote for everything on HDMI.","Consumer Electronics Control: HDMI feature letting devices control each other.","Consumer Electronics Control"],["Password manager","An app that remembers strong passwords for you.","Software that generates, stores (encrypted) and autofills unique credentials.",""],["Passkey","Login without a password using your device.","A FIDO2/WebAuthn credential: a device-bound or synced key pair, phishing resistant.",""],["Entropy","How unpredictable a password is.","Measure of randomness in bits; length × log2(character set size) for random passwords.",""],["Surge protector","Power strip that blocks voltage spikes.","Device using MOVs to divert transient overvoltage; rated in joules and clamping voltage.",""],["UPS","A battery that keeps devices on during outages.","Uninterruptible Power Supply: provides battery power during outages and conditions power.","Uninterruptible Power Supply"],["RSSI","Received Wi-Fi signal strength.","Received Signal Strength Indicator, usually expressed in dBm (−30 excellent, −67 good for voice/video, −80 unusable).","Received Signal Strength Indicator"]],"quiz":[{"t":"mc","q":"Which device performs NAT and hands out IP addresses on a typical home network?","o":["Modem","Router","Switch","ONT"],"a":1,"w":["A modem converts the line signal only.","Correct.","A switch forwards frames within the LAN.","An ONT terminates fiber."],"x":"ISP gateways often combine modem and router functions.","c":"A1","d":"2.5"},{"t":"ms","q":"Which steps harden a new home router? (Select all that apply.)","o":["Change the default admin password","Disable WPS","Enable WEP for compatibility","Update the firmware"],"a":[0,1,3],"w":["Correct.","Correct: WPS PINs can be brute-forced.","WEP is broken; never use it.","Correct."],"x":"Also use WPA3, disable remote admin and UPnP if unneeded, and add a guest/IoT network.","c":"A2","d":"2.10"},{"t":"mc","q":"Which internet type typically has the HIGHEST latency?","o":["Fiber","Cable","Geostationary satellite","LEO satellite"],"a":2,"w":["Fiber has very low latency.","Cable latency is low.","Correct: ~35,786 km each way gives ~600 ms round trip.","LEO satellites orbit far lower (~25 to 60 ms)."],"x":"Geostationary latency makes gaming and video calls difficult.","c":"A1","d":"2.7"},{"t":"mc","q":"A customer wants sensors throughout a stone farmhouse to run years on batteries, without needing cross-brand control. Which protocol fits best?","o":["Wi-Fi","Z-Wave","Bluetooth Classic","NFC"],"a":1,"w":["Wi-Fi drains batteries fast.","Correct: low-power sub-GHz mesh with good wall penetration.","Classic Bluetooth is short range and not a mesh.","NFC works at a few centimeters."],"x":"Thread with Matter is the choice when cross-ecosystem control matters.","c":"A1","d":"2.3"},{"t":"mc","q":"What is Matter?","o":["A 2.4 GHz radio","An application-layer smart home standard running over Wi-Fi, Thread and Ethernet","A Wi-Fi security protocol","A cellular standard"],"a":1,"w":["Thread and Zigbee are radios; Matter is not.","Correct.","That is WPA3.","Not cellular."],"x":"Matter is maintained by the Connectivity Standards Alliance.","c":"A1","d":"2.3"},{"t":"mc","q":"Which password is strongest against offline cracking?","o":["P@ssw0rd!","Tr0ub4dor&3","violet-canyon-mitten-orbit-lamp","Summer2025!"],"a":2,"w":["Common word with substitutions: cracked almost instantly.","Short and pattern-based.","Correct: long random passphrase.","Season + year + symbol is a classic pattern."],"x":"Length and true randomness beat forced complexity (NIST SP 800-63B).","c":"A2","d":"2.7"},{"t":"mc","q":"Why place smart TVs and cameras on a separate guest or IoT network?","o":["It makes them faster","It limits what a compromised device can reach","It is required by Matter","It saves IP addresses"],"a":1,"w":["Speed is not the goal.","Correct: segmentation contains compromise.","Not a Matter requirement.","Not the reason."],"x":"This is network segmentation, a core Security+ concept, applied at home.","c":"S","d":"3.2"},{"t":"mc","sc":"A user's laptop shows IP 169.254.12.40 and no internet.","q":"What does this indicate?","o":["The ISP is down","The laptop could not reach a DHCP server and self-assigned an APIPA address","DNS is misconfigured","The laptop has a static IP"],"a":1,"w":["An ISP outage would still allow a local DHCP lease.","Correct.","DNS problems do not change the IP address.","Static IPs are set manually, not 169.254."],"x":"Check the Wi-Fi association, cable and router; then ipconfig /renew.","c":"A1","d":"5.5"},{"t":"mc","q":"A printer keeps 'disappearing' after the router restarts. What is the best fix?","o":["Replace the printer","Create a DHCP reservation so the printer keeps the same IP","Enable WPS","Switch to 2.4 GHz only"],"a":1,"w":["Hardware is fine.","Correct.","WPS is insecure and unrelated.","Band is unrelated to IP changes."],"x":"Reserve the printer's MAC address in the DHCP scope, then re-add it by IP.","c":"A1","d":"2.6"},{"t":"mc","q":"What does a surge protector's joule rating indicate?","o":["How long it runs on battery","How much surge energy it can absorb","Its maximum outlet count","Its efficiency"],"a":1,"w":["Battery runtime is a UPS spec.","Correct: higher is better.","Unrelated.","Unrelated."],"x":"Also check clamping voltage (lower is better) and replace after big surges.","c":"A2","d":"4.5"},{"t":"mc","q":"Which home audio feature carries lossless Dolby Atmos from the TV to a receiver over HDMI?","o":["HDMI-CEC","eARC","S/PDIF","Bluetooth"],"a":1,"w":["CEC is device control.","Correct.","Optical S/PDIF cannot carry lossless Atmos.","Bluetooth audio is compressed."],"x":"eARC came with HDMI 2.1.","c":"A1","d":"3.1"},{"t":"mc","q":"Which MFA method is MOST resistant to phishing?","o":["SMS code","Email code","Hardware security key / passkey (FIDO2)","Security questions"],"a":2,"w":["SMS can be intercepted or SIM-swapped, and codes can be phished.","Email codes can be phished.","Correct: bound to the real website's origin.","Security questions are not a second factor."],"x":"Passkeys are built on the same FIDO2/WebAuthn technology.","c":"S","d":"4.6"},{"t":"mc","q":"Moving the router from a basement corner to a central first-floor shelf mostly improves:","o":["ISP bandwidth","Wi-Fi coverage and signal strength","DNS speed","Security"],"a":1,"w":["The ISP plan stays the same.","Correct: fewer walls/floors and shorter distances.","DNS is unaffected.","Placement does not add security."],"x":"Signal falls with distance and every wall or floor it passes through.","c":"A1","d":"5.5"}],"flashcards":[["Modem vs router","Modem: converts the ISP line signal. Router: routes LAN↔WAN, NAT, DHCP, firewall."],["ONT","Optical Network Terminal: fiber-to-Ethernet box for FTTH."],["DSL vs cable","DSL: phone copper, distance-sensitive. Cable: coax (DOCSIS), shared node."],["GEO vs LEO satellite latency","GEO ~600 ms RTT; LEO ~25 to 60 ms."],["Router hardening","New admin password, firmware updates, WPA3, disable WPS/remote admin/UPnP, guest/IoT network."],["Why disable WPS?","Its PIN can be brute-forced."],["Does hiding the SSID secure Wi-Fi?","No. Use WPA3 and a strong passphrase."],["DHCP reservation","Fixed IP for a MAC address: use for printers, NAS."],["Port forwarding","Maps an external port to an internal IP:port."],["Zigbee","2.4 GHz 802.15.4 mesh, low power, needs a coordinator."],["Z-Wave","Sub-GHz mesh (908 MHz US / 868 MHz EU), good through walls."],["Thread","IPv6 802.15.4 mesh; needs a border router."],["Matter","Cross-brand smart home standard over Wi-Fi, Thread, Ethernet."],["IoT safety","Separate network, change defaults, update firmware, review privacy."],["HDMI-CEC / eARC","CEC: control devices over HDMI. eARC: lossless audio from TV to receiver."],["Password strength","Length + randomness. Use a password manager; never reuse."],["Strongest MFA","Hardware key or passkey (FIDO2/WebAuthn)."],["169.254.x.x","APIPA: no DHCP server reached."],["Surge protector specs","Joules (higher better), clamping voltage (lower better)."],["UPS at home","Keeps modem/router/NAS up during short outages; allows clean shutdown."],["Good Wi-Fi signal","−67 dBm or better for voice/video; below −80 is unusable."]]}</script>
+<!-- module-data:end -->
+</body>
+</html>
