@@ -112,6 +112,7 @@ dfn { font-style: normal; font-weight: 700; border-bottom: 2px dotted var(--acce
 .svg-line { stroke: var(--ink-2); }
 .grid2 { display: grid; grid-template-columns: 1fr 1fr; gap: 16px; }
 .grid3 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 14px; }
+.grid2 > *, .grid3 > * { min-width: 0; }
 .tiles { display: grid; grid-template-columns: repeat(auto-fill, minmax(220px, 1fr)); gap: 12px; }
 .tile { border: 1px solid var(--line); border-radius: 10px; padding: 12px; background: var(--surface-2); }
 .tile h4 { margin: 0 0 4px; }

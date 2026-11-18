@@ -1,0 +1,480 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Module 04 · Inside the Machine | Datacenter Omnibus</title>
+<meta name="description" content="How a computer works: von Neumann model, CPU internals, fetch-decode-execute, pipelining, memory hierarchy, buses, boot process and accelerators, with a working CPU simulator.">
+<link rel="stylesheet" href="assets/omnibus.css">
+<style>
+  .cpu-grid { display: grid; grid-template-columns: 1fr 280px; gap: 14px; } .cpu-grid > * { min-width: 0; }
+  #asm { width: 100%; min-height: 330px; font-family: var(--mono); font-size: .9rem; }
+  .pipe td, .pipe th { text-align: center; padding: 6px 4px; min-width: 38px; }
+  .pipe td.st { font-weight: 800; color: #fff; border-radius: 4px; }
+  .st-IF { background: #2563eb; } .st-ID { background: #7c3aed; } .st-EX { background: #c2410c; } .st-MEM { background: #0f766e; } .st-WB { background: #15803d; }
+  .pipe td.bub { background: repeating-linear-gradient(45deg, var(--warn-soft), var(--warn-soft) 5px, transparent 5px, transparent 10px); color: var(--warn); font-weight: 700; }
+  .pipe td.flush { background: var(--bad-soft); color: var(--bad); text-decoration: line-through; }
+  .pipe td.now { outline: 2px solid var(--accent); }
+  @media (max-width: 700px) { .cpu-grid { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body data-module="4">
+<a class="skip" href="#main">Skip to content</a>
+<div id="topbar"></div>
+<main class="page" id="main">
+
+<section class="intro">
+  <div class="kicker">Part 1 · Foundations · Module 04</div>
+  <h1>Inside the Machine: How a Computer Actually Works</h1>
+  <p class="why"><b>Why this matters.</b> Troubleshooting is guessing unless you know what the machine is doing. Why does adding RAM speed up a slow PC but a faster CPU does not? Why does a laptop fail to boot with "no bootable device"? Why is an SSD so much faster than a hard drive? Every one of these is answered by how the CPU, memory, buses and firmware work together. A+ Core 1 tests the parts; this module explains the machine they form.</p>
+  <h3>You will be able to</h3>
+  <ul class="outcomes">
+    <li>Describe the von Neumann model and why modern CPUs use split (Harvard-style) L1 caches.</li>
+    <li>Name the parts of a CPU and walk through the fetch-decode-execute cycle step by step.</li>
+    <li>Explain pipelining, superscalar and out-of-order execution, branch prediction, cores and SMT.</li>
+    <li>Rank the memory hierarchy by size and speed and explain cache hits and misses.</li>
+    <li>List the stages of the boot process and the symptom you would see if each one failed.</li>
+    <li>Explain what GPUs, NPUs and other accelerators are good at.</li>
+  </ul>
+  <nav class="jumpnav" id="jumpnav" aria-label="On this page"></nav>
+</section>
+
+<section class="certmap" id="certmap">
+  <h2>Cert map</h2>
+  <div id="certmap-badges"></div>
+</section>
+
+<section class="lesson" id="model">
+  <h2>1. The von Neumann model</h2>
+  <p>Almost every computer follows the design described by John von Neumann in 1945. It has four parts connected by <dfn>buses</dfn> (shared sets of wires that carry signals between components):</p>
+  <figure class="figure">
+    <svg viewBox="0 0 640 230" width="640" role="img" aria-label="Von Neumann model: CPU, memory, input and output connected by address, data and control buses">
+      <rect x="30" y="20" width="200" height="110" rx="10" fill="var(--hw-soft)" stroke="var(--hw)" stroke-width="2"/>
+      <text x="130" y="45" text-anchor="middle" class="svg-text" font-weight="800">CPU</text>
+      <rect x="45" y="58" width="80" height="55" rx="6" fill="var(--surface)" stroke="var(--hw)"/><text x="85" y="90" text-anchor="middle" class="svg-text" font-size="13">Control unit</text>
+      <rect x="135" y="58" width="80" height="55" rx="6" fill="var(--surface)" stroke="var(--hw)"/><text x="175" y="82" text-anchor="middle" class="svg-text" font-size="13">ALU +</text><text x="175" y="98" text-anchor="middle" class="svg-text" font-size="13">registers</text>
+      <rect x="410" y="20" width="200" height="110" rx="10" fill="var(--gen-soft)" stroke="var(--gen)" stroke-width="2"/>
+      <text x="510" y="70" text-anchor="middle" class="svg-text" font-weight="800">Memory (RAM)</text><text x="510" y="92" text-anchor="middle" class="svg-muted" font-size="13">instructions AND data</text>
+      <line x1="30" y1="160" x2="610" y2="160" stroke="#2563eb" stroke-width="5"/><text x="320" y="153" text-anchor="middle" font-size="12" class="svg-text">address bus (where)</text>
+      <line x1="30" y1="185" x2="610" y2="185" stroke="#15803d" stroke-width="5"/><text x="320" y="180" text-anchor="middle" font-size="12" class="svg-text">data bus (what)</text>
+      <line x1="30" y1="210" x2="610" y2="210" stroke="#c2410c" stroke-width="5"/><text x="320" y="205" text-anchor="middle" font-size="12" class="svg-text">control bus (read / write / clock)</text>
+      <line x1="130" y1="130" x2="130" y2="210" stroke="var(--ink-2)" stroke-width="2"/><line x1="510" y1="130" x2="510" y2="210" stroke="var(--ink-2)" stroke-width="2"/>
+      <rect x="255" y="40" width="130" height="70" rx="10" fill="var(--net-soft)" stroke="var(--net)"/><text x="320" y="70" text-anchor="middle" class="svg-text" font-weight="700">Input / Output</text><text x="320" y="90" text-anchor="middle" class="svg-muted" font-size="12">keyboard, disk, NIC</text>
+      <line x1="320" y1="110" x2="320" y2="210" stroke="var(--ink-2)" stroke-width="2"/>
+    </svg>
+    <figcaption>CPU, memory and I/O share address, data and control buses.</figcaption>
+  </figure>
+  <p>The key idea is the <dfn>stored program</dfn>: instructions are just numbers in memory, the same as data. That makes computers general purpose (load a different program and it does a different job) but creates the <b>von Neumann bottleneck</b>: instructions and data compete for the same path to memory.</p>
+  <p>The <b>Harvard architecture</b> uses separate memories and buses for instructions and data, so both can be fetched at once. Microcontrollers often use it. Modern CPUs are a hybrid: one unified main memory (von Neumann), but split <b>L1 instruction</b> and <b>L1 data</b> caches inside the core (Harvard style), so the core can fetch an instruction and load data in the same cycle.</p>
+</section>
+
+<section class="lesson" id="cpu">
+  <h2>2. The CPU in detail</h2>
+  <div class="callout analogy">A chef in a kitchen. The <b>recipe book</b> is RAM. The <b>control unit</b> is the chef reading the next step. The <b>ALU</b> is the chopping board where work happens. <b>Registers</b> are the chef's hands: tiny, but instant. The <b>clock</b> is a metronome: one beat, one small action.</div>
+  <div class="tablewrap"><table>
+    <thead><tr><th>Part</th><th>Plain meaning</th><th>Precise meaning</th></tr></thead>
+    <tbody>
+      <tr><td><b>Control unit (CU)</b></td><td>The manager that reads instructions and tells everyone what to do.</td><td>Decodes instructions and generates control signals that direct the datapath, memory and I/O.</td></tr>
+      <tr><td><b>Arithmetic logic unit (ALU)</b></td><td>The calculator.</td><td>Performs integer arithmetic (add, subtract) and logic (AND, OR, XOR, shifts). Floating-point units (FPUs) and vector units handle other math.</td></tr>
+      <tr><td><b>Registers</b></td><td>Tiny, super-fast storage inside the CPU.</td><td>Small fixed-size storage cells (e.g. 64-bit) read and written in one cycle.</td></tr>
+      <tr><td>Program counter (PC)</td><td>"Which step am I on?"</td><td>Holds the address of the next instruction (called the instruction pointer, RIP, on x86-64).</td></tr>
+      <tr><td>Instruction register (IR)</td><td>"The step I am doing now."</td><td>Holds the instruction currently being decoded and executed.</td></tr>
+      <tr><td>Accumulator / general-purpose registers</td><td>Scratch space for numbers being worked on.</td><td>Operand and result storage. Simple CPUs have one accumulator; x86-64 has 16 general-purpose registers (RAX to R15).</td></tr>
+      <tr><td>Flags (status register)</td><td>Notes about the last result.</td><td>Bits such as Zero, Carry, Negative and Overflow set by the ALU and tested by conditional jumps.</td></tr>
+      <tr><td><b>Clock</b></td><td>The heartbeat.</td><td>An oscillator producing pulses that synchronize operations; 4 GHz = 4 billion cycles per second.</td></tr>
+    </tbody>
+  </table></div>
+  <h3 id="fde">The fetch-decode-execute cycle</h3>
+  <ol>
+    <li><b>Fetch</b>: the PC's address goes out on the address bus; memory returns the instruction on the data bus; it is placed in the IR; the PC is incremented.</li>
+    <li><b>Decode</b>: the control unit splits the instruction into an <i>opcode</i> (what to do) and <i>operands</i> (what to do it to).</li>
+    <li><b>Execute</b>: the ALU computes, or data moves between registers and memory, or the PC is changed (a jump).</li>
+    <li>Repeat, billions of times a second.</li>
+  </ol>
+  <h3 id="isa">Instruction sets</h3>
+  <p>An <dfn>instruction set architecture (ISA)</dfn> is the list of instructions a CPU understands; software compiled for one ISA will not run natively on another.</p>
+  <div class="tablewrap"><table>
+    <thead><tr><th>ISA</th><th>Style</th><th>Where you find it</th></tr></thead>
+    <tbody>
+      <tr><td>x86-64 (AMD64 / Intel 64)</td><td>CISC: many complex, variable-length instructions (internally translated into simpler micro-ops)</td><td>Most PCs and servers (Intel, AMD)</td></tr>
+      <tr><td>ARM (AArch64)</td><td>RISC: fewer, simpler, fixed-length instructions</td><td>Phones, tablets, Apple silicon Macs, many cloud servers (AWS Graviton)</td></tr>
+      <tr><td>RISC-V</td><td>RISC, open and royalty-free</td><td>Microcontrollers, storage controllers, growing in many devices</td></tr>
+    </tbody>
+  </table></div>
+  <div class="callout detail"><b>CISC vs RISC</b> today is about the visible instruction set, not performance: modern x86 cores decode CISC instructions into RISC-like micro-operations, and modern ARM cores are just as sophisticated inside. RISC designs tend to be simpler to decode and more power efficient.</div>
+  <h3 id="speed">Making it faster</h3>
+  <ul>
+    <li><b>Pipelining</b>: overlap stages of different instructions like an assembly line (fetch the next while decoding this one). See <a href="#lab-pipe">Lab 2</a>.</li>
+    <li><b>Superscalar</b>: several execution units, so more than one instruction completes per cycle.</li>
+    <li><b>Branch prediction</b>: guess which way an <code>if</code> will go and start work early; a wrong guess forces a pipeline flush.</li>
+    <li><b>Out-of-order execution</b>: run instructions whose inputs are ready while others wait for memory, then retire results in program order.</li>
+    <li><b>Cores</b>: complete processors on one chip. A 16-core CPU can run 16 instruction streams at once.</li>
+    <li><b>Threads and SMT</b>: a thread is a single sequence of instructions. <b>Simultaneous multithreading</b> (Intel calls it <b>Hyper-Threading</b>) lets one core run two threads by sharing execution units, typically a 15 to 30% gain, not double.</li>
+    <li><b>Clock speed vs IPC</b>: performance ≈ clock speed × instructions per cycle (IPC). A 3.5 GHz CPU with higher IPC can beat a 4.5 GHz older design.</li>
+  </ul>
+  <div class="callout trap">"More GHz always means faster." Not across generations or architectures: IPC, core count, cache size and memory speed all matter.</div>
+</section>
+
+<section class="lesson" id="memory">
+  <h2>3. The memory hierarchy</h2>
+  <p>Fast memory is expensive and small; cheap memory is big and slow. Computers stack several kinds so the data you need most is in the fastest place. A <dfn>cache</dfn> is a small, fast memory holding copies of recently or frequently used data. A <dfn>cache hit</dfn> means the data was found there; a <dfn>miss</dfn> means going to a slower level.</p>
+  <div class="tablewrap"><table>
+    <thead><tr><th>Level</th><th>Typical size</th><th>Typical access time</th><th>Technology</th></tr></thead>
+    <tbody>
+      <tr><td>Registers</td><td>Hundreds of bytes per core</td><td>&lt; 1 ns (1 cycle)</td><td>Flip-flops in the core</td></tr>
+      <tr><td>L1 cache</td><td>32 to 64 KiB instruction + 32 to 64 KiB data per core</td><td>~1 ns (about 4 cycles)</td><td>SRAM</td></tr>
+      <tr><td>L2 cache</td><td>256 KiB to 3 MiB per core</td><td>~3 to 5 ns</td><td>SRAM</td></tr>
+      <tr><td>L3 cache</td><td>8 to 100+ MiB shared</td><td>~10 to 20 ns</td><td>SRAM</td></tr>
+      <tr><td>Main memory (RAM)</td><td>8 GiB to several TiB</td><td>~60 to 100 ns</td><td>DRAM (DDR4, DDR5)</td></tr>
+      <tr><td>NVMe SSD</td><td>0.5 to 30+ TB</td><td>~20 to 100 µs</td><td>NAND flash</td></tr>
+      <tr><td>Hard disk</td><td>1 to 30+ TB</td><td>~5 to 10 ms</td><td>Magnetic platters</td></tr>
+      <tr><td>Network / cloud</td><td>Unlimited</td><td>~1 to 100+ ms</td><td>Remote servers</td></tr>
+    </tbody>
+  </table></div>
+  <p>Caches work because programs show <b>locality</b>: they reuse recent data (temporal locality) and use data near recent data (spatial locality), so caches fetch whole 64-byte lines at a time.</p>
+  <h3 id="ram">RAM basics</h3>
+  <ul>
+    <li>Every byte of RAM has an <b>address</b>. A 64-bit CPU can address far more than any machine has installed; a 32-bit system is limited to 4 GiB (2<sup>32</sup> bytes).</li>
+    <li>RAM is <b>volatile</b>: it loses its contents without power. Storage (SSD, HDD) is non-volatile.</li>
+    <li><b>DRAM</b> stores each bit as charge in a tiny capacitor that leaks, so it is refreshed thousands of times a second; dense and cheap. <b>SRAM</b> uses six transistors per bit, needs no refresh, and is fast but expensive: used for caches.</li>
+    <li><b>DDR</b> (double data rate) SDRAM transfers data on both clock edges. Generations (DDR3, DDR4, DDR5) are not interchangeable: different voltages and notch positions (Module 5). DDR5 has two independent 32-bit subchannels per module and on-die ECC.</li>
+    <li><b>Channels</b>: each memory channel is an independent 64-bit path. Dual channel doubles bandwidth if DIMMs are installed in matching slots.</li>
+  </ul>
+</section>
+
+<section class="lesson" id="buses">
+  <h2>4. Buses and interconnects</h2>
+  <ul>
+    <li><b>Front-side bus (history)</b>: until about 2008, the CPU reached RAM through a northbridge chip over the FSB, a bottleneck.</li>
+    <li><b>Integrated memory controller</b>: today the memory controller sits on the CPU itself, so RAM connects directly to the processor.</li>
+    <li><b>PCI Express (PCIe)</b>: a serial point-to-point link made of <i>lanes</i> (one pair to send, one to receive). Slots are x1, x4, x8 or x16. Each generation roughly doubles per-lane bandwidth: Gen 3 ≈ 1 GB/s per lane, Gen 4 ≈ 2 GB/s, Gen 5 ≈ 4 GB/s, Gen 6 ≈ 8 GB/s (each direction).</li>
+    <li><b>Chipset</b> (Platform Controller Hub on Intel): connects slower devices (USB, SATA, extra PCIe lanes, audio, networking) to the CPU over a dedicated link.</li>
+    <li><b>DMA (direct memory access)</b>: devices such as NICs and disk controllers copy data straight to RAM without the CPU moving every byte, freeing the CPU.</li>
+  </ul>
+</section>
+
+<section class="lesson" id="boot">
+  <h2>5. The boot process</h2>
+  <ol>
+    <li><b>Power on</b>: the power supply starts and stabilizes its voltages, then sends a <b>Power Good</b> (PWR_OK) signal to the motherboard.</li>
+    <li><b>Firmware starts</b>: the CPU begins executing firmware (UEFI, or legacy BIOS) from flash on the motherboard.</li>
+    <li><b>POST</b> (power-on self-test): firmware checks CPU, RAM, video and key devices. Failures produce beep codes or LED/POST codes.</li>
+    <li><b>Find a boot device</b>: firmware follows the boot order. UEFI reads the EFI System Partition on a GPT disk; legacy BIOS reads the MBR. <b>Secure Boot</b> checks the bootloader's digital signature.</li>
+    <li><b>Bootloader</b> (Windows Boot Manager, GRUB): loads the OS kernel.</li>
+    <li><b>Kernel</b>: initializes memory management and drivers, mounts the root file system.</li>
+    <li><b>OS services</b> start (Windows services, Linux systemd units).</li>
+    <li><b>Login</b>: the user signs in and their profile loads.</li>
+  </ol>
+  <p>Step through the failures in <a href="#lab-boot">Lab 4</a>.</p>
+</section>
+
+<section class="lesson" id="os-sharing">
+  <h2>6. Interrupts and how the OS shares the CPU</h2>
+  <p>An <dfn>interrupt</dfn> is a signal that makes the CPU pause what it is doing, run a small handler and then resume. Hardware interrupts come from devices (a key press, a packet arriving, a disk finishing); software interrupts and exceptions come from programs (a system call, a divide by zero, a page fault).</p>
+  <ul>
+    <li>A <b>process</b> is a running program with its own memory space. A <b>thread</b> is a path of execution inside a process; threads share the process's memory.</li>
+    <li>The OS <b>scheduler</b> decides which thread runs on each core. A timer interrupt fires many times a second so the OS can switch (<i>preemptive multitasking</i>).</li>
+    <li>A <b>context switch</b> saves one thread's registers and loads another's. It costs time, so too many runnable threads hurt performance.</li>
+  </ul>
+</section>
+
+<section class="lesson" id="accel">
+  <h2>7. GPUs, NPUs and other accelerators</h2>
+  <p>A CPU has a few powerful cores good at complex, branching tasks. An <dfn>accelerator</dfn> is a processor specialized for one kind of work.</p>
+  <ul>
+    <li><b>GPU</b> (graphics processing unit): thousands of simpler cores doing the same math on lots of data at once. Built for graphics, now central to AI training and inference and scientific computing. Has its own fast memory (GDDR or HBM).</li>
+    <li><b>NPU</b> (neural processing unit): low-power AI inference engine in phones and laptops ("AI PCs"), measured in TOPS (trillions of operations per second).</li>
+    <li><b>Others</b>: TPUs and other AI ASICs, FPGAs (reprogrammable logic), DPUs/SmartNICs (offload networking and storage in data centers), video encoders, crypto engines (AES-NI instructions), and the TPM security chip (Module 14).</li>
+  </ul>
+</section>
+
+<section class="lab" id="labs">
+  <h2>Interactive labs</h2>
+
+  <div class="lab-card" id="lab-cpu" data-lab="CPU Simulator: a tiny 8-bit CPU with 16 bytes of RAM, animated fetch, decode and execute, preset programs and an assembly editor.">
+    <h3>Lab 1: CPU Simulator</h3>
+    <p>A tiny 8-bit CPU. Each instruction is one byte: the high nibble is the opcode and the low nibble is an address (0 to 15). Opcodes: <code>LOAD a</code> (1) ACC ← RAM[a], <code>ADD a</code> (2), <code>SUB a</code> (3), <code>STORE a</code> (4) RAM[a] ← ACC, <code>JUMP a</code> (5), <code>JZ a</code> (6) jump if Zero flag, <code>HALT</code> (F0). <code>DATA n</code> stores a number.</p>
+    <div class="row"><label>Program <select id="cpu-preset"><option value="add">Add two numbers (7 + 5)</option><option value="count">Count down loop (5 to 0)</option><option value="mul">Multiply by repeated addition (6 × 3)</option></select></label>
+      <button type="button" id="cpu-step" class="primary">Step</button><button type="button" id="cpu-run">▶ Run</button><button type="button" id="cpu-reset">Reset</button>
+      <label>Speed <input type="range" id="cpu-speed" min="1" max="10" value="4" aria-label="Run speed"></label></div>
+    <div class="cpu-grid">
+      <div class="stage"><svg id="cpu-svg" viewBox="0 0 640 400" width="640" role="img" aria-label="CPU, buses and RAM"></svg></div>
+      <div><label class="field"><span>Assembly (one line per address 0 to 15)</span><textarea id="asm" spellcheck="false" aria-label="Assembly program"></textarea></label>
+        <button type="button" id="cpu-assemble">Assemble into RAM</button><p class="figcap" id="asm-msg"></p></div>
+    </div>
+    <div class="caption" id="cpu-cap" aria-live="polite">Press Step to begin the first fetch.</div>
+  </div>
+
+  <div class="lab-card" id="lab-pipe" data-lab="Pipeline Visualizer: watch a 5-stage pipeline, then trigger a data hazard stall or a branch misprediction flush.">
+    <h3>Lab 2: Pipeline Visualizer</h3>
+    <div class="row" role="group" aria-label="Scenario"><button type="button" data-mode="clean" aria-pressed="true">No hazards</button><button type="button" data-mode="data" aria-pressed="false">Data hazard (stall)</button><button type="button" data-mode="branch" aria-pressed="false">Branch misprediction (flush)</button></div>
+    <div class="row"><button type="button" id="pp-step" class="primary">Next cycle →</button><button type="button" id="pp-all">Show all</button><button type="button" id="pp-reset">Reset</button><span class="readout" id="pp-stats"></span></div>
+    <div class="tablewrap"><table class="pipe" id="pp-table"></table></div>
+    <p class="figcap">Stages: IF fetch, ID decode, EX execute, MEM memory access, WB write back.</p>
+    <div class="caption" id="pp-cap" aria-live="polite"></div>
+  </div>
+
+  <div class="lab-card" id="lab-race" data-lab="Memory Hierarchy Race: request data and watch it found in L1, L2, L3, RAM, SSD or disk with latency scaled so 1 CPU cycle = 1 second.">
+    <h3>Lab 3: Memory Hierarchy Race</h3>
+    <p>At 3 GHz one cycle is 0.33 ns. Here, <b>1 cycle = 1 second</b> so you can feel the gap.</p>
+    <div class="row" id="race-btns" role="group" aria-label="Where is the data?"></div>
+    <div class="row"><button type="button" id="race-rand" class="primary">Random request (realistic hit rates)</button></div>
+    <div id="race-bars"></div>
+    <div class="caption" id="race-cap" aria-live="polite">Pick where the data lives.</div>
+  </div>
+
+  <div class="lab-card" id="lab-boot" data-lab="Boot Sequence Stepper: click through each boot stage with what can fail there and the matching A+ symptom.">
+    <h3>Lab 4: Boot Sequence Stepper</h3>
+    <div id="boot-ctrl"></div>
+    <div class="stage"><svg id="boot-svg" viewBox="0 0 880 120" width="880" role="img" aria-label="Boot stages"></svg></div>
+    <div class="tile" id="boot-card"><h4>Press Next step</h4><p>Each stage shows what happens, what can fail and the symptom a technician would see.</p></div>
+    <div class="caption" id="boot-cap" aria-live="polite">Ready to power on.</div>
+  </div>
+</section>
+
+<section class="glossary" id="glossary">
+  <h2>Key terms</h2>
+  <div id="glossary-list"></div>
+</section>
+
+<section class="memory" id="memory">
+  <h2>Memory aids</h2>
+  <div class="mnemonic">The cycle: <b>F</b>etch, <b>D</b>ecode, <b>E</b>xecute → "<b>F</b>ind, <b>D</b>ecide, <b>E</b>xecute".</div>
+  <div class="mnemonic">Pipeline stages: <b>I</b>n <b>I</b>ce <b>E</b>very <b>M</b>orning <b>W</b>e skate → IF, ID, EX, MEM, WB.</div>
+  <div class="mnemonic">Hierarchy (fast → slow): <b>R</b>eal <b>C</b>ooks <b>R</b>arely <b>S</b>erve <b>H</b>ot <b>N</b>oodles → Registers, Cache (L1/L2/L3), RAM, SSD, HDD, Network.</div>
+  <div class="mnemonic">Boot: <b>P</b>lease <b>F</b>ix <b>P</b>Cs <b>B</b>efore <b>B</b>reakfast, <b>K</b>ind <b>S</b>ir → Power good, Firmware, POST, Boot device, Bootloader, Kernel, Services (then login).</div>
+  <div class="tablewrap"><table><thead><tr><th>Exam trap</th><th>Why it is wrong</th></tr></thead><tbody>
+    <tr><td>"Hyper-Threading doubles performance."</td><td>SMT shares one core's execution units; typical gains are well under 2×.</td></tr>
+    <tr><td>"Cache is a kind of storage drive."</td><td>CPU cache is SRAM inside the processor; it is volatile and tiny.</td></tr>
+    <tr><td>"RAM keeps data when the PC is off."</td><td>DRAM is volatile; unsaved work is lost on power loss.</td></tr>
+    <tr><td>"Beep codes mean the same on every PC."</td><td>Beep and POST codes are vendor-specific; check the motherboard manual.</td></tr>
+    <tr><td>"x86 programs run natively on ARM."</td><td>Different ISAs need recompiling or emulation/translation (e.g. Rosetta 2).</td></tr>
+  </tbody></table></div>
+</section>
+
+<section class="quiz" id="quiz">
+  <h2>Knowledge check</h2>
+  <div id="quiz-area"></div>
+</section>
+
+<section class="flashcards" id="flashcards">
+  <h2>Flashcards</h2>
+  <div id="deck-area"></div>
+</section>
+
+<section class="deeper" id="deeper">
+  <h2>Go deeper (official sources)</h2>
+  <ul>
+    <li><a href="https://uefi.org/specifications" rel="noopener">UEFI Forum specifications</a></li>
+    <li><a href="https://pcisig.com/specifications" rel="noopener">PCI-SIG: PCI Express specifications</a></li>
+    <li><a href="https://www.jedec.org/standards-documents/focus/memory-module-designs-dimms/ddr5" rel="noopener">JEDEC: DDR5 standards</a></li>
+    <li><a href="https://riscv.org/technical/specifications/" rel="noopener">RISC-V International: ISA specifications</a></li>
+    <li><a href="https://www.intel.com/content/www/us/en/developer/articles/technical/intel-sdm.html" rel="noopener">Intel 64 and IA-32 Architectures Software Developer Manuals</a></li>
+    <li><a href="https://developer.arm.com/documentation/" rel="noopener">Arm architecture documentation</a></li>
+    <li><a href="https://www.comptia.org/en-us/certifications/a/" rel="noopener">CompTIA A+ exam objectives</a></li>
+  </ul>
+</section>
+</main>
+<footer class="foot">Datacenter Omnibus · Original study material. Not affiliated with or endorsed by any certification body.</footer>
+
+<script src="data/catalog.js"></script>
+<script src="assets/omnibus.js"></script>
+<script src="data/m04.js"></script>
+<script>
+(function () {
+  var h = OMNI.h, S = OMNI.svg, $ = function (id) { return document.getElementById(id); };
+
+  /* ================= Lab 1: CPU simulator ================= */
+  var OPS = { LOAD: 1, ADD: 2, SUB: 3, STORE: 4, JUMP: 5, JZ: 6, HALT: 15 }, NAMES = { 1: "LOAD", 2: "ADD", 3: "SUB", 4: "STORE", 5: "JUMP", 6: "JZ", 15: "HALT" };
+  var PRESETS = {
+    add: ["LOAD 14", "ADD 15", "STORE 13", "HALT", "DATA 0", "DATA 0", "DATA 0", "DATA 0", "DATA 0", "DATA 0", "DATA 0", "DATA 0", "DATA 0", "DATA 0", "DATA 7", "DATA 5"],
+    count: ["LOAD 15", "SUB 14", "STORE 15", "JZ 5", "JUMP 0", "HALT", "DATA 0", "DATA 0", "DATA 0", "DATA 0", "DATA 0", "DATA 0", "DATA 0", "DATA 0", "DATA 1", "DATA 5"],
+    mul: ["LOAD 13", "ADD 14", "STORE 13", "LOAD 15", "SUB 12", "STORE 15", "JZ 8", "JUMP 0", "HALT", "DATA 0", "DATA 0", "DATA 0", "DATA 1", "DATA 0", "DATA 6", "DATA 3"]
+  };
+  var NOTES = { add: "Result appears in address 13 (should be 12).", count: "Address 15 counts down to 0, then the program halts.", mul: "Address 13 accumulates 6 three times (should be 18); address 15 is the loop counter." };
+  var ram = [], cpu, phase, timer = null;
+  function assemble(lines) {
+    var out = [], err = null;
+    for (var i = 0; i < 16; i++) {
+      var ln = (lines[i] || "DATA 0").trim().toUpperCase().replace(/;.*$/, "").trim(); if (!ln) ln = "DATA 0";
+      var m = ln.match(/^([A-Z]+)\s*(\d+)?$/);
+      if (!m) { err = "Line " + i + ": cannot read \"" + ln + "\""; break; }
+      var op = m[1], arg = m[2] == null ? 0 : +m[2];
+      if (op === "DATA") { if (arg > 255) { err = "Line " + i + ": DATA must be 0 to 255"; break; } out.push(arg); }
+      else if (op === "HALT") out.push(0xF0);
+      else if (OPS[op]) { if (m[2] == null || arg > 15) { err = "Line " + i + ": " + op + " needs an address 0 to 15"; break; } out.push(OPS[op] * 16 + arg); }
+      else { err = "Line " + i + ": unknown instruction " + op; break; }
+    }
+    return { bytes: out, err: err };
+  }
+  function disasm(b) { var op = b >> 4, a = b & 15; if (b === 0xF0) return "HALT"; if (NAMES[op] && op !== 15) return NAMES[op] + " " + a; return "DATA " + b; }
+  function loadPreset() { $("asm").value = PRESETS[$("cpu-preset").value].map(function (l, i) { return l + (i === 0 ? "   ; " + NOTES[$("cpu-preset").value] : ""); }).join("\n"); doAssemble(); }
+  function doAssemble() { var r = assemble($("asm").value.split("\n")); if (r.err) { $("asm-msg").textContent = "⚠ " + r.err; return; } ram = r.bytes; $("asm-msg").textContent = "Assembled 16 bytes into RAM."; reset(); }
+  function reset() { stop(); cpu = { pc: 0, ir: 0, acc: 0, z: 0, c: 0, halted: false }; phase = 0; drawCPU({}); OMNI.say("cpu-cap", "CPU reset. PC = 0. Press Step to start the first fetch."); }
+  var cy = [];
+  function drawCPU(hl) {
+    var svg = $("cpu-svg"); svg.innerHTML = "";
+    S("rect", { x: 10, y: 10, width: 300, height: 380, rx: 12, fill: "var(--hw-soft)", stroke: "var(--hw)", "stroke-width": 2 }, svg);
+    S("text", { x: 160, y: 32, "text-anchor": "middle", "font-weight": 800, class: "svg-text", text: "CPU" }, svg);
+    function reg(x, y, w, label, val, key) {
+      var on = hl[key];
+      S("rect", { x: x, y: y, width: w, height: 46, rx: 8, fill: on ? "#facc15" : "var(--surface)", stroke: on ? "#a16207" : "var(--hw)", "stroke-width": on ? 3 : 1.5 }, svg);
+      S("text", { x: x + 8, y: y + 16, "font-size": 11, fill: on ? "#1c2330" : "var(--ink-2)", text: label }, svg);
+      S("text", { x: x + 8, y: y + 37, "font-size": 15, "font-weight": 800, "font-family": "monospace", fill: on ? "#1c2330" : "var(--ink)", text: val }, svg);
+    }
+    function bin(v) { return v.toString(2).padStart(8, "0"); }
+    reg(25, 45, 130, "Program counter (PC)", cpu.pc + "  (" + bin(cpu.pc).slice(4) + ")", "pc");
+    reg(165, 45, 130, "Instruction reg (IR)", bin(cpu.ir), "ir");
+    reg(25, 105, 270, "Control unit (decoded)", hl.cuText || (phase >= 2 ? disasm(cpu.ir) : "…"), "cu");
+    reg(25, 165, 130, "Accumulator (ACC)", cpu.acc + "  " + bin(cpu.acc), "acc");
+    reg(165, 165, 130, "Flags", "Z=" + cpu.z + "  C=" + cpu.c, "flags");
+    S("path", { d: "M70,240 L250,240 L220,300 L180,300 L160,280 L140,300 L100,300 Z", fill: hl.alu ? "#facc15" : "var(--surface)", stroke: "var(--hw)", "stroke-width": hl.alu ? 3 : 1.5 }, svg);
+    S("text", { x: 160, y: 268, "text-anchor": "middle", "font-weight": 800, fill: hl.alu ? "#1c2330" : "var(--ink)", text: "ALU" }, svg);
+    S("text", { x: 160, y: 335, "text-anchor": "middle", "font-size": 12, class: "svg-muted", text: cpu.halted ? "HALTED" : "Clock: phase " + ["fetch (1/2)", "fetch (2/2)", "decode", "execute"][phase] }, svg);
+    // buses
+    S("line", { x1: 310, y1: 120, x2: 400, y2: 120, stroke: hl.abus ? "#2563eb" : "var(--line)", "stroke-width": hl.abus ? 8 : 5 }, svg);
+    S("text", { x: 355, y: 108, "text-anchor": "middle", "font-size": 11, class: "svg-text", text: "address bus" }, svg);
+    S("text", { x: 355, y: 140, "text-anchor": "middle", "font-size": 13, "font-weight": 800, fill: "#2563eb", text: hl.abus != null && hl.abus !== true ? hl.abus : "" }, svg);
+    S("line", { x1: 310, y1: 250, x2: 400, y2: 250, stroke: hl.dbus ? "#15803d" : "var(--line)", "stroke-width": hl.dbus ? 8 : 5 }, svg);
+    S("text", { x: 355, y: 238, "text-anchor": "middle", "font-size": 11, class: "svg-text", text: "data bus" }, svg);
+    S("text", { x: 355, y: 272, "text-anchor": "middle", "font-size": 13, "font-weight": 800, fill: "#15803d", text: hl.dbus != null && hl.dbus !== true ? hl.dbus : "" }, svg);
+    // RAM
+    S("rect", { x: 400, y: 10, width: 230, height: 380, rx: 12, fill: "var(--gen-soft)", stroke: "var(--gen)", "stroke-width": 2 }, svg);
+    S("text", { x: 515, y: 30, "text-anchor": "middle", "font-weight": 800, class: "svg-text", text: "RAM (16 bytes)" }, svg);
+    for (var i = 0; i < 16; i++) {
+      var col = i < 8 ? 0 : 1, row = i % 8, x = 410 + col * 112, y = 42 + row * 43, on = hl.ram === i, isPc = cpu.pc === i;
+      S("rect", { x: x, y: y, width: 104, height: 38, rx: 6, fill: on ? "#facc15" : "var(--surface)", stroke: isPc ? "var(--hw)" : "var(--line)", "stroke-width": isPc ? 3 : 1 }, svg);
+      S("text", { x: x + 6, y: y + 15, "font-size": 10, fill: on ? "#1c2330" : "var(--ink-2)", text: i + (isPc ? " ◀PC" : "") }, svg);
+      S("text", { x: x + 6, y: y + 32, "font-size": 12, "font-weight": 700, "font-family": "monospace", fill: on ? "#1c2330" : "var(--ink)", text: disasm(ram[i]) }, svg);
+      S("text", { x: x + 98, y: y + 15, "text-anchor": "end", "font-size": 10, "font-family": "monospace", fill: on ? "#1c2330" : "var(--ink-2)", text: ram[i] }, svg);
+    }
+  }
+  function setFlags(v, carry) { cpu.c = carry ? 1 : 0; cpu.z = (v & 255) === 0 ? 1 : 0; }
+  function step() {
+    if (cpu.halted) { OMNI.say("cpu-cap", "The CPU is halted. Press Reset to run again."); stop(); return; }
+    var op = cpu.ir >> 4, a = cpu.ir & 15, hl = {}, msg;
+    if (phase === 0) { hl = { pc: 1, abus: cpu.pc, ram: cpu.pc }; msg = "<b>Fetch 1/2:</b> the program counter (" + cpu.pc + ") is placed on the address bus, selecting RAM address " + cpu.pc + "."; phase = 1; }
+    else if (phase === 1) { cpu.ir = ram[cpu.pc]; hl = { ram: cpu.pc, dbus: cpu.ir, ir: 1 }; msg = "<b>Fetch 2/2:</b> RAM sends the byte " + cpu.ir + " (" + cpu.ir.toString(2).padStart(8, "0") + ") over the data bus into the instruction register. The PC increments to " + ((cpu.pc + 1) & 15) + "."; cpu.pc = (cpu.pc + 1) & 15; hl.pc = 1; phase = 2; }
+    else if (phase === 2) { hl = { cu: 1, ir: 1 }; msg = "<b>Decode:</b> the control unit splits the IR into opcode " + (cpu.ir >> 4) + " (high nibble) and operand " + (cpu.ir & 15) + " (low nibble): <code>" + disasm(cpu.ir) + "</code>."; phase = 3; }
+    else {
+      var name = cpu.ir === 0xF0 ? "HALT" : NAMES[op];
+      if (name === "LOAD") { cpu.acc = ram[a]; setFlags(cpu.acc, false); hl = { abus: a, ram: a, dbus: ram[a], acc: 1, flags: 1 }; msg = "<b>Execute LOAD:</b> address " + a + " goes on the address bus; RAM returns " + ram[a] + " on the data bus into the accumulator."; }
+      else if (name === "ADD") { var s = cpu.acc + ram[a]; setFlags(s, s > 255); hl = { abus: a, ram: a, dbus: ram[a], alu: 1, acc: 1, flags: 1 }; msg = "<b>Execute ADD:</b> the ALU adds ACC (" + cpu.acc + ") + RAM[" + a + "] (" + ram[a] + ") = " + (s & 255) + (s > 255 ? " with carry (overflowed 8 bits)" : "") + "."; cpu.acc = s & 255; }
+      else if (name === "SUB") { var d = cpu.acc - ram[a]; setFlags(d, d < 0); hl = { abus: a, ram: a, dbus: ram[a], alu: 1, acc: 1, flags: 1 }; msg = "<b>Execute SUB:</b> the ALU computes ACC (" + cpu.acc + ") − RAM[" + a + "] (" + ram[a] + ") = " + (d & 255) + (cpu.z || (d & 255) === 0 ? ". The result is zero, so the Zero flag is set." : "."); cpu.acc = d & 255; }
+      else if (name === "STORE") { ram[a] = cpu.acc; hl = { abus: a, dbus: cpu.acc, ram: a, acc: 1 }; msg = "<b>Execute STORE:</b> address " + a + " on the address bus; the accumulator's value " + cpu.acc + " travels over the data bus and is written into RAM."; }
+      else if (name === "JUMP") { cpu.pc = a; hl = { pc: 1, cu: 1 }; msg = "<b>Execute JUMP:</b> the PC is overwritten with " + a + ", so the next fetch comes from there. This is how loops work."; }
+      else if (name === "JZ") { if (cpu.z) { cpu.pc = a; msg = "<b>Execute JZ:</b> the Zero flag is 1, so the PC jumps to " + a + "."; } else msg = "<b>Execute JZ:</b> the Zero flag is 0, so no jump; the PC stays at " + cpu.pc + "."; hl = { pc: 1, flags: 1, cu: 1 }; }
+      else if (name === "HALT") { cpu.halted = true; hl = { cu: 1 }; msg = "<b>Execute HALT:</b> the CPU stops. Check RAM for the result."; stop(); }
+      else { hl = { cu: 1 }; msg = "<b>Execute:</b> byte " + cpu.ir + " is not a valid instruction here (it is data), so it is treated as a no-op. Programs must not run into their data!"; }
+      phase = 0;
+    }
+    drawCPU(hl); OMNI.say("cpu-cap", msg);
+  }
+  function stop() { clearInterval(timer); timer = null; $("cpu-run").textContent = "▶ Run"; }
+  $("cpu-step").onclick = function () { stop(); step(); };
+  $("cpu-run").onclick = function () { if (timer) { stop(); return; } $("cpu-run").textContent = "⏸ Pause"; timer = setInterval(step, 1100 - $("cpu-speed").value * 100); };
+  $("cpu-speed").oninput = function () { if (timer) { stop(); $("cpu-run").click(); } };
+  $("cpu-reset").onclick = function () { doAssemble(); };
+  $("cpu-assemble").onclick = doAssemble;
+  $("cpu-preset").onchange = loadPreset;
+  loadPreset();
+
+  /* ================= Lab 2: Pipeline ================= */
+  var mode = "clean", cyc = 0;
+  var STG = ["IF", "ID", "EX", "MEM", "WB"];
+  function schedule() {
+    // rows: [label, startCycle, stalls(at ID), flushed]
+    if (mode === "clean") return [["I1 LOAD R1", 0], ["I2 ADD R2", 1], ["I3 SUB R3", 2], ["I4 STORE R4", 3], ["I5 AND R5", 4], ["I6 OR R6", 5]].map(function (r) { return { l: r[0], s: r[1], stall: 0 }; });
+    if (mode === "data") return [{ l: "I1 LOAD R1 ← [A]", s: 0, stall: 0 }, { l: "I2 ADD R2 ← R1+R3 (needs R1)", s: 1, stall: 2 }, { l: "I3 SUB R4", s: 2, stall: 2 }, { l: "I4 STORE R4", s: 3, stall: 2 }, { l: "I5 AND R5", s: 4, stall: 2 }];
+    return [{ l: "I1 CMP R1, 0", s: 0, stall: 0 }, { l: "I2 BEQ target (predicted not taken)", s: 1, stall: 0 }, { l: "I3 ADD (wrong path)", s: 2, stall: 0, flush: 4 }, { l: "I4 SUB (wrong path)", s: 3, stall: 0, flush: 4 }, { l: "T1 target: MOV", s: 4, stall: 0 }, { l: "T2 next: AND", s: 5, stall: 0 }];
+  }
+  function cell(r, c) {
+    var k = c - r.s; if (k < 0) return null;
+    if (r.flush != null && c >= r.flush) return null;
+    if (r.stall && k >= 1 && k < 1 + r.stall) return "bub";
+    var idx = k - (r.stall && k >= 1 + r.stall ? r.stall : 0);
+    return idx < 5 ? STG[idx] : null;
+  }
+  function drawPipe() {
+    var rows = schedule(), maxC = 0;
+    rows.forEach(function (r) { maxC = Math.max(maxC, r.s + 5 + (r.stall || 0)); });
+    var t = $("pp-table"); t.innerHTML = "";
+    var hr = h("tr", null, [h("th", null, "Instruction")]); for (var c = 0; c < maxC; c++) hr.appendChild(h("th", null, "C" + (c + 1))); t.appendChild(h("thead", null, hr));
+    var tb = h("tbody"); rows.forEach(function (r) {
+      var tr = h("tr", null, [h("td", { style: "text-align:left;white-space:nowrap" }, r.l)]);
+      for (var c = 0; c < maxC; c++) {
+        var v = c <= cyc ? cell(r, c) : null, td = h("td");
+        if (r.flush != null && c >= r.flush && c <= r.s + 4 && c <= cyc) { td.className = "flush"; td.textContent = "✗"; }
+        else if (v === "bub") { td.className = "bub"; td.textContent = "stall"; }
+        else if (v) { td.className = "st st-" + v; td.textContent = v; }
+        if (c === cyc) td.classList.add("now");
+        tr.appendChild(td);
+      }
+      tb.appendChild(tr);
+    }); t.appendChild(tb);
+    var done = rows.filter(function (r) { return !(r.flush != null) && r.s + 4 + (r.stall || 0) <= cyc; }).length;
+    var useful = rows.filter(function (r) { return r.flush == null; }).length;
+    $("pp-stats").textContent = "Cycle " + (cyc + 1) + " · completed " + done + " of " + useful + " · total cycles needed " + maxC + " (ideal for " + useful + " instructions: " + (useful + 4) + ")";
+    var cap = { clean: "With no hazards, a new instruction enters every cycle. After the pipeline fills (5 cycles), one instruction completes every cycle, so throughput approaches 1 instruction per cycle even though each one still takes 5 cycles.",
+      data: "I2 needs R1, but I1 only produces it at the end of its MEM stage. The pipeline inserts 2 bubbles (stalls) so I2 reads the correct value. Real CPUs reduce this with forwarding (bypassing) and out-of-order execution.",
+      branch: "The CPU predicted the branch would not be taken and started I3 and I4. The branch resolves in its EX stage (cycle 4) as taken, so those two are flushed (wasted work) and fetching restarts at the target. Better branch prediction means fewer flushes." }[mode];
+    OMNI.say("pp-cap", cap);
+  }
+  OMNI.$$("#lab-pipe [data-mode]").forEach(function (b) { b.onclick = function () { mode = b.dataset.mode; cyc = 0; OMNI.$$("#lab-pipe [data-mode]").forEach(function (x) { x.setAttribute("aria-pressed", x === b ? "true" : "false"); }); drawPipe(); }; });
+  function maxCyc() { var m = 0; schedule().forEach(function (r) { m = Math.max(m, r.s + 5 + (r.stall || 0)); }); return m - 1; }
+  $("pp-step").onclick = function () { cyc = Math.min(cyc + 1, maxCyc()); drawPipe(); };
+  $("pp-all").onclick = function () { cyc = maxCyc(); drawPipe(); };
+  $("pp-reset").onclick = function () { cyc = 0; drawPipe(); };
+  drawPipe();
+
+  /* ================= Lab 3: Memory race ================= */
+  var levels = [["Register", 1, 1], ["L1 cache", 4, 0.90], ["L2 cache", 12, 0.06], ["L3 cache", 40, 0.025], ["RAM", 300, 0.0149], ["NVMe SSD", 3e5, 0.0001], ["Hard disk", 3e7, 0], ["Internet / cloud", 3e8, 0]];
+  function human(s) { if (s < 60) return OMNI.fmt(s, 0) + " seconds"; if (s < 3600) return OMNI.fmt(s / 60, 1) + " minutes"; if (s < 86400) return OMNI.fmt(s / 3600, 1) + " hours"; if (s < 86400 * 365) return OMNI.fmt(s / 86400, 1) + " days"; return OMNI.fmt(s / 86400 / 365, 1) + " years"; }
+  function real(c) { var ns = c / 3; if (ns < 1000) return OMNI.fmt(ns, 1) + " ns"; if (ns < 1e6) return OMNI.fmt(ns / 1000, 1) + " µs"; return OMNI.fmt(ns / 1e6, 1) + " ms"; }
+  levels.forEach(function (L, i) { if (!i) return; var b = h("button", { type: "button" }, L[0]); b.onclick = function () { race(i); }; $("race-btns").appendChild(b); });
+  function race(target) {
+    var host = $("race-bars"); host.innerHTML = ""; var total = 0;
+    for (var i = 1; i <= target; i++) {
+      var L = levels[i], hit = i === target; total = L[1];
+      var pct = 100 * Math.log10(L[1]) / Math.log10(3e8);
+      host.appendChild(h("div", { style: "margin:6px 0" }, [h("div", null, [h("b", null, L[0] + ": "), hit ? h("span", { class: "pill-ok" }, "HIT") : h("span", { class: "pill-no" }, "miss"), " · " + real(L[1]) + " real · " + human(L[1]) + " scaled"]),
+        h("div", { class: "meter" }, h("i", { style: "width:" + Math.max(2, pct) + "%;background:" + (hit ? "var(--good)" : "var(--bad)") }))]));
+    }
+    OMNI.say("race-cap", "The CPU checked " + levels.slice(1, target).map(function (l) { return l[0]; }).join(", ") + (target > 1 ? " (all misses), then " : "") + "found the data in <b>" + levels[target][0] + "</b>. Real time: " + real(total) + ". If one cycle were one second, you would wait <b>" + human(total) + "</b>. That is why caches and RAM size matter so much, and why a PC that runs out of RAM and swaps to disk feels frozen.");
+  }
+  $("race-rand").onclick = function () { var r = Math.random(), acc = 0; for (var i = 1; i < levels.length; i++) { acc += levels[i][2]; if (r < acc) return race(i); } race(5); };
+
+  /* ================= Lab 4: Boot stepper ================= */
+  var boot = [
+    ["Power on / Power Good", "The PSU stabilizes +12 V, +5 V and +3.3 V, then asserts Power Good.", "PSU failure, bad power cable, tripped surge protector, front-panel switch not connected.", "Completely dead: no fans, no lights. Or fans spin briefly then stop."],
+    ["Firmware (UEFI/BIOS)", "The CPU starts executing firmware from flash on the motherboard.", "Corrupt firmware after a failed update; CPU not supported by the firmware version.", "Fans spin, no display, no beeps. Some boards offer BIOS flashback or dual BIOS recovery."],
+    ["POST", "Firmware tests CPU, RAM, GPU and key devices.", "RAM not seated or failed; GPU unseated; CPU power (EPS 8-pin) not connected.", "Beep codes or debug LEDs/POST codes; 'no POST' black screen. Reseat RAM first."],
+    ["Boot device", "Firmware reads the boot order and finds the EFI System Partition (UEFI/GPT) or MBR (legacy).", "Wrong boot order, disk failed, SATA/NVMe not detected, legacy vs UEFI mismatch, Secure Boot rejects an unsigned loader.", "'No boot device found', 'Operating system not found', 'Insert boot media'."],
+    ["Bootloader", "Windows Boot Manager or GRUB loads the kernel.", "Corrupted BCD or GRUB config, deleted boot partition.", "'BOOTMGR is missing', GRUB rescue prompt. Fix with Startup Repair / bootrec, or grub-install."],
+    ["Kernel", "Kernel initializes memory, drivers and mounts the system volume.", "Bad driver, failing RAM, corrupt system files.", "Blue screen (BSOD) / kernel panic during boot; automatic repair loop."],
+    ["OS services", "Services/daemons start: networking, security, logging.", "A service hangs or crashes; too many startup programs.", "Very slow boot; error dialogs; use Safe Mode, msconfig, Event Viewer."],
+    ["Login", "The user authenticates and the profile loads.", "Corrupt user profile; domain controller unreachable; expired password.", "'User profile service failed the sign-in', temporary profile, 'trust relationship failed'."]
+  ];
+  var bsvg = $("boot-svg");
+  var bnodes = boot.map(function (b, i) {
+    var x = 20 + i * 108, g = S("g", null, bsvg);
+    var r = S("rect", { x: x, y: 30, width: 100, height: 56, rx: 10, fill: "var(--surface)", stroke: "var(--line)", "stroke-width": 2 }, g);
+    var words = b[0].split(" / ")[0].split(" ");
+    S("text", { x: x + 50, y: 54, "text-anchor": "middle", "font-size": 12, "font-weight": 700, class: "svg-text", text: words.slice(0, 2).join(" ") }, g);
+    S("text", { x: x + 50, y: 70, "text-anchor": "middle", "font-size": 12, "font-weight": 700, class: "svg-text", text: words.slice(2).join(" ") }, g);
+    S("text", { x: x + 50, y: 106, "text-anchor": "middle", "font-size": 11, class: "svg-muted", text: "Stage " + (i + 1) }, g);
+    return r;
+  });
+  OMNI.stepper($("boot-ctrl"), boot, function (i, b) {
+    bnodes.forEach(function (r, j) { r.setAttribute("fill", j < i ? "var(--good-soft)" : j === i ? "var(--accent-soft)" : "var(--surface)"); r.setAttribute("stroke", j === i ? "var(--accent)" : j < i ? "var(--good)" : "var(--line)"); r.setAttribute("stroke-width", j === i ? 4 : 2); });
+    if (i < 0) { $("boot-card").innerHTML = "<h4>Press Next step</h4><p>Each stage shows what happens, what can fail and the symptom a technician would see.</p>"; OMNI.say("boot-cap", "Ready to power on."); return; }
+    $("boot-card").innerHTML = "<h4>Stage " + (i + 1) + ": " + b[0] + "</h4><p><b>What happens:</b> " + b[1] + "</p><p><b>What can fail:</b> " + b[2] + "</p><p><b>Symptom (A+ troubleshooting):</b> " + b[3] + "</p>";
+    OMNI.say("boot-cap", "Stages 1 to " + i + " passed. If the PC stopped here, the symptom would be: " + b[3]);
+  }, { speed: 2600 });
+})();
+</script>
+<!-- module-data:start -->
+<script type="application/json" id="module-data">{"module":4,"title":"Inside the Machine","glossary":[["Central processing unit","The chip that runs program instructions.","The processor that fetches, decodes and executes instructions, containing a control unit, ALU, registers and caches.","CPU"],["Arithmetic logic unit","The CPU's calculator.","The datapath component that performs integer arithmetic and bitwise logic operations.","ALU"],["Control unit","The part of the CPU that directs everything.","Decodes instructions and generates control signals for the datapath, memory and I/O.","CU"],["Register","Tiny, instant storage inside the CPU.","A small, fixed-width storage element in the processor accessed within one clock cycle.",""],["Program counter","Holds where the next instruction is.","Register containing the memory address of the next instruction to fetch; called the instruction pointer on x86.","PC / IP"],["Instruction register","Holds the instruction being worked on.","Register containing the current instruction while it is decoded and executed.","IR"],["Flags register","Notes about the last calculation.","Status bits (Zero, Carry, Negative, Overflow) set by the ALU and tested by conditional branches.",""],["Clock speed","How many beats per second the CPU runs at.","Frequency of the CPU's clock signal, in GHz; one cycle is the basic timing unit.",""],["Instructions per cycle","How much work the CPU does each beat.","Average number of instructions completed per clock cycle; performance ≈ frequency × IPC.","IPC"],["Instruction set architecture","The list of commands a CPU understands.","The abstract interface between hardware and software defining instructions, registers and memory model (x86-64, ARM, RISC-V).","ISA"],["CISC","Many complex instructions.","Complex Instruction Set Computer: rich, variable-length instructions (x86).","Complex Instruction Set Computer"],["RISC","Fewer, simpler instructions.","Reduced Instruction Set Computer: simple, fixed-length load/store instructions (ARM, RISC-V).","Reduced Instruction Set Computer"],["Pipelining","An assembly line for instructions.","Overlapping the stages of successive instructions so several are in progress at once.",""],["Branch prediction","Guessing which way an 'if' will go.","Hardware that predicts the outcome of conditional branches so the pipeline can keep fetching; mispredictions cause a flush.",""],["Out-of-order execution","Doing ready work first.","Executing instructions as their operands become available rather than strictly in program order, then retiring in order.","OoO"],["Simultaneous multithreading","One core running two threads.","Sharing a core's execution resources between two or more hardware threads; Intel's name is Hyper-Threading.","SMT"],["Cache","Small, fast memory holding recent data.","SRAM storing copies of frequently used memory lines close to the core (L1, L2, L3).",""],["Cache hit / miss","Found it in cache / had to look further.","A hit is a request served by the cache; a miss requires fetching from a lower, slower level.",""],["DRAM","Main memory that must be refreshed.","Dynamic RAM: stores bits as charge in capacitors, needing periodic refresh; used for main memory.","Dynamic Random Access Memory"],["SRAM","Fast memory used for caches.","Static RAM: stores bits in flip-flops (6 transistors per bit), no refresh needed; fast and expensive.","Static Random Access Memory"],["Volatile memory","Forgets everything without power.","Memory that loses its contents when power is removed, such as DRAM and SRAM.",""],["PCI Express","The high-speed slot for graphics cards and SSDs.","A serial point-to-point expansion bus built from lanes (x1 to x16); each generation roughly doubles per-lane bandwidth.","PCIe"],["Direct memory access","Devices copying data to RAM by themselves.","A mechanism letting peripherals transfer data to or from memory without CPU involvement for each byte.","DMA"],["Chipset","The motherboard's traffic controller for slower devices.","Support chip(s) connecting USB, SATA, extra PCIe lanes and other I/O to the CPU (Intel PCH).","PCH"],["POST","The PC's self-check at power on.","Power-On Self-Test: firmware diagnostics of core hardware before booting; reports errors via beep or POST codes.","Power-On Self-Test"],["UEFI","Modern PC firmware.","Unified Extensible Firmware Interface: firmware standard replacing BIOS; supports GPT, Secure Boot and a pre-boot environment.","Unified Extensible Firmware Interface"],["Secure Boot","Only lets signed boot software run.","UEFI feature that verifies digital signatures of bootloaders and drivers against trusted keys.",""],["Interrupt","A tap on the CPU's shoulder.","A signal causing the processor to suspend current execution and run an interrupt service routine.","IRQ"],["Context switch","Swapping which task the CPU works on.","Saving one thread's CPU state and restoring another's so the scheduler can multiplex cores.",""],["Graphics processing unit","A chip with thousands of small cores for parallel math.","A massively parallel processor for graphics, AI and compute workloads, with its own high-bandwidth memory.","GPU"],["Neural processing unit","A low-power AI chip.","An accelerator optimized for neural-network inference, rated in TOPS.","NPU"]],"quiz":[{"t":"order","q":"Put the steps of the instruction cycle in order.","o":["The PC's address is sent to memory","The instruction is loaded into the instruction register","The control unit decodes the opcode","The ALU or datapath executes it"],"x":"Fetch (two steps), decode, execute, then repeat.","c":"A1","d":"3.0"},{"t":"mc","q":"Which CPU register holds the address of the next instruction?","o":["Accumulator","Instruction register","Program counter","Flags register"],"a":2,"w":["The accumulator holds data being worked on.","The IR holds the current instruction, not the next address.","Correct.","Flags hold status bits such as Zero and Carry."],"x":"On x86-64 the program counter is called RIP (instruction pointer).","c":"A1","d":"3.0"},{"t":"mc","q":"Which memory is used for CPU caches?","o":["DRAM","SRAM","NAND flash","ROM"],"a":1,"w":["DRAM is used for main memory; it needs refreshing and is slower.","Correct: fast, no refresh, expensive per bit.","NAND flash is used for SSDs.","ROM holds fixed data."],"x":"SRAM uses about six transistors per bit.","c":"A1","d":"3.3"},{"t":"order","q":"Order these from \u003cb>fastest\u003c/b> to \u003cb>slowest\u003c/b> access time.","o":["L1 cache","L3 cache","RAM","NVMe SSD","Hard disk drive"],"x":"~1 ns, ~10 to 20 ns, ~80 ns, ~50 µs, ~5 to 10 ms.","c":"A1","d":"3.4"},{"t":"mc","q":"A user enabled Hyper-Threading and expected their 8-core CPU to perform like 16 cores. What should you tell them?","o":["It will be exactly twice as fast","SMT shares each core's resources; gains are usually well under 2×","Hyper-Threading only works on ARM","It disables half the cores"],"a":1,"w":["Two threads compete for one core's units.","Correct.","It is an Intel x86 feature (AMD calls it SMT).","It does not disable cores."],"x":"SMT helps by filling idle execution slots, typically 15 to 30%.","c":"A1","d":"3.3"},{"t":"mc","sc":"A PC powers on, fans spin, but there is no display and the motherboard beeps in a repeating pattern.","q":"Which stage most likely failed, and what is the best first step?","o":["Bootloader; run bootrec","POST; check the beep code in the manual and reseat RAM","Login; reset the password","Kernel; reinstall the OS"],"a":1,"w":["The bootloader runs after POST and would not beep.","Correct: beep codes come from POST; RAM is the most common cause.","Login is far later.","The kernel never loaded."],"x":"Beep codes are vendor-specific, so check the motherboard documentation.","c":"A1","d":"5.2"},{"t":"mc","sc":"After replacing a drive, a PC shows 'No boot device found'.","q":"Which is the MOST likely cause?","o":["Failed RAM","Boot order or UEFI/legacy mode does not match the new drive","Bad monitor cable","Corrupt user profile"],"a":1,"w":["RAM failure would stop POST.","Correct: the firmware cannot find a bootable partition.","The message is on screen, so video works.","Profiles load after the OS boots."],"x":"Check the boot order, that the drive is detected, and that UEFI/GPT or legacy/MBR modes match.","c":"A1","d":"5.3"},{"t":"mc","q":"What is the main benefit of DMA?","o":["Encrypts memory","Lets devices transfer data to RAM without the CPU copying every byte","Doubles RAM capacity","Replaces the chipset"],"a":1,"w":["DMA has nothing to do with encryption.","Correct.","Capacity is unaffected.","The chipset still exists."],"x":"NICs, storage controllers and GPUs all use DMA.","c":"A1","d":"3.0"},{"t":"ms","q":"Which statements about modern CPU architecture are TRUE? (Select all that apply.)","o":["The memory controller is integrated into the CPU","x86-64 decodes CISC instructions into RISC-like micro-ops","ARM chips cannot run servers","L1 cache is split into instruction and data caches"],"a":[0,1,3],"w":["Correct.","Correct.","AWS Graviton and others are ARM server CPUs.","Correct: a Harvard-style split at L1."],"x":"Modern CPUs blend von Neumann (unified RAM) and Harvard (split L1) ideas.","c":"A1","d":"3.3"},{"t":"mc","q":"PCIe 4.0 offers about 2 GB/s per lane in each direction. Roughly what does an x4 NVMe SSD slot provide?","o":["2 GB/s","4 GB/s","8 GB/s","32 GB/s"],"a":2,"w":["That is one lane.","That would be PCIe 3.0 x4.","Correct: 4 lanes × ~2 GB/s.","That is about PCIe 4.0 x16."],"x":"Each PCIe generation roughly doubles per-lane bandwidth.","c":"A1","d":"3.4"},{"t":"mc","q":"Two CPUs: A runs at 4.5 GHz with IPC 2; B runs at 3.5 GHz with IPC 3. Which is faster on single-threaded work, all else equal?","o":["A (9 billion instructions/s)","B (10.5 billion instructions/s)","They are equal","Cannot compare GHz"],"a":1,"w":["4.5 × 2 = 9.","Correct: 3.5 × 3 = 10.5.","They differ.","Frequency × IPC gives a good estimate."],"x":"Clock speed alone does not determine performance.","c":"A1","d":"3.3"},{"t":"mc","q":"Which accelerator is designed for massively parallel math and dominates AI training in data centers?","o":["TPM","GPU","NIC","PSU"],"a":1,"w":["A TPM is a security chip for keys and measurements.","Correct.","A NIC connects to the network.","A PSU supplies power."],"x":"GPUs have thousands of cores and very high-bandwidth memory (HBM).","c":"A1","d":"3.3"},{"t":"mc","q":"What happens during a context switch?","o":["The PC reboots","The OS saves one thread's registers and loads another's","RAM is cleared","The clock speed changes"],"a":1,"w":["No reboot occurs.","Correct.","RAM is preserved.","Clock changes are power management, not context switching."],"x":"A timer interrupt lets the scheduler preempt running threads.","c":"A2","d":"1.0"},{"t":"mc","q":"Why does a 32-bit OS see at most about 4 GiB of RAM?","o":["32-bit CPUs have 4 cores","2^32 bytes = 4 GiB of addressable memory","DDR3 was limited to 4 GB","Windows licenses limit it"],"a":1,"w":["Core count is unrelated.","Correct: 32 address bits.","DDR3 systems supported far more.","It is an addressing limit (PAE aside)."],"x":"64-bit systems remove this practical limit.","c":"A2","d":"1.1"}],"flashcards":[["Four parts of the von Neumann model","CPU (control unit + ALU + registers), memory, input/output, buses."],["Von Neumann bottleneck","Instructions and data share one path to memory, limiting throughput."],["Harvard architecture","Separate instruction and data memories/buses; modern CPUs split L1 caches this way."],["Three buses","Address (where), data (what), control (read/write/clock)."],["Program counter","Holds the address of the next instruction."],["Instruction register","Holds the instruction being decoded/executed."],["Fetch-decode-execute","PC → address bus → RAM → data bus → IR; PC++; CU decodes; ALU/datapath executes."],["CISC vs RISC","CISC (x86): complex, variable-length instructions. RISC (ARM, RISC-V): simple, fixed-length."],["5 pipeline stages","IF, ID, EX, MEM, WB."],["Pipeline hazard results","Data hazard → stall (bubble). Branch misprediction → flush."],["SMT / Hyper-Threading","One core runs two threads sharing execution units; gain well under 2×."],["Performance formula","Performance ≈ clock speed × IPC (× cores for parallel work)."],["Memory hierarchy","Registers → L1 → L2 → L3 → RAM → SSD → HDD → network."],["L1 latency vs RAM latency","~1 ns vs ~60 to 100 ns."],["SRAM vs DRAM","SRAM: fast, no refresh, caches. DRAM: dense, refreshed, main memory."],["Locality","Temporal (reuse recent data) and spatial (use nearby data); why caches work."],["PCIe per-lane bandwidth","Gen3 ~1 GB/s, Gen4 ~2, Gen5 ~4, Gen6 ~8 (each direction)."],["DMA","Devices write to RAM directly without the CPU copying each byte."],["Boot order","Power Good → firmware → POST → boot device → bootloader → kernel → services → login."],["'No boot device found'","Boot order, undetected drive, or UEFI/legacy mismatch."],["Beep codes","POST error signals; vendor-specific; RAM is the most common cause."],["Process vs thread","Process: running program with its own memory. Thread: execution path sharing the process's memory."],["GPU vs NPU","GPU: massively parallel compute (graphics, AI training). NPU: low-power AI inference in phones/laptops."]]}</script>
+<!-- module-data:end -->
+</body>
+</html>
