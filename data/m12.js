@@ -65,6 +65,9 @@ OMNI.register({
     { t: "mc", q: "Which document shows subnets, VLANs and routing rather than cables and ports?", o: ["Physical diagram", "Logical diagram", "Rack diagram", "Asset inventory"], a: 1, w: ["Shows cables and devices.", "Correct.", "Shows rack units.", "Lists equipment."], x: "Physical = Layer 1; logical = Layer 2/3.", c: "N", d: "3.1 Organizational documents" }
   ],
   flashcards: [
+    ["Router chooses between matching routes by", "Longest prefix (most specific) match."],
+    ["0.0.0.0/0 is", "The default route."],
+    ["LACP", "Bundles several links into one for bandwidth and redundancy."],
     ["Switch learns from…", "The source MAC; forwards on destination MAC"],
     ["Unknown unicast", "Flooded within the VLAN"],
     ["802.1Q tag", "12-bit VLAN ID (1–4094) + 3-bit priority"],

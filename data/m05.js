@@ -83,6 +83,9 @@ OMNI.register({
       x: "Impact printers are still used for invoices and shipping forms.", c: "A1", d: "3.6" }
   ],
   flashcards: [
+    ["PSU headroom rule of thumb", "About 30% more watts than the parts need."],
+    ["First step before internal laptop work", "Disconnect the battery."],
+    ["No display on a new build with a GPU", "Plug the monitor into the graphics card, reseat RAM, check CPU power."],
     ["ATX / mATX / ITX sizes", "12 × 9.6 in / 9.6 × 9.6 in / 6.7 × 6.7 in."],
     ["LGA vs PGA", "LGA: pins in the socket (Intel, AMD AM5). PGA: pins on the CPU (AMD AM4)."],
     ["Windows 11 firmware requirements", "UEFI with Secure Boot capability and TPM 2.0."],

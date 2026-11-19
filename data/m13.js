@@ -63,6 +63,9 @@ OMNI.register({
     { t: "mc", q: "Which wireless technology works at about 4 cm and is used for tap-to-pay?", o: ["Bluetooth", "NFC", "RFID UHF", "Zigbee"], a: 1, w: ["~10 m.", "Correct.", "Meters.", "Mesh IoT, tens of m."], x: "NFC also pairs devices quickly.", c: "A1", d: "2.x Wireless protocols" }
   ],
   flashcards: [
+    ["Non-overlapping 2.4 GHz channels", "1, 6 and 11."],
+    ["Target Wi-Fi signal for voice and video", "−67 dBm or stronger."],
+    ["Why keep a network baseline", "So abnormal values stand out."],
     ["Non-overlapping 2.4 GHz", "1, 6, 11"],
     ["Wi-Fi 4 / 5 / 6 / 7", "802.11n / ac / ax / be"],
     ["Wi-Fi 6E adds", "6 GHz band"],

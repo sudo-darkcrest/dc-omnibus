@@ -59,6 +59,9 @@ OMNI.register({
     { t: "mc", q: "What is the main risk of VM sprawl?", o: ["Faster backups", "Unpatched, unmanaged VMs that waste resources and expand attack surface", "Lower licensing costs", "Better isolation"], a: 1, w: ["Not a risk.", "Correct.", "Sprawl usually raises costs.", "Unrelated."], x: "Fix it with inventory, lifecycle policies and automation.", c: "A1", d: "4.1 Virtualization concepts" }
   ],
   flashcards: [
+    ["Five parts of a strong ticket", "Problem, cause, fix, verification, prevention."],
+    ["Priority is based on", "Impact (how many affected) and urgency (how soon it hurts)."],
+    ["Close a ticket when", "The user confirms the problem is fixed."],
     ["6 troubleshooting steps", "Identify; theory; test; plan & implement; verify & prevent; document"],
     ["Type 1 vs Type 2 hypervisor", "Type 1 bare metal (ESXi, Hyper-V); Type 2 hosted (VirtualBox, Workstation)"],
     ["Container vs VM", "Container shares the host kernel; VM has its own OS kernel"],

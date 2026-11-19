@@ -57,6 +57,9 @@ OMNI.register({
     { t: "mc", q: "Which device operates only at Layer 1?", o: ["Switch", "Hub", "Router", "Firewall"], a: 1, w: ["Layer 2.", "Correct: it repeats bits out every port.", "Layer 3.", "Layer 3-7."], x: "Hubs create one big collision domain; that's why switches replaced them.", c: "N", d: "1.2 Network appliances" }
   ],
   flashcards: [
+    ["What changes at every router hop", "The MAC addresses (the frame). The IP addresses stay the same."],
+    ["Can ping an IP but not open sites by name", "DNS problem."],
+    ["TCP three-way handshake", "SYN, SYN-ACK, ACK."],
     ["OSI layers 1→7", "Physical, Data Link, Network, Transport, Session, Presentation, Application"],
     ["TCP/IP 4 layers", "Link, Internet, Transport, Application"],
     ["PDUs L4→L1", "Segment/datagram, packet, frame, bits"],

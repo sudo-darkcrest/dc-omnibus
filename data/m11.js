@@ -67,6 +67,9 @@ OMNI.register({
     { t: "mc", q: "Which standard covers labeling and administration of cabling infrastructure?", o: ["TIA-568", "TIA-606", "TIA-942", "IEEE 802.3bt"], a: 1, w: ["Cabling performance and installation.", "Correct.", "Data center infrastructure.", "PoE."], x: "Label both ends, every panel and port.", c: "DCCA", d: "4.x Cabling and racks: labelling (verify syllabus)" }
   ],
   flashcards: [
+    ["Fiber connector rule", "Inspect, clean, inspect, then connect."],
+    ["Tool that shows where each splice and fault is along a fiber", "An OTDR."],
+    ["Short server-to-switch link at 25 to 100 Gbps", "DAC (direct attach copper) cable."],
     ["c = f × λ", "Speed of light = frequency × wavelength"],
     ["+3 dB / −3 dB / −10 dB", "Double / half / one tenth power"],
     ["0 dBm", "1 milliwatt"],

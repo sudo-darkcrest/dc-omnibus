@@ -71,6 +71,9 @@ OMNI.register({
       x: "Hyperscalers run hundreds of thousands of servers per region.", c: "DCCA", d: "1" }
   ],
   flashcards: [
+    ["Centralise and spread pattern", "Mainframes → PCs → cloud → edge and on-device AI."],
+    ["Why the Y2K problem happened", "Years stored as two digits to save memory."],
+    ["Year ARPANET switched to TCP/IP", "1983."],
     ["Transistor invented", "1947, Bell Labs (Bardeen, Brattain, Shockley)."],
     ["Integrated circuit inventors", "Jack Kilby (TI, 1958) and Robert Noyce (Fairchild, 1959)."],
     ["First commercial microprocessor", "Intel 4004, 1971, about 2,300 transistors."],

@@ -100,7 +100,7 @@
       h("a", { href: "practice-exams.html" }, "Practice exams"),
       h("a", { href: "flashcards.html" }, "Flashcards"),
       h("a", { href: "labs.html" }, "Labs"),
-      h("a", { href: OMNI.file(24) }, "Study hub")
+      h("a", { href: OMNI.file(30) }, "Study hub")
     ]);
     host.replaceWith(h("header", { class: "topbar" }, h("div", { class: "topbar-in" }, [
       h("a", { class: "brand", href: "index.html" }, ["Datacenter ", h("span", null, "Omnibus")]),

@@ -1,4 +1,4 @@
-/* Extra DCCA-style questions used only by the DCCA readiness quiz (Module 18) and the Study Hub.
+/* Extra DCCA-style questions used only by the DCCA readiness quiz (Module 23) and the Study Hub.
    Topic areas are this site's grouping of public DCCA information; verify against EPI's current syllabus. */
 OMNI.registerBank("dcca", [
   /* 1 Standards and site */

@@ -1,4 +1,4 @@
-/* Datacenter Omnibus: small reusable lab builders used by Modules 25–27. Needs omnibus.js. */
+/* Datacenter Omnibus: small reusable lab builders used by Module 21–27. Needs omnibus.js. */
 (function () {
   "use strict";
   var OMNI = window.OMNI, h = OMNI.h;

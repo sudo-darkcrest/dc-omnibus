@@ -75,6 +75,9 @@ OMNI.register({
       x: "Signal falls with distance and every wall or floor it passes through.", c: "A1", d: "5.5" }
   ],
   flashcards: [
+    ["First thing to change on a new router", "The admin password."],
+    ["Why use a separate network for smart gadgets", "A compromised gadget can't reach your computers."],
+    ["Sensible RAM minimum for a Windows laptop today", "16 GB."],
     ["Modem vs router", "Modem: converts the ISP line signal. Router: routes LAN↔WAN, NAT, DHCP, firewall."],
     ["ONT", "Optical Network Terminal: fiber-to-Ethernet box for FTTH."],
     ["DSL vs cable", "DSL: phone copper, distance-sensitive. Cable: coax (DOCSIS), shared node."],

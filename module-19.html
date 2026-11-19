@@ -3,42 +3,22 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Module 19 · Running IT as a Service: ITIL 4 | Datacenter Omnibus</title>
-<meta name="description" content="ITIL 4 Foundation: key concepts, the four dimensions, the service value system, seven guiding principles, the service value chain, continual improvement and the practices, with five labs and a 40-question practice exam. Includes a note on ITIL (Version 5), launched February 2026.">
+<title>Module 19 · Cyber Security Careers: SOC Work, Attack Frameworks and Certifications | Datacenter Omnibus</title>
+<meta name="description" content="Cyber security careers explained: SOC analyst, incident responder, threat hunter, pentester, cloud security and GRC roles; the Cyber Kill Chain and MITRE ATT&CK; SOC tools and metrics; vulnerability prioritisation; and the security certification landscape from ISC2 CC and Security+ to CySA+, PenTest+, OSCP, CISSP and beyond.">
 <link rel="stylesheet" href="assets/omnibus.css">
 <style>
-  .svs-part { cursor: pointer; }
-  .svs-part:focus { outline: none; }
-  .svs-part:focus rect, .svs-part:focus circle, .svs-part:hover rect, .svs-part:hover circle { stroke-width: 4; }
-  .svs-part.on rect, .svs-part.on circle { stroke: var(--accent); stroke-width: 4; }
-  .info { border: 1px solid var(--line); border-radius: 10px; padding: 12px; background: var(--surface); margin-top: 8px; }
-  .info h4 { margin: 0 0 6px; }
-  .acts { display: flex; flex-wrap: wrap; gap: 6px; }
-  .stream { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; min-height: 46px; border: 2px dashed var(--line); border-radius: 10px; padding: 8px; }
-  .stream .step { background: var(--gov-soft); border: 1px solid var(--gov); border-radius: 8px; padding: 4px 10px; font-weight: 600; }
-  .stream .arrow { color: var(--ink-2); }
-  .seg { display: flex; flex-wrap: wrap; gap: 4px; }
-  .seg button.on { background: var(--accent); color: #fff; border-color: var(--accent); }
-  .sort-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
-  @media (max-width: 700px) { .sort-grid { grid-template-columns: 1fr 1fr; } }
-  .sort-grid .dropzone { min-height: 110px; }
   .chip.ok { border-color: var(--good); background: var(--good-soft); }
   .chip.bad { border-color: var(--bad); background: var(--bad-soft); }
-  .story { border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; margin: 8px 0; background: var(--surface); }
-  .story select { max-width: 100%; margin-top: 6px; }
-  .story.ok { border-color: var(--good); background: var(--good-soft); }
-  .story.bad { border-color: var(--bad); background: var(--bad-soft); }
-  .story .fb { font-size: .9rem; margin-top: 4px; }
-  .call { border: 1px solid var(--line); border-radius: 10px; padding: 12px; background: var(--surface); }
-  .call .who { font-weight: 700; }
-  .call .msg { font-style: italic; margin: 6px 0; }
-  .pmx td, .pmx th { text-align: center; padding: 6px 8px; }
-  .pmx td.hit { outline: 3px solid var(--accent); font-weight: 800; }
-  .p1 { background: var(--bad-soft); } .p2 { background: var(--warn-soft); } .p3 { background: var(--accent-soft); } .p4 { background: var(--good-soft); }
-  .qlist { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0; }
-  .qlist span { border: 1px solid var(--line); border-radius: 999px; padding: 2px 10px; font-size: .85rem; }
-  .qlist span.now { border-color: var(--accent); background: var(--accent-soft); font-weight: 700; }
-  .qlist span.done { opacity: .6; text-decoration: line-through; }
+  .path-steps { list-style: none; padding: 0; margin: 10px 0; counter-reset: s; }
+  .path-steps li { counter-increment: s; border: 1px solid var(--line); border-left: 5px solid var(--sec); border-radius: 8px; padding: 8px 12px 8px 44px; margin: 6px 0; position: relative; background: var(--surface); }
+  .path-steps li::before { content: counter(s); position: absolute; left: 12px; top: 8px; font-weight: 800; color: var(--sec); font-size: 1.1rem; }
+  .rank-list { list-style: none; padding: 0; }
+  .rank-list li { display: grid; grid-template-columns: 30px 1fr auto; gap: 8px; align-items: center; border: 1px solid var(--line); border-radius: 8px; padding: 8px 10px; margin: 6px 0; background: var(--surface); }
+  .rank-list li.ok { border-color: var(--good); background: var(--good-soft); }
+  .rank-list li.bad { border-color: var(--bad); background: var(--bad-soft); }
+  .rank-list .pos { font-weight: 800; font-size: 1.1rem; text-align: center; }
+  .rank-list .meta { font-size: .85rem; color: var(--ink-2); }
+  .rank-list button { padding: 2px 9px; }
 </style>
 </head>
 <body data-module="19">
@@ -47,26 +27,16 @@
 <main class="page" id="main">
 
 <section class="intro">
-  <div class="kicker">Part 5 · Service, Governance and Audit · Module 19</div>
-  <h1>Running IT as a Service: ITIL 4</h1>
-  <div class="callout" style="border-left-color:var(--warn);background:var(--warn-soft)" id="itil5"><b>Version note (November 2026).</b> PeopleCert launched <b>ITIL (Information Technology Infrastructure Library; Version 5)</b> and its new ITIL Foundation (Version 5) exam in <b>February 2026</b>. ITIL 4 Foundation is still offered alongside it during a transition period; PeopleCert has said the two run in parallel for at least 12 months, and some training providers quote an ITIL 4 sunset at the end of 2027 (verify on peoplecert.org before you book). What changed in Version 5, according to published summaries (verify):
-    <ul>
-      <li>ITIL is reframed from "IT (Information Technology) service management" to <b>digital product and service management</b>.</li>
-      <li>The six-activity <b>service value chain</b> is replaced by an eight-activity <b>Product and Service Lifecycle Model</b>: Discover, Design, Build, Transition, Deliver, Support, Operate, Evolve.</li>
-      <li>The <b>seven guiding principles</b> and the <b>four dimensions</b> are kept, and all 34 practices remain (practice groups are reorganized).</li>
-      <li>New guidance on <b>AI (Artificial Intelligence)</b> (governance, ethics, risk), experience (user, customer, employee) and observability.</li>
-      <li>Foundation exam format looks the same: 40 multiple-choice questions, 60 minutes, 65% to pass. ITIL 5 certificates carry a three-year renewal; existing ITIL 4 Foundation holders do not need to retake, and an optional short "Foundation Bridge" exam exists.</li>
-    </ul>
-    This module teaches the <b>ITIL 4 Foundation</b> syllabus, because most of it (concepts, principles, dimensions, practices) carries straight into Version 5. Where Version 5 differs, the lessons say so.</div>
-  <p class="why"><b>Why this matters.</b> Technology only creates value when people can rely on it. ITIL is the most widely used framework for running IT as a set of services: taking requests, fixing outages, finding root causes, making safe changes and improving over time. Service desks, operations teams, data centers and cloud providers all use its language, and many job ads ask for ITIL 4 Foundation. It also links directly to Security+ change management and incident response, and to CISA (Certified Information Systems Auditor)'s IT operations domain.</p>
+  <div class="kicker">Part 4 · Security and Cyber Careers · Module 19</div>
+  <h1>Cyber Security Careers: SOC Work, Attack Frameworks and Certifications</h1>
+  <p class="why"><b>Why this matters.</b> Modules 15 to 17 taught the security concepts behind Security+. This module shows what people actually do with them: watching for attacks in a security operations center, hunting intruders, testing defences, fixing vulnerabilities and managing risk. It explains the frameworks professionals use every day and lays out the certification paths, so you can choose a direction and know which exam to take next.</p>
   <h3>You will be able to</h3>
   <ul class="outcomes">
-    <li>Define service, product, service offering, value, outcomes, costs, risks, utility and warranty, and the roles of customer, user and sponsor.</li>
-    <li>Explain the four dimensions of service management and the PESTLE (Political, Economic, Social, Technological, Legal, Environmental) factors that affect them.</li>
-    <li>Describe the service value system and the six activities of the service value chain, and combine them into value streams.</li>
-    <li>Apply the seven guiding principles to real situations.</li>
-    <li>Recall the purpose of 15 ITIL practices and explain the seven practices examined in detail.</li>
-    <li>Relate ITIL to DevOps, Agile, Lean and ISO/IEC (ISO: International Organization for Standardization; IEC: International Electrotechnical Commission) 20000, and know what changed in ITIL (Version 5).</li>
+    <li>Describe the main cyber security roles and how people move between them.</li>
+    <li>Explain an attack using the Cyber Kill Chain and MITRE ATT&amp;CK.</li>
+    <li>Triage security alerts and describe SOC tools (SIEM (Security Information and Event Management), SOAR (Security Orchestration, Automation and Response), EDR (Endpoint Detection and Response)) and metrics.</li>
+    <li>Prioritise vulnerabilities using CVSS (Common Vulnerability Scoring System), exploitation data, exposure and asset value.</li>
+    <li>Choose a certification path, including CySA+, PenTest+, OSCP (OffSec Certified Professional) and CISSP (Certified Information Systems Security Professional), and practise skills legally.</li>
   </ul>
   <nav class="jumpnav" id="jumpnav" aria-label="On this page"></nav>
 </section>
@@ -76,245 +46,166 @@
   <div id="certmap-badges"></div>
 </section>
 
-<section class="lesson" id="concepts">
-  <h2>1. Key concepts of service management</h2>
-  <div class="callout analogy">A restaurant is a service. You want the outcome "a nice dinner without cooking." The restaurant removes costs (buying ingredients, washing up) and risks (burning the food) but imposes others (the bill, the wait). The menu is the service offering. The food is the utility; the clean kitchen, short wait and safe food are the warranty.</div>
-  <div class="tablewrap"><table>
-    <thead><tr><th>Term</th><th>Plain meaning</th><th>ITIL 4 definition (paraphrased)</th></tr></thead>
-    <tbody>
-      <tr><td><b>Service</b></td><td>Useful work done for you</td><td>A means of enabling value co-creation by facilitating outcomes customers want, without them having to manage specific costs and risks</td></tr>
-      <tr><td><b>Product</b></td><td>The package of resources behind it</td><td>A configuration of an organization's resources designed to offer value for a consumer</td></tr>
-      <tr><td><b>Service offering</b></td><td>What exactly you get</td><td>A formal description of one or more services for a target consumer group: <b>goods</b> (ownership transfers, e.g., a phone), <b>access to resources</b> (e.g., a mailbox) and <b>service actions</b> (e.g., user support)</td></tr>
-      <tr><td><b>Value</b></td><td>How useful it is to you</td><td>The perceived benefits, usefulness and importance of something; it is <b>co-created</b> by provider and consumer</td></tr>
-      <tr><td><b>Output</b> vs <b>outcome</b></td><td>What we hand over vs what you achieve</td><td>Output: a tangible or intangible deliverable of an activity. Outcome: a result for a stakeholder enabled by one or more outputs</td></tr>
-      <tr><td><b>Cost</b></td><td>Money spent</td><td>Costs <b>removed</b> from the consumer (staff, hardware they no longer need) and costs <b>imposed</b> (the price, training)</td></tr>
-      <tr><td><b>Risk</b></td><td>Things that might go wrong</td><td>A possible event that could cause harm or loss, or make it harder to achieve objectives; services remove some risks and impose others</td></tr>
-      <tr><td><b>Utility</b></td><td>Fit for purpose: <i>what</i> it does</td><td>The functionality offered by a product or service to meet a particular need</td></tr>
-      <tr><td><b>Warranty</b></td><td>Fit for use: <i>how well</i></td><td>Assurance that a product or service will meet agreed requirements: availability, capacity, security, continuity</td></tr>
-    </tbody></table></div>
-  <h3 id="roles">Roles and relationships</h3>
-  <div class="tablewrap"><table>
-    <thead><tr><th>Role</th><th>Does what</th><th>Example (payroll service)</th></tr></thead>
-    <tbody>
-      <tr><td><b>Customer</b></td><td>Defines requirements and takes responsibility for outcomes</td><td>HR (Human Resources) manager</td></tr>
-      <tr><td><b>User</b></td><td>Uses the service</td><td>Payroll clerks</td></tr>
-      <tr><td><b>Sponsor</b></td><td>Authorizes budget</td><td>Finance director</td></tr>
-    </tbody></table></div>
-  <p>A <b>service relationship</b> is a cooperation between a provider and a consumer. It includes <b>service provision</b> (the provider managing resources and delivering), <b>service consumption</b> (the consumer using and paying) and <b>service relationship management</b> (joint activities to keep co-creating value). Organizations are often both providers and consumers in a chain of relationships.</p>
-  <div class="callout trap">"The customer and the user are always different people." Not true: they are roles, and one person can be customer, user and sponsor at once.</div>
+<section class="lesson" id="roles">
+  <h2>1. Cyber security jobs</h2>
+  <p>Cyber security isn't one job. It's a family of roles that defend, attack (with permission), investigate, engineer and govern. Most people start in IT (Information Technology) support, networking or a SOC and move toward a specialty.</p>
+  <figure class="fig"><svg id="career-fig" viewBox="0 0 760 250" width="760" role="img" aria-label="Career ladder: IT support, help desk or networking leads to SOC analyst, which branches to incident responder, threat hunter, penetration tester, security engineer, cloud security and GRC, all leading toward security architect, manager and CISO."></svg></figure>
+  <div class="tablewrap"><table><thead><tr><th>Role</th><th>What they do all day</th><th>Typical certs</th></tr></thead><tbody>
+    <tr><td><b>SOC analyst</b> (Tier 1–3)</td><td>Watch dashboards, triage alerts, investigate suspicious activity, escalate and respond</td><td>Security+, CySA+, BTL1, GIAC (Global Information Assurance Certification) GCIA (Global Information Assurance Certification Certified Intrusion Analyst)</td></tr>
+    <tr><td><b>Incident responder / forensics</b></td><td>Lead response to breaches, collect evidence, find root cause</td><td>CySA+, GIAC GCIH (Global Information Assurance Certification Certified Incident Handler) / GCFA (Global Information Assurance Certification Certified Forensic Analyst), CISM (Certified Information Security Manager; management)</td></tr>
+    <tr><td><b>Threat hunter / intel analyst</b></td><td>Search for hidden attackers, track threat groups and their methods</td><td>CySA+, GIAC GCTI (Global Information Assurance Certification Cyber Threat Intelligence)</td></tr>
+    <tr><td><b>Penetration tester / red team</b></td><td>Attack systems with written permission to prove where defences fail, then write reports</td><td>PenTest+, OSCP, CEH (Certified Ethical Hacker), GIAC GPEN</td></tr>
+    <tr><td><b>Security engineer</b></td><td>Build and run firewalls, EDR, identity systems, SIEM and automation</td><td>Security+, CySA+, vendor certs, CISSP</td></tr>
+    <tr><td><b>Cloud security engineer</b></td><td>Secure AWS (Amazon Web Services), Azure or Google Cloud accounts, identities and workloads</td><td>AWS Security Specialty, CCSP (Certified Cloud Security Professional), AZ-500 (Module 21)</td></tr>
+    <tr><td><b>GRC (Governance, Risk and Compliance) analyst / auditor</b></td><td>Policies, risk assessments, compliance, audits (Modules 26–28)</td><td>CISA (Certified Information Systems Auditor), CISM, ISO (International Organization for Standardization) 27001 Lead Auditor, CRISC (Certified in Risk and Information Systems Control)</td></tr>
+    <tr><td><b>Security architect / manager / CISO (Chief Information Security Officer)</b></td><td>Design security across the organisation, lead teams, report to executives</td><td>CISSP, CISM, SecurityX</td></tr>
+  </tbody></table></div>
+  <div class="callout tip">Employers value <b>proof you can do the work</b> as much as certificates: a home lab write-up, CTF (Capture The Flag) results, a GitHub with scripts or detection rules, or a blog explaining how you investigated something.</div>
 </section>
 
-<section class="lesson" id="dimensions">
-  <h2>2. The four dimensions of service management</h2>
-  <figure class="fig"><svg id="dim-fig" viewBox="0 0 760 300" width="760" role="img" aria-label="Four dimensions around a central value, surrounded by PESTLE factors"></svg>
-  <figcaption class="figcap">Every service, and the whole service value system, must consider all four dimensions. External PESTLE factors push on all of them.</figcaption></figure>
-  <div class="tablewrap"><table>
-    <thead><tr><th>Dimension</th><th>Covers</th><th>Ask yourself</th></tr></thead>
-    <tbody>
-      <tr><td><b>Organizations and people</b></td><td>Structure, roles, culture, skills, staffing, leadership, communication</td><td>Do people know their roles, and does the culture support trust and collaboration?</td></tr>
-      <tr><td><b>Information and technology</b></td><td>The information and knowledge needed, and the technology (tools, AI, cloud, databases) that supports services</td><td>What data does this service manage, and which tools do we need?</td></tr>
-      <tr><td><b>Partners and suppliers</b></td><td>Relationships with other organizations involved in design, delivery and support; sourcing strategy</td><td>What do we buy, outsource or integrate, and why?</td></tr>
-      <tr><td><b>Value streams and processes</b></td><td>How parts of the organization work together: workflows, activities, controls</td><td>What are the steps, and where is the waste?</td></tr>
-    </tbody></table></div>
-  <p><b>PESTLE</b> factors constrain and influence all four dimensions: <b>P</b>olitical, <b>E</b>conomic, <b>S</b>ocial, <b>T</b>echnological, <b>L</b>egal, <b>E</b>nvironmental. A new privacy law (legal) can change the information you can store, the suppliers you can use and the processes you follow.</p>
+<section class="lesson" id="attacks">
+  <h2>2. How attacks unfold</h2>
+  <p>Defenders use models to break an attack into stages. Each stage is a chance to detect and stop it, and the earlier the better.</p>
+  <figure class="fig"><svg id="kc-fig" viewBox="0 0 760 150" width="760" role="img" aria-label="Cyber Kill Chain: reconnaissance, weaponization, delivery, exploitation, installation, command and control, actions on objectives."></svg>
+    <figcaption>The Lockheed Martin Cyber Kill Chain (2011). Break any link and the attack fails.</figcaption></figure>
+  <p><b>MITRE ATT&amp;CK</b> goes further. It's a free, constantly updated catalogue of what real attackers do, organised as <b>tactics</b> (the attacker's goal at each step) containing <b>techniques</b> (how they do it, e.g., T1566 Phishing, T1059 Command and Scripting Interpreter). The Enterprise matrix has 14 tactics:</p>
+  <div class="tablewrap"><table><thead><tr><th>Tactic</th><th>Attacker's goal</th><th>Example technique</th></tr></thead><tbody>
+    <tr><td>Reconnaissance</td><td>Gather information for planning</td><td>Search victim-owned websites, scan for open ports</td></tr>
+    <tr><td>Resource Development</td><td>Get infrastructure and tools</td><td>Register look-alike domains</td></tr>
+    <tr><td>Initial Access</td><td>Get into the network</td><td>Phishing, exploiting a public-facing application</td></tr>
+    <tr><td>Execution</td><td>Run malicious code</td><td>PowerShell, user opening a malicious file</td></tr>
+    <tr><td>Persistence</td><td>Stay in after reboots</td><td>Scheduled task, new account, registry run key</td></tr>
+    <tr><td>Privilege Escalation</td><td>Get higher permissions</td><td>Exploit a vulnerable driver, abuse misconfigured sudo</td></tr>
+    <tr><td>Defense Evasion</td><td>Avoid being detected</td><td>Disable security tools, clear logs</td></tr>
+    <tr><td>Credential Access</td><td>Steal passwords and tokens</td><td>Credential dumping (e.g., from LSASS (Local Security Authority Subsystem Service)), brute force</td></tr>
+    <tr><td>Discovery</td><td>Learn the environment</td><td>List domain users and network shares</td></tr>
+    <tr><td>Lateral Movement</td><td>Move to other systems</td><td>Remote Desktop, pass-the-hash</td></tr>
+    <tr><td>Collection</td><td>Gather the target data</td><td>Archive files, capture screenshots</td></tr>
+    <tr><td>Command and Control</td><td>Talk to compromised systems</td><td>HTTPS (HyperText Transfer Protocol Secure) beaconing, DNS (Domain Name System) tunnelling</td></tr>
+    <tr><td>Exfiltration</td><td>Steal the data</td><td>Upload to cloud storage</td></tr>
+    <tr><td>Impact</td><td>Disrupt or destroy</td><td>Ransomware encryption, wiping data</td></tr>
+  </tbody></table></div>
+  <div class="callout detail">The <b>Diamond Model</b> describes each intrusion event by four linked points: <b>adversary</b>, <b>capability</b> (malware, exploits), <b>infrastructure</b> (IPs (Internet Protocol), domains) and <b>victim</b>. Finding one point helps you pivot to the others.</div>
 </section>
 
-<section class="lesson" id="svs">
-  <h2>3. The service value system (SVS)</h2>
-  <p>The SVS shows how all of an organization's components and activities work together to turn <b>opportunity and demand</b> into <b>value</b>. Its five components are the <b>guiding principles</b>, <b>governance</b>, the <b>service value chain</b>, <b>practices</b> and <b>continual improvement</b>. The SVS aims to break down <b>silos</b> and make the organization flexible. Explore it in Lab 1.</p>
-  <ul>
-    <li><b>Opportunity</b>: options to add value for stakeholders. <b>Demand</b>: the need or desire for products and services.</li>
-    <li><b>Governance</b>: the means by which an organization is directed and controlled. The governing body <b>evaluates</b>, <b>directs</b> and <b>monitors</b>.</li>
-    <li><b>Practices</b>: sets of organizational resources for performing work. ITIL 4 has 34 practices in three groups: general management (14), service management (17) and technical management (3).</li>
-    <li><b>Continual improvement</b> happens at every level, from strategy down to individual tasks.</li>
-  </ul>
+<section class="lesson" id="soc">
+  <h2>3. Inside a security operations center</h2>
+  <figure class="fig"><svg id="soc-fig" viewBox="0 0 760 170" width="760" role="img" aria-label="SOC workflow: log sources feed a SIEM, which raises alerts; analysts triage, investigate and respond, with SOAR automating steps and lessons learned tuning detections."></svg></figure>
+  <div class="grid3">
+    <div class="tile"><h4>Tools</h4><p><b>SIEM</b> collects and correlates logs. <b>EDR/XDR (XDR: Extended Detection and Response)</b> watches endpoints and more. <b>SOAR</b> automates playbooks. Threat intelligence feeds add context. Ticketing tracks every case.</p></div>
+    <div class="tile"><h4>Alert outcomes</h4><p><b>True positive</b>: a real attack, so respond. <b>False positive</b>: a false alarm, so close it and tune the rule. <b>False negative</b>: missed entirely, the worst case, found by threat hunting or after damage.</p></div>
+    <div class="tile"><h4>Metrics</h4><p><b>MTTD</b> (mean time to detect), <b>MTTR</b> (mean time to respond or recover), alert volume, false positive rate, and dwell time (how long attackers stayed undetected).</p></div>
+  </div>
+  <p>Incident response follows the NIST (National Institute of Standards and Technology) phases from Module 17: <b>preparation</b>; <b>detection and analysis</b>; <b>containment, eradication and recovery</b>; and <b>post-incident activity</b> (lessons learned). NIST SP (Special Publication) 800-61 Rev. 3 (2025) now aligns these with the CSF (Cybersecurity Framework) 2.0 functions (verify).</p>
 </section>
 
-<section class="lesson" id="principles">
-  <h2>4. The seven guiding principles</h2>
-  <p>A guiding principle is a recommendation that guides an organization <b>in all circumstances</b>. Consider all seven together and decide which matter most in each situation; they interact.</p>
-  <div class="tablewrap"><table>
-    <thead><tr><th>Principle</th><th>In one line</th><th>Example</th></tr></thead>
-    <tbody>
-      <tr><td><b>Focus on value</b></td><td>Everything should link to value for someone; know your consumer</td><td>Before adding a new report, ask which decision it helps and who reads it</td></tr>
-      <tr><td><b>Start where you are</b></td><td>Don't start from scratch; observe the current state directly and reuse what works</td><td>Walk the service desk floor before redesigning its process</td></tr>
-      <tr><td><b>Progress iteratively with feedback</b></td><td>Small, manageable steps with feedback loops</td><td>Roll out self-service to one department, gather feedback, then expand</td></tr>
-      <tr><td><b>Collaborate and promote visibility</b></td><td>Work across boundaries; make work and progress visible</td><td>A shared Kanban board shows every team where requests are stuck</td></tr>
-      <tr><td><b>Think and work holistically</b></td><td>No service or part stands alone; see the whole system</td><td>Check how a database change affects monitoring, support and suppliers</td></tr>
-      <tr><td><b>Keep it simple and practical</b></td><td>Use the minimum steps; remove what adds no value; outcome-based thinking</td><td>Drop an approval step that nobody ever rejects</td></tr>
-      <tr><td><b>Optimize and automate</b></td><td>Optimize first, then automate; use technology to free people for valuable work</td><td>Simplify the onboarding workflow, then automate account creation</td></tr>
-    </tbody></table></div>
-  <div class="callout tip">In ITIL (Version 5) the seven principles keep the same names (verify).</div>
+<section class="lesson" id="vuln">
+  <h2>4. Vulnerability management</h2>
+  <p>Every organisation has more vulnerabilities than time to fix them, so the skill is <b>prioritising</b>. The cycle: <b>discover</b> assets, <b>scan</b> (authenticated scans see more), <b>prioritise</b>, <b>remediate</b> (patch, reconfigure, or apply a compensating control), <b>verify</b> with a rescan, and <b>report</b>.</p>
+  <div class="tablewrap"><table><thead><tr><th>Signal</th><th>What it tells you</th></tr></thead><tbody>
+    <tr><td><b>CVE (Common Vulnerabilities and Exposures)</b></td><td>The unique ID (Identification) of the flaw, e.g., CVE-2021-44228 (Log4Shell)</td></tr>
+    <tr><td><b>CVSS</b> (0–10)</td><td>Technical severity: attack vector, complexity, privileges needed, user interaction, impact. 9.0+ critical, 7.0–8.9 high</td></tr>
+    <tr><td><b>CISA KEV (Known Exploited Vulnerabilities)</b></td><td>Attackers are exploiting it right now. Treat as urgent</td></tr>
+    <tr><td><b>EPSS (Exploit Prediction Scoring System)</b> (0–100%)</td><td>Probability it will be exploited in the next 30 days</td></tr>
+    <tr><td><b>Exposure and asset value</b></td><td>Is it internet-facing? Does the system hold crown-jewel data or run critical services?</td></tr>
+  </tbody></table></div>
+  <div class="callout trap">"Highest CVSS first" is a classic exam and real-world mistake. A CVSS 7.5 on an internet-facing server that attackers are actively exploiting beats a CVSS 9.8 on an isolated lab machine.</div>
 </section>
 
-<section class="lesson" id="valuechain">
-  <h2>5. The service value chain</h2>
-  <figure class="fig"><svg id="vc-fig" viewBox="0 0 760 260" width="760" role="img" aria-label="Six service value chain activities between demand and value"></svg>
-  <figcaption class="figcap">Six activities, any order, used as often as needed. A specific path for one scenario is a value stream.</figcaption></figure>
-  <div class="tablewrap"><table>
-    <thead><tr><th>Activity</th><th>Purpose</th></tr></thead>
-    <tbody>
-      <tr><td><b>Plan</b></td><td>Shared understanding of the vision, current status and improvement direction for all four dimensions and all products and services</td></tr>
-      <tr><td><b>Improve</b></td><td>Continual improvement of products, services and practices across all value chain activities and the four dimensions</td></tr>
-      <tr><td><b>Engage</b></td><td>Good understanding of stakeholder needs, transparency, continual engagement and good relationships with all stakeholders (the main interface with users and customers)</td></tr>
-      <tr><td><b>Design and transition</b></td><td>Products and services continually meet stakeholder expectations for quality, costs and time to market</td></tr>
-      <tr><td><b>Obtain/build</b></td><td>Service components are available when and where needed and meet agreed specifications</td></tr>
-      <tr><td><b>Deliver and support</b></td><td>Services are delivered and supported according to agreed specifications and stakeholder expectations</td></tr>
-    </tbody></table></div>
-  <div class="callout detail">Value chain activities use different combinations of practices. Incident management, for example, contributes to engage, deliver and support, improve, and more. In ITIL (Version 5) the value chain is replaced by the eight-activity Product and Service Lifecycle Model (Discover, Design, Build, Transition, Deliver, Support, Operate, Evolve; verify).</div>
+<section class="lesson" id="certs">
+  <h2>5. The security certification landscape</h2>
+  <p>There's no single right order, but this ladder works for most people (verify exam codes and requirements, which change):</p>
+  <div class="tablewrap"><table><thead><tr><th>Level</th><th>Certification</th><th>Vendor</th><th>Notes</th></tr></thead><tbody>
+    <tr><td rowspan="3"><b>Entry</b></td><td>Certified in Cybersecurity (CC)</td><td>ISC2 (International Information System Security Certification Consortium)</td><td>Beginner-friendly; free training and exam offers have run (verify)</td></tr>
+    <tr><td>Security+ (SY0-701)</td><td>CompTIA</td><td>The standard first security cert; DoD 8140 approved (Modules 15–17)</td></tr>
+    <tr><td>Google Cybersecurity Certificate</td><td>Google / Coursera</td><td>Online course certificate, good for absolute beginners</td></tr>
+    <tr><td rowspan="5"><b>Intermediate: defence</b></td><td>CySA+ (CS0-003)</td><td>CompTIA</td><td>SOC analyst skills: operations, vulnerability management, IR, reporting. Up to 85 questions, 165 min, 750/900. Practise in the Study Hub</td></tr>
+    <tr><td>Blue Team Level 1 (BTL1)</td><td>Security Blue Team</td><td>Practical, lab-based SOC exam</td></tr>
+    <tr><td>GIAC GSEC (Global Information Assurance Certification Security Essentials), GCIH, GCIA</td><td>GIAC (SANS)</td><td>Highly respected; expensive if bought with SANS training</td></tr>
+    <tr><td>SSCP (Systems Security Certified Practitioner)</td><td>ISC2</td><td>Hands-on security administration; 1 year experience</td></tr>
+    <tr><td>Microsoft SC-200</td><td>Microsoft</td><td>Security operations analyst on Microsoft Sentinel and Defender</td></tr>
+    <tr><td rowspan="3"><b>Intermediate: offence</b></td><td>PenTest+ (PT0-003)</td><td>CompTIA</td><td>Planning, scanning, attacks, reporting</td></tr>
+    <tr><td>OSCP (PEN-200)</td><td>OffSec</td><td>Hard, practical exam hacking machines in a lab; highly valued for pentest jobs</td></tr>
+    <tr><td>CEH</td><td>EC-Council</td><td>Well known to HR (Human Resources) and government; mostly knowledge-based (practical version available)</td></tr>
+    <tr><td rowspan="5"><b>Advanced</b></td><td>CISSP</td><td>ISC2</td><td>Broad 8-domain management and architecture cert; 5 years' experience</td></tr>
+    <tr><td>CISM / CISA</td><td>ISACA (Information Systems Audit and Control Association)</td><td>Security management / IT audit (Modules 27 and 28)</td></tr>
+    <tr><td>SecurityX (formerly CASP (CompTIA Advanced Security Practitioner)+, CAS-005)</td><td>CompTIA</td><td>Advanced hands-on security architecture and engineering</td></tr>
+    <tr><td>CCSP</td><td>ISC2</td><td>Cloud security; 5 years' experience</td></tr>
+    <tr><td>AWS Security – Specialty</td><td>AWS</td><td>Securing AWS (Module 21)</td></tr>
+  </tbody></table></div>
+  <div class="callout detail">US Department of Defense jobs list qualifying certifications by work role under <b>DoD 8140</b>, which replaced the older 8570 baseline. Security+, CySA+, CISSP and others appear on it (verify the current list for a specific role).</div>
 </section>
 
-<section class="lesson" id="ci">
-  <h2>6. The continual improvement model</h2>
-  <figure class="fig"><svg id="ci-fig" viewBox="0 0 760 185" width="760" role="img" aria-label="Seven steps of the continual improvement model"></svg></figure>
-  <ol>
-    <li><b>What is the vision?</b> Understand the high-level business direction.</li>
-    <li><b>Where are we now?</b> Objective baseline assessment.</li>
-    <li><b>Where do we want to be?</b> Measurable targets (gap analysis).</li>
-    <li><b>How do we get there?</b> A plan, often as iterations.</li>
-    <li><b>Take action.</b> Carry out the plan.</li>
-    <li><b>Did we get there?</b> Check results against targets.</li>
-    <li><b>How do we keep the momentum going?</b> Embed the change, celebrate success, start the next loop.</li>
-  </ol>
-  <p>Ideas are recorded and prioritized in a <b>continual improvement register (CIR)</b>. Continual improvement is everyone's responsibility.</p>
+<section class="lesson" id="start">
+  <h2>6. Getting started the right way</h2>
+  <div class="grid3">
+    <div class="tile"><h4>Build a home lab</h4><p>A spare PC (Personal Computer) or free virtualisation (Module 8) with a few VMs (Virtual Machine): a Windows machine, a Linux server, a firewall VM and a free SIEM. Attack your own machines, then find the evidence in the logs.</p></div>
+    <div class="tile"><h4>Practise legally</h4><p>Use CTF competitions and training platforms built for practice, plus deliberately vulnerable VMs. Only ever test systems you own or have <b>written permission</b> to test.</p></div>
+    <div class="tile"><h4>Show your work</h4><p>Write up what you did and learned. Contribute detection rules or scripts. Join local security meetups and conferences (BSides events are cheap and friendly).</p></div>
+  </div>
+  <div class="callout trap">Good intentions are not a legal defence. Scanning or logging into systems without permission is a crime in most countries, under laws such as the US Computer Fraud and Abuse Act and the UK Computer Misuse Act, even if you only wanted to help.</div>
 </section>
 
-<section class="lesson" id="practices">
-  <h2>7. ITIL practices</h2>
-  <h3 id="purposes">Purpose of the 15 practices you must recognize</h3>
-  <div class="tablewrap"><table>
-    <thead><tr><th>Practice</th><th>Purpose (paraphrased)</th></tr></thead>
-    <tbody>
-      <tr><td>Information security management</td><td>Protect the information needed by the organization to conduct its business</td></tr>
-      <tr><td>Relationship management</td><td>Establish and nurture links with stakeholders at strategic and tactical levels</td></tr>
-      <tr><td>Supplier management</td><td>Ensure suppliers and their performance are managed to support seamless products and services</td></tr>
-      <tr><td>Availability management</td><td>Ensure services deliver agreed levels of availability</td></tr>
-      <tr><td>IT asset management</td><td>Plan and manage the full lifecycle of all IT assets: maximize value, control costs, manage risks, support decisions</td></tr>
-      <tr><td>Monitoring and event management</td><td>Systematically observe services and components and record and report selected changes of state (events)</td></tr>
-      <tr><td>Release management</td><td>Make new and changed services and features available for use</td></tr>
-      <tr><td>Service configuration management</td><td>Ensure accurate, reliable information about services and the configuration items (CIs) that support them is available when needed</td></tr>
-      <tr><td>Deployment management</td><td>Move new or changed hardware, software, documentation, processes or other components to live (or other) environments</td></tr>
-      <tr><td>Continual improvement *</td><td>Align practices and services with changing business needs through ongoing improvement</td></tr>
-      <tr><td>Change enablement *</td><td>Maximize the number of successful changes by ensuring risks are assessed, changes are authorized and the change schedule is managed</td></tr>
-      <tr><td>Incident management *</td><td>Minimize the negative impact of incidents by restoring normal service operation as quickly as possible</td></tr>
-      <tr><td>Problem management *</td><td>Reduce the likelihood and impact of incidents by identifying actual and potential causes and managing workarounds and known errors</td></tr>
-      <tr><td>Service request management *</td><td>Support the agreed quality of a service by handling all pre-defined, user-initiated service requests effectively and user-friendly</td></tr>
-      <tr><td>Service desk *</td><td>Capture demand for incident resolution and service requests; the entry point and single point of contact for all users</td></tr>
-      <tr><td>Service level management *</td><td>Set clear business-based targets for service levels, and ensure delivery is properly assessed, monitored and managed against them</td></tr>
-    </tbody></table></div>
-  <p class="figcap">* The seven practices examined in detail. The current syllabus lists 15 practices by purpose; continual improvement appears in both lists (verify the current syllabus).</p>
-
-  <h3 id="incident">Incident management</h3>
-  <ul>
-    <li>An <b>incident</b> is an unplanned interruption to a service or a reduction in its quality. Restore service fast; finding the cause is problem management's job.</li>
-    <li>Log every incident, <b>prioritize</b> by agreed classification (impact × urgency), keep users informed and update the record with symptoms, impact, CIs and actions.</li>
-    <li><b>Major incidents</b> get a separate procedure; security incidents may too. Some incidents are resolved by users (self-help), the service desk, support teams, suppliers or temporary teams. <b>Swarming</b> brings experts together.</li>
-  </ul>
-  <h3 id="problem">Problem management</h3>
-  <ul>
-    <li>A <b>problem</b> is a cause, or potential cause, of one or more incidents. A <b>known error</b> is a problem that has been analyzed but not resolved. A <b>workaround</b> reduces impact until a permanent fix.</li>
-    <li>Three phases: <b>problem identification</b> (trend analysis, recurring incidents, information from suppliers and developers), <b>problem control</b> (analysis using all four dimensions, documenting workarounds) and <b>error control</b> (managing known errors, assessing permanent solutions).</li>
-    <li>Permanent fixes usually go through <b>change enablement</b>.</li>
-  </ul>
-  <h3 id="change">Change enablement</h3>
-  <ul>
-    <li>A <b>change</b> is adding, modifying or removing anything that could directly or indirectly affect services.</li>
-    <li><b>Standard</b>: low risk, pre-authorized, well understood, often a service request. <b>Normal</b>: scheduled, assessed and authorized by the right <b>change authority</b>. <b>Emergency</b>: implemented as soon as possible (e.g., a critical patch), possibly with a separate authority and less documentation, but still assessed.</li>
-    <li>ITIL 4 <b>decentralizes</b> change authority: a <b>CAB (Change Advisory Board)</b> is just one option; peer review in a DevOps pipeline can authorize low-risk changes. The <b>change schedule</b> helps plan, communicate and avoid conflicts.</li>
-  </ul>
-  <h3 id="request">Service request management</h3>
-  <ul>
-    <li>A <b>service request</b> is a user request that starts an agreed, normal service action: information, access, a laptop, a password reset, feedback or a complaint.</li>
-    <li>Standardize and automate as much as possible; set clear policies on approvals; set realistic, agreed fulfilment times; some requests trigger a standard change.</li>
-  </ul>
-  <h3 id="desk">Service desk</h3>
-  <ul>
-    <li>The <b>single point of contact</b> for all users. Channels: phone, chat, email, portals, walk-in, social media. Can be centralized, <b>virtual</b> or follow-the-sun.</li>
-    <li>Staff need empathy, communication, customer-service skills, incident analysis and prioritization, and a practical understanding of the business, not only technical depth.</li>
-  </ul>
-  <h3 id="slm">Service level management</h3>
-  <ul>
-    <li>Sets business-based targets and makes sure delivery is measured against them. An <b>SLA (Service Level Agreement)</b> should relate to a defined service, describe outcomes (not just operational metrics) and be written in clear language.</li>
-    <li>Beware the <b>watermelon SLA</b>: green metrics, red customers. Gather customer engagement, feedback, surveys and business metrics.</li>
-    <li>Related terms: <b>OLA (Operational Level Agreement)</b> (between internal teams) and <b>UC</b> (underpinning contract with an external supplier). These come from earlier ITIL versions and are still common at work.</li>
-  </ul>
-  <div class="callout trap">"Incident management finds the root cause." No: incident management restores service; problem management finds and manages causes. A help desk that "fixes it by rebooting" closes the incident; the problem stays open until the cause is known.</div>
+<section class="lesson" id="soc-day">
+  <h2>7. A day on a SOC shift</h2>
+  <p>What does an entry-level security analyst actually do all day? Here is a typical shift in a security operations center.</p>
+  <div class="tablewrap"><table><thead><tr><th>Time</th><th>Activity</th></tr></thead><tbody>
+    <tr><td>08:00</td><td><b>Shift handover.</b> The night team explains open cases: a suspicious login still being investigated and a noisy alert rule.</td></tr>
+    <tr><td>08:30</td><td><b>Alert queue.</b> Review new SIEM alerts. Most are benign: a user travelling, an admin running a scheduled script.</td></tr>
+    <tr><td>10:15</td><td><b>Real finding.</b> A laptop contacts a domain registered two days ago. EDR shows a macro-enabled document launched PowerShell. The analyst isolates the laptop and escalates to tier 2.</td></tr>
+    <tr><td>11:30</td><td><b>Tuning.</b> Adjusts the noisy rule so it ignores a known backup server, cutting false positives without hiding real threats.</td></tr>
+    <tr><td>13:00</td><td><b>Threat intel.</b> Reads a new advisory about an exploited VPN (Virtual Private Network) flaw and searches logs for its indicators.</td></tr>
+    <tr><td>14:30</td><td><b>Phishing reports.</b> Users reported five emails. Two are real phishing; the analyst blocks the sender and removes copies from mailboxes.</td></tr>
+    <tr><td>16:00</td><td><b>Documentation.</b> Writes up each case: what happened, evidence, actions, and whether a rule or process should change.</td></tr>
+  </tbody></table></div>
+  <div class="callout tip">The skills that make analysts stand out are curiosity, careful notes, and clear writing for people who are not technical. Practise by writing short reports on each lab you complete.</div>
 </section>
 
-<section class="lesson" id="fit">
-  <h2>8. How ITIL fits with DevOps, Agile, Lean and ISO/IEC 20000</h2>
-  <div class="tablewrap"><table>
-    <thead><tr><th>Approach</th><th>How it relates to ITIL 4</th></tr></thead>
-    <tbody>
-      <tr><td><b>Agile</b></td><td>Iterative delivery and fast feedback; matches "progress iteratively with feedback" and value streams</td></tr>
-      <tr><td><b>DevOps</b></td><td>Joins development and operations with automation (CI/CD); ITIL 4 supports this with decentralized change authority and "optimize and automate"</td></tr>
-      <tr><td><b>Lean</b></td><td>Removing waste and improving flow; matches value stream mapping and "keep it simple and practical"</td></tr>
-      <tr><td><b>ISO/IEC 20000-1</b></td><td>The international standard for a service management system (SMS); organizations can be <b>certified</b> against it. ITIL is guidance, not a certifiable standard for organizations (people get ITIL certificates; organizations get ISO/IEC 20000 certification)</td></tr>
-    </tbody></table></div>
-  <h3 id="exam">The ITIL 4 Foundation exam</h3>
-  <div class="tablewrap"><table>
-    <thead><tr><th>Item</th><th>Detail (verify on peoplecert.org)</th></tr></thead>
-    <tbody>
-      <tr><td>Questions</td><td>40 multiple choice, one correct answer each</td></tr>
-      <tr><td>Time</td><td>60 minutes (extra time for non-native speakers in some cases)</td></tr>
-      <tr><td>Pass mark</td><td>65% (26 of 40)</td></tr>
-      <tr><td>Format</td><td>Closed book, online proctored or at a test center; no prerequisites</td></tr>
-      <tr><td>Weighting</td><td>Roughly 42.5% on the seven practices in detail (17 questions); the rest on concepts, principles, dimensions, SVS, value chain and practice purposes</td></tr>
-    </tbody></table></div>
+<section class="lesson" id="portfolio">
+  <h2>8. Building a portfolio that gets interviews</h2>
+  <p>Security hiring managers like evidence. A small portfolio shows what certifications can't.</p>
+  <ul>
+    <li><b>Home lab write-ups:</b> set up a free SIEM, send it logs from a Windows and a Linux virtual machine, simulate a failed-login attack and show how you detected it.</li>
+    <li><b>Detection rules:</b> publish a few simple detection rules with an explanation of what they catch and what false positives to expect.</li>
+    <li><b>Capture-the-flag results:</b> beginner-friendly CTFs and training platforms provide legal, safe practice environments.</li>
+    <li><b>Scripts:</b> a short Python or PowerShell script that parses logs or checks for weak settings.</li>
+    <li><b>A short blog or notes</b> explaining something you learned in plain language.</li>
+  </ul>
+  <div class="callout trap">Only practise attack techniques on systems you own or platforms built for it. Scanning or attacking systems without written permission is illegal in most countries, even "just to test".</div>
 </section>
 
 <section class="lab" id="labs">
   <h2>Interactive labs</h2>
 
-  <div class="lab-card" id="lab-svs" data-lab="Service Value System Explorer: click each part of the SVS diagram to see its plain meaning, exam definition and an example.">
-    <h3>Lab 1: Service Value System Explorer</h3>
-    <p class="figcap">Click (or Tab to and press Enter on) any part of the diagram.</p>
-    <div class="stage"><svg id="svs-svg" viewBox="0 0 760 330" width="760" role="group" aria-label="Clickable service value system diagram"></svg></div>
-    <div class="info" id="svs-info">Choose a part of the SVS.</div>
-    <div class="caption" id="svs-cap" aria-live="polite"></div>
+  <div class="lab-card" id="lab-path" data-lab="Cert Path Finder: choose the cyber security role you want and your experience, and get an ordered certification and skills path with links to the right modules.">
+    <h3>Lab 1: Cert Path Finder</h3>
+    <div class="row"><label>I want to become <select id="cp-role">
+      <option value="soc">SOC analyst</option><option value="ir">Incident responder</option><option value="pt">Penetration tester</option><option value="cloud">Cloud security engineer</option><option value="grc">GRC analyst or IT auditor</option><option value="lead">Security manager or CISO</option></select></label>
+      <label>My experience <select id="cp-exp"><option value="0">New to IT</option><option value="1">1–3 years in IT</option><option value="3">3–5 years in IT or security</option><option value="5">5+ years in security</option></select></label></div>
+    <ol class="path-steps" id="cp-out"></ol>
+    <div class="caption" id="cp-cap" aria-live="polite"></div>
   </div>
 
-  <div class="lab-card" id="lab-vc" data-lab="Value Chain Builder: build a value stream for a scenario from the six value chain activities and get feedback on the order and alternatives.">
-    <h3>Lab 2: Value Chain Builder</h3>
-    <div class="row"><span>Scenario:</span><div class="seg" id="vc-scen"></div></div>
-    <p id="vc-desc"></p>
-    <p class="figcap">Click activities in the order your value stream uses them. You can use an activity more than once.</p>
-    <div class="acts" id="vc-acts"></div>
-    <div class="stream" id="vc-stream" aria-label="Your value stream" aria-live="polite"></div>
-    <div class="row"><button type="button" id="vc-undo">Undo last</button><button type="button" id="vc-clear">Clear</button><button type="button" class="primary" id="vc-check">Check my value stream</button><button type="button" id="vc-show">Show a model answer</button></div>
-    <div class="caption" id="vc-cap" aria-live="polite"></div>
+  <div class="lab-card" id="lab-triage" data-lab="SOC Alert Triage: work through real-looking SIEM alerts and decide whether each is a false positive, needs investigation, or is an incident to escalate now.">
+    <h3>Lab 2: SOC Alert Triage</h3>
+    <p class="figcap">You're a Tier 1 analyst at a fictional company, Harrow Logistics. For each alert, decide what to do.</p>
+    <div id="tr-host"></div>
+    <div class="caption" id="tr-cap" aria-live="polite"></div>
   </div>
 
-  <div class="lab-card" id="lab-sort" data-lab="Incident vs Problem vs Change Sorter: sort scenario cards into incident management, problem management, change enablement or service request management.">
-    <h3>Lab 3: Incident vs Problem vs Change Sorter</h3>
-    <p class="figcap">Drag each card (or click it, then click a box) to the practice that should handle it.</p>
-    <div class="dropzone" id="so-bank" aria-label="Unsorted cards"><span class="zone-title">Unsorted</span></div>
-    <div class="sort-grid" id="so-zones" style="margin-top:8px"></div>
-    <div class="row"><button type="button" class="primary" id="so-check">Check</button><button type="button" id="so-reset">Reset</button></div>
-    <div class="caption" id="so-cap" aria-live="polite"></div>
+  <div class="lab-card" id="lab-attack" data-lab="ATT&CK Mapper: sort the steps of a ransomware intrusion into MITRE ATT&CK tactics.">
+    <h3>Lab 3: ATT&amp;CK Mapper</h3>
+    <p class="figcap">These events come from a (fictional) ransomware investigation. Map each one to its MITRE ATT&amp;CK tactic.</p>
+    <div id="at-host"></div>
+    <div class="caption" id="at-cap" aria-live="polite"></div>
   </div>
 
-  <div class="lab-card" id="lab-gp" data-lab="Guiding Principle Matcher: match short workplace stories to the ITIL 4 guiding principle each one shows.">
-    <h3>Lab 4: Guiding Principle Matcher</h3>
-    <div id="gp-list"></div>
-    <div class="row"><button type="button" class="primary" id="gp-check">Check answers</button><button type="button" id="gp-reset">Reset</button></div>
-    <div class="caption" id="gp-cap" aria-live="polite"></div>
-  </div>
-
-  <div class="lab-card" id="lab-desk" data-lab="Service Desk Simulator: work a queue of calls; log, categorize, prioritize with an impact × urgency matrix, then escalate or resolve.">
-    <h3>Lab 5: Service Desk Simulator</h3>
-    <div class="qlist" id="sd-queue" aria-label="Call queue"></div>
-    <div class="call" id="sd-call"></div>
-    <div class="controls">
-      <label class="field"><span>1. Log as</span><select id="sd-type"><option value="">Choose…</option><option value="incident">Incident</option><option value="request">Service request</option></select></label>
-      <label class="field"><span>2. Category</span><select id="sd-cat"><option value="">Choose…</option><option>Email and collaboration</option><option>Network and connectivity</option><option>Accounts and access</option><option>Hardware</option><option>Business application</option><option>Security</option></select></label>
-      <label class="field"><span>3. Impact</span><select id="sd-imp"><option value="">Choose…</option><option value="0">High (many users or critical business)</option><option value="1">Medium (a team or department)</option><option value="2">Low (one user)</option></select></label>
-      <label class="field"><span>4. Urgency</span><select id="sd-urg"><option value="">Choose…</option><option value="0">High (work stopped or deadline now)</option><option value="1">Medium (degraded, can wait hours)</option><option value="2">Low (can wait days)</option></select></label>
-      <label class="field"><span>5. Action</span><select id="sd-act"><option value="">Choose…</option><option value="first">Resolve or fulfil at first line (service desk)</option><option value="escalate">Escalate to a second-line or specialist team</option><option value="major">Declare a major incident</option><option value="security">Hand to the security incident procedure</option></select></label>
-    </div>
-    <div class="tablewrap"><table class="pmx" id="sd-mx" aria-label="Priority matrix"></table></div>
-    <div class="row"><button type="button" class="primary" id="sd-submit">Submit ticket</button><button type="button" id="sd-next">Next call →</button><button type="button" id="sd-restart">Restart queue</button><b id="sd-score"></b></div>
-    <div class="caption" id="sd-cap" aria-live="polite"></div>
+  <div class="lab-card" id="lab-patch" data-lab="Patch Priority Ranker: rank five vulnerabilities using CVSS, CISA KEV, exposure and asset criticality, then compare with an expert ranking.">
+    <h3>Lab 4: Patch Priority Ranker</h3>
+    <p class="figcap">Use the ▲ ▼ buttons to put these vulnerabilities in the order you would fix them (1 = first), then press Check.</p>
+    <ol class="rank-list" id="pp-list"></ol>
+    <div class="row"><button type="button" class="primary" id="pp-check">Check my order</button><button type="button" id="pp-shuffle">Shuffle</button></div>
+    <div class="caption" id="pp-cap" aria-live="polite"></div>
   </div>
 </section>
 
@@ -325,39 +216,29 @@
 
 <section class="memory" id="memory">
   <h2>Memory aids</h2>
-  <div class="mnemonic">Guiding principles: "<b>F</b>ive <b>S</b>mart <b>P</b>eople <b>C</b>an <b>T</b>hink <b>K</b>indly <b>O</b>ften": Focus on value, Start where you are, Progress iteratively, Collaborate and promote visibility, Think holistically, Keep it simple, Optimize and automate.</div>
-  <div class="mnemonic">Value chain: "<b>P</b>lease <b>I</b>mprove <b>E</b>very <b>D</b>esign, <b>O</b>btain and <b>D</b>eliver": Plan, Improve, Engage, Design and transition, Obtain/build, Deliver and support.</div>
-  <div class="mnemonic">Four dimensions: "<b>O</b>ur <b>I</b>T <b>P</b>artners <b>V</b>alue": Organizations and people, Information and technology, Partners and suppliers, Value streams and processes.</div>
-  <div class="mnemonic">Roles: <b>C</b>ustomer <b>C</b>hooses (requirements), <b>U</b>ser <b>U</b>ses, <b>S</b>ponsor <b>S</b>pends.</div>
+  <div class="mnemonic">Kill Chain: <b>"Real Wizards Deliver Exploits, Install Cauldrons, Act"</b>: Recon, Weaponize, Deliver, Exploit, Install, C2, Actions on objectives.</div>
+  <div class="mnemonic"><b>Patch the "KEE" first</b>: Known exploited, Exposed to the internet, Essential (critical) asset.</div>
+  <div class="mnemonic"><b>False negative = the fire nobody saw.</b> It's the worst SOC outcome.</div>
   <div class="tablewrap"><table><thead><tr><th>Number</th><th>Meaning</th></tr></thead><tbody>
-    <tr><td>4</td><td>Dimensions of service management</td></tr>
-    <tr><td>5</td><td>SVS components (principles, governance, value chain, practices, continual improvement)</td></tr>
-    <tr><td>6</td><td>Value chain activities (Version 5: 8 lifecycle activities, verify)</td></tr>
-    <tr><td>7</td><td>Guiding principles; continual improvement model steps; practices in detail</td></tr>
-    <tr><td>3</td><td>Change types; problem management phases; practice groups</td></tr>
-    <tr><td>15 / 34</td><td>Practices by purpose on the exam / practices in ITIL 4</td></tr>
-    <tr><td>40 · 60 · 65%</td><td>Foundation questions · minutes · pass mark (26/40) (verify)</td></tr>
+    <tr><td>7</td><td>Cyber Kill Chain stages</td></tr>
+    <tr><td>14</td><td>MITRE ATT&amp;CK Enterprise tactics</td></tr>
+    <tr><td>4</td><td>Diamond Model points; NIST IR phases</td></tr>
+    <tr><td>9.0–10.0 / 7.0–8.9</td><td>CVSS critical / high</td></tr>
+    <tr><td>85 · 165 min · 750</td><td>CySA+ CS0-003 max questions, time, pass</td></tr>
+    <tr><td>5 years</td><td>Experience to certify CISSP, CISM, CISA, CCSP</td></tr>
   </tbody></table></div>
   <div class="tablewrap"><table><thead><tr><th>Exam trap</th><th>Why it is wrong</th></tr></thead><tbody>
-    <tr><td>"Value is delivered by the provider to the consumer."</td><td>ITIL 4 says value is <b>co-created</b>.</td></tr>
-    <tr><td>"A standard change needs CAB approval."</td><td>It is pre-authorized; only the procedure was assessed.</td></tr>
-    <tr><td>"Release and deployment are the same."</td><td>Deployment moves components; release makes them available for use.</td></tr>
-    <tr><td>"The value chain has a fixed order."</td><td>Activities combine in any order into value streams.</td></tr>
-    <tr><td>"Optimize and automate means automate first."</td><td>Optimize first; automating waste speeds up waste.</td></tr>
-    <tr><td>"A password reset is an incident."</td><td>It's a service request: a normal, agreed service action.</td></tr>
-    <tr><td>"Utility = available, warranty = features."</td><td>Reversed: utility is what it does, warranty is how well.</td></tr>
+    <tr><td>"Patch the highest CVSS first, always."</td><td>Exploitation (KEV/EPSS), exposure and asset value matter more.</td></tr>
+    <tr><td>"A false positive is the worst outcome."</td><td>Annoying, but a false negative (missed attack) is worse.</td></tr>
+    <tr><td>"Wipe the infected machine immediately."</td><td>Contain first and preserve evidence; wiping destroys forensic data.</td></tr>
+    <tr><td>"A pentest without permission is fine if you report it."</td><td>Without written authorisation it's illegal.</td></tr>
+    <tr><td>"SIEM and SOAR are the same."</td><td>SIEM detects and correlates; SOAR automates the response.</td></tr>
   </tbody></table></div>
 </section>
 
 <section class="quiz" id="quiz">
   <h2>Knowledge check</h2>
   <div id="quiz-area"></div>
-</section>
-
-<section class="quiz" id="readiness">
-  <h2>ITIL 4 Foundation-style practice exam (40 questions)</h2>
-  <p>Forty multiple-choice questions, one correct answer each, like the real exam. Questions are drawn by syllabus area in roughly the real proportions (about 17 of 40 on the seven practices in detail). Turn on the timer for the real 60-minute pace. Aim for 65% (26 of 40) or better, the published pass mark (verify on peoplecert.org).</p>
-  <div id="readiness-area"></div>
 </section>
 
 <section class="flashcards" id="flashcards">
@@ -368,297 +249,151 @@
 <section class="deeper" id="deeper">
   <h2>Go deeper (official sources)</h2>
   <ul>
-    <li><a href="https://www.peoplecert.org/browse-certifications/it-governance-and-service-management/ITIL-1" rel="noopener">PeopleCert: ITIL certifications (ITIL 4 and ITIL Version 5)</a></li>
-    <li><a href="https://www.peoplecert.org/" rel="noopener">PeopleCert: exam booking, syllabus and sample papers</a></li>
-    <li><a href="https://www.iso.org/standard/70636.html" rel="noopener">ISO/IEC 20000-1:2018 Service management system requirements</a></li>
-    <li><a href="https://www.comptia.org/certifications/security" rel="noopener">CompTIA Security+ (change management objectives)</a></li>
+    <li><a href="https://www.comptia.org/en-us/certifications/cybersecurity-analyst/" rel="noopener">CompTIA CySA+</a> · <a href="https://www.comptia.org/en-us/certifications/pentest/" rel="noopener">CompTIA PenTest+</a> · <a href="https://www.comptia.org/en-us/certifications/securityx/" rel="noopener">CompTIA SecurityX</a></li>
+    <li><a href="https://www.isc2.org/certifications" rel="noopener">ISC2 certifications (CC, SSCP, CISSP, CCSP)</a></li>
+    <li><a href="https://www.offsec.com/courses/pen-200/" rel="noopener">OffSec PEN-200 / OSCP</a> · <a href="https://www.giac.org/" rel="noopener">GIAC certifications</a> · <a href="https://www.eccouncil.org/" rel="noopener">EC-Council (CEH)</a></li>
+    <li><a href="https://attack.mitre.org/" rel="noopener">MITRE ATT&amp;CK</a> · <a href="https://www.lockheedmartin.com/en-us/capabilities/cyber/cyber-kill-chain.html" rel="noopener">Lockheed Martin Cyber Kill Chain</a></li>
+    <li><a href="https://www.cisa.gov/known-exploited-vulnerabilities-catalog" rel="noopener">CISA Known Exploited Vulnerabilities catalog</a> · <a href="https://www.first.org/cvss/" rel="noopener">FIRST CVSS</a> · <a href="https://www.first.org/epss/" rel="noopener">FIRST EPSS</a> · <a href="https://www.cve.org/" rel="noopener">CVE program</a></li>
+    <li><a href="https://csrc.nist.gov/pubs/sp/800/61/r3/final" rel="noopener">NIST SP 800-61 Rev. 3 incident response</a> · <a href="https://niccs.cisa.gov/workforce-development/nice-framework" rel="noopener">NICE Workforce Framework (cyber work roles)</a></li>
   </ul>
 </section>
 </main>
-<footer class="foot">Datacenter Omnibus · Original study material. Not affiliated with or endorsed by PeopleCert, AXELOS or any certification body. ITIL® is a registered trade mark of PeopleCert.</footer>
+<footer class="foot">Datacenter Omnibus · Original, independent study material. Not affiliated with or endorsed by any certification body, vendor or standards organisation. All trademarks belong to their owners. Exam details change; always verify on the vendor site. <a href="legal.html">Trademarks and copyright</a></footer>
 
 <script src="data/catalog.js"></script>
 <script src="assets/omnibus.js"></script>
+<script src="assets/labkit.js"></script>
 <script src="data/m19.js"></script>
-<script src="data/bank-itil.js"></script>
 <script>
 (function () {
-  var h = OMNI.h, S = OMNI.svg, $ = function (id) { return document.getElementById(id); };
-  var esc = OMNI.esc || function (s) { return String(s).replace(/[&<>"']/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]; }); };
-  function txt(p, x, y, t, a) { var e = S("text", Object.assign({ x: x, y: y, class: "svg-text", "font-size": 12 }, a || {}), p); e.textContent = t; return e; }
-  function rect(p, x, y, w, hh, fill, stroke, extra) { return S("rect", Object.assign({ x: x, y: y, width: w, height: hh, rx: 8, fill: fill, stroke: stroke || "none", "stroke-width": 2 }, extra || {}), p); }
-  function arrow(p, x1, y1, x2, y2) {
-    S("line", { x1: x1, y1: y1, x2: x2, y2: y2, stroke: "var(--ink-2)", "stroke-width": 2 }, p);
-    var a = Math.atan2(y2 - y1, x2 - x1), s = 8;
-    S("polygon", { points: x2 + "," + y2 + " " + (x2 - s * Math.cos(a - .45)) + "," + (y2 - s * Math.sin(a - .45)) + " " + (x2 - s * Math.cos(a + .45)) + "," + (y2 - s * Math.sin(a + .45)), fill: "var(--ink-2)" }, p);
-  }
-  OMNI.readiness({ el: "readiness-area", id: "itil", modules: [19], banks: ["itil"], certs: ["ITIL"], count: 40, timerMin: 60, weights: { 1: 12.5, 2: 15, 3: 5, 4: 2.5, 5: 5, 6: 17.5, 7: 42.5 } });
+  var $ = function (id) { return document.getElementById(id); }, S = OMNI.svg, h = OMNI.h;
+  function txt(g, x, y, s, a) { var e = S("text", Object.assign({ x: x, y: y, class: "svg-text", "font-size": 12 }, a || {}), g); e.textContent = s; return e; }
+  function box(g, x, y, w, hh, t, sub, col) { S("rect", { x: x, y: y, width: w, height: hh, rx: 9, fill: "var(--surface)", stroke: col, "stroke-width": 2.2 }, g); txt(g, x + w / 2, y + (sub ? hh / 2 - 2 : hh / 2 + 4), t, { "text-anchor": "middle", "font-weight": 700, "font-size": 11.5 }); if (sub) txt(g, x + w / 2, y + hh / 2 + 13, sub, { "text-anchor": "middle", "font-size": 9.5, class: "svg-text svg-muted" }); }
+  function arrow(g, x1, y1, x2, y2) { S("line", { x1: x1, y1: y1, x2: x2, y2: y2, stroke: "var(--ink-2)", "stroke-width": 1.8 }, g); var a = Math.atan2(y2 - y1, x2 - x1), s = 7; S("polygon", { points: x2 + "," + y2 + " " + (x2 - s * Math.cos(a - .45)) + "," + (y2 - s * Math.sin(a - .45)) + " " + (x2 - s * Math.cos(a + .45)) + "," + (y2 - s * Math.sin(a + .45)), fill: "var(--ink-2)" }, g); }
 
-  /* ===== Figures ===== */
+  /* career ladder */
   (function () {
-    var g = $("dim-fig");
-    rect(g, 10, 10, 740, 280, "var(--surface-2)", "var(--line)");
-    "POLITICAL ECONOMIC SOCIAL TECHNOLOGICAL LEGAL ENVIRONMENTAL".split(" ").forEach(function (w, i) { txt(g, 70 + i * 124, 32, w, { "text-anchor": "middle", "font-size": 11, class: "svg-muted", "font-weight": 700 }); });
-    var D = [["Organizations", "and people", 150, 100, "var(--gov)"], ["Information", "and technology", 610, 100, "var(--net)"], ["Partners", "and suppliers", 150, 230, "var(--dc)"], ["Value streams", "and processes", 610, 230, "var(--sec)"]];
-    S("circle", { cx: 380, cy: 165, r: 52, fill: "var(--accent-soft)", stroke: "var(--accent)", "stroke-width": 2 }, g);
-    txt(g, 380, 162, "Value", { "text-anchor": "middle", "font-weight": 800, "font-size": 15 }); txt(g, 380, 180, "co-created", { "text-anchor": "middle", "font-size": 10, class: "svg-muted" });
-    D.forEach(function (d) {
-      S("line", { x1: d[2], y1: d[3], x2: 380, y2: 165, stroke: d[4], "stroke-width": 2, "stroke-dasharray": "5 4" }, g);
-      rect(g, d[2] - 85, d[3] - 26, 170, 52, "var(--surface)", d[4]);
-      txt(g, d[2], d[3] - 4, d[0], { "text-anchor": "middle", "font-weight": 700 }); txt(g, d[2], d[3] + 13, d[1], { "text-anchor": "middle", "font-weight": 700 });
-    });
-    txt(g, 380, 280, "PESTLE factors act on all four dimensions", { "text-anchor": "middle", "font-size": 11, class: "svg-muted" });
-  })();
-  (function () {
-    var g = $("vc-fig"), A = ["Plan", "Improve", "Engage", "Design and transition", "Obtain/build", "Deliver and support"];
-    rect(g, 10, 95, 110, 70, "var(--surface)", "var(--ink-2)"); txt(g, 65, 125, "Demand", { "text-anchor": "middle", "font-weight": 700 }); txt(g, 65, 142, "and opportunity", { "text-anchor": "middle", "font-size": 10, class: "svg-muted" });
-    rect(g, 640, 95, 110, 70, "var(--good-soft)", "var(--good)"); txt(g, 695, 125, "Products and", { "text-anchor": "middle", "font-weight": 700 }); txt(g, 695, 142, "services → value", { "text-anchor": "middle", "font-weight": 700 });
-    rect(g, 150, 15, 460, 230, "var(--gov-soft)", "var(--gov)");
-    txt(g, 380, 36, "Service value chain: activities combine into value streams", { "text-anchor": "middle", "font-weight": 700, "font-size": 12 });
-    A.forEach(function (a, i) {
-      var x = 165 + (i % 3) * 150, y = 55 + Math.floor(i / 3) * 95;
-      rect(g, x, y, 130, 70, "var(--surface)", "var(--gov)");
-      txt(g, x + 65, y + 40, a, { "text-anchor": "middle", "font-weight": 700, "font-size": a.length > 14 ? 11 : 13 });
-    });
-    arrow(g, 120, 130, 150, 130); arrow(g, 610, 130, 640, 130);
-  })();
-  (function () {
-    var g = $("ci-fig"), st = ["What is the vision?", "Where are we now?", "Where do we want to be?", "How do we get there?", "Take action", "Did we get there?", "Keep the momentum going"];
-    st.forEach(function (s, i) {
-      var x = 10 + i * 107;
-      rect(g, x, 40, 95, 90, i === 4 ? "var(--accent-soft)" : "var(--surface)", "var(--gov)");
-      txt(g, x + 47, 62, String(i + 1), { "text-anchor": "middle", "font-weight": 800, "font-size": 18, fill: "var(--gov)" });
-      var words = s.split(" "), l1 = [], l2 = [];
-      words.forEach(function (w) { (l1.join(" ").length + w.length < 12 ? l1 : l2).push(w); });
-      txt(g, x + 47, 90, l1.join(" "), { "text-anchor": "middle", "font-size": 11 }); txt(g, x + 47, 106, l2.join(" "), { "text-anchor": "middle", "font-size": 11 });
-      if (i < 6) arrow(g, x + 95, 85, x + 107, 85);
-    });
-    S("path", { d: "M 700 130 C 700 165, 57 165, 57 132", fill: "none", stroke: "var(--ink-2)", "stroke-width": 1.5, "stroke-dasharray": "5 4" }, g);
-    txt(g, 380, 180, "…and loop back to the vision", { "text-anchor": "middle", "font-size": 10, class: "svg-muted" });
-    txt(g, 380, 22, "Each loop is recorded in the continual improvement register (CIR)", { "text-anchor": "middle", "font-size": 11, class: "svg-muted" });
+    var g = $("career-fig");
+    box(g, 20, 100, 130, 50, "IT support / help desk", "or networking", "var(--hw)");
+    box(g, 195, 100, 120, 50, "SOC analyst", "Tier 1 → 2 → 3", "var(--sec)");
+    arrow(g, 150, 125, 195, 125);
+    var B = [["Incident responder", 10], ["Threat hunter", 50], ["Pentester / red team", 90], ["Security engineer", 130], ["Cloud security", 170], ["GRC / auditor", 210]];
+    B.forEach(function (b) { box(g, 375, b[1], 150, 32, b[0], "", "var(--sec)"); arrow(g, 315, 125, 375, b[1] + 16); arrow(g, 525, b[1] + 16, 590, 125); });
+    box(g, 590, 95, 155, 60, "Architect / manager", "→ CISO", "var(--gov)");
   })();
 
-  /* ===== Lab 1: SVS explorer ===== */
-  var SVS = {
-    od: { n: "Opportunity and demand", p: "The reasons to do anything: chances to add value, and requests or needs from customers.", d: "Opportunity represents options or possibilities to add value for stakeholders or otherwise improve the organization. Demand is the need or desire for products and services among internal and external consumers.", e: "Staff ask for remote access (demand); a new cloud platform could cut costs (opportunity)." },
-    gp: { n: "Guiding principles", p: "Seven pieces of advice that apply in every situation.", d: "Recommendations that can guide an organization in all circumstances, regardless of changes in its goals, strategies, type of work or management structure.", e: "Before building a new portal, the team 'starts where they are' by reviewing the existing one." },
-    gov: { n: "Governance", p: "How the top of the organization steers and checks.", d: "The means by which an organization is directed and controlled. The governing body evaluates the organization, directs it by assigning responsibility for strategies and policies, and monitors performance and compliance.", e: "The board sets a policy that all customer data stays in the EU and checks quarterly reports against it." },
-    svc: { n: "Service value chain", p: "Six activities you mix and match to create and deliver value.", d: "An operating model which outlines the key activities required to respond to demand and facilitate value realization: plan, improve, engage, design and transition, obtain/build, deliver and support.", e: "A new-laptop request flows engage → deliver and support → obtain/build → deliver and support." },
-    pr: { n: "Practices", p: "Toolkits of people, processes, information and tools for a type of work.", d: "Sets of organizational resources designed for performing work or accomplishing an objective. ITIL 4 describes 34 practices: general management, service management and technical management.", e: "Incident management, change enablement and the service desk are practices." },
-    ci: { n: "Continual improvement", p: "Always getting a little better, at every level.", d: "A recurring organizational activity performed at all levels to ensure that an organization's performance continually meets stakeholders' expectations, supported by the continual improvement model and register.", e: "The service desk cuts average wait time by 30% after analysing call data, then picks the next target." },
-    val: { n: "Value", p: "The result: benefits that matter to the stakeholders.", d: "The perceived benefits, usefulness and importance of something. In ITIL 4, value is co-created by service providers and consumers.", e: "Sales staff close deals faster because the CRM is reliable and quick." }
-  };
+  /* kill chain */
   (function () {
-    var g = $("svs-svg");
-    function part(key, draw) {
-      var grp = S("g", { class: "svs-part", tabindex: "0", role: "button", "aria-label": SVS[key].n, "data-k": key }, g);
-      draw(grp);
-      grp.addEventListener("click", function () { svsShow(key); });
-      grp.addEventListener("keydown", function (e) { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); svsShow(key); } });
+    var g = $("kc-fig"), K = [["Recon", "research the target"], ["Weaponize", "build the exploit"], ["Deliver", "email, web, USB"], ["Exploit", "trigger the flaw"], ["Install", "malware, backdoor"], ["C2", "remote control"], ["Actions", "steal, encrypt"]];
+    K.forEach(function (k, i) { var x = 8 + i * 107; box(g, x, 40, 95, 60, (i + 1) + ". " + k[0], k[1], i < 3 ? "var(--warn)" : "var(--sec)"); if (i < 6) arrow(g, x + 95, 70, x + 107, 70); });
+    txt(g, 160, 125, "← before the breach: block early", { "text-anchor": "middle", "font-size": 10.5, class: "svg-text svg-muted" });
+    txt(g, 560, 125, "after the breach: detect and contain fast →", { "text-anchor": "middle", "font-size": 10.5, class: "svg-text svg-muted" });
+  })();
+
+  /* SOC workflow */
+  (function () {
+    var g = $("soc-fig");
+    box(g, 10, 50, 110, 60, "Log sources", "endpoints, cloud", "var(--net)");
+    box(g, 160, 50, 100, 60, "SIEM", "correlate, alert", "var(--sec)");
+    box(g, 300, 50, 100, 60, "Triage", "Tier 1", "var(--sec)");
+    box(g, 440, 50, 110, 60, "Investigate", "Tier 2 / 3", "var(--sec)");
+    box(g, 590, 50, 160, 60, "Respond", "contain, eradicate, recover", "var(--good)");
+    arrow(g, 120, 80, 160, 80); arrow(g, 260, 80, 300, 80); arrow(g, 400, 80, 440, 80); arrow(g, 550, 80, 590, 80);
+    box(g, 300, 130, 250, 32, "SOAR automates enrichment and actions", "", "var(--gov)");
+    S("path", { d: "M 670 50 C 670 22, 210 22, 210 48", fill: "none", stroke: "var(--accent)", "stroke-width": 1.8, "stroke-dasharray": "5 4" }, g);
+    txt(g, 440, 14, "lessons learned → tune detections, close false positives", { "text-anchor": "middle", "font-size": 10.5 });
+  })();
+
+  /* Lab 1: cert path finder */
+  (function () {
+    var BASE = { 0: [["CompTIA A+ or equivalent IT support experience", "Modules 4–8"], ["CompTIA Network+", "Modules 9–13"]], 1: [["CompTIA Network+ (if you don't have strong networking yet)", "Modules 9–13"]], 3: [], 5: [] };
+    var ROLE = {
+      soc: { name: "SOC analyst", steps: [["Security+ (or ISC2 CC first if you're brand new)", "Modules 15–17"], ["Build a home lab with a free SIEM; write up 3 investigations", "this module, section 6"], ["CySA+ (and/or Blue Team Level 1)", "this module + Study Hub CySA+ exam"], ["Later: GIAC GCIH / GCIA, then CISSP for senior roles", ""]] },
+      ir: { name: "Incident responder", steps: [["Security+", "Modules 15–17"], ["CySA+", "this module"], ["Learn Windows and Linux forensics and memory analysis in your lab", "Module 6"], ["GIAC GCIH, then GCFA", ""], ["CISM if you move into leading IR teams", "Module 27"]] },
+      pt: { name: "Penetration tester", steps: [["Security+", "Modules 15–17"], ["Learn Linux, scripting (Python, Bash) and web basics; do CTFs", "Modules 6 and 16"], ["PenTest+ or eJPT as a first offensive cert", ""], ["OSCP (the big one for pentest jobs)", ""], ["Later: specialise (web, cloud, red team, OSEP)", ""]] },
+      cloud: { name: "Cloud security engineer", steps: [["Security+", "Modules 15–17"], ["AWS Cloud Practitioner, then Solutions Architect – Associate", "Modules 20 and 21"], ["AWS Security – Specialty (or AZ-500 for Azure)", "Module 21"], ["CCSP once you have 5 years' experience", ""]] },
+      grc: { name: "GRC analyst or IT auditor", steps: [["Security+ or ISC2 CC", "Modules 15–17"], ["ITIL 4 Foundation and an ISO 27001 Foundation course", "Modules 25 and 26"], ["CISA for audit, or CRISC for risk", "Modules 26 and 28"], ["CISM or ISO 27001 Lead Auditor as you grow", "Module 27"]] },
+      lead: { name: "Security manager or CISO", steps: [["Security+ and hands-on experience in a security team", "Modules 15–17"], ["CISSP (needs 5 years' experience)", ""], ["CISM for security management", "Module 27"], ["Learn risk, budgets and board reporting; consider an MBA or ISACA CGEIT later", "Module 26"]] }
+    };
+    function draw() {
+      var r = ROLE[$("cp-role").value], e = +$("cp-exp").value, steps = (BASE[e] || []).concat(r.steps);
+      if (e >= 3) steps = steps.filter(function (s) { return !/^Security\+ \(or ISC2|^Security\+ or ISC2/.test(s[0]); });
+      if (e >= 5) steps = steps.filter(function (s, i) { return i > 0 || /CISSP|CISM|OSCP|Specialty|CISA/.test(s[0]); });
+      $("cp-out").innerHTML = steps.map(function (s) { return "<li><b>" + s[0] + "</b>" + (s[1] ? "<br><span class='figcap'>Study: " + s[1] + "</span>" : "") + "</li>"; }).join("");
+      OMNI.say("cp-cap", "This is a common path to <b>" + r.name + "</b> for someone " + $("cp-exp").selectedOptions[0].text.toLowerCase() + ". " + (e === 0 ? "Starting in IT support or a help desk gives you the foundations every security job builds on. " : "") + "Certifications open doors, but pair each one with hands-on practice you can show an employer. Paths overlap: many people move between these roles over a career.");
     }
-    part("od", function (p) { rect(p, 10, 125, 120, 80, "var(--surface)", "var(--ink-2)"); txt(p, 70, 160, "Opportunity", { "text-anchor": "middle", "font-weight": 700 }); txt(p, 70, 178, "and demand", { "text-anchor": "middle", "font-weight": 700 }); });
-    arrow(g, 130, 165, 160, 165);
-    rect(g, 160, 10, 440, 310, "var(--gov-soft)", "var(--gov)");
-    txt(g, 380, 30, "Service value system", { "text-anchor": "middle", "font-weight": 800, "font-size": 13, fill: "var(--gov)" });
-    part("gp", function (p) { rect(p, 180, 45, 400, 40, "var(--surface)", "var(--gov)"); txt(p, 380, 70, "Guiding principles", { "text-anchor": "middle", "font-weight": 700 }); });
-    part("gov", function (p) { rect(p, 180, 95, 400, 40, "var(--surface)", "var(--gov)"); txt(p, 380, 120, "Governance", { "text-anchor": "middle", "font-weight": 700 }); });
-    part("svc", function (p) { rect(p, 180, 145, 400, 70, "var(--surface)", "var(--gov)"); txt(p, 380, 172, "Service value chain", { "text-anchor": "middle", "font-weight": 700 }); txt(p, 380, 192, "plan · improve · engage · design and transition · obtain/build · deliver and support", { "text-anchor": "middle", "font-size": 10, class: "svg-muted" }); });
-    part("pr", function (p) { rect(p, 180, 225, 400, 40, "var(--surface)", "var(--gov)"); txt(p, 380, 250, "Practices (34)", { "text-anchor": "middle", "font-weight": 700 }); });
-    part("ci", function (p) { rect(p, 180, 275, 400, 34, "var(--surface)", "var(--gov)"); txt(p, 380, 297, "Continual improvement", { "text-anchor": "middle", "font-weight": 700 }); });
-    arrow(g, 600, 165, 630, 165);
-    part("val", function (p) { S("circle", { cx: 690, cy: 165, r: 58, fill: "var(--good-soft)", stroke: "var(--good)", "stroke-width": 2 }, p); txt(p, 690, 170, "Value", { "text-anchor": "middle", "font-weight": 800, "font-size": 16 }); });
+    $("cp-role").onchange = draw; $("cp-exp").onchange = draw; draw();
   })();
-  var svsSeen = {};
-  function svsShow(k) {
-    var s = SVS[k]; svsSeen[k] = 1;
-    OMNI.$$("#svs-svg .svs-part").forEach(function (x) { x.classList.toggle("on", x.getAttribute("data-k") === k); });
-    $("svs-info").innerHTML = "<h4>" + s.n + "</h4><p><b>Plain meaning:</b> " + s.p + "</p><p><b>Exam definition:</b> " + s.d + "</p><p><b>Example:</b> " + s.e + "</p>";
-    var n = Object.keys(svsSeen).length;
-    OMNI.say("svs-cap", "You opened <b>" + s.n + "</b>. " + (k === "od" ? "This is the SVS input: everything starts with opportunity or demand." : k === "val" ? "This is the SVS output: value, co-created with the consumer." : "This is one of the five SVS components that sit between the input and the output.") + " You have explored " + n + " of 7 parts." + (n === 7 ? " That's all of them: input → five components → value." : ""));
-  }
-  OMNI.say("svs-cap", "The SVS takes opportunity and demand in on the left and produces value on the right. Click a part to explore it.");
 
-  /* ===== Lab 2: Value chain builder ===== */
-  var ACT = ["Plan", "Improve", "Engage", "Design and transition", "Obtain/build", "Deliver and support"];
-  var SCEN = [
-    { n: "New hire needs a laptop", d: "HR tells IT that a new employee starts Monday and needs a laptop with standard software.",
-      model: ["Engage", "Deliver and support", "Obtain/build", "Deliver and support", "Engage"],
-      rules: [
-        function (s) { return s[0] === "Engage" ? null : "Start with <b>Engage</b>: the request arrives through the service desk or portal."; },
-        function (s) { return s.indexOf("Obtain/build") >= 0 ? null : "Include <b>Obtain/build</b>: the laptop has to come from stock or be bought and imaged."; },
-        function (s) { return s.indexOf("Deliver and support") >= 0 ? null : "Include <b>Deliver and support</b>: the request is logged, fulfilled and handed over."; },
-        function (s) { return s.length < 8 ? null : "Keep it simple: a standard request rarely needs more than five or six steps."; }
-      ],
-      why: "This is a standard service request. Engage (request received), deliver and support (logged and routed), obtain/build (take a laptop from stock and image it), deliver and support (deliver and set up), engage (confirm the user is happy and close). Plan and design and transition are not needed because the offering already exists. If the request is common, automating it is 'optimize and automate'." },
-    { n: "Website outage", d: "The online store is down for all customers on a Saturday morning.",
-      model: ["Engage", "Deliver and support", "Obtain/build", "Design and transition", "Deliver and support", "Engage", "Improve"],
-      rules: [
-        function (s) { return s[0] === "Engage" || s[0] === "Deliver and support" ? null : "Begin with <b>Engage</b> (customers or monitoring report the outage) or <b>Deliver and support</b> (operations detect it)."; },
-        function (s) { return s.indexOf("Deliver and support") >= 0 ? null : "<b>Deliver and support</b> is essential: that's where incident management restores service."; },
-        function (s) { return s.indexOf("Plan") < 0 || s.indexOf("Plan") > s.indexOf("Deliver and support") ? null : "Don't start with <b>Plan</b>: restore service first; planning comes later."; },
-        function (s) { return s[s.length - 1] === "Improve" ? null : "End with <b>Improve</b>: a post-incident review (and maybe a problem record) stops it happening again."; }
-      ],
-      why: "A major incident value stream: engage (reports arrive), deliver and support (incident management diagnoses and works around), obtain/build and design and transition (if a fix or rollback must be built, tested and deployed as an emergency change), deliver and support (service restored), engage (customers told), improve (post-incident review, problem management). If a rollback is enough, obtain/build can be skipped." },
-    { n: "Business wants a new feature", d: "Marketing asks for customers to be able to save items to a wish list on the website.",
-      model: ["Engage", "Plan", "Design and transition", "Obtain/build", "Design and transition", "Deliver and support", "Improve"],
-      rules: [
-        function (s) { return s[0] === "Engage" ? null : "Start with <b>Engage</b>: understand what marketing actually needs."; },
-        function (s) { return s.indexOf("Plan") >= 0 ? null : "Include <b>Plan</b>: priority, budget and roadmap fit must be agreed."; },
-        function (s) { return s.indexOf("Design and transition") >= 0 && s.indexOf("Obtain/build") >= 0 ? null : "A new feature needs both <b>Design and transition</b> and <b>Obtain/build</b>."; },
-        function (s) { var b = s.indexOf("Obtain/build"), d = s.lastIndexOf("Deliver and support"); return d > b ? null : "<b>Deliver and support</b> should come after the feature is built and transitioned."; }
-      ],
-      why: "A new-service value stream: engage (requirements), plan (prioritize, fund), design and transition (design), obtain/build (develop and test), design and transition (release and deploy), deliver and support (live use and support), improve (measure use and feedback). In an Agile team this loop repeats in short iterations: 'progress iteratively with feedback'." }
-  ];
-  var vcS = 0, vcSeq = [];
-  SCEN.forEach(function (s, i) { var b = h("button", { type: "button" }, s.n); b.onclick = function () { vcS = i; vcSeq = []; vcDraw(); OMNI.say("vc-cap", "New scenario. Build the value stream from the six activities."); }; $("vc-scen").appendChild(b); });
-  ACT.forEach(function (a) { var b = h("button", { type: "button" }, "+ " + a); b.onclick = function () { if (vcSeq.length < 12) { vcSeq.push(a); vcDraw(); } }; $("vc-acts").appendChild(b); });
-  function vcDraw() {
-    OMNI.$$("#vc-scen button").forEach(function (b, i) { b.classList.toggle("on", i === vcS); });
-    $("vc-desc").innerHTML = "<b>" + SCEN[vcS].n + ":</b> " + SCEN[vcS].d;
-    var st = $("vc-stream"); st.innerHTML = "";
-    if (!vcSeq.length) st.appendChild(h("span", { class: "figcap" }, "Your value stream will appear here."));
-    vcSeq.forEach(function (a, i) { if (i) st.appendChild(h("span", { class: "arrow", "aria-hidden": "true" }, "→")); st.appendChild(h("span", { class: "step" }, (i + 1) + ". " + a)); });
-  }
-  $("vc-undo").onclick = function () { vcSeq.pop(); vcDraw(); };
-  $("vc-clear").onclick = function () { vcSeq = []; vcDraw(); };
-  $("vc-check").onclick = function () {
-    var sc = SCEN[vcS];
-    if (vcSeq.length < 2) { OMNI.say("vc-cap", "Add at least two activities first."); return; }
-    var notes = sc.rules.map(function (r) { return r(vcSeq); }).filter(Boolean);
-    OMNI.say("vc-cap", (notes.length ? "Nearly. " + notes.join(" ") : "Good value stream: it meets all the key checks for this scenario.") + "<br><b>Why:</b> " + sc.why + "<br><small>There is no single correct answer in ITIL; value streams vary between organizations. These checks look for the essential activities and a sensible order.</small>");
-  };
-  $("vc-show").onclick = function () { vcSeq = SCEN[vcS].model.slice(); vcDraw(); OMNI.say("vc-cap", "Model answer loaded. " + SCEN[vcS].why); };
-  vcDraw(); OMNI.say("vc-cap", "Pick a scenario, then click activities in order to build a value stream.");
+  /* Lab 2: SOC alert triage */
+  OMNI.trainer("tr-host", { cap: "tr-cap", label: "alerts",
+    intro: "Read each alert like a SIEM ticket. Choose: close as a false positive, investigate further, or escalate as an incident now.",
+    items: [
+      { s: "<h4>⚠ Impossible travel</h4><p>User <b>m.osei</b> signed in from Manchester at 09:02 and from Lagos at 09:20. Both logins passed MFA. HR records show m.osei is on approved leave in Lagos and used a VPN exit in Manchester for the first login.</p>", o: ["Close as false positive and note the VPN cause", "Escalate as a confirmed account compromise", "Disable every account in the company"], a: 0, x: "The VPN explains the 'impossible' travel and MFA passed. Close it, document why, and suggest tuning the rule to recognise the company VPN ranges." },
+      { s: "<h4>⚠ Ransomware behaviour</h4><p>EDR on file server <b>HL-FS02</b>: 4,800 files renamed to <code>.lockd</code> in 3 minutes by <code>svchost32.exe</code> (unsigned, running from a user temp folder). A ransom note file appeared in several shares.</p>", o: ["Escalate immediately and isolate the server", "Wait an hour to see if it stops", "Close: file renames are normal"], a: 0, x: "Mass renaming plus a ransom note is a true positive. Isolate the host (EDR network containment), escalate to incident response, and preserve evidence. Minutes matter." },
+      { s: "<h4>⚠ Brute force</h4><p>2,100 failed logins to the VPN portal in 10 minutes for 600 different usernames from one IP. <b>No successful logins</b>. The IP is on a threat-intel list of password-spraying sources.</p>", o: ["Investigate: block the IP, check for any later success, confirm MFA coverage", "Close: nothing succeeded, so it doesn't matter", "Escalate as a major breach"], a: 0, x: "It's malicious (a password spray) but not yet a breach. Block the source, confirm no account later succeeded, check MFA is enforced on the VPN, and watch for the same pattern from new IPs." },
+      { s: "<h4>⚠ Malware detected and quarantined</h4><p>Antivirus on laptop <b>HL-LT-117</b> quarantined <code>invoice_8812.xlsm</code> from the Downloads folder. The file was <b>never opened</b>. No other alerts from the host.</p>", o: ["Investigate briefly: confirm quarantine, find the source email and remove copies from other inboxes", "Escalate as a full incident and reimage the laptop", "Ignore it completely"], a: 0, x: "The control worked, but the email may have reached others. Confirm quarantine, trace the phishing email, purge it from other mailboxes and block the sender: a quick investigation, not a major incident." },
+      { s: "<h4>⚠ Data upload</h4><p>DLP alert: user <b>j.kerr</b> uploaded 14 GB to a personal cloud storage site at 23:40. j.kerr resigned yesterday and leaves on Friday. Files include folders named <i>Customer_Contracts</i>.</p>", o: ["Escalate now: possible insider data theft", "Close: employees upload files all the time", "Email j.kerr and ask politely"], a: 0, x: "Volume, timing, a departing employee and sensitive files make this high-risk. Escalate to IR, HR and legal per policy. Don't tip off the user before the investigation team decides on next steps." },
+      { s: "<h4>⚠ New admin account</h4><p>A new Domain Admin account <b>svc_backup2</b> was created at 03:14 by the account <b>helpdesk-07</b>. There's no change ticket, and helpdesk staff aren't allowed to create admin accounts.</p>", o: ["Escalate now: likely privilege escalation and persistence", "Close: probably a backup job", "Wait for the weekly report"], a: 0, x: "An unauthorised privileged account at 3 a.m. with no change ticket matches ATT&CK Persistence and Privilege Escalation. Escalate, disable the new account per playbook, and investigate how helpdesk-07 got those rights." },
+      { s: "<h4>⚠ Port scan</h4><p>IDS: an internal host <b>10.20.5.44</b> scanned ports 1–1024 across the server subnet. The asset inventory shows 10.20.5.44 is the vulnerability scanner, and today is the scheduled scan window.</p>", o: ["Close as expected activity and tune the rule for the scanner", "Escalate as lateral movement", "Shut down the scanner permanently"], a: 0, x: "Authorised scanning is expected. Close it, document why, and add an exception for the scanner during its scan window (but keep alerting if it scans outside the window)." },
+      { s: "<h4>⚠ Beaconing</h4><p>Workstation <b>HL-WS-221</b> connects to <code>cdn-update-check[.]top</code> every 60 seconds, ±2 seconds, sending small identical HTTPS requests. The domain was registered 4 days ago.</p>", o: ["Investigate and escalate: likely command-and-control beaconing", "Close: it's probably a software update", "Block all HTTPS traffic company-wide"], a: 0, x: "Very regular intervals to a newly registered, odd domain is a classic C2 sign. Isolate or closely monitor the host, block the domain, and look for the same domain on other machines." }
+    ]
+  });
 
-  /* ===== Lab 3: Sorter ===== */
-  var ZONES = [["inc", "Incident management"], ["prb", "Problem management"], ["chg", "Change enablement"], ["req", "Service request management"]];
-  var CARDS = [
-    ["The payroll app shows an error for every user in Finance.", "inc", "An unplanned interruption: restore service fast."],
-    ["Printers on floor 3 have jammed every Monday for six weeks; find out why.", "prb", "Recurring incidents point to an underlying cause."],
-    ["Upgrade the core switch firmware next Sunday night.", "chg", "Modifying infrastructure that affects services needs assessment and authorization."],
-    ["A user needs access to the Sales shared drive.", "req", "Access is a normal, pre-defined request."],
-    ["Analyse why the VPN keeps dropping after each update and document a workaround.", "prb", "Problem control: analysis and workarounds."],
-    ["Laptop won't power on; the user can't work.", "inc", "A failure affecting a user: incident."],
-    ["Apply a critical security patch today because the flaw is being actively exploited.", "chg", "An emergency change."],
-    ["Order a second monitor for a new designer.", "req", "Hardware from the catalogue: service request (may trigger a standard change)."],
-    ["Email is slow for everyone this morning.", "inc", "A reduction in service quality is also an incident."],
-    ["Add a new firewall rule to allow a partner's API traffic.", "chg", "Changes the configuration of a service component."],
-    ["Trend analysis shows 40% of tickets relate to one database; investigate the cause.", "prb", "Problem identification through trend analysis."],
-    ["Reset a forgotten password.", "req", "The classic service request (often self-service)."]
-  ];
-  var soDnd;
-  function soReset() {
-    var bank = $("so-bank"); bank.innerHTML = '<span class="zone-title">Unsorted</span>';
-    var Z = $("so-zones"); Z.innerHTML = "";
-    ZONES.forEach(function (z) { Z.appendChild(h("div", { class: "dropzone", "data-z": z[0], "aria-label": z[1] }, h("span", { class: "zone-title" }, z[1]))); });
-    OMNI.shuffle(CARDS.map(function (c, i) { return i; })).forEach(function (i) { bank.appendChild(h("span", { class: "chip", "data-id": String(i) }, CARDS[i][0])); });
-    if (soDnd) soDnd.refresh();
-    OMNI.say("so-cap", "Twelve cards to sort. Hint: ask \"Is something broken now?\" (incident), \"Why does it keep breaking?\" (problem), \"Are we altering something?\" (change), or \"Is this a normal ask?\" (request).");
-  }
-  soReset();
-  soDnd = OMNI.dnd($("lab-sort"), function () { OMNI.$$("#lab-sort .chip").forEach(function (c) { c.classList.remove("ok", "bad"); }); });
-  $("so-reset").onclick = soReset;
-  $("so-check").onclick = function () {
-    var right = 0, placed = 0, notes = [];
-    OMNI.$$("#so-zones .dropzone").forEach(function (z) {
-      OMNI.$$(".chip", z).forEach(function (c) {
-        placed++; var cd = CARDS[+c.dataset.id], ok = cd[1] === z.dataset.z;
-        c.classList.toggle("ok", ok); c.classList.toggle("bad", !ok);
-        if (ok) right++; else notes.push("“" + esc(cd[0]) + "” belongs in <b>" + ZONES.filter(function (x) { return x[0] === cd[1]; })[0][1] + "</b>: " + esc(cd[2]));
-      });
-    });
-    OMNI.say("so-cap", right + " of " + placed + " placed cards are correct" + (placed < CARDS.length ? " (" + (CARDS.length - placed) + " still unsorted)" : "") + ". " + (notes.length ? notes.join(" ") : placed === CARDS.length ? "Perfect sort. Remember the links: incidents can raise problems, and problem fixes usually need changes." : ""));
-  };
+  /* Lab 3: ATT&CK mapper */
+  OMNI.sorter("at-host", { cap: "at-cap",
+    zones: [["ia", "Initial Access"], ["ex", "Execution"], ["pe", "Persistence"], ["ca", "Credential Access"], ["lm", "Lateral Movement"], ["im", "Impact"]],
+    items: [
+      ["Employee opens a phishing email attachment", "ia", "phishing is how the attacker first got in (T1566)."],
+      ["Attacker logs in to an exposed RDP server with a bought password", "ia", "using valid accounts on an external service is an Initial Access technique."],
+      ["Macro launches a PowerShell script", "ex", "running scripts is Command and Scripting Interpreter (T1059)."],
+      ["Malware runs from a scheduled task every hour", "pe", "scheduled tasks are used to keep access after reboots (T1053)."],
+      ["A new hidden local admin account is created", "pe", "creating accounts keeps access (T1136)."],
+      ["Passwords are dumped from LSASS memory", "ca", "OS credential dumping (T1003)."],
+      ["Attacker tries common passwords against all users", "ca", "password spraying is brute force (T1110)."],
+      ["Attacker uses stolen admin credentials to RDP into the file server", "lm", "moving to other systems with remote services (T1021)."],
+      ["Files on shared drives are encrypted and a ransom note left", "im", "Data Encrypted for Impact (T1486)."],
+      ["Backups and shadow copies are deleted", "im", "Inhibit System Recovery (T1490) to make ransomware worse."]
+    ],
+    intro: "Each card is one step from a ransomware attack. Put it under the ATT&CK tactic (the attacker's goal) it serves.",
+    done: "All correct! Mapping events to ATT&CK lets a SOC see where in the attack it detected the intruder, and which tactics it has no detections for yet."
+  });
 
-  /* ===== Lab 4: Guiding principle matcher ===== */
-  var GP = ["Focus on value", "Start where you are", "Progress iteratively with feedback", "Collaborate and promote visibility", "Think and work holistically", "Keep it simple and practical", "Optimize and automate"];
-  var STORIES = [
-    ["Before replacing the ticketing tool, the manager sits with agents for a day to see how they really use the current one.", 1, "Observing the current state directly and reusing what works is 'start where you are'."],
-    ["The team asks customers which parts of the monthly report they actually read, and drops the rest.", 0, "Linking the work to what consumers value is 'focus on value'. (Dropping unused content also shows 'keep it simple'.)"],
-    ["A new self-service portal launches for one office first; feedback shapes the next release before the global rollout.", 2, "Small steps with feedback loops: 'progress iteratively with feedback'."],
-    ["Development, operations and security share one board showing every change and where it is stuck.", 3, "Working across teams and making work visible: 'collaborate and promote visibility'."],
-    ["Before changing the backup schedule, the team checks the impact on network load, the database team, the supplier contract and the DR plan.", 4, "Considering the whole system: 'think and work holistically'."],
-    ["An approval step that no manager has ever rejected in three years is removed.", 5, "Removing steps that add no value: 'keep it simple and practical'."],
-    ["After cutting the onboarding form from 40 fields to 12, the team scripts account creation so it runs automatically.", 6, "Optimize first, then automate: 'optimize and automate'."]
-  ];
-  var gpOrder;
-  function gpReset() {
-    gpOrder = OMNI.shuffle(STORIES.map(function (s, i) { return i; }));
-    var L = $("gp-list"); L.innerHTML = "";
-    gpOrder.forEach(function (si, k) {
-      var sel = h("select", { "aria-label": "Principle for story " + (k + 1), "data-s": String(si) }, [h("option", { value: "" }, "Choose a principle…")].concat(GP.map(function (g, gi) { return h("option", { value: String(gi) }, g); })));
-      L.appendChild(h("div", { class: "story" }, [h("div", null, (k + 1) + ". " + STORIES[si][0]), sel, h("div", { class: "fb" })]));
-    });
-    OMNI.say("gp-cap", "Match each story to the principle it best shows. Several principles can apply to one story; pick the strongest.");
-  }
-  gpReset();
-  $("gp-reset").onclick = gpReset;
-  $("gp-check").onclick = function () {
-    var right = 0, answered = 0;
-    OMNI.$$("#gp-list .story").forEach(function (d) {
-      var sel = d.querySelector("select"), st = STORIES[+sel.dataset.s], fb = d.querySelector(".fb");
-      d.classList.remove("ok", "bad"); fb.textContent = "";
-      if (sel.value === "") return;
-      answered++; var ok = +sel.value === st[1]; if (ok) right++;
-      d.classList.add(ok ? "ok" : "bad");
-      fb.innerHTML = (ok ? "✓ " : "✗ Best answer: <b>" + GP[st[1]] + "</b>. ") + st[2];
-    });
-    OMNI.say("gp-cap", right + " of " + answered + " answered correctly" + (answered < STORIES.length ? " (" + (STORIES.length - answered) + " left)" : "") + ". " + (right === STORIES.length ? "All seven! On the exam, look for the key phrase: 'already exists' → start where you are; 'small steps' → iteratively; 'visible' → collaborate; 'whole' → holistically; 'remove' → simple; 'automate' → optimize and automate." : "Read the explanations under each story."));
-  };
-
-  /* ===== Lab 5: Service desk simulator ===== */
-  var PM = [[1, 2, 3], [2, 3, 4], [3, 4, 5]]; // impact row × urgency col → priority (1 highest)
-  var PNAME = { 1: "P1 Critical", 2: "P2 High", 3: "P3 Medium", 4: "P4 Low", 5: "P5 Planning" };
-  var CALLS = [
-    { who: "Priya, Accounts Payable", msg: "None of us in Finance can open the payments system. We have to release supplier payments by 3 pm today!", type: "incident", cat: "Business application", imp: 1, urg: 0, act: ["escalate"], why: "A whole department (medium impact) with an imminent deadline (high urgency) gives P2. The service desk can't fix an application fault, so escalate to the application team; keep Finance updated." },
-    { who: "Tom, new starter", msg: "Hi, could I get access to the Marketing shared drive? No rush, sometime this week is fine.", type: "request", cat: "Accounts and access", imp: 2, urg: 2, act: ["first"], why: "A normal access request: service request, one user, can wait (P5 planning). Fulfil at first line using the standard approval workflow." },
-    { who: "Monitoring alert + 30 calls", msg: "The online store checkout is failing for all customers. Calls are flooding in.", type: "incident", cat: "Business application", imp: 0, urg: 0, act: ["major"], why: "All customers and lost revenue: high impact, high urgency = P1. Declare a major incident: separate procedure, dedicated team, regular communications." },
-    { who: "Luis, Sales", msg: "I forgot my password and I'm locked out. I have a client call in 20 minutes.", type: "request", cat: "Accounts and access", imp: 2, urg: 0, act: ["first"], why: "A password reset is a service request (some organizations log lockouts as incidents; either is defensible, but ITIL lists password resets as requests). One user, urgent: P3. Resolve at first line or point to self-service reset." },
-    { who: "Grace, HR", msg: "I clicked a link in an email about my 'parcel' and entered my login. Now my mailbox is sending messages I didn't write.", type: "incident", cat: "Security", imp: 1, urg: 0, act: ["security"], why: "A likely compromised account spreading phishing: treat it as a security incident. Impact could spread fast, so at least P2. Hand to the security incident procedure (disable sessions, reset credentials) rather than handling it as a normal ticket." },
-    { who: "Ahmed, Warehouse", msg: "My second monitor flickers sometimes. It's annoying but I can still work.", type: "incident", cat: "Hardware", imp: 2, urg: 2, act: ["first", "escalate"], why: "Degraded quality for one user who can keep working: incident, low impact, low urgency (P5). Try first-line fixes (cable, settings); escalate to desktop support for a swap if needed." }
-  ];
+  /* Lab 4: patch priority */
   (function () {
-    var t = $("sd-mx"), U = ["High", "Medium", "Low"];
-    var head = h("tr", null, [h("th", null, "Impact ↓ / Urgency →")].concat(U.map(function (u) { return h("th", null, u); })));
-    t.appendChild(head);
-    ["High", "Medium", "Low"].forEach(function (im, r) { t.appendChild(h("tr", null, [h("th", null, im)].concat(PM[r].map(function (p, c) { return h("td", { class: "p" + Math.min(4, p), "data-rc": r + "-" + c }, PNAME[p]); })))); });
+    var V = [
+      { n: "VPN appliance remote code execution", cvss: 9.8, kev: true, net: true, crit: true },
+      { n: "Web server path traversal", cvss: 7.5, kev: true, net: true, crit: false },
+      { n: "Lab test server OpenSSL flaw", cvss: 9.1, kev: false, net: false, crit: false },
+      { n: "HR database privilege escalation", cvss: 7.8, kev: false, net: false, crit: true },
+      { n: "Intranet wiki cross-site scripting", cvss: 5.4, kev: false, net: false, crit: false }
+    ];
+    V.forEach(function (v) { v.score = v.cvss + (v.kev ? 6 : 0) + (v.net ? 3 : 0) + (v.crit ? 2 : 0); });
+    var ideal = V.slice().sort(function (a, b) { return b.score - a.score; });
+    var order = OMNI.shuffle(V);
+    function draw(marks) {
+      $("pp-list").innerHTML = "";
+      order.forEach(function (v, i) {
+        var li = h("li", { class: marks ? (ideal[i] === v ? "ok" : "bad") : "" }, [
+          h("span", { class: "pos" }, String(i + 1)),
+          h("div", null, [h("b", null, v.n), h("div", { class: "meta" }, "CVSS " + v.cvss + " · " + (v.kev ? "in CISA KEV (actively exploited)" : "not in KEV") + " · " + (v.net ? "internet-facing" : "internal only") + " · " + (v.crit ? "critical asset" : "low-value asset"))]),
+          h("span", null, [h("button", { type: "button", "aria-label": "Move up", disabled: i === 0, onclick: function () { var t = order[i - 1]; order[i - 1] = v; order[i] = t; draw(); } }, "▲"), " ", h("button", { type: "button", "aria-label": "Move down", disabled: i === order.length - 1, onclick: function () { var t = order[i + 1]; order[i + 1] = v; order[i] = t; draw(); } }, "▼")])
+        ]);
+        $("pp-list").appendChild(li);
+      });
+    }
+    $("pp-check").onclick = function () {
+      var right = order.filter(function (v, i) { return ideal[i] === v; }).length; draw(true);
+      OMNI.say("pp-cap", right === V.length ? "Perfect order! You weighed <b>active exploitation</b> and <b>internet exposure</b> above raw CVSS. The VPN flaw is exploited, exposed and critical; the web server flaw is exploited and exposed; the HR database is critical but internal; the lab OpenSSL flaw scores high but is isolated; the wiki XSS is low on every measure." : right + " of " + V.length + " in the expert position (green). Expert order: " + ideal.map(function (v, i) { return (i + 1) + ". " + v.n; }).join("; ") + ". The key idea: actively exploited (KEV) and internet-facing flaws come before higher CVSS scores on isolated systems.");
+    };
+    $("pp-shuffle").onclick = function () { order = OMNI.shuffle(V); draw(); OMNI.say("pp-cap", "Shuffled. Rank them again: think about who can reach each system and whether attackers are already using the flaw."); };
+    draw();
+    OMNI.say("pp-cap", "Five vulnerabilities, limited time. Rank them by real-world risk, not just the CVSS number.");
   })();
-  var sdI = 0, sdScore = 0, sdDone = {};
-  function sdLoad() {
-    var c = CALLS[sdI];
-    $("sd-call").innerHTML = '<div class="who">📞 Call ' + (sdI + 1) + " of " + CALLS.length + ": " + esc(c.who) + '</div><div class="msg">“' + esc(c.msg) + "”</div>";
-    ["sd-type", "sd-cat", "sd-imp", "sd-urg", "sd-act"].forEach(function (id) { $(id).value = ""; $(id).disabled = !!sdDone[sdI]; });
-    $("sd-submit").disabled = !!sdDone[sdI];
-    var Q = $("sd-queue"); Q.innerHTML = "";
-    CALLS.forEach(function (x, i) { Q.appendChild(h("span", { class: (i === sdI ? "now " : "") + (sdDone[i] ? "done" : "") }, "Call " + (i + 1))); });
-    sdHit(); OMNI.say("sd-cap", "Read the call, then work through steps 1 to 5 and submit the ticket.");
-  }
-  function sdHit() {
-    OMNI.$$("#sd-mx td").forEach(function (td) { td.classList.toggle("hit", td.dataset.rc === $("sd-imp").value + "-" + $("sd-urg").value); });
-  }
-  $("sd-imp").onchange = sdHit; $("sd-urg").onchange = sdHit;
-  $("sd-submit").onclick = function () {
-    var c = CALLS[sdI], v = { type: $("sd-type").value, cat: $("sd-cat").value, imp: $("sd-imp").value, urg: $("sd-urg").value, act: $("sd-act").value };
-    if (!v.type || !v.cat || v.imp === "" || v.urg === "" || !v.act) { OMNI.say("sd-cap", "Complete all five steps first: log type, category, impact, urgency and action."); return; }
-    var pts = 0, notes = [];
-    var pYou = PM[+v.imp][+v.urg], pExp = PM[c.imp][c.urg];
-    if (v.type === c.type) pts++; else notes.push("Log it as a <b>" + (c.type === "incident" ? "incident" : "service request") + "</b>.");
-    if (v.cat === c.cat) pts++; else notes.push("Category: <b>" + c.cat + "</b>.");
-    if (Math.abs(pYou - pExp) <= 0) pts += 2; else if (Math.abs(pYou - pExp) === 1) { pts += 1; notes.push("Priority close: you chose " + PNAME[pYou] + ", expected " + PNAME[pExp] + "."); } else notes.push("Priority: you chose " + PNAME[pYou] + ", expected <b>" + PNAME[pExp] + "</b>.");
-    if (c.act.indexOf(v.act) >= 0) pts++; else notes.push("Action: <b>" + $("sd-act").querySelector('option[value="' + c.act[0] + '"]').textContent + "</b>.");
-    sdScore += pts; sdDone[sdI] = 1;
-    $("sd-score").textContent = "Score: " + sdScore + " / " + Object.keys(sdDone).length * 5;
-    ["sd-type", "sd-cat", "sd-imp", "sd-urg", "sd-act"].forEach(function (id) { $(id).disabled = true; }); $("sd-submit").disabled = true;
-    $("sd-queue").children[sdI].classList.add("done");
-    OMNI.say("sd-cap", "Ticket logged: " + pts + " of 5 points. " + (notes.length ? notes.join(" ") + " " : "Spot on. ") + "<br><b>Why:</b> " + c.why + (Object.keys(sdDone).length === CALLS.length ? "<br><b>Queue cleared!</b> Final score " + sdScore + " / " + CALLS.length * 5 + ". Note how priority came from impact × urgency, not from who shouted loudest or who called first." : ""));
-  };
-  $("sd-next").onclick = function () { sdI = (sdI + 1) % CALLS.length; sdLoad(); };
-  $("sd-restart").onclick = function () { sdI = 0; sdScore = 0; sdDone = {}; $("sd-score").textContent = ""; sdLoad(); };
-  sdLoad();
 })();
 </script>
 <!-- module-data:start -->
-<script type="application/json" id="module-data">{"module":19,"title":"Running IT as a Service","glossary":[["Service","Something useful done for someone, without them owning the costs and risks.","A means of enabling value co-creation by facilitating outcomes that customers want to achieve, without the customer having to manage specific costs and risks.",""],["Product","A packaged set of resources an organization offers.","A configuration of an organization's resources designed to offer value for a consumer.",""],["Service offering","What exactly the customer gets: goods, access and actions.","A formal description of one or more services, designed to address the needs of a target consumer group; may include goods, access to resources and service actions.",""],["Value","How useful and important something is to someone.","The perceived benefits, usefulness and importance of something.",""],["Value co-creation","Value is made together by provider and consumer.","The ITIL 4 view that value is created jointly through active collaboration between providers and consumers.",""],["Output","What the provider produces.","A tangible or intangible deliverable of an activity.",""],["Outcome","What the customer actually achieves.","A result for a stakeholder enabled by one or more outputs.",""],["Utility","Fit for purpose: what it does.","The functionality offered by a product or service to meet a particular need.",""],["Warranty","Fit for use: how well it does it.","Assurance that a product or service will meet agreed requirements (availability, capacity, security, continuity).",""],["Customer","The person who defines the requirements.","A person who defines the requirements for a service and takes responsibility for the outcomes of service consumption.",""],["User","The person who uses the service.","A person who uses services.",""],["Sponsor","The person who approves the budget.","A person who authorizes budget for service consumption.",""],["Service relationship","The working partnership between provider and consumer.","A cooperation between a service provider and service consumer, including service provision, service consumption and service relationship management.",""],["Four dimensions","Four viewpoints you must cover for any service.","Organizations and people; information and technology; partners and suppliers; value streams and processes.",""],["PESTLE","Outside forces that affect all four dimensions.","Political, economic, social, technological, legal and environmental external factors.","Political, Economic, Social, Technological, Legal, Environmental"],["Service value system","The whole ITIL machine that turns demand into value.","A model showing how all components and activities of an organization work together to enable value creation.","SVS"],["Service value chain","Six activities you combine to deliver value.","An operating model of six interconnected activities: plan, improve, engage, design and transition, obtain/build, deliver and support.","SVC"],["Value stream","A specific path through the value chain for one scenario.","A series of steps an organization undertakes to create and deliver products and services to consumers.",""],["Guiding principle","Advice that applies in every situation.","A recommendation that guides an organization in all circumstances, regardless of changes in its goals, strategies, type of work or management structure.",""],["Governance","Direction and control from the top.","The means by which an organization is directed and controlled (evaluate, direct, monitor).",""],["Practice","A set of resources for doing a type of work.","A set of organizational resources designed for performing work or accomplishing an objective.",""],["Incident","Something broke or got worse.","An unplanned interruption to a service or reduction in the quality of a service.",""],["Major incident","A big outage that gets a special procedure.","An incident with significant business impact, requiring a separate procedure, often with a dedicated team.",""],["Problem","The hidden cause behind incidents.","A cause, or potential cause, of one or more incidents.",""],["Known error","A problem we've analyzed but not fixed yet.","A problem that has been analyzed but has not been resolved.",""],["Workaround","A way to reduce the impact until the real fix.","A solution that reduces or eliminates the impact of an incident or problem for which a full resolution is not yet available.",""],["Change","Adding, modifying or removing something that matters.","The addition, modification or removal of anything that could have a direct or indirect effect on services.",""],["Standard change","Low-risk, pre-approved, done often.","A low-risk, pre-authorized change that is well understood and fully documented; implemented without additional authorization.",""],["Normal change","A change that needs assessment and authorization.","A change that must be scheduled, assessed and authorized following a standard process.",""],["Emergency change","Must be done as soon as possible.","A change that must be implemented as soon as possible, e.g., to resolve an incident or implement a security patch; may use a separate change authority.",""],["Change authority","The person or group who approves a change.","A person or group responsible for authorizing a change; ITIL 4 decentralizes this rather than using a single CAB for everything.",""],["CAB","A committee that reviews changes.","Change advisory board: a traditional group that advises on or authorizes changes; in ITIL 4, one possible change authority.","Change Advisory Board"],["Service request","An ordinary ask, not a failure.","A request from a user that initiates a service action agreed as a normal part of service delivery (e.g., a password reset, a laptop, information).",""],["Service desk","The single point of contact for users.","The practice that captures demand for incident resolution and service requests; the entry point and single point of contact between the provider and all users.","SPOC"],["SLA","Written agreement on service targets with a customer.","Service level agreement: a documented agreement between a service provider and a customer that identifies services required and the expected level of service.","Service Level Agreement"],["OLA","Internal agreement between teams.","Operational level agreement between internal parts of the same organization supporting an SLA (an ITIL term not emphasized in the ITIL 4 Foundation glossary).","Operational Level Agreement"],["UC","Contract with an outside supplier.","Underpinning contract: a contract with an external supplier that supports the provider's service levels.","Underpinning Contract"],["Watermelon SLA","Green outside, red inside.","A situation where SLA metrics are met but customers are still unhappy, because metrics don't reflect real outcomes.",""],["Continual improvement model","Seven steps to improve anything.","Vision, where are we now, where do we want to be, how do we get there, take action, did we get there, how do we keep the momentum going.",""],["Impact","How much it hurts the business.","A measure of the effect of an incident on business processes (users affected, revenue, safety).",""],["Urgency","How fast it needs fixing.","How quickly an incident must be resolved to avoid business impact.",""],["Priority","Impact plus urgency decide the order of work.","The relative importance of an incident, usually derived from a matrix of impact and urgency.",""],["Swarming","Many experts tackle a ticket together.","An incident management technique where people with different expertise work together on an incident until it is clear who is best placed to continue.",""],["Configuration item","Anything tracked because it supports a service.","Any component that needs to be managed in order to deliver an IT service.","CI"],["ITIL (Version 5)","The 2026 update of ITIL.","PeopleCert's update to ITIL launched in February 2026, reframing ITIL as digital product and service management, with a Product and Service Lifecycle Model and added AI guidance (verify on peoplecert.org).","ITIL 5"]],"quiz":[{"t":"mc","q":"Which term describes 'the perceived benefits, usefulness and importance of something'?","o":["Outcome","Value","Utility","Output"],"a":1,"w":["An outcome is a result for a stakeholder.","Correct: the ITIL 4 definition of value.","Utility is the functionality offered.","An output is a deliverable of an activity."],"x":"Value is subjective and is co-created by provider and consumer.","c":"ITIL","d":"1.1 Key concepts: value"},{"t":"mc","sc":"A finance director approves the money for a new payroll service. The HR manager defined what the service must do. Payroll clerks log in to it every day.","q":"Which role does the finance director have?","o":["Customer","User","Sponsor","Supplier"],"a":2,"w":["The HR manager is the customer: defines requirements.","The clerks are users.","Correct: authorizes budget.","A supplier provides goods or services to the provider."],"x":"Customer defines requirements, user uses, sponsor pays (authorizes budget). One person can hold several roles.","c":"ITIL","d":"1.2 Key concepts: roles"},{"t":"mc","q":"Which guiding principle recommends assessing what already exists before building something new?","o":["Focus on value","Start where you are","Optimize and automate","Keep it simple and practical"],"a":1,"w":["About knowing who the value is for.","Correct: observe current state directly and reuse what works.","About maximizing value of work, then automating.","About removing unnecessary steps."],"x":"Don't start from scratch without considering what is already available to be leveraged.","c":"ITIL","d":"2.1 Guiding principles"},{"t":"mc","sc":"A team plans to automate a 14-step approval workflow. An analyst points out that 6 of the steps add nothing and should be removed first.","q":"Which guiding principle is being applied?","o":["Optimize and automate","Collaborate and promote visibility","Progress iteratively with feedback","Think and work holistically"],"a":0,"w":["Correct: optimize first (simplify), then automate.","About involving the right people and making work visible.","About small steps with feedback.","About seeing the whole system."],"x":"Automating a bad process just makes mistakes faster. 'Keep it simple and practical' also fits removal of waste, but the automate context points to optimize and automate.","c":"ITIL","d":"2.1 Guiding principles"},{"t":"mc","q":"Which of the four dimensions includes workflows, value streams and how activities are coordinated?","o":["Organizations and people","Information and technology","Partners and suppliers","Value streams and processes"],"a":3,"w":["Covers culture, roles, skills and structures.","Covers data, tools and technology.","Covers relationships with other organizations.","Correct."],"x":"All four dimensions apply to every service and to the SVS as a whole; PESTLE factors influence them.","c":"ITIL","d":"3.1 Four dimensions"},{"t":"mc","q":"What is the input to the ITIL service value system?","o":["Value","Opportunity and demand","Governance","Practices"],"a":1,"w":["Value is the output.","Correct.","Governance is a component inside the SVS.","Practices are a component inside the SVS."],"x":"Opportunity and demand → SVS (guiding principles, governance, service value chain, practices, continual improvement) → value.","c":"ITIL","d":"4.1 Service value system"},{"t":"mc","q":"Which value chain activity provides the main interface with users and other stakeholders?","o":["Plan","Engage","Deliver and support","Obtain/build"],"a":1,"w":["Creates shared understanding of vision and direction.","Correct: understanding needs, transparency, good relationships.","Ensures services are delivered and supported to specification.","Ensures components are available when needed."],"x":"Engage handles demand coming in and communication going out.","c":"ITIL","d":"5.1 Service value chain"},{"t":"mc","q":"What is the purpose of the information security management practice?","o":["To protect the information needed by the organization to conduct its business","To ensure services achieve agreed availability","To set clear business-based targets for service levels","To maximize the number of successful changes"],"a":0,"w":["Correct.","That's availability management.","That's service level management.","That's change enablement."],"x":"Foundation expects you to recognize the purpose of 15 practices.","c":"ITIL","d":"6.1 Practices: purpose"},{"t":"mc","q":"Which practice has the purpose of ensuring accurate and reliable information about the configuration of services and the CIs that support them is available when needed?","o":["IT asset management","Service configuration management","Deployment management","Monitoring and event management"],"a":1,"w":["Plans and manages the full lifecycle of IT assets (value, cost, risk).","Correct.","Moves components into live environments.","Observes services and records state changes."],"x":"Configuration management cares about relationships between CIs; asset management cares about financial lifecycle.","c":"ITIL","d":"6.1 Practices: purpose"},{"t":"mc","q":"What is the purpose of incident management?","o":["To minimize the negative impact of incidents by restoring normal service operation as quickly as possible","To find and remove the causes of incidents","To handle all pre-defined user-initiated requests","To capture demand and act as a single point of contact"],"a":0,"w":["Correct.","That's problem management.","That's service request management.","That's the service desk."],"x":"Incident = restore fast; problem = find the cause.","c":"ITIL","d":"7.3 Incident management"},{"t":"mc","q":"Which is a phase of problem management?","o":["Error control","Change scheduling","Request fulfilment","Event correlation"],"a":0,"w":["Correct: problem identification, problem control, error control.","Part of change enablement.","Part of service request management.","Part of monitoring and event management."],"x":"Error control manages known errors, including workarounds and possible permanent fixes.","c":"ITIL","d":"7.4 Problem management"},{"t":"mc","q":"Which type of change is low risk, pre-authorized and typically initiated as a service request?","o":["Normal change","Emergency change","Standard change","Major change"],"a":2,"w":["Needs assessment and authorization each time.","Must be done ASAP; expedited authorization.","Correct.","Not an ITIL 4 change type."],"x":"Standard changes have a risk assessment done once, when the procedure is created.","c":"ITIL","d":"7.2 Change enablement"},{"t":"mc","q":"How should timescales for service requests be set?","o":["Agreed and based on what the organization can realistically deliver","Always as short as possible","Set by the service desk agent for each request","Identical for every request type"],"a":0,"w":["Correct: expectations should be clear and realistic.","Unrealistic promises damage trust.","Should be standardized, not ad hoc.","Different requests have different steps."],"x":"Service requests should be standardized and automated as much as possible, with clear policies on what can be fulfilled with limited or no approvals.","c":"ITIL","d":"7.5 Service request management"},{"t":"mc","q":"Which statement about the service desk is correct?","o":["It should be highly technical so it can resolve every incident itself","It needs practical understanding of the wider organization, the business processes and the users","It is always a physical team in a single location","It only handles incidents, not requests"],"a":1,"w":["Agents need empathy and business understanding, not only deep tech skills.","Correct.","Can be virtual, follow-the-sun, or use self-service and chatbots.","Handles incidents and service requests."],"x":"The focus is on support for people and the business, not just technical issues.","c":"ITIL","d":"7.6 Service desk"},{"t":"mc","q":"Which approach does service level management use to make sure targets reflect what customers actually experience?","o":["Only measure system uptime","Engage customers to understand and confirm their needs, and capture business metrics and feedback","Let technical teams set targets they find easy to meet","Avoid measuring to save effort"],"a":1,"w":["Single technical metrics cause the 'watermelon effect'.","Correct.","Targets should be based on business needs.","SLM needs metrics and feedback."],"x":"SLAs should relate to defined outcomes, not just operational metrics.","c":"ITIL","d":"7.7 Service level management"}],"flashcards":[["Service (ITIL 4)","Enables value co-creation by facilitating outcomes customers want, without them managing specific costs and risks"],["Output vs outcome","Deliverable of an activity vs result for a stakeholder"],["Utility vs warranty","Fit for purpose (what it does) vs fit for use (how well: availability, capacity, security, continuity)"],["Customer / user / sponsor","Defines requirements / uses the service / authorizes budget"],["Service offering contents","Goods, access to resources, service actions"],["Service relationship management","Joint activities by provider and consumer to ensure continual value co-creation"],["Four dimensions","Organizations and people; information and technology; partners and suppliers; value streams and processes"],["PESTLE","Political, economic, social, technological, legal, environmental"],["SVS components","Guiding principles, governance, service value chain, practices, continual improvement"],["SVS input and output","Opportunity and demand → value"],["Value chain activities","Plan, improve, engage, design and transition, obtain/build, deliver and support"],["The 7 guiding principles","Focus on value; start where you are; progress iteratively with feedback; collaborate and promote visibility; think and work holistically; keep it simple and practical; optimize and automate"],["Continual improvement model (7 steps)","Vision? Where are we now? Where do we want to be? How do we get there? Take action. Did we get there? Keep the momentum going"],["Incident vs problem","Restore service fast vs find and manage the cause"],["Problem management phases","Problem identification, problem control, error control"],["Known error","A problem analyzed but not yet resolved"],["Three change types","Standard (pre-authorized), normal (assessed and authorized), emergency (ASAP)"],["Change authority","Person or group who authorizes a change; decentralized in ITIL 4"],["Purpose of change enablement","Maximize successful changes by ensuring risks are assessed, changes authorized and the schedule managed"],["Service request examples","Password reset, new laptop, access, information, feedback"],["Service desk","Single point of contact; captures demand for incidents and requests"],["SLA vs OLA vs UC","With customer vs between internal teams vs with external supplier"],["Watermelon SLA","Green metrics, red customer experience"],["Priority","Impact × urgency"],["ITIL 4 Foundation exam (verify)","40 multiple choice, 60 minutes, closed book, pass 65% (26/40)"],["ITIL (Version 5)","Launched Feb 2026: digital product and service management; 8-activity Product and Service Lifecycle Model (verify)"]]}</script>
+<script type="application/json" id="module-data">{"module":19,"title":"Cyber Security Careers","glossary":[["Security operations center","The team that watches for attacks around the clock.","A team and facility that monitors, detects, analyses and responds to security events, often 24/7.","SOC"],["SOC analyst tiers","Levels of SOC staff from first look to deep investigation.","Tier 1 triages alerts, Tier 2 investigates and responds, Tier 3 hunts threats and handles complex incidents.",""],["SIEM","A system that collects logs and raises alerts.","Security Information and Event Management: aggregates, normalises and correlates logs to detect threats and support investigations.","Security Information and Event Management"],["SOAR","Tools that automate SOC responses.","Security Orchestration, Automation and Response: runs playbooks that enrich alerts and take response actions automatically.","Security Orchestration, Automation and Response"],["EDR","Security software that watches each computer closely.","Endpoint Detection and Response: records endpoint activity, detects malicious behaviour and enables isolation and investigation.","Endpoint Detection and Response"],["XDR","EDR extended across network, cloud and email.","Extended Detection and Response: correlates telemetry from endpoints, network, cloud, identity and email.","Extended Detection and Response"],["True positive","A real attack correctly flagged.","An alert that correctly identifies malicious activity.",""],["False positive","A false alarm.","An alert raised for benign activity.",""],["False negative","A real attack that was missed.","Malicious activity that generated no alert; the most dangerous error.",""],["Threat hunting","Proactively searching for hidden attackers.","Hypothesis-driven searching through data for threats that evaded automated detection.",""],["Threat intelligence","Knowledge about attackers and their methods.","Evidence-based information about threats (actors, TTPs, indicators) used to inform defence.","CTI"],["Indicator of compromise","A clue that a system was attacked.","An artefact such as a malicious IP, domain, file hash or registry key indicating intrusion.","IoC"],["TTPs","How attackers operate.","Tactics, techniques and procedures: the behaviour patterns of threat actors.","Tactics, Techniques and Procedures"],["MITRE ATT&CK","A big public map of attacker techniques.","A knowledge base of adversary tactics and techniques based on real-world observations (14 Enterprise tactics).",""],["Cyber Kill Chain","The seven stages of an attack.","Lockheed Martin model: reconnaissance, weaponization, delivery, exploitation, installation, command and control, actions on objectives.",""],["Diamond Model","Four corners of an intrusion.","Analysis model linking adversary, capability, infrastructure and victim for each event.",""],["CVE","An ID number for a known vulnerability.","Common Vulnerabilities and Exposures: a public catalogue of uniquely identified vulnerabilities (e.g., CVE-2021-44228).","Common Vulnerabilities and Exposures"],["CVSS","A 0–10 severity score for vulnerabilities.","Common Vulnerability Scoring System; base metrics include attack vector, complexity, privileges, user interaction and impact (v3.1 and v4.0).","Common Vulnerability Scoring System"],["KEV catalog","CISA's list of vulnerabilities attackers are actually using.","CISA Known Exploited Vulnerabilities catalog; a strong signal for patch priority.","Known Exploited Vulnerabilities"],["EPSS","A score for how likely a vulnerability is to be exploited soon.","Exploit Prediction Scoring System: probability of exploitation in the next 30 days.","Exploit Prediction Scoring System"],["Compensating control","A different safeguard when the normal fix isn't possible.","An alternative control that reduces risk when the primary control can't be applied (e.g., isolate an unpatchable server).",""],["Penetration test","An authorised, simulated attack to find weaknesses.","A scoped, permitted exercise that exploits vulnerabilities to demonstrate real risk, followed by a report.","Pentest"],["Rules of engagement","The written permission and limits for a test.","Document defining scope, timing, methods, contacts and legal authorisation for security testing.","RoE"],["Red / blue / purple team","Attackers, defenders, and both working together.","Red emulates adversaries, blue defends and detects, purple combines both to improve detections.",""],["MTTD / MTTR","How fast we spot and fix incidents.","Mean time to detect and mean time to respond (or recover); key SOC metrics.",""],["Playbook","Step-by-step instructions for a type of incident.","A documented, repeatable response procedure, e.g., for phishing or ransomware; often automated in SOAR.",""],["Capture the flag","A legal hacking competition or practice game.","Security challenges where participants find hidden 'flags' by solving puzzles or exploiting deliberately vulnerable systems.","CTF"],["DoD 8140","US Defense rules for cyber workforce qualifications.","Department of Defense directive (replacing 8570) defining cyber work roles and qualifying certifications (verify current lists).",""]],"quiz":[{"t":"mc","q":"A Tier 1 SOC analyst's main job is to:","o":["Triage incoming alerts and escalate real incidents","Write the company security strategy","Perform full malware reverse engineering","Approve the security budget"],"a":0,"w":["Correct.","CISO or GRC.","Usually Tier 3 or a specialist.","Management."],"x":"Tier 2 investigates and responds; Tier 3 hunts and handles complex cases.","c":"CYSA","d":"1.3 Security operations processes"},{"t":"mc","q":"Which tool collects logs from many sources and correlates them to raise alerts?","o":["SIEM","Hypervisor","Load balancer","Password manager"],"a":0,"w":["Correct.","Runs VMs.","Distributes traffic.","Stores passwords."],"x":"SOAR then automates the response steps.","c":"CYSA","d":"1.3 Security operations processes"},{"t":"mc","q":"An alert fires for a login from another country, but it's the employee on approved travel using MFA. This is a:","o":["False positive","True positive","False negative","True negative"],"a":0,"w":["Correct: the alert fired on benign activity.","Would mean a real attack.","A missed attack.","No alert on benign activity."],"x":"Tune rules (e.g., with travel data) to cut false positives without creating false negatives.","c":"CYSA","d":"1.2 Indicators of malicious activity"},{"t":"order","q":"Put the Lockheed Martin Cyber Kill Chain in order.","o":["Reconnaissance","Weaponization","Delivery","Exploitation","Installation","Command and control","Actions on objectives"],"x":"Break the chain as early as possible.","c":"CYSA","d":"1.4 Threat intelligence and frameworks"},{"t":"mc","q":"Which framework catalogues real-world attacker tactics and techniques, such as T1566 Phishing?","o":["MITRE ATT&CK","ITIL 4","ISO 9001","TOGAF"],"a":0,"w":["Correct.","Service management.","Quality.","Enterprise architecture."],"x":"ATT&CK helps map detections and find coverage gaps.","c":"CYSA","d":"1.4 Threat intelligence and frameworks"},{"t":"mc","sc":"Two vulnerabilities: A is CVSS 9.8 on an isolated lab server with no network access. B is CVSS 7.5 on an internet-facing web server and is listed in CISA's KEV catalog.","q":"Which should be patched FIRST?","o":["B, because it is exposed and actively exploited","A, because it has the higher CVSS score","Neither; wait for the next quarterly patch cycle","Both at the same time next year"],"a":0,"w":["Correct: exposure plus known exploitation beats raw score.","CVSS alone ignores context.","Too slow for an actively exploited flaw.","Far too slow."],"x":"Prioritise using CVSS + exploitation (KEV, EPSS) + exposure + asset criticality.","c":"CYSA","d":"2.3 Prioritizing vulnerabilities"},{"t":"mc","q":"What should be in place BEFORE a penetration test starts?","o":["Written authorisation and agreed rules of engagement","A public announcement","Disabled logging","The attacker's tools installed on production"],"a":0,"w":["Correct: without permission it's illegal.","No.","Never.","No."],"x":"Scope, timing, contacts and legal sign-off protect everyone.","c":"S","d":"4.3 Penetration testing"},{"t":"mc","q":"Which entry-level certification from ISC2 is aimed at people new to cyber security?","o":["Certified in Cybersecurity (CC)","CISSP","CCSP","CSSLP"],"a":0,"w":["Correct.","Needs 5 years' experience.","Cloud, advanced.","Secure software, advanced."],"x":"ISC2 has offered free CC training and exams under its '1 Million Certified' programme (verify).","c":"GEN","d":"0 General"},{"t":"mc","q":"Which CompTIA certification focuses on hands-on penetration testing and vulnerability assessment?","o":["PenTest+","CySA+","Network+","A+"],"a":0,"w":["Correct (PT0-003).","Defensive analyst.","Networking.","Support."],"x":"OSCP (OffSec) is a respected, very hands-on alternative.","c":"GEN","d":"0 General"},{"t":"mc","q":"Which certification requires five years of paid work in two or more of its eight domains?","o":["CISSP","Security+","ISC2 CC","CySA+"],"a":0,"w":["Correct (a degree or other cert can waive one year; verify).","No experience requirement.","Entry level.","Recommended experience only."],"x":"Pass without the experience and you become an Associate of ISC2 until you earn it.","c":"GEN","d":"0 General"},{"t":"mc","q":"A SOC wants to measure how long attackers go unnoticed. Which metric?","o":["Mean time to detect (MTTD)","Mean time between failures","Recovery point objective","Uptime percentage"],"a":0,"w":["Correct.","Hardware reliability.","Backup data loss tolerance.","Availability."],"x":"MTTR measures how fast the team responds or recovers.","c":"CYSA","d":"4.2 Incident response reporting"},{"t":"mc","q":"During incident response, the analyst isolates an infected laptop from the network. Which phase is this?","o":["Containment","Preparation","Lessons learned","Detection"],"a":0,"w":["Correct.","Before incidents.","After recovery.","Before containment."],"x":"NIST phases: preparation; detection and analysis; containment, eradication and recovery; post-incident activity.","c":"CYSA","d":"3.2 Incident response activities"},{"t":"mc","q":"What is the BEST legal way to practise hacking skills?","o":["Your own lab VMs, CTFs and training platforms designed for it","Scanning your neighbour's Wi-Fi","Testing a company website without permission to 'help' them","Trying passwords on a friend's account"],"a":0,"w":["Correct.","Illegal without permission.","Illegal without permission.","Illegal."],"x":"Laws such as the US Computer Fraud and Abuse Act and the UK Computer Misuse Act apply even with good intentions.","c":"GEN","d":"0 General"}],"flashcards":[["SOC shift handover","The outgoing team explains open cases and issues to the incoming team."],["Alert tuning","Adjusting rules to cut false positives without hiding real threats."],["Legal place to practise attacks","Your own lab or a platform built for it (CTFs, training ranges)."],["SOC tiers","T1 triage · T2 investigate/respond · T3 hunt and complex incidents"],["SIEM vs SOAR","Collect and correlate logs, raise alerts vs automate response playbooks"],["EDR vs XDR","Endpoint detection and response vs extended across network, cloud, email, identity"],["True / false positive / false negative","Real attack flagged / false alarm / missed attack (worst)"],["Kill Chain (7)","Recon, weaponize, deliver, exploit, install, C2, actions on objectives"],["MITRE ATT&CK","Public knowledge base of adversary tactics and techniques"],["Diamond Model","Adversary, capability, infrastructure, victim"],["CVE / CVSS / KEV / EPSS","ID / 0–10 severity / known exploited list / exploit probability"],["Patch priority","Exploited (KEV) + exposed + critical asset first, not CVSS alone"],["MTTD / MTTR","Mean time to detect / respond (recover)"],["NIST IR phases","Prepare → Detect & analyse → Contain, eradicate, recover → Post-incident"],["Red / blue / purple","Attack / defend / work together"],["Entry certs","ISC2 CC, CompTIA Security+, Google Cybersecurity Certificate"],["Analyst certs","CySA+, GIAC GCIH/GCIA, Blue Team Level 1, SC-200"],["Offensive certs","PenTest+, OSCP, CEH, GIAC GPEN"],["Advanced / management","CISSP, CISM, CISA, SecurityX (formerly CASP+), CCSP"],["Cloud security certs","AWS Security Specialty, CCSP, Azure AZ-500"],["CySA+ CS0-003 format","Up to 85 q · 165 min · 750/900 · 33/30/20/17%"],["CISSP requirement","5 years in 2+ of 8 domains (or Associate of ISC2)"],["Legal practice","Own lab, CTFs, training platforms, written permission only"]]}</script>
 <!-- module-data:end -->
 </body>
 </html>

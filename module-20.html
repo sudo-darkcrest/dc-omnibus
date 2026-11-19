@@ -3,32 +3,18 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Module 20 · Frameworks That Run the Enterprise: Governance, Risk and Compliance | Datacenter Omnibus</title>
-<meta name="description" content="Governance vs management, RACI, COBIT 2019, ISO 27001/27002, ISO 31000, ISO 22301, NIST CSF 2.0, SP 800-53, RMF, CIS Controls, SOC 2, PCI DSS, HIPAA, SOX, GDPR, the policy hierarchy, quantitative and qualitative risk, KRIs and maturity models, with five labs.">
+<title>Module 20 · Cloud, Virtualization, Containers and Storage | Datacenter Omnibus</title>
+<meta name="description" content="Hypervisors, containers, Kubernetes, serverless, infrastructure as code, cloud service and deployment models, shared responsibility, cloud networking and security, and DAS/NAS/SAN with block, file and object storage. Five labs.">
 <link rel="stylesheet" href="assets/omnibus.css">
 <style>
   .seg { display: flex; flex-wrap: wrap; gap: 4px; }
   .seg button.on { background: var(--accent); color: #fff; border-color: var(--accent); }
-  .fwgroups { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; }
-  @media (max-width: 700px) { .fwgroups { grid-template-columns: 1fr 1fr; } }
-  .fwgroup { border: 1px solid var(--line); border-radius: 10px; padding: 8px; background: var(--surface); }
-  .fwgroup h4 { margin: 0 0 6px; font-size: .9rem; }
-  .fwgroup button { display: block; width: 100%; margin: 4px 0; text-align: left; font-size: .85rem; }
-  .fwgroup button.on { background: var(--accent); color: #fff; border-color: var(--accent); }
-  .info { border: 1px solid var(--line); border-radius: 10px; padding: 12px; background: var(--surface); margin-top: 8px; }
-  .info h4 { margin: 0 0 6px; }
-  .metric { font-size: 1.5rem; font-weight: 800; line-height: 1.1; }
-  .raci td, .raci th { padding: 4px 6px; font-size: .86rem; }
-  .raci select { font-size: .86rem; padding: 2px 4px; }
-  .raci tr.flag td:first-child { box-shadow: inset 4px 0 0 var(--bad); }
-  .raci .note { font-size: .8rem; color: var(--bad); }
-  .csf-rows label { display: grid; grid-template-columns: 9em 1fr 3em 1fr 3em; gap: 6px; align-items: center; font-size: .88rem; margin: 4px 0; }
-  @media (max-width: 700px) { .csf-rows label { grid-template-columns: 6.5em 1fr 2.2em 1fr 2.2em; } }
-  .map-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
-  @media (max-width: 700px) { .map-grid { grid-template-columns: 1fr 1fr; } }
-  .map-grid .dropzone { min-height: 86px; }
-  .chip.ok { border-color: var(--good); background: var(--good-soft); }
-  .chip.bad { border-color: var(--bad); background: var(--bad-soft); }
+  .bar { height: 18px; background: var(--surface-2); border-radius: 4px; overflow: hidden; border: 1px solid var(--line); }
+  .bar i { display: block; height: 100%; }
+  .metric { font-size: 1.6rem; font-weight: 800; line-height: 1.1; }
+  .wl { display: flex; flex-wrap: wrap; gap: 6px; }
+  .wl button.on { background: var(--accent); color: #fff; border-color: var(--accent); }
+  .stor-res { border: 1px solid var(--line); border-radius: 10px; padding: 12px; background: var(--surface); margin-top: 8px; }
 </style>
 </head>
 <body data-module="20">
@@ -37,16 +23,16 @@
 <main class="page" id="main">
 
 <section class="intro">
-  <div class="kicker">Part 5 · Service, Governance and Audit · Module 20</div>
-  <h1>Frameworks That Run the Enterprise: Governance, Risk and Compliance</h1>
-  <p class="why"><b>Why this matters.</b> Firewalls and patches only work when someone decides what to protect, how much risk is acceptable, who is accountable and how to prove it to regulators and customers. That is governance, risk and compliance (GRC). This module is the bridge from technical security to the management view of CISM (Certified Information Security Manager; Module 21) and the assurance view of CISA (Certified Information Systems Auditor; Module 22), and it covers all of Security+ domain 5.</p>
+  <div class="kicker">Part 5 · Cloud, Data Center and AI · Module 20</div>
+  <h1>Cloud, Virtualization, Containers and Storage</h1>
+  <p class="why"><b>Why this matters.</b> Almost every workload today runs on a hypervisor, in a container, in someone's cloud, or all three, and every one of them stores data somewhere. These ideas show up in A+ (virtualization and cloud), Network+ (cloud networking), Security+ (architecture models and shared responsibility) and data center work (storage, density, power for virtualized hosts). This module connects them so you can tell which layer you own and which one you rent.</p>
   <h3>You will be able to</h3>
   <ul class="outcomes">
-    <li>Separate governance from management and assign roles with a RACI (Responsible, Accountable, Consulted, Informed) chart.</li>
-    <li>Explain what COBIT (Control Objectives for Information and Related Technologies), ISO (International Organization for Standardization) 27001/27002, ISO 31000/27005, ISO 22301, ISO 20000, NIST (National Institute of Standards and Technology) CSF (Cybersecurity Framework) 2.0, SP (Special Publication) 800-53, the RMF (Risk Management Framework), CIS (Center for Internet Security) Controls, SOC (System and Organization Controls) 2, PCI (Payment Card Industry) DSS (Data Security Standard), HIPAA (Health Insurance Portability and Accountability Act), SOX (Sarbanes-Oxley Act) and GDPR (General Data Protection Regulation) are each for.</li>
-    <li>Place documents in the policy hierarchy: policies, standards, procedures, guidelines and baselines.</li>
-    <li>Run qualitative and quantitative risk analysis (SLE (Single Loss Expectancy), ARO (Annualized Rate of Occurrence), ALE (Annualized Loss Expectancy)) and decide whether a control is worth its cost.</li>
-    <li>Use risk appetite, tolerance, capacity, KRIs (Key Risk Indicator), KPIs (Key Performance Indicator), KGIs (Key Goal Indicator), risk registers and maturity models to report to leadership.</li>
+    <li>Explain Type 1 vs Type 2 hypervisors, overcommit, live migration and HA (High Availability) clusters.</li>
+    <li>Compare containers and VMs (Virtual Machine), and describe Kubernetes, serverless, microservices, IaC and CI/CD (Continuous Integration / Continuous Delivery).</li>
+    <li>Choose cloud service and deployment models and say who secures what under shared responsibility.</li>
+    <li>Design basic cloud networks with VPCs (Virtual Private Cloud), subnets, security groups, NACLs (Network Access Control List) and gateways.</li>
+    <li>Pick DAS (Direct-Attached Storage), NAS (Network Attached Storage) or SAN (Storage Area Network) and block, file or object storage, and reason about replication and RPO (Recovery Point Objective).</li>
   </ul>
   <nav class="jumpnav" id="jumpnav" aria-label="On this page"></nav>
 </section>
@@ -56,172 +42,239 @@
   <div id="certmap-badges"></div>
 </section>
 
-<section class="lesson" id="governance">
-  <h2>1. Governance vs management</h2>
-  <figure class="fig"><svg id="gov-fig" viewBox="0 0 760 262" width="760" role="img" aria-label="Governance layers from board to operational teams"></svg>
-  <figcaption class="figcap">Governance sets direction and checks results; management plans and runs the work within that direction.</figcaption></figure>
-  <div class="tablewrap"><table>
-    <thead><tr><th></th><th>Governance</th><th>Management</th></tr></thead>
-    <tbody>
-      <tr><td><b>Question</b></td><td>Are we doing the right things?</td><td>Are we doing things right?</td></tr>
-      <tr><td><b>Who</b></td><td>Board of directors, executive leadership</td><td>CIO (Chief Information Officer), CISO (Chief Information Security Officer), managers and teams</td></tr>
-      <tr><td><b>Activities (COBIT)</b></td><td><b>E</b>valuate, <b>D</b>irect, <b>M</b>onitor</td><td><b>P</b>lan, <b>B</b>uild, <b>R</b>un, <b>M</b>onitor</td></tr>
-      <tr><td><b>Outputs</b></td><td>Strategy, risk appetite, policies, oversight</td><td>Programs, projects, controls, operations, metrics</td></tr>
-    </tbody></table></div>
-  <ul>
-    <li><b>Board of directors</b>: accountable to shareholders; approves strategy and risk appetite; often uses an audit committee and a risk committee.</li>
-    <li><b>Executive management</b> (CEO, CFO, CIO, CISO): turns direction into plans and reports back.</li>
-    <li><b>Steering committee</b>: senior cross-functional group that prioritizes and funds programs (an IT (Information Technology) or security steering committee).</li>
-    <li><b>Data roles</b>: <b>owner</b> (accountable business manager, classifies data), <b>custodian/steward</b> (implements controls day to day), <b>controller</b> and <b>processor</b> (privacy law roles: who decides why and how data is processed vs who processes on their behalf).</li>
-  </ul>
-  <h3 id="raci">RACI charts</h3>
-  <div class="tablewrap"><table>
-    <thead><tr><th>Letter</th><th>Meaning</th><th>Rule</th></tr></thead>
-    <tbody>
-      <tr><td><b>R</b>esponsible</td><td>Does the work</td><td>At least one per task</td></tr>
-      <tr><td><b>A</b>ccountable</td><td>Owns the outcome, signs off, "the buck stops here"</td><td><b>Exactly one</b> per task</td></tr>
-      <tr><td><b>C</b>onsulted</td><td>Gives input before or during (two-way)</td><td>Keep the list short</td></tr>
-      <tr><td><b>I</b>nformed</td><td>Kept up to date (one-way)</td><td>Any number</td></tr>
-    </tbody></table></div>
-</section>
-
-<section class="lesson" id="frameworks">
-  <h2>2. Frameworks, standards and laws</h2>
-  <p>Frameworks answer different questions. Explore them in Lab 1.</p>
-  <div class="tablewrap"><table>
-    <thead><tr><th>Name</th><th>Purpose</th><th>Certifiable?</th></tr></thead>
-    <tbody>
-      <tr><td><b>COBIT 2019</b> (ISACA)</td><td>Governance and management of enterprise IT: 40 objectives in five domains (EDM, APO, BAI, DSS, MEA), design factors, capability levels</td><td>People only (COBIT Foundation); organizations are assessed, not certified</td></tr>
-      <tr><td><b>ISO/IEC (IEC: International Electrotechnical Commission) 27001:2022</b></td><td>Requirements for an ISMS (Information Security Management System; clauses 4–10, PDCA (Plan-Do-Check-Act)) plus Annex A: 93 controls in four themes (organizational 37, people 8, physical 14, technological 34)</td><td>Yes, organizations</td></tr>
-      <tr><td><b>ISO/IEC 27002:2022</b></td><td>Implementation guidance for the same 93 controls</td><td>No</td></tr>
-      <tr><td><b>ISO 31000 / ISO/IEC 27005</b></td><td>General risk management principles / information security risk management</td><td>No</td></tr>
-      <tr><td><b>ISO 22301</b></td><td>Business continuity management system (BCMS)</td><td>Yes</td></tr>
-      <tr><td><b>ISO/IEC 20000-1</b></td><td>Service management system (aligned with ITIL (Information Technology Infrastructure Library), Module 19)</td><td>Yes</td></tr>
-      <tr><td><b>NIST CSF 2.0</b> (2024)</td><td>Common language of cybersecurity outcomes: six functions (Govern, Identify, Protect, Detect, Respond, Recover), categories, current and target profiles, tiers 1–4</td><td>No (voluntary)</td></tr>
-      <tr><td><b>NIST SP 800-53 Rev. 5</b></td><td>Catalogue of security and privacy controls in 20 families (AC (Access Control), AU (Audit and Accountability), CM (Configuration Management), IR (Incident Response)…); mandatory for US federal systems</td><td>No (FedRAMP uses it)</td></tr>
-      <tr><td><b>NIST SP 800-37 (RMF)</b></td><td>Prepare, Categorize, Select, Implement, Assess, Authorize, Monitor</td><td>Systems receive an authorization to operate (ATO)</td></tr>
-      <tr><td><b>CIS Controls v8.1</b></td><td>18 prioritized technical safeguards with Implementation Groups IG1 (basic hygiene) to IG3</td><td>No</td></tr>
-      <tr><td><b>SOC 2</b> (AICPA)</td><td>CPA (Certified Public Accountant) attestation report on a service organization's controls against the Trust Services Criteria; Type I (design, point in time) or Type II (operating effectiveness over 6–12 months)</td><td>A report, not a certificate</td></tr>
-      <tr><td><b>PCI DSS v4.0.1</b></td><td>Contractual standard for anyone storing, processing or transmitting payment card data; 12 requirements</td><td>Validated by a QSA (Qualified Security Assessor) or self-assessment (SAQ)</td></tr>
-      <tr><td><b>HIPAA</b> (US law)</td><td>Privacy, Security and Breach Notification Rules for protected health information (PHI)</td><td>No; regulators enforce</td></tr>
-      <tr><td><b>SOX</b> (US law)</td><td>Section 404: management and auditor assessment of internal control over financial reporting; IT general controls (access, change, operations)</td><td>No; external auditors attest</td></tr>
-      <tr><td><b>GDPR</b> (EU (European Union) law)</td><td>Personal data protection: lawful basis, data subject rights, DPIAs (Data Protection Impact Assessment), DPOs (Data Protection Officer), 72-hour breach notice, fines up to €20M or 4% of global turnover. Similar laws: UK GDPR, CCPA/CPRA (CCPA: California Consumer Privacy Act; CPRA: California Privacy Rights Act; California), LGPD (Lei Geral de Proteção de Dados, Brazil's data protection law; Brazil), PIPEDA (Personal Information Protection and Electronic Documents Act; Canada)</td><td>No; supervisory authorities enforce</td></tr>
-    </tbody></table></div>
-  <div class="callout trap">"NIST CSF certification." There isn't one. ISO 27001 certifies an organization's ISMS; NIST CSF is a voluntary framework you align with or assess against.</div>
-</section>
-
-<section class="lesson" id="policy">
-  <h2>3. The policy hierarchy</h2>
-  <figure class="fig"><svg id="pol-fig" viewBox="0 0 760 240" width="760" role="img" aria-label="Pyramid of policy, standards, procedures with guidelines and baselines beside it"></svg></figure>
-  <div class="tablewrap"><table>
-    <thead><tr><th>Document</th><th>Mandatory?</th><th>Example</th></tr></thead>
-    <tbody>
-      <tr><td><b>Policy</b></td><td>Yes; high level, approved by senior management, rarely changes</td><td>"All remote access to company systems must be strongly authenticated."</td></tr>
-      <tr><td><b>Standard</b></td><td>Yes; specific, measurable</td><td>"Remote access requires phishing-resistant MFA (Multifactor Authentication; FIDO2 (Fast Identity Online 2))."</td></tr>
-      <tr><td><b>Baseline</b></td><td>Yes; minimum configuration for a system type</td><td>"Windows 11 laptops follow the CIS Level 1 benchmark."</td></tr>
-      <tr><td><b>Procedure</b></td><td>Yes; step by step</td><td>"How to enroll a security key: 1. Open the portal…"</td></tr>
-      <tr><td><b>Guideline</b></td><td>No; recommended</td><td>"Consider a password manager for personal accounts."</td></tr>
-    </tbody></table></div>
-</section>
-
-<section class="lesson" id="risk">
-  <h2>4. Risk management in depth</h2>
-  <p><b>Risk</b> = the chance that a <b>threat</b> exploits a <b>vulnerability</b> in an <b>asset</b>, causing <b>impact</b>. Risk is usually expressed as <b>likelihood × impact</b>.</p>
+<section class="lesson" id="virt">
+  <h2>1. Virtualization in depth</h2>
   <div class="grid2">
-    <div class="tile"><h4>Qualitative analysis</h4><p>Ratings such as low/medium/high or 1–5 scales for likelihood and impact, plotted on a heat map. Fast and easy to communicate, but subjective.</p></div>
-    <div class="tile"><h4>Quantitative analysis</h4><p>Money and numbers: <b>SLE = AV (Asset Value) × EF (Exposure Factor)</b>, <b>ALE = SLE × ARO</b>. Supports cost-benefit decisions, but needs reliable data.</p></div>
+    <div class="tile"><h4>Type 1 (bare metal)</h4><p>The hypervisor runs directly on hardware: VMware ESXi, Microsoft Hyper-V, KVM (Keyboard, Video, Mouse), Xen. Used in data centers and clouds. Less overhead, stronger isolation.</p></div>
+    <div class="tile"><h4>Type 2 (hosted)</h4><p>Runs as an app on a normal OS (Operating System): VirtualBox, VMware Workstation, Parallels. Good for labs and desktops.</p></div>
   </div>
-  <figure class="fig"><svg id="ale-fig" viewBox="0 0 760 120" width="760" role="img" aria-label="Formula chain from asset value to ALE"></svg></figure>
-  <div class="callout detail">A control is worth it when <b>(ALE before − ALE after) − annual cost of the control &gt; 0</b>. Annual cost includes licences, staff time and maintenance. Try it in Lab 2.</div>
-  <div class="tablewrap"><table>
-    <thead><tr><th>Term</th><th>Meaning</th></tr></thead>
-    <tbody>
-      <tr><td><b>Risk appetite</b></td><td>Broad amount and type of risk the organization is willing to pursue (set by the board): "We have a low appetite for regulatory risk."</td></tr>
-      <tr><td><b>Risk tolerance</b></td><td>Acceptable variation for a specific objective: "No more than 4 hours of downtime per quarter for the store."</td></tr>
-      <tr><td><b>Risk capacity</b></td><td>The maximum loss the organization could absorb before failing</td></tr>
-      <tr><td><b>Inherent / residual risk</b></td><td>Before controls / after controls. Residual must sit within appetite or be formally accepted</td></tr>
-      <tr><td><b>Treatment</b></td><td>Mitigate (reduce), transfer/share (insurance, outsourcing), avoid (stop the activity), accept (document and monitor)</td></tr>
-      <tr><td><b>Risk register</b></td><td>The list of risks: ID (Identification), description, owner, likelihood, impact, inherent and residual rating, treatment, due date, status</td></tr>
-      <tr><td><b>Risk owner</b></td><td>The business manager accountable for the risk and authorized to decide treatment</td></tr>
-      <tr><td><b>KRI / KPI / KGI</b></td><td>Key risk indicator (leading warning, e.g., % of servers unpatched > 30 days) / key performance indicator (how well a process runs, e.g., mean time to patch) / key goal indicator (lagging: was the goal reached, e.g., zero critical audit findings)</td></tr>
-    </tbody></table></div>
-  <h3 id="thirdparty">Third-party and supply chain risk</h3>
-  <p>Lifecycle: <b>due diligence</b> (questionnaires, SOC 2 reports, ISO certificates, financial health) → <b>contract</b> (security requirements, right to audit, breach notification time, SLAs (Service Level Agreement), data return and deletion) → <b>onboarding</b> → <b>ongoing monitoring</b> (reassessments, security ratings) → <b>offboarding</b> (revoke access, confirm data destruction). Agreements you may see: MSA (Master Service Agreement), SOW (Statement of Work), SLA, NDA (Non-Disclosure Agreement), MOU/MOA (MOU: Memorandum of Understanding; MOA: Memorandum of Agreement), BPA (Blanket Purchase Agreement). Software supply chain controls include SBOMs (Software Bill of Materials) and vendor patch commitments.</p>
+  <ul>
+    <li><b>vCPU (Virtual Central Processing Unit)</b>: a virtual processor scheduled onto physical cores/threads. <b>Overcommit</b> means assigning more vCPUs (or RAM (Random Access Memory)) than physically exist, betting not all VMs peak at once. A common starting vCPU:pCPU ratio is about 3:1 to 4:1 for general workloads; databases get less. Too much overcommit shows up as CPU (Central Processing Unit) ready time and memory ballooning/swapping.</li>
+    <li><b>Live migration</b> (vMotion, Hyper-V Live Migration) moves a running VM between hosts with no downtime, needing shared or replicated storage and fast networking.</li>
+    <li><b>HA cluster</b>: if a host fails, its VMs restart on surviving hosts (a short outage). <b>Fault tolerance</b> runs a shadow copy in lockstep for zero downtime. <b>DRS (Distributed Resource Scheduler)</b>-style balancing moves VMs to even out load.</li>
+    <li><b>Virtual switches</b> connect VMs to each other and to physical uplinks, supporting VLAN (Virtual Local Area Network) tagging, NIC (Network Interface Card) teaming and port groups. Distributed virtual switches span many hosts.</li>
+    <li><b>Snapshots</b> capture a VM's state for quick rollback; they are not backups (they depend on the base disk and slow things down if kept long).</li>
+    <li>Security: <b>VM escape</b>, VM sprawl (unmanaged VMs) and resource reuse are the risks; patch hypervisors and keep an inventory.</li>
+  </ul>
+  <div class="callout analogy">A hypervisor is an apartment building manager: one building (server), many apartments (VMs) each with its own front door and kitchen (OS). Containers are rooms in a shared house: everyone has a private room but shares the kitchen (kernel).</div>
 </section>
 
-<section class="lesson" id="metrics">
-  <h2>5. Metrics, reporting and maturity</h2>
-  <ul>
-    <li>Report to the <b>board</b> in business terms: risk trends against appetite, top risks and owners, compliance status, major incidents and their business impact, investment versus risk reduction.</li>
-    <li>Report to <b>operations</b> in technical terms: patch latency, vulnerability counts, alert volumes, MTTD (Mean Time To Detect) and MTTR (Mean Time To Repair).</li>
-    <li>Good metrics are <b>SMART</b>: specific, measurable, achievable, relevant, time-bound.</li>
-  </ul>
+<section class="lesson" id="containers">
+  <h2>2. Containers, orchestration and automation</h2>
   <div class="tablewrap"><table>
-    <thead><tr><th>CMMI-style level</th><th>Description</th></tr></thead>
+    <thead><tr><th>Concept</th><th>What it is</th></tr></thead>
     <tbody>
-      <tr><td>0 Incomplete / non-existent</td><td>Not performed (used by COBIT's capability scale)</td></tr>
-      <tr><td>1 Initial</td><td>Ad hoc, depends on heroes</td></tr>
-      <tr><td>2 Managed</td><td>Planned and tracked, but per project or team</td></tr>
-      <tr><td>3 Defined</td><td>Documented and standardized across the organization</td></tr>
-      <tr><td>4 Quantitatively managed</td><td>Measured and controlled with metrics</td></tr>
-      <tr><td>5 Optimizing</td><td>Continuous improvement driven by measurement</td></tr>
+      <tr><td><b>Image</b></td><td>A read-only template (layers of filesystem plus metadata) built from a Dockerfile/Containerfile and stored in a registry</td></tr>
+      <tr><td><b>Container</b></td><td>A running instance of an image: an isolated process sharing the host kernel (namespaces + cgroups). Starts in about a second</td></tr>
+      <tr><td><b>Kubernetes</b></td><td>Orchestrator that schedules containers across a cluster, restarts failures, scales and rolls out updates</td></tr>
+      <tr><td>Pod</td><td>Smallest Kubernetes unit: one or more containers sharing network and storage</td></tr>
+      <tr><td>Node</td><td>A worker machine (VM or physical) that runs pods; the control plane manages nodes</td></tr>
+      <tr><td>Service</td><td>A stable network name/IP (IP: Internet Protocol) that load-balances to a changing set of pods</td></tr>
+      <tr><td>Deployment</td><td>Declares how many replicas of a pod should run and handles rolling updates</td></tr>
+      <tr><td><b>Microservices</b></td><td>An app split into small independent services communicating over APIs (Application Programming Interface), each deployable on its own (vs a monolith)</td></tr>
+      <tr><td><b>Serverless / FaaS</b></td><td>Code runs as functions triggered by events; the provider manages servers and scaling; you pay per execution</td></tr>
+      <tr><td><b>Infrastructure as code</b></td><td>Infrastructure defined in files: <b>Terraform</b> (declarative provisioning), <b>Ansible</b> (configuration management, agentless over SSH (Secure Shell)), CloudFormation, Bicep</td></tr>
+      <tr><td><b>CI/CD</b></td><td>Continuous integration (build and test every change) and continuous delivery/deployment (automatically release it)</td></tr>
     </tbody></table></div>
+  <div class="callout trap">"Containers are as isolated as VMs." No: containers share the host kernel, so a kernel exploit can affect all of them. High-security multi-tenant workloads often run containers inside VMs.</div>
+</section>
+
+<section class="lesson" id="cloudmodels">
+  <h2>3. Cloud models and shared responsibility</h2>
+  <p>NIST (National Institute of Standards and Technology) SP (Special Publication) 800-145 defines cloud by five characteristics: <b>on-demand self-service</b>, <b>broad network access</b>, <b>resource pooling</b> (multitenancy), <b>rapid elasticity</b> and <b>measured service</b>.</p>
+  <div class="grid2">
+    <div class="tile"><h4>Service models</h4><ul>
+      <li><b>IaaS (Infrastructure as a Service)</b>: rent VMs, storage and networks; you manage OS and up (e.g., EC2 (Elastic Compute Cloud), Azure VMs).</li>
+      <li><b>PaaS (Platform as a Service)</b>: a managed platform; you deploy code and data (e.g., App Service, managed databases).</li>
+      <li><b>SaaS (Software as a Service)</b>: finished software (e.g., Microsoft 365, Salesforce).</li>
+      <li><b>FaaS</b>: serverless functions (e.g., Lambda, Azure Functions).</li>
+    </ul></div>
+    <div class="tile"><h4>Deployment models</h4><ul>
+      <li><b>Public</b>: shared provider infrastructure.</li>
+      <li><b>Private</b>: dedicated to one organization (on-prem or hosted).</li>
+      <li><b>Hybrid</b>: public plus private, connected and orchestrated.</li>
+      <li><b>Community</b>: shared by organizations with common needs (e.g., government).</li>
+      <li><b>Multi-cloud</b>: more than one public provider, for resilience or best-of-breed.</li>
+    </ul></div>
+  </div>
+  <ul>
+    <li><b>Regions</b> are geographic areas; <b>availability zones</b> are separate data centers (independent power, cooling, networking) within a region. Spread across AZs for high availability, across regions for disaster recovery.</li>
+    <li><b>Scalability</b>: the ability to grow (vertical = bigger instance, horizontal = more instances). <b>Elasticity</b>: growing <i>and shrinking</i> automatically with demand.</li>
+    <li><b>Cost basics</b>: pay-as-you-go (OpEx) vs buying hardware (CapEx); reserved/committed-use discounts; spot instances; <b>egress</b> (data out) charges; tagging for cost allocation; turn off idle resources.</li>
+  </ul>
+  <div class="callout std">Shared responsibility: the provider is always responsible for the physical data center; the customer is always responsible for their <b>data</b>, <b>identities and access</b>, and (in most models) how they configure the service. Everything in between shifts toward the provider from IaaS to PaaS to SaaS. Lab 1 shows it layer by layer.</div>
+</section>
+
+<section class="lesson" id="cloudnet">
+  <h2>4. Cloud networking</h2>
+  <figure class="figure">
+    <svg viewBox="0 0 740 250" width="740" role="img" aria-label="A VPC with public and private subnets in two availability zones, an internet gateway, a NAT gateway, and a VPN or direct connection to on-premises">
+      <g id="vpc-fig"></g>
+    </svg>
+    <figcaption>A typical VPC: public subnets hold load balancers and NAT; private subnets hold app servers and databases; on-premises connects through VPN (Virtual Private Network) or a dedicated link.</figcaption>
+  </figure>
+  <div class="tablewrap"><table>
+    <thead><tr><th>Component</th><th>Meaning</th></tr></thead>
+    <tbody>
+      <tr><td><b>VPC / VNet</b></td><td>Your private, isolated network in the cloud with your chosen IP range (e.g., 10.20.0.0/16)</td></tr>
+      <tr><td><b>Subnets</b></td><td>Public (route to an internet gateway) or private (no direct inbound internet)</td></tr>
+      <tr><td><b>Security group</b></td><td><b>Stateful</b>, attached to instances/NICs, <b>allow rules only</b>; return traffic automatically allowed</td></tr>
+      <tr><td><b>Network ACL (Access Control List)</b></td><td><b>Stateless</b>, attached to subnets, allow <b>and</b> deny rules, evaluated in number order; return traffic needs its own rule</td></tr>
+      <tr><td><b>Internet gateway</b></td><td>Lets public subnets reach and be reached from the internet</td></tr>
+      <tr><td><b>NAT gateway</b></td><td>Lets private instances start outbound connections (updates) without being reachable inbound</td></tr>
+      <tr><td><b>VPN / Direct Connect / ExpressRoute</b></td><td>Encrypted tunnel over the internet vs a private dedicated circuit to the provider (predictable latency, no internet path)</td></tr>
+      <tr><td><b>Peering / transit gateway</b></td><td>Connecting VPCs together</td></tr>
+      <tr><td><b>CDN (Content Delivery Network)</b></td><td>Caches content at edge locations close to users: faster delivery and DDoS absorption</td></tr>
+      <tr><td><b>NFV</b></td><td>Network functions virtualization: firewalls, routers and load balancers as software</td></tr>
+    </tbody></table></div>
+</section>
+
+<section class="lesson" id="cloudsec">
+  <h2>5. Cloud security</h2>
+  <ul>
+    <li><b>IAM (Identity and Access Management)</b>: least-privilege roles and policies, MFA for all humans, no long-lived access keys where avoidable, separate accounts/subscriptions for environments.</li>
+    <li><b>CASB</b> (cloud access security broker): visibility and policy enforcement between users and SaaS apps (shadow IT (Information Technology) discovery, DLP (Data Loss Prevention), access control).</li>
+    <li><b>CSPM</b> (cloud security posture management): continuously scans cloud configurations for misconfigurations against benchmarks.</li>
+    <li><b>Misconfiguration</b> is the top cloud risk: public storage buckets, open security groups (0.0.0.0/0 on SSH/RDP), overly permissive IAM, disabled logging, unencrypted snapshots.</li>
+    <li><b>Encryption and key management</b>: encryption at rest and in transit; provider-managed keys vs customer-managed keys (KMS) vs bring/hold your own key (HSM).</li>
+    <li><b>Logging</b>: enable control-plane audit logs (who changed what) and flow logs; send them to a SIEM (Security Information and Event Management).</li>
+  </ul>
+</section>
+
+<section class="lesson" id="storage">
+  <h2>6. Storage</h2>
+  <div class="tablewrap"><table>
+    <thead><tr><th></th><th>DAS</th><th>NAS</th><th>SAN</th></tr></thead>
+    <tbody>
+      <tr><td>What</td><td>Disks attached directly to one server</td><td>A file server appliance on the network</td><td>A dedicated network giving servers block-level disks</td></tr>
+      <tr><td>Access</td><td>Block (SATA (Serial Advanced Technology Attachment), SAS (Serial Attached Small Computer System Interface), NVMe (Non-Volatile Memory Express))</td><td><b>File</b> (SMB/CIFS (CIFS: Common Internet File System), NFS (Network File System)) over Ethernet</td><td><b>Block</b> over Fibre Channel, iSCSI, FCoE (Fibre Channel over Ethernet), NVMe-oF (Non-Volatile Memory Express over Fabrics)</td></tr>
+      <tr><td>Shared?</td><td>No</td><td>Yes, many clients</td><td>Yes, many servers (cluster file systems)</td></tr>
+      <tr><td>Typical use</td><td>Boot drives, local scratch</td><td>Department shares, home folders</td><td>Databases, VM datastores</td></tr>
+    </tbody></table></div>
+  <div class="grid3">
+    <div class="tile"><h4>Block</h4><p>Raw volumes the OS formats; lowest latency; databases and VM disks. Cloud: EBS (Elastic Block Store), Azure Managed Disks.</p></div>
+    <div class="tile"><h4>File</h4><p>Hierarchical folders over SMB/NFS; shared access with permissions. Cloud: EFS (Encrypting File System), Azure Files.</p></div>
+    <div class="tile"><h4>Object</h4><p>Flat namespace of objects with metadata, accessed by HTTP (HyperText Transfer Protocol) API; massive scale, cheap; backups, media, data lakes, static websites. Cloud: S3, Azure Blob.</p></div>
+  </div>
+  <div class="tablewrap"><table>
+    <thead><tr><th>Protocol / feature</th><th>Key facts</th></tr></thead>
+    <tbody>
+      <tr><td><b>Fibre Channel</b></td><td>Dedicated lossless SAN fabric, 8/16/32/64 Gb FC, WWNs (World Wide Name), zoning and LUN (Logical Unit Number) masking</td></tr>
+      <tr><td><b>iSCSI</b></td><td>SCSI (Small Computer System Interface) commands over TCP/IP (TCP: Transmission Control Protocol; port 3260): initiators and targets on regular Ethernet</td></tr>
+      <tr><td><b>FCoE</b></td><td>FC frames inside Ethernet, needs lossless Data Center Bridging (DCB)</td></tr>
+      <tr><td><b>NVMe-oF</b></td><td>NVMe over fabrics (RDMA (Remote Direct Memory Access), FC, TCP): very low latency flash access across the network</td></tr>
+      <tr><td><b>Thin vs thick provisioning</b></td><td>Thin allocates space as data is written (watch for overcommit running out); thick reserves it all up front</td></tr>
+      <tr><td><b>Deduplication / compression</b></td><td>Store identical blocks once / shrink data; great for VDI (Virtual Desktop Infrastructure) and backups</td></tr>
+      <tr><td><b>Snapshots</b></td><td>Point-in-time copies (often copy-on-write); fast, but on the same array, so not a backup by themselves</td></tr>
+      <tr><td><b>Synchronous replication</b></td><td>Write acknowledged only after both sites have it: RPO = 0, but adds round-trip latency; practical over short distances (roughly under 100 km)</td></tr>
+      <tr><td><b>Asynchronous replication</b></td><td>Write acknowledged locally and copied later: no latency penalty, any distance, but RPO &gt; 0</td></tr>
+      <tr><td><b>Tiering</b></td><td>Hot data on fast flash, cold data on cheaper disk or object/archive tiers, moved automatically</td></tr>
+      <tr><td>RAID (Redundant Array of Independent Disks) reminder</td><td>0 striping (no protection), 1 mirroring, 5 single parity, 6 double parity, 10 mirrored stripes (Module 6)</td></tr>
+    </tbody></table></div>
+</section>
+
+<section class="lesson" id="migration">
+  <h2>7. Moving a workload to the cloud</h2>
+  <p>Companies rarely build in the cloud from nothing. They move existing applications. The common strategies are often called the "R's of migration".</p>
+  <div class="tablewrap"><table><thead><tr><th>Strategy</th><th>What it means</th><th>Example</th></tr></thead><tbody>
+    <tr><td><b>Rehost</b> ("lift and shift")</td><td>Move virtual machines as they are</td><td>Copy the accounting server VM into cloud compute</td></tr>
+    <tr><td><b>Replatform</b></td><td>Small changes to use managed services</td><td>Move the database to a managed database service</td></tr>
+    <tr><td><b>Refactor</b></td><td>Rebuild for cloud-native design</td><td>Split a big app into containers or serverless functions</td></tr>
+    <tr><td><b>Repurchase</b></td><td>Replace with a SaaS product</td><td>Swap an in-house email server for a hosted email service</td></tr>
+    <tr><td><b>Retain</b></td><td>Keep on-premises for now</td><td>A system tied to factory hardware</td></tr>
+    <tr><td><b>Retire</b></td><td>Switch off</td><td>An old app nobody uses</td></tr>
+  </tbody></table></div>
+  <h3>A sensible order of work</h3>
+  <ol>
+    <li>Inventory applications and their dependencies (what talks to what).</li>
+    <li>Set up the landing zone: accounts, networking, identity, logging and guardrails.</li>
+    <li>Move a low-risk app first to learn.</li>
+    <li>Test performance, backups and failover in the cloud before cut-over.</li>
+    <li>Watch costs closely for the first few months; right-size anything oversized.</li>
+  </ol>
+  <div class="callout trap">"Lift and shift" is fast but often costs more than expected, because servers sized for peak load on-premises keep running at full size 24 hours a day in the cloud.</div>
+</section>
+
+<section class="lesson" id="container-walk">
+  <h2>8. From code to container: a simple walkthrough</h2>
+  <p>Containers can feel abstract. Here is the life of one small web app.</p>
+  <ol>
+    <li><b>Write a Dockerfile:</b> a short recipe that starts from a base image (for example a slim Linux with Python), copies the app in, installs its libraries and says which command starts it.</li>
+    <li><b>Build an image:</b> the recipe produces a read-only image, a few hundred megabytes, containing the app and everything it needs.</li>
+    <li><b>Scan it:</b> a scanner checks the image for known vulnerable libraries before it is used.</li>
+    <li><b>Push to a registry:</b> the image is stored in a container registry with a version tag.</li>
+    <li><b>Run it:</b> a container runtime starts the image as an isolated process sharing the host's kernel. It starts in seconds.</li>
+    <li><b>Orchestrate:</b> Kubernetes runs several copies across many servers, restarts any that crash, and spreads traffic across them.</li>
+    <li><b>Update:</b> to release a new version, build a new image and roll it out gradually; roll back if errors rise.</li>
+  </ol>
+  <div class="callout analogy">An image is a recipe card that has already been cooked and frozen into a ready meal. A container is that meal heated up and served. You can heat up as many identical meals as you need.</div>
 </section>
 
 <section class="lab" id="labs">
   <h2>Interactive labs</h2>
 
-  <div class="lab-card" id="lab-fw" data-lab="Framework Navigator: frameworks grouped by purpose; click one for its scope, who uses it, whether it is certifiable and related exams.">
-    <h3>Lab 1: Framework Navigator</h3>
-    <div class="fwgroups" id="fw-groups"></div>
-    <div class="info" id="fw-info">Choose a framework.</div>
-    <div class="caption" id="fw-cap" aria-live="polite"></div>
+  <div class="lab-card" id="lab-srm" data-lab="Shared Responsibility Slider: switch between on-premises, IaaS, PaaS and SaaS and watch the stack shade to show what the customer vs the provider manages.">
+    <h3>Lab 1: Shared Responsibility Slider</h3>
+    <div class="row"><label>Model <input type="range" id="sr-r" min="0" max="3" value="1" aria-valuetext="IaaS"></label><div class="seg" id="sr-seg"></div></div>
+    <div class="stage"><svg id="sr-svg" viewBox="0 0 580 400" width="580" role="img" aria-label="Responsibility stack"></svg></div>
+    <div class="caption" id="sr-cap" aria-live="polite"></div>
   </div>
 
-  <div class="lab-card" id="lab-ale" data-lab="ALE Calculator: enter asset value, exposure factor and ARO to get SLE and ALE, then test whether a control's yearly cost is justified.">
-    <h3>Lab 2: ALE Calculator</h3>
-    <div class="row"><span>Example:</span><div class="seg" id="al-ex"></div></div>
+  <div class="lab-card" id="lab-cvm" data-lab="Container vs VM Visualizer: stacks side by side; add apps and compare memory use, density and startup time.">
+    <h3>Lab 2: Container vs VM Visualizer</h3>
+    <div class="row"><button type="button" class="primary" id="cv-add">+ Add an app</button><button type="button" id="cv-rem">− Remove an app</button><button type="button" id="cv-boot">Start everything (compare boot times)</button></div>
+    <div class="stage"><svg id="cv-svg" viewBox="0 0 760 330" width="760" role="img" aria-label="Virtual machines and containers side by side"></svg></div>
+    <div class="grid2">
+      <div class="tile"><h4>Virtual machines</h4><div class="bar"><i id="cv-vbar" style="background:var(--hw)"></i></div><p id="cv-vtxt"></p></div>
+      <div class="tile"><h4>Containers</h4><div class="bar"><i id="cv-cbar" style="background:var(--net)"></i></div><p id="cv-ctxt"></p></div>
+    </div>
+    <div class="caption" id="cv-cap" aria-live="polite"></div>
+  </div>
+
+  <div class="lab-card" id="lab-scale" data-lab="Autoscaling Simulator: traffic ramps up and down over a day; set scaling rules and see instances added and removed, dropped requests and cost.">
+    <h3>Lab 3: Autoscaling Simulator</h3>
     <div class="controls">
-      <label class="field"><span>Asset value, AV ($)</span><input type="number" id="al-av" value="500000" min="0" step="1000"></label>
-      <label class="field"><span>Exposure factor, EF (%)</span><input type="number" id="al-ef" value="30" min="0" max="100"></label>
-      <label class="field"><span>ARO (times per year)</span><input type="number" id="al-aro" value="0.5" min="0" step="0.05"></label>
-      <label class="field"><span>Control: yearly cost ($)</span><input type="number" id="al-cost" value="25000" min="0" step="500"></label>
-      <label class="field"><span>ARO with control</span><input type="number" id="al-aro2" value="0.1" min="0" step="0.05"></label>
-      <label class="field"><span>EF with control (%)</span><input type="number" id="al-ef2" value="30" min="0" max="100"></label>
+      <label class="field"><span>Traffic pattern</span><select id="as-pat"><option value="day">Business day</option><option value="spike">Flash sale spike</option><option value="steady">Steady with noise</option></select></label>
+      <label class="field"><span>Scale out above CPU <b id="as-upv"></b></span><input type="range" id="as-up" min="50" max="95" value="70"></label>
+      <label class="field"><span>Scale in below CPU <b id="as-dnv"></b></span><input type="range" id="as-dn" min="10" max="60" value="30"></label>
+      <label class="field"><span>Minimum instances <b id="as-minv"></b></span><input type="range" id="as-min" min="1" max="6" value="2"></label>
+      <label class="field"><span>Maximum instances <b id="as-maxv"></b></span><input type="range" id="as-max" min="4" max="20" value="12"></label>
+      <label class="field"><span>Cooldown (minutes) <b id="as-cdv"></b></span><input type="range" id="as-cd" min="5" max="60" step="5" value="10"></label>
     </div>
+    <div class="row"><button type="button" class="primary" id="as-play">Animate the day</button></div>
+    <div class="stage"><svg id="as-svg" viewBox="0 0 760 260" width="760" role="img" aria-label="Traffic, capacity and instance count over 24 hours"></svg></div>
     <div class="grid3">
-      <div class="tile"><div class="figcap">SLE (AV × EF)</div><div class="metric" id="al-sle"></div></div>
-      <div class="tile"><div class="figcap">ALE before → after</div><div class="metric" id="al-ale"></div></div>
-      <div class="tile"><div class="figcap">Net value of control per year</div><div class="metric" id="al-net"></div></div>
+      <div class="tile"><div class="figcap">Autoscaled cost</div><div class="metric" id="as-cost"></div></div>
+      <div class="tile"><div class="figcap">Fixed at peak, all day</div><div class="metric" id="as-fixed"></div></div>
+      <div class="tile"><div class="figcap">Requests dropped</div><div class="metric" id="as-drop"></div></div>
     </div>
-    <div class="stage"><svg id="al-svg" viewBox="0 0 760 150" width="760" role="img" aria-label="Bar chart of yearly loss before and after the control plus control cost"></svg></div>
-    <div class="caption" id="al-cap" aria-live="polite"></div>
+    <div class="caption" id="as-cap" aria-live="polite"></div>
   </div>
 
-  <div class="lab-card" id="lab-raci" data-lab="RACI Builder: assign R, A, C and I for tasks and roles; the page flags two Accountables, no Responsible and other mistakes.">
-    <h3>Lab 3: RACI Builder</h3>
-    <p class="figcap">The chart starts with some deliberate mistakes. Fix them by choosing a letter in each cell. "A/R" means the role is both Accountable and Responsible.</p>
-    <div class="tablewrap"><table class="raci" id="rc-table"></table></div>
-    <div class="row"><button type="button" id="rc-reset">Reset to the faulty chart</button><button type="button" id="rc-model">Show a model chart</button></div>
-    <div class="caption" id="rc-cap" aria-live="polite"></div>
+  <div class="lab-card" id="lab-stor" data-lab="Storage Type Picker: choose a workload, guess block, file or object storage, and get the recommendation with reasons.">
+    <h3>Lab 4: Storage Type Picker</h3>
+    <p class="figcap">Pick a workload, make your guess, then read why.</p>
+    <div class="wl" id="st-wl"></div>
+    <div id="st-guess" class="row"></div>
+    <div class="stor-res" id="st-res">Choose a workload above.</div>
+    <div class="caption" id="st-cap" aria-live="polite"></div>
   </div>
 
-  <div class="lab-card" id="lab-csf" data-lab="NIST CSF 2.0 Self-Assessment: rate a fictional company on the six functions and compare current and target profiles on a radar chart.">
-    <h3>Lab 4: NIST CSF 2.0 Self-Assessment</h3>
-    <p class="figcap">Fictional company: <b>Bramblewood Clinics</b>, 12 outpatient clinics with patient records in a SaaS (Software as a Service) system. Rate each function from 1 (partial) to 4 (adaptive), loosely based on CSF tiers, for the current state and the target.</p>
-    <div class="csf-rows" id="cs-rows"></div>
-    <div class="stage"><svg id="cs-svg" viewBox="0 0 760 340" width="760" role="img" aria-label="Radar chart of current and target CSF profile"></svg></div>
-    <div class="caption" id="cs-cap" aria-live="polite"></div>
-  </div>
-
-  <div class="lab-card" id="lab-map" data-lab="Control Mapper: drag controls such as MFA for remote access to where they appear in ISO 27001 Annex A, NIST CSF 2.0 and CIS Controls.">
-    <h3>Lab 5: Control Mapper</h3>
-    <div class="row"><span>Map to:</span><div class="seg" id="mp-fw"></div></div>
-    <p class="figcap">Drag each control (or click it, then click a box) onto the matching category in the chosen framework. References are to ISO/IEC 27001:2022, NIST CSF 2.0 and CIS Controls v8.1 (verify against the current editions).</p>
-    <div class="dropzone" id="mp-bank" aria-label="Controls to map"><span class="zone-title">Controls</span></div>
-    <div class="map-grid" id="mp-zones" style="margin-top:8px"></div>
-    <div class="row"><button type="button" class="primary" id="mp-check">Check</button><button type="button" id="mp-reset">Reset</button></div>
-    <div class="caption" id="mp-cap" aria-live="polite"></div>
+  <div class="lab-card" id="lab-repl" data-lab="Replication Lab: synchronous vs asynchronous replication between two sites with a latency slider, showing write delay and data loss (RPO) when the link fails.">
+    <h3>Lab 5: Replication Lab</h3>
+    <div class="controls">
+      <label class="field"><span>Mode</span><span class="seg"><button type="button" id="rp-sync" class="on">Synchronous</button><button type="button" id="rp-async">Asynchronous</button></span></label>
+      <label class="field"><span>Distance between sites: <b id="rp-dv"></b></span><input type="range" id="rp-d" min="10" max="4000" step="10" value="50"></label>
+      <label class="field"><span>Application writes per second: <b id="rp-wv"></b></span><input type="range" id="rp-w" min="10" max="2000" step="10" value="500"></label>
+    </div>
+    <div class="row"><button type="button" class="primary" id="rp-fail">Cut the link</button><button type="button" id="rp-heal">Restore the link</button></div>
+    <div class="stage"><svg id="rp-svg" viewBox="0 0 760 200" width="760" role="img" aria-label="Primary and secondary site with replication traffic"></svg></div>
+    <div class="grid3">
+      <div class="tile"><div class="figcap">Write latency seen by the app</div><div class="metric" id="rp-lat"></div></div>
+      <div class="tile"><div class="figcap">Replication lag (RPO if the primary dies now)</div><div class="metric" id="rp-rpo"></div></div>
+      <div class="tile"><div class="figcap">Writes at risk</div><div class="metric" id="rp-risk"></div></div>
+    </div>
+    <div class="caption" id="rp-cap" aria-live="polite"></div>
   </div>
 </section>
 
@@ -232,29 +285,24 @@
 
 <section class="memory" id="memory">
   <h2>Memory aids</h2>
-  <div class="mnemonic">CSF 2.0: "<b>G</b>ood <b>I</b>deas <b>P</b>revent <b>D</b>isasters, <b>R</b>eally <b>R</b>eally": Govern, Identify, Protect, Detect, Respond, Recover.</div>
-  <div class="mnemonic">RMF: "<b>P</b>eople <b>C</b>an't <b>S</b>top <b>I</b>nternet <b>A</b>ttacks <b>A</b>ll <b>M</b>onth": Prepare, Categorize, Select, Implement, Assess, Authorize, Monitor.</div>
-  <div class="mnemonic">Policy hierarchy: "<b>P</b>lease <b>S</b>tand <b>P</b>roperly" = Policy, Standard, Procedure (Guidelines are Gentle suggestions; Baselines are the Bare minimum).</div>
-  <div class="mnemonic">Risk treatment "<b>MATA</b>": Mitigate, Avoid, Transfer, Accept.</div>
+  <div class="mnemonic">Service models as pizza: <b>on-prem</b> = make it at home, <b>IaaS</b> = take-and-bake (you cook), <b>PaaS</b> = delivery (you set the table), <b>SaaS</b> = dine out.</div>
+  <div class="mnemonic">Security <b>G</b>roup = <b>G</b>uest list (allow only, remembers who came in). Network <b>ACL</b> = <b>A</b>irport <b>C</b>heckpoint <b>L</b>ine (checks everyone both ways, can deny).</div>
+  <div class="mnemonic"><b>B</b>lock for <b>B</b>ig databases, <b>F</b>ile for <b>F</b>olders, <b>O</b>bject for <b>O</b>ceans of data.</div>
+  <div class="mnemonic">Sync = <b>S</b>afe but <b>S</b>low (RPO 0). Async = <b>A</b>nywhere, <b>A</b> bit of loss.</div>
   <div class="tablewrap"><table><thead><tr><th>Number</th><th>Meaning</th></tr></thead><tbody>
-    <tr><td>SLE = AV × EF</td><td>Cost of one event</td></tr>
-    <tr><td>ALE = SLE × ARO</td><td>Expected yearly loss; ARO 0.1 = once in 10 years</td></tr>
-    <tr><td>93 / 4</td><td>ISO 27001:2022 Annex A controls / themes</td></tr>
-    <tr><td>6</td><td>NIST CSF 2.0 functions (Govern added in 2024)</td></tr>
-    <tr><td>7</td><td>RMF steps</td></tr>
-    <tr><td>18 / 3</td><td>CIS Controls / Implementation Groups</td></tr>
-    <tr><td>40 / 5</td><td>COBIT 2019 objectives / domains</td></tr>
-    <tr><td>72 hours</td><td>GDPR breach notification to the supervisory authority</td></tr>
-    <tr><td>4% / €20M</td><td>GDPR maximum fine (whichever is higher)</td></tr>
-    <tr><td>12</td><td>PCI DSS principal requirements</td></tr>
+    <tr><td>3260</td><td>iSCSI TCP port</td></tr>
+    <tr><td>~5 µs per km</td><td>Light in fiber, one way (≈ 1 ms round trip per 100 km)</td></tr>
+    <tr><td>~100 km</td><td>Typical practical limit for synchronous replication</td></tr>
+    <tr><td>5</td><td>NIST cloud characteristics</td></tr>
+    <tr><td>8/16/32/64 Gb</td><td>Fibre Channel speeds</td></tr>
+    <tr><td>3:1 to 4:1</td><td>Common starting vCPU:pCPU overcommit for general workloads</td></tr>
   </tbody></table></div>
   <div class="tablewrap"><table><thead><tr><th>Exam trap</th><th>Why it is wrong</th></tr></thead><tbody>
-    <tr><td>"Transferring risk transfers accountability."</td><td>Insurance or outsourcing shares the financial impact; the organization stays accountable.</td></tr>
-    <tr><td>"The CISO owns all security risks."</td><td>Business managers own risks; the CISO advises and reports.</td></tr>
-    <tr><td>"SOC 2 Type I proves controls work."</td><td>Type I covers design at a point in time; Type II tests operation over a period.</td></tr>
-    <tr><td>"ISO 27002 is the certifiable one."</td><td>27001 is certifiable; 27002 is guidance.</td></tr>
-    <tr><td>"Two Accountables share the load."</td><td>Exactly one Accountable per task.</td></tr>
-    <tr><td>"Guidelines are mandatory."</td><td>Guidelines are recommendations.</td></tr>
+    <tr><td>"The cloud provider secures my data."</td><td>Data and access are always the customer's responsibility.</td></tr>
+    <tr><td>"Scalability and elasticity mean the same."</td><td>Elasticity adds automatic scale-in as well as scale-out with demand.</td></tr>
+    <tr><td>"A NAS gives block storage."</td><td>NAS is file-level (SMB/NFS); SAN is block-level.</td></tr>
+    <tr><td>"Snapshots are backups."</td><td>They live on the same system and depend on the original disk.</td></tr>
+    <tr><td>"Security groups can deny traffic."</td><td>They're allow-only; use NACLs for explicit deny.</td></tr>
   </tbody></table></div>
 </section>
 
@@ -271,19 +319,16 @@
 <section class="deeper" id="deeper">
   <h2>Go deeper (official sources)</h2>
   <ul>
-    <li><a href="https://www.isaca.org/resources/cobit" rel="noopener">ISACA: COBIT</a></li>
-    <li><a href="https://www.iso.org/standard/27001" rel="noopener">ISO/IEC 27001 Information security management systems</a></li>
-    <li><a href="https://www.nist.gov/cyberframework" rel="noopener">NIST Cybersecurity Framework 2.0</a></li>
-    <li><a href="https://csrc.nist.gov/projects/risk-management" rel="noopener">NIST Risk Management Framework and SP 800-53</a></li>
-    <li><a href="https://www.cisecurity.org/controls" rel="noopener">CIS Critical Security Controls</a></li>
-    <li><a href="https://www.aicpa-cima.com/topic/audit-assurance/audit-and-assurance-greater-than-soc-2" rel="noopener">AICPA: SOC 2</a></li>
-    <li><a href="https://www.pcisecuritystandards.org/" rel="noopener">PCI Security Standards Council</a></li>
-    <li><a href="https://www.hhs.gov/hipaa/index.html" rel="noopener">HHS: HIPAA</a></li>
-    <li><a href="https://commission.europa.eu/law/law-topic/data-protection_en" rel="noopener">European Commission: data protection (GDPR)</a></li>
+    <li><a href="https://csrc.nist.gov/pubs/sp/800/145/final" rel="noopener">NIST SP 800-145: The NIST Definition of Cloud Computing</a></li>
+    <li><a href="https://csrc.nist.gov/pubs/sp/800/190/final" rel="noopener">NIST SP 800-190: Application Container Security Guide</a></li>
+    <li><a href="https://kubernetes.io/docs/concepts/" rel="noopener">Kubernetes documentation: Concepts</a></li>
+    <li><a href="https://aws.amazon.com/compliance/shared-responsibility-model/" rel="noopener">AWS Shared Responsibility Model</a> and <a href="https://learn.microsoft.com/en-us/azure/security/fundamentals/shared-responsibility" rel="noopener">Microsoft Azure shared responsibility</a></li>
+    <li><a href="https://www.snia.org/education/what-is-san" rel="noopener">SNIA: storage networking education</a></li>
+    <li><a href="https://www.comptia.org/en-us/certifications/network/" rel="noopener">CompTIA Network+</a> and <a href="https://www.comptia.org/en-us/certifications/a/" rel="noopener">CompTIA A+</a> exam objectives</li>
   </ul>
 </section>
 </main>
-<footer class="foot">Datacenter Omnibus · Original study material. Not affiliated with or endorsed by any certification body or standards organization.</footer>
+<footer class="foot">Datacenter Omnibus · Original, independent study material. Not affiliated with or endorsed by any certification body, vendor or standards organisation. All trademarks belong to their owners. Exam details change; always verify on the vendor site. <a href="legal.html">Trademarks and copyright</a></footer>
 
 <script src="data/catalog.js"></script>
 <script src="assets/omnibus.js"></script>
@@ -291,206 +336,216 @@
 <script>
 (function () {
   var h = OMNI.h, S = OMNI.svg, $ = function (id) { return document.getElementById(id); };
-  var esc = OMNI.esc || function (s) { return String(s).replace(/[&<>"']/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]; }); };
   function txt(p, x, y, t, a) { var e = S("text", Object.assign({ x: x, y: y, class: "svg-text", "font-size": 12 }, a || {}), p); e.textContent = t; return e; }
-  function rect(p, x, y, w, hh, fill, stroke, extra) { return S("rect", Object.assign({ x: x, y: y, width: w, height: hh, rx: 8, fill: fill, stroke: stroke || "none", "stroke-width": 2 }, extra || {}), p); }
-  function arrow(p, x1, y1, x2, y2) {
-    S("line", { x1: x1, y1: y1, x2: x2, y2: y2, stroke: "var(--ink-2)", "stroke-width": 2 }, p);
-    var a = Math.atan2(y2 - y1, x2 - x1), s = 8;
-    S("polygon", { points: x2 + "," + y2 + " " + (x2 - s * Math.cos(a - .45)) + "," + (y2 - s * Math.sin(a - .45)) + " " + (x2 - s * Math.cos(a + .45)) + "," + (y2 - s * Math.sin(a + .45)), fill: "var(--ink-2)" }, p);
-  }
-  function money(v) { return (v < 0 ? "−$" : "$") + Math.round(Math.abs(v)).toLocaleString(); }
+  function rect(p, x, y, w, hh, fill, stroke, extra) { return S("rect", Object.assign({ x: x, y: y, width: w, height: hh, rx: 6, fill: fill, stroke: stroke || "none", "stroke-width": 2 }, extra || {}), p); }
 
-  /* ===== Figures ===== */
+  /* ===== VPC figure ===== */
   (function () {
-    var g = $("gov-fig"), L = [["Board of directors", "approves strategy and risk appetite", "var(--gov)"], ["Executive management and steering committee", "CEO, CFO, CIO, CISO: set priorities, fund programs, report up", "var(--sec)"], ["Managers and control owners", "turn policy into standards, procedures and controls", "var(--net)"], ["Teams and staff", "run controls day to day and report metrics", "var(--dc)"]];
-    L.forEach(function (l, i) {
-      var w = 360 + i * 95, x = 380 - w / 2, y = 15 + i * 58;
-      rect(g, x, y, w, 48, "var(--surface)", l[2]);
-      txt(g, 380, y + 21, l[0], { "text-anchor": "middle", "font-weight": 700 });
-      txt(g, 380, y + 38, l[1], { "text-anchor": "middle", "font-size": 10.5, class: "svg-muted" });
+    var g = $("vpc-fig");
+    rect(g, 150, 20, 440, 210, "var(--net-soft)", "var(--net)", { "stroke-dasharray": "6 4" }); txt(g, 160, 38, "VPC 10.20.0.0/16 (one region)", { "font-weight": 700, "font-size": 11 });
+    [0, 1].forEach(function (i) {
+      var x = 170 + i * 210; rect(g, x, 48, 190, 172, "var(--surface)", "var(--line)"); txt(g, x + 95, 64, "Availability zone " + "AB"[i], { "text-anchor": "middle", "font-size": 11, class: "svg-muted" });
+      rect(g, x + 10, 72, 170, 58, "var(--warn-soft)", "var(--warn)"); txt(g, x + 95, 90, "Public subnet 10.20." + (i + 1) + ".0/24", { "text-anchor": "middle", "font-size": 10 }); txt(g, x + 95, 112, i ? "Load balancer node" : "Load balancer · NAT GW", { "text-anchor": "middle", "font-size": 11, "font-weight": 700 });
+      rect(g, x + 10, 140, 170, 70, "var(--good-soft)", "var(--good)"); txt(g, x + 95, 158, "Private subnet 10.20." + (i + 11) + ".0/24", { "text-anchor": "middle", "font-size": 10 }); txt(g, x + 95, 180, "App servers", { "text-anchor": "middle", "font-size": 11, "font-weight": 700 }); txt(g, x + 95, 198, i ? "Database (standby)" : "Database (primary)", { "text-anchor": "middle", "font-size": 11 });
     });
-    arrow(g, 45, 30, 45, 235); txt(g, 20, 135, "Direction", { "font-size": 11, transform: "rotate(-90 20 135)", "text-anchor": "middle", class: "svg-muted" });
-    arrow(g, 715, 235, 715, 30); txt(g, 745, 135, "Reporting", { "font-size": 11, transform: "rotate(90 745 135)", "text-anchor": "middle", class: "svg-muted" });
-    txt(g, 62, 18, "Governance", { "font-weight": 700, fill: "var(--gov)", "font-size": 11 }); txt(g, 62, 254, "Management", { "font-weight": 700, fill: "var(--dc)", "font-size": 11 });
-  })();
-  (function () {
-    var g = $("pol-fig");
-    var P = [["Policy", "why and what (management intent)", 20, 120], ["Standards", "specific mandatory rules", 80, 220], ["Procedures", "step-by-step how", 150, 320]];
-    P.forEach(function (p, i) {
-      var y = p[2] + i * 0, top = 20 + i * 70, wTop = 80 + i * 150, wBot = 230 + i * 150;
-      S("polygon", { points: (300 - wTop / 2) + "," + top + " " + (300 + wTop / 2) + "," + top + " " + (300 + wBot / 2) + "," + (top + 65) + " " + (300 - wBot / 2) + "," + (top + 65), fill: ["var(--gov-soft)", "var(--sec-soft)", "var(--net-soft)"][i], stroke: ["var(--gov)", "var(--sec)", "var(--net)"][i], "stroke-width": 2 }, g);
-      txt(g, 300, top + 32, p[0], { "text-anchor": "middle", "font-weight": 800 });
-      txt(g, 300, top + 50, p[1], { "text-anchor": "middle", "font-size": 10.5, class: "svg-muted" });
-    });
-    rect(g, 560, 30, 180, 70, "var(--surface)", "var(--good)", { "stroke-dasharray": "6 4" }); txt(g, 650, 58, "Guidelines", { "text-anchor": "middle", "font-weight": 700 }); txt(g, 650, 78, "optional advice", { "text-anchor": "middle", "font-size": 10.5, class: "svg-muted" });
-    rect(g, 560, 125, 180, 70, "var(--surface)", "var(--warn)"); txt(g, 650, 153, "Baselines", { "text-anchor": "middle", "font-weight": 700 }); txt(g, 650, 173, "mandatory minimum config", { "text-anchor": "middle", "font-size": 10.5, class: "svg-muted" });
-    S("line", { x1: 480, y1: 120, x2: 560, y2: 65, stroke: "var(--ink-2)", "stroke-dasharray": "4 4" }, g); S("line", { x1: 480, y1: 150, x2: 560, y2: 160, stroke: "var(--ink-2)", "stroke-dasharray": "4 4" }, g);
-    txt(g, 300, 236, "More general and stable at the top; more specific and changeable at the bottom", { "text-anchor": "middle", "font-size": 10.5, class: "svg-muted" });
-  })();
-  (function () {
-    var g = $("ale-fig"), B = [["AV", "asset value"], ["× EF", "% lost per event"], ["= SLE", "loss per event"], ["× ARO", "events per year"], ["= ALE", "loss per year"]];
-    B.forEach(function (b, i) { var x = 15 + i * 150; rect(g, x, 25, 125, 64, i === 4 ? "var(--accent-soft)" : "var(--surface)", i % 2 ? "var(--ink-2)" : "var(--gov)"); txt(g, x + 62, 52, b[0], { "text-anchor": "middle", "font-weight": 800, "font-size": 16 }); txt(g, x + 62, 74, b[1], { "text-anchor": "middle", "font-size": 10.5, class: "svg-muted" }); });
+    rect(g, 20, 80, 100, 44, "var(--surface)", "var(--ink-2)"); txt(g, 70, 98, "Internet", { "text-anchor": "middle", "font-weight": 700 }); txt(g, 70, 114, "users", { "text-anchor": "middle", "font-size": 10, class: "svg-muted" });
+    rect(g, 128, 88, 44, 28, "var(--surface)", "var(--warn)"); txt(g, 150, 106, "IGW", { "text-anchor": "middle", "font-size": 11, "font-weight": 700 });
+    S("line", { x1: 120, y1: 102, x2: 128, y2: 102, stroke: "var(--ink-2)", "stroke-width": 2 }, g);
+    rect(g, 620, 130, 110, 60, "var(--surface)", "var(--hw)"); txt(g, 675, 154, "On-premises", { "text-anchor": "middle", "font-weight": 700 }); txt(g, 675, 172, "data center", { "text-anchor": "middle", "font-size": 11 });
+    S("line", { x1: 590, y1: 170, x2: 620, y2: 160, stroke: "var(--hw)", "stroke-width": 3, "stroke-dasharray": "6 3" }, g); txt(g, 675, 210, "VPN or Direct Connect", { "text-anchor": "middle", "font-size": 10, class: "svg-muted" });
   })();
 
-  /* ===== Lab 1: Framework navigator ===== */
-  var FW = [
-    { g: "Governance", n: "COBIT 2019", s: "Governance and management of enterprise IT: 40 objectives across EDM, APO, BAI, DSS and MEA; goals cascade from stakeholder needs to IT goals; capability levels 0–5.", u: "IT governance teams, auditors, boards; common in banks and large enterprises.", c: "Organizations are assessed, not certified. People: COBIT Foundation and Design and Implementation.", x: "CISA (domain 2), CISM (domain 1), CGEIT" },
-    { g: "Governance", n: "ISO/IEC 38500", s: "Principles for the board-level governance of IT: responsibility, strategy, acquisition, performance, conformance, human behaviour; evaluate–direct–monitor model.", u: "Boards and executives.", c: "Not normally certified.", x: "CISA, CGEIT (background)" },
-    { g: "Governance", n: "NIST CSF 2.0", s: "Six functions (Govern, Identify, Protect, Detect, Respond, Recover), 22 categories, profiles and tiers. A common language for outcomes, not a list of mandatory controls.", u: "Any organization, any size or sector; widely used in the US and beyond.", c: "No certification; you align with or assess against it.", x: "Security+ 5.1, CISM, CISA" },
-    { g: "Risk", n: "ISO 31000", s: "Principles, framework and process for managing any kind of risk: establish context, identify, analyse, evaluate, treat, monitor, communicate.", u: "Enterprise risk management teams.", c: "Guidance; not certifiable.", x: "CISM domain 2, CRISC" },
-    { g: "Risk", n: "ISO/IEC 27005", s: "Information security risk management guidance supporting the ISO 27001 risk assessment and treatment requirements.", u: "ISMS teams.", c: "Guidance; not certifiable.", x: "CISM domain 2" },
-    { g: "Risk", n: "NIST RMF (SP 800-37)", s: "Prepare, Categorize (FIPS 199), Select (SP 800-53 controls), Implement, Assess (SP 800-53A), Authorize (ATO by an authorizing official), Monitor.", u: "US federal agencies and contractors; FedRAMP for cloud.", c: "Systems get an authorization to operate, not a certificate.", x: "Security+ 5.x, CISM, CISSP, CGRC" },
-    { g: "Controls", n: "ISO/IEC 27001 and 27002", s: "27001: ISMS requirements (clauses 4–10, PDCA) plus 93 Annex A controls; a Statement of Applicability records chosen controls. 27002: implementation guidance for those controls.", u: "Organizations worldwide wanting a recognized security certification.", c: "27001 is certifiable by accredited bodies (3-year cycle with surveillance audits); 27002 is guidance.", x: "Security+ 5.1, CISM, CISA" },
-    { g: "Controls", n: "NIST SP 800-53", s: "Rev. 5 control catalogue: 20 families (e.g., AC access control, AU audit, CM configuration, IR incident response, SC system and communications protection), with low/moderate/high baselines (SP 800-53B).", u: "US federal systems; often borrowed by others.", c: "Not certifiable; FedRAMP authorizations are built on it.", x: "CISA, CISM, CISSP" },
-    { g: "Controls", n: "CIS Controls v8.1", s: "18 prioritized controls (inventory of assets and software, data protection, secure configuration, access, vulnerability management, logging…), split into Implementation Groups IG1 (essential hygiene), IG2, IG3.", u: "Small to large organizations wanting a practical starting point.", c: "Not certifiable.", x: "Security+, CySA+" },
-    { g: "Compliance", n: "SOC 2", s: "AICPA attestation by a CPA firm on controls relevant to the Trust Services Criteria (security, availability, processing integrity, confidentiality, privacy). Type I = design at a date; Type II = operating effectiveness over a period. SOC 1 covers financial reporting controls; SOC 3 is a public summary.", u: "SaaS and service providers proving security to customers.", c: "A report, not a certification.", x: "CISA domain 2 and 5, Security+ 5.3" },
-    { g: "Compliance", n: "PCI DSS v4.0.1", s: "12 requirements protecting cardholder data (network security controls, secure configurations, protect stored data, encryption in transit, malware, secure software, access, authentication, physical, logging, testing, policy).", u: "Merchants and service providers handling payment cards.", c: "Contractual. Validated by a Qualified Security Assessor (Report on Compliance) or a Self-Assessment Questionnaire.", x: "Security+ 5.4, CISA" },
-    { g: "Compliance", n: "HIPAA", s: "US law. Privacy Rule, Security Rule (administrative, physical and technical safeguards for electronic PHI) and Breach Notification Rule; business associate agreements (BAAs) with vendors.", u: "US healthcare providers, insurers, clearinghouses and their business associates.", c: "No certification; HHS Office for Civil Rights enforces.", x: "Security+ 5.4, CISM, CISA" },
-    { g: "Compliance", n: "SOX", s: "US Sarbanes-Oxley Act (2002). Section 302: executives certify financial reports; Section 404: internal control over financial reporting, including IT general controls (access, change management, operations).", u: "US public companies and their auditors.", c: "No certification; external auditors attest.", x: "CISA, Security+ 5.4" },
-    { g: "Compliance", n: "GDPR", s: "EU regulation (2018) on personal data: principles (lawfulness, purpose limitation, minimization, accuracy, storage limitation, integrity and confidentiality, accountability), data subject rights, DPIAs, DPOs, 72-hour breach notice, fines up to €20M or 4%.", u: "Anyone processing personal data of people in the EU.", c: "No general certification; supervisory authorities enforce.", x: "Security+ 5.4, CISM, CISA" },
-    { g: "Continuity and service", n: "ISO 22301", s: "Business continuity management system: BIA, risk assessment, continuity strategies, plans, exercises and improvement.", u: "Organizations needing resilience assurance (finance, utilities, data centers).", c: "Certifiable.", x: "CISM domain 4, CISA domain 4, DCCA background" },
-    { g: "Continuity and service", n: "ISO/IEC 20000-1", s: "Service management system requirements, closely aligned with ITIL practices (Module 19).", u: "IT service providers and internal IT.", c: "Certifiable.", x: "ITIL, CISA domain 4" },
-    { g: "Continuity and service", n: "NIST SP 800-34", s: "Contingency planning guide for federal information systems: BIA, preventive controls, recovery strategies, plan testing.", u: "US federal and many private organizations.", c: "Guidance.", x: "CISM domain 4, CISA domain 4" }
+  /* ===== Lab 1: Shared responsibility ===== */
+  var LAYERS = ["Data", "Identities and access", "Applications", "Runtime and middleware", "Operating system", "Virtualization", "Servers", "Storage", "Physical network", "Data center facility"];
+  var MODELS = [{ n: "On-premises", c: 10 }, { n: "IaaS", c: 5 }, { n: "PaaS", c: 3 }, { n: "SaaS", c: 2 }];
+  var NOTES = [
+    "On-premises: you own every layer, from the building's power and cooling up to the data. Maximum control, maximum responsibility.",
+    "IaaS: the provider runs the facility, hardware and hypervisor. You manage the operating system (patching!), runtime, apps, data and access. A missed OS patch on an IaaS VM is <b>your</b> problem.",
+    "PaaS: the provider also patches the OS and runtime. You manage your application code, its configuration, the data and who can access it.",
+    "SaaS: the provider runs the whole application. You still own your <b>data</b> and <b>identities and access</b>: who has accounts, MFA, sharing settings. Most SaaS breaches are misconfigured sharing or stolen credentials, not provider failures."
   ];
-  var FWG = ["Governance", "Risk", "Controls", "Compliance", "Continuity and service"], fwSeen = {};
-  FWG.forEach(function (gname) {
-    var box = h("div", { class: "fwgroup" }, h("h4", null, gname));
-    FW.forEach(function (f, i) { if (f.g !== gname) return; var b = h("button", { type: "button", "data-i": String(i) }, f.n); b.onclick = function () { fwShow(i); }; box.appendChild(b); });
-    $("fw-groups").appendChild(box);
-  });
-  function fwShow(i) {
-    var f = FW[i]; fwSeen[i] = 1;
-    OMNI.$$("#fw-groups button").forEach(function (b) { b.classList.toggle("on", +b.dataset.i === i); });
-    $("fw-info").innerHTML = "<h4>" + f.n + " <small>(" + f.g + ")</small></h4><p><b>Scope:</b> " + f.s + "</p><p><b>Who uses it:</b> " + f.u + "</p><p><b>Certification:</b> " + f.c + "</p><p><b>Related exams:</b> " + f.x + "</p>";
-    OMNI.say("fw-cap", "You opened <b>" + f.n + "</b>, a " + f.g.toLowerCase() + " framework. " + ({ Governance: "Governance frameworks help leaders set direction and check results.", Risk: "Risk frameworks describe how to find, rate and treat risk.", Controls: "Control frameworks list the safeguards themselves.", Compliance: "Compliance items are laws, contracts or attestations you must satisfy and prove.", "Continuity and service": "These keep services running and recover them after disruption." })[f.g] + " Explored " + Object.keys(fwSeen).length + " of " + FW.length + ".");
+  var srM = 1, seg = $("sr-seg");
+  MODELS.forEach(function (m, i) { var b = h("button", { type: "button" }, m.n); b.onclick = function () { srSet(i); }; seg.appendChild(b); });
+  function srSet(i) {
+    srM = i; $("sr-r").value = i; $("sr-r").setAttribute("aria-valuetext", MODELS[i].n);
+    OMNI.$$("#sr-seg button").forEach(function (b, k) { b.classList.toggle("on", k === i); });
+    var s = $("sr-svg"); s.innerHTML = "";
+    txt(s, 280, 20, MODELS[i].n, { "text-anchor": "middle", "font-weight": 800, "font-size": 15 });
+    LAYERS.forEach(function (l, k) {
+      var cust = k < MODELS[i].c, y = 34 + k * 34;
+      rect(s, 80, y, 400, 30, cust ? "var(--accent-soft)" : "var(--surface)", cust ? "var(--accent)" : "var(--line)");
+      txt(s, 96, y + 20, l, { "font-weight": 700 });
+      txt(s, 464, y + 20, cust ? "You (customer)" : "Provider", { "text-anchor": "end", "font-size": 11, fill: cust ? "var(--accent)" : "var(--ink-2)" });
+    });
+    var yb = 34 + MODELS[i].c * 34 - 2; if (MODELS[i].c < 10) S("line", { x1: 60, y1: yb, x2: 500, y2: yb, stroke: "var(--bad)", "stroke-width": 2, "stroke-dasharray": "6 3" }, s);
+    if (MODELS[i].c < 10) txt(s, 505, yb + 4, "you | provider", { "font-size": 9, fill: "var(--bad)" });
+    OMNI.say("sr-cap", NOTES[i]);
   }
-  OMNI.say("fw-cap", "Frameworks are grouped by the question they answer. Pick one to see its scope.");
+  $("sr-r").oninput = function () { srSet(+this.value); }; srSet(1);
 
-  /* ===== Lab 2: ALE ===== */
-  var ALX = [
-    { n: "Laptop theft", v: [2000, 100, 12, 6000, 12, 15], note: "A fleet averages 12 stolen laptops a year (ARO 12). Full-disk encryption doesn't stop theft, but it cuts the loss from a data breach to just the hardware, so here it lowers EF instead of ARO." },
-    { n: "Ransomware", v: [500000, 30, 0.5, 25000, 0.1, 30], note: "EDR plus immutable backups make a successful attack much less likely." },
-    { n: "Data center flood", v: [2000000, 40, 0.02, 60000, 0.005, 40], note: "Floods are rare (once in 50 years), so the ALE is small and an expensive flood barrier may not pay off; insurance (transfer) may be better." }
+  /* ===== Lab 2: Containers vs VMs ===== */
+  var nApps = 3, HOST = 32, VM_OS = 2, APP = .5, CT_OH = .05, booted = false;
+  var APPNAMES = ["Web", "API", "Cart", "Auth", "Search", "Queue", "Mail", "Report"];
+  function cvDraw(anim) {
+    var s = $("cv-svg"); s.innerHTML = "";
+    function stack(x0, title, base, mid) {
+      txt(s, x0 + 175, 18, title, { "text-anchor": "middle", "font-weight": 800 });
+      rect(s, x0, 290, 350, 30, "var(--surface-2)", "var(--ink-2)"); txt(s, x0 + 175, 310, "Physical server (32 GB RAM)", { "text-anchor": "middle", "font-weight": 700 });
+      rect(s, x0, 254, 350, 30, "var(--surface-2)", "var(--ink-2)"); txt(s, x0 + 175, 274, base, { "text-anchor": "middle", "font-weight": 700 });
+      if (mid) { rect(s, x0, 218, 350, 30, "var(--surface-2)", "var(--ink-2)"); txt(s, x0 + 175, 238, mid, { "text-anchor": "middle", "font-weight": 700 }); }
+    }
+    stack(10, "Virtual machines", "Hypervisor (Type 1)"); stack(400, "Containers", "Host operating system (one shared kernel)", "Container runtime / engine");
+    var w = Math.min(84, (350 - (nApps - 1) * 6) / nApps);
+    for (var i = 0; i < nApps; i++) {
+      var x = 10 + i * (w + 6);
+      rect(s, x, 110, w, 138, "var(--hw-soft, var(--surface))", "var(--hw)");
+      txt(s, x + w / 2, 132, APPNAMES[i], { "text-anchor": "middle", "font-weight": 700, "font-size": 11 });
+      txt(s, x + w / 2, 160, "bins/libs", { "text-anchor": "middle", "font-size": 10 });
+      rect(s, x + 4, 180, w - 8, 60, "var(--warn-soft)", "var(--warn)"); txt(s, x + w / 2, 206, "Guest OS", { "text-anchor": "middle", "font-size": 10, "font-weight": 700 }); txt(s, x + w / 2, 222, "2 GB", { "text-anchor": "middle", "font-size": 10 });
+      var cx = 400 + i * (w + 6);
+      rect(s, cx, 150, w, 62, "var(--net-soft)", "var(--net)");
+      txt(s, cx + w / 2, 174, APPNAMES[i], { "text-anchor": "middle", "font-weight": 700, "font-size": 11 });
+      txt(s, cx + w / 2, 196, "bins/libs", { "text-anchor": "middle", "font-size": 10 });
+      if (anim) {
+        var vt = h("div"); /* placeholder */
+        txt(s, x + w / 2, 100, "", { "text-anchor": "middle", "font-size": 10, class: "vtime", "data-i": i });
+        txt(s, cx + w / 2, 140, "", { "text-anchor": "middle", "font-size": 10, class: "ctime", "data-i": i });
+      }
+    }
+    var vMem = nApps * (VM_OS + APP), cMem = 1.5 + nApps * (APP + CT_OH);
+    $("cv-vbar").style.width = Math.min(100, vMem / HOST * 100) + "%"; $("cv-cbar").style.width = Math.min(100, cMem / HOST * 100) + "%";
+    $("cv-vtxt").textContent = nApps + " VMs use about " + vMem.toFixed(1) + " GB of 32 GB (each carries a 2 GB guest OS). Room for about " + Math.floor(HOST / (VM_OS + APP)) + " of these apps.";
+    $("cv-ctxt").textContent = nApps + " containers use about " + cMem.toFixed(1) + " GB (1.5 GB host OS + 0.55 GB each). Room for about " + Math.floor((HOST - 1.5) / (APP + CT_OH)) + " of these apps.";
+  }
+  $("cv-add").onclick = function () { if (nApps < 8) { nApps++; cvDraw(); OMNI.say("cv-cap", "Each new VM brings a whole guest OS; each new container is just the app and its libraries."); } };
+  $("cv-rem").onclick = function () { if (nApps > 1) { nApps--; cvDraw(); } };
+  $("cv-boot").onclick = function () {
+    cvDraw(true); var t0 = performance.now(), VMT = 38, CTT = 0.9, scale = OMNI.reduced ? 100 : 8;
+    OMNI.say("cv-cap", "Starting everything… (the clock is sped up 8×)");
+    (function tick() {
+      var el = (performance.now() - t0) / 1000 * scale;
+      OMNI.$$("#cv-svg .vtime").forEach(function (e) { e.textContent = el >= VMT ? "✓ up " + VMT + " s" : "booting " + el.toFixed(0) + " s"; e.setAttribute("fill", el >= VMT ? "var(--good)" : "var(--warn)"); });
+      OMNI.$$("#cv-svg .ctime").forEach(function (e) { e.textContent = el >= CTT ? "✓ up " + CTT + " s" : "starting"; e.setAttribute("fill", el >= CTT ? "var(--good)" : "var(--warn)"); });
+      if (el < VMT) requestAnimationFrame(tick); else OMNI.say("cv-cap", "Containers were ready in under a second because they're just processes on an already-running kernel. VMs took about " + VMT + " seconds each to boot a full operating system. Trade-off: VMs give stronger isolation (separate kernels) and can run different OSes (Windows next to Linux); containers give density and speed, which is why autoscaling and CI/CD love them.");
+    })();
+  };
+  cvDraw();
+
+  /* ===== Lab 3: Autoscaling ===== */
+  var CAP = 100, PRICE = 0.10;
+  function traffic(pat, m) { var hr = m / 60, base; if (pat === "day") base = 120 + 680 * Math.max(0, Math.sin(Math.PI * (hr - 7) / 12)) * (hr > 7 && hr < 19 ? 1 : 0) + (hr > 7 && hr < 19 ? 0 : 0); else if (pat === "spike") base = 200 + (hr >= 12 && hr < 13.5 ? 900 * Math.sin(Math.PI * (hr - 12) / 1.5) : 0) + 60 * Math.sin(hr / 3); else base = 400 + 60 * Math.sin(hr * 2); var n = Math.sin(m * 12.9898) * 43758.5453; n = n - Math.floor(n); return Math.max(20, base + (n - .5) * 60); }
+  function simulate() {
+    var pat = $("as-pat").value, up = +$("as-up").value, dn = +$("as-dn").value, mn = +$("as-min").value, mx = Math.max(+$("as-max").value, mn), cd = +$("as-cd").value;
+    var inst = mn, last = -999, out = [], dropped = 0, total = 0, instMin = 0, peak = 0, boot = 5, pending = [];
+    for (var m = 0; m < 1440; m += 5) {
+      pending = pending.filter(function (p) { if (p <= m) { inst = Math.min(mx, inst + 1); return false; } return true; });
+      var t = traffic(pat, m), cap = inst * CAP, cpu = Math.min(100, t / cap * 100);
+      peak = Math.max(peak, t);
+      if (m - last >= cd) {
+        if (cpu > up && inst + pending.length < mx) { pending.push(m + boot); last = m; }
+        else if (cpu < dn && inst > mn && !pending.length) { inst--; last = m; }
+      }
+      var served = Math.min(t, inst * CAP); dropped += (t - served) * 300; total += t * 300; instMin += inst * 5;
+      out.push({ m: m, t: t, inst: inst, cpu: Math.min(100, t / (inst * CAP) * 100) });
+    }
+    var fixedN = Math.ceil(peak / CAP), cost = instMin / 60 * PRICE, fixed = fixedN * 24 * PRICE;
+    return { out: out, cost: cost, fixed: fixed, fixedN: fixedN, dropPct: dropped / total * 100, mx: mx, pat: pat };
+  }
+  var asAnim = null;
+  function asDraw(upto) {
+    ["up", "dn", "min", "max", "cd"].forEach(function (k) { $("as-" + k + "v").textContent = $("as-" + k).value + (k === "up" || k === "dn" ? "%" : ""); });
+    var r = simulate(), s = $("as-svg"); s.innerHTML = ""; var X = function (m) { return 50 + m / 1440 * 690; }, maxT = Math.max(1200, r.mx * CAP), Y = function (v) { return 220 - v / maxT * 200; };
+    S("line", { x1: 50, y1: 220, x2: 740, y2: 220, stroke: "var(--ink-2)" }, s); S("line", { x1: 50, y1: 20, x2: 50, y2: 220, stroke: "var(--ink-2)" }, s);
+    [0, 6, 12, 18, 24].forEach(function (hh) { txt(s, X(hh * 60), 238, (hh < 10 ? "0" : "") + hh + ":00", { "text-anchor": "middle", "font-size": 10, class: "svg-muted" }); });
+    [0, 400, 800, 1200].filter(function (v) { return v <= maxT; }).forEach(function (v) { txt(s, 44, Y(v) + 4, String(v), { "text-anchor": "end", "font-size": 10, class: "svg-muted" }); });
+    txt(s, 54, 16, "requests/s", { "font-size": 10, class: "svg-muted" });
+    var pts = r.out.filter(function (o) { return upto === undefined || o.m <= upto; });
+    var capPath = "", tPath = "";
+    pts.forEach(function (o, i) { capPath += (i ? "L" : "M") + X(o.m) + "," + Y(o.inst * CAP) + (i < pts.length - 1 ? "L" + X(pts[i + 1].m) + "," + Y(o.inst * CAP) : ""); tPath += (i ? "L" : "M") + X(o.m) + "," + Y(o.t); });
+    S("path", { d: capPath, fill: "none", stroke: "var(--good)", "stroke-width": 2.5 }, s);
+    S("path", { d: tPath, fill: "none", stroke: "var(--accent)", "stroke-width": 1.5 }, s);
+    pts.forEach(function (o) { if (o.t > o.inst * CAP) S("line", { x1: X(o.m), y1: Y(o.inst * CAP), x2: X(o.m), y2: Y(o.t), stroke: "var(--bad)", "stroke-width": 2, opacity: .6 }, s); });
+    txt(s, 560, 34, "— traffic", { fill: "var(--accent)", "font-size": 11 }); txt(s, 640, 34, "— capacity", { fill: "var(--good)", "font-size": 11 }); txt(s, 560, 50, "| dropped (overloaded)", { fill: "var(--bad)", "font-size": 11 });
+    var lastP = pts[pts.length - 1]; if (lastP) txt(s, X(lastP.m), Y(lastP.inst * CAP) - 6, lastP.inst + " inst", { "text-anchor": "middle", "font-size": 10, "font-weight": 700, fill: "var(--good)" });
+    $("as-cost").textContent = "$" + r.cost.toFixed(2); $("as-fixed").textContent = "$" + r.fixed.toFixed(2); $("as-drop").textContent = r.dropPct.toFixed(2) + "%";
+    if (upto === undefined) OMNI.say("as-cap", "Each instance serves " + CAP + " requests/s and costs $" + PRICE.toFixed(2) + "/hour. Autoscaling cost $" + r.cost.toFixed(2) + " for the day versus $" + r.fixed.toFixed(2) + " to run " + r.fixedN + " instances (enough for the peak) around the clock: that's <b>elasticity</b>. " + (r.dropPct > 0.5 ? "But " + r.dropPct.toFixed(1) + "% of requests were dropped while new instances booted. Lower the scale-out threshold, shorten the cooldown, raise the minimum or the maximum, or pre-scale before known events." : "Almost nothing was dropped, so the rules react fast enough.") + " New instances take 5 minutes to boot, which is why thresholds below 100% matter.");
+  }
+  ["as-pat", "as-up", "as-dn", "as-min", "as-max", "as-cd"].forEach(function (id) { $(id).oninput = function () { cancelAnimationFrame(asAnim); asDraw(); }; });
+  $("as-play").onclick = function () { var m = 0; cancelAnimationFrame(asAnim); (function step() { m += OMNI.reduced ? 1440 : 12; asDraw(Math.min(m, 1435)); if (m < 1440) asAnim = requestAnimationFrame(step); else asDraw(); })(); };
+  asDraw();
+
+  /* ===== Lab 4: Storage picker ===== */
+  var WL = [
+    { n: "Transactional database (orders)", a: "block", where: "SAN (FC/iSCSI/NVMe-oF) or cloud block volumes (EBS, Managed Disks)", why: "Databases need low-latency, random reads and writes and control over the file system. Block storage gives a raw volume to one host (or a cluster).", not: "File storage adds protocol overhead and locking; object storage can't do in-place partial updates or low-latency random I/O." },
+    { n: "VM datastores", a: "block", where: "SAN LUNs or vSAN/HCI; NFS datastores are a file-based alternative", why: "Hypervisors format block LUNs with a cluster file system (VMFS) so many hosts can run VMs and live-migrate.", not: "Object storage can't host running VM disks. NFS (file) works for VMware too, so 'file' is a reasonable second answer." },
+    { n: "Department shared drive", a: "file", where: "NAS over SMB (Windows) or NFS (Linux); cloud file shares", why: "People need folders, permissions and simultaneous access by many users, which is exactly what a file protocol provides.", not: "Block storage attaches to one server at a time without a cluster file system; object storage has no real folders or file locking for Office apps." },
+    { n: "User home directories", a: "file", where: "NAS (SMB with folder redirection / NFS)", why: "Per-user folders with permissions, accessed from any workstation.", not: "Block can't be shared easily; object isn't mounted like a drive by ordinary apps." },
+    { n: "Nightly backups (kept 1 year)", a: "object", where: "Object storage with immutability (object lock) and lifecycle rules to archive tiers", why: "Huge, cheap, durable, written once and rarely read. Object lock gives ransomware-resistant immutable copies.", not: "Block or file is more expensive per TB and easier for ransomware to encrypt if reachable." },
+    { n: "Video and photo archive", a: "object", where: "Object storage, cold/archive tier", why: "Massive unstructured data with metadata, accessed over HTTP and scaling to petabytes cheaply.", not: "File systems struggle at billions of files; block is far too expensive for cold data." },
+    { n: "Website images and downloads", a: "object", where: "Object storage behind a CDN (static website hosting)", why: "Served over HTTP directly, globally cacheable, effectively unlimited scale.", not: "Running a file server for static assets adds cost and a single point of failure." },
+    { n: "Analytics data lake", a: "object", where: "Object storage (S3/Blob/ADLS) queried by analytics engines", why: "Cheap, scalable storage of raw data in open formats, separating storage from compute.", not: "Block and file don't scale economically to petabytes of mixed data." },
+    { n: "Container database volume (Kubernetes)", a: "block", where: "Persistent volumes backed by block storage (CSI driver)", why: "A stateful pod needs a durable disk that follows it if it moves to another node.", not: "Shared file volumes are fine for some apps but databases want dedicated block devices." }
   ];
-  ALX.forEach(function (e, i) { var b = h("button", { type: "button" }, e.n); b.onclick = function () { ["al-av", "al-ef", "al-aro", "al-cost", "al-aro2", "al-ef2"].forEach(function (id, k) { $(id).value = e.v[k]; }); OMNI.$$("#al-ex button").forEach(function (x, k) { x.classList.toggle("on", k === i); }); alNote = e.note; alCalc(); }; $("al-ex").appendChild(b); });
-  var alNote = "";
-  function alCalc() {
-    var av = +$("al-av").value || 0, ef = (+$("al-ef").value || 0) / 100, aro = +$("al-aro").value || 0, cost = +$("al-cost").value || 0, aro2 = +$("al-aro2").value || 0, ef2 = (+$("al-ef2").value || 0) / 100;
-    var sle = av * ef, ale = sle * aro, ale2 = av * ef2 * aro2, net = ale - ale2 - cost;
-    $("al-sle").textContent = money(sle); $("al-ale").textContent = money(ale) + " → " + money(ale2); $("al-net").textContent = money(net);
-    $("al-net").style.color = net >= 0 ? "var(--good)" : "var(--bad)";
-    var g = $("al-svg"); g.innerHTML = "";
-    var mx = Math.max(ale, ale2 + cost, 1), sc = 520 / mx;
-    [["Yearly loss without control", ale, 0, "var(--bad)"], ["With control: loss + control cost", ale2, cost, "var(--good)"]].forEach(function (r, i) {
-      var y = 20 + i * 60; txt(g, 10, y + 22, r[0], { "font-size": 11 });
-      rect(g, 220, y, Math.max(2, r[1] * sc), 34, r[3], "none", { rx: 4, opacity: .8 });
-      if (r[2]) rect(g, 220 + r[1] * sc, y, Math.max(2, r[2] * sc), 34, "var(--warn)", "none", { rx: 4, opacity: .8 });
-      txt(g, 226 + (r[1] + r[2]) * sc, y + 22, money(r[1] + r[2]), { "font-size": 11, "font-weight": 700 });
-    });
-    txt(g, 220, 142, "Orange = control cost", { "font-size": 10, class: "svg-muted" });
-    OMNI.say("al-cap", "SLE = " + money(av) + " × " + Math.round(ef * 100) + "% = " + money(sle) + ". ALE = " + money(sle) + " × " + aro + " = <b>" + money(ale) + "</b> per year. With the control the ALE becomes " + money(ale2) + ", a reduction of " + money(ale - ale2) + ". After paying " + money(cost) + " a year for the control, the net value is <b>" + money(net) + "</b>: " + (net >= 0 ? "the control is worth it on cost alone." : "the control costs more than the loss it prevents, so consider a cheaper control, transferring or accepting the risk (unless a law or contract requires the control).") + (alNote ? " " + alNote : ""));
+  var stSel = -1;
+  WL.forEach(function (w, i) { var b = h("button", { type: "button" }, w.n); b.onclick = function () { stSel = i; OMNI.$$("#st-wl button").forEach(function (x, k) { x.classList.toggle("on", k === i); }); stAsk(); }; $("st-wl").appendChild(b); });
+  function stAsk() {
+    var g = $("st-guess"); g.innerHTML = ""; g.appendChild(h("span", null, "Your guess:"));
+    ["block", "file", "object"].forEach(function (k) { var b = h("button", { type: "button" }, k[0].toUpperCase() + k.slice(1)); b.onclick = function () { stShow(k); }; g.appendChild(b); });
+    $("st-res").innerHTML = "<b>" + WL[stSel].n + "</b>: block, file or object?"; OMNI.say("st-cap", "Think about who accesses it, how (random small writes vs whole files over HTTP) and how much of it there is.");
   }
-  ["al-av", "al-ef", "al-aro", "al-cost", "al-aro2", "al-ef2"].forEach(function (id) { $(id).oninput = function () { alNote = ""; OMNI.$$("#al-ex button").forEach(function (x) { x.classList.remove("on"); }); alCalc(); }; });
-  $("al-ex").children[1].click();
+  function stShow(k) {
+    var w = WL[stSel], ok = k === w.a;
+    $("st-res").innerHTML = "<p><span class='" + (ok ? "pill-ok" : "pill-no") + "'>" + (ok ? "Correct" : "Best fit: " + w.a) + "</span> <b>" + w.a.toUpperCase() + " storage</b> · " + w.where + "</p><p><b>Why:</b> " + w.why + "</p><p><b>Why not the others:</b> " + w.not + "</p>";
+    OMNI.say("st-cap", ok ? "Nice. Try another workload." : "Not quite. Read the reasoning, then try another workload.");
+  }
 
-  /* ===== Lab 3: RACI ===== */
-  var ROLES = ["CISO", "IT ops manager", "Sysadmin", "Data owner (HR)", "Internal audit"];
-  var TASKS = ["Approve the access control policy", "Grant access to the HR system", "Review HR system access quarterly", "Patch servers monthly", "Audit access controls annually"];
-  var FAULTY = [["A", "C", "", "A", "I"], ["", "A", "", "C", ""], ["C", "", "R", "A/R", ""], ["I", "A", "R", "", "C"], ["I", "I", "", "I", "C"]];
-  var MODEL = [["A/R", "C", "", "C", "I"], ["I", "A", "R", "C", ""], ["I", "C", "R", "A", "I"], ["I", "A", "R", "I", ""], ["I", "C", "", "C", "A/R"]];
-  var rc;
-  function rcBuild(src) {
-    rc = src.map(function (r) { return r.slice(); });
-    var t = $("rc-table"); t.innerHTML = "";
-    t.appendChild(h("tr", null, [h("th", null, "Task")].concat(ROLES.map(function (r) { return h("th", null, r); })).concat([h("th", null, "Check")])));
-    TASKS.forEach(function (task, i) {
-      var tr = h("tr", null, [h("td", null, task)]);
-      ROLES.forEach(function (r, j) {
-        var sel = h("select", { "aria-label": task + ": " + r }, ["", "R", "A", "A/R", "C", "I"].map(function (v) { return h("option", { value: v }, v || "–"); }));
-        sel.value = rc[i][j]; sel.onchange = function () { rc[i][j] = sel.value; rcCheck(); };
-        tr.appendChild(h("td", null, sel));
-      });
-      tr.appendChild(h("td", { class: "note" }));
-      t.appendChild(tr);
-    });
-    rcCheck();
+  /* ===== Lab 5: Replication ===== */
+  var rpCapKey = "", rpCapAt = 0, rpHold = 0, rpSync = true, rpLink = true, rpQueue = 0, rpLost = 0, rpT = performance.now(), rpDots = [], rpAcc = 0;
+  function rpParams() { var d = +$("rp-d").value, rtt = d / 100 + .2, w = +$("rp-w").value; return { d: d, rtt: rtt, w: w }; }
+  function rpLabels() { var p = rpParams(); $("rp-dv").textContent = p.d + " km (≈" + p.rtt.toFixed(1) + " ms round trip)"; $("rp-wv").textContent = p.w; }
+  function rpMetrics() {
+    var p = rpParams(), lat, rpo, risk;
+    if (rpSync) { lat = rpLink ? (0.3 + p.rtt) : Infinity; rpo = 0; risk = 0; }
+    else { lat = 0.3; rpo = rpLink ? (p.rtt / 2 + rpQueue / p.w * 1000) : (rpQueue / p.w * 1000); risk = Math.round(rpQueue + (rpLink ? p.w * p.rtt / 2000 : 0)); }
+    $("rp-lat").textContent = lat === Infinity ? "stalled" : lat.toFixed(1) + " ms";
+    $("rp-rpo").textContent = rpo >= 1000 ? (rpo / 1000).toFixed(1) + " s" : rpo.toFixed(1) + " ms";
+    $("rp-risk").textContent = risk.toLocaleString();
+    var maxSerial = lat === Infinity ? 0 : Math.floor(1000 / lat), now = performance.now(), key = rpSync + "|" + rpLink + "|" + p.d + "|" + p.w;
+    if (now < rpHold || (key === rpCapKey && now - rpCapAt < 400)) return; rpCapKey = key; rpCapAt = now;
+    if (!rpLink) OMNI.say("rp-cap", rpSync ? "<span class='pill-warn'>Link down</span> With synchronous replication the primary can't get acknowledgements, so writes <b>stall</b> (or the system must choose to break the mirror and run unprotected). No committed data is lost (RPO = 0), but availability suffers. Real arrays let you pick: stop writes (consistency) or continue unprotected (availability)." : "<span class='pill-no'>Link down</span> The app keeps writing at full speed, but the " + rpQueue.toLocaleString() + " writes queued since the cut exist only at the primary. If the primary site is destroyed now, they're gone: that's your RPO growing every second.");
+    else OMNI.say("rp-cap", rpSync ? "Synchronous: every write waits for the far site to confirm, so the app sees " + lat.toFixed(1) + " ms per write. A single-threaded app can do at most about " + maxSerial.toLocaleString() + " writes/s. Distance hurts: light in fiber needs about 1 ms per 100 km round trip, which is why sync is used for metro distances (roughly under 100 km). RPO = 0." : "Asynchronous: writes are acknowledged locally (" + lat.toFixed(1) + " ms) and shipped afterwards, so distance doesn't slow the app. The cost is a lag of about " + rpo.toFixed(1) + " ms: data written in that window would be lost if the primary failed. Good for long-distance DR.");
   }
-  function rcCheck() {
-    var rows = OMNI.$$("#rc-table tr").slice(1), bad = 0, msgs = [];
-    TASKS.forEach(function (task, i) {
-      var r = rc[i], a = r.filter(function (v) { return v.indexOf("A") >= 0; }).length, resp = r.filter(function (v) { return v.indexOf("R") >= 0; }).length, c = r.filter(function (v) { return v === "C"; }).length, n = [];
-      if (a === 0) n.push("no Accountable"); if (a > 1) n.push(a + " Accountables"); if (resp === 0) n.push("no Responsible"); if (c > 3) n.push("too many Consulted");
-      if (i === 4 && (r[4].indexOf("A") < 0 && r[4].indexOf("R") < 0)) n.push("audit should be done by internal audit (independence)");
-      if (i === 4 && (r[2].indexOf("R") >= 0 || r[1].indexOf("R") >= 0)) n.push("IT shouldn't audit its own work");
-      if (i === 2 && r[3].indexOf("A") < 0) n.push("the data owner should be accountable for access reviews");
-      rows[i].classList.toggle("flag", n.length > 0); rows[i].lastChild.textContent = n.length ? "⚠ " + n.join("; ") : "✓"; rows[i].lastChild.style.color = n.length ? "var(--bad)" : "var(--good)";
-      if (n.length) { bad++; msgs.push("<b>" + task + "</b>: " + n.join("; ")); }
-    });
-    OMNI.say("rc-cap", bad ? bad + " task(s) need fixing. " + msgs.join(". ") + ". Rules: exactly one A, at least one R, keep C short. Accountability for data access sits with the data owner; audit must be independent of the work it checks." : "Every task has exactly one Accountable and at least one Responsible, the data owner is accountable for access reviews and audit is independent. That is a valid RACI chart.");
+  function rpDraw() {
+    var s = $("rp-svg"); s.innerHTML = "";
+    rect(s, 20, 50, 160, 90, "var(--surface)", "var(--net)"); txt(s, 100, 80, "Primary site", { "text-anchor": "middle", "font-weight": 800 }); txt(s, 100, 100, "app + storage", { "text-anchor": "middle", "font-size": 11 });
+    if (!rpSync || !rpLink) txt(s, 100, 125, (rpQueue ? "queue: " + rpQueue.toLocaleString() : "queue empty"), { "text-anchor": "middle", "font-size": 11, fill: rpQueue ? "var(--bad)" : "var(--ink-2)" });
+    rect(s, 580, 50, 160, 90, "var(--surface)", "var(--good)"); txt(s, 660, 80, "Secondary site", { "text-anchor": "middle", "font-weight": 800 }); txt(s, 660, 100, "replica", { "text-anchor": "middle", "font-size": 11 });
+    S("line", { x1: 180, y1: 95, x2: 580, y2: 95, stroke: rpLink ? "var(--ink-2)" : "var(--bad)", "stroke-width": 3, "stroke-dasharray": rpLink ? "" : "8 6" }, s);
+    if (!rpLink) txt(s, 380, 85, "✂ link cut", { "text-anchor": "middle", fill: "var(--bad)", "font-weight": 800 });
+    txt(s, 380, 175, rpParams().d + " km", { "text-anchor": "middle", class: "svg-muted", "font-size": 11 });
+    rpDots.forEach(function (d) { S("circle", { cx: 180 + d.x * 400, cy: d.ack ? 108 : 82, r: 4, fill: d.ack ? "var(--good)" : "var(--accent)" }, s); });
+    txt(s, 380, 40, rpSync ? "write → replica → ack → app continues" : "write acked locally, replicated in the background", { "text-anchor": "middle", "font-size": 11, class: "svg-muted" });
   }
-  $("rc-reset").onclick = function () { rcBuild(FAULTY); };
-  $("rc-model").onclick = function () { rcBuild(MODEL); };
-  rcBuild(FAULTY);
-
-  /* ===== Lab 4: CSF radar ===== */
-  var FN = [["Govern", "GV", 1, 3, "Strategy, roles, policy, oversight and supply chain risk"], ["Identify", "ID", 2, 3, "Assets, risk assessment, improvement"], ["Protect", "PR", 2, 3, "Identity and access, awareness, data security, platform security"], ["Detect", "DE", 1, 3, "Continuous monitoring, adverse event analysis"], ["Respond", "RS", 1, 3, "Incident management, analysis, reporting, mitigation"], ["Recover", "RC", 2, 3, "Recovery plan execution and communication"]];
-  var cs = FN.map(function (f) { return [f[2], f[3]]; });
-  FN.forEach(function (f, i) {
-    var a = h("input", { type: "range", min: 1, max: 4, step: 1, value: f[2], "aria-label": f[0] + " current" }), av = h("b", null, String(f[2]));
-    var b = h("input", { type: "range", min: 1, max: 4, step: 1, value: f[3], "aria-label": f[0] + " target" }), bv = h("b", null, String(f[3]));
-    a.oninput = function () { cs[i][0] = +a.value; av.textContent = a.value; csDraw(); };
-    b.oninput = function () { cs[i][1] = +b.value; bv.textContent = b.value; csDraw(); };
-    $("cs-rows").appendChild(h("label", { title: f[4] }, [h("span", null, f[0] + " (" + f[1] + ")"), a, av, b, bv]));
-  });
-  $("cs-rows").insertBefore(h("div", { class: "figcap" }, "Function · current (1–4) · target (1–4)"), $("cs-rows").firstChild);
-  function csDraw() {
-    var g = $("cs-svg"); g.innerHTML = ""; var cx = 260, cy = 170, R = 130;
-    function pt(i, v) { var a = -Math.PI / 2 + i * Math.PI / 3; return [cx + Math.cos(a) * R * v / 4, cy + Math.sin(a) * R * v / 4]; }
-    for (var lv = 1; lv <= 4; lv++) S("polygon", { points: FN.map(function (f, i) { return pt(i, lv).join(","); }).join(" "), fill: "none", stroke: "var(--line)" }, g);
-    FN.forEach(function (f, i) { var p = pt(i, 4), q = pt(i, 4.6); S("line", { x1: cx, y1: cy, x2: p[0], y2: p[1], stroke: "var(--line)" }, g); txt(g, q[0], q[1] + 4, f[0], { "text-anchor": "middle", "font-weight": 700, "font-size": 12 }); });
-    S("polygon", { points: FN.map(function (f, i) { return pt(i, cs[i][1]).join(","); }).join(" "), fill: "var(--good-soft)", stroke: "var(--good)", "stroke-width": 2, "stroke-dasharray": "6 4", "fill-opacity": .5 }, g);
-    S("polygon", { points: FN.map(function (f, i) { return pt(i, cs[i][0]).join(","); }).join(" "), fill: "var(--accent-soft)", stroke: "var(--accent)", "stroke-width": 2.5, "fill-opacity": .7 }, g);
-    rect(g, 470, 40, 16, 12, "var(--accent-soft)", "var(--accent)", { rx: 2 }); txt(g, 494, 51, "Current profile");
-    rect(g, 470, 62, 16, 12, "var(--good-soft)", "var(--good)", { rx: 2, "stroke-dasharray": "4 2" }); txt(g, 494, 73, "Target profile");
-    var gaps = FN.map(function (f, i) { return { n: f[0], d: f[4], g: cs[i][1] - cs[i][0] }; }).filter(function (x) { return x.g > 0; }).sort(function (a, b) { return b.g - a.g; });
-    gaps.slice(0, 5).forEach(function (x, k) { txt(g, 470, 110 + k * 22, x.n + ": gap " + x.g, { "font-size": 12, "font-weight": k === 0 ? 700 : 400 }); });
-    if (!gaps.length) txt(g, 470, 110, "No gaps: target met", { "font-size": 12, "font-weight": 700 });
-    var top = gaps[0];
-    OMNI.say("cs-cap", gaps.length ? "Bramblewood's biggest gap is <b>" + top.n + "</b> (" + top.d + "), " + top.g + " level(s) below target. " + (top.n === "Govern" ? "CSF 2.0 puts Govern at the centre: without clear roles, risk appetite and policy, the other functions drift. Start there." : top.n === "Detect" || top.n === "Respond" ? "A clinic chain with weak detection and response may not notice ransomware until patient care stops; consider managed detection and response and an incident plan with tabletop exercises." : "Prioritize the largest gaps that protect patient data and care, within budget.") + " Profiles turn a framework into a roadmap: current → target → action plan." : "Current profile meets or exceeds the target on every function. Check whether the target is ambitious enough for a healthcare provider.");
+  function rpLoop(now) {
+    var dt = Math.min(100, now - rpT); rpT = now; var p = rpParams();
+    if (rpLink) { rpAcc += dt / (OMNI.reduced ? 100 : 160); while (rpAcc > 1) { rpAcc--; rpDots.push({ x: 0, ack: false }); } }
+    var speed = dt / 1200;
+    rpDots.forEach(function (d) { if (!d.ack) { d.x += speed; if (d.x >= 1) { d.x = 1; d.ack = rpSync; if (!rpSync) d.done = true; } } else { d.x -= speed; if (d.x <= 0) d.done = true; } });
+    if (!rpLink) { rpDots = []; if (!rpSync) rpQueue += Math.round(p.w * dt / 1000); }
+    rpDots = rpDots.filter(function (d) { return !d.done; });
+    rpDraw(); rpMetrics();
+    requestAnimationFrame(rpLoop);
   }
-  csDraw();
-
-  /* ===== Lab 5: Control mapper ===== */
-  var CTRL = ["MFA for remote access", "Encrypted, tested offline backups", "Monthly vulnerability scanning", "Centralized log monitoring and alerting", "Phishing awareness training", "Incident response plan and tabletop exercises", "Hardware and software asset inventory", "Security clauses in supplier contracts"];
-  var MAPS = {
-    "ISO 27001 Annex A": ["A.8.5 Secure authentication", "A.8.13 Information backup", "A.8.8 Management of technical vulnerabilities", "A.8.16 Monitoring activities", "A.6.3 Information security awareness, education and training", "A.5.24 Incident management planning and preparation", "A.5.9 Inventory of information and other associated assets", "A.5.20 Addressing information security within supplier agreements"],
-    "NIST CSF 2.0": ["PR.AA Identity management, authentication and access control", "PR.DS Data security", "ID.RA Risk assessment", "DE.CM Continuous monitoring", "PR.AT Awareness and training", "RS.MA Incident management", "ID.AM Asset management", "GV.SC Cybersecurity supply chain risk management"],
-    "CIS Controls v8.1": ["6 Access Control Management", "11 Data Recovery", "7 Continuous Vulnerability Management", "8 Audit Log Management", "14 Security Awareness and Skills Training", "17 Incident Response Management", "1 Inventory and Control of Enterprise Assets", "15 Service Provider Management"]
-  };
-  var mpFw = "ISO 27001 Annex A", mpDnd;
-  Object.keys(MAPS).forEach(function (k) { var b = h("button", { type: "button" }, k); b.onclick = function () { mpFw = k; mpReset(); }; $("mp-fw").appendChild(b); });
-  function mpReset() {
-    OMNI.$$("#mp-fw button").forEach(function (b) { b.classList.toggle("on", b.textContent === mpFw); });
-    var bank = $("mp-bank"); bank.innerHTML = '<span class="zone-title">Controls</span>';
-    OMNI.shuffle(CTRL.map(function (c, i) { return i; })).forEach(function (i) { bank.appendChild(h("span", { class: "chip", "data-id": String(i) }, CTRL[i])); });
-    var Z = $("mp-zones"); Z.innerHTML = "";
-    OMNI.shuffle(CTRL.map(function (c, i) { return i; })).forEach(function (i) { Z.appendChild(h("div", { class: "dropzone", "data-z": String(i) }, h("span", { class: "zone-title" }, MAPS[mpFw][i]))); });
-    if (mpDnd) mpDnd.refresh();
-    OMNI.say("mp-cap", "Map the eight controls to " + mpFw + ". One control per box.");
-  }
-  mpReset();
-  mpDnd = OMNI.dnd($("lab-map"), function (c, z) { if (z.dataset.z !== undefined) OMNI.$$(".chip", z).forEach(function (o) { if (o !== c) $("mp-bank").appendChild(o); }); OMNI.$$("#lab-map .chip").forEach(function (o) { o.classList.remove("ok", "bad"); }); });
-  $("mp-reset").onclick = mpReset;
-  $("mp-check").onclick = function () {
-    var right = 0, placed = 0, notes = [];
-    OMNI.$$("#mp-zones .dropzone").forEach(function (z) { var c = z.querySelector(".chip"); if (!c) return; placed++; var ok = c.dataset.id === z.dataset.z; c.classList.toggle("ok", ok); c.classList.toggle("bad", !ok); if (ok) right++; else notes.push("<b>" + esc(CTRL[+c.dataset.id]) + "</b> → " + esc(MAPS[mpFw][+c.dataset.id])); });
-    OMNI.say("mp-cap", right + " of " + placed + " placed controls are correct" + (placed < 8 ? " (" + (8 - placed) + " left)" : "") + ". " + (notes.length ? "Correct homes: " + notes.join("; ") + "." : placed === 8 ? "All mapped! Now switch frameworks: the same control appears in each, which is why organizations map once and comply many times (a \"common control framework\")." : ""));
-  };
+  $("rp-sync").onclick = function () { rpSync = true; this.classList.add("on"); $("rp-async").classList.remove("on"); rpDots = []; };
+  $("rp-async").onclick = function () { rpSync = false; this.classList.add("on"); $("rp-sync").classList.remove("on"); rpDots = []; };
+  $("rp-fail").onclick = function () { rpLink = false; };
+  $("rp-heal").onclick = function () { rpLink = true; if (rpQueue) { var q = rpQueue; rpQueue = 0; rpHold = performance.now() + 6000; OMNI.say("rp-cap", "Link restored: the " + q.toLocaleString() + " queued writes are resynchronized to the secondary. Until that finishes, the secondary is behind."); } };
+  $("rp-d").oninput = $("rp-w").oninput = rpLabels; rpLabels();
+  requestAnimationFrame(rpLoop);
 })();
 </script>
 <!-- module-data:start -->
-<script type="application/json" id="module-data">{"module":20,"title":"Frameworks That Run the Enterprise","glossary":[["Governance","Setting direction and checking it's followed.","The system by which an enterprise is directed and controlled; in COBIT, governance evaluates stakeholder needs, sets direction and monitors performance (EDM).",""],["Management","Running things day to day to reach the goals.","Planning, building, running and monitoring activities aligned with the direction set by the governance body (COBIT: PBRM).",""],["Steering committee","Senior group that prioritizes IT and security work.","A cross-functional executive committee that oversees programs, priorities and investment decisions.",""],["RACI","Who does it, who owns it, who's asked, who's told.","A responsibility assignment matrix: Responsible, Accountable (exactly one), Consulted, Informed.","Responsible, Accountable, Consulted, Informed"],["COBIT 2019","ISACA's framework for governing enterprise IT.","ISACA framework separating governance and management, with 40 governance and management objectives, design factors and capability levels.","Control Objectives for Information and Related Technologies"],["ISO/IEC 27001","The certifiable security management standard.","International standard specifying requirements for an information security management system (ISMS); the 2022 edition has 93 Annex A controls in 4 themes.",""],["ISO/IEC 27002","The guidance book for the 27001 controls.","Code of practice giving implementation guidance for information security controls (the same 93 controls as 27001 Annex A).",""],["ISMS","A managed system for running security.","Information security management system: policies, processes and controls managed with a Plan-Do-Check-Act cycle.","Information Security Management System"],["Statement of Applicability","List of which Annex A controls apply and why.","ISO 27001 document recording which controls are included or excluded and the justification.","SoA"],["ISO 31000","General risk management guidance.","International standard providing principles and guidelines for managing any type of risk.",""],["ISO/IEC 27005","Security risk management guidance.","Guidance on information security risk management supporting ISO 27001.",""],["ISO 22301","Business continuity standard.","Requirements for a business continuity management system (BCMS).",""],["NIST CSF 2.0","A common map of security outcomes.","NIST Cybersecurity Framework 2.0 (2024) with six functions: Govern, Identify, Protect, Detect, Respond, Recover; uses profiles and tiers.","Cybersecurity Framework"],["NIST SP 800-53","The big US catalogue of security controls.","Security and privacy controls for information systems and organizations, grouped into 20 families (Rev. 5).",""],["NIST RMF","Seven steps to authorize and monitor systems.","Risk Management Framework (SP 800-37): Prepare, Categorize, Select, Implement, Assess, Authorize, Monitor.","Risk Management Framework"],["CIS Controls","Prioritized practical security to-do list.","Center for Internet Security Critical Security Controls v8.1: 18 controls with Implementation Groups IG1–IG3.",""],["SOC 2","Audit report on a service provider's controls.","AICPA attestation on controls relevant to the Trust Services Criteria: security, availability, processing integrity, confidentiality, privacy. Type I = design at a point in time; Type II = operating effectiveness over a period.","System and Organization Controls 2"],["PCI DSS","Rules for protecting card data.","Payment Card Industry Data Security Standard (v4.0.1), a contractual requirement for entities that store, process or transmit cardholder data.",""],["HIPAA","US health data protection law.","Health Insurance Portability and Accountability Act; Privacy and Security Rules protect PHI.",""],["SOX","US law on financial reporting controls.","Sarbanes-Oxley Act; Section 404 requires management assessment of internal control over financial reporting.","Sarbanes-Oxley"],["GDPR","EU privacy law.","General Data Protection Regulation: lawful basis, data subject rights, breach notification within 72 hours, fines up to 4% of global turnover.",""],["Policy","High-level rule from management.","A mandatory high-level statement of management intent and direction.",""],["Standard","Specific mandatory requirement.","A mandatory, specific requirement (e.g., minimum password length) supporting a policy.",""],["Procedure","Step-by-step instructions.","Mandatory detailed steps to perform a task.",""],["Guideline","Recommended, not required.","Discretionary advice and best practice.",""],["Baseline","Minimum security configuration.","A mandatory minimum configuration or security level for a system type.",""],["Asset value","What the asset is worth.","The monetary value of an asset (AV), including replacement and business value.","AV"],["Exposure factor","Percentage lost in one incident.","The proportion of asset value lost if a threat occurs (EF).","EF"],["SLE","Cost of one incident.","Single loss expectancy = AV × EF.","Single Loss Expectancy"],["ARO","How often per year.","Annualized rate of occurrence: expected number of occurrences per year.","Annualized Rate of Occurrence"],["ALE","Expected loss per year.","Annualized loss expectancy = SLE × ARO.","Annualized Loss Expectancy"],["Risk appetite","How much risk we're willing to pursue.","The amount and type of risk an organization is willing to accept in pursuit of objectives.",""],["Risk tolerance","Acceptable variation around the appetite.","The acceptable deviation from risk appetite for a specific objective or risk.",""],["Risk capacity","The most risk we could survive.","The maximum amount of risk an organization can absorb before failing.",""],["Inherent vs residual risk","Before controls vs after controls.","Inherent risk exists before controls; residual risk remains after controls are applied.",""],["Risk treatment","Mitigate, transfer, avoid or accept.","The selection of options to modify risk: mitigate (reduce), transfer (share), avoid, accept.",""],["KRI","Early warning metric for risk.","Key risk indicator: a metric signaling rising risk exposure.","Key Risk Indicator"],["KPI","How well a process performs.","Key performance indicator: measures how well a process achieves its goal.","Key Performance Indicator"],["KGI","Did we reach the goal?","Key goal indicator: measures whether a business or IT goal was achieved (lagging).","Key Goal Indicator"],["Risk register","The list of risks and who owns them.","A record of identified risks with likelihood, impact, owner, treatment and status.",""],["Risk owner","Person accountable for a risk.","The person with accountability and authority to manage a risk, usually a business manager.",""],["Maturity model","Levels from chaotic to optimized.","A scale (e.g., CMMI 0/1–5: initial, managed, defined, quantitatively managed, optimizing) for assessing process capability.",""],["Third-party risk","Risk from vendors and partners.","Risk arising from suppliers, service providers and supply chains, managed through due diligence, contracts, right to audit and monitoring.","TPRM"]],"quiz":[{"t":"mc","q":"Who is ultimately accountable for information security governance in an organization?","o":["The CISO","The board of directors and senior management","The IT operations manager","External auditors"],"a":1,"w":["The CISO leads the program but governance accountability sits higher.","Correct.","Too low.","Auditors provide assurance, not governance."],"x":"Governance is directed and controlled from the top; management executes.","c":"CISM","d":"1.1 Governance: roles"},{"t":"mc","q":"In COBIT 2019, which activities belong to governance rather than management?","o":["Evaluate, direct and monitor","Plan, build, run and monitor","Detect, respond and recover","Prepare, categorize and select"],"a":0,"w":["Correct: EDM.","That's management (APO, BAI, DSS, MEA).","NIST CSF functions.","NIST RMF steps."],"x":"COBIT separates the governance domain (EDM) from four management domains.","c":"CISA","d":"2.1 IT governance frameworks"},{"t":"ms","q":"Which of these are mistakes in a RACI chart? (Select all that apply.)","o":["A task with two Accountable roles","A task with no Responsible role","A task with several Informed roles","A task with one Accountable who is also Responsible"],"a":[0,1],"w":["Correct: exactly one A per task.","Correct: someone must do the work.","Fine: many people can be informed.","Allowed: the same role can be A and R."],"x":"One Accountable per task; at least one Responsible.","c":"CISM","d":"1.2 Governance: structures and responsibilities"},{"t":"order","q":"Put the policy hierarchy in order from most general to most specific.","o":["Policy","Standard","Procedure"],"w":["","",""],"x":"Policy (intent) → standard (specific mandatory rules) → procedure (steps). Guidelines are optional advice; baselines are minimum configurations.","c":"S","d":"5.1 Governance documents"},{"t":"mc","q":"Which document is discretionary rather than mandatory?","o":["Policy","Standard","Guideline","Baseline"],"a":2,"w":["Mandatory.","Mandatory.","Correct.","Mandatory minimum."],"x":"Guidelines recommend; the others require.","c":"S","d":"5.1 Governance documents"},{"t":"mc","sc":"A server worth $200,000 sits in a flood zone. A flood would destroy 40% of its value. Floods are expected once every 10 years.","q":"What is the ALE?","o":["$80,000","$8,000","$20,000","$800"],"a":1,"w":["That's the SLE.","Correct: SLE $80,000 × ARO 0.1.","AV × ARO, ignoring EF.","Off by a factor of 10."],"x":"SLE = AV × EF = $200,000 × 0.4 = $80,000. ALE = SLE × ARO = $80,000 × 0.1 = $8,000. A control costing more than $8,000 a year to address only this risk is hard to justify.","c":"S","d":"5.2 Risk analysis: SLE, ALE, ARO"},{"t":"mc","q":"What is the main difference between risk appetite and risk tolerance?","o":["Appetite is the broad amount of risk the organization will pursue; tolerance is the acceptable variation for specific objectives","They are identical","Tolerance is set by auditors","Appetite applies only to IT"],"a":0,"w":["Correct.","Related but different.","Set by management.","Organization-wide."],"x":"Capacity is the maximum the organization could absorb.","c":"CISM","d":"2.1 Risk: appetite and tolerance"},{"t":"mc","q":"Who should own a risk in the risk register?","o":["A business manager with authority and accountability for the affected asset or process","The security analyst who found it","The external auditor","The help desk"],"a":0,"w":["Correct.","Identifies, doesn't own.","Independent; can't own.","No authority."],"x":"Risk owners decide treatment within appetite.","c":"CISM","d":"2.3 Risk: ownership and treatment"},{"t":"mc","q":"Which metric gives early warning that risk exposure is increasing?","o":["KGI","KRI","KPI","SLA"],"a":1,"w":["Lagging: was the goal met?","Correct: key risk indicator.","Process performance.","Service target."],"x":"Example KRI: percentage of critical systems missing patches for 30+ days.","c":"CISM","d":"2.4 Risk: monitoring and reporting"},{"t":"mc","q":"An organization buys cyber insurance for ransomware losses. Which risk treatment is this?","o":["Mitigate","Transfer","Avoid","Accept"],"a":1,"w":["Reduces likelihood or impact.","Correct: shares the financial impact.","Stops the activity.","Takes no action."],"x":"Accountability for the risk is not transferred, only some financial impact.","c":"S","d":"5.2 Risk management strategies"},{"t":"mc","q":"Which framework is certifiable for an organization's information security management system?","o":["NIST CSF 2.0","ISO/IEC 27001","CIS Controls","ISO/IEC 27002"],"a":1,"w":["Voluntary framework; no certification.","Correct.","Prioritized controls; no certification.","Guidance only."],"x":"Accredited certification bodies audit organizations against 27001.","c":"CISA","d":"2.2 Standards and frameworks"},{"t":"mc","q":"Which function was added in NIST CSF 2.0?","o":["Identify","Govern","Recover","Detect"],"a":1,"w":["Existed in 1.1.","Correct.","Existed in 1.1.","Existed in 1.1."],"x":"Govern covers strategy, roles, policy, oversight and supply chain risk management.","c":"S","d":"5.1 Governance frameworks"},{"t":"mc","q":"A cloud provider gives you a SOC 2 Type II report. What does it tell you?","o":["Whether controls were suitably designed and operated effectively over a period","Only that controls were designed at a single point in time","That the provider is PCI DSS compliant","That the provider has no vulnerabilities"],"a":0,"w":["Correct.","That's Type I.","Different standard.","No report proves that."],"x":"Review the scope, exceptions and complementary user entity controls (CUECs).","c":"CISA","d":"2.6 Vendor management"},{"t":"mc","sc":"A company is choosing a new payroll SaaS provider that will process employee bank details.","q":"What should the security manager do FIRST?","o":["Perform due diligence on the provider's security and compliance","Sign the contract quickly to save money","Run a penetration test against the provider without permission","Disable MFA to simplify integration"],"a":0,"w":["Correct: questionnaires, SOC 2 reports, certifications, contract terms (right to audit, breach notice).","Due diligence comes before signing.","Illegal without authorization.","Weakens security."],"x":"Third-party risk management: due diligence → contract → onboarding → monitoring → offboarding.","c":"CISM","d":"2.5 Third-party risk"},{"t":"mc","q":"In a CMMI-style maturity model, which level describes processes that are documented and standardized across the organization?","o":["Initial","Managed","Defined","Optimizing"],"a":2,"w":["Ad hoc and chaotic.","Planned and tracked at project level.","Correct.","Continuous improvement based on measurement."],"x":"1 initial, 2 managed, 3 defined, 4 quantitatively managed, 5 optimizing.","c":"CISA","d":"2.4 Maturity models"}],"flashcards":[["Governance vs management","Direct and control (EDM) vs plan, build, run, monitor (PBRM)"],["RACI rules","Exactly one Accountable; at least one Responsible"],["COBIT 2019","ISACA governance framework: 40 objectives, EDM + APO/BAI/DSS/MEA"],["ISO/IEC 27001:2022","Certifiable ISMS; 93 Annex A controls in 4 themes"],["Annex A themes","Organizational (37), people (8), physical (14), technological (34)"],["ISO 27002","Guidance for the controls"],["ISO 31000 / 27005","General risk / information security risk"],["ISO 22301 / ISO 20000","Business continuity / service management"],["NIST CSF 2.0 functions","Govern, Identify, Protect, Detect, Respond, Recover"],["NIST RMF steps","Prepare, Categorize, Select, Implement, Assess, Authorize, Monitor"],["NIST SP 800-53","Control catalogue, 20 families"],["CIS Controls v8.1","18 controls, IG1–IG3"],["SOC 2 Type I vs II","Design at a point in time vs operating effectiveness over a period"],["Trust Services Criteria","Security, availability, processing integrity, confidentiality, privacy"],["PCI DSS / HIPAA / SOX / GDPR","Card data / US health data / financial reporting controls / EU personal data"],["Policy hierarchy","Policy → standard → procedure; guidelines optional; baselines minimum configs"],["SLE","AV × EF"],["ALE","SLE × ARO"],["Control worth it?","ALE before − ALE after − annual control cost > 0"],["Appetite / tolerance / capacity","Willing to pursue / acceptable variation / max survivable"],["Four risk treatments","Mitigate, transfer, avoid, accept"],["KRI / KPI / KGI","Risk warning / process performance / goal achieved"],["Inherent vs residual","Before controls vs after controls"],["CMMI levels","Initial, managed, defined, quantitatively managed, optimizing"],["GDPR breach notice","72 hours to the supervisory authority"]]}</script>
+<script type="application/json" id="module-data">{"module":20,"title":"Cloud, Containers and Storage","glossary":[["Hypervisor","Software that runs virtual machines.","A virtual machine monitor that abstracts hardware for guest OSes; Type 1 runs on bare metal, Type 2 on a host OS.","Virtual machine monitor"],["vCPU","A virtual processor for a VM.","A virtual CPU scheduled onto physical cores or threads by the hypervisor.","Virtual CPU"],["Overcommit","Promising more resources than you have.","Allocating more vCPU or memory to VMs than physically exists, relying on workloads not peaking together.",""],["Live migration","Moving a running VM with no downtime.","Transferring a VM's memory and state to another host while it runs (e.g., vMotion).",""],["HA cluster","Hosts that restart each other's VMs.","A group of hypervisor hosts that automatically restarts VMs from a failed host on surviving hosts.","High availability"],["Virtual switch","A software switch inside the host.","A Layer 2 switch implemented in the hypervisor connecting VMs to each other and to physical NICs.","vSwitch"],["Container","A packaged app sharing the host kernel.","An isolated process with its own filesystem view, using kernel namespaces and cgroups; starts in seconds.",""],["Container image","The template a container runs from.","A read-only, layered filesystem package with metadata, stored in a registry.",""],["Kubernetes","The container orchestrator.","An open-source system for deploying, scaling and managing containerized applications across clusters.","K8s"],["Pod","Kubernetes' smallest unit.","One or more containers that share network namespace and storage, scheduled together on a node.",""],["Node","A machine in a Kubernetes cluster.","A worker VM or physical server that runs pods under control-plane management.",""],["Kubernetes Service","A stable address for changing pods.","An abstraction providing a fixed virtual IP/DNS name that load-balances across matching pods.",""],["Microservices","An app built from small independent services.","An architecture of loosely coupled services communicating via APIs, each independently deployable.",""],["Serverless","Run code without managing servers.","A model where the provider runs event-triggered functions and scales automatically, billing per execution.","FaaS"],["Infrastructure as code","Servers and networks defined in files.","Managing infrastructure through machine-readable, version-controlled definitions (Terraform, Ansible).","IaC"],["CI/CD","Automatic build, test and release.","Continuous integration and continuous delivery/deployment pipelines.","Continuous Integration / Continuous Delivery"],["IaaS","Rent virtual hardware.","Infrastructure as a service: provider supplies compute, storage and networking; customer manages OS and above.","Infrastructure as a Service"],["PaaS","Rent a ready platform for your code.","Platform as a service: provider manages infrastructure, OS and runtime; customer manages apps and data.","Platform as a Service"],["SaaS","Rent finished software.","Software as a service: provider runs the complete application; customer manages data, users and settings.","Software as a Service"],["Hybrid cloud","Public plus private, working together.","A combination of public and private cloud environments with orchestration between them.",""],["Multi-cloud","Using several cloud providers.","Use of services from more than one public cloud provider.",""],["Shared responsibility model","Who secures what in the cloud.","Division of security duties between provider and customer, varying by service model.",""],["Availability zone","A separate data center within a region.","An isolated location within a cloud region with independent power, cooling and networking.","AZ"],["Elasticity","Automatically growing and shrinking.","The ability to provision and release resources automatically in response to demand.",""],["Scalability","Ability to grow.","Capacity to handle increased load, vertically (bigger) or horizontally (more instances).",""],["VPC / VNet","Your private network in the cloud.","A logically isolated virtual network within a cloud provider, with your own IP ranges and subnets.","Virtual Private Cloud / Virtual Network"],["Security group","Stateful allow-list firewall on instances.","A cloud virtual firewall attached to instances or NICs with allow rules only; return traffic is permitted automatically.",""],["Network ACL","Stateless subnet firewall.","A subnet-level rule list with ordered allow and deny rules, evaluated statelessly.","NACL"],["NAT gateway","Outbound-only internet for private servers.","A managed service allowing private-subnet instances to initiate outbound connections without accepting inbound ones.",""],["Direct Connect / ExpressRoute","Private line to the cloud.","A dedicated private circuit between on-premises networks and a cloud provider.",""],["CDN","Content cached near users.","A content delivery network of edge servers caching content to reduce latency and absorb load.","Content Delivery Network"],["CASB","Gatekeeper between users and cloud apps.","Cloud access security broker: enforces security policies and provides visibility for cloud service use.","Cloud Access Security Broker"],["CSPM","Scanner for cloud misconfigurations.","Cloud security posture management: continuous assessment of cloud configurations against policies.","Cloud Security Posture Management"],["DAS / NAS / SAN","Local disks / file server / storage network.","Direct-attached storage, network-attached storage (file-level) and storage area network (block-level).",""],["Block storage","Raw disks for servers.","Storage presented as fixed-size blocks/volumes formatted by the host OS.",""],["File storage","Shared folders over the network.","Hierarchical file systems accessed via protocols such as SMB and NFS.",""],["Object storage","Huge buckets of files with metadata, via HTTP.","Flat storage of objects identified by keys with metadata, accessed through APIs; massively scalable.",""],["iSCSI","Disk commands over normal IP networks.","Internet Small Computer Systems Interface: SCSI block commands over TCP/IP (port 3260).",""],["Fibre Channel","Dedicated high-speed SAN network.","A lossless storage networking protocol and fabric for block storage, using WWNs and zoning.","FC"],["FCoE","Fibre Channel carried over Ethernet.","Fibre Channel over Ethernet, requiring lossless Data Center Bridging.","Fibre Channel over Ethernet"],["NVMe-oF","Super-fast flash over the network.","NVMe over Fabrics: extends the NVMe protocol across RDMA, Fibre Channel or TCP networks.","NVMe over Fabrics"],["Thin provisioning","Allocate space only as it's used.","Presenting more capacity than physically allocated, consuming space as data is written.",""],["Deduplication","Store repeated data once.","Eliminating duplicate blocks or files so only one copy is stored.",""],["Synchronous replication","Both sites confirm before the write completes.","Replication where writes are acknowledged only after being committed at both sites; RPO zero, distance-limited.",""],["Asynchronous replication","Copy to the far site afterwards.","Replication where writes are acknowledged locally and sent later; any distance, RPO greater than zero.",""],["Storage tiering","Hot data on fast disks, cold data on cheap ones.","Automatically placing data on different media classes based on access patterns.",""]],"quiz":[{"t":"mc","q":"Which hypervisor type runs directly on server hardware?","o":["Type 1","Type 2","Container runtime","Emulator"],"a":0,"w":["Correct: bare metal.","Runs on a host OS.","Runs containers, not VMs.","Translates instructions, much slower."],"x":"ESXi, Hyper-V and KVM are Type 1.","c":"A1","d":"4.x Virtualization and cloud computing"},{"t":"mc","q":"What is the main reason containers start faster and use less memory than VMs?","o":["They share the host's kernel instead of booting a guest OS","They use faster disks","They have no network stack","They run only on bare metal"],"a":0,"w":["Correct.","Disk speed isn't the reason.","They do have networking.","They run anywhere a supported kernel exists."],"x":"The trade-off is weaker isolation than separate kernels.","c":"S","d":"3.1 Architecture models"},{"t":"mc","q":"In Kubernetes, what is the smallest deployable unit?","o":["Pod","Node","Cluster","Image"],"a":0,"w":["Correct.","A machine that runs pods.","The whole set of nodes.","The template a container runs from."],"x":"A pod can hold one or more tightly coupled containers.","c":"S","d":"3.1 Architecture models"},{"t":"mc","q":"A company runs its own VMs on rented cloud servers and patches the operating systems itself. Which service model is this?","o":["IaaS","PaaS","SaaS","FaaS"],"a":0,"w":["Correct.","Provider would patch the OS.","Provider runs the whole app.","Provider runs functions; no OS to patch."],"x":"In IaaS the customer manages the OS and everything above.","c":"N","d":"1.3 Cloud concepts"},{"t":"mc","q":"In every cloud service model, which remains the customer's responsibility?","o":["Data and access management","Physical security of the data center","Hypervisor patching","Power and cooling"],"a":0,"w":["Correct.","Always the provider.","Provider (IaaS and above).","Provider."],"x":"Misconfigured sharing and stolen credentials are customer-side failures.","c":"S","d":"3.1 Architecture models"},{"t":"mc","q":"A web app automatically adds servers during a sale and removes them afterwards. Which cloud characteristic is this?","o":["Elasticity","Multitenancy","Broad network access","Measured service"],"a":0,"w":["Correct.","Sharing infrastructure among customers.","Accessible from many devices.","Metered billing."],"x":"Scalability is the ability to grow; elasticity grows and shrinks automatically.","c":"N","d":"1.3 Cloud concepts"},{"t":"ms","q":"Which statements about cloud security groups and network ACLs are true? (Choose two.)","o":["Security groups are stateful","Network ACLs are stateless and support deny rules","Security groups support explicit deny rules","Network ACLs attach to individual instances"],"a":[0,1],"w":["Correct.","Correct.","Security groups are allow-only.","NACLs attach to subnets."],"x":"Use security groups for instance-level allow lists and NACLs for subnet-level denies.","c":"N","d":"1.3 Cloud concepts"},{"t":"mc","q":"Private-subnet servers need to download patches from the internet without being reachable from it. What should be used?","o":["NAT gateway","Internet gateway with public IPs","Direct Connect","CDN"],"a":0,"w":["Correct.","Would make them reachable inbound.","Private line to on-prem, not the internet.","Caches content for users."],"x":"NAT allows outbound-initiated connections only.","c":"N","d":"1.3 Cloud concepts"},{"t":"mc","q":"Which tool continuously checks cloud accounts for misconfigurations like public storage buckets?","o":["CSPM","CASB","WAF","HSM"],"a":0,"w":["Correct.","Brokers access to SaaS apps.","Protects web apps.","Stores keys."],"x":"Misconfiguration is the leading cause of cloud breaches.","c":"S","d":"2.3 Types of vulnerabilities"},{"t":"mc","q":"Which storage type is accessed over HTTP APIs with a flat namespace and metadata, ideal for backups and media archives?","o":["Object","Block","File","DAS"],"a":0,"w":["Correct.","Raw volumes for one host.","Hierarchical shares.","Local disks."],"x":"S3 and Azure Blob are object storage.","c":"A1","d":"4.x Virtualization and cloud computing"},{"t":"mc","q":"Which protocol carries SCSI block commands over standard TCP/IP networks?","o":["iSCSI","NFS","SMB","Fibre Channel"],"a":0,"w":["Correct: TCP 3260.","File protocol.","File protocol.","Uses its own fabric, not TCP/IP."],"x":"FCoE carries FC over Ethernet; NVMe-oF can run over TCP.","c":"N","d":"1.4 Network topologies and storage"},{"t":"mc","q":"A NAS device provides which type of access?","o":["File-level (SMB/NFS)","Block-level (FC)","Object API only","Direct SAS only"],"a":0,"w":["Correct.","That's a SAN.","Some NAS add S3, but core access is file.","That's DAS."],"x":"SAN = block; NAS = file.","c":"A1","d":"3.x Hardware: storage"},{"t":"mc","q":"Two data centers are 1,500 km apart. The business wants zero added write latency. Which replication should they use, and what is the trade-off?","o":["Asynchronous, accepting an RPO greater than zero","Synchronous, accepting RPO greater than zero","Synchronous with zero latency impact","No replication is possible at that distance"],"a":0,"w":["Correct.","Sync gives RPO 0 but adds ~15 ms per write at this distance.","Physics makes this impossible.","Async works at any distance."],"x":"About 1 ms round trip per 100 km of fiber.","c":"S","d":"3.4 Resilience and recovery"},{"t":"mc","q":"A storage admin presents 10 TB volumes to servers but only 4 TB of physical disk is consumed so far. What feature is in use?","o":["Thin provisioning","Thick provisioning","RAID 1","Tiering"],"a":0,"w":["Correct.","Would reserve all 10 TB.","Mirroring.","Moves data between media."],"x":"Monitor thin pools so they don't run out of real space.","c":"N","d":"1.x Storage concepts (verify objective)"},{"t":"order","q":"Order these service models from MOST to LEAST customer responsibility.","o":["On-premises","IaaS","PaaS","SaaS"],"x":"Responsibility shifts to the provider at each step; data and access always stay with the customer.","c":"S","d":"3.1 Architecture models"}],"flashcards":[["Rehost (lift and shift)","Move VMs to the cloud unchanged."],["Landing zone","The prepared cloud foundation: accounts, network, identity, logging, guardrails."],["Container image vs container","Image is the read-only template; a container is a running instance of it."],["Type 1 vs Type 2 hypervisor","Bare metal vs hosted on an OS"],["Overcommit risk","CPU ready time, memory ballooning/swapping"],["Live migration needs","Shared/replicated storage + fast network"],["HA vs fault tolerance","Restart on another host vs lockstep copy, zero downtime"],["Container isolation","Namespaces + cgroups, shared kernel"],["Pod","Smallest Kubernetes unit"],["Kubernetes Service","Stable IP/DNS for a set of pods"],["Terraform vs Ansible","Provisioning (declarative) vs configuration (agentless)"],["CI vs CD","Build and test every change vs release automatically"],["NIST cloud characteristics (5)","Self-service, network access, pooling, elasticity, measured"],["IaaS: customer manages","OS, runtime, apps, data, access"],["PaaS: customer manages","Apps, data, access"],["SaaS: customer manages","Data, users and access, settings"],["Region vs AZ","Geographic area vs separate data center in it"],["Elasticity vs scalability","Auto grow and shrink vs ability to grow"],["Security group","Stateful, allow-only, on instances"],["Network ACL","Stateless, allow/deny, on subnets, ordered"],["NAT gateway","Outbound internet for private subnets"],["CASB vs CSPM","Controls SaaS use vs scans cloud config"],["DAS / NAS / SAN","Local / file over network / block over network"],["Block / file / object","Databases / shares / backups and media"],["iSCSI port","TCP 3260"],["FCoE needs","Lossless Ethernet (DCB)"],["Thin provisioning risk","Pool runs out of real space"],["Sync replication","RPO 0, adds RTT latency, ~100 km max"],["Async replication","Any distance, RPO > 0"],["Fiber latency rule","~1 ms round trip per 100 km"]]}</script>
 <!-- module-data:end -->
 </body>
 </html>

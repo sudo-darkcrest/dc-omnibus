@@ -3,22 +3,31 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Module 27 · Cyber Security Careers: SOC Work, Attack Frameworks and Certifications | Datacenter Omnibus</title>
-<meta name="description" content="Cyber security careers explained: SOC analyst, incident responder, threat hunter, pentester, cloud security and GRC roles; the Cyber Kill Chain and MITRE ATT&CK; SOC tools and metrics; vulnerability prioritisation; and the security certification landscape from ISC2 CC and Security+ to CySA+, PenTest+, OSCP, CISSP and beyond.">
+<title>Module 27 · Leading Security: Information Security Management (CISM) | Datacenter Omnibus</title>
+<meta name="description" content="ISACA CISM: information security governance, risk management, building and running a security program, and incident management (BIA, BCP, DRP), with a manager's mindset, four labs and a 75-question domain-weighted practice exam.">
 <link rel="stylesheet" href="assets/omnibus.css">
 <style>
+  .metric { font-size: 1.5rem; font-weight: 800; line-height: 1.1; }
+  .init { display: grid; grid-template-columns: auto 1fr auto; gap: 6px 10px; align-items: center; border: 1px solid var(--line); border-radius: 10px; padding: 8px 10px; margin: 6px 0; background: var(--surface); }
+  .init.on { border-color: var(--accent); background: var(--accent-soft); }
+  .init small { color: var(--ink-2); }
+  .bf-opt { display: block; width: 100%; text-align: left; margin: 6px 0; }
+  .bf-opt.ok { border-color: var(--good); background: var(--good-soft); }
+  .bf-opt.bad { border-color: var(--bad); background: var(--bad-soft); }
+  .bf-why { font-size: .9rem; margin: 2px 0 8px 10px; color: var(--ink-2); }
+  .stage-card { border: 1px solid var(--line); border-radius: 10px; padding: 12px; background: var(--surface); }
+  .stage-card .t { font-weight: 700; color: var(--accent); }
+  .tt-opt { display: block; width: 100%; text-align: left; margin: 6px 0; }
+  .timeline { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0; }
+  .timeline span { border: 1px solid var(--line); border-radius: 999px; padding: 2px 10px; font-size: .85rem; }
+  .timeline span.good { border-color: var(--good); background: var(--good-soft); }
+  .timeline span.mid { border-color: var(--warn); background: var(--warn-soft); }
+  .timeline span.poor { border-color: var(--bad); background: var(--bad-soft); }
+  .dash-grid { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+  @media (max-width: 700px) { .dash-grid { grid-template-columns: 1fr; } }
+  .dash-grid .dropzone { min-height: 120px; }
   .chip.ok { border-color: var(--good); background: var(--good-soft); }
   .chip.bad { border-color: var(--bad); background: var(--bad-soft); }
-  .path-steps { list-style: none; padding: 0; margin: 10px 0; counter-reset: s; }
-  .path-steps li { counter-increment: s; border: 1px solid var(--line); border-left: 5px solid var(--sec); border-radius: 8px; padding: 8px 12px 8px 44px; margin: 6px 0; position: relative; background: var(--surface); }
-  .path-steps li::before { content: counter(s); position: absolute; left: 12px; top: 8px; font-weight: 800; color: var(--sec); font-size: 1.1rem; }
-  .rank-list { list-style: none; padding: 0; }
-  .rank-list li { display: grid; grid-template-columns: 30px 1fr auto; gap: 8px; align-items: center; border: 1px solid var(--line); border-radius: 8px; padding: 8px 10px; margin: 6px 0; background: var(--surface); }
-  .rank-list li.ok { border-color: var(--good); background: var(--good-soft); }
-  .rank-list li.bad { border-color: var(--bad); background: var(--bad-soft); }
-  .rank-list .pos { font-weight: 800; font-size: 1.1rem; text-align: center; }
-  .rank-list .meta { font-size: .85rem; color: var(--ink-2); }
-  .rank-list button { padding: 2px 9px; }
 </style>
 </head>
 <body data-module="27">
@@ -27,16 +36,17 @@
 <main class="page" id="main">
 
 <section class="intro">
-  <div class="kicker">Part 7 · Cloud, AI (Artificial Intelligence) and Cyber Careers · Module 27</div>
-  <h1>Cyber Security Careers: SOC Work, Attack Frameworks and Certifications</h1>
-  <p class="why"><b>Why this matters.</b> Modules 14 to 16 taught the security concepts behind Security+. This module shows what people actually do with them: watching for attacks in a security operations center, hunting intruders, testing defences, fixing vulnerabilities and managing risk. It explains the frameworks professionals use every day and lays out the certification paths, so you can choose a direction and know which exam to take next.</p>
+  <div class="kicker">Part 6 · Service, Governance and Audit · Module 27</div>
+  <h1>Leading Security: Information Security Management</h1>
+  <p class="why"><b>Why this matters.</b> At some point a security career moves from fixing problems to deciding which problems matter, getting the money to solve them and leading the response when things go wrong. ISACA (Information Systems Audit and Control Association)'s Certified Information Security Manager (CISM) tests that management view. Its questions reward the answer a sensible manager would give: aligned with the business, backed by senior management, following governance and risk, not the most technical fix. This module teaches that mindset and ends with a 75-question CISM-style practice exam.</p>
   <h3>You will be able to</h3>
   <ul class="outcomes">
-    <li>Describe the main cyber security roles and how people move between them.</li>
-    <li>Explain an attack using the Cyber Kill Chain and MITRE ATT&amp;CK.</li>
-    <li>Triage security alerts and describe SOC tools (SIEM (Security Information and Event Management), SOAR (Security Orchestration, Automation and Response), EDR (Endpoint Detection and Response)) and metrics.</li>
-    <li>Prioritise vulnerabilities using CVSS (Common Vulnerability Scoring System), exploitation data, exposure and asset value.</li>
-    <li>Choose a certification path, including CySA+, PenTest+, OSCP (OffSec Certified Professional) and CISSP (Certified Information Systems Security Professional), and practise skills legally.</li>
+    <li>Describe the four CISM domains and their exam weights.</li>
+    <li>Build a security strategy aligned to business goals, with a business case and roadmap.</li>
+    <li>Run risk assessment and treatment from a manager's point of view, including ownership, reporting and emerging risks.</li>
+    <li>Develop and run a security program: resources, frameworks, policies, awareness, metrics and vendors.</li>
+    <li>Prepare for and manage incidents: IR (Incident Response) plans, BIA (Business Impact Analysis), BCP (Business Continuity Plan), DRP (Disaster Recovery Plan), testing, escalation, communication, forensics and lessons learned.</li>
+    <li>Answer "best / first / most" questions the way ISACA expects.</li>
   </ul>
   <nav class="jumpnav" id="jumpnav" aria-label="On this page"></nav>
 </section>
@@ -46,138 +56,176 @@
   <div id="certmap-badges"></div>
 </section>
 
-<section class="lesson" id="roles">
-  <h2>1. Cyber security jobs</h2>
-  <p>Cyber security isn't one job. It's a family of roles that defend, attack (with permission), investigate, engineer and govern. Most people start in IT (Information Technology) support, networking or a SOC and move toward a specialty.</p>
-  <figure class="fig"><svg id="career-fig" viewBox="0 0 760 250" width="760" role="img" aria-label="Career ladder: IT support, help desk or networking leads to SOC analyst, which branches to incident responder, threat hunter, penetration tester, security engineer, cloud security and GRC, all leading toward security architect, manager and CISO."></svg></figure>
-  <div class="tablewrap"><table><thead><tr><th>Role</th><th>What they do all day</th><th>Typical certs</th></tr></thead><tbody>
-    <tr><td><b>SOC analyst</b> (Tier 1–3)</td><td>Watch dashboards, triage alerts, investigate suspicious activity, escalate and respond</td><td>Security+, CySA+, BTL1, GIAC (Global Information Assurance Certification) GCIA (Global Information Assurance Certification Certified Intrusion Analyst)</td></tr>
-    <tr><td><b>Incident responder / forensics</b></td><td>Lead response to breaches, collect evidence, find root cause</td><td>CySA+, GIAC GCIH (Global Information Assurance Certification Certified Incident Handler) / GCFA (Global Information Assurance Certification Certified Forensic Analyst), CISM (Certified Information Security Manager; management)</td></tr>
-    <tr><td><b>Threat hunter / intel analyst</b></td><td>Search for hidden attackers, track threat groups and their methods</td><td>CySA+, GIAC GCTI (Global Information Assurance Certification Cyber Threat Intelligence)</td></tr>
-    <tr><td><b>Penetration tester / red team</b></td><td>Attack systems with written permission to prove where defences fail, then write reports</td><td>PenTest+, OSCP, CEH (Certified Ethical Hacker), GIAC GPEN</td></tr>
-    <tr><td><b>Security engineer</b></td><td>Build and run firewalls, EDR, identity systems, SIEM and automation</td><td>Security+, CySA+, vendor certs, CISSP</td></tr>
-    <tr><td><b>Cloud security engineer</b></td><td>Secure AWS (Amazon Web Services), Azure or Google Cloud accounts, identities and workloads</td><td>AWS Security Specialty, CCSP (Certified Cloud Security Professional), AZ-500 (Module 25)</td></tr>
-    <tr><td><b>GRC (Governance, Risk and Compliance) analyst / auditor</b></td><td>Policies, risk assessments, compliance, audits (Modules 20–22)</td><td>CISA (Certified Information Systems Auditor), CISM, ISO (International Organization for Standardization) 27001 Lead Auditor, CRISC (Certified in Risk and Information Systems Control)</td></tr>
-    <tr><td><b>Security architect / manager / CISO (Chief Information Security Officer)</b></td><td>Design security across the organisation, lead teams, report to executives</td><td>CISSP, CISM, SecurityX</td></tr>
+<section class="lesson" id="exam">
+  <h2>1. The CISM exam at a glance</h2>
+  <figure class="fig"><svg id="dom-fig" viewBox="0 0 760 140" width="760" role="img" aria-label="Bar showing CISM domain weights 17, 20, 33 and 30 percent"></svg>
+  <figcaption class="figcap">CISM 2022 job practice domain weights (verify on isaca.org).</figcaption></figure>
+  <div class="tablewrap"><table>
+    <thead><tr><th>Item</th><th>Detail (verify on isaca.org)</th></tr></thead>
+    <tbody>
+      <tr><td>Format</td><td>150 multiple-choice questions, 4 hours, computer-based (test center or remote proctored)</td></tr>
+      <tr><td>Scoring</td><td>Scaled score 200–800; 450 or higher passes</td></tr>
+      <tr><td>Experience</td><td>5 years of information security work experience, including 3 years in information security management across at least three of the four domains, within 10 years before applying (or 5 years after passing); some waivers exist</td></tr>
+      <tr><td>Keeping it</td><td>Annual maintenance fee and continuing professional education (20 CPE hours per year, 120 per three-year cycle)</td></tr>
+    </tbody></table></div>
+  <div class="callout tip">ISACA updates job practices every few years. If a newer CISM job practice has been released since this page was written, the domain names and weights may differ; check isaca.org before you book.</div>
+</section>
+
+<section class="lesson" id="mindset">
+  <h2>2. Think like a manager</h2>
+  <p>Most CISM questions have two or three answers that would work. The best answer is the one a senior security manager should choose. Use these filters, in order:</p>
+  <ol>
+    <li><b>Business first.</b> Does the answer support business objectives? Security enables the business.</li>
+    <li><b>Governance and senior management.</b> Does it follow policy, involve the right owner and keep leadership informed?</li>
+    <li><b>Risk-based.</b> Is it proportionate to risk and impact? Assess before acting.</li>
+    <li><b>Process before technology.</b> Strategy → policy → standards → controls → tools.</li>
+    <li><b>Do the step that has to come first.</b> "FIRST" questions usually reward understanding the situation, checking the plan, or finding the owner, before doing anything.</li>
+  </ol>
+  <div class="tablewrap"><table>
+    <thead><tr><th>Word in the question</th><th>What it usually wants</th></tr></thead>
+    <tbody>
+      <tr><td><b>FIRST</b></td><td>The step that must happen before the others: assess, understand objectives, consult the plan, identify the owner</td></tr>
+      <tr><td><b>BEST</b> / <b>MOST</b></td><td>The most complete, business-aligned, sustainable answer, often the one that addresses the root cause or governance</td></tr>
+      <tr><td><b>PRIMARY</b> / <b>MAIN</b></td><td>The fundamental purpose, not a side benefit</td></tr>
+      <tr><td><b>GREATEST</b> concern / risk</td><td>The issue with the largest business impact, often a governance gap (no owner, no support, no plan)</td></tr>
+    </tbody></table></div>
+  <div class="callout trap">Choosing "install a better tool" or "fix it yourself." CISM rarely rewards jumping to technology or acting outside your role. A manager assesses, involves owners and follows governance.</div>
+</section>
+
+<section class="lesson" id="d1">
+  <h2>3. Domain 1: Information security governance</h2>
+  <h3 id="d1-culture">Culture, structures and roles</h3>
+  <ul>
+    <li><b>Board</b>: sets risk appetite, oversees. <b>Senior management</b>: approves strategy, policy and resources. <b>Steering committee</b>: aligns priorities across departments. <b>CISO (Chief Information Security Officer) / information security manager</b>: develops and runs the program, advises. <b>Data owners</b>: classify and accept risk for their data. <b>Custodians</b>: implement controls. <b>Users</b>: follow policy.</li>
+    <li>The CISO should report high enough to be heard and independent of IT (Information Technology) operations where possible, to avoid conflicts of interest.</li>
+    <li>A healthy security culture is one where people report mistakes and suspicious activity without fear.</li>
+  </ul>
+  <h3 id="d1-legal">Legal, regulatory and contractual requirements</h3>
+  <p>Identify obligations with legal counsel (privacy laws, breach notification, sector rules such as HIPAA (Health Insurance Portability and Accountability Act) or PCI (Payment Card Industry) DSS (Data Security Standard), contracts), map them to controls and monitor changes. Where requirements overlap, build one control set that satisfies many ("comply once, report many").</p>
+  <h3 id="d1-strategy">Strategy, business cases and roadmaps</h3>
+  <figure class="fig"><svg id="strat-fig" viewBox="0 0 760 130" width="760" role="img" aria-label="Strategy flow from business objectives to roadmap"></svg></figure>
+  <ul>
+    <li><b>Desired state</b> can be described with frameworks (COBIT (Control Objectives for Information and Related Technologies) capability levels, NIST (National Institute of Standards and Technology) CSF (Cybersecurity Framework) target profiles, ISO (International Organization for Standardization) 27001 controls) and with business attributes ("customers trust us with payment data").</li>
+    <li><b>Business case</b>: problem, options, costs, benefits (risk reduction, compliance, enablement), risks of doing nothing, alignment with objectives.</li>
+    <li><b>Roadmap</b>: phased initiatives prioritized by risk, dependencies, quick wins and budget cycles.</li>
+    <li>Governance frameworks used: COBIT 2019, ISO/IEC (IEC: International Electrotechnical Commission) 27001/27002, NIST CSF 2.0 (see Module 26).</li>
+  </ul>
+</section>
+
+<section class="lesson" id="d2">
+  <h2>4. Domain 2: Information security risk management</h2>
+  <ul>
+    <li><b>Risk assessment</b>: identify assets and their value (set by the owner), threats, vulnerabilities, likelihood and impact; analyse qualitatively or quantitatively (SLE (Single Loss Expectancy), ALE (Annualized Loss Expectancy); Module 26).</li>
+    <li><b>Threat and vulnerability management</b>: threat intelligence, vulnerability scanning, prioritization by business impact, not just CVSS (Common Vulnerability Scoring System).</li>
+    <li><b>Risk treatment and ownership</b>: the <b>risk owner</b> (a business manager) chooses to mitigate, transfer, avoid or accept within appetite. The security manager advises, facilitates and reports.</li>
+    <li><b>Control selection</b>: proportionate to risk, cost-effective, aligned with frameworks; use <b>compensating controls</b> and documented exceptions when the standard control isn't possible.</li>
+    <li><b>Monitoring and reporting</b>: risk register, KRIs (Key Risk Indicator), trend reporting to management; reassess when the business, technology or threats change.</li>
+    <li><b>Emerging risks</b>: AI (Artificial Intelligence) misuse and data leakage, supply chain attacks, quantum threats to cryptography, new regulations. Assess and govern before buying tools.</li>
+  </ul>
+  <div class="callout detail">ISACA's view: risk management is a continuous cycle, and the information security manager's main job is making sure risk owners have the information to make good decisions.</div>
+</section>
+
+<section class="lesson" id="d3">
+  <h2>5. Domain 3: The information security program</h2>
+  <p>This is the biggest domain (about a third of the exam). The program turns strategy into results.</p>
+  <div class="tablewrap"><table>
+    <thead><tr><th>Area</th><th>What a manager does</th></tr></thead>
+    <tbody>
+      <tr><td><b>Resources and budget</b></td><td>Prioritize by risk; justify with business cases; balance people, process and technology; use outsourcing (MSSP) while keeping accountability</td></tr>
+      <tr><td><b>Frameworks</b></td><td>Choose and tailor a control framework (ISO 27001, NIST CSF, CIS (Center for Internet Security)); map requirements to it</td></tr>
+      <tr><td><b>Policies and standards</b></td><td>Policy approved by senior management; standards, procedures, guidelines and baselines below it; review regularly; manage exceptions</td></tr>
+      <tr><td><b>Awareness and training</b></td><td>Baseline awareness for all, role-based training for high-risk roles; measure behavior (phishing reports, incidents caused by people)</td></tr>
+      <tr><td><b>Metrics</b></td><td>Strategic (board), management and operational levels; tie to objectives; avoid vanity metrics</td></tr>
+      <tr><td><b>Third parties</b></td><td>Risk-tiered due diligence, contract clauses (security requirements, right to audit, breach notification), monitoring, offboarding</td></tr>
+      <tr><td><b>Alignment with IT</b></td><td>Security in project lifecycles, change management, architecture reviews and procurement</td></tr>
+      <tr><td><b>Security architecture</b></td><td>Enterprise security architecture traceable to business requirements (e.g., SABSA (Sherwood Applied Business Security Architecture)), defense in depth, zero trust principles</td></tr>
+    </tbody></table></div>
+</section>
+
+<section class="lesson" id="d4">
+  <h2>6. Domain 4: Incident management</h2>
+  <h3 id="d4-ready">Readiness</h3>
+  <ul>
+    <li><b>Incident response plan (IRP)</b>: scope, definitions, severity classes, roles (incident manager, technical leads, legal, HR (Human Resources), communications), escalation criteria, contact lists, playbooks, evidence handling; approved by senior management.</li>
+    <li><b>BIA</b>: identifies critical processes and how impact grows over time; sets <b>RTO (Recovery Time Objective)</b>, <b>RPO (Recovery Point Objective)</b> and <b>MTD (Maximum Tolerable Downtime)</b>.</li>
+    <li><b>BCP</b> keeps the business running (people, sites, manual workarounds); <b>DRP</b> restores IT (sites, backups, replication).</li>
+    <li><b>Recovery sites</b>: hot (ready in hours), warm (days), cold (space and power, weeks), mirrored/active-active, cloud DR (Disaster Recovery).</li>
+    <li><b>Testing</b>: checklist review → tabletop → walkthrough → simulation → parallel → full interruption (risk and realism increase).</li>
+  </ul>
+  <figure class="fig"><svg id="bia-fig" viewBox="0 0 760 150" width="760" role="img" aria-label="Timeline showing RPO before the disruption and RTO and MTD after it"></svg></figure>
+  <h3 id="d4-ops">Operations</h3>
+  <figure class="fig"><svg id="ir-fig" viewBox="0 0 760 120" width="760" role="img" aria-label="Incident response lifecycle"></svg>
+  <figcaption class="figcap">Incident response lifecycle based on NIST SP (Special Publication) 800-61. Revision 3 (2025) maps incident response to the CSF 2.0 functions; the classic phases are still widely used (verify).</figcaption></figure>
+  <ul>
+    <li><b>Classify and escalate</b> using predefined severity criteria based on business impact.</li>
+    <li><b>Communicate</b> through defined channels: internal stakeholders, executives, a single spokesperson for the media, customers and regulators as required by law and contract (legal counsel decides notification).</li>
+    <li><b>Forensics coordination</b>: preserve evidence before rebuilding, keep chain of custody, involve legal; consider law enforcement.</li>
+    <li><b>Post-incident review</b>: root cause, what worked, what to improve; update plans, controls, training. No blame.</li>
+  </ul>
+</section>
+
+<section class="lesson" id="cism-scenarios">
+  <h2>7. Thinking like a security manager: three scenarios</h2>
+  <p>CISM questions are about judgement, not configuration. The best answer usually aligns security with business goals and follows due process. Try these.</p>
+  <div class="tile"><b>Scenario 1.</b> The sales director wants to let staff use personal phones for email immediately. The security team thinks it is risky. What should the security manager do FIRST?<br><br><b>Best answer:</b> Assess the risk and present options (for example, mobile device management with containerised email) so the business owner can make an informed decision. Security advises; the business owner decides and accepts the risk.</div>
+  <div class="tile"><b>Scenario 2.</b> A new regulation requires encryption of customer data within 12 months. What is the BEST first step?<br><br><b>Best answer:</b> Perform a gap analysis against the requirement to find what is not already compliant, then build a prioritised plan with owners and budget.</div>
+  <div class="tile"><b>Scenario 3.</b> After a major incident, the CEO asks why the incident response plan didn't work. What should the security manager have ensured beforehand?<br><br><b>Best answer:</b> That the plan was tested regularly (tabletop and technical exercises), updated after each test, and that roles and authority were agreed by senior management.</div>
+  <div class="callout tip">CISM answer patterns: prefer governance and risk-based decisions over technical fixes, involve senior management and business owners, and choose the answer that comes first in a logical process (assess before implementing).</div>
+</section>
+
+<section class="lesson" id="metrics-board">
+  <h2>8. Reporting security to the board</h2>
+  <p>Boards don't want packet counts. They want to know whether risk is within appetite and whether security spending is working. Good security metrics are tied to business outcomes.</p>
+  <div class="tablewrap"><table><thead><tr><th>Weak metric</th><th>Better metric</th><th>Why it's better</th></tr></thead><tbody>
+    <tr><td>Number of firewall blocks</td><td>Percentage of critical systems with known-exploited vulnerabilities patched within 14 days</td><td>Shows exposure to attacks that actually happen</td></tr>
+    <tr><td>Phishing emails received</td><td>Percentage of staff who report simulated phishing, and how fast</td><td>Measures behaviour that reduces risk</td></tr>
+    <tr><td>Number of policies</td><td>Percentage of critical risks with an owner and treatment plan on track</td><td>Shows governance working</td></tr>
+    <tr><td>Antivirus installed count</td><td>Mean time to detect and contain incidents</td><td>Shows operational capability</td></tr>
   </tbody></table></div>
-  <div class="callout tip">Employers value <b>proof you can do the work</b> as much as certificates: a home lab write-up, CTF (Capture The Flag) results, a GitHub with scripts or detection rules, or a blog explaining how you investigated something.</div>
-</section>
-
-<section class="lesson" id="attacks">
-  <h2>2. How attacks unfold</h2>
-  <p>Defenders use models to break an attack into stages. Each stage is a chance to detect and stop it, and the earlier the better.</p>
-  <figure class="fig"><svg id="kc-fig" viewBox="0 0 760 150" width="760" role="img" aria-label="Cyber Kill Chain: reconnaissance, weaponization, delivery, exploitation, installation, command and control, actions on objectives."></svg>
-    <figcaption>The Lockheed Martin Cyber Kill Chain (2011). Break any link and the attack fails.</figcaption></figure>
-  <p><b>MITRE ATT&amp;CK</b> goes further. It's a free, constantly updated catalogue of what real attackers do, organised as <b>tactics</b> (the attacker's goal at each step) containing <b>techniques</b> (how they do it, e.g., T1566 Phishing, T1059 Command and Scripting Interpreter). The Enterprise matrix has 14 tactics:</p>
-  <div class="tablewrap"><table><thead><tr><th>Tactic</th><th>Attacker's goal</th><th>Example technique</th></tr></thead><tbody>
-    <tr><td>Reconnaissance</td><td>Gather information for planning</td><td>Search victim-owned websites, scan for open ports</td></tr>
-    <tr><td>Resource Development</td><td>Get infrastructure and tools</td><td>Register look-alike domains</td></tr>
-    <tr><td>Initial Access</td><td>Get into the network</td><td>Phishing, exploiting a public-facing application</td></tr>
-    <tr><td>Execution</td><td>Run malicious code</td><td>PowerShell, user opening a malicious file</td></tr>
-    <tr><td>Persistence</td><td>Stay in after reboots</td><td>Scheduled task, new account, registry run key</td></tr>
-    <tr><td>Privilege Escalation</td><td>Get higher permissions</td><td>Exploit a vulnerable driver, abuse misconfigured sudo</td></tr>
-    <tr><td>Defense Evasion</td><td>Avoid being detected</td><td>Disable security tools, clear logs</td></tr>
-    <tr><td>Credential Access</td><td>Steal passwords and tokens</td><td>Credential dumping (e.g., from LSASS (Local Security Authority Subsystem Service)), brute force</td></tr>
-    <tr><td>Discovery</td><td>Learn the environment</td><td>List domain users and network shares</td></tr>
-    <tr><td>Lateral Movement</td><td>Move to other systems</td><td>Remote Desktop, pass-the-hash</td></tr>
-    <tr><td>Collection</td><td>Gather the target data</td><td>Archive files, capture screenshots</td></tr>
-    <tr><td>Command and Control</td><td>Talk to compromised systems</td><td>HTTPS (HyperText Transfer Protocol Secure) beaconing, DNS (Domain Name System) tunnelling</td></tr>
-    <tr><td>Exfiltration</td><td>Steal the data</td><td>Upload to cloud storage</td></tr>
-    <tr><td>Impact</td><td>Disrupt or destroy</td><td>Ransomware encryption, wiping data</td></tr>
-  </tbody></table></div>
-  <div class="callout detail">The <b>Diamond Model</b> describes each intrusion event by four linked points: <b>adversary</b>, <b>capability</b> (malware, exploits), <b>infrastructure</b> (IPs (Internet Protocol), domains) and <b>victim</b>. Finding one point helps you pivot to the others.</div>
-</section>
-
-<section class="lesson" id="soc">
-  <h2>3. Inside a security operations center</h2>
-  <figure class="fig"><svg id="soc-fig" viewBox="0 0 760 170" width="760" role="img" aria-label="SOC workflow: log sources feed a SIEM, which raises alerts; analysts triage, investigate and respond, with SOAR automating steps and lessons learned tuning detections."></svg></figure>
-  <div class="grid3">
-    <div class="tile"><h4>Tools</h4><p><b>SIEM</b> collects and correlates logs. <b>EDR/XDR (XDR: Extended Detection and Response)</b> watches endpoints and more. <b>SOAR</b> automates playbooks. Threat intelligence feeds add context. Ticketing tracks every case.</p></div>
-    <div class="tile"><h4>Alert outcomes</h4><p><b>True positive</b>: a real attack, so respond. <b>False positive</b>: a false alarm, so close it and tune the rule. <b>False negative</b>: missed entirely, the worst case, found by threat hunting or after damage.</p></div>
-    <div class="tile"><h4>Metrics</h4><p><b>MTTD</b> (mean time to detect), <b>MTTR</b> (mean time to respond or recover), alert volume, false positive rate, and dwell time (how long attackers stayed undetected).</p></div>
-  </div>
-  <p>Incident response follows the NIST (National Institute of Standards and Technology) phases from Module 16: <b>preparation</b>; <b>detection and analysis</b>; <b>containment, eradication and recovery</b>; and <b>post-incident activity</b> (lessons learned). NIST SP (Special Publication) 800-61 Rev. 3 (2025) now aligns these with the CSF (Cybersecurity Framework) 2.0 functions (verify).</p>
-</section>
-
-<section class="lesson" id="vuln">
-  <h2>4. Vulnerability management</h2>
-  <p>Every organisation has more vulnerabilities than time to fix them, so the skill is <b>prioritising</b>. The cycle: <b>discover</b> assets, <b>scan</b> (authenticated scans see more), <b>prioritise</b>, <b>remediate</b> (patch, reconfigure, or apply a compensating control), <b>verify</b> with a rescan, and <b>report</b>.</p>
-  <div class="tablewrap"><table><thead><tr><th>Signal</th><th>What it tells you</th></tr></thead><tbody>
-    <tr><td><b>CVE (Common Vulnerabilities and Exposures)</b></td><td>The unique ID (Identification) of the flaw, e.g., CVE-2021-44228 (Log4Shell)</td></tr>
-    <tr><td><b>CVSS</b> (0–10)</td><td>Technical severity: attack vector, complexity, privileges needed, user interaction, impact. 9.0+ critical, 7.0–8.9 high</td></tr>
-    <tr><td><b>CISA KEV (Known Exploited Vulnerabilities)</b></td><td>Attackers are exploiting it right now. Treat as urgent</td></tr>
-    <tr><td><b>EPSS (Exploit Prediction Scoring System)</b> (0–100%)</td><td>Probability it will be exploited in the next 30 days</td></tr>
-    <tr><td><b>Exposure and asset value</b></td><td>Is it internet-facing? Does the system hold crown-jewel data or run critical services?</td></tr>
-  </tbody></table></div>
-  <div class="callout trap">"Highest CVSS first" is a classic exam and real-world mistake. A CVSS 7.5 on an internet-facing server that attackers are actively exploiting beats a CVSS 9.8 on an isolated lab machine.</div>
-</section>
-
-<section class="lesson" id="certs">
-  <h2>5. The security certification landscape</h2>
-  <p>There's no single right order, but this ladder works for most people (verify exam codes and requirements, which change):</p>
-  <div class="tablewrap"><table><thead><tr><th>Level</th><th>Certification</th><th>Vendor</th><th>Notes</th></tr></thead><tbody>
-    <tr><td rowspan="3"><b>Entry</b></td><td>Certified in Cybersecurity (CC)</td><td>ISC2 (International Information System Security Certification Consortium)</td><td>Beginner-friendly; free training and exam offers have run (verify)</td></tr>
-    <tr><td>Security+ (SY0-701)</td><td>CompTIA</td><td>The standard first security cert; DoD 8140 approved (Modules 14–16)</td></tr>
-    <tr><td>Google Cybersecurity Certificate</td><td>Google / Coursera</td><td>Online course certificate, good for absolute beginners</td></tr>
-    <tr><td rowspan="5"><b>Intermediate: defence</b></td><td>CySA+ (CS0-003)</td><td>CompTIA</td><td>SOC analyst skills: operations, vulnerability management, IR, reporting. Up to 85 questions, 165 min, 750/900. Practise in the Study Hub</td></tr>
-    <tr><td>Blue Team Level 1 (BTL1)</td><td>Security Blue Team</td><td>Practical, lab-based SOC exam</td></tr>
-    <tr><td>GIAC GSEC (Global Information Assurance Certification Security Essentials), GCIH, GCIA</td><td>GIAC (SANS)</td><td>Highly respected; expensive if bought with SANS training</td></tr>
-    <tr><td>SSCP (Systems Security Certified Practitioner)</td><td>ISC2</td><td>Hands-on security administration; 1 year experience</td></tr>
-    <tr><td>Microsoft SC-200</td><td>Microsoft</td><td>Security operations analyst on Microsoft Sentinel and Defender</td></tr>
-    <tr><td rowspan="3"><b>Intermediate: offence</b></td><td>PenTest+ (PT0-003)</td><td>CompTIA</td><td>Planning, scanning, attacks, reporting</td></tr>
-    <tr><td>OSCP (PEN-200)</td><td>OffSec</td><td>Hard, practical exam hacking machines in a lab; highly valued for pentest jobs</td></tr>
-    <tr><td>CEH</td><td>EC-Council</td><td>Well known to HR (Human Resources) and government; mostly knowledge-based (practical version available)</td></tr>
-    <tr><td rowspan="5"><b>Advanced</b></td><td>CISSP</td><td>ISC2</td><td>Broad 8-domain management and architecture cert; 5 years' experience</td></tr>
-    <tr><td>CISM / CISA</td><td>ISACA (Information Systems Audit and Control Association)</td><td>Security management / IT audit (Modules 21–22)</td></tr>
-    <tr><td>SecurityX (formerly CASP (CompTIA Advanced Security Practitioner)+, CAS-005)</td><td>CompTIA</td><td>Advanced hands-on security architecture and engineering</td></tr>
-    <tr><td>CCSP</td><td>ISC2</td><td>Cloud security; 5 years' experience</td></tr>
-    <tr><td>AWS Security – Specialty</td><td>AWS</td><td>Securing AWS (Module 25)</td></tr>
-  </tbody></table></div>
-  <div class="callout detail">US Department of Defense jobs list qualifying certifications by work role under <b>DoD 8140</b>, which replaced the older 8570 baseline. Security+, CySA+, CISSP and others appear on it (verify the current list for a specific role).</div>
-</section>
-
-<section class="lesson" id="start">
-  <h2>6. Getting started the right way</h2>
-  <div class="grid3">
-    <div class="tile"><h4>Build a home lab</h4><p>A spare PC (Personal Computer) or free virtualisation (Module 8) with a few VMs (Virtual Machine): a Windows machine, a Linux server, a firewall VM and a free SIEM. Attack your own machines, then find the evidence in the logs.</p></div>
-    <div class="tile"><h4>Practise legally</h4><p>Use CTF competitions and training platforms built for practice, plus deliberately vulnerable VMs. Only ever test systems you own or have <b>written permission</b> to test.</p></div>
-    <div class="tile"><h4>Show your work</h4><p>Write up what you did and learned. Contribute detection rules or scripts. Join local security meetups and conferences (BSides events are cheap and friendly).</p></div>
-  </div>
-  <div class="callout trap">Good intentions are not a legal defence. Scanning or logging into systems without permission is a crime in most countries, under laws such as the US Computer Fraud and Abuse Act and the UK Computer Misuse Act, even if you only wanted to help.</div>
+  <div class="callout analogy">A board report is like a car dashboard: a few clear gauges (speed, fuel, warning lights), not a printout of every sensor reading in the engine.</div>
 </section>
 
 <section class="lab" id="labs">
   <h2>Interactive labs</h2>
 
-  <div class="lab-card" id="lab-path" data-lab="Cert Path Finder: choose the cyber security role you want and your experience, and get an ordered certification and skills path with links to the right modules.">
-    <h3>Lab 1: Cert Path Finder</h3>
-    <div class="row"><label>I want to become <select id="cp-role">
-      <option value="soc">SOC analyst</option><option value="ir">Incident responder</option><option value="pt">Penetration tester</option><option value="cloud">Cloud security engineer</option><option value="grc">GRC analyst or IT auditor</option><option value="lead">Security manager or CISO</option></select></label>
-      <label>My experience <select id="cp-exp"><option value="0">New to IT</option><option value="1">1–3 years in IT</option><option value="3">3–5 years in IT or security</option><option value="5">5+ years in security</option></select></label></div>
-    <ol class="path-steps" id="cp-out"></ol>
-    <div class="caption" id="cp-cap" aria-live="polite"></div>
+  <div class="lab-card" id="lab-strat" data-lab="Strategy Builder: pick security initiatives for a fictional company within a budget and see business alignment, risk reduction and cost, with an explanation of the best mix.">
+    <h3>Lab 1: Strategy Builder</h3>
+    <p class="figcap">Fictional company <b>Larkspur Logistics</b>: a freight company moving to an online customer portal next year. Goals: launch the portal, win a large retail contract that requires ISO 27001 within 18 months, and avoid downtime in its warehouses. Its biggest risks are ransomware in operations and payment data exposure on the portal. <b>Budget: $900,000 this year.</b></p>
+    <div id="st-list"></div>
+    <div class="grid3">
+      <div class="tile"><div class="figcap">Spend</div><div class="metric" id="st-cost"></div></div>
+      <div class="tile"><div class="figcap">Business alignment</div><div class="metric" id="st-align"></div></div>
+      <div class="tile"><div class="figcap">Risk reduction</div><div class="metric" id="st-risk"></div></div>
+    </div>
+    <div class="stage"><svg id="st-svg" viewBox="0 0 760 110" width="760" role="img" aria-label="Bars for budget, alignment and risk reduction"></svg></div>
+    <div class="row"><button type="button" id="st-best">Show a strong mix</button><button type="button" id="st-clear">Clear</button></div>
+    <div class="caption" id="st-cap" aria-live="polite"></div>
   </div>
 
-  <div class="lab-card" id="lab-triage" data-lab="SOC Alert Triage: work through real-looking SIEM alerts and decide whether each is a false positive, needs investigation, or is an incident to escalate now.">
-    <h3>Lab 2: SOC Alert Triage</h3>
-    <p class="figcap">You're a Tier 1 analyst at a fictional company, Harrow Logistics. For each alert, decide what to do.</p>
-    <div id="tr-host"></div>
-    <div class="caption" id="tr-cap" aria-live="polite"></div>
+  <div class="lab-card" id="lab-bf" data-lab="Best / First / Most Important Trainer: CISM-style questions where several answers look right; see why the manager's answer wins.">
+    <h3>Lab 2: "Best / First / Most Important" Trainer</h3>
+    <div class="row"><b id="bf-count"></b><span id="bf-score"></span></div>
+    <div class="stage-card" id="bf-q"></div>
+    <div class="row"><button type="button" id="bf-next" class="primary">Next question →</button><button type="button" id="bf-restart">Restart</button></div>
+    <div class="caption" id="bf-cap" aria-live="polite"></div>
   </div>
 
-  <div class="lab-card" id="lab-attack" data-lab="ATT&CK Mapper: sort the steps of a ransomware intrusion into MITRE ATT&CK tactics.">
-    <h3>Lab 3: ATT&amp;CK Mapper</h3>
-    <p class="figcap">These events come from a (fictional) ransomware investigation. Map each one to its MITRE ATT&amp;CK tactic.</p>
-    <div id="at-host"></div>
-    <div class="caption" id="at-cap" aria-live="polite"></div>
+  <div class="lab-card" id="lab-tt" data-lab="Incident Management Tabletop: a multi-stage data breach with decisions on escalation, legal notice, communications and recovery, scored against best practice.">
+    <h3>Lab 3: Incident Management Tabletop</h3>
+    <p class="figcap">You are the information security manager at <b>Ferncliff Credit Union</b> (fictional, 120,000 members). Make a decision at each stage. Each choice is scored against good practice.</p>
+    <div class="timeline" id="tt-line" aria-label="Your decisions so far"></div>
+    <div class="stage-card" id="tt-stage"></div>
+    <div class="row"><button type="button" id="tt-restart">Restart the exercise</button><b id="tt-score"></b></div>
+    <div class="caption" id="tt-cap" aria-live="polite"></div>
   </div>
 
-  <div class="lab-card" id="lab-patch" data-lab="Patch Priority Ranker: rank five vulnerabilities using CVSS, CISA KEV, exposure and asset criticality, then compare with an expert ranking.">
-    <h3>Lab 4: Patch Priority Ranker</h3>
-    <p class="figcap">Use the ▲ ▼ buttons to put these vulnerabilities in the order you would fix them (1 = first), then press Check.</p>
-    <ol class="rank-list" id="pp-list"></ol>
-    <div class="row"><button type="button" class="primary" id="pp-check">Check my order</button><button type="button" id="pp-shuffle">Shuffle</button></div>
-    <div class="caption" id="pp-cap" aria-live="polite"></div>
+  <div class="lab-card" id="lab-dash" data-lab="Security Program Dashboard Designer: choose metrics for the board versus operations and get feedback on which are meaningful.">
+    <h3>Lab 4: Security Program Dashboard Designer</h3>
+    <p class="figcap">Drag each metric (or click it, then a box) to the dashboard where it belongs: the <b>board</b>, the <b>operations</b> team, or <b>neither</b> (a vanity or misleading metric).</p>
+    <div class="dropzone" id="ds-bank" aria-label="Metrics"><span class="zone-title">Metrics</span></div>
+    <div class="dash-grid" id="ds-zones" style="margin-top:8px"></div>
+    <div class="row"><button type="button" class="primary" id="ds-check">Check my dashboards</button><button type="button" id="ds-reset">Reset</button></div>
+    <div class="caption" id="ds-cap" aria-live="polite"></div>
   </div>
 </section>
 
@@ -188,29 +236,36 @@
 
 <section class="memory" id="memory">
   <h2>Memory aids</h2>
-  <div class="mnemonic">Kill Chain: <b>"Real Wizards Deliver Exploits, Install Cauldrons, Act"</b>: Recon, Weaponize, Deliver, Exploit, Install, C2, Actions on objectives.</div>
-  <div class="mnemonic"><b>Patch the "KEE" first</b>: Known exploited, Exposed to the internet, Essential (critical) asset.</div>
-  <div class="mnemonic"><b>False negative = the fire nobody saw.</b> It's the worst SOC outcome.</div>
+  <div class="mnemonic">Domains "<b>G</b>ood <b>R</b>isk <b>P</b>rograms <b>I</b>mprove" = Governance 17%, Risk 20%, Program 33%, Incident 30%. The two biggest (Program and Incident) are almost two-thirds of the exam.</div>
+  <div class="mnemonic">The CISM answer filter "<b>B-G-R-P</b>": Business first, Governance and senior management, Risk-based, Process before products.</div>
+  <div class="mnemonic">Recovery: <b>RPO</b> looks back (Point in the past: data), <b>RTO</b> looks forward (Time to restore), <b>MTD</b> is the cliff edge; RTO must be shorter than MTD.</div>
   <div class="tablewrap"><table><thead><tr><th>Number</th><th>Meaning</th></tr></thead><tbody>
-    <tr><td>7</td><td>Cyber Kill Chain stages</td></tr>
-    <tr><td>14</td><td>MITRE ATT&amp;CK Enterprise tactics</td></tr>
-    <tr><td>4</td><td>Diamond Model points; NIST IR phases</td></tr>
-    <tr><td>9.0–10.0 / 7.0–8.9</td><td>CVSS critical / high</td></tr>
-    <tr><td>85 · 165 min · 750</td><td>CySA+ CS0-003 max questions, time, pass</td></tr>
-    <tr><td>5 years</td><td>Experience to certify CISSP, CISM, CISA, CCSP</td></tr>
+    <tr><td>17 / 20 / 33 / 30%</td><td>CISM domain weights (verify)</td></tr>
+    <tr><td>150 · 4 h · 450/800</td><td>Questions · time · passing scaled score (verify)</td></tr>
+    <tr><td>5 years (3 in management)</td><td>Experience required for certification</td></tr>
+    <tr><td>20 / 120</td><td>CPE hours per year / per 3-year cycle</td></tr>
+    <tr><td>RTO &lt; MTD</td><td>Recovery must finish before the maximum tolerable downtime</td></tr>
+    <tr><td>72 hours</td><td>GDPR breach notification to the regulator</td></tr>
   </tbody></table></div>
   <div class="tablewrap"><table><thead><tr><th>Exam trap</th><th>Why it is wrong</th></tr></thead><tbody>
-    <tr><td>"Patch the highest CVSS first, always."</td><td>Exploitation (KEV/EPSS), exposure and asset value matter more.</td></tr>
-    <tr><td>"A false positive is the worst outcome."</td><td>Annoying, but a false negative (missed attack) is worse.</td></tr>
-    <tr><td>"Wipe the infected machine immediately."</td><td>Contain first and preserve evidence; wiping destroys forensic data.</td></tr>
-    <tr><td>"A pentest without permission is fine if you report it."</td><td>Without written authorisation it's illegal.</td></tr>
-    <tr><td>"SIEM and SOAR are the same."</td><td>SIEM detects and correlates; SOAR automates the response.</td></tr>
+    <tr><td>"The CISO accepts the risk."</td><td>The business/risk owner accepts; the CISO advises.</td></tr>
+    <tr><td>"Buy a tool first."</td><td>Strategy, risk and process come before technology.</td></tr>
+    <tr><td>"Notify customers immediately."</td><td>Follow the IR plan: verify, scope, involve legal, then notify as required.</td></tr>
+    <tr><td>"Rebuild the server right away."</td><td>Contain first and preserve evidence.</td></tr>
+    <tr><td>"Align security with IT strategy."</td><td>Align with <b>business</b> objectives (IT strategy is secondary).</td></tr>
+    <tr><td>"Measure success by training attendance."</td><td>Measure behavior change and risk reduction.</td></tr>
   </tbody></table></div>
 </section>
 
 <section class="quiz" id="quiz">
   <h2>Knowledge check</h2>
   <div id="quiz-area"></div>
+</section>
+
+<section class="quiz" id="readiness">
+  <h2>CISM-style practice exam (75 questions)</h2>
+  <p>Seventy-five questions weighted like the real exam's domains (about 13 governance, 15 risk, 25 program and 22 incident management), drawn from Modules 17, 26 and 27 plus an extra CISM bank. The real exam has 150 questions in 4 hours, so the 120-minute timer here keeps a similar pace. Aim for 75% or better before booking (ISACA's pass mark is a scaled 450 of 800, which is not a simple percentage).</p>
+  <div id="readiness-area"></div>
 </section>
 
 <section class="flashcards" id="flashcards">
@@ -221,151 +276,269 @@
 <section class="deeper" id="deeper">
   <h2>Go deeper (official sources)</h2>
   <ul>
-    <li><a href="https://www.comptia.org/en-us/certifications/cybersecurity-analyst/" rel="noopener">CompTIA CySA+</a> · <a href="https://www.comptia.org/en-us/certifications/pentest/" rel="noopener">CompTIA PenTest+</a> · <a href="https://www.comptia.org/en-us/certifications/securityx/" rel="noopener">CompTIA SecurityX</a></li>
-    <li><a href="https://www.isc2.org/certifications" rel="noopener">ISC2 certifications (CC, SSCP, CISSP, CCSP)</a></li>
-    <li><a href="https://www.offsec.com/courses/pen-200/" rel="noopener">OffSec PEN-200 / OSCP</a> · <a href="https://www.giac.org/" rel="noopener">GIAC certifications</a> · <a href="https://www.eccouncil.org/" rel="noopener">EC-Council (CEH)</a></li>
-    <li><a href="https://attack.mitre.org/" rel="noopener">MITRE ATT&amp;CK</a> · <a href="https://www.lockheedmartin.com/en-us/capabilities/cyber/cyber-kill-chain.html" rel="noopener">Lockheed Martin Cyber Kill Chain</a></li>
-    <li><a href="https://www.cisa.gov/known-exploited-vulnerabilities-catalog" rel="noopener">CISA Known Exploited Vulnerabilities catalog</a> · <a href="https://www.first.org/cvss/" rel="noopener">FIRST CVSS</a> · <a href="https://www.first.org/epss/" rel="noopener">FIRST EPSS</a> · <a href="https://www.cve.org/" rel="noopener">CVE program</a></li>
-    <li><a href="https://csrc.nist.gov/pubs/sp/800/61/r3/final" rel="noopener">NIST SP 800-61 Rev. 3 incident response</a> · <a href="https://niccs.cisa.gov/workforce-development/nice-framework" rel="noopener">NICE Workforce Framework (cyber work roles)</a></li>
+    <li><a href="https://www.isaca.org/credentialing/cism" rel="noopener">ISACA: CISM certification and exam content outline</a></li>
+    <li><a href="https://www.isaca.org/credentialing/cism/cism-job-practice-areas" rel="noopener">ISACA: CISM job practice areas</a></li>
+    <li><a href="https://csrc.nist.gov/pubs/sp/800/61/r3/final" rel="noopener">NIST SP 800-61 Rev. 3: Incident response recommendations</a></li>
+    <li><a href="https://csrc.nist.gov/pubs/sp/800/34/r1/upd1/final" rel="noopener">NIST SP 800-34: Contingency planning guide</a></li>
+    <li><a href="https://www.iso.org/standard/75106.html" rel="noopener">ISO 22301: Business continuity management systems</a></li>
   </ul>
 </section>
 </main>
-<footer class="foot">Datacenter Omnibus · Original study material. Educational and defensive use only. Not affiliated with or endorsed by CompTIA, ISC2, ISACA, OffSec, GIAC, EC-Council, MITRE or any vendor. Company names in labs are fictional.</footer>
+<footer class="foot">Datacenter Omnibus · Original, independent study material. Not affiliated with or endorsed by any certification body, vendor or standards organisation. All trademarks belong to their owners. Exam details change; always verify on the vendor site. <a href="legal.html">Trademarks and copyright</a></footer>
 
 <script src="data/catalog.js"></script>
 <script src="assets/omnibus.js"></script>
-<script src="assets/labkit.js"></script>
+<script src="data/m17.js"></script>
+<script src="data/m26.js"></script>
 <script src="data/m27.js"></script>
+<script src="data/bank-cism.js"></script>
 <script>
 (function () {
-  var $ = function (id) { return document.getElementById(id); }, S = OMNI.svg, h = OMNI.h;
-  function txt(g, x, y, s, a) { var e = S("text", Object.assign({ x: x, y: y, class: "svg-text", "font-size": 12 }, a || {}), g); e.textContent = s; return e; }
-  function box(g, x, y, w, hh, t, sub, col) { S("rect", { x: x, y: y, width: w, height: hh, rx: 9, fill: "var(--surface)", stroke: col, "stroke-width": 2.2 }, g); txt(g, x + w / 2, y + (sub ? hh / 2 - 2 : hh / 2 + 4), t, { "text-anchor": "middle", "font-weight": 700, "font-size": 11.5 }); if (sub) txt(g, x + w / 2, y + hh / 2 + 13, sub, { "text-anchor": "middle", "font-size": 9.5, class: "svg-text svg-muted" }); }
-  function arrow(g, x1, y1, x2, y2) { S("line", { x1: x1, y1: y1, x2: x2, y2: y2, stroke: "var(--ink-2)", "stroke-width": 1.8 }, g); var a = Math.atan2(y2 - y1, x2 - x1), s = 7; S("polygon", { points: x2 + "," + y2 + " " + (x2 - s * Math.cos(a - .45)) + "," + (y2 - s * Math.sin(a - .45)) + " " + (x2 - s * Math.cos(a + .45)) + "," + (y2 - s * Math.sin(a + .45)), fill: "var(--ink-2)" }, g); }
+  var h = OMNI.h, S = OMNI.svg, $ = function (id) { return document.getElementById(id); };
+  var esc = OMNI.esc || function (s) { return String(s).replace(/[&<>"']/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]; }); };
+  function txt(p, x, y, t, a) { var e = S("text", Object.assign({ x: x, y: y, class: "svg-text", "font-size": 12 }, a || {}), p); e.textContent = t; return e; }
+  function rect(p, x, y, w, hh, fill, stroke, extra) { return S("rect", Object.assign({ x: x, y: y, width: w, height: hh, rx: 8, fill: fill, stroke: stroke || "none", "stroke-width": 2 }, extra || {}), p); }
+  function arrow(p, x1, y1, x2, y2) {
+    S("line", { x1: x1, y1: y1, x2: x2, y2: y2, stroke: "var(--ink-2)", "stroke-width": 2 }, p);
+    var a = Math.atan2(y2 - y1, x2 - x1), s = 8;
+    S("polygon", { points: x2 + "," + y2 + " " + (x2 - s * Math.cos(a - .45)) + "," + (y2 - s * Math.sin(a - .45)) + " " + (x2 - s * Math.cos(a + .45)) + "," + (y2 - s * Math.sin(a + .45)), fill: "var(--ink-2)" }, p);
+  }
+  OMNI.readiness({ el: "readiness-area", id: "cism", modules: [16, 20, 21], banks: ["cism"], certs: ["CISM"], count: 75, timerMin: 120, weights: { 1: 17, 2: 20, 3: 33, 4: 30 } });
 
-  /* career ladder */
+  /* ===== Figures ===== */
   (function () {
-    var g = $("career-fig");
-    box(g, 20, 100, 130, 50, "IT support / help desk", "or networking", "var(--hw)");
-    box(g, 195, 100, 120, 50, "SOC analyst", "Tier 1 → 2 → 3", "var(--sec)");
-    arrow(g, 150, 125, 195, 125);
-    var B = [["Incident responder", 10], ["Threat hunter", 50], ["Pentester / red team", 90], ["Security engineer", 130], ["Cloud security", 170], ["GRC / auditor", 210]];
-    B.forEach(function (b) { box(g, 375, b[1], 150, 32, b[0], "", "var(--sec)"); arrow(g, 315, 125, 375, b[1] + 16); arrow(g, 525, b[1] + 16, 590, 125); });
-    box(g, 590, 95, 155, 60, "Architect / manager", "→ CISO", "var(--gov)");
+    var g = $("dom-fig"), D = [["1 Governance", 17, "var(--gov)"], ["2 Risk management", 20, "var(--sec)"], ["3 Program", 33, "var(--net)"], ["4 Incident management", 30, "var(--dc)"]], x = 20;
+    D.forEach(function (d) { var w = d[1] * 7.2; rect(g, x, 30, w - 4, 60, d[2], "none", { opacity: .85, rx: 6 }); txt(g, x + w / 2 - 2, 58, d[1] + "%", { "text-anchor": "middle", "font-weight": 800, "font-size": 16, fill: "#fff" }); txt(g, x + w / 2 - 2, 76, "", {}); txt(g, x + w / 2 - 2, 112, d[0], { "text-anchor": "middle", "font-size": 11.5, "font-weight": 700 }); x += w; });
+    txt(g, 380, 18, "Share of exam questions by domain", { "text-anchor": "middle", "font-size": 11, class: "svg-muted" });
+  })();
+  (function () {
+    var g = $("strat-fig"), B = ["Business objectives", "Current state", "Desired state", "Gap analysis", "Roadmap + business case"];
+    B.forEach(function (b, i) { var x = 10 + i * 152; rect(g, x, 35, 132, 56, i === 0 ? "var(--gov-soft)" : "var(--surface)", "var(--gov)"); var ws = b.split(" + "); txt(g, x + 66, ws.length > 1 ? 58 : 68, ws[0], { "text-anchor": "middle", "font-weight": 700, "font-size": 12 }); if (ws.length > 1) txt(g, x + 66, 76, "+ " + ws[1], { "text-anchor": "middle", "font-weight": 700, "font-size": 12 }); if (i < 4) arrow(g, x + 132, 63, x + 152, 63); });
+    txt(g, 380, 118, "Senior management approves the strategy; metrics show progress toward the desired state", { "text-anchor": "middle", "font-size": 10.5, class: "svg-muted" });
+  })();
+  (function () {
+    var g = $("bia-fig");
+    S("line", { x1: 30, y1: 75, x2: 730, y2: 75, stroke: "var(--ink-2)", "stroke-width": 2 }, g);
+    S("line", { x1: 300, y1: 25, x2: 300, y2: 125, stroke: "var(--bad)", "stroke-width": 3 }, g); txt(g, 300, 18, "Disruption", { "text-anchor": "middle", "font-weight": 700, fill: "var(--bad)" });
+    S("line", { x1: 160, y1: 45, x2: 160, y2: 105, stroke: "var(--net)", "stroke-width": 2 }, g); txt(g, 160, 120, "Last good backup", { "text-anchor": "middle", "font-size": 11 });
+    rect(g, 160, 55, 140, 16, "var(--net-soft)", "var(--net)", { rx: 3 }); txt(g, 230, 50, "RPO: data you could lose", { "text-anchor": "middle", "font-size": 11, "font-weight": 700 });
+    rect(g, 300, 79, 230, 16, "var(--good-soft)", "var(--good)", { rx: 3 }); txt(g, 415, 112, "RTO: time to restore", { "text-anchor": "middle", "font-size": 11, "font-weight": 700 });
+    rect(g, 300, 55, 380, 16, "var(--warn-soft)", "var(--warn)", { rx: 3 }); txt(g, 490, 50, "MTD: maximum tolerable downtime", { "text-anchor": "middle", "font-size": 11, "font-weight": 700 });
+    txt(g, 380, 142, "RPO drives backup frequency; RTO drives recovery site and method; RTO must be shorter than MTD", { "text-anchor": "middle", "font-size": 10.5, class: "svg-muted" });
+  })();
+  (function () {
+    var g = $("ir-fig"), P = ["Preparation", "Detection and analysis", "Containment, eradication, recovery", "Post-incident activity"];
+    P.forEach(function (p, i) { var x = 15 + i * 185; rect(g, x, 25, 160, 60, i === 3 ? "var(--accent-soft)" : "var(--surface)", "var(--sec)"); var w = p.split(", "); if (w.length > 1) { txt(g, x + 80, 48, "Containment,", { "text-anchor": "middle", "font-weight": 700, "font-size": 11.5 }); txt(g, x + 80, 66, "eradication, recovery", { "text-anchor": "middle", "font-weight": 700, "font-size": 11.5 }); } else txt(g, x + 80, 60, p, { "text-anchor": "middle", "font-weight": 700, "font-size": 12 }); if (i < 3) arrow(g, x + 160, 55, x + 185, 55); });
+    S("path", { d: "M 640 85 C 640 115, 95 115, 95 87", fill: "none", stroke: "var(--ink-2)", "stroke-width": 1.5, "stroke-dasharray": "5 4" }, g);
+    txt(g, 380, 112, "lessons learned feed back into preparation", { "text-anchor": "middle", "font-size": 10, class: "svg-muted" });
   })();
 
-  /* kill chain */
-  (function () {
-    var g = $("kc-fig"), K = [["Recon", "research the target"], ["Weaponize", "build the exploit"], ["Deliver", "email, web, USB"], ["Exploit", "trigger the flaw"], ["Install", "malware, backdoor"], ["C2", "remote control"], ["Actions", "steal, encrypt"]];
-    K.forEach(function (k, i) { var x = 8 + i * 107; box(g, x, 40, 95, 60, (i + 1) + ". " + k[0], k[1], i < 3 ? "var(--warn)" : "var(--sec)"); if (i < 6) arrow(g, x + 95, 70, x + 107, 70); });
-    txt(g, 160, 125, "← before the breach: block early", { "text-anchor": "middle", "font-size": 10.5, class: "svg-text svg-muted" });
-    txt(g, 560, 125, "after the breach: detect and contain fast →", { "text-anchor": "middle", "font-size": 10.5, class: "svg-text svg-muted" });
-  })();
-
-  /* SOC workflow */
-  (function () {
-    var g = $("soc-fig");
-    box(g, 10, 50, 110, 60, "Log sources", "endpoints, cloud", "var(--net)");
-    box(g, 160, 50, 100, 60, "SIEM", "correlate, alert", "var(--sec)");
-    box(g, 300, 50, 100, 60, "Triage", "Tier 1", "var(--sec)");
-    box(g, 440, 50, 110, 60, "Investigate", "Tier 2 / 3", "var(--sec)");
-    box(g, 590, 50, 160, 60, "Respond", "contain, eradicate, recover", "var(--good)");
-    arrow(g, 120, 80, 160, 80); arrow(g, 260, 80, 300, 80); arrow(g, 400, 80, 440, 80); arrow(g, 550, 80, 590, 80);
-    box(g, 300, 130, 250, 32, "SOAR automates enrichment and actions", "", "var(--gov)");
-    S("path", { d: "M 670 50 C 670 22, 210 22, 210 48", fill: "none", stroke: "var(--accent)", "stroke-width": 1.8, "stroke-dasharray": "5 4" }, g);
-    txt(g, 440, 14, "lessons learned → tune detections, close false positives", { "text-anchor": "middle", "font-size": 10.5 });
-  })();
-
-  /* Lab 1: cert path finder */
-  (function () {
-    var BASE = { 0: [["CompTIA A+ or equivalent IT support experience", "Modules 4–8"], ["CompTIA Network+", "Modules 9–13"]], 1: [["CompTIA Network+ (if you don't have strong networking yet)", "Modules 9–13"]], 3: [], 5: [] };
-    var ROLE = {
-      soc: { name: "SOC analyst", steps: [["Security+ (or ISC2 CC first if you're brand new)", "Modules 14–16"], ["Build a home lab with a free SIEM; write up 3 investigations", "this module, section 6"], ["CySA+ (and/or Blue Team Level 1)", "this module + Study Hub CySA+ exam"], ["Later: GIAC GCIH / GCIA, then CISSP for senior roles", ""]] },
-      ir: { name: "Incident responder", steps: [["Security+", "Modules 14–16"], ["CySA+", "this module"], ["Learn Windows and Linux forensics and memory analysis in your lab", "Module 6"], ["GIAC GCIH, then GCFA", ""], ["CISM if you move into leading IR teams", "Module 21"]] },
-      pt: { name: "Penetration tester", steps: [["Security+", "Modules 14–16"], ["Learn Linux, scripting (Python, Bash) and web basics; do CTFs", "Modules 6, 15"], ["PenTest+ or eJPT as a first offensive cert", ""], ["OSCP (the big one for pentest jobs)", ""], ["Later: specialise (web, cloud, red team, OSEP)", ""]] },
-      cloud: { name: "Cloud security engineer", steps: [["Security+", "Modules 14–16"], ["AWS Cloud Practitioner, then Solutions Architect – Associate", "Modules 17, 25"], ["AWS Security – Specialty (or AZ-500 for Azure)", "Module 25"], ["CCSP once you have 5 years' experience", ""]] },
-      grc: { name: "GRC analyst or IT auditor", steps: [["Security+ or ISC2 CC", "Modules 14–16"], ["ITIL 4 Foundation and an ISO 27001 Foundation course", "Modules 19–20"], ["CISA for audit, or CRISC for risk", "Modules 20, 22"], ["CISM or ISO 27001 Lead Auditor as you grow", "Module 21"]] },
-      lead: { name: "Security manager or CISO", steps: [["Security+ and hands-on experience in a security team", "Modules 14–16"], ["CISSP (needs 5 years' experience)", ""], ["CISM for security management", "Module 21"], ["Learn risk, budgets and board reporting; consider an MBA or ISACA CGEIT later", "Module 20"]] }
-    };
-    function draw() {
-      var r = ROLE[$("cp-role").value], e = +$("cp-exp").value, steps = (BASE[e] || []).concat(r.steps);
-      if (e >= 3) steps = steps.filter(function (s) { return !/^Security\+ \(or ISC2|^Security\+ or ISC2/.test(s[0]); });
-      if (e >= 5) steps = steps.filter(function (s, i) { return i > 0 || /CISSP|CISM|OSCP|Specialty|CISA/.test(s[0]); });
-      $("cp-out").innerHTML = steps.map(function (s) { return "<li><b>" + s[0] + "</b>" + (s[1] ? "<br><span class='figcap'>Study: " + s[1] + "</span>" : "") + "</li>"; }).join("");
-      OMNI.say("cp-cap", "This is a common path to <b>" + r.name + "</b> for someone " + $("cp-exp").selectedOptions[0].text.toLowerCase() + ". " + (e === 0 ? "Starting in IT support or a help desk gives you the foundations every security job builds on. " : "") + "Certifications open doors, but pair each one with hands-on practice you can show an employer. Paths overlap: many people move between these roles over a career.");
-    }
-    $("cp-role").onchange = draw; $("cp-exp").onchange = draw; draw();
-  })();
-
-  /* Lab 2: SOC alert triage */
-  OMNI.trainer("tr-host", { cap: "tr-cap", label: "alerts",
-    intro: "Read each alert like a SIEM ticket. Choose: close as a false positive, investigate further, or escalate as an incident now.",
-    items: [
-      { s: "<h4>⚠ Impossible travel</h4><p>User <b>m.osei</b> signed in from Manchester at 09:02 and from Lagos at 09:20. Both logins passed MFA. HR records show m.osei is on approved leave in Lagos and used a VPN exit in Manchester for the first login.</p>", o: ["Close as false positive and note the VPN cause", "Escalate as a confirmed account compromise", "Disable every account in the company"], a: 0, x: "The VPN explains the 'impossible' travel and MFA passed. Close it, document why, and suggest tuning the rule to recognise the company VPN ranges." },
-      { s: "<h4>⚠ Ransomware behaviour</h4><p>EDR on file server <b>HL-FS02</b>: 4,800 files renamed to <code>.lockd</code> in 3 minutes by <code>svchost32.exe</code> (unsigned, running from a user temp folder). A ransom note file appeared in several shares.</p>", o: ["Escalate immediately and isolate the server", "Wait an hour to see if it stops", "Close: file renames are normal"], a: 0, x: "Mass renaming plus a ransom note is a true positive. Isolate the host (EDR network containment), escalate to incident response, and preserve evidence. Minutes matter." },
-      { s: "<h4>⚠ Brute force</h4><p>2,100 failed logins to the VPN portal in 10 minutes for 600 different usernames from one IP. <b>No successful logins</b>. The IP is on a threat-intel list of password-spraying sources.</p>", o: ["Investigate: block the IP, check for any later success, confirm MFA coverage", "Close: nothing succeeded, so it doesn't matter", "Escalate as a major breach"], a: 0, x: "It's malicious (a password spray) but not yet a breach. Block the source, confirm no account later succeeded, check MFA is enforced on the VPN, and watch for the same pattern from new IPs." },
-      { s: "<h4>⚠ Malware detected and quarantined</h4><p>Antivirus on laptop <b>HL-LT-117</b> quarantined <code>invoice_8812.xlsm</code> from the Downloads folder. The file was <b>never opened</b>. No other alerts from the host.</p>", o: ["Investigate briefly: confirm quarantine, find the source email and remove copies from other inboxes", "Escalate as a full incident and reimage the laptop", "Ignore it completely"], a: 0, x: "The control worked, but the email may have reached others. Confirm quarantine, trace the phishing email, purge it from other mailboxes and block the sender: a quick investigation, not a major incident." },
-      { s: "<h4>⚠ Data upload</h4><p>DLP alert: user <b>j.kerr</b> uploaded 14 GB to a personal cloud storage site at 23:40. j.kerr resigned yesterday and leaves on Friday. Files include folders named <i>Customer_Contracts</i>.</p>", o: ["Escalate now: possible insider data theft", "Close: employees upload files all the time", "Email j.kerr and ask politely"], a: 0, x: "Volume, timing, a departing employee and sensitive files make this high-risk. Escalate to IR, HR and legal per policy. Don't tip off the user before the investigation team decides on next steps." },
-      { s: "<h4>⚠ New admin account</h4><p>A new Domain Admin account <b>svc_backup2</b> was created at 03:14 by the account <b>helpdesk-07</b>. There's no change ticket, and helpdesk staff aren't allowed to create admin accounts.</p>", o: ["Escalate now: likely privilege escalation and persistence", "Close: probably a backup job", "Wait for the weekly report"], a: 0, x: "An unauthorised privileged account at 3 a.m. with no change ticket matches ATT&CK Persistence and Privilege Escalation. Escalate, disable the new account per playbook, and investigate how helpdesk-07 got those rights." },
-      { s: "<h4>⚠ Port scan</h4><p>IDS: an internal host <b>10.20.5.44</b> scanned ports 1–1024 across the server subnet. The asset inventory shows 10.20.5.44 is the vulnerability scanner, and today is the scheduled scan window.</p>", o: ["Close as expected activity and tune the rule for the scanner", "Escalate as lateral movement", "Shut down the scanner permanently"], a: 0, x: "Authorised scanning is expected. Close it, document why, and add an exception for the scanner during its scan window (but keep alerting if it scans outside the window)." },
-      { s: "<h4>⚠ Beaconing</h4><p>Workstation <b>HL-WS-221</b> connects to <code>cdn-update-check[.]top</code> every 60 seconds, ±2 seconds, sending small identical HTTPS requests. The domain was registered 4 days ago.</p>", o: ["Investigate and escalate: likely command-and-control beaconing", "Close: it's probably a software update", "Block all HTTPS traffic company-wide"], a: 0, x: "Very regular intervals to a newly registered, odd domain is a classic C2 sign. Isolate or closely monitor the host, block the domain, and look for the same domain on other machines." }
-    ]
+  /* ===== Lab 1: Strategy builder ===== */
+  var INIT = [
+    { n: "ISO 27001 ISMS program (gap assessment, policies, risk process, certification audit)", c: 220, al: 10, rk: 6, why: "Directly required to win the retail contract and builds governance for everything else." },
+    { n: "EDR on all endpoints plus 24/7 managed detection and response", c: 260, al: 7, rk: 9, why: "The strongest reduction of ransomware risk in operations." },
+    { n: "Immutable, offline backups with tested restores for warehouse systems", c: 120, al: 8, rk: 8, why: "Keeps warehouses running after ransomware: protects the 'no downtime' goal." },
+    { n: "Portal security: secure SDLC, code scanning, WAF and a pen test before launch", c: 150, al: 9, rk: 8, why: "Protects the new portal and payment data at launch, the top business initiative." },
+    { n: "Outsource card payments to a PCI DSS-validated payment provider (tokenization)", c: 40, al: 8, rk: 7, why: "Cheap and shrinks PCI scope: card data never touches Larkspur's systems (transfer plus avoid)." },
+    { n: "Phishing-resistant MFA for all staff and remote access", c: 70, al: 7, rk: 8, why: "Low cost, blocks the most common ransomware entry point." },
+    { n: "Company-wide awareness program with phishing simulations", c: 45, al: 6, rk: 5, why: "Cheap; supports ISO 27001 clause requirements and reduces human risk." },
+    { n: "Replace all firewalls with the newest next-generation models", c: 380, al: 3, rk: 3, why: "Expensive; existing firewalls work. Technology for its own sake." },
+    { n: "Build an in-house 24/7 SOC with 8 new hires", c: 700, al: 4, rk: 7, why: "Far too expensive for this budget; managed detection achieves similar risk reduction." },
+    { n: "Quantum-safe cryptography migration for all systems this year", c: 300, al: 2, rk: 2, why: "A real emerging risk to plan for, but not this year's priority; start with an inventory instead." }
+  ];
+  var BEST = [0, 1, 2, 3, 4, 5]; // 220+260+120+150+40+70 = 860
+  var stOn = {};
+  INIT.forEach(function (it, i) {
+    var cb = h("input", { type: "checkbox", "aria-label": it.n });
+    var row = h("label", { class: "init" }, [cb, h("span", null, [it.n, h("br"), h("small", null, "Cost $" + it.c + "k")]), h("small", { "data-why": String(i) }, "")]);
+    cb.onchange = function () { stOn[i] = cb.checked; row.classList.toggle("on", cb.checked); stCalc(); };
+    $("st-list").appendChild(row);
   });
-
-  /* Lab 3: ATT&CK mapper */
-  OMNI.sorter("at-host", { cap: "at-cap",
-    zones: [["ia", "Initial Access"], ["ex", "Execution"], ["pe", "Persistence"], ["ca", "Credential Access"], ["lm", "Lateral Movement"], ["im", "Impact"]],
-    items: [
-      ["Employee opens a phishing email attachment", "ia", "phishing is how the attacker first got in (T1566)."],
-      ["Attacker logs in to an exposed RDP server with a bought password", "ia", "using valid accounts on an external service is an Initial Access technique."],
-      ["Macro launches a PowerShell script", "ex", "running scripts is Command and Scripting Interpreter (T1059)."],
-      ["Malware runs from a scheduled task every hour", "pe", "scheduled tasks are used to keep access after reboots (T1053)."],
-      ["A new hidden local admin account is created", "pe", "creating accounts keeps access (T1136)."],
-      ["Passwords are dumped from LSASS memory", "ca", "OS credential dumping (T1003)."],
-      ["Attacker tries common passwords against all users", "ca", "password spraying is brute force (T1110)."],
-      ["Attacker uses stolen admin credentials to RDP into the file server", "lm", "moving to other systems with remote services (T1021)."],
-      ["Files on shared drives are encrypted and a ransom note left", "im", "Data Encrypted for Impact (T1486)."],
-      ["Backups and shadow copies are deleted", "im", "Inhibit System Recovery (T1490) to make ransomware worse."]
-    ],
-    intro: "Each card is one step from a ransomware attack. Put it under the ATT&CK tactic (the attacker's goal) it serves.",
-    done: "All correct! Mapping events to ATT&CK lets a SOC see where in the attack it detected the intruder, and which tactics it has no detections for yet."
-  });
-
-  /* Lab 4: patch priority */
-  (function () {
-    var V = [
-      { n: "VPN appliance remote code execution", cvss: 9.8, kev: true, net: true, crit: true },
-      { n: "Web server path traversal", cvss: 7.5, kev: true, net: true, crit: false },
-      { n: "Lab test server OpenSSL flaw", cvss: 9.1, kev: false, net: false, crit: false },
-      { n: "HR database privilege escalation", cvss: 7.8, kev: false, net: false, crit: true },
-      { n: "Intranet wiki cross-site scripting", cvss: 5.4, kev: false, net: false, crit: false }
-    ];
-    V.forEach(function (v) { v.score = v.cvss + (v.kev ? 6 : 0) + (v.net ? 3 : 0) + (v.crit ? 2 : 0); });
-    var ideal = V.slice().sort(function (a, b) { return b.score - a.score; });
-    var order = OMNI.shuffle(V);
-    function draw(marks) {
-      $("pp-list").innerHTML = "";
-      order.forEach(function (v, i) {
-        var li = h("li", { class: marks ? (ideal[i] === v ? "ok" : "bad") : "" }, [
-          h("span", { class: "pos" }, String(i + 1)),
-          h("div", null, [h("b", null, v.n), h("div", { class: "meta" }, "CVSS " + v.cvss + " · " + (v.kev ? "in CISA KEV (actively exploited)" : "not in KEV") + " · " + (v.net ? "internet-facing" : "internal only") + " · " + (v.crit ? "critical asset" : "low-value asset"))]),
-          h("span", null, [h("button", { type: "button", "aria-label": "Move up", disabled: i === 0, onclick: function () { var t = order[i - 1]; order[i - 1] = v; order[i] = t; draw(); } }, "▲"), " ", h("button", { type: "button", "aria-label": "Move down", disabled: i === order.length - 1, onclick: function () { var t = order[i + 1]; order[i + 1] = v; order[i] = t; draw(); } }, "▼")])
-        ]);
-        $("pp-list").appendChild(li);
-      });
+  function stSet(list) { stOn = {}; OMNI.$$("#st-list .init").forEach(function (r, i) { var on = list.indexOf(i) >= 0; r.querySelector("input").checked = on; r.classList.toggle("on", on); if (on) stOn[i] = true; }); stCalc(list === BEST); }
+  function stCalc(showBest) {
+    var sel = Object.keys(stOn).filter(function (k) { return stOn[k]; }).map(Number);
+    var cost = 0, al = 0, rk = 0; sel.forEach(function (i) { cost += INIT[i].c; al += INIT[i].al; rk += INIT[i].rk; });
+    var maxAl = 49, maxRk = 46; // best mix scores for scaling
+    var alP = Math.min(100, Math.round(100 * al / maxAl)), rkP = Math.min(100, Math.round(100 * rk / maxRk));
+    $("st-cost").textContent = "$" + cost + "k of $900k"; $("st-cost").style.color = cost > 900 ? "var(--bad)" : "";
+    $("st-align").textContent = alP + "%"; $("st-risk").textContent = rkP + "%";
+    var g = $("st-svg"); g.innerHTML = "";
+    [["Budget used", Math.min(cost / 900, 1.4), cost > 900 ? "var(--bad)" : "var(--accent)"], ["Business alignment", alP / 100, "var(--gov)"], ["Risk reduction", rkP / 100, "var(--good)"]].forEach(function (b, i) {
+      var y = 8 + i * 33; txt(g, 10, y + 17, b[0], { "font-size": 11 }); rect(g, 150, y, 560, 22, "var(--surface)", "var(--line)", { rx: 4 }); rect(g, 150, y, Math.max(2, Math.min(1.4, b[1]) * 400), 22, b[2], "none", { rx: 4, opacity: .85 });
+    });
+    S("line", { x1: 550, y1: 4, x2: 550, y2: 34, stroke: "var(--bad)", "stroke-dasharray": "3 3" }, g); txt(g, 556, 18, "budget limit", { "font-size": 9.5, class: "svg-muted" });
+    var msg;
+    if (!sel.length) msg = "Pick initiatives. Think like a manager: what do the business goals (portal launch, ISO 27001 contract, no warehouse downtime) and top risks (ransomware, payment data) require?";
+    else if (cost > 900) msg = "Over budget by $" + (cost - 900) + "k. A manager must prioritize: drop low-alignment items or choose cheaper options that achieve similar risk reduction.";
+    else {
+      var weak = sel.filter(function (i) { return INIT[i].al <= 4; }), missing = [0, 3, 2].filter(function (i) { return sel.indexOf(i) < 0; });
+      msg = "Within budget ($" + (900 - cost) + "k left). " + (weak.length ? "Weak choices: " + weak.map(function (i) { return "<b>" + INIT[i].n.split(" (")[0] + "</b> (" + INIT[i].why + ")"; }).join(" ") + " " : "") + (missing.length ? "Missing something the business goals need: " + missing.map(function (i) { return "<b>" + INIT[i].n.split(" (")[0] + "</b>"; }).join(", ") + ". " : "") + (!weak.length && !missing.length ? "This mix covers the business goals and top risks. " : "");
     }
-    $("pp-check").onclick = function () {
-      var right = order.filter(function (v, i) { return ideal[i] === v; }).length; draw(true);
-      OMNI.say("pp-cap", right === V.length ? "Perfect order! You weighed <b>active exploitation</b> and <b>internet exposure</b> above raw CVSS. The VPN flaw is exploited, exposed and critical; the web server flaw is exploited and exposed; the HR database is critical but internal; the lab OpenSSL flaw scores high but is isolated; the wiki XSS is low on every measure." : right + " of " + V.length + " in the expert position (green). Expert order: " + ideal.map(function (v, i) { return (i + 1) + ". " + v.n; }).join("; ") + ". The key idea: actively exploited (KEV) and internet-facing flaws come before higher CVSS scores on isolated systems.");
-    };
-    $("pp-shuffle").onclick = function () { order = OMNI.shuffle(V); draw(); OMNI.say("pp-cap", "Shuffled. Rank them again: think about who can reach each system and whether attackers are already using the flaw."); };
-    draw();
-    OMNI.say("pp-cap", "Five vulnerabilities, limited time. Rank them by real-world risk, not just the CVSS number.");
-  })();
+    if (showBest) msg = "A strong mix ($860k): " + BEST.map(function (i) { return "<b>" + INIT[i].n.split(" (")[0] + "</b>: " + INIT[i].why; }).join(" ") + " It leaves $40k, which could fund part of the awareness program. The in-house SOC, firewall refresh and quantum migration lose because they don't match this year's business goals or cost too much for the risk they reduce.";
+    OMNI.say("st-cap", msg);
+  }
+  $("st-best").onclick = function () { stSet(BEST); };
+  $("st-clear").onclick = function () { stSet([]); };
+  stCalc();
+
+  /* ===== Lab 2: Best / First trainer ===== */
+  var BF = [
+    { q: "A business unit wants to launch a new mobile app next month. Security has not reviewed it. What should the information security manager do FIRST?", o: [
+      ["Meet the business owner to understand the app's purpose, data and timeline, and assess the risks", 1, "Manager's answer: understand the business need and assess risk before acting."],
+      ["Demand that the launch be delayed until a full pen test is done", 0, "Tempting, but blocks the business without knowing the risk."],
+      ["Run a vulnerability scan on the app tonight", 0, "Technical and possibly useful later, but you don't yet know scope or data."],
+      ["Report the business unit to the board", 0, "Escalating before talking to the owner is premature."]] },
+    { q: "Which is the BEST way to make sure security policies are followed?", o: [
+      ["Have senior management approve and communicate them, with awareness, monitoring and consequences", 1, "Governance plus communication plus enforcement: complete and sustainable."],
+      ["Install technical controls that make violations impossible", 0, "Helps, but not every policy can be enforced technically."],
+      ["Email the policies to all staff once", 0, "Communication alone rarely changes behavior."],
+      ["Ask auditors to check every employee", 0, "Impractical; audits test, they don't drive compliance."]] },
+    { q: "What is the GREATEST concern when an organization has no defined risk appetite?", o: [
+      ["Risk decisions will be inconsistent and may not reflect what senior management is willing to accept", 1, "Without appetite, nobody knows what 'acceptable' means: a governance gap."],
+      ["The SIEM cannot be tuned", 0, "Technical and minor."],
+      ["Auditors will issue a finding", 0, "A symptom, not the real concern."],
+      ["Insurance premiums may rise", 0, "Possible, but secondary."]] },
+    { q: "A vulnerability scan finds a critical flaw on a server supporting payroll. What should happen FIRST?", o: [
+      ["Assess the risk in context (exposure, exploitability, business impact) and inform the system owner", 1, "Risk-based and involves the owner."],
+      ["Patch it immediately during business hours", 0, "Might break payroll; follow change management unless it's an emergency."],
+      ["Shut the server down", 0, "Disproportionate without assessment."],
+      ["Wait for the next quarterly patch cycle", 0, "Ignores a possibly critical risk."]] },
+    { q: "What is the PRIMARY purpose of information security governance?", o: [
+      ["Ensure security strategy aligns with business objectives and risk is managed to acceptable levels", 1, "The governance purpose: alignment, value and risk management."],
+      ["Ensure all systems are patched", 0, "An operational outcome."],
+      ["Ensure the security team has enough staff", 0, "A resource issue."],
+      ["Ensure compliance with ISO 27001", 0, "Compliance is one objective, not the primary purpose."]] },
+    { q: "During a ransomware incident, an executive asks the IT team to restore from backup immediately. What should the security manager do FIRST?", o: [
+      ["Make sure the threat is contained and the backups are clean before restoring, following the IR plan", 1, "Restoring into an active infection reinfects; follow the plan."],
+      ["Restore immediately to satisfy the executive", 0, "Pressure is real, but you risk reinfection and losing evidence."],
+      ["Pay the ransom to save time", 0, "A last resort with legal and ethical issues; not a first step."],
+      ["Call the media to explain the outage", 0, "Communications go through the plan and spokesperson."]] },
+    { q: "Which is the MOST effective way to reduce risk from third-party vendors?", o: [
+      ["A risk-based vendor management process covering due diligence, contracts, monitoring and offboarding", 1, "Lifecycle and risk-based: complete."],
+      ["Require every vendor to fill in a 300-question questionnaire", 0, "Not risk-based; low-risk vendors get the same burden."],
+      ["Only use vendors with ISO 27001", 0, "Helpful assurance, but not a complete process."],
+      ["Block vendors from all systems", 0, "Unrealistic; the business needs vendors."]] },
+    { q: "A security manager learns that a business owner accepted a high risk without documenting it. What should the manager do?", o: [
+      ["Make sure the acceptance is documented in the risk register with the owner's approval and a review date, and report it per governance", 1, "Formal acceptance creates accountability and visibility."],
+      ["Override the decision and implement a control", 0, "The owner has the authority, if within appetite."],
+      ["Ignore it; the owner decided", 0, "Undocumented acceptance isn't governance."],
+      ["Report the owner to HR", 0, "Not a disciplinary matter."]] }
+  ];
+  var bfI = 0, bfRight = 0, bfAns = {};
+  function bfShow() {
+    var q = BF[bfI], box = $("bf-q"); box.innerHTML = "";
+    $("bf-count").textContent = "Question " + (bfI + 1) + " of " + BF.length;
+    $("bf-score").textContent = Object.keys(bfAns).length ? " · Score " + bfRight + " / " + Object.keys(bfAns).length : "";
+    box.appendChild(h("p", null, h("b", null, q.q)));
+    var order = OMNI.shuffle(q.o.map(function (x, i) { return i; }));
+    order.forEach(function (oi) {
+      var b = h("button", { type: "button", class: "bf-opt" }, q.o[oi][0]);
+      b.onclick = function () { bfPick(oi); };
+      box.appendChild(b); box.appendChild(h("div", { class: "bf-why", "data-o": String(oi), hidden: "hidden" }, q.o[oi][2]));
+      b.dataset.o = String(oi);
+    });
+    OMNI.say("bf-cap", "Several answers could work. Pick the one a senior security manager should choose.");
+  }
+  function bfPick(oi) {
+    if (bfAns[bfI] !== undefined) return;
+    var q = BF[bfI]; bfAns[bfI] = oi; if (q.o[oi][1]) bfRight++;
+    OMNI.$$("#bf-q .bf-opt").forEach(function (b) { var k = +b.dataset.o; b.disabled = true; if (q.o[k][1]) b.classList.add("ok"); else if (k === oi) b.classList.add("bad"); });
+    OMNI.$$("#bf-q .bf-why").forEach(function (d) { d.hidden = false; });
+    $("bf-score").textContent = " · Score " + bfRight + " / " + Object.keys(bfAns).length;
+    OMNI.say("bf-cap", (q.o[oi][1] ? "Correct. " : "Not the best answer. ") + "The manager's answer wins because it " + ["starts by understanding the business and the risk", "combines governance, communication and enforcement", "names a governance gap rather than a symptom", "is risk-based and involves the owner", "states the fundamental purpose", "follows the plan and avoids reinfection", "covers the whole vendor lifecycle based on risk", "creates documented accountability"][bfI] + "." + (Object.keys(bfAns).length === BF.length ? " Finished: " + bfRight + " of " + BF.length + "." : ""));
+  }
+  $("bf-next").onclick = function () { bfI = (bfI + 1) % BF.length; bfShow(); if (bfAns[bfI] !== undefined) { var oi = bfAns[bfI]; delete bfAns[bfI]; if (BF[bfI].o[oi][1]) bfRight--; bfPick(oi); } };
+  $("bf-restart").onclick = function () { bfI = 0; bfRight = 0; bfAns = {}; bfShow(); };
+  bfShow();
+
+  /* ===== Lab 3: Tabletop ===== */
+  var TT = [
+    { t: "Monday 07:40 · Detection", s: "The SOC reports unusual outbound traffic: 40 GB sent overnight from a database server holding member records to an unknown cloud storage service.", o: [
+      ["Declare a potential incident, activate the IR plan and assemble the incident team", 3, "Good: the plan defines roles and escalation. Speed matters, and the IR plan avoids improvising."],
+      ["Ask the SOC to keep watching for a few days to be sure", 0, "Delay lets the exfiltration continue and may breach notification deadlines."],
+      ["Immediately email all staff about a hack", 1, "Uncontrolled communication can alert the attacker and cause panic."]] },
+    { t: "Monday 09:00 · Containment", s: "Analysts confirm an attacker used a stolen admin account. The database server is still sending data.", o: [
+      ["Isolate the server from the network, disable the compromised account and capture memory and disk images", 3, "Contain and preserve evidence at the same time."],
+      ["Wipe and rebuild the server right now", 1, "Stops the leak but destroys evidence needed to understand scope and for legal action."],
+      ["Leave it running to watch the attacker", 0, "Monitoring an active breach of member data is not acceptable risk without legal and executive approval."]] },
+    { t: "Monday 13:00 · Escalation and legal", s: "Initial analysis: names, addresses, account numbers and some national ID numbers for about 30,000 members may have been taken.", o: [
+      ["Brief senior management, engage legal counsel and the privacy officer, and check notification obligations and timelines", 3, "Legal and regulatory obligations drive notification; senior management must decide with full information."],
+      ["Wait until the investigation is 100% complete before telling anyone senior", 0, "Executives must know now; many regulations have short deadlines."],
+      ["Notify all 120,000 members immediately", 1, "Well-intended but premature: scope is unconfirmed and notices must be accurate and legally reviewed."]] },
+    { t: "Tuesday 10:00 · Communications", s: "A journalist calls asking about 'a breach at Ferncliff'. Staff are getting questions from members.", o: [
+      ["Route all media inquiries to the designated spokesperson and give staff an approved holding statement", 3, "One voice, consistent and accurate."],
+      ["Let the branch managers answer journalists as they see fit", 0, "Inconsistent messages damage trust and may create legal exposure."],
+      ["Deny that anything happened", 0, "Dishonest and likely to backfire badly."]] },
+    { t: "Wednesday · Notification and recovery", s: "Scope is confirmed: 28,450 members affected. Regulators require notification within a defined period. Systems are clean.", o: [
+      ["Notify regulators and affected members as required, offer support (e.g., credit monitoring), restore from clean backups and monitor closely", 3, "Meets obligations, supports members and recovers safely."],
+      ["Restore systems but skip notification to protect the brand", 0, "Breaks the law and destroys trust if discovered."],
+      ["Notify regulators only, not members", 1, "Partial: many laws also require notifying affected individuals."]] },
+    { t: "Two weeks later · Lessons learned", s: "Operations are normal. The CEO asks what happens next.", o: [
+      ["Hold a blameless post-incident review, find root causes (e.g., no MFA on admin accounts), update the IR plan, controls and risk register, and report to the board", 3, "Turns the incident into improvement and accountability."],
+      ["Fire the administrator whose account was stolen", 0, "Blame discourages reporting and ignores the control gap."],
+      ["Close the ticket; the incident is over", 1, "Misses the chance to prevent recurrence."]] }
+  ];
+  var ttI = 0, ttPts = 0, ttLog = [];
+  function ttShow() {
+    var box = $("tt-stage"); box.innerHTML = "";
+    var L = $("tt-line"); L.innerHTML = ""; ttLog.forEach(function (l, i) { L.appendChild(h("span", { class: l >= 3 ? "good" : l >= 1 ? "mid" : "poor" }, "Stage " + (i + 1) + ": " + (l >= 3 ? "good" : l >= 1 ? "partial" : "poor"))); });
+    if (ttI >= TT.length) {
+      var pct = Math.round(100 * ttPts / (TT.length * 3));
+      box.appendChild(h("p", null, h("b", null, "Exercise complete: " + ttPts + " of " + TT.length * 3 + " points (" + pct + "%).")));
+      box.appendChild(h("p", null, pct >= 90 ? "Excellent incident leadership: plan-driven, evidence-aware, legally sound and honest." : pct >= 60 ? "Solid, with some risky choices. Review the stages marked partial or poor." : "Several choices would have increased harm. Re-read Domain 4 and try again."));
+      $("tt-score").textContent = "Score: " + ttPts + " / " + TT.length * 3; return;
+    }
+    var st = TT[ttI];
+    box.appendChild(h("div", { class: "t" }, st.t)); box.appendChild(h("p", null, st.s));
+    OMNI.shuffle(st.o.map(function (x, i) { return i; })).forEach(function (oi) {
+      var b = h("button", { type: "button", class: "tt-opt" }, st.o[oi][0]);
+      b.onclick = function () {
+        var o = st.o[oi]; ttPts += o[1]; ttLog.push(o[1]);
+        OMNI.say("tt-cap", "<b>" + (o[1] >= 3 ? "Good practice." : o[1] >= 1 ? "Partly right." : "Poor choice.") + "</b> " + o[2] + (o[1] < 3 ? " Best practice: " + st.o.filter(function (x) { return x[1] === 3; })[0][0] + "." : ""));
+        ttI++; $("tt-score").textContent = "Score: " + ttPts + " / " + ttLog.length * 3; ttShow();
+      };
+      box.appendChild(b);
+    });
+  }
+  $("tt-restart").onclick = function () { ttI = 0; ttPts = 0; ttLog = []; $("tt-score").textContent = ""; OMNI.say("tt-cap", "Exercise restarted."); ttShow(); };
+  ttShow(); OMNI.say("tt-cap", "Read the situation and choose what you would do.");
+
+  /* ===== Lab 4: Dashboard designer ===== */
+  var DZ = [["board", "Board dashboard"], ["ops", "Operations dashboard"], ["none", "Neither (vanity or misleading)"]];
+  var MET = [
+    ["Top 5 cyber risks vs risk appetite, with owners and trend", "board", "Strategic, risk-based and tied to appetite: exactly what boards govern."],
+    ["Status of regulatory compliance (e.g., ISO 27001, privacy) and open major audit findings", "board", "Compliance exposure matters to directors."],
+    ["Business impact of significant incidents this quarter (downtime, cost, customers affected)", "board", "Expressed in business terms."],
+    ["Security program progress against the roadmap and budget", "board", "Shows value for investment."],
+    ["Mean time to detect and contain incidents (trend)", "ops", "Drives SOC performance; a summarized trend can also go to the board."],
+    ["Critical vulnerabilities past remediation deadline, by system owner", "ops", "Actionable for IT teams; a useful KRI."],
+    ["Phishing simulation click and report rates by department", "ops", "Guides awareness work; the overall trend can be summarized for leadership."],
+    ["Percentage of privileged accounts with MFA and quarterly access review completed", "ops", "Control coverage for operations."],
+    ["Total number of firewall blocks per day", "none", "Big numbers mean nothing: most blocks are background internet noise."],
+    ["Number of security tools purchased", "none", "Activity, not outcome."],
+    ["Lines of security policy text written", "none", "Volume is not effectiveness."],
+    ["Antivirus signature version number", "none", "Too granular even for operations; coverage and detection rates are better."]
+  ];
+  var dsDnd;
+  function dsReset() {
+    var bank = $("ds-bank"); bank.innerHTML = '<span class="zone-title">Metrics</span>';
+    OMNI.shuffle(MET.map(function (m, i) { return i; })).forEach(function (i) { bank.appendChild(h("span", { class: "chip", "data-id": String(i) }, MET[i][0])); });
+    var Z = $("ds-zones"); Z.innerHTML = ""; DZ.forEach(function (z) { Z.appendChild(h("div", { class: "dropzone", "data-z": z[0], "aria-label": z[1] }, h("span", { class: "zone-title" }, z[1]))); });
+    if (dsDnd) dsDnd.refresh();
+    OMNI.say("ds-cap", "Board metrics answer \"are we within risk appetite and getting value?\" Operations metrics answer \"what should we fix next?\"");
+  }
+  dsReset();
+  dsDnd = OMNI.dnd($("lab-dash"), function () { OMNI.$$("#lab-dash .chip").forEach(function (c) { c.classList.remove("ok", "bad"); }); });
+  $("ds-reset").onclick = dsReset;
+  $("ds-check").onclick = function () {
+    var right = 0, placed = 0, notes = [];
+    OMNI.$$("#ds-zones .dropzone").forEach(function (z) { OMNI.$$(".chip", z).forEach(function (c) { placed++; var m = MET[+c.dataset.id], ok = m[1] === z.dataset.z; c.classList.toggle("ok", ok); c.classList.toggle("bad", !ok); if (ok) right++; else notes.push("<b>" + esc(m[0]) + "</b> → " + DZ.filter(function (x) { return x[0] === m[1]; })[0][1] + ": " + m[2]); }); });
+    OMNI.say("ds-cap", right + " of " + placed + " placed metrics are on the right dashboard" + (placed < MET.length ? " (" + (MET.length - placed) + " still in the list)" : "") + ". " + (notes.length ? notes.join(" ") : placed === MET.length ? "Well designed. Good metrics are meaningful to their audience and support a decision." : ""));
+  };
 })();
 </script>
 <!-- module-data:start -->
-<script type="application/json" id="module-data">{"module":27,"title":"Cyber Security Careers","glossary":[["Security operations center","The team that watches for attacks around the clock.","A team and facility that monitors, detects, analyses and responds to security events, often 24/7.","SOC"],["SOC analyst tiers","Levels of SOC staff from first look to deep investigation.","Tier 1 triages alerts, Tier 2 investigates and responds, Tier 3 hunts threats and handles complex incidents.",""],["SIEM","A system that collects logs and raises alerts.","Security Information and Event Management: aggregates, normalises and correlates logs to detect threats and support investigations.","Security Information and Event Management"],["SOAR","Tools that automate SOC responses.","Security Orchestration, Automation and Response: runs playbooks that enrich alerts and take response actions automatically.","Security Orchestration, Automation and Response"],["EDR","Security software that watches each computer closely.","Endpoint Detection and Response: records endpoint activity, detects malicious behaviour and enables isolation and investigation.","Endpoint Detection and Response"],["XDR","EDR extended across network, cloud and email.","Extended Detection and Response: correlates telemetry from endpoints, network, cloud, identity and email.","Extended Detection and Response"],["True positive","A real attack correctly flagged.","An alert that correctly identifies malicious activity.",""],["False positive","A false alarm.","An alert raised for benign activity.",""],["False negative","A real attack that was missed.","Malicious activity that generated no alert; the most dangerous error.",""],["Threat hunting","Proactively searching for hidden attackers.","Hypothesis-driven searching through data for threats that evaded automated detection.",""],["Threat intelligence","Knowledge about attackers and their methods.","Evidence-based information about threats (actors, TTPs, indicators) used to inform defence.","CTI"],["Indicator of compromise","A clue that a system was attacked.","An artefact such as a malicious IP, domain, file hash or registry key indicating intrusion.","IoC"],["TTPs","How attackers operate.","Tactics, techniques and procedures: the behaviour patterns of threat actors.","Tactics, Techniques and Procedures"],["MITRE ATT&CK","A big public map of attacker techniques.","A knowledge base of adversary tactics and techniques based on real-world observations (14 Enterprise tactics).",""],["Cyber Kill Chain","The seven stages of an attack.","Lockheed Martin model: reconnaissance, weaponization, delivery, exploitation, installation, command and control, actions on objectives.",""],["Diamond Model","Four corners of an intrusion.","Analysis model linking adversary, capability, infrastructure and victim for each event.",""],["CVE","An ID number for a known vulnerability.","Common Vulnerabilities and Exposures: a public catalogue of uniquely identified vulnerabilities (e.g., CVE-2021-44228).","Common Vulnerabilities and Exposures"],["CVSS","A 0–10 severity score for vulnerabilities.","Common Vulnerability Scoring System; base metrics include attack vector, complexity, privileges, user interaction and impact (v3.1 and v4.0).","Common Vulnerability Scoring System"],["KEV catalog","CISA's list of vulnerabilities attackers are actually using.","CISA Known Exploited Vulnerabilities catalog; a strong signal for patch priority.","Known Exploited Vulnerabilities"],["EPSS","A score for how likely a vulnerability is to be exploited soon.","Exploit Prediction Scoring System: probability of exploitation in the next 30 days.","Exploit Prediction Scoring System"],["Compensating control","A different safeguard when the normal fix isn't possible.","An alternative control that reduces risk when the primary control can't be applied (e.g., isolate an unpatchable server).",""],["Penetration test","An authorised, simulated attack to find weaknesses.","A scoped, permitted exercise that exploits vulnerabilities to demonstrate real risk, followed by a report.","Pentest"],["Rules of engagement","The written permission and limits for a test.","Document defining scope, timing, methods, contacts and legal authorisation for security testing.","RoE"],["Red / blue / purple team","Attackers, defenders, and both working together.","Red emulates adversaries, blue defends and detects, purple combines both to improve detections.",""],["MTTD / MTTR","How fast we spot and fix incidents.","Mean time to detect and mean time to respond (or recover); key SOC metrics.",""],["Playbook","Step-by-step instructions for a type of incident.","A documented, repeatable response procedure, e.g., for phishing or ransomware; often automated in SOAR.",""],["Capture the flag","A legal hacking competition or practice game.","Security challenges where participants find hidden 'flags' by solving puzzles or exploiting deliberately vulnerable systems.","CTF"],["DoD 8140","US Defense rules for cyber workforce qualifications.","Department of Defense directive (replacing 8570) defining cyber work roles and qualifying certifications (verify current lists).",""]],"quiz":[{"t":"mc","q":"A Tier 1 SOC analyst's main job is to:","o":["Triage incoming alerts and escalate real incidents","Write the company security strategy","Perform full malware reverse engineering","Approve the security budget"],"a":0,"w":["Correct.","CISO or GRC.","Usually Tier 3 or a specialist.","Management."],"x":"Tier 2 investigates and responds; Tier 3 hunts and handles complex cases.","c":"CYSA","d":"1.3 Security operations processes"},{"t":"mc","q":"Which tool collects logs from many sources and correlates them to raise alerts?","o":["SIEM","Hypervisor","Load balancer","Password manager"],"a":0,"w":["Correct.","Runs VMs.","Distributes traffic.","Stores passwords."],"x":"SOAR then automates the response steps.","c":"CYSA","d":"1.3 Security operations processes"},{"t":"mc","q":"An alert fires for a login from another country, but it's the employee on approved travel using MFA. This is a:","o":["False positive","True positive","False negative","True negative"],"a":0,"w":["Correct: the alert fired on benign activity.","Would mean a real attack.","A missed attack.","No alert on benign activity."],"x":"Tune rules (e.g., with travel data) to cut false positives without creating false negatives.","c":"CYSA","d":"1.2 Indicators of malicious activity"},{"t":"order","q":"Put the Lockheed Martin Cyber Kill Chain in order.","o":["Reconnaissance","Weaponization","Delivery","Exploitation","Installation","Command and control","Actions on objectives"],"x":"Break the chain as early as possible.","c":"CYSA","d":"1.4 Threat intelligence and frameworks"},{"t":"mc","q":"Which framework catalogues real-world attacker tactics and techniques, such as T1566 Phishing?","o":["MITRE ATT&CK","ITIL 4","ISO 9001","TOGAF"],"a":0,"w":["Correct.","Service management.","Quality.","Enterprise architecture."],"x":"ATT&CK helps map detections and find coverage gaps.","c":"CYSA","d":"1.4 Threat intelligence and frameworks"},{"t":"mc","sc":"Two vulnerabilities: A is CVSS 9.8 on an isolated lab server with no network access. B is CVSS 7.5 on an internet-facing web server and is listed in CISA's KEV catalog.","q":"Which should be patched FIRST?","o":["B, because it is exposed and actively exploited","A, because it has the higher CVSS score","Neither; wait for the next quarterly patch cycle","Both at the same time next year"],"a":0,"w":["Correct: exposure plus known exploitation beats raw score.","CVSS alone ignores context.","Too slow for an actively exploited flaw.","Far too slow."],"x":"Prioritise using CVSS + exploitation (KEV, EPSS) + exposure + asset criticality.","c":"CYSA","d":"2.3 Prioritizing vulnerabilities"},{"t":"mc","q":"What should be in place BEFORE a penetration test starts?","o":["Written authorisation and agreed rules of engagement","A public announcement","Disabled logging","The attacker's tools installed on production"],"a":0,"w":["Correct: without permission it's illegal.","No.","Never.","No."],"x":"Scope, timing, contacts and legal sign-off protect everyone.","c":"S","d":"4.3 Penetration testing"},{"t":"mc","q":"Which entry-level certification from ISC2 is aimed at people new to cyber security?","o":["Certified in Cybersecurity (CC)","CISSP","CCSP","CSSLP"],"a":0,"w":["Correct.","Needs 5 years' experience.","Cloud, advanced.","Secure software, advanced."],"x":"ISC2 has offered free CC training and exams under its '1 Million Certified' programme (verify).","c":"GEN","d":"0 General"},{"t":"mc","q":"Which CompTIA certification focuses on hands-on penetration testing and vulnerability assessment?","o":["PenTest+","CySA+","Network+","A+"],"a":0,"w":["Correct (PT0-003).","Defensive analyst.","Networking.","Support."],"x":"OSCP (OffSec) is a respected, very hands-on alternative.","c":"GEN","d":"0 General"},{"t":"mc","q":"Which certification requires five years of paid work in two or more of its eight domains?","o":["CISSP","Security+","ISC2 CC","CySA+"],"a":0,"w":["Correct (a degree or other cert can waive one year; verify).","No experience requirement.","Entry level.","Recommended experience only."],"x":"Pass without the experience and you become an Associate of ISC2 until you earn it.","c":"GEN","d":"0 General"},{"t":"mc","q":"A SOC wants to measure how long attackers go unnoticed. Which metric?","o":["Mean time to detect (MTTD)","Mean time between failures","Recovery point objective","Uptime percentage"],"a":0,"w":["Correct.","Hardware reliability.","Backup data loss tolerance.","Availability."],"x":"MTTR measures how fast the team responds or recovers.","c":"CYSA","d":"4.2 Incident response reporting"},{"t":"mc","q":"During incident response, the analyst isolates an infected laptop from the network. Which phase is this?","o":["Containment","Preparation","Lessons learned","Detection"],"a":0,"w":["Correct.","Before incidents.","After recovery.","Before containment."],"x":"NIST phases: preparation; detection and analysis; containment, eradication and recovery; post-incident activity.","c":"CYSA","d":"3.2 Incident response activities"},{"t":"mc","q":"What is the BEST legal way to practise hacking skills?","o":["Your own lab VMs, CTFs and training platforms designed for it","Scanning your neighbour's Wi-Fi","Testing a company website without permission to 'help' them","Trying passwords on a friend's account"],"a":0,"w":["Correct.","Illegal without permission.","Illegal without permission.","Illegal."],"x":"Laws such as the US Computer Fraud and Abuse Act and the UK Computer Misuse Act apply even with good intentions.","c":"GEN","d":"0 General"}],"flashcards":[["SOC tiers","T1 triage · T2 investigate/respond · T3 hunt and complex incidents"],["SIEM vs SOAR","Collect and correlate logs, raise alerts vs automate response playbooks"],["EDR vs XDR","Endpoint detection and response vs extended across network, cloud, email, identity"],["True / false positive / false negative","Real attack flagged / false alarm / missed attack (worst)"],["Kill Chain (7)","Recon, weaponize, deliver, exploit, install, C2, actions on objectives"],["MITRE ATT&CK","Public knowledge base of adversary tactics and techniques"],["Diamond Model","Adversary, capability, infrastructure, victim"],["CVE / CVSS / KEV / EPSS","ID / 0–10 severity / known exploited list / exploit probability"],["Patch priority","Exploited (KEV) + exposed + critical asset first, not CVSS alone"],["MTTD / MTTR","Mean time to detect / respond (recover)"],["NIST IR phases","Prepare → Detect & analyse → Contain, eradicate, recover → Post-incident"],["Red / blue / purple","Attack / defend / work together"],["Entry certs","ISC2 CC, CompTIA Security+, Google Cybersecurity Certificate"],["Analyst certs","CySA+, GIAC GCIH/GCIA, Blue Team Level 1, SC-200"],["Offensive certs","PenTest+, OSCP, CEH, GIAC GPEN"],["Advanced / management","CISSP, CISM, CISA, SecurityX (formerly CASP+), CCSP"],["Cloud security certs","AWS Security Specialty, CCSP, Azure AZ-500"],["CySA+ CS0-003 format","Up to 85 q · 165 min · 750/900 · 33/30/20/17%"],["CISSP requirement","5 years in 2+ of 8 domains (or Associate of ISC2)"],["Legal practice","Own lab, CTFs, training platforms, written permission only"]]}</script>
+<script type="application/json" id="module-data">{"module":27,"title":"Leading Security","glossary":[["CISM","ISACA's certification for security managers.","Certified Information Security Manager: validates the ability to govern, manage risk, build programs and manage incidents; requires 5 years of experience (3 in management).","Certified Information Security Manager"],["Information security governance","Leaders steering security to support the business.","The set of responsibilities and practices exercised by the board and executive management to provide strategic direction, ensure objectives are achieved, manage risk and use resources responsibly.",""],["Security strategy","The long-term plan to reach the desired security state.","A plan, aligned to business objectives, describing the desired state of security, the current state, the gap and the roadmap to close it.",""],["Business case","Why an investment is worth it.","A documented justification for a project showing costs, benefits, risks, options and alignment with objectives.",""],["Roadmap","Ordered list of initiatives over time.","A time-phased plan of initiatives to move from the current state to the desired state.",""],["Gap analysis","Compare where we are to where we want to be.","Assessment of the difference between current state and desired state to identify required actions.",""],["Information security manager","Runs the security program.","The person (often the CISO) responsible for developing and managing the security program and advising senior management.",""],["Culture","How people really behave about security.","The shared values and behaviors that determine how security is practiced across the organization.",""],["Legal and regulatory requirements","Rules the law forces on you.","Obligations from laws, regulations and contracts that the program must identify and meet (e.g., privacy, breach notification).",""],["Risk assessment","Find and rate risks.","The process of identifying, analyzing and evaluating risk.",""],["Risk response","What we decide to do about a risk.","The treatment chosen for a risk: mitigate, transfer, avoid or accept.",""],["Control objective","What a control is meant to achieve.","A statement of the desired result or purpose to be achieved by implementing controls.",""],["Compensating control","An alternative that achieves a similar result.","A control that reduces risk when the primary control cannot be implemented.",""],["Emerging risk","New risk on the horizon.","A newly developing or changing risk that is hard to quantify, such as AI misuse or new regulations.",""],["Security program","Everything done to deliver the strategy.","The set of projects, resources, processes and controls that implement the security strategy.",""],["Security architecture (management view)","The blueprint linking business needs to controls.","A structured design that aligns security controls with business requirements and enterprise architecture (e.g., SABSA).",""],["Awareness program","Teaching everyone to be secure.","Ongoing education and training activities that change behavior, measured by outcomes such as phishing report rates.",""],["Metric","A measurement that supports decisions.","A quantifiable measure used to track performance, risk or value; should be meaningful to its audience.",""],["Balanced scorecard","Metrics from several perspectives.","A performance tool covering financial, customer, internal process and learning and growth perspectives.",""],["Vendor management","Managing suppliers' security.","Processes to assess, contract, monitor and offboard third parties based on risk.",""],["Incident management","The whole capability for handling incidents.","The organizational capability (people, plans, tools) to prepare for, detect, respond to and recover from incidents.",""],["Incident response plan","The playbook for incidents.","A documented plan defining roles, escalation, communication and procedures for responding to incidents.","IRP"],["BIA","Find what matters most and how long it can be down.","Business impact analysis: identifies critical processes, their impacts over time and recovery requirements (RTO, RPO, MTD).","Business Impact Analysis"],["RTO","How fast we must be back.","Recovery time objective: the maximum acceptable time to restore a process after disruption.","Recovery Time Objective"],["RPO","How much data we can lose.","Recovery point objective: the maximum acceptable data loss measured in time.","Recovery Point Objective"],["MTD","The absolute limit before serious harm.","Maximum tolerable downtime: the longest a process can be unavailable before unacceptable consequences.","Maximum Tolerable Downtime"],["BCP","Keep the business running.","Business continuity plan: procedures to continue critical business functions during and after a disruption.","Business Continuity Plan"],["DRP","Recover the technology.","Disaster recovery plan: procedures to restore IT systems and data after a disaster.","Disaster Recovery Plan"],["Tabletop exercise","Talk through a scenario.","A discussion-based exercise where participants walk through their roles in a simulated incident.",""],["Escalation","Move it up to people with more authority.","Process for notifying higher levels of management based on severity, impact or time thresholds.",""],["Chain of custody","Record of who handled evidence.","Documentation of the collection, handling and transfer of evidence to preserve integrity for legal use.",""],["Post-incident review","Lessons learned meeting.","A review after an incident to identify root causes, what worked and improvements.","Lessons learned"],["Senior management commitment","Leaders backing security.","Visible support and resources from executives; the most important success factor for a security program.",""]],"quiz":[{"t":"mc","q":"What is the MOST important factor for the success of an information security program?","o":["Senior management commitment and support","The latest security technology","A large security team","Strict enforcement of password rules"],"a":0,"w":["Correct.","Tools without support fail.","Size doesn't guarantee alignment.","One control, not success."],"x":"CISM answers start with business alignment and senior management support.","c":"CISM","d":"1.1 Enterprise governance"},{"t":"mc","q":"An information security strategy should PRIMARILY be aligned with:","o":["Business objectives","The IT strategy","The latest threat reports","Industry best practices"],"a":0,"w":["Correct.","Important but secondary to business goals.","Inputs, not the basis.","Useful references, not the primary driver."],"x":"Security exists to enable the business.","c":"CISM","d":"1.2 Information security strategy"},{"t":"mc","sc":"A newly hired CISO finds no documented security strategy. Staff do security work based on the last audit report.","q":"What should the CISO do FIRST?","o":["Understand the business objectives and the current state of security","Buy a SIEM","Write 20 new policies","Schedule a penetration test"],"a":0,"w":["Correct: context before action.","Tool before strategy.","Policies need direction first.","A useful input later."],"x":"Desired state needs business context; then gap analysis and roadmap.","c":"CISM","d":"1.2 Information security strategy"},{"t":"mc","q":"Who should accept residual risk for a business application?","o":["The business owner of the application","The CISO","The IT administrator","Internal audit"],"a":0,"w":["Correct.","Advises and reports.","Lacks authority.","Must stay independent."],"x":"Risk acceptance belongs to the accountable business owner, within appetite.","c":"CISM","d":"2.2 Risk response"},{"t":"ms","q":"Which are valid risk responses? (Select all that apply.)","o":["Mitigate","Transfer","Ignore","Accept"],"a":[0,1,3],"w":["Correct.","Correct.","Ignoring is not a response; acceptance is documented and monitored.","Correct."],"x":"Plus avoid. Acceptance must be formal.","c":"CISM","d":"2.2 Risk response"},{"t":"mc","q":"When selecting controls, the PRIMARY consideration should be:","o":["Reducing risk to an acceptable level cost-effectively","Choosing the strongest control available","What competitors use","What the vendor recommends"],"a":0,"w":["Correct.","May cost more than the risk.","Different context.","Biased."],"x":"Controls should be proportionate to risk and business impact.","c":"CISM","d":"2.2 Risk response"},{"t":"mc","q":"A security program's metrics should be designed MAINLY to:","o":["Support decision-making by their audience","Show the security team is busy","Measure every technical event","Satisfy auditors only"],"a":0,"w":["Correct.","Activity is not value.","Too much noise.","Too narrow."],"x":"Board metrics show risk and value; operational metrics drive daily work.","c":"CISM","d":"3.2 Program management"},{"t":"mc","q":"Which BEST indicates an effective security awareness program?","o":["Phishing simulation click rates fall and report rates rise over time","All employees signed the policy","The training video is 60 minutes long","Training is held once at hiring"],"a":0,"w":["Correct: behavior change.","Attendance, not effectiveness.","Length isn't outcome.","Not ongoing."],"x":"Measure outcomes, not activities.","c":"CISM","d":"3.2 Program management"},{"t":"order","q":"Put these security program development steps in order.","o":["Understand business objectives","Assess the current state","Define the desired state and gaps","Build the roadmap and business case","Implement and measure"],"x":"Strategy before tools; measurement feeds continuous improvement.","c":"CISM","d":"3.1 Program development"},{"t":"mc","q":"What is the PRIMARY purpose of a business impact analysis (BIA)?","o":["Identify critical processes and the impact of their disruption over time","Find vulnerabilities","Calculate the security budget","Test backups"],"a":0,"w":["Correct: drives RTO/RPO.","Vulnerability assessment.","An input, not the purpose.","DR testing."],"x":"The BIA sets recovery priorities and objectives.","c":"CISM","d":"4.1 Incident management readiness"},{"t":"mc","q":"Which value describes the maximum acceptable amount of data loss measured in time?","o":["RTO","RPO","MTD","MTTR"],"a":1,"w":["Time to restore.","Correct.","Maximum tolerable downtime.","Mean time to repair."],"x":"An RPO of 1 hour needs backups or replication at least hourly.","c":"CISM","d":"4.1 Incident management readiness"},{"t":"mc","sc":"Monitoring shows an attacker may have accessed a database containing customer personal data.","q":"What should the information security manager do FIRST?","o":["Activate the incident response plan and escalate per its criteria","Notify all customers immediately","Wipe and rebuild the server","Call the media"],"a":0,"w":["Correct: follow the plan.","Premature: confirm scope, involve legal.","Destroys evidence.","Communications are controlled through the plan."],"x":"Prepared plans define escalation, legal involvement and notification.","c":"CISM","d":"4.2 Incident management operations"},{"t":"mc","q":"Who should decide whether to notify regulators of a data breach?","o":["Senior management with legal counsel, following the incident response plan","The SOC analyst who found it","The vendor","The help desk"],"a":0,"w":["Correct.","Lacks authority.","Not the decision-maker.","Not appropriate."],"x":"Legal and regulatory obligations drive notification timing and content.","c":"CISM","d":"4.2 Incident management operations"},{"t":"mc","q":"What is the MAIN purpose of a post-incident review?","o":["Identify improvements to prevent recurrence and improve response","Find someone to blame","Close the ticket","Satisfy insurers"],"a":0,"w":["Correct.","Blame discourages reporting.","Administrative.","Secondary."],"x":"Lessons learned update plans, controls and training.","c":"CISM","d":"4.2 Incident management operations"},{"t":"mc","q":"How often should incident response plans be tested?","o":["Regularly and after significant changes","Only after a real incident","Never; testing disrupts business","Only once when written"],"a":0,"w":["Correct.","Too late.","Tabletops cause little disruption.","Plans go stale."],"x":"Use tabletop, walkthrough, simulation and full tests.","c":"CISM","d":"4.1 Incident management readiness"}],"flashcards":[["In CISM scenarios, who accepts risk","The business (risk) owner, advised by security."],["Best first step for a new compliance requirement","Gap analysis."],["A good board security metric","Tied to business risk, for example time to patch known-exploited vulnerabilities on critical systems."],["CISM domains and weights (verify)","1 Governance 17% · 2 Risk management 20% · 3 Program 33% · 4 Incident management 30%"],["CISM exam (verify)","150 questions, 4 hours, scaled 200–800, pass 450"],["CISM experience","5 years in infosec, including 3 in management across 3+ domains"],["Think like a manager","Business alignment, senior management, governance, risk-based"],["#1 success factor","Senior management commitment"],["Strategy is aligned to…","Business objectives"],["Strategy steps","Business goals → current state → desired state → gap → roadmap → business case"],["Who accepts risk?","The business/risk owner, within appetite"],["Control selection driver","Risk reduced cost-effectively to acceptable level"],["Compensating control","Alternative that achieves similar risk reduction"],["Good metric","Meaningful to its audience; supports decisions"],["Board metrics","Risk vs appetite, trends, business impact, compliance, value"],["Awareness effectiveness","Behavior change: phishing clicks down, reports up"],["BIA output","Critical processes, impacts over time, RTO, RPO, MTD"],["RTO / RPO / MTD","Time to restore / data loss window / longest tolerable outage"],["BCP vs DRP","Keep the business running vs restore IT"],["IR phases (NIST SP 800-61)","Preparation; detection and analysis; containment, eradication, recovery; post-incident activity"],["First step when an incident is suspected","Follow the IR plan: verify, classify, escalate"],["Who decides breach notification","Senior management with legal counsel"],["Evidence","Preserve before rebuild; maintain chain of custody"],["Test types","Checklist, tabletop, walkthrough, simulation, parallel, full interruption"],["Post-incident review","Improve, don't blame"]]}</script>
 <!-- module-data:end -->
 </body>
 </html>

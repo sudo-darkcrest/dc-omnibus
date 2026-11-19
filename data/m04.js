@@ -80,6 +80,9 @@ OMNI.register({
       x: "64-bit systems remove this practical limit.", c: "A2", d: "1.1" }
   ],
   flashcards: [
+    ["Von Neumann architecture", "Instructions and data share the same memory."],
+    ["Disk at 100% on an old PC", "Replace the hard drive with an SSD."],
+    ["Thermal throttling", "A hot CPU slows itself down to avoid damage."],
     ["Four parts of the von Neumann model", "CPU (control unit + ALU + registers), memory, input/output, buses."],
     ["Von Neumann bottleneck", "Instructions and data share one path to memory, limiting throughput."],
     ["Harvard architecture", "Separate instruction and data memories/buses; modern CPUs split L1 caches this way."],

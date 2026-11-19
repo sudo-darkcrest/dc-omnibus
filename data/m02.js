@@ -76,6 +76,9 @@ OMNI.register({
       x: "Hex is compact for anything aligned to 4-bit boundaries.", c: "N", d: "1.8" }
   ],
   flashcards: [
+    ["Download time formula", "Size in bytes × 8 ÷ speed in bits per second (add about 10% for overhead)."],
+    ["Watts formula", "Watts = volts × amps."],
+    ["1 Gbps in megabytes per second", "About 110 to 120 MB/s in practice (125 MB/s in theory)."],
     ["Byte place values", "128, 64, 32, 16, 8, 4, 2, 1"],
     ["1 byte = ? bits", "8 bits (an octet). A nibble is 4 bits."],
     ["b vs B", "b = bit, B = byte. 100 Mbps ≈ 12.5 MB/s."],
