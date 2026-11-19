@@ -1,0 +1,506 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Module 12 · Switches, Routers and Network Services | Datacenter Omnibus</title>
+<meta name="description" content="Network devices, switching with VLANs, STP and LACP, routing protocols and administrative distance, network services, VPNs, SD-WAN, QoS and documentation, with five simulators.">
+<link rel="stylesheet" href="assets/omnibus.css">
+<style>
+  .mac-tables { display: grid; grid-template-columns: 1fr 1fr; gap: 12px; }
+  .mac-tables table { font-size: .85rem; }
+  .linkhit { cursor: pointer; }
+  @media (max-width: 700px) { .mac-tables { grid-template-columns: 1fr; } }
+</style>
+</head>
+<body data-module="12">
+<a class="skip" href="#main">Skip to content</a>
+<div id="topbar"></div>
+<main class="page" id="main">
+
+<section class="intro">
+  <div class="kicker">Part 3 · Networking, Fiber and Wireless · Module 12</div>
+  <h1>Switches, Routers and the Services That Run Networks</h1>
+  <p class="why"><b>Why this matters.</b> Switches and routers are the heart of every network, and the services around them (time, logging, monitoring, VPNs, QoS) keep it running. Network+ Domain 2 (Network Implementation) and Domain 3 (Network Operations) live here. Understanding VLANs, spanning tree and routing decisions is what separates "it's broken" from "the trunk is missing VLAN 30".</p>
+  <h3>You will be able to</h3>
+  <ul class="outcomes">
+    <li>Choose the right network appliance for a job and place it in the OSI model.</li>
+    <li>Explain MAC learning, flooding, VLANs, trunks, the native VLAN, STP/RSTP and LACP.</li>
+    <li>Read a routing table, compare static and dynamic routing, and use administrative distance.</li>
+    <li>Describe RIP, OSPF, EIGRP, BGP and FHRP, and network services such as NTP, SNMP, syslog and NetFlow.</li>
+    <li>Compare VPN types, GRE, MPLS, SD-WAN and SASE, and explain QoS with DSCP, shaping and policing.</li>
+    <li>Produce the core network documents: diagrams, rack diagrams, IP schemes and baselines.</li>
+  </ul>
+  <nav class="jumpnav" id="jumpnav" aria-label="On this page"></nav>
+</section>
+
+<section class="certmap" id="certmap">
+  <h2>Cert map</h2>
+  <div id="certmap-badges"></div>
+</section>
+
+<section class="lesson" id="devices">
+  <h2>1. Network appliances</h2>
+  <div class="tablewrap"><table>
+    <thead><tr><th>Device</th><th>Layer</th><th>What it does</th></tr></thead>
+    <tbody>
+      <tr><td><b>Hub</b> (historic)</td><td>1</td><td>Repeats every bit out every port; one collision domain. Replaced by switches.</td></tr>
+      <tr><td><b>Switch (Layer 2)</b></td><td>2</td><td>Forwards frames by MAC address; each port is its own collision domain; VLANs split broadcast domains.</td></tr>
+      <tr><td><b>Layer 3 switch</b></td><td>2 and 3</td><td>Switch that also routes between VLANs at wire speed (SVIs).</td></tr>
+      <tr><td><b>Router</b></td><td>3</td><td>Forwards packets between networks by IP; separates broadcast domains; often does NAT and VPN.</td></tr>
+      <tr><td><b>Firewall</b></td><td>3 to 7</td><td>Allows or blocks traffic by rules; stateful firewalls track connections; NGFWs inspect applications and users.</td></tr>
+      <tr><td><b>Load balancer</b></td><td>4 or 7</td><td>Spreads client requests across servers; health checks; TLS offload.</td></tr>
+      <tr><td><b>Proxy</b></td><td>7</td><td>Makes requests on behalf of clients (forward) or servers (reverse); caching and filtering.</td></tr>
+      <tr><td><b>IDS / IPS</b></td><td>3 to 7</td><td>Intrusion detection alerts; intrusion prevention sits inline and blocks.</td></tr>
+      <tr><td><b>Access point / WLAN controller</b></td><td>2</td><td>Bridges Wi-Fi to Ethernet; a controller centrally manages many lightweight APs.</td></tr>
+      <tr><td><b>Modem / media converter</b></td><td>1</td><td>Converts signal types (cable/DSL to Ethernet; copper to fiber).</td></tr>
+      <tr><td><b>VoIP gear</b></td><td>7</td><td>IP phones, PBX/call managers, VoIP gateways to the phone network.</td></tr>
+      <tr><td><b>SD-WAN appliance</b></td><td>3 to 7</td><td>Steers branch traffic over multiple WAN links by application policy.</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section class="lesson" id="switching">
+  <h2>2. Switching: MAC tables, VLANs and loops</h2>
+  <p>A switch <b>learns</b> by reading the <b>source</b> MAC of every frame and noting which port it came in on. It <b>forwards</b> by looking up the <b>destination</b> MAC. If the destination is unknown (or it's a broadcast), it <b>floods</b> the frame out every port in that VLAN except the one it arrived on.</p>
+  <h3>VLANs and trunks</h3>
+  <p>A <dfn>VLAN</dfn> (virtual LAN) splits one physical switch into separate broadcast domains. An <b>access port</b> belongs to one VLAN and sends untagged frames to the end device. A <b>trunk port</b> carries many VLANs between switches by adding an <b>IEEE 802.1Q tag</b> (12-bit VLAN ID: 1 to 4094). The <b>native VLAN</b> is the one VLAN sent untagged on a trunk; both ends must match, and best practice is to change it from VLAN 1 to an unused VLAN to block VLAN hopping. Traffic between VLANs needs a router or Layer 3 switch.</p>
+  <h3>Spanning Tree (STP) and loops</h3>
+  <p>Redundant links create Layer 2 <b>loops</b>; with no TTL in Ethernet, broadcasts circle forever (a <b>broadcast storm</b>) and MAC tables flap. <dfn>STP</dfn> (IEEE 802.1D) blocks just enough ports to make a loop-free tree:</p>
+  <ol>
+    <li>Elect the <b>root bridge</b>: lowest <b>bridge ID</b> = priority (default 32768, in steps of 4096) + MAC address.</li>
+    <li>Every other switch picks one <b>root port</b>: its lowest-cost path to the root (cost: 10 Mbps 100, 100 Mbps 19, 1 Gbps 4, 10 Gbps 2).</li>
+    <li>Each link segment gets one <b>designated port</b>: the end closest to the root.</li>
+    <li>Everything else is <b>blocked</b> (RSTP calls it alternate/backup and "discarding").</li>
+  </ol>
+  <div class="tablewrap"><table>
+    <thead><tr><th>&nbsp;</th><th>STP (802.1D)</th><th>RSTP (802.1w)</th></tr></thead>
+    <tbody>
+      <tr><td>Port states</td><td>Blocking, listening, learning, forwarding, disabled</td><td>Discarding, learning, forwarding</td></tr>
+      <tr><td>Port roles</td><td>Root, designated, (non-designated)</td><td>Root, designated, alternate, backup</td></tr>
+      <tr><td>Convergence</td><td>30 to 50 seconds (hello 2 s, forward delay 15 s, max age 20 s)</td><td>A few seconds or less</td></tr>
+    </tbody>
+  </table></div>
+  <p>Edge features: <b>PortFast</b>/edge ports skip the wait on host ports; <b>BPDU guard</b> shuts a host port that receives switch BPDUs; <b>root guard</b> stops another switch becoming root.</p>
+  <h3>More switch features</h3>
+  <ul>
+    <li><b>Link aggregation</b> (LACP, IEEE 802.3ad, now 802.1AX): bundle several links into one logical link for bandwidth and redundancy. STP sees one link.</li>
+    <li><b>Port mirroring</b> (SPAN): copies traffic from ports or VLANs to a monitor port for an analyzer or IDS.</li>
+    <li><b>Port security</b>: limit MAC addresses per port, sticky MACs; 802.1X for authentication (Module 16).</li>
+    <li><b>Jumbo frames</b>, <b>speed/duplex</b> (mismatch = late collisions and slowness), <b>PoE</b> budgets (Module 11).</li>
+  </ul>
+</section>
+
+<section class="lesson" id="routing">
+  <h2>3. Routing</h2>
+  <p>A router keeps a <dfn>routing table</dfn> of destination prefixes, next hops, metrics and sources. It always chooses the <b>longest prefix match</b> (most specific route). If several sources offer the same prefix, it trusts the one with the lowest <dfn>administrative distance</dfn> (AD); within one protocol, the lowest <b>metric</b> wins. A <b>default route</b> (0.0.0.0/0, "gateway of last resort") catches everything else.</p>
+  <div class="grid2">
+    <div class="tablewrap"><table>
+      <thead><tr><th>Route source</th><th>Default AD</th></tr></thead>
+      <tbody>
+        <tr><td>Directly connected</td><td>0</td></tr><tr><td>Static</td><td>1</td></tr><tr><td>eBGP</td><td>20</td></tr><tr><td>EIGRP (internal)</td><td>90</td></tr><tr><td>OSPF</td><td>110</td></tr><tr><td>IS-IS</td><td>115</td></tr><tr><td>RIP</td><td>120</td></tr><tr><td>iBGP</td><td>200</td></tr>
+      </tbody>
+    </table></div>
+    <div class="tile"><h4>Static vs dynamic</h4><p><b>Static</b> routes are typed by an admin: simple, predictable, no overhead, but they don't adapt when links fail. <b>Dynamic</b> protocols exchange routes and recalculate automatically. A <b>floating static</b> route has a higher AD so it is used only as a backup.</p></div>
+  </div>
+  <div class="tablewrap"><table>
+    <thead><tr><th>Protocol</th><th>Type</th><th>Metric</th><th>Where used</th></tr></thead>
+    <tbody>
+      <tr><td><b>RIP</b> v2 / RIPng</td><td>Distance vector</td><td>Hop count (max 15)</td><td>Tiny or legacy networks</td></tr>
+      <tr><td><b>OSPF</b></td><td>Link state (Dijkstra SPF), areas, area 0 backbone</td><td>Cost (based on bandwidth)</td><td>Most enterprise internal networks; open standard</td></tr>
+      <tr><td><b>EIGRP</b></td><td>Advanced distance vector (hybrid)</td><td>Composite (bandwidth, delay)</td><td>Cisco-centric enterprises</td></tr>
+      <tr><td><b>IS-IS</b></td><td>Link state</td><td>Cost</td><td>Large service providers, data center fabrics</td></tr>
+      <tr><td><b>BGP</b></td><td>Path vector, TCP 179</td><td>Path attributes (AS path, local preference…)</td><td>The internet between autonomous systems; also data center fabrics and SD-WAN</td></tr>
+    </tbody>
+  </table></div>
+  <p><b>FHRP</b> (First Hop Redundancy Protocol) gives hosts a virtual default gateway IP shared by two routers so one can fail without clients noticing: <b>HSRP</b> (Cisco), <b>VRRP</b> (open standard), GLBP (Cisco, load-balancing).</p>
+</section>
+
+<section class="lesson" id="services">
+  <h2>4. Network services</h2>
+  <div class="tablewrap"><table>
+    <thead><tr><th>Service</th><th>What it does</th><th>Key facts</th></tr></thead>
+    <tbody>
+      <tr><td><b>NTP</b></td><td>Synchronizes clocks</td><td>UDP 123; stratum 0 = reference clock, stratum 1 = server attached to it; accurate time matters for logs, Kerberos and certificates. PTP (IEEE 1588) for sub-microsecond needs.</td></tr>
+      <tr><td><b>SNMP</b></td><td>Monitors and manages devices</td><td>UDP 161 (polls), 162 (traps); MIBs and OIDs describe data; v1/v2c use cleartext community strings, <b>v3 adds authentication and encryption</b>.</td></tr>
+      <tr><td><b>Syslog</b></td><td>Central logging</td><td>UDP 514 (TCP/TLS 6514); severity 0 Emergency to 7 Debug.</td></tr>
+      <tr><td><b>NetFlow / IPFIX / sFlow</b></td><td>Flow records: who talked to whom, how much</td><td>For capacity planning and security analytics, without full packet capture.</td></tr>
+      <tr><td><b>IPAM</b></td><td>IP address management</td><td>Tracks subnets, assignments, DHCP and DNS in one place.</td></tr>
+      <tr><td><b>DHCP relay, DNS</b></td><td>Addressing and names</td><td>See Module 10.</td></tr>
+    </tbody>
+  </table></div>
+  <div class="tablewrap"><table>
+    <thead><tr><th>Level</th><th>0</th><th>1</th><th>2</th><th>3</th><th>4</th><th>5</th><th>6</th><th>7</th></tr></thead>
+    <tbody><tr><td><b>Syslog severity</b></td><td>Emergency</td><td>Alert</td><td>Critical</td><td>Error</td><td>Warning</td><td>Notice</td><td>Informational</td><td>Debug</td></tr></tbody>
+  </table></div>
+  <h3>VPNs and WAN technologies</h3>
+  <div class="tablewrap"><table>
+    <thead><tr><th>Technology</th><th>What it is</th></tr></thead>
+    <tbody>
+      <tr><td><b>Site-to-site VPN</b></td><td>Always-on encrypted tunnel between two networks' gateways, usually IPsec.</td></tr>
+      <tr><td><b>Client-to-site (remote access) VPN</b></td><td>A user's device tunnels to the company. <b>Full tunnel</b> sends all traffic through it; <b>split tunnel</b> sends only corporate traffic.</td></tr>
+      <tr><td><b>IPsec</b></td><td>Layer 3 suite: IKE negotiates keys; <b>AH</b> authenticates; <b>ESP</b> encrypts and authenticates; tunnel vs transport mode.</td></tr>
+      <tr><td><b>SSL/TLS VPN</b></td><td>VPN over TLS (port 443), often clientless through a browser; passes most firewalls.</td></tr>
+      <tr><td><b>GRE</b></td><td>Generic Routing Encapsulation: simple unencrypted tunnel that can carry multicast/routing protocols; often wrapped in IPsec.</td></tr>
+      <tr><td><b>MPLS</b></td><td>Carrier WAN that forwards on labels instead of IP lookups; private, with QoS.</td></tr>
+      <tr><td><b>SD-WAN</b></td><td>Software-defined WAN: centrally managed overlay that sends each application over the best of several links (broadband, LTE/5G, MPLS).</td></tr>
+      <tr><td><b>SASE</b> / SSE</td><td>Secure Access Service Edge: SD-WAN plus cloud-delivered security (secure web gateway, CASB, ZTNA, firewall as a service).</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section class="lesson" id="qos">
+  <h2>5. Quality of Service</h2>
+  <p>When a link is congested, packets wait in queues. Voice and video suffer from <b>latency</b> (delay), <b>jitter</b> (variation in delay) and <b>loss</b>; a file download barely notices. <dfn>QoS</dfn> classifies and marks traffic, then queues it so sensitive traffic goes first.</p>
+  <ul>
+    <li><b>Marking</b>: <b>DSCP</b> (6 bits in the IP header). Voice = <b>EF (46)</b>, interactive video ≈ AF41 (34), best effort = 0. Layer 2 uses <b>CoS</b> (3-bit 802.1p in the 802.1Q tag).</li>
+    <li><b>Queuing</b>: priority/low-latency queuing for voice, weighted fair queuing for the rest.</li>
+    <li><b>Shaping</b> buffers excess traffic to smooth it to a rate (adds delay, no loss); <b>policing</b> drops or re-marks traffic over the rate (no delay, causes loss).</li>
+    <li>Targets for VoIP: one-way latency &lt; 150 ms, jitter &lt; 30 ms, loss &lt; 1%.</li>
+  </ul>
+</section>
+
+<section class="lesson" id="docs">
+  <h2>6. Network documentation</h2>
+  <div class="tablewrap"><table>
+    <thead><tr><th>Document</th><th>Shows</th></tr></thead>
+    <tbody>
+      <tr><td><b>Physical diagram</b></td><td>Actual devices, cables, ports, rooms and racks (Layer 1).</td></tr>
+      <tr><td><b>Logical diagram</b></td><td>Subnets, VLANs, routing domains, traffic flows (Layer 2/3).</td></tr>
+      <tr><td><b>Rack diagram / elevation</b></td><td>What is mounted in each rack unit (U), power feeds.</td></tr>
+      <tr><td><b>IP scheme / IPAM records</b></td><td>Subnets, gateways, DHCP scopes, static assignments.</td></tr>
+      <tr><td><b>Baseline</b></td><td>Normal performance (bandwidth, CPU, latency) to compare against when troubleshooting.</td></tr>
+      <tr><td><b>Asset inventory, wiring/port maps, change records, SOPs</b></td><td>What you have, where it connects, what changed and how to do routine tasks.</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section class="lab" id="labs">
+  <h2>Interactive labs</h2>
+
+  <div class="lab-card" id="lab-switch" data-lab="Switch Learning Simulator: send frames between hosts, watch MAC tables fill, unknown destinations flood, VLANs isolate traffic and a trunk carry tagged frames.">
+    <h3>Lab 1: Switch Learning Simulator</h3>
+    <div class="row"><label>From <select id="sw-src"></select></label><label>To <select id="sw-dst"></select></label>
+      <button type="button" class="primary" id="sw-send">Send frame</button><button type="button" id="sw-clear">Clear MAC tables</button></div>
+    <div class="stage"><svg id="sw-svg" viewBox="0 0 760 300" width="760" role="img" aria-label="Two switches joined by a trunk with hosts in VLAN 10 and VLAN 20"></svg></div>
+    <div class="mac-tables"><div><h4>SW1 MAC table</h4><div class="tablewrap"><table><thead><tr><th>VLAN</th><th>MAC</th><th>Port</th></tr></thead><tbody id="sw-t1"></tbody></table></div></div>
+      <div><h4>SW2 MAC table</h4><div class="tablewrap"><table><thead><tr><th>VLAN</th><th>MAC</th><th>Port</th></tr></thead><tbody id="sw-t2"></tbody></table></div></div></div>
+    <div class="caption" id="sw-cap" aria-live="polite">Pick a source and destination, then press Send frame. Start with an empty table to see flooding.</div>
+  </div>
+
+  <div class="lab-card" id="lab-stp" data-lab="Spanning Tree Visualizer: elect the root bridge, see root, designated and blocked ports, change priorities and cut links to watch reconvergence.">
+    <h3>Lab 2: Spanning Tree Visualizer</h3>
+    <p>Click a link to cut or restore it. Change a switch's priority to move the root.</p>
+    <div class="controls" id="stp-ctl"></div>
+    <div class="stage"><svg id="stp-svg" viewBox="0 0 760 340" width="760" role="img" aria-label="Four switches with redundant links"></svg>
+      <div class="legend"><span><i style="background:#16a34a"></i>Root port (R)</span><span><i style="background:#2563eb"></i>Designated port (D)</span><span><i style="background:#dc2626"></i>Blocked / alternate (X)</span></div></div>
+    <div class="caption" id="stp-cap" aria-live="polite"></div>
+  </div>
+
+  <div class="lab-card" id="lab-route" data-lab="Routing Table Lab: compare static routes with a link-state protocol, trace a packet hop by hop, and break links to watch the path change.">
+    <h3>Lab 3: Routing Table Lab</h3>
+    <div class="row" role="group" aria-label="Routing mode"><button type="button" id="rt-static">Static routes</button><button type="button" id="rt-ospf" class="primary">OSPF (link state)</button>
+      <button type="button" id="rt-trace">Trace a packet from LAN A to LAN B</button><button type="button" id="rt-heal">Restore all links</button></div>
+    <p class="figcap">Click a link to break or restore it. Numbers on links are OSPF costs.</p>
+    <div class="stage"><svg id="rt-svg" viewBox="0 0 760 320" width="760" role="img" aria-label="Five routers with LAN A and LAN B"></svg></div>
+    <h4>R1 routing table</h4>
+    <div class="tablewrap"><table><thead><tr><th>Code</th><th>Destination</th><th>Next hop</th><th>[AD/metric]</th><th>Interface</th></tr></thead><tbody id="rt-table"></tbody></table></div>
+    <div class="caption" id="rt-cap" aria-live="polite"></div>
+  </div>
+
+  <div class="lab-card" id="lab-nat" data-lab="NAT/PAT Translator: watch inside and outside addresses and port mappings update as several inside hosts browse the web.">
+    <h3>Lab 4: NAT/PAT Translator</h3>
+    <div class="row"><label>Inside host <select id="nt-host"><option>10.0.0.11</option><option>10.0.0.12</option><option>10.0.0.13</option></select></label>
+      <label>Browses <select id="nt-site"><option value="93.184.215.14|443">example.com (HTTPS)</option><option value="140.82.112.3|443">a code site (HTTPS)</option><option value="1.1.1.1|53">DNS resolver (UDP 53)</option></select></label>
+      <button type="button" class="primary" id="nt-go">Send request</button><button type="button" id="nt-reply">Server replies to newest</button><button type="button" id="nt-clear">Clear table</button>
+      <label><input type="checkbox" id="nt-pf"> Add port forward: public TCP 8443 → 10.0.0.13:443</label></div>
+    <div class="stage"><svg id="nt-svg" viewBox="0 0 760 170" width="760" role="img" aria-label="Packet header before and after translation"></svg></div>
+    <div class="tablewrap"><table><thead><tr><th>Proto</th><th>Inside local</th><th>Inside global</th><th>Outside</th></tr></thead><tbody id="nt-table"></tbody></table></div>
+    <div class="caption" id="nt-cap" aria-live="polite">Send a request from an inside host.</div>
+  </div>
+
+  <div class="lab-card" id="lab-qos" data-lab="QoS Queue Visualizer: mixed voice, video and bulk traffic share a congested link; toggle QoS and watch voice delay and jitter drop.">
+    <h3>Lab 5: QoS Queue Visualizer</h3>
+    <div class="controls">
+      <label class="field"><span>Bulk download load: <b id="qs-l-v"></b></span><input type="range" id="qs-l" min="0" max="200" value="140"></label>
+      <label class="field"><span>Queuing</span><select id="qs-mode"><option value="fifo">No QoS (single FIFO queue)</option><option value="qos" selected>QoS: voice priority (EF), video next, bulk last</option></select></label>
+      <label class="field"><span>&nbsp;</span><button type="button" id="qs-run">Run again (new random traffic)</button></label>
+    </div>
+    <div class="stage"><svg id="qs-svg" viewBox="0 0 760 260" width="760" role="img" aria-label="Voice packet delay over time"></svg></div>
+    <div class="tablewrap"><table><thead><tr><th>Mode</th><th>Voice avg delay</th><th>Voice jitter</th><th>Voice loss</th><th>Video avg delay</th><th>Bulk loss</th></tr></thead><tbody id="qs-table"></tbody></table></div>
+    <div class="caption" id="qs-cap" aria-live="polite"></div>
+  </div>
+</section>
+
+<section class="glossary" id="glossary">
+  <h2>Key terms</h2>
+  <div id="glossary-list"></div>
+</section>
+
+<section class="memory" id="memory">
+  <h2>Memory aids</h2>
+  <div class="mnemonic">Switches <b>learn the Source, forward on the Destination</b>: "Learn from where you came, deliver where you're going."</div>
+  <div class="mnemonic">STP election: <b>lowest wins everything</b> (lowest bridge ID = root, lowest cost = root port, lowest ID breaks ties).</div>
+  <div class="mnemonic">AD order: "<b>C</b>onnected <b>S</b>tatic <b>E</b>BGP <b>E</b>IGRP <b>O</b>SPF <b>I</b>S-IS <b>R</b>IP <b>I</b>BGP" (0, 1, 20, 90, 110, 115, 120, 200): "<b>C</b>ats <b>S</b>leep <b>E</b>very <b>E</b>vening, <b>O</b>wls <b>I</b>nvestigate <b>R</b>ats <b>I</b>ndoors".</div>
+  <div class="mnemonic">Syslog 0 to 7: "<b>E</b>very <b>A</b>wesome <b>C</b>isco <b>E</b>ngineer <b>W</b>ill <b>N</b>eed <b>I</b>ce cream <b>D</b>aily".</div>
+  <div class="mnemonic"><b>Sh</b>aping <b>sh</b>ifts (delays) excess; <b>P</b>olicing <b>P</b>unishes (drops) it.</div>
+  <div class="tablewrap"><table><thead><tr><th>Exam trap</th><th>Why it is wrong</th></tr></thead><tbody>
+    <tr><td>"VLANs on different switches can talk with no router if both switches have the VLAN."</td><td>Same VLAN across a trunk: yes. <i>Different</i> VLANs always need Layer 3 routing.</td></tr>
+    <tr><td>"The switch with the highest priority becomes root."</td><td>Lowest bridge ID wins; set priority lower (e.g., 4096) to make a switch root.</td></tr>
+    <tr><td>"Static routes reroute around failures."</td><td>They don't adapt unless you configure a floating static backup.</td></tr>
+    <tr><td>"SNMPv2c is secure because it uses a community string."</td><td>Community strings travel in cleartext; use SNMPv3 (authPriv).</td></tr>
+    <tr><td>"Policing adds delay."</td><td>Shaping delays; policing drops.</td></tr>
+    <tr><td>"A router chooses the route with the lowest AD first."</td><td>Longest prefix match comes first; AD only breaks ties between sources for the same prefix.</td></tr>
+  </tbody></table></div>
+</section>
+
+<section class="quiz" id="quiz">
+  <h2>Knowledge check</h2>
+  <div id="quiz-area"></div>
+</section>
+
+<section class="flashcards" id="flashcards">
+  <h2>Flashcards</h2>
+  <div id="deck-area"></div>
+</section>
+
+<section class="deeper" id="deeper">
+  <h2>Go deeper (official sources)</h2>
+  <ul>
+    <li><a href="https://www.comptia.org/en-us/certifications/network/" rel="noopener">CompTIA Network+ (N10-009) exam objectives</a></li>
+    <li><a href="https://standards.ieee.org/ieee/802.1Q/10323/" rel="noopener">IEEE 802.1Q: Bridges and Bridged Networks (VLANs, RSTP)</a></li>
+    <li><a href="https://standards.ieee.org/ieee/802.1AX/6768/" rel="noopener">IEEE 802.1AX: Link Aggregation</a></li>
+    <li><a href="https://www.rfc-editor.org/rfc/rfc2328" rel="noopener">RFC 2328: OSPF Version 2</a></li>
+    <li><a href="https://www.rfc-editor.org/rfc/rfc4271" rel="noopener">RFC 4271: BGP-4</a></li>
+    <li><a href="https://www.rfc-editor.org/rfc/rfc5424" rel="noopener">RFC 5424: The Syslog Protocol</a></li>
+    <li><a href="https://www.rfc-editor.org/rfc/rfc2474" rel="noopener">RFC 2474: Differentiated Services (DSCP)</a></li>
+  </ul>
+</section>
+</main>
+<footer class="foot">Datacenter Omnibus · Original study material. Not affiliated with or endorsed by any certification body.</footer>
+
+<script src="data/catalog.js"></script>
+<script src="assets/omnibus.js"></script>
+<script src="data/m12.js"></script>
+<script>
+(function () {
+  var h = OMNI.h, S = OMNI.svg, $ = function (id) { return document.getElementById(id); };
+  function txt(p, x, y, t, a) { var e = S("text", Object.assign({ x: x, y: y, class: "svg-text", "font-size": 12 }, a || {}), p); e.textContent = t; return e; }
+  function arrowDefs(s, id, col) { var d = S("defs", {}, s), m = S("marker", { id: id, viewBox: "0 0 10 10", refX: 9, refY: 5, markerWidth: 7, markerHeight: 7, orient: "auto" }, d); S("path", { d: "M0,0 L10,5 L0,10 z", fill: col }, m); }
+
+  /* ================= Lab 1: switch ================= */
+  var HOSTS = [
+    { n: "A", mac: "AA:AA", vlan: 10, sw: 1, port: "Gi0/1", x: 70, y: 250 }, { n: "B", mac: "BB:BB", vlan: 20, sw: 1, port: "Gi0/2", x: 190, y: 250 }, { n: "C", mac: "CC:CC", vlan: 10, sw: 1, port: "Gi0/3", x: 310, y: 250 },
+    { n: "D", mac: "DD:DD", vlan: 10, sw: 2, port: "Gi0/1", x: 450, y: 250 }, { n: "E", mac: "EE:EE", vlan: 20, sw: 2, port: "Gi0/2", x: 570, y: 250 }, { n: "F", mac: "FF:01", vlan: 20, sw: 2, port: "Gi0/3", x: 690, y: 250 }];
+  var SWP = { 1: { x: 190, y: 90 }, 2: { x: 570, y: 90 } }, TRUNK = { 1: "Gi0/24", 2: "Gi0/24" };
+  var tables = { 1: [], 2: [] };
+  HOSTS.forEach(function (hh, i) { $("sw-src").appendChild(h("option", { value: i }, "Host " + hh.n + " (VLAN " + hh.vlan + ")")); $("sw-dst").appendChild(h("option", { value: i }, "Host " + hh.n + " (VLAN " + hh.vlan + ")")); });
+  $("sw-dst").appendChild(h("option", { value: "bc" }, "Broadcast FF:FF:FF:FF:FF:FF")); $("sw-dst").value = 3;
+  function drawSw(hl) {
+    hl = hl || {}; var s = $("sw-svg"); s.innerHTML = ""; arrowDefs(s, "swa", "var(--accent)");
+    var tk = hl.trunk; S("line", { x1: 260, y1: 90, x2: 500, y2: 90, stroke: tk ? "var(--accent)" : "var(--ink-2)", "stroke-width": tk ? 6 : 4 }, s);
+    txt(s, 380, 80, "802.1Q trunk (VLANs 10, 20; native 999)", { "text-anchor": "middle", "font-size": 11 }); if (tk) txt(s, 380, 112, "frame tagged VLAN " + tk, { "text-anchor": "middle", fill: "var(--accent)", "font-weight": 700 });
+    HOSTS.forEach(function (hh, i) {
+      var sw = SWP[hh.sw], on = hl.ports && hl.ports.indexOf(i) >= 0;
+      S("line", { x1: sw.x, y1: sw.y + 22, x2: hh.x, y2: hh.y - 22, stroke: on ? "var(--accent)" : (hh.vlan === 10 ? "#2563eb" : "#a855f7"), "stroke-width": on ? 4 : 2, "stroke-dasharray": on ? "" : "0" }, s);
+      S("rect", { x: hh.x - 42, y: hh.y - 22, width: 84, height: 44, rx: 8, fill: hh.vlan === 10 ? "#dbeafe" : "#f3e8ff", stroke: on ? "var(--accent)" : (hh.vlan === 10 ? "#2563eb" : "#a855f7"), "stroke-width": on ? 3 : 1.5 }, s);
+      txt(s, hh.x, hh.y - 4, "Host " + hh.n, { "text-anchor": "middle", fill: "#1f2937", "font-weight": 700 }); txt(s, hh.x, hh.y + 12, hh.mac + " · V" + hh.vlan, { "text-anchor": "middle", fill: "#1f2937", "font-size": 10 });
+      txt(s, (sw.x + hh.x) / 2 + (hh.x < sw.x ? -14 : 14), (sw.y + hh.y) / 2 + 4, hh.port.replace("Gi0/", "p"), { "text-anchor": "middle", "font-size": 10, class: "svg-muted" });
+    });
+    [1, 2].forEach(function (k) { var sw = SWP[k]; S("rect", { x: sw.x - 70, y: sw.y - 22, width: 140, height: 44, rx: 8, fill: "var(--net-soft)", stroke: "var(--net)", "stroke-width": 2 }, s); txt(s, sw.x, sw.y + 5, "SW" + k, { "text-anchor": "middle", "font-weight": 800 }); });
+    if (hl.src != null) txt(s, HOSTS[hl.src].x, HOSTS[hl.src].y + 40, "sender", { "text-anchor": "middle", fill: "var(--accent)", "font-weight": 700 });
+  }
+  function drawTables(newRows) {
+    [1, 2].forEach(function (k) { var tb = $("sw-t" + k); tb.innerHTML = ""; if (!tables[k].length) tb.appendChild(h("tr", null, h("td", { colspan: 3 }, "(empty)"))); tables[k].forEach(function (r) { var tr = h("tr", null, [h("td", null, String(r[0])), h("td", null, r[1]), h("td", null, r[2])]); if (newRows && newRows.indexOf(r) >= 0) tr.style.background = "var(--good-soft)"; tb.appendChild(tr); }); });
+  }
+  function lookup(k, vlan, mac) { var r = tables[k].filter(function (x) { return x[0] === vlan && x[1] === mac; })[0]; return r ? r[2] : null; }
+  function learn(k, vlan, mac, port, fresh) { var r = tables[k].filter(function (x) { return x[0] === vlan && x[1] === mac; })[0]; if (!r) { r = [vlan, mac, port]; tables[k].push(r); fresh.push(r); } }
+  $("sw-send").onclick = function () {
+    var si = +$("sw-src").value, dv = $("sw-dst").value, src = HOSTS[si], bc = dv === "bc", dst = bc ? null : HOSTS[+dv], fresh = [], msgs = [], ports = [], trunk = false;
+    if (!bc && dst === src) { OMNI.say("sw-cap", "Pick two different hosts."); return; }
+    var vlan = src.vlan, dmac = bc ? "FF:FF" : dst.mac;
+    // ingress switch
+    var k = src.sw, other = k === 1 ? 2 : 1;
+    learn(k, vlan, src.mac, src.port, fresh); msgs.push("SW" + k + " learns " + src.mac + " is on " + src.port + " (VLAN " + vlan + ").");
+    function egress(sw, inPort) {
+      var out = bc ? null : lookup(sw, vlan, dmac);
+      if (out && out !== inPort) {
+        if (out === TRUNK[sw]) { trunk = vlan; msgs.push("SW" + sw + " knows " + dmac + " is out the trunk, so it tags the frame VLAN " + vlan + " and sends it only there."); return "trunk"; }
+        var hi = HOSTS.findIndex(function (x) { return x.sw === sw && x.port === out; }); ports.push(hi); msgs.push("SW" + sw + " knows " + dmac + " is on " + out + ": forwards out that one port only."); return null;
+      }
+      var flood = HOSTS.map(function (x, i) { return i; }).filter(function (i) { return HOSTS[i].sw === sw && HOSTS[i].vlan === vlan && HOSTS[i].port !== inPort; });
+      flood.forEach(function (i) { ports.push(i); });
+      var viaTrunk = inPort !== TRUNK[sw];
+      msgs.push("SW" + sw + (bc ? " gets a broadcast" : " has no entry for " + dmac + " in VLAN " + vlan) + ", so it <b>floods</b> it to every VLAN " + vlan + " port" + (viaTrunk ? " and the trunk" : "") + " (never to VLAN " + (vlan === 10 ? 20 : 10) + " ports).");
+      if (viaTrunk) { trunk = vlan; return "trunk"; } return null;
+    }
+    var r = egress(k, src.port);
+    if (r === "trunk") { learn(other, vlan, src.mac, TRUNK[other], fresh); msgs.push("SW" + other + " receives the tagged frame on its trunk, reads VLAN " + vlan + ", and learns " + src.mac + " is via " + TRUNK[other] + "."); egress(other, TRUNK[other]); }
+    var delivered = bc ? "" : (dst.vlan !== vlan ? " <span class='no'>Host " + dst.n + " is in VLAN " + dst.vlan + ", so it never receives this frame: different VLANs need a router or Layer 3 switch.</span>" : (ports.indexOf(+dv) >= 0 ? " Host " + dst.n + " receives it." + (ports.length > 1 ? " The other hosts that got a flooded copy drop it because the destination MAC isn't theirs." : "") : ""));
+    if (!bc && dst.vlan === vlan) { learn(dst.sw, vlan, dst.mac, dst.port, fresh); if (dst.sw !== k) learn(k, vlan, dst.mac, TRUNK[k], fresh); }
+    drawSw({ ports: ports, trunk: trunk, src: si }); drawTables(fresh);
+    OMNI.say("sw-cap", msgs.join(" ") + delivered + (!bc && dst.vlan === vlan ? " (When " + dst.n + " replies, the switches learn its MAC too: shown in green.)" : ""));
+  };
+  $("sw-clear").onclick = function () { tables = { 1: [], 2: [] }; drawSw(); drawTables(); OMNI.say("sw-cap", "MAC tables cleared. The next frame to any destination will be flooded within its VLAN."); };
+  drawSw(); drawTables();
+
+  /* ================= Lab 2: STP ================= */
+  var SWS = [{ n: "S1", mac: "00:1A", pri: 32768, x: 380, y: 50 }, { n: "S2", mac: "00:0B", pri: 32768, x: 140, y: 170 }, { n: "S3", mac: "00:2C", pri: 32768, x: 620, y: 170 }, { n: "S4", mac: "00:3D", pri: 32768, x: 380, y: 290 }];
+  var LINKS = [{ a: 0, b: 1, c: 4, up: true }, { a: 0, b: 2, c: 4, up: true }, { a: 1, b: 3, c: 4, up: true }, { a: 2, b: 3, c: 4, up: true }, { a: 1, b: 2, c: 2, up: true }];
+  var ctl = $("stp-ctl");
+  SWS.forEach(function (sw, i) { var sel = h("select", { "aria-label": sw.n + " priority" }); [4096, 8192, 16384, 24576, 32768, 61440].forEach(function (p) { sel.appendChild(h("option", { value: p }, String(p))); }); sel.value = sw.pri; sel.onchange = function () { sw.pri = +sel.value; stp(); }; ctl.appendChild(h("label", { class: "field" }, [h("span", null, sw.n + " priority (MAC " + sw.mac + ")"), sel])); });
+  function bid(i) { return SWS[i].pri * 65536 + parseInt(SWS[i].mac.replace(":", ""), 16); }
+  function stp() {
+    var root = 0; SWS.forEach(function (s, i) { if (bid(i) < bid(root)) root = i; });
+    var dist = SWS.map(function () { return Infinity; }), done = [], rp = SWS.map(function () { return null; }); dist[root] = 0;
+    for (var it = 0; it < SWS.length; it++) {
+      var u = -1; dist.forEach(function (d, i) { if (done.indexOf(i) < 0 && (u < 0 || d < dist[u] || (d === dist[u] && d < Infinity && bid(i) < bid(u)))) u = i; }); if (u < 0 || dist[u] === Infinity) break; done.push(u);
+      LINKS.forEach(function (l, li) { if (!l.up) return; var v = l.a === u ? l.b : l.b === u ? l.a : -1; if (v < 0) return; var nd = dist[u] + l.c; if (nd < dist[v] || (nd === dist[v] && rp[v] != null && bid(u) < bid(rp[v].via))) { dist[v] = nd; rp[v] = { link: li, via: u }; } });
+    }
+    var role = LINKS.map(function () { return {}; });
+    LINKS.forEach(function (l, li) {
+      if (!l.up) return;
+      [l.a, l.b].forEach(function (sw) { if (rp[sw] && rp[sw].link === li) role[li][sw] = "R"; });
+      var des = (dist[l.a] < dist[l.b] || (dist[l.a] === dist[l.b] && bid(l.a) < bid(l.b))) ? l.a : l.b;
+      if (role[li][des] !== "R") role[li][des] = "D";
+      [l.a, l.b].forEach(function (sw) { if (!role[li][sw]) role[li][sw] = "X"; });
+    });
+    var s = $("stp-svg"); s.innerHTML = "";
+    LINKS.forEach(function (l, li) {
+      var A = SWS[l.a], B = SWS[l.b], blocked = l.up && (role[li][l.a] === "X" || role[li][l.b] === "X");
+      var g = S("g", { class: "linkhit", tabindex: 0, role: "button", "aria-label": "Link " + A.n + " to " + B.n + (l.up ? "" : " (cut)") }, s);
+      S("line", { x1: A.x, y1: A.y, x2: B.x, y2: B.y, stroke: "transparent", "stroke-width": 22 }, g);
+      S("line", { x1: A.x, y1: A.y, x2: B.x, y2: B.y, stroke: !l.up ? "var(--line)" : blocked ? "var(--bad)" : "var(--net)", "stroke-width": l.up ? 4 : 2, "stroke-dasharray": !l.up ? "6 6" : blocked ? "10 6" : "" }, g);
+      txt(g, (A.x + B.x) / 2 + 8, (A.y + B.y) / 2 - 6, l.up ? "cost " + l.c + (l.c === 2 ? " (10G)" : " (1G)") : "✂ cut", { "font-size": 11, class: "svg-muted" });
+      g.onclick = g.onkeydown = function (e) { if (e.type === "keydown" && e.key !== "Enter" && e.key !== " ") return; e.preventDefault && e.preventDefault(); l.up = !l.up; stp(); };
+      if (l.up) [l.a, l.b].forEach(function (sw) { var o = sw === l.a ? B : A, me = SWS[sw], px = me.x + (o.x - me.x) * 0.22, py = me.y + (o.y - me.y) * 0.22, r = role[li][sw], col = r === "R" ? "#16a34a" : r === "D" ? "#2563eb" : "#dc2626"; S("circle", { cx: px, cy: py, r: 11, fill: col }, s); txt(s, px, py + 4, r, { "text-anchor": "middle", fill: "#fff", "font-weight": 800, "font-size": 11 }); });
+    });
+    SWS.forEach(function (sw, i) { S("rect", { x: sw.x - 58, y: sw.y - 24, width: 116, height: 48, rx: 9, fill: i === root ? "#fef3c7" : "var(--surface)", stroke: i === root ? "#d97706" : "var(--net)", "stroke-width": i === root ? 3 : 2 }, s); txt(s, sw.x, sw.y - 4, sw.n + (i === root ? " ★ ROOT" : ""), { "text-anchor": "middle", "font-weight": 800 }); txt(s, sw.x, sw.y + 13, sw.pri + "." + sw.mac + (dist[i] < Infinity ? " · cost " + dist[i] : " · isolated"), { "text-anchor": "middle", "font-size": 10 }); });
+    var nb = 0; role.forEach(function (r) { Object.keys(r).forEach(function (k) { if (r[k] === "X") nb++; }); });
+    var iso = SWS.filter(function (x, i) { return dist[i] === Infinity; }).map(function (x) { return x.n; });
+    OMNI.say("stp-cap", SWS[root].n + " is root: lowest bridge ID (priority " + SWS[root].pri + ", then MAC " + SWS[root].mac + "). " + "Every other switch picked the lowest-cost path to the root as its root port (R); each link has one designated port (D) on the end closest to the root; " + nb + " port" + (nb === 1 ? " is" : "s are") + " blocked (X) to break the loops. " + (iso.length ? "<span class='no'>" + iso.join(", ") + " can't reach the root: the network is partitioned.</span>" : "Cut a forwarding link and a blocked port takes over: RSTP does this in about a second, classic STP takes 30 to 50 seconds."));
+  }
+  stp();
+
+  /* ================= Lab 3: routing ================= */
+  var R = [{ n: "R1", x: 110, y: 160 }, { n: "R2", x: 300, y: 60 }, { n: "R3", x: 640, y: 160 }, { n: "R4", x: 300, y: 260 }, { n: "R5", x: 480, y: 160 }];
+  var RL = [{ a: 0, b: 1, c: 10, up: true, net: "10.0.12.0/30" }, { a: 1, b: 4, c: 10, up: true, net: "10.0.25.0/30" }, { a: 4, b: 2, c: 10, up: true, net: "10.0.35.0/30" }, { a: 0, b: 3, c: 10, up: true, net: "10.0.14.0/30" }, { a: 3, b: 4, c: 20, up: true, net: "10.0.45.0/30" }, { a: 1, b: 2, c: 40, up: true, net: "10.0.23.0/30" }];
+  var rmode = "ospf", path = null;
+  function spf(src) {
+    var d = R.map(function () { return Infinity; }), prev = R.map(function () { return -1; }), done = []; d[src] = 0;
+    for (var it = 0; it < R.length; it++) { var u = -1; d.forEach(function (v, i) { if (done.indexOf(i) < 0 && (u < 0 || v < d[u])) u = i; }); if (u < 0 || d[u] === Infinity) break; done.push(u);
+      RL.forEach(function (l) { if (!l.up) return; var v = l.a === u ? l.b : l.b === u ? l.a : -1; if (v >= 0 && d[u] + l.c < d[v]) { d[v] = d[u] + l.c; prev[v] = u; } }); }
+    return { d: d, prev: prev };
+  }
+  function linkUp(a, b) { return RL.some(function (l) { return l.up && ((l.a === a && l.b === b) || (l.a === b && l.b === a)); }); }
+  function route() {
+    // returns path of router indices from R1 to R3 or null with fail info
+    if (rmode === "static") { var p = [0, 1, 4, 2]; for (var i = 0; i < p.length - 1; i++) if (!linkUp(p[i], p[i + 1])) return { path: p.slice(0, i + 1), fail: R[p[i]].n + "'s static next hop " + R[p[i + 1]].n + " is unreachable" }; return { path: p }; }
+    var r = spf(0); if (r.d[2] === Infinity) return { path: [0], fail: "no path exists" };
+    var pp = [2]; while (pp[0] !== 0) pp.unshift(r.prev[pp[0]]); return { path: pp, cost: r.d[2] };
+  }
+  function drawRt(hl) {
+    var s = $("rt-svg"); s.innerHTML = ""; var rr = route(); path = rr;
+    RL.forEach(function (l) {
+      var A = R[l.a], B = R[l.b], onP = hl && rr.path.some(function (v, i) { var w = rr.path[i + 1]; return w != null && ((v === l.a && w === l.b) || (v === l.b && w === l.a)); });
+      var g = S("g", { class: "linkhit", tabindex: 0, role: "button", "aria-label": "Link " + A.n + " " + B.n }, s);
+      S("line", { x1: A.x, y1: A.y, x2: B.x, y2: B.y, stroke: "transparent", "stroke-width": 22 }, g);
+      S("line", { x1: A.x, y1: A.y, x2: B.x, y2: B.y, stroke: !l.up ? "var(--bad)" : onP ? "var(--accent)" : "var(--ink-2)", "stroke-width": onP ? 6 : 3, "stroke-dasharray": l.up ? "" : "6 6" }, g);
+      txt(g, (A.x + B.x) / 2, (A.y + B.y) / 2 - 7, l.up ? String(l.c) : "✂ down", { "text-anchor": "middle", "font-weight": 700, "paint-order": "stroke", stroke: "var(--surface-2)", "stroke-width": 4 });
+      g.onclick = g.onkeydown = function (e) { if (e.type === "keydown" && e.key !== "Enter" && e.key !== " ") return; l.up = !l.up; drawRt(true); table(); };
+    });
+    S("rect", { x: 8, y: 140, width: 52, height: 40, rx: 6, fill: "var(--hw-soft)", stroke: "var(--hw)" }, s); txt(s, 34, 158, "LAN A", { "text-anchor": "middle", "font-size": 11, "font-weight": 700 }); txt(s, 34, 172, ".1.0/24", { "text-anchor": "middle", "font-size": 9 }); S("line", { x1: 60, y1: 160, x2: 80, y2: 160, stroke: "var(--hw)", "stroke-width": 3 }, s);
+    S("rect", { x: 700, y: 140, width: 52, height: 40, rx: 6, fill: "var(--hw-soft)", stroke: "var(--hw)" }, s); txt(s, 726, 158, "LAN B", { "text-anchor": "middle", "font-size": 11, "font-weight": 700 }); txt(s, 726, 172, ".3.0/24", { "text-anchor": "middle", "font-size": 9 }); S("line", { x1: 670, y1: 160, x2: 700, y2: 160, stroke: "var(--hw)", "stroke-width": 3 }, s);
+    R.forEach(function (r, i) { var on = hl && rr.path.indexOf(i) >= 0; S("circle", { cx: r.x, cy: r.y, r: 28, fill: on ? "var(--accent-soft)" : "var(--net-soft)", stroke: on ? "var(--accent)" : "var(--net)", "stroke-width": on ? 3 : 2 }, s); txt(s, r.x, r.y + 5, r.n, { "text-anchor": "middle", "font-weight": 800 }); if (on) txt(s, r.x, r.y - 34, "hop " + (rr.path.indexOf(i) + 1), { "text-anchor": "middle", "font-size": 10, fill: "var(--accent)", "font-weight": 700 }); });
+    if (hl) OMNI.say("rt-cap", rr.fail ? "<span class='no'>Packet dropped at " + R[rr.path[rr.path.length - 1]].n + ": " + rr.fail + ".</span> " + (rmode === "static" ? "Static routes don't notice failures. Switch to OSPF, or add a floating static backup route with a higher AD." : "LAN B is unreachable until a link is restored.") : "Path: LAN A → " + rr.path.map(function (i) { return R[i].n; }).join(" → ") + " → LAN B" + (rr.cost != null ? " (total OSPF cost " + rr.cost + "). OSPF floods link-state advertisements so every router has the same map, then runs Dijkstra's shortest path first. Break a link on this path and it reconverges to the next-cheapest path." : ". These are the static routes an admin typed in; they always use this path."));
+  }
+  function table() {
+    var tb = $("rt-table"); tb.innerHTML = ""; var rows = [["C", "192.168.1.0/24", "directly connected", "[0/0]", "Gi0/0"]];
+    RL.forEach(function (l) { if (l.up && (l.a === 0 || l.b === 0)) rows.push(["C", l.net, "directly connected", "[0/0]", "to " + R[l.a === 0 ? l.b : l.a].n]); });
+    var rr = route();
+    if (rmode === "static") rows.push(["S", "192.168.3.0/24", "via R2" + (linkUp(0, 1) ? "" : " (unreachable: route withdrawn)"), "[1/0]", "to R2"]);
+    else if (!rr.fail) rows.push(["O", "192.168.3.0/24", "via " + R[rr.path[1]].n, "[110/" + (rr.cost + 1) + "]", "to " + R[rr.path[1]].n]);
+    rows.push(["S*", "0.0.0.0/0", "via ISP 203.0.113.1", "[1/0]", "Gi0/9"]);
+    rows.forEach(function (r) { tb.appendChild(h("tr", null, r.map(function (c) { return h("td", null, c); }))); });
+  }
+  function setRm(m) { rmode = m; $("rt-static").classList.toggle("primary", m === "static"); $("rt-ospf").classList.toggle("primary", m === "ospf"); drawRt(true); table(); }
+  $("rt-static").onclick = function () { setRm("static"); }; $("rt-ospf").onclick = function () { setRm("ospf"); };
+  $("rt-trace").onclick = function () { drawRt(true); };
+  $("rt-heal").onclick = function () { RL.forEach(function (l) { l.up = true; }); drawRt(true); table(); };
+  setRm("ospf");
+
+  /* ================= Lab 4: NAT ================= */
+  var nat = [], nextPort = 62001, PUB = "203.0.113.5", last = null;
+  function drawNat(before, after, dir) {
+    var s = $("nt-svg"); s.innerHTML = ""; arrowDefs(s, "nta", "var(--net)");
+    S("rect", { x: 300, y: 40, width: 160, height: 90, rx: 10, fill: "var(--net-soft)", stroke: "var(--net)", "stroke-width": 2 }, s); txt(s, 380, 80, "Router (PAT)", { "text-anchor": "middle", "font-weight": 800 }); txt(s, 380, 98, "inside | outside " + PUB, { "text-anchor": "middle", "font-size": 10 });
+    if (!before) { txt(s, 380, 155, "Send a request to see headers rewritten", { "text-anchor": "middle", class: "svg-muted" }); return; }
+    var L = dir === "out" ? before : after, Rr = dir === "out" ? after : before;
+    [[10, L, "Inside (private) view"], [480, Rr, "Outside (public) view"]].forEach(function (b) { S("rect", { x: b[0], y: 30, width: 270, height: 110, rx: 8, fill: "var(--surface)", stroke: "var(--line)" }, s); txt(s, b[0] + 10, 50, b[2], { "font-weight": 700 }); txt(s, b[0] + 10, 78, "src " + b[1][0], { "font-family": "var(--mono)" }); txt(s, b[0] + 10, 100, "dst " + b[1][1], { "font-family": "var(--mono)" }); });
+    S("line", dir === "out" ? { x1: 282, y1: 85, x2: 298, y2: 85, stroke: "var(--net)", "stroke-width": 3, "marker-end": "url(#nta)" } : { x1: 478, y1: 85, x2: 462, y2: 85, stroke: "var(--net)", "stroke-width": 3, "marker-end": "url(#nta)" }, s);
+    S("line", dir === "out" ? { x1: 462, y1: 85, x2: 478, y2: 85, stroke: "var(--net)", "stroke-width": 3, "marker-end": "url(#nta)" } : { x1: 298, y1: 85, x2: 282, y2: 85, stroke: "var(--net)", "stroke-width": 3, "marker-end": "url(#nta)" }, s);
+  }
+  function natTable() { var tb = $("nt-table"); tb.innerHTML = ""; if ($("nt-pf").checked) tb.appendChild(h("tr", { style: "background:var(--warn-soft)" }, [h("td", null, "TCP (static)"), h("td", null, "10.0.0.13:443"), h("td", null, PUB + ":8443"), h("td", null, "any")])); if (!nat.length && !$("nt-pf").checked) tb.appendChild(h("tr", null, h("td", { colspan: 4 }, "(no translations yet)"))); nat.forEach(function (e) { var tr = h("tr", null, [h("td", null, e.p), h("td", null, e.il), h("td", null, e.ig), h("td", null, e.o)]); if (e === last) tr.style.background = "var(--good-soft)"; tb.appendChild(tr); }); }
+  $("nt-go").onclick = function () {
+    var host = $("nt-host").value, st = $("nt-site").value.split("|"), sport = 49152 + Math.floor(Math.random() * 16000), proto = st[1] === "53" ? "UDP" : "TCP";
+    var e = { p: proto, il: host + ":" + sport, ig: PUB + ":" + nextPort, o: st[0] + ":" + st[1] }; nextPort++; nat.push(e); last = e; if (nat.length > 8) nat.shift();
+    drawNat([e.il, e.o], [e.ig, e.o], "out"); natTable();
+    var same = nat.filter(function (x) { return x.il.split(":")[1] === e.il.split(":")[1] && x !== e; }).length;
+    OMNI.say("nt-cap", "Outbound: the router replaced the private source " + e.il + " with its public address and a unique port, " + e.ig + ", and recorded the mapping. The server only ever sees " + PUB + ". " + nat.length + " active translation(s) share one public IP: that's <b>PAT</b> (NAT overload). Each one is told apart by its public source port.");
+  };
+  $("nt-reply").onclick = function () {
+    if (!last) { OMNI.say("nt-cap", "Send a request first."); return; }
+    drawNat([last.o, last.ig], [last.o, last.il], "in");
+    OMNI.say("nt-cap", "Inbound reply: the server answers to " + last.ig + ". The router looks up public port " + last.ig.split(":")[1] + " in its table, rewrites the destination back to " + last.il + ", and delivers it inside. Unsolicited inbound traffic with no matching entry is dropped, which is why NAT feels like a firewall (but isn't one).");
+  };
+  $("nt-clear").onclick = function () { nat = []; last = null; drawNat(); natTable(); OMNI.say("nt-cap", "Table cleared. Entries also time out on their own (UDP quickly, TCP after the connection closes)."); };
+  $("nt-pf").onchange = function () { natTable(); if ($("nt-pf").checked) OMNI.say("nt-cap", "Port forwarding (static destination NAT): anyone on the internet who connects to " + PUB + ":8443 is sent to 10.0.0.13:443. This exposes that server, so it must be patched and ideally protected by firewall rules or replaced with a VPN or reverse proxy."); };
+  drawNat(); natTable();
+
+  /* ================= Lab 5: QoS ================= */
+  function simulate(mode, bulk, seed) {
+    var rnd = (function (a) { return function () { a = (a * 1664525 + 1013904223) % 4294967296; return a / 4294967296; }; })(seed);
+    var C = 2, T = 2000, Q = { v: [], i: [], b: [] }, fifo = [], cap = 300, used = 0, vd = [], idl = [], vlost = 0, blost = 0, bsent = 0, vsent = 0;
+    var vidNext = 0, inflight = null, rem = 0;
+    for (var t = 0; t < T; t++) {
+      var arr = [];
+      if (t % 20 === 0) arr.push({ c: "v", s: 1, t: t });
+      if (t >= vidNext) { arr.push({ c: "i", s: 24, t: t }); vidNext = t + 33; }
+      var bl = bulk / 100; while (bl > 0) { if (rnd() < Math.min(1, bl) / 8) arr.push({ c: "b", s: 8, t: t }); bl -= 1; }
+      arr.forEach(function (p) { if (p.c === "v") vsent++; if (p.c === "b") bsent++; if (used + p.s > cap) { if (p.c === "v") vlost++; if (p.c === "b") blost++; return; } used += p.s; if (mode === "fifo") fifo.push(p); else Q[p.c].push(p); });
+      var budget = C;
+      while (budget > 0) {
+        if (!inflight) { inflight = mode === "fifo" ? fifo.shift() : (Q.v.shift() || Q.i.shift() || Q.b.shift()); if (!inflight) break; rem = inflight.s; }
+        var take = Math.min(budget, rem); rem -= take; budget -= take; used -= take;
+        if (rem <= 0) { var d = t + 1 - inflight.t; if (inflight.c === "v") vd.push([inflight.t, d]); if (inflight.c === "i") idl.push(d); inflight = null; }
+      }
+    }
+    var avg = vd.reduce(function (s, x) { return s + x[1]; }, 0) / Math.max(1, vd.length), jit = 0; for (var k = 1; k < vd.length; k++) jit += Math.abs(vd[k][1] - vd[k - 1][1]); jit /= Math.max(1, vd.length - 1);
+    return { vd: vd, avg: avg, jit: jit, vloss: vlost / Math.max(1, vsent) * 100, iavg: idl.reduce(function (s, x) { return s + x; }, 0) / Math.max(1, idl.length), bloss: blost / Math.max(1, bsent) * 100 };
+  }
+  var seed = 12345;
+  function qos() {
+    var bulk = +$("qs-l").value, mode = $("qs-mode").value; $("qs-l-v").textContent = (bulk / 100).toFixed(2) + " units/ms (link = 2.0)";
+    var A = simulate("fifo", bulk, seed), B = simulate("qos", bulk, seed), cur = mode === "fifo" ? A : B;
+    var s = $("qs-svg"); s.innerHTML = ""; var maxD = Math.max(60, Math.max.apply(null, A.vd.map(function (x) { return x[1]; }).concat([1])) * 1.1);
+    var X = function (t) { return 50 + t / 2000 * 690; }, Y = function (d) { return 220 - d / maxD * 190; };
+    S("line", { x1: 50, y1: 220, x2: 740, y2: 220, stroke: "var(--ink-2)" }, s); S("line", { x1: 50, y1: 30, x2: 50, y2: 220, stroke: "var(--ink-2)" }, s);
+    txt(s, 6, 24, "voice delay (ms)", { "font-size": 10 }); txt(s, 395, 250, "time (ms) →", { "text-anchor": "middle", "font-size": 10 });
+    [0, Math.round(maxD / 2), Math.round(maxD)].forEach(function (v) { txt(s, 44, Y(v) + 4, v, { "text-anchor": "end", "font-size": 9 }); });
+    if (Y(150) > 30) { S("line", { x1: 50, y1: Y(150), x2: 740, y2: Y(150), stroke: "var(--warn)", "stroke-dasharray": "4 4" }, s); txt(s, 736, Y(150) - 4, "150 ms target", { "text-anchor": "end", "font-size": 10, fill: "var(--warn)" }); }
+    [[A, "#94a3b8", mode === "fifo" ? 2.5 : 1.2], [B, "#16a34a", mode === "qos" ? 2.5 : 1.2]].forEach(function (z) { var d = ""; z[0].vd.forEach(function (p, i) { d += (i ? " L" : "M") + X(p[0]).toFixed(1) + " " + Y(p[1]).toFixed(1); }); S("path", { d: d, fill: "none", stroke: z[1], "stroke-width": z[2], opacity: z[2] > 2 ? 1 : .5 }, s); });
+    txt(s, 60, 44, "■ No QoS (FIFO)", { fill: "#64748b", "font-size": 11, "font-weight": mode === "fifo" ? 800 : 400 }); txt(s, 180, 44, "■ QoS (voice priority)", { fill: "#16a34a", "font-size": 11, "font-weight": mode === "qos" ? 800 : 400 });
+    var tb = $("qs-table"); tb.innerHTML = "";
+    [["No QoS", A], ["QoS", B]].forEach(function (r) { var tr = h("tr", null, [h("td", null, h("b", null, r[0])), h("td", null, r[1].avg.toFixed(1) + " ms"), h("td", null, r[1].jit.toFixed(1) + " ms"), h("td", null, r[1].vloss.toFixed(1) + "%"), h("td", null, r[1].iavg.toFixed(1) + " ms"), h("td", null, r[1].bloss.toFixed(1) + "%")]); if ((r[0] === "QoS") === (mode === "qos")) tr.style.background = "var(--accent-soft)"; tb.appendChild(tr); });
+    var cong = 0.05 + 24 / 33 + bulk / 100 > 2;
+    OMNI.say("qs-cap", (cong ? "Offered load (" + (0.05 + 24 / 33 + bulk / 100).toFixed(2) + ") exceeds the link (2.0), so queues build. " : "The link isn't congested yet (load " + (0.05 + 24 / 33 + bulk / 100).toFixed(2) + " of 2.0), so QoS makes little difference: QoS only matters when there's a queue. ") + (mode === "fifo" ? "With one FIFO queue, small voice packets wait behind big bulk packets: voice delay " + A.avg.toFixed(1) + " ms, jitter " + A.jit.toFixed(1) + " ms." : "With QoS, voice (marked DSCP EF 46) goes to a strict-priority queue and only waits for the packet currently on the wire: delay " + B.avg.toFixed(1) + " ms, jitter " + B.jit.toFixed(1) + " ms. Bulk traffic absorbs the congestion instead (TCP will slow down), which users barely notice."));
+  }
+  $("qs-l").oninput = qos; $("qs-mode").onchange = qos; $("qs-run").onclick = function () { seed = Math.floor(Math.random() * 1e9); qos(); };
+  qos();
+})();
+</script>
+<!-- module-data:start -->
+<script type="application/json" id="module-data">{"module":12,"title":"Switches, Routers and Services","glossary":[["MAC address table","A switch's list of which device is on which port.","CAM table mapping VLAN + MAC address to an egress port, built from source addresses of received frames.","Content Addressable Memory table"],["Flooding","Sending a frame out every port.","Forwarding an unknown-unicast, broadcast or multicast frame out all ports in the VLAN except the ingress port.",""],["VLAN","A separate network inside one switch.","Virtual LAN: a logical Layer 2 broadcast domain independent of physical location.","Virtual Local Area Network"],["802.1Q","The VLAN tag standard.","IEEE standard inserting a 4-byte tag with a 12-bit VLAN ID and 3-bit priority into Ethernet frames.",""],["Access port","Port for one VLAN, untagged.","A switch port assigned to a single VLAN that sends and receives untagged frames.",""],["Trunk port","Port carrying many VLANs.","A switch port that carries multiple VLANs using 802.1Q tags.",""],["Native VLAN","The untagged VLAN on a trunk.","The VLAN whose frames cross an 802.1Q trunk without a tag; must match on both ends.",""],["STP","Stops switching loops.","Spanning Tree Protocol (IEEE 802.1D): elects a root bridge and blocks redundant ports to create a loop-free topology.","Spanning Tree Protocol"],["RSTP","Faster spanning tree.","Rapid Spanning Tree Protocol (802.1w, now in 802.1Q): converges in seconds with alternate and backup port roles.","Rapid Spanning Tree Protocol"],["Root bridge","The center of the spanning tree.","The switch with the lowest bridge ID (priority + MAC); all paths are calculated toward it.",""],["Bridge ID","A switch's STP identity.","Bridge priority (default 32768) concatenated with the switch MAC address.",""],["BPDU","STP's messages.","Bridge Protocol Data Unit: frames switches exchange to run spanning tree.","Bridge Protocol Data Unit"],["Broadcast storm","Broadcasts looping forever.","Exponential replication of broadcast frames in a Layer 2 loop, saturating links and CPUs.",""],["LACP","Bundling links together.","Link Aggregation Control Protocol (IEEE 802.3ad / 802.1AX) negotiating a port channel of multiple physical links.","Link Aggregation Control Protocol"],["Port mirroring","Copying traffic to a monitor port.","SPAN: copying frames from source ports/VLANs to a destination port for analysis.","Switched Port Analyzer (SPAN)"],["Routing table","A router's map of networks.","Table of destination prefixes with next hop, interface, metric and administrative distance.",""],["Longest prefix match","Most specific route wins.","The route with the longest matching subnet mask is chosen for forwarding.",""],["Administrative distance","How trusted a route source is.","A value (0-255) ranking route sources; lower is preferred (connected 0, static 1, OSPF 110, RIP 120).",""],["Default route","Where to send everything else.","0.0.0.0/0 (::/0): the gateway of last resort.",""],["Static route","A route typed in by hand.","A manually configured route; AD 1; does not adapt to topology changes.",""],["OSPF","Common link-state routing protocol.","Open Shortest Path First: link-state IGP using Dijkstra SPF, areas and cost metric (RFC 2328).","Open Shortest Path First"],["EIGRP","Cisco's advanced distance vector protocol.","Enhanced Interior Gateway Routing Protocol: composite metric, DUAL algorithm, AD 90.","Enhanced Interior Gateway Routing Protocol"],["RIP","Old hop-count routing protocol.","Routing Information Protocol: distance vector, hop-count metric, maximum 15 hops.","Routing Information Protocol"],["BGP","The internet's routing protocol.","Border Gateway Protocol: path-vector EGP between autonomous systems over TCP 179 (RFC 4271).","Border Gateway Protocol"],["FHRP","Backup default gateway.","First Hop Redundancy Protocol (HSRP, VRRP, GLBP): routers share a virtual gateway IP.","First Hop Redundancy Protocol"],["NTP","Keeps clocks in sync.","Network Time Protocol, UDP 123; stratum levels indicate distance from a reference clock.","Network Time Protocol"],["SNMP","Monitoring protocol.","Simple Network Management Protocol: managers poll agents (UDP 161) and receive traps (162); v3 adds security.","Simple Network Management Protocol"],["Syslog","Standard for sending logs.","Message logging protocol (RFC 5424), UDP 514, severity levels 0 (emergency) to 7 (debug).",""],["NetFlow","Records of who talked to whom.","Flow export technology summarizing traffic by 5-tuple, bytes and packets (IPFIX is the standard).",""],["IPsec","Encrypts IP traffic for VPNs.","Internet Protocol Security: IKE key exchange, AH and ESP, tunnel and transport modes.","Internet Protocol Security"],["Split tunnel","Only work traffic goes through the VPN.","A remote-access VPN configuration routing only corporate destinations through the tunnel.",""],["GRE","Simple tunnel protocol.","Generic Routing Encapsulation: unencrypted encapsulation of packets, often combined with IPsec.","Generic Routing Encapsulation"],["MPLS","Label-switched carrier WAN.","Multiprotocol Label Switching: forwards packets based on labels for traffic engineering and VPNs.","Multiprotocol Label Switching"],["SD-WAN","Smart, software-managed WAN.","Software-Defined WAN: centrally orchestrated overlay that steers traffic across multiple transports by policy.","Software-Defined Wide Area Network"],["SASE","Networking plus security from the cloud.","Secure Access Service Edge: converges SD-WAN with cloud-delivered security (SWG, CASB, ZTNA, FWaaS).","Secure Access Service Edge"],["QoS","Prioritizing important traffic.","Quality of Service: classification, marking, queuing, shaping and policing to manage latency, jitter and loss.","Quality of Service"],["DSCP","QoS marking in the IP header.","Differentiated Services Code Point: 6-bit field; EF (46) for voice.","Differentiated Services Code Point"],["Jitter","Variation in delay.","Variation in packet arrival intervals; harmful to real-time voice and video.",""],["Traffic shaping","Smoothing traffic by delaying it.","Buffering excess traffic to conform to a rate.",""],["Policing","Dropping traffic over a limit.","Dropping or re-marking packets that exceed a configured rate.",""],["Baseline","What normal looks like.","Recorded normal performance metrics used for comparison and capacity planning.",""]],"quiz":[{"t":"mc","q":"A switch receives a frame for a destination MAC that isn't in its MAC table. What does it do?","o":["Drops the frame","Floods it out all ports in the same VLAN except the ingress port","Sends it to the default gateway","Sends an ARP request"],"a":1,"w":["Switches don't drop unknown unicast.","Correct.","Switches don't use gateways for Layer 2 forwarding.","ARP is done by hosts, not switches."],"x":"Learn source, forward on destination, flood if unknown.","c":"N","d":"2.2 Switching technologies"},{"t":"mc","q":"Which IEEE standard adds a VLAN tag to Ethernet frames?","o":["802.1X","802.1Q","802.3ad","802.1D"],"a":1,"w":["Port-based authentication.","Correct.","Link aggregation.","Spanning tree."],"x":"12-bit VLAN ID, 3-bit priority.","c":"N","d":"2.2 Switching technologies"},{"t":"mc","sc":"PCs in VLAN 30 on switch B can't reach VLAN 30 hosts on switch A. Other VLANs work across the trunk.","q":"What is the most likely cause?","o":["STP is disabled","VLAN 30 isn't allowed on the trunk","The default gateway is wrong","Duplex mismatch"],"a":1,"w":["Would affect all VLANs or cause loops.","Correct: check the trunk's allowed VLAN list.","Same-VLAN traffic doesn't use the gateway.","Would affect all VLANs."],"x":"show interfaces trunk.","c":"N","d":"5.3 Troubleshoot network services (VLAN)"},{"t":"mc","q":"How is the STP root bridge elected?","o":["Highest MAC address","Lowest bridge ID (priority, then MAC)","Most ports","Fastest uplink"],"a":1,"w":["Lowest, not highest.","Correct.","Not a factor.","Path cost matters for root ports, not root election."],"x":"Default priority 32768; set lower to force root.","c":"N","d":"2.2 Switching technologies"},{"t":"mc","q":"Which protocol bundles four 10G links into one 40G logical link?","o":["STP","LACP","VRRP","OSPF"],"a":1,"w":["Blocks loops.","Correct: 802.3ad / 802.1AX.","Gateway redundancy.","Routing."],"x":"STP treats the port channel as one link.","c":"N","d":"2.2 Switching technologies"},{"t":"mc","q":"A router learns 10.1.0.0/16 via OSPF and 10.1.5.0/24 via RIP. A packet is destined for 10.1.5.9. Which route is used?","o":["OSPF, because its AD is lower","RIP, because the /24 is the longest prefix match","Both, load balanced","Neither; it uses the default route"],"a":1,"w":["AD only compares routes to the same prefix.","Correct.","Different prefixes aren't load balanced.","A specific route exists."],"x":"Longest prefix first, then AD, then metric.","c":"N","d":"2.1 Routing technologies"},{"t":"mc","q":"What is the default administrative distance of OSPF?","o":["90","100","110","120"],"a":2,"w":["EIGRP.","Not a common default.","Correct.","RIP."],"x":"0 connected, 1 static, 20 eBGP, 90 EIGRP, 110 OSPF, 120 RIP.","c":"N","d":"2.1 Routing technologies"},{"t":"mc","q":"Which protocol exchanges routes between internet service providers?","o":["OSPF","RIP","BGP","EIGRP"],"a":2,"w":["Interior gateway protocol.","Interior, legacy.","Correct: exterior gateway protocol between autonomous systems.","Interior, Cisco."],"x":"BGP uses TCP 179.","c":"N","d":"2.1 Routing technologies"},{"t":"mc","q":"Which provides a virtual default gateway shared by two routers?","o":["VRRP","LACP","NAT","SNMP"],"a":0,"w":["Correct (HSRP and GLBP too).","Link aggregation.","Address translation.","Monitoring."],"x":"FHRP = First Hop Redundancy Protocol.","c":"N","d":"2.1 Routing technologies"},{"t":"mc","q":"Which SNMP version adds authentication and encryption?","o":["v1","v2c","v3","All versions"],"a":2,"w":["Cleartext community.","Cleartext community.","Correct.","Only v3."],"x":"Use SNMPv3 authPriv.","c":"N","d":"3.2 Network monitoring"},{"t":"order","q":"Order these syslog severities from most to least severe.","o":["Emergency","Critical","Warning","Informational","Debug"],"x":"0 Emergency, 1 Alert, 2 Critical, 3 Error, 4 Warning, 5 Notice, 6 Informational, 7 Debug.","c":"N","d":"3.2 Network monitoring"},{"t":"mc","sc":"VoIP calls sound choppy only during large backups over the WAN.","q":"What is the BEST fix?","o":["Increase the MTU","Implement QoS with voice marked EF in a priority queue","Add a second DNS server","Enable STP"],"a":1,"w":["Unrelated.","Correct: prioritizes voice when the link is congested.","Unrelated.","Unrelated."],"x":"Jitter appears under congestion; QoS addresses it.","c":"N","d":"3.x QoS"},{"t":"ms","q":"Which are true about traffic shaping vs policing? (Choose two.)","o":["Shaping buffers excess traffic","Policing drops or re-marks excess traffic","Shaping drops all excess traffic immediately","Policing adds queuing delay"],"a":[0,1],"w":["Correct.","Correct.","That's policing.","Policing doesn't queue."],"x":"Shaping delays; policing drops.","c":"N","d":"3.x QoS"},{"t":"mc","q":"A company wants each branch to send cloud app traffic directly over broadband while keeping voice on MPLS, managed centrally. What fits?","o":["GRE","SD-WAN","Static NAT","STP"],"a":1,"w":["A tunnel, no policy steering.","Correct.","Address translation.","Loop prevention."],"x":"SASE adds cloud-delivered security to SD-WAN.","c":"N","d":"1.8 SD-WAN and SASE"},{"t":"mc","q":"Which document shows subnets, VLANs and routing rather than cables and ports?","o":["Physical diagram","Logical diagram","Rack diagram","Asset inventory"],"a":1,"w":["Shows cables and devices.","Correct.","Shows rack units.","Lists equipment."],"x":"Physical = Layer 1; logical = Layer 2/3.","c":"N","d":"3.1 Organizational documents"}],"flashcards":[["Switch learns from…","The source MAC; forwards on destination MAC"],["Unknown unicast","Flooded within the VLAN"],["802.1Q tag","12-bit VLAN ID (1–4094) + 3-bit priority"],["Native VLAN","Untagged VLAN on a trunk; must match both ends"],["STP root election","Lowest bridge ID = priority (32768) + MAC"],["STP costs","10M 100 · 100M 19 · 1G 4 · 10G 2"],["STP vs RSTP convergence","30–50 s vs ~1–2 s"],["LACP standard","802.3ad / 802.1AX"],["Port mirroring","SPAN: copy traffic to an analyzer"],["Route selection order","Longest prefix → lowest AD → lowest metric"],["AD values","Conn 0, static 1, eBGP 20, EIGRP 90, OSPF 110, RIP 120, iBGP 200"],["Default route","0.0.0.0/0, gateway of last resort"],["OSPF","Link state, Dijkstra, cost, areas (area 0)"],["RIP max hops","15"],["BGP port","TCP 179, between autonomous systems"],["FHRP examples","HSRP, VRRP, GLBP"],["NTP stratum 1","Server directly attached to a reference clock"],["SNMP ports","161 polls, 162 traps; v3 secure"],["Syslog 0–7","Emerg, Alert, Crit, Err, Warn, Notice, Info, Debug"],["IPsec parts","IKE (keys), AH (auth), ESP (encrypt + auth)"],["Full vs split tunnel","All traffic vs only corporate traffic through VPN"],["GRE","Unencrypted tunnel; can carry multicast"],["SD-WAN","Policy-based steering over multiple WAN links"],["SASE","SD-WAN + cloud security (SWG, CASB, ZTNA)"],["DSCP for voice","EF = 46"],["Shaping vs policing","Delay excess vs drop excess"],["VoIP targets","\u003c 150 ms latency, \u003c 30 ms jitter, \u003c 1% loss"]]}</script>
+<!-- module-data:end -->
+</body>
+</html>

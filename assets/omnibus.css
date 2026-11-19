@@ -293,3 +293,5 @@ code, .qtext, .kv span, .opt, .q label { overflow-wrap: anywhere; }
 .kv b { font-family: var(--sans); }
 @media (max-width: 700px) { .kv { grid-template-columns: 1fr; gap: 0 0; } .kv span { margin-bottom: 6px; } }
 .q .qhead .tag { white-space: normal; max-width: 100%; }
+.legend { display: flex; gap: 10px; flex-wrap: wrap; font-size: .85rem; justify-content: center; margin-top: 6px; }
+.legend i { display: inline-block; width: 14px; height: 14px; border-radius: 3px; vertical-align: middle; margin-right: 4px; }
