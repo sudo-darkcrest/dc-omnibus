@@ -1,0 +1,547 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Module 05 · PC Hardware | Datacenter Omnibus</title>
+<meta name="description" content="Motherboards, CPUs, RAM, storage, RAID, expansion cards, power supplies, ports and cables, displays, printers, mobile devices and safety for CompTIA A+ Core 1.">
+<link rel="stylesheet" href="assets/omnibus.css">
+<style>
+  .mobo { display: grid; grid-template-columns: repeat(3, 1fr); gap: 10px; }
+  .mobo .dropzone { min-height: 70px; background: var(--surface); }
+  .raid-grid { display: grid; gap: 6px; }
+  .raid-disk { border: 2px solid var(--line); border-radius: 10px; padding: 6px; background: var(--surface); text-align: center; }
+  .raid-disk.failed { border-color: var(--bad); background: var(--bad-soft); opacity: .8; }
+  .raid-disk button { width: 100%; font-size: .8rem; padding: 3px; }
+  .blk { font-family: var(--mono); font-size: .8rem; padding: 3px; margin: 3px 0; border-radius: 4px; background: var(--hw-soft); }
+  .blk.p { background: var(--warn-soft); }
+  .blk.m { background: var(--net-soft); }
+  .blk.lost { text-decoration: line-through; opacity: .5; }
+  .port-opts { display: grid; grid-template-columns: repeat(auto-fill, minmax(150px, 1fr)); gap: 8px; }
+  @media (max-width: 700px) { .mobo { grid-template-columns: 1fr 1fr; } }
+</style>
+</head>
+<body data-module="5">
+<a class="skip" href="#main">Skip to content</a>
+<div id="topbar"></div>
+<main class="page" id="main">
+
+<section class="intro">
+  <div class="kicker">Part 2 · Hardware, OS and Home · Module 05</div>
+  <h1>PC Hardware: Every Part and How It Connects</h1>
+  <p class="why"><b>Why this matters.</b> Hardware is the largest single domain on A+ Core 1, and it is what you touch every day in desktop support and data center work. You need to identify every part, know what fits with what (sockets, RAM generations, form factors, power connectors) and replace parts safely. This module goes component by component, then lets you build a PC, break a RAID array and run a laser printer.</p>
+  <h3>You will be able to</h3>
+  <ul class="outcomes">
+    <li>Identify motherboard form factors, sockets, slots and headers, and configure key BIOS/UEFI settings.</li>
+    <li>Choose compatible CPUs, coolers, RAM and storage, and calculate RAID capacity and fault tolerance.</li>
+    <li>Select a power supply by wattage, efficiency and connectors.</li>
+    <li>Identify ports, cables and display types by sight and by spec.</li>
+    <li>Describe the 7-step laser printing process and fix common printer problems.</li>
+    <li>Work safely: ESD, electrical safety, lifting and disposal.</li>
+  </ul>
+  <nav class="jumpnav" id="jumpnav" aria-label="On this page"></nav>
+</section>
+
+<section class="certmap" id="certmap">
+  <h2>Cert map</h2>
+  <div id="certmap-badges"></div>
+</section>
+
+<section class="lesson" id="motherboard">
+  <h2>1. Motherboards and firmware</h2>
+  <p>The <dfn>motherboard</dfn> is the main circuit board: everything plugs into it and it carries power and data between parts.</p>
+  <div class="tablewrap"><table>
+    <thead><tr><th>Form factor</th><th>Size</th><th>Expansion slots</th><th>Typical use</th></tr></thead>
+    <tbody>
+      <tr><td>ATX</td><td>12 × 9.6 in (305 × 244 mm)</td><td>Up to 7</td><td>Standard desktops, workstations</td></tr>
+      <tr><td>microATX (mATX)</td><td>9.6 × 9.6 in (244 × 244 mm)</td><td>Up to 4</td><td>Smaller desktops; fits ATX cases too</td></tr>
+      <tr><td>mini-ITX</td><td>6.7 × 6.7 in (170 × 170 mm)</td><td>1</td><td>Small form factor, home theater PCs</td></tr>
+    </tbody>
+  </table></div>
+  <ul>
+    <li><b>CPU socket</b>: must match the CPU. Intel uses LGA (land grid array: pins in the socket), e.g. LGA 1700 (12th to 14th gen) and LGA 1851 (Core Ultra 200S). AMD desktop uses AM4 (PGA: pins on the CPU) and AM5 (LGA, DDR5 only).</li>
+    <li><b>Chipset</b>: sets features such as overclocking, number of USB and SATA ports and extra PCIe lanes (Module 4).</li>
+    <li><b>Slots</b>: DIMM slots for RAM, PCIe x1/x4/x16 slots, M.2 slots (keyed M for NVMe/SATA SSDs, E for Wi-Fi cards).</li>
+    <li><b>Headers</b>: front-panel connectors (power switch, reset, LEDs), USB headers, fan headers (3-pin DC, 4-pin PWM), audio, RGB, TPM header on some boards.</li>
+    <li><b>CMOS battery</b>: a CR2032 coin cell keeps the real-time clock and (on older boards) settings. Symptom of a dead one: the clock resets to a default date, and settings reset after power loss.</li>
+  </ul>
+  <h3 id="uefi-settings">BIOS/UEFI settings you must know</h3>
+  <ul>
+    <li><b>Boot order</b>: which device the firmware tries first (USB, NVMe, network/PXE).</li>
+    <li><b>Secure Boot</b>: only signed bootloaders can run (needed for Windows 11).</li>
+    <li><b>TPM</b> (Trusted Platform Module): a chip or firmware module (Intel PTT, AMD fTPM) that stores keys for BitLocker and boot measurements. Windows 11 requires TPM 2.0.</li>
+    <li><b>Virtualization support</b>: Intel VT-x / AMD-V (and VT-d / AMD-Vi for device passthrough) must be enabled for hypervisors.</li>
+    <li><b>Passwords</b>: a supervisor/administrator password protects settings; a user/boot password is required before booting.</li>
+    <li>Other: fan curves, XMP/EXPO memory profiles, enabling/disabling onboard devices, USB permissions, boot-time intrusion detection.</li>
+  </ul>
+</section>
+
+<section class="lesson" id="cpu">
+  <h2>2. CPUs and cooling</h2>
+  <p>Match the CPU to the socket <i>and</i> the chipset/BIOS version. Desktop CPUs are rated by cores/threads, base and boost clock, cache and <dfn>TDP</dfn> (thermal design power: the heat, in watts, the cooler must remove at base load; real boost power can be much higher).</p>
+  <ul>
+    <li><b>Heat sink and fan</b>: metal fins conduct heat away; the fan moves air across them.</li>
+    <li><b>Thermal paste</b> (thermal interface material) fills microscopic gaps between the CPU's heat spreader and the cooler. Replace it whenever the cooler is removed. Thermal pads are used on VRMs and memory.</li>
+    <li><b>Liquid cooling</b>: an all-in-one (AIO) loop pumps coolant from a cold plate to a radiator. Watch for pump failure and leaks.</li>
+    <li>Symptoms of poor cooling: <b>thermal throttling</b> (slowdowns), sudden shutdowns, loud fans.</li>
+  </ul>
+</section>
+
+<section class="lesson" id="ram">
+  <h2>3. RAM</h2>
+  <div class="tablewrap"><table>
+    <thead><tr><th>Type</th><th>Pins</th><th>Voltage</th><th>Notes</th></tr></thead>
+    <tbody>
+      <tr><td>DDR4 DIMM</td><td>288</td><td>1.2 V</td><td>2133 to 3200 MT/s standard (higher with XMP)</td></tr>
+      <tr><td>DDR5 DIMM</td><td>288 (notch in a different place)</td><td>1.1 V</td><td>4800 MT/s and up; two 32-bit subchannels per module; on-module power management (PMIC); on-die ECC</td></tr>
+      <tr><td>DDR4 SODIMM</td><td>260</td><td>1.2 V</td><td>Laptops and small PCs</td></tr>
+      <tr><td>DDR5 SODIMM</td><td>262</td><td>1.1 V</td><td>Laptops; LPDDR5 is soldered and not upgradeable; CAMM2 is a newer replaceable laptop module</td></tr>
+    </tbody>
+  </table></div>
+  <ul>
+    <li><b>DIMM vs SODIMM</b>: full-size desktop modules vs small outline laptop modules.</li>
+    <li><b>ECC</b> (error-correcting code) memory detects and corrects single-bit errors; used in servers. Registered (buffered) ECC is common in servers. DDR5's on-die ECC protects only inside the chip; it is not full ECC.</li>
+    <li><b>Channels</b>: install matching pairs in the color-coded slots (often A2 and B2) for dual channel. Quad and more channels are for workstations and servers.</li>
+    <li><b>Speed and timings</b>: MT/s (megatransfers per second; DDR4-3200 = 3200 MT/s) and CAS latency (CL16). Real latency in ns = CL × 2000 ÷ MT/s.</li>
+    <li>Mixing speeds works, but everything runs at the slowest module's speed.</li>
+  </ul>
+</section>
+
+<section class="lesson" id="storage">
+  <h2>4. Storage and RAID</h2>
+  <ul>
+    <li><b>HDD</b>: spinning magnetic platters and a moving read/write head. Speeds of 5,400, 7,200, 10,000 or 15,000 RPM. Form factors 3.5" (desktop/server) and 2.5" (laptop). Cheap per TB; slow random access; sensitive to shock.</li>
+    <li><b>SSD</b>: NAND flash, no moving parts. Interfaces: <b>SATA</b> (2.5" or M.2, max ~550 MB/s because SATA III is 6 Gbps) and <b>NVMe</b> over <b>PCIe</b> (M.2 or U.2/E3.S in servers; several GB/s).</li>
+    <li><b>M.2</b> is a <i>form factor</i>, not a protocol: an M.2 slot can carry SATA, NVMe or both. Check the board manual and the key (M key, B key, B+M). Sizes are named by width and length: 2280 = 22 mm × 80 mm.</li>
+    <li><b>Flash types</b>: SLC (1 bit per cell, most durable), MLC (2), TLC (3), QLC (4, cheapest, lowest endurance). Endurance is rated in TBW (terabytes written) or DWPD (drive writes per day).</li>
+    <li>Other: flash drives and memory cards (SD, microSD), optical drives (CD 700 MB, DVD 4.7 GB single layer, Blu-ray 25 GB per layer).</li>
+  </ul>
+  <h3 id="raid">RAID</h3>
+  <p><dfn>RAID</dfn> (redundant array of independent disks) combines several drives to gain speed, redundancy or both. RAID is <b>not a backup</b>: deleting a file or ransomware affects every disk at once.</p>
+  <div class="tablewrap"><table>
+    <thead><tr><th>Level</th><th>How</th><th>Min disks</th><th>Usable capacity (n disks of size S)</th><th>Survives</th></tr></thead>
+    <tbody>
+      <tr><td>RAID 0</td><td>Striping, no redundancy</td><td>2</td><td>n × S</td><td>0 failures</td></tr>
+      <tr><td>RAID 1</td><td>Mirroring</td><td>2</td><td>S (for a 2-disk mirror)</td><td>1 failure (n − 1 for wider mirrors)</td></tr>
+      <tr><td>RAID 5</td><td>Striping with distributed parity (XOR)</td><td>3</td><td>(n − 1) × S</td><td>1 failure</td></tr>
+      <tr><td>RAID 6</td><td>Striping with double distributed parity</td><td>4</td><td>(n − 2) × S</td><td>2 failures</td></tr>
+      <tr><td>RAID 10 (1+0)</td><td>Stripe across mirrored pairs</td><td>4</td><td>n × S ÷ 2</td><td>1 per mirror pair (at least 1, up to n/2)</td></tr>
+    </tbody>
+  </table></div>
+  <div class="callout detail">Parity is computed with XOR (Module 2). If D1 XOR D2 XOR D3 = P, any one missing value can be recomputed from the others. While a RAID 5 array rebuilds after a failure, it has no redundancy left, and rebuilding large disks takes many hours, which is why RAID 6 is preferred for big arrays.</div>
+</section>
+
+<section class="lesson" id="expansion">
+  <h2>5. Expansion cards and GPUs</h2>
+  <ul>
+    <li>Common cards: <b>video (GPU)</b>, <b>sound</b>, <b>network</b> (NIC, Wi-Fi), <b>capture cards</b>, storage controllers (RAID/HBA), USB expansion.</li>
+    <li>A card fits any physically larger PCIe slot (x1 card in x16 slot), but runs at the lanes the slot actually wires. PCIe is backward and forward compatible between generations; the link runs at the lower generation.</li>
+    <li>Graphics: <b>integrated</b> GPUs share system RAM; <b>dedicated</b> GPUs have their own VRAM (GDDR6/GDDR7) and often need extra power connectors (8-pin PCIe or 12V-2x6).</li>
+  </ul>
+</section>
+
+<section class="lesson" id="psu">
+  <h2>6. Power supplies</h2>
+  <p>A <dfn>PSU</dfn> converts wall AC (110 to 120 V or 220 to 240 V; most modern units are auto-switching) into the DC voltages components need.</p>
+  <ul>
+    <li><b>Rails</b>: +12 V (CPU, GPU, drives' motors, fans), +5 V (USB, some drive logic), +3.3 V (some motherboard and M.2 logic). Plus +5 V standby (keeps wake-on-LAN and USB charging alive when "off").</li>
+    <li><b>Connectors</b>: 24-pin ATX main; 4+4 or 8-pin <b>EPS</b> CPU power; 6+2-pin <b>PCIe</b> (75 W per 6-pin, 150 W per 8-pin) and the 16-pin <b>12V-2x6</b> (revised 12VHPWR, up to 600 W) for GPUs; <b>SATA power</b> (15-pin, includes 3.3 V); Molex (4-pin, legacy).</li>
+    <li><b>Wattage</b>: add the components' draw and leave headroom (aim for 50 to 80% load at peak, for efficiency and growth).</li>
+    <li><b>80 PLUS</b> efficiency ratings (115 V internal, at 20/50/100% load): White 80/80/80%, Bronze 82/85/82%, Silver 85/88/85%, Gold 87/90/87%, Platinum 90/92/89%, Titanium 92/94/90% (Titanium also 90% at 10% load).</li>
+    <li><b>Modular</b> (detachable cables), <b>semi-modular</b> (fixed 24-pin/EPS) or <b>non-modular</b>. Redundant hot-swappable PSUs are standard in servers.</li>
+  </ul>
+  <div class="callout trap">Never open a PSU. Capacitors can hold a dangerous charge long after it is unplugged. Replace the whole unit.</div>
+</section>
+
+<section class="lesson" id="ports">
+  <h2>7. Ports, cables and connectors</h2>
+  <div class="tablewrap"><table>
+    <thead><tr><th>Interface</th><th>Speed / capability</th><th>Connector notes</th></tr></thead>
+    <tbody>
+      <tr><td>USB 2.0 (Hi-Speed)</td><td>480 Mbps</td><td>USB-A, USB-B, Mini, Micro</td></tr>
+      <tr><td>USB 3.2 Gen 1 (was USB 3.0)</td><td>5 Gbps</td><td>Blue USB-A, USB-C</td></tr>
+      <tr><td>USB 3.2 Gen 2</td><td>10 Gbps</td><td>USB-A or USB-C</td></tr>
+      <tr><td>USB 3.2 Gen 2x2</td><td>20 Gbps</td><td>USB-C only</td></tr>
+      <tr><td>USB4 / USB4 v2</td><td>20/40 Gbps / up to 80 Gbps</td><td>USB-C only; tunnels DisplayPort and PCIe</td></tr>
+      <tr><td>Thunderbolt 3 / 4 / 5</td><td>40 / 40 / 80 Gbps (120 Gbps boost for video)</td><td>USB-C connector; daisy-chaining, docks, external GPUs</td></tr>
+      <tr><td>HDMI 2.0 / 2.1</td><td>18 / 48 Gbps</td><td>Digital video + audio; Type A (standard), C (mini), D (micro); CEC and eARC</td></tr>
+      <tr><td>DisplayPort 1.4 / 2.1</td><td>32.4 / up to 80 Gbps</td><td>One corner cut; locking latch; daisy-chain via MST</td></tr>
+      <tr><td>DVI</td><td>Digital (DVI-D), analog (DVI-A) or both (DVI-I)</td><td>Legacy; single or dual link</td></tr>
+      <tr><td>VGA</td><td>Analog video</td><td>DE-15 (three rows of pins), blue; legacy</td></tr>
+      <tr><td>SATA / eSATA</td><td>6 Gbps (SATA III)</td><td>7-pin L-shaped data; eSATA is the shielded external version</td></tr>
+      <tr><td>RJ45</td><td>Ethernet (8P8C)</td><td>Twisted pair (Module 11)</td></tr>
+      <tr><td>RJ11</td><td>Telephone/DSL (6P2C or 6P4C)</td><td>Smaller than RJ45</td></tr>
+      <tr><td>Lightning</td><td>Apple proprietary (USB 2.0 speed)</td><td>Replaced by USB-C on iPhone 15 and later</td></tr>
+      <tr><td>Audio</td><td>3.5 mm TRS/TRRS jacks; optical S/PDIF (TOSLINK)</td><td>Green = line out, pink = mic, blue = line in</td></tr>
+    </tbody>
+  </table></div>
+  <p><b>Adapters and converters</b>: an <i>adapter</i> changes the connector shape (USB-C to USB-A); a <i>converter</i> changes the signal (DisplayPort to HDMI active converter, HDMI to VGA needs digital-to-analog conversion).</p>
+</section>
+
+<section class="lesson" id="displays">
+  <h2>8. Displays</h2>
+  <div class="tablewrap"><table>
+    <thead><tr><th>Tech</th><th>How it works</th><th>Strengths</th><th>Weaknesses</th></tr></thead>
+    <tbody>
+      <tr><td>LCD TN</td><td>Twisted nematic liquid crystal with backlight</td><td>Fast, cheap</td><td>Poor viewing angles and color</td></tr>
+      <tr><td>LCD IPS</td><td>In-plane switching</td><td>Best LCD color and viewing angles</td><td>"IPS glow", lower contrast</td></tr>
+      <tr><td>LCD VA</td><td>Vertical alignment</td><td>High contrast</td><td>Slower response, some smearing</td></tr>
+      <tr><td>Mini-LED</td><td>LCD with thousands of local-dimming LED zones</td><td>Very bright, good contrast</td><td>Blooming around bright objects</td></tr>
+      <tr><td>OLED</td><td>Each pixel emits its own light</td><td>Perfect blacks, very fast</td><td>Burn-in risk, cost</td></tr>
+    </tbody>
+  </table></div>
+  <p>Key specs: <b>resolution</b> (1920×1080 FHD, 2560×1440 QHD, 3840×2160 4K UHD), <b>refresh rate</b> (60, 120, 144, 240 Hz), response time, brightness (nits), color gamut, and <b>touch</b> (capacitive in phones and laptops; a digitizer handles pen input). Laptop displays also contain a backlight (LED; older CCFL needed an inverter), Wi-Fi antennas and the webcam/microphone in the lid.</p>
+</section>
+
+<section class="lesson" id="printers">
+  <h2>9. Printers and peripherals</h2>
+  <h3 id="laser">Laser printers: the 7 steps</h3>
+  <ol>
+    <li><b>Processing</b>: the printer builds an image of the page in memory (raster image).</li>
+    <li><b>Charging</b>: the primary charge roller (or corona wire) puts a uniform negative charge on the photosensitive drum.</li>
+    <li><b>Exposing</b>: the laser discharges the areas where the image should be.</li>
+    <li><b>Developing</b>: negatively charged toner sticks to the discharged areas of the drum.</li>
+    <li><b>Transferring</b>: the transfer roller (or belt) gives the paper a positive charge that pulls toner onto it; static is then removed.</li>
+    <li><b>Fusing</b>: heat (~200 °C) and pressure melt the toner into the paper.</li>
+    <li><b>Cleaning</b>: a blade wipes leftover toner and an erase lamp removes remaining charge from the drum.</li>
+  </ol>
+  <h3 id="other-printers">Other printer types</h3>
+  <ul>
+    <li><b>Inkjet</b>: thermal (heated bubble) or piezoelectric heads spray ink. Maintenance: clean or align heads, replace cartridges, calibrate.</li>
+    <li><b>Thermal</b>: heat-sensitive paper (receipts, labels). Maintenance: clean the heating element with isopropyl alcohol; replace paper.</li>
+    <li><b>Impact</b> (dot matrix): pins strike an inked ribbon; prints multipart (carbon) forms; tractor-feed paper.</li>
+    <li><b>3D printers</b>: filament (FDM: PLA, ABS, PETG) or resin (SLA). Maintenance: level the bed, clean the nozzle, keep filament dry.</li>
+    <li>Laser maintenance kits contain a fuser, transfer roller and pickup rollers; reset the page counter after installing.</li>
+  </ul>
+  <div class="tablewrap"><table>
+    <thead><tr><th>Symptom</th><th>Likely cause</th></tr></thead>
+    <tbody>
+      <tr><td>Toner smudges or rubs off</td><td>Fuser not hot enough or failing</td></tr>
+      <tr><td>Ghost images (faint repeats)</td><td>Drum not cleaned/erased properly; failing drum or cleaning blade</td></tr>
+      <tr><td>Vertical white or black lines</td><td>Scratched drum, dirty corona, toner low or clumped</td></tr>
+      <tr><td>Garbled characters</td><td>Wrong driver or print language (PCL vs PostScript); corrupted job</td></tr>
+      <tr><td>Paper jams / multiple sheets fed</td><td>Worn pickup or separation rollers; wrong paper; humidity</td></tr>
+      <tr><td>Faded prints</td><td>Low toner, economy mode, or a dirty laser scanner window</td></tr>
+      <tr><td>Speckles</td><td>Toner leaking or debris on the drum</td></tr>
+    </tbody>
+  </table></div>
+  <p>Printer sharing and security: install via USB, Ethernet or Wi-Fi; share through a print server or the OS; enable secure release (badge or PIN at the device), user authentication, audit logs and hard drive wiping on multifunction devices.</p>
+</section>
+
+<section class="lesson" id="mobile">
+  <h2>10. Laptops and mobile devices</h2>
+  <ul>
+    <li><b>Replaceable parts</b> (varies by model): battery, RAM (if SODIMM, not soldered), M.2 SSD, Wi-Fi card, keyboard, display, speakers, fans. Always use the service manual, track screws on a magnetic mat and disconnect the battery first.</li>
+    <li><b>Docking</b>: docking stations and port replicators over USB-C/Thunderbolt add displays, Ethernet and power with one cable.</li>
+    <li><b>Mobile connectivity</b>: cellular (4G/5G, eSIM), hotspot and tethering, Wi-Fi, <b>Bluetooth</b> (pair: enable, make discoverable, select, enter or confirm PIN, test), <b>NFC</b> (contactless payments, pairing, a few centimeters), GPS location services.</li>
+    <li><b>Accessories</b>: touch pens, headsets, speakers, webcams, trackpads, drawing pads.</li>
+    <li>Device sync, MDM enrollment and app management are covered in Module 6.</li>
+  </ul>
+</section>
+
+<section class="lesson" id="safety">
+  <h2>11. Safety</h2>
+  <ul>
+    <li><b>ESD</b> (electrostatic discharge) can destroy chips with a spark you cannot feel (under ~3,000 V). Use an ESD wrist strap connected to ground or the chassis, an ESD mat, anti-static bags, and hold parts by their edges. Low humidity increases ESD risk.</li>
+    <li><b>Electrical safety</b>: unplug before opening a PC; never open PSUs or CRT monitors; remove jewelry; use equipment grounding; know where circuit breakers are.</li>
+    <li><b>Lifting</b>: lift with your legs, keep your back straight, get help for heavy items (commonly above about 50 lb / 23 kg), use carts.</li>
+    <li><b>Disposal</b>: batteries (lithium-ion can catch fire), toner, CRTs and circuit boards go to approved recycling, following local regulations.</li>
+    <li><b>SDS</b> (safety data sheet; older name MSDS): describes a chemical's hazards, handling, first aid and disposal, such as toner or cleaning fluids.</li>
+  </ul>
+</section>
+
+<section class="lab" id="labs">
+  <h2>Interactive labs</h2>
+
+  <div class="lab-card" id="lab-build" data-lab="Build-a-PC: drag components onto a motherboard and get a compatibility check for socket, RAM type, PSU wattage and form factor.">
+    <h3>Lab 1: Build-a-PC</h3>
+    <p>Pick a motherboard, then drag (or click, then click a slot) parts into place. The checker explains every mismatch.</p>
+    <div class="row"><label>Motherboard <select id="pc-board"></select></label></div>
+    <div class="chips" id="pc-parts" aria-label="Parts bin"></div>
+    <div class="mobo stage" id="pc-mobo"></div>
+    <div id="pc-result"></div>
+    <div class="caption" id="pc-cap" aria-live="polite">Place a CPU, RAM, storage, a GPU (optional), a PSU and a case.</div>
+  </div>
+
+  <div class="lab-card" id="lab-raid" data-lab="RAID Simulator: pick a RAID level and disk count, see data and parity stripes, fail disks and rebuild.">
+    <h3>Lab 2: RAID Simulator</h3>
+    <div class="row"><label>Level <select id="rd-level"><option>0</option><option>1</option><option selected>5</option><option>6</option><option>10</option></select></label>
+      <label>Disks <input type="number" id="rd-n" min="2" max="8" value="4" style="width:70px"></label>
+      <label>Disk size (TB) <input type="number" id="rd-s" min="1" max="30" value="4" style="width:70px"></label>
+      <button type="button" id="rd-rebuild">Replace failed disks and rebuild</button></div>
+    <p class="readout" id="rd-cap-out"></p>
+    <div class="raid-grid stage" id="rd-grid"></div>
+    <div class="caption" id="rd-cap" aria-live="polite"></div>
+  </div>
+
+  <div class="lab-card" id="lab-laser" data-lab="Laser Printer Process: step through processing, charging, exposing, developing, transferring, fusing and cleaning with an animated drum.">
+    <h3>Lab 3: Laser Printer Process</h3>
+    <div id="lz-ctrl"></div>
+    <div class="stage"><svg id="lz-svg" viewBox="0 0 700 300" width="700" role="img" aria-label="Laser printer drum and rollers"></svg></div>
+    <div class="caption" id="lz-cap" aria-live="polite">Press Next step to send a page.</div>
+  </div>
+
+  <div class="lab-card" id="lab-ports" data-lab="Port Identifier: name connectors from drawings in quiz mode, with speeds and uses revealed.">
+    <h3>Lab 4: Port Identifier</h3>
+    <div class="row"><button type="button" id="pt-next" class="primary">New connector</button><span class="readout" id="pt-score">Score 0 / 0</span></div>
+    <div class="stage"><svg id="pt-svg" viewBox="0 0 400 180" width="400" role="img" aria-label="Connector drawing"></svg></div>
+    <div class="port-opts" id="pt-opts" role="group" aria-label="Choose the connector name"></div>
+    <div class="caption" id="pt-cap" aria-live="polite">Which connector is this?</div>
+  </div>
+
+  <div class="lab-card" id="lab-psu" data-lab="PSU Budget Calculator: add components to get total watts and a recommended power supply size.">
+    <h3>Lab 5: PSU Budget Calculator</h3>
+    <div class="tablewrap"><table><thead><tr><th>Component</th><th>Typical draw</th><th>Qty</th></tr></thead><tbody id="psu-rows"></tbody></table></div>
+    <p class="big" id="psu-total"></p>
+    <div class="meter"><i id="psu-meter"></i></div>
+    <div class="caption" id="psu-cap" aria-live="polite"></div>
+  </div>
+</section>
+
+<section class="glossary" id="glossary">
+  <h2>Key terms</h2>
+  <div id="glossary-list"></div>
+</section>
+
+<section class="memory" id="memory">
+  <h2>Memory aids</h2>
+  <div class="mnemonic">Laser steps: <b>P</b>lease <b>C</b>harge <b>E</b>very <b>D</b>evice <b>T</b>o <b>F</b>ull <b>C</b>apacity → Processing, Charging, Exposing, Developing, Transferring, Fusing, Cleaning.</div>
+  <div class="mnemonic">RAID: <b>0</b> = zero redundancy. <b>1</b> = one copy each (mirror). <b>5</b> = lose 1 disk's capacity. <b>6</b> = lose 2. <b>10</b> = mirror then stripe, lose half.</div>
+  <div class="mnemonic">PSU rails: <b>12</b> for the big movers (CPU, GPU, motors), <b>5</b> for USB, <b>3.3</b> for small logic.</div>
+  <div class="tablewrap"><table><thead><tr><th>Number</th><th>Meaning</th></tr></thead><tbody>
+    <tr><td>24 / 8 / 8 / 15 / 16</td><td>ATX main pins / EPS CPU pins / PCIe 6+2 pins / SATA power pins / 12V-2x6 pins</td></tr>
+    <tr><td>75 W / 150 W / 600 W</td><td>PCIe slot or 6-pin / 8-pin / 12V-2x6 GPU power</td></tr>
+    <tr><td>288 / 260 / 262</td><td>DDR4 and DDR5 DIMM pins / DDR4 SODIMM / DDR5 SODIMM</td></tr>
+    <tr><td>6 Gbps</td><td>SATA III (≈ 550 MB/s real)</td></tr>
+    <tr><td>480 Mbps / 5 / 10 / 20 / 40 Gbps</td><td>USB 2.0 / 3.2 Gen 1 / Gen 2 / Gen 2x2 / USB4</td></tr>
+  </tbody></table></div>
+  <div class="tablewrap"><table><thead><tr><th>Exam trap</th><th>Why it is wrong</th></tr></thead><tbody>
+    <tr><td>"RAID 1 is my backup."</td><td>RAID protects against disk failure only; deletion and ransomware hit all copies.</td></tr>
+    <tr><td>"M.2 always means NVMe."</td><td>M.2 is a form factor; M.2 SATA SSDs exist and are limited to SATA speed.</td></tr>
+    <tr><td>"DDR5 fits a DDR4 slot."</td><td>Different notch position and voltage; they are not interchangeable.</td></tr>
+    <tr><td>"HDMI to VGA is just a cable."</td><td>It needs an active converter (digital to analog).</td></tr>
+    <tr><td>"TDP equals maximum power draw."</td><td>TDP is a cooling design figure; boost power can be much higher.</td></tr>
+  </tbody></table></div>
+</section>
+
+<section class="quiz" id="quiz">
+  <h2>Knowledge check</h2>
+  <div id="quiz-area"></div>
+</section>
+
+<section class="flashcards" id="flashcards">
+  <h2>Flashcards</h2>
+  <div id="deck-area"></div>
+</section>
+
+<section class="deeper" id="deeper">
+  <h2>Go deeper (official sources)</h2>
+  <ul>
+    <li><a href="https://www.comptia.org/en-us/certifications/a/" rel="noopener">CompTIA A+ Core 1 (220-1201) exam objectives</a></li>
+    <li><a href="https://www.usb.org/documents" rel="noopener">USB-IF specifications</a></li>
+    <li><a href="https://www.hdmi.org/spec/index" rel="noopener">HDMI Forum specifications</a></li>
+    <li><a href="https://www.vesa.org/displayport-developer/about-displayport/" rel="noopener">VESA DisplayPort</a></li>
+    <li><a href="https://www.jedec.org/" rel="noopener">JEDEC memory standards</a></li>
+    <li><a href="https://nvmexpress.org/specifications/" rel="noopener">NVM Express specifications</a></li>
+    <li><a href="https://www.clearesult.com/80plus/" rel="noopener">80 PLUS program</a></li>
+    <li><a href="https://www.osha.gov/hazcom" rel="noopener">OSHA Hazard Communication (safety data sheets)</a></li>
+  </ul>
+</section>
+</main>
+<footer class="foot">Datacenter Omnibus · Original study material. Not affiliated with or endorsed by any certification body.</footer>
+
+<script src="data/catalog.js"></script>
+<script src="assets/omnibus.js"></script>
+<script src="data/m05.js"></script>
+<script>
+(function () {
+  var h = OMNI.h, S = OMNI.svg, $ = function (id) { return document.getElementById(id); };
+
+  /* ================= Lab 1: Build-a-PC ================= */
+  var boards = [
+    { id: "b1", name: "ATX board, AM5 socket, DDR5, PCIe 5.0 x16, 2× M.2", ff: "ATX", socket: "AM5", ram: "DDR5 DIMM" },
+    { id: "b2", name: "microATX board, LGA 1700, DDR4, PCIe 4.0 x16, 1× M.2", ff: "mATX", socket: "LGA1700", ram: "DDR4 DIMM" },
+    { id: "b3", name: "mini-ITX board, LGA 1851, DDR5, PCIe 5.0 x16, 1× M.2", ff: "ITX", socket: "LGA1851", ram: "DDR5 DIMM" }
+  ];
+  var parts = [
+    { id: "c1", kind: "cpu", label: "AMD Ryzen 7 (AM5, 120 W)", socket: "AM5", w: 120 },
+    { id: "c2", kind: "cpu", label: "Intel Core i5 14th gen (LGA 1700, 125 W)", socket: "LGA1700", w: 125 },
+    { id: "c3", kind: "cpu", label: "Intel Core Ultra 7 (LGA 1851, 125 W)", socket: "LGA1851", w: 125 },
+    { id: "r1", kind: "ram", label: "32 GB DDR5 DIMM kit", ram: "DDR5 DIMM", w: 10 },
+    { id: "r2", kind: "ram", label: "32 GB DDR4 DIMM kit", ram: "DDR4 DIMM", w: 8 },
+    { id: "r3", kind: "ram", label: "16 GB DDR5 SODIMM", ram: "DDR5 SODIMM", w: 5 },
+    { id: "s1", kind: "sto", label: "2 TB NVMe M.2 SSD", w: 8 },
+    { id: "s2", kind: "sto", label: "4 TB 3.5\" SATA HDD", w: 9 },
+    { id: "g1", kind: "gpu", label: "High-end GPU (350 W, 12V-2x6)", w: 350, len: 330 },
+    { id: "g2", kind: "gpu", label: "Mid-range GPU (200 W, 8-pin)", w: 200, len: 260 },
+    { id: "p1", kind: "psu", label: "450 W PSU (80 PLUS Bronze)", w: 450 },
+    { id: "p2", kind: "psu", label: "650 W PSU (80 PLUS Gold)", w: 650 },
+    { id: "p3", kind: "psu", label: "1000 W PSU (80 PLUS Platinum, 12V-2x6)", w: 1000 },
+    { id: "k1", kind: "case", label: "ATX mid tower (fits ATX/mATX/ITX, GPU ≤ 360 mm)", fits: ["ATX", "mATX", "ITX"], gpu: 360 },
+    { id: "k2", kind: "case", label: "mini-ITX case (ITX only, GPU ≤ 300 mm)", fits: ["ITX"], gpu: 300 }
+  ];
+  var zones = [["cpu", "CPU socket"], ["ram", "DIMM slots"], ["sto", "M.2 / SATA"], ["gpu", "PCIe x16 slot"], ["psu", "PSU bay"], ["case", "Case"]];
+  boards.forEach(function (b) { $("pc-board").appendChild(h("option", { value: b.id }, b.name)); });
+  var bin = $("pc-parts"), mobo = $("pc-mobo");
+  parts.forEach(function (p) { bin.appendChild(h("span", { class: "chip", "data-id": p.id }, p.label)); });
+  zones.forEach(function (z) { mobo.appendChild(h("div", { class: "dropzone", "data-accept": z[0] }, h("span", { class: "zone-title" }, z[1]))); });
+  function partOf(el) { return parts.filter(function (p) { return p.id === el.dataset.id; })[0]; }
+  OMNI.dnd($("lab-build"), function (chip, zone) {
+    var p = partOf(chip);
+    if (zone.dataset.accept && zone.dataset.accept !== p.kind) { bin.appendChild(chip); OMNI.say("pc-cap", "That slot is for " + zone.querySelector(".zone-title").textContent + ", not " + p.label + ". Part returned to the bin."); return; }
+    if (zone.dataset.accept) OMNI.$$(".chip", zone).forEach(function (c) { if (c !== chip) bin.appendChild(c); });
+    check();
+  });
+  bin.classList.add("dropzone"); bin.removeAttribute("data-accept");
+  $("pc-board").onchange = check;
+  function placed(kind) { var c = OMNI.$(".dropzone[data-accept=" + kind + "] .chip", mobo); return c ? partOf(c) : null; }
+  function check() {
+    var b = boards.filter(function (x) { return x.id === $("pc-board").value; })[0], msgs = [], ok = true;
+    var cpu = placed("cpu"), ram = placed("ram"), sto = placed("sto"), gpu = placed("gpu"), psu = placed("psu"), cs = placed("case");
+    function bad(t) { msgs.push("<li class='no'>✗ " + t + "</li>"); ok = false; } function good(t) { msgs.push("<li class='ok'>✓ " + t + "</li>"); }
+    if (cpu) { cpu.socket === b.socket ? good("CPU socket " + cpu.socket + " matches the board.") : bad("CPU needs " + cpu.socket + " but the board has " + b.socket + ". Sockets are not interchangeable."); } else { msgs.push("<li>○ No CPU yet.</li>"); ok = false; }
+    if (ram) { ram.ram === b.ram ? good("RAM type " + ram.ram + " matches.") : bad("Board takes " + b.ram + "; you chose " + ram.ram + (ram.ram.indexOf("SODIMM") > 0 ? ". SODIMMs are laptop modules and do not fit desktop DIMM slots." : ". DDR generations have different notches and voltages.")); } else { msgs.push("<li>○ No RAM yet.</li>"); ok = false; }
+    if (sto) good(sto.label + " connects (" + (sto.id === "s1" ? "M.2 slot, NVMe over PCIe" : "SATA data + SATA power") + ")."); else { msgs.push("<li>○ No storage yet.</li>"); ok = false; }
+    var load = (cpu ? cpu.w : 0) + (ram ? ram.w : 0) + (sto ? sto.w : 0) + (gpu ? gpu.w : 0) + 60;
+    if (psu) { var rec = load * 1.25; psu.w >= rec ? good("PSU " + psu.w + " W covers the estimated " + load + " W load with headroom (target at least " + Math.ceil(rec) + " W).") : bad("PSU " + psu.w + " W is too small for an estimated " + load + " W load. Aim for at least " + Math.ceil(rec / 50) * 50 + " W."); if (gpu && gpu.id === "g1" && psu.id !== "p3") bad("The high-end GPU needs a 12V-2x6 connector (or a proper adapter); this PSU lacks one."); } else { msgs.push("<li>○ No PSU yet.</li>"); ok = false; }
+    if (cs) { cs.fits.indexOf(b.ff) >= 0 ? good("The " + b.ff + " board fits this case.") : bad("A " + b.ff + " board does not fit a case that only takes " + cs.fits.join("/") + "."); if (gpu && gpu.len > cs.gpu) bad("The GPU is " + gpu.len + " mm long but the case allows " + cs.gpu + " mm."); } else { msgs.push("<li>○ No case yet.</li>"); ok = false; }
+    if (!gpu) msgs.push("<li>○ No GPU: the CPU's integrated graphics will be used (" + (cpu && cpu.id === "c1" ? "Ryzen 7000+ has basic integrated graphics" : "check the CPU has an iGPU; Intel 'F' models do not") + ").</li>");
+    $("pc-result").innerHTML = "<ul style='list-style:none;padding:0'>" + msgs.join("") + "</ul>";
+    OMNI.say("pc-cap", ok ? "<b>Build passes.</b> Estimated load " + load + " W (includes ~60 W for board, fans and USB). Remember: thermal paste on the CPU, RAM in the color-coded slots for dual channel, and EPS 8-pin CPU power connected." : "Checker ran: fix the items marked ✗ (or finish placing parts marked ○).");
+  }
+  check();
+
+  /* ================= Lab 2: RAID ================= */
+  var failed = {};
+  function raidMin(l) { return { 0: 2, 1: 2, 5: 3, 6: 4, 10: 4 }[l]; }
+  function layout(l, n) {
+    // returns array of disks, each array of {t,label}
+    var disks = []; for (var i = 0; i < n; i++) disks.push([]);
+    var stripes = 4, d = 0;
+    if (l === 0) { for (var s = 0; s < stripes; s++) for (var i = 0; i < n; i++) disks[i].push({ t: "d", v: "D" + (d++) }); }
+    else if (l === 1) { for (var s = 0; s < stripes; s++) { for (var i = 0; i < n; i++) disks[i].push({ t: "m", v: "D" + s }); } }
+    else if (l === 5) { for (var s = 0; s < stripes; s++) { var p = (n - 1 - s % n + n) % n; for (var i = 0; i < n; i++) disks[i].push(i === p ? { t: "p", v: "P" + s } : { t: "d", v: "D" + (d++) }); } }
+    else if (l === 6) { for (var s = 0; s < stripes; s++) { var p = (n - 1 - s % n + n) % n, q = (p + 1) % n; for (var i = 0; i < n; i++) disks[i].push(i === p ? { t: "p", v: "P" + s } : i === q ? { t: "p", v: "Q" + s } : { t: "d", v: "D" + (d++) }); } }
+    else { for (var s = 0; s < stripes; s++) for (var pr = 0; pr < n / 2; pr++) { var lab = "D" + (d++); disks[pr * 2].push({ t: "m", v: lab }); disks[pr * 2 + 1].push({ t: "m", v: lab }); } }
+    return disks;
+  }
+  function survives(l, n) {
+    var f = Object.keys(failed).map(Number).filter(function (i) { return i < n; });
+    if (l === 0) return f.length === 0;
+    if (l === 1) return f.length < n;
+    if (l === 5) return f.length <= 1;
+    if (l === 6) return f.length <= 2;
+    for (var pr = 0; pr < n / 2; pr++) if (f.indexOf(pr * 2) >= 0 && f.indexOf(pr * 2 + 1) >= 0) return false;
+    return true;
+  }
+  function drawRaid() {
+    var l = +$("rd-level").value, n = +$("rd-n").value, sz = +$("rd-s").value || 1, min = raidMin(l);
+    if (n < min) { n = min; $("rd-n").value = n; }
+    if (l === 10 && n % 2) { n++; $("rd-n").value = n; }
+    var usable = { 0: n * sz, 1: sz, 5: (n - 1) * sz, 6: (n - 2) * sz, 10: n * sz / 2 }[l];
+    var tol = { 0: "0 disks", 1: (n - 1) + " disk(s)", 5: "1 disk", 6: "2 disks", 10: "1 per mirror pair (up to " + n / 2 + ")" }[l];
+    $("rd-cap-out").textContent = "RAID " + l + " · " + n + " × " + sz + " TB = " + n * sz + " TB raw → " + usable + " TB usable (" + Math.round(100 * usable / (n * sz)) + "% efficiency) · tolerates " + tol;
+    var g = $("rd-grid"); g.innerHTML = ""; g.style.gridTemplateColumns = "repeat(" + n + ", minmax(0,1fr))";
+    var disks = layout(l, n), alive = survives(l, n);
+    disks.forEach(function (blocks, i) {
+      var isF = !!failed[i];
+      var b = h("button", { type: "button", "aria-pressed": isF ? "true" : "false" }, isF ? "✗ Failed" : "Fail disk");
+      b.onclick = function () { if (failed[i]) delete failed[i]; else failed[i] = 1; drawRaid(); };
+      g.appendChild(h("div", { class: "raid-disk" + (isF ? " failed" : "") }, [h("b", null, "Disk " + (i + 1))].concat(blocks.map(function (bl) { return h("div", { class: "blk " + (bl.t === "p" ? "p" : bl.t === "m" ? "m" : "") + (isF ? " lost" : "") }, bl.v); })).concat([b])));
+    });
+    var fc = Object.keys(failed).filter(function (i) { return +i < n; }).length;
+    var msg = fc === 0 ? "All disks healthy. " + (l === 0 ? "Data is striped (D0, D1…) across every disk for speed, with no redundancy." : l === 1 ? "Every disk holds an identical copy (mirror)." : l === 10 ? "Pairs of disks mirror each other, and data is striped across the pairs." : "Data blocks (blue) are striped with parity blocks (yellow) rotating across disks, so no single disk is a bottleneck.") + " Click Fail disk to break it." :
+      alive ? "<b>Array degraded but data survives</b> with " + fc + " failed disk(s). " + (l === 5 || l === 6 ? "Missing blocks are recalculated on the fly from parity (XOR), so reads are slower." : "The surviving mirror copy is used.") + " Replace the disk and rebuild soon: " + (l === 5 ? "one more failure now loses everything." : "redundancy is reduced.") :
+      "<b>Array failed: data lost.</b> RAID " + l + " cannot survive " + (l === 10 ? "both disks of the same mirror pair failing" : fc + " failed disk(s)") + ". Restore from backup. This is why RAID is not a backup.";
+    OMNI.say("rd-cap", msg);
+  }
+  ["rd-level", "rd-n", "rd-s"].forEach(function (id) { $(id).addEventListener("input", function () { failed = {}; drawRaid(); }); });
+  $("rd-rebuild").onclick = function () { var l = +$("rd-level").value, n = +$("rd-n").value, was = survives(l, n), fc = Object.keys(failed).length; failed = {}; drawRaid(); OMNI.say("rd-cap", fc === 0 ? "Nothing to rebuild." : was ? "Replaced " + fc + " disk(s). The controller rebuilt each missing block from " + (l === 5 || l === 6 ? "parity and the remaining data blocks" : "the surviving mirror copies") + ". On real 10+ TB disks this takes many hours, during which the array is vulnerable." : "New disks installed, but the data could not be rebuilt because too many disks had failed. The array was re-created empty; restore from backup."); };
+  drawRaid();
+
+  /* ================= Lab 3: Laser printer ================= */
+  var lz = [
+    ["Processing", "The formatter board turns the print job (PCL or PostScript) into a raster bitmap of dots in printer memory.", "fmt"],
+    ["Charging", "The primary charge roller applies a uniform negative charge (around −600 V) to the drum surface.", "pcr"],
+    ["Exposing", "The laser, via a spinning mirror, discharges only the spots that should be black, writing a 'latent image'.", "laser"],
+    ["Developing", "The developer roller presents negatively charged toner; it jumps onto the discharged (less negative) spots on the drum.", "dev"],
+    ["Transferring", "The transfer roller charges the paper positively, pulling toner from the drum onto the page; a static eliminator then removes the charge so paper does not cling.", "xfer"],
+    ["Fusing", "The fuser's heated roller (about 180 to 210 °C) and pressure roller melt the toner into the paper fibers. Smudging toner means this step failed.", "fuser"],
+    ["Cleaning", "A rubber cleaning blade scrapes leftover toner into a waste bin and an erase lamp neutralizes charge, ready for the next rotation. Ghost images mean this step failed.", "clean"]
+  ];
+  var lsvg = $("lz-svg"), parts2 = {}, drumRot = S("g", null, lsvg), angle = 0;
+  function el(tag, a, key) { var e = S(tag, a, lsvg); if (key) (parts2[key] = parts2[key] || []).push(e); return e; }
+  el("rect", { x: 20, y: 20, width: 110, height: 60, rx: 8, fill: "var(--surface)", stroke: "var(--line)", "stroke-width": 2 }, "fmt"); S("text", { x: 75, y: 55, "text-anchor": "middle", "font-size": 12, class: "svg-text", text: "Formatter" }, lsvg);
+  el("circle", { cx: 350, cy: 140, r: 70, fill: "#16a34a", opacity: .25, stroke: "#15803d", "stroke-width": 3 }, "drum"); S("text", { x: 350, y: 145, "text-anchor": "middle", "font-weight": 800, class: "svg-text", text: "Drum" }, lsvg);
+  lsvg.appendChild(drumRot); for (var k = 0; k < 8; k++) S("line", { x1: 350, y1: 140, x2: 350 + 66 * Math.cos(k * Math.PI / 4), y2: 140 + 66 * Math.sin(k * Math.PI / 4), stroke: "#15803d", opacity: .4 }, drumRot);
+  el("circle", { cx: 350, cy: 50, r: 18, fill: "var(--surface)", stroke: "var(--ink-2)", "stroke-width": 2 }, "pcr"); S("text", { x: 385, y: 45, "font-size": 11, class: "svg-text", text: "Charge roller" }, lsvg);
+  el("line", { x1: 180, y1: 40, x2: 290, y2: 100, stroke: "#dc2626", "stroke-width": 3, "stroke-dasharray": "6 4" }, "laser"); S("text", { x: 160, y: 32, "font-size": 11, fill: "#dc2626", text: "Laser + mirror" }, lsvg);
+  el("circle", { cx: 455, cy: 140, r: 24, fill: "#334155", opacity: .7, stroke: "var(--ink-2)", "stroke-width": 2 }, "dev"); S("text", { x: 485, y: 120, "font-size": 11, class: "svg-text", text: "Developer + toner" }, lsvg);
+  el("circle", { cx: 350, cy: 240, r: 18, fill: "var(--surface)", stroke: "var(--ink-2)", "stroke-width": 2 }, "xfer"); S("text", { x: 375, y: 270, "font-size": 11, class: "svg-text", text: "Transfer roller" }, lsvg);
+  el("rect", { x: 40, y: 212, width: 620, height: 8, fill: "#e5e7eb", stroke: "var(--ink-2)" }, "paper"); S("text", { x: 50, y: 205, "font-size": 11, class: "svg-text", text: "Paper path →" }, lsvg);
+  el("circle", { cx: 570, cy: 200, r: 20, fill: "#f97316", opacity: .6, stroke: "#c2410c", "stroke-width": 2 }, "fuser"); el("circle", { cx: 570, cy: 240, r: 20, fill: "var(--surface)", stroke: "#c2410c", "stroke-width": 2 }, "fuser"); S("text", { x: 600, y: 185, "font-size": 11, class: "svg-text", text: "Fuser (hot)" }, lsvg);
+  el("rect", { x: 230, y: 125, width: 40, height: 10, fill: "var(--ink-2)", transform: "rotate(-30 250 130)" }, "clean"); S("text", { x: 196, y: 165, "font-size": 11, class: "svg-text", text: "Cleaning blade" }, lsvg);
+  OMNI.stepper($("lz-ctrl"), lz, function (i, st) {
+    Object.keys(parts2).forEach(function (k) { parts2[k].forEach(function (e) { e.setAttribute("stroke-width", 2); e.style.filter = ""; }); });
+    if (i < 0) { OMNI.say("lz-cap", "Press Next step to send a page."); return; }
+    (parts2[st[2]] || []).forEach(function (e) { e.setAttribute("stroke-width", 6); e.style.filter = "drop-shadow(0 0 6px #facc15)"; });
+    if (!OMNI.reduced) { angle += 50; drumRot.setAttribute("transform", "rotate(" + angle + " 350 140)"); }
+    OMNI.say("lz-cap", "<b>Step " + (i + 1) + " of 7: " + st[0] + ".</b> " + st[1]);
+  });
+
+  /* ================= Lab 4: Port identifier ================= */
+  var ports = [
+    { n: "USB-A", d: "Flat rectangle with a plastic tongue on one side. USB 2.0 (480 Mbps) to USB 3.2 Gen 2 (10 Gbps); blue tongue usually means 5 Gbps or faster.", draw: function (g) { S("rect", { x: 140, y: 60, width: 120, height: 50, rx: 4, fill: "#cbd5e1", stroke: "#334155", "stroke-width": 3 }, g); S("rect", { x: 152, y: 70, width: 96, height: 16, fill: "#2563eb" }, g); } },
+    { n: "USB-C", d: "Small reversible oval with a center tongue. Supports USB 2.0 to USB4 (80 Gbps), Thunderbolt, DisplayPort Alt Mode and up to 240 W USB Power Delivery.", draw: function (g) { S("rect", { x: 150, y: 70, width: 100, height: 36, rx: 18, fill: "#cbd5e1", stroke: "#334155", "stroke-width": 3 }, g); S("rect", { x: 168, y: 84, width: 64, height: 8, rx: 3, fill: "#334155" }, g); } },
+    { n: "HDMI", d: "Wide trapezoid with tapered lower corners. Digital video and audio; HDMI 2.1 up to 48 Gbps; consumer TVs, monitors, consoles.", draw: function (g) { S("path", { d: "M130,60 L270,60 L270,85 L255,105 L145,105 L130,85 Z", fill: "#cbd5e1", stroke: "#334155", "stroke-width": 3 }, g); S("rect", { x: 148, y: 72, width: 104, height: 10, fill: "#334155" }, g); } },
+    { n: "DisplayPort", d: "Rectangle with ONE corner cut off; often a locking latch. DP 2.1 up to 80 Gbps; daisy-chaining with MST; PC monitors.", draw: function (g) { S("path", { d: "M135,60 L265,60 L265,108 L155,108 L135,90 Z", fill: "#cbd5e1", stroke: "#334155", "stroke-width": 3 }, g); S("rect", { x: 155, y: 74, width: 96, height: 10, fill: "#334155" }, g); } },
+    { n: "VGA (DE-15)", d: "Blue trapezoid with 15 pins in three rows and two thumbscrews. Analog video only; legacy projectors and monitors.", draw: function (g) { S("path", { d: "M110,55 L290,55 L275,115 L125,115 Z", fill: "#3b82f6", stroke: "#1e3a8a", "stroke-width": 3 }, g); for (var r = 0; r < 3; r++) for (var c = 0; c < 5; c++) S("circle", { cx: 160 + c * 20 + (r === 1 ? 6 : 0), cy: 72 + r * 15, r: 4, fill: "#1e3a8a" }, g); S("circle", { cx: 80, cy: 85, r: 12, fill: "#94a3b8", stroke: "#334155", "stroke-width": 2 }, g); S("circle", { cx: 320, cy: 85, r: 12, fill: "#94a3b8", stroke: "#334155", "stroke-width": 2 }, g); } },
+    { n: "DVI", d: "Wide white connector with a grid of pins and a flat blade (with four pins around it on DVI-I). Digital (DVI-D) and/or analog (DVI-I) video; legacy.", draw: function (g) { S("rect", { x: 90, y: 55, width: 220, height: 60, rx: 6, fill: "#f8fafc", stroke: "#334155", "stroke-width": 3 }, g); for (var r = 0; r < 3; r++) for (var c = 0; c < 8; c++) S("rect", { x: 105 + c * 18, y: 68 + r * 14, width: 7, height: 7, fill: "#334155" }, g); S("rect", { x: 262, y: 81, width: 30, height: 6, fill: "#334155" }, g); } },
+    { n: "RJ45", d: "Square jack with 8 gold contacts and a clip notch at the bottom. Ethernet over twisted pair (Cat 5e to Cat 8).", draw: function (g) { S("rect", { x: 150, y: 45, width: 100, height: 85, rx: 4, fill: "#e2e8f0", stroke: "#334155", "stroke-width": 3 }, g); for (var c = 0; c < 8; c++) S("rect", { x: 162 + c * 10, y: 55, width: 5, height: 22, fill: "#ca8a04" }, g); S("rect", { x: 180, y: 108, width: 40, height: 22, fill: "#334155" }, g); } },
+    { n: "RJ11", d: "Smaller square jack with 2 to 4 contacts (6 positions). Telephone lines and DSL.", draw: function (g) { S("rect", { x: 165, y: 55, width: 70, height: 65, rx: 4, fill: "#e2e8f0", stroke: "#334155", "stroke-width": 3 }, g); for (var c = 0; c < 4; c++) S("rect", { x: 182 + c * 10, y: 63, width: 5, height: 20, fill: "#ca8a04" }, g); S("rect", { x: 188, y: 102, width: 24, height: 18, fill: "#334155" }, g); } },
+    { n: "SATA data", d: "Thin 7-pin connector with an L-shaped key. Connects SATA drives at up to 6 Gbps (SATA III).", draw: function (g) { S("path", { d: "M120,70 L280,70 L280,100 L140,100 L140,90 L120,90 Z", fill: "#111827", stroke: "#334155", "stroke-width": 3 }, g); for (var c = 0; c < 7; c++) S("rect", { x: 150 + c * 18, y: 82, width: 8, height: 4, fill: "#ca8a04" }, g); } },
+    { n: "Lightning", d: "Thin, flat, reversible 8-pin Apple plug. USB 2.0 speeds; replaced by USB-C from iPhone 15.", draw: function (g) { S("rect", { x: 150, y: 74, width: 110, height: 24, rx: 12, fill: "#f8fafc", stroke: "#334155", "stroke-width": 3 }, g); for (var c = 0; c < 8; c++) S("rect", { x: 170 + c * 9, y: 80, width: 5, height: 12, fill: "#ca8a04" }, g); S("rect", { x: 260, y: 70, width: 60, height: 32, rx: 6, fill: "#f8fafc", stroke: "#334155", "stroke-width": 3 }, g); } }
+  ];
+  var cur = null, right = 0, tries = 0;
+  function nextPort() {
+    var last = cur; do { cur = ports[Math.floor(Math.random() * ports.length)]; } while (cur === last);
+    var svg = $("pt-svg"); svg.innerHTML = ""; cur.draw(S("g", null, svg));
+    var opts = OMNI.shuffle(ports.filter(function (p) { return p !== cur; })).slice(0, 3).concat([cur]);
+    var host = $("pt-opts"); host.innerHTML = "";
+    OMNI.shuffle(opts).forEach(function (p) {
+      var b = h("button", { type: "button" }, p.n);
+      b.onclick = function () {
+        if (host.dataset.done) return; host.dataset.done = 1; tries++;
+        if (p === cur) { right++; b.classList.add("sel"); OMNI.say("pt-cap", "<span class='ok'>Correct: " + cur.n + ".</span> " + cur.d); }
+        else { b.style.borderColor = "var(--bad)"; OMNI.say("pt-cap", "<span class='no'>Not quite. That was " + cur.n + ".</span> " + cur.d + " (" + p.n + " looks different: " + p.d.split(".")[0] + ".)"); }
+        $("pt-score").textContent = "Score " + right + " / " + tries;
+      };
+      host.appendChild(b);
+    });
+    delete host.dataset.done; OMNI.say("pt-cap", "Which connector is this?");
+  }
+  $("pt-next").onclick = nextPort; nextPort();
+
+  /* ================= Lab 5: PSU calculator ================= */
+  var comps = [["Desktop CPU (mainstream)", 125, 1], ["Desktop CPU (high-end, boost)", 250, 0], ["Motherboard", 50, 1], ["RAM module", 5, 2], ["NVMe SSD", 8, 1], ["3.5\" HDD", 9, 0], ["Case fan", 3, 3], ["GPU: entry (75 W, slot power only)", 75, 0], ["GPU: mid-range", 220, 1], ["GPU: high-end", 450, 0], ["USB devices / RGB / pump", 20, 1]];
+  var rows = $("psu-rows");
+  comps.forEach(function (c, i) {
+    var inp = h("input", { type: "number", min: 0, max: 8, value: c[2], style: "width:64px", "aria-label": c[0] + " quantity" });
+    inp.addEventListener("input", calc); c.inp = inp;
+    rows.appendChild(h("tr", null, [h("td", null, c[0]), h("td", null, c[1] + " W"), h("td", null, inp)]));
+  });
+  function calc() {
+    var total = comps.reduce(function (s, c) { return s + c[1] * (+c.inp.value || 0); }, 0);
+    var sizes = [450, 550, 650, 750, 850, 1000, 1200, 1600], rec = sizes.filter(function (s) { return s >= total / 0.7; })[0] || 1600;
+    $("psu-total").textContent = "Peak load ≈ " + total + " W → recommended PSU: " + rec + " W";
+    $("psu-meter").style.width = Math.min(100, 100 * total / rec) + "%";
+    OMNI.say("psu-cap", "At " + total + " W, a " + rec + " W unit runs at " + Math.round(100 * total / rec) + "% load, inside the 50 to 80% sweet spot where efficiency is highest and there is room for upgrades and transient spikes (modern GPUs can briefly spike well above their rating). Choose 80 PLUS Gold or better for a PC that runs many hours a day.");
+  }
+  calc();
+})();
+</script>
+<!-- module-data:start -->
+<script type="application/json" id="module-data">{"module":5,"title":"PC Hardware","glossary":[["ATX","The standard full-size motherboard and PSU format.","Advanced Technology eXtended: Intel's 1995 form factor specification, 12 × 9.6 in boards, defining mounting, I/O and power connectors.","Advanced Technology eXtended"],["microATX","A smaller, squarer ATX board.","9.6 × 9.6 in motherboard form factor with up to four expansion slots, compatible with ATX cases.","mATX"],["mini-ITX","A tiny motherboard with one slot.","6.7 × 6.7 in motherboard form factor for small form factor systems.",""],["CPU socket","Where the processor plugs in.","The mechanical and electrical interface between CPU and motherboard (e.g. LGA 1851, AM5); must match the CPU.",""],["LGA","Pins are in the socket, not on the CPU.","Land Grid Array: CPU package with flat contacts that press on spring pins in the socket.","Land Grid Array"],["PGA","Pins are on the CPU.","Pin Grid Array: CPU package with pins that insert into socket holes (e.g. AMD AM4).","Pin Grid Array"],["CMOS battery","Coin cell that keeps the clock running.","CR2032 battery powering the real-time clock (and legacy CMOS settings) when the system is unplugged.","Complementary Metal-Oxide-Semiconductor"],["TPM","A security chip that stores keys.","Trusted Platform Module: a hardware or firmware cryptoprocessor (ISO/IEC 11889) for key storage and boot measurements; TPM 2.0 is required by Windows 11.","Trusted Platform Module"],["TDP","How much heat the cooler must handle.","Thermal Design Power: manufacturer's figure for sustained heat dissipation at base clock, in watts.","Thermal Design Power"],["Thermal paste","Goo that helps heat move from CPU to cooler.","Thermal interface material filling microscopic air gaps between heat spreader and heat sink.","TIM"],["DIMM","Desktop memory stick.","Dual Inline Memory Module: full-size memory module (288 pins for DDR4/DDR5).","Dual Inline Memory Module"],["SODIMM","Laptop memory stick.","Small Outline DIMM: compact memory module for laptops and small PCs (260-pin DDR4, 262-pin DDR5).","Small Outline DIMM"],["ECC memory","Memory that fixes small errors itself.","Error-Correcting Code memory: stores extra check bits to detect and correct single-bit errors; standard in servers.","Error-Correcting Code"],["NVMe","The fast protocol for SSDs over PCIe.","Non-Volatile Memory Express: storage protocol designed for flash over PCIe with deep parallel queues.","Non-Volatile Memory Express"],["M.2","A small card-shaped slot for SSDs and Wi-Fi.","A form factor and connector (keys M, B, E) that can carry PCIe/NVMe, SATA or USB signals; size codes like 2280.",""],["RAID","Combining drives for speed or safety.","Redundant Array of Independent Disks: striping, mirroring and/or parity across disks; levels 0, 1, 5, 6, 10.","Redundant Array of Independent Disks"],["Parity","Extra data that lets you rebuild a missing piece.","An XOR-derived value stored with data so any single missing block can be recomputed (RAID 5); RAID 6 uses two independent parities.",""],["80 PLUS","An efficiency badge for power supplies.","Certification program rating PSU efficiency at 20/50/100% load: White, Bronze, Silver, Gold, Platinum, Titanium.",""],["EPS 12V","The CPU power cable from the PSU.","4+4 or 8-pin +12 V connector supplying the CPU voltage regulators.",""],["12V-2x6","The modern high-power GPU connector.","16-pin (12 power + 4 sense) PCIe CEM 5.1 connector delivering up to 600 W; revision of 12VHPWR.",""],["Thunderbolt","Very fast USB-C port for docks and displays.","Intel/Apple interface over USB-C tunneling PCIe and DisplayPort; TB3/TB4 at 40 Gbps, TB5 at 80 Gbps (120 boost).","TB"],["DisplayPort","Monitor connector with a cut corner.","VESA digital display interface supporting high refresh rates and Multi-Stream Transport daisy-chaining.","DP"],["HDMI","TV and monitor connector for video and audio.","High-Definition Multimedia Interface: digital A/V; HDMI 2.1 up to 48 Gbps; supports CEC and eARC.","High-Definition Multimedia Interface"],["IPS","LCD type with the best colors and angles.","In-Plane Switching: LCD technology where liquid crystals rotate parallel to the panel for wide viewing angles.","In-Plane Switching"],["OLED","A screen where each pixel makes its own light.","Organic Light-Emitting Diode display: self-emissive pixels with true black; risk of burn-in.","Organic Light-Emitting Diode"],["Fuser","The hot rollers that melt toner onto paper.","Laser printer assembly of a heated roller and pressure roller that bonds toner to the medium.",""],["Imaging drum","The light-sensitive cylinder in a laser printer.","Photoconductive drum that holds the electrostatic latent image and transfers toner.",""],["ESD","A static shock that can damage parts.","Electrostatic Discharge: sudden flow of static electricity between objects at different potentials; damages ICs below the threshold of human feeling.","Electrostatic Discharge"],["SDS","The safety sheet for a chemical.","Safety Data Sheet (formerly MSDS): standardized document of hazards, handling, PPE, first aid and disposal for a substance.","Safety Data Sheet"],["NFC","Tap-to-connect radio.","Near Field Communication: short-range (about 4 cm) 13.56 MHz radio for payments and pairing.","Near Field Communication"]],"quiz":[{"t":"mc","q":"A technician installs a DDR5 DIMM in a board with DDR4 slots. What happens?","o":["It works at DDR4 speed","It will not physically fit: the notch is in a different place","It works but uses more power","It fits but the PC beeps"],"a":1,"w":["Generations are not backward compatible.","Correct: keyed notches prevent insertion.","It cannot be installed.","It cannot be inserted in the first place."],"x":"DDR generations differ in notch position and voltage (DDR4 1.2 V, DDR5 1.1 V).","c":"A1","d":"3.2"},{"t":"mc","q":"Four 4 TB drives are in RAID 5. What is the usable capacity?","o":["16 TB","12 TB","8 TB","4 TB"],"a":1,"w":["That is RAID 0 (no redundancy).","Correct: (n − 1) × S = 3 × 4.","That would be RAID 6 or RAID 10.","That is a single disk (or RAID 1 on any count)."],"x":"RAID 5 gives up one disk's worth of capacity for distributed parity.","c":"A1","d":"3.3"},{"t":"mc","q":"Which RAID level can survive any two simultaneous drive failures?","o":["RAID 0","RAID 1 (two disks)","RAID 5","RAID 6"],"a":3,"w":["RAID 0 has no redundancy.","A two-disk mirror survives one failure.","RAID 5 survives one.","Correct: double parity."],"x":"RAID 10 may survive two failures only if they are in different mirror pairs.","c":"A1","d":"3.3"},{"t":"order","q":"Put the laser printing process in order.","o":["Processing","Charging","Exposing","Developing","Transferring","Fusing","Cleaning"],"x":"Mnemonic: Please Charge Every Device To Full Capacity.","c":"A1","d":"3.6"},{"t":"mc","sc":"Printed pages from a laser printer look fine, but the toner smears when touched.","q":"Which component is most likely failing?","o":["Pickup roller","Fuser","Laser scanner","Formatter board"],"a":1,"w":["Pickup rollers cause jams and misfeeds.","Correct: toner is not being melted into the paper.","A failing laser causes blank or faded areas.","A formatter fault causes garbled output."],"x":"The fuser uses heat and pressure; if it is cold, toner sits loose on the page.","c":"A1","d":"5.6"},{"t":"mc","sc":"Each page shows a faint copy of the previous page's image.","q":"What is this called and what is the likely cause?","o":["Garbled print; wrong driver","Ghosting; drum cleaning or erase problem","Speckling; low toner","Creasing; wrong paper"],"a":1,"w":["Garbled characters come from drivers.","Correct.","Speckles are toner debris, not repeated images.","Creases come from the paper path."],"x":"Leftover charge or toner on the drum repeats on later pages.","c":"A1","d":"5.6"},{"t":"mc","q":"Which connector carries power to the CPU's voltage regulators?","o":["24-pin ATX","EPS 8-pin (4+4)","SATA power","Molex"],"a":1,"w":["The 24-pin powers the board generally.","Correct.","SATA power is for drives.","Molex is a legacy peripheral connector."],"x":"A missing EPS cable typically causes no POST.","c":"A1","d":"3.5"},{"t":"mc","q":"Which video connector carries only analog signals?","o":["HDMI","DisplayPort","VGA","DVI-D"],"a":2,"w":["HDMI is digital.","DisplayPort is digital.","Correct.","The D in DVI-D means digital only."],"x":"Connecting HDMI to VGA needs an active converter.","c":"A1","d":"3.1"},{"t":"ms","q":"Which statements about M.2 are TRUE? (Select all that apply.)","o":["M.2 is a form factor, not a protocol","Every M.2 SSD uses NVMe","A 2280 module is 22 mm wide and 80 mm long","M.2 slots can host Wi-Fi cards (E key)"],"a":[0,2,3],"w":["Correct.","M.2 SATA SSDs exist.","Correct.","Correct."],"x":"Check the motherboard manual for which protocols each M.2 slot supports.","c":"A1","d":"3.3"},{"t":"mc","q":"A PC's clock resets to a default date every time it is unplugged. What should you replace?","o":["The PSU","The CMOS battery","The RAM","The SSD"],"a":1,"w":["The PSU would not cause a clock reset only when unplugged.","Correct: a CR2032 coin cell.","RAM does not hold the clock.","Storage does not hold the RTC."],"x":"The real-time clock is kept alive by the CMOS battery.","c":"A1","d":"5.2"},{"t":"mc","q":"Which 80 PLUS level is the most efficient?","o":["Bronze","Gold","Platinum","Titanium"],"a":3,"w":["Bronze: about 82 to 85%.","Gold: about 87 to 90%.","Platinum: about 89 to 92%.","Correct: about 90 to 94%."],"x":"White \u003c Bronze \u003c Silver \u003c Gold \u003c Platinum \u003c Titanium.","c":"A1","d":"3.5"},{"t":"mc","q":"Before replacing RAM, what is the BEST way to prevent ESD damage?","o":["Wear rubber gloves","Use an ESD wrist strap connected to ground and handle modules by the edges","Keep the PC plugged in and on","Work on carpet"],"a":1,"w":["Gloves do not equalize charge.","Correct.","Never work on a powered system.","Carpet builds static."],"x":"Equalize potential between you and the equipment; store parts in anti-static bags.","c":"A2","d":"4.4"},{"t":"mc","q":"A user needs Windows 11 but the upgrade check fails on security hardware. Which UEFI settings should you check?","o":["Fan curve and XMP","TPM 2.0 (fTPM/PTT) and Secure Boot","Boot from network","Legacy USB support"],"a":1,"w":["Fans and memory profiles are irrelevant.","Correct: both are Windows 11 requirements.","PXE boot is unrelated.","Legacy USB is unrelated."],"x":"Many PCs have firmware TPM disabled by default.","c":"A1","d":"3.4"},{"t":"mc","q":"Which USB version is the first to require the USB-C connector?","o":["USB 2.0","USB 3.2 Gen 1","USB 3.2 Gen 2x2","USB 1.1"],"a":2,"w":["USB 2.0 uses many connector types.","Gen 1 (5 Gbps) exists on USB-A.","Correct: 20 Gbps Gen 2x2 is USB-C only, as is USB4.","USB 1.1 predates USB-C."],"x":"Gen 2x2 uses two lanes, which only USB-C provides.","c":"A1","d":"3.1"},{"t":"mc","q":"Which printer type needs a ribbon and can print multipart carbon forms?","o":["Inkjet","Thermal","Impact (dot matrix)","Laser"],"a":2,"w":["Inkjets spray ink.","Thermal printers heat special paper.","Correct: pins strike through the ribbon onto the layers.","Lasers use toner."],"x":"Impact printers are still used for invoices and shipping forms.","c":"A1","d":"3.6"}],"flashcards":[["ATX / mATX / ITX sizes","12 × 9.6 in / 9.6 × 9.6 in / 6.7 × 6.7 in."],["LGA vs PGA","LGA: pins in the socket (Intel, AMD AM5). PGA: pins on the CPU (AMD AM4)."],["Windows 11 firmware requirements","UEFI with Secure Boot capability and TPM 2.0."],["CMOS battery symptom","Clock resets to default date; settings lost when unplugged."],["DDR4 vs DDR5 voltage","DDR4 1.2 V; DDR5 1.1 V. Not interchangeable."],["DIMM vs SODIMM pins","DDR4/DDR5 DIMM 288; DDR4 SODIMM 260; DDR5 SODIMM 262."],["Dual channel","Matching modules in paired (color-coded) slots double memory bandwidth."],["SATA III speed","6 Gbps (about 550 MB/s real)."],["M.2 2280","22 mm wide, 80 mm long; can be SATA or NVMe."],["RAID 0","Striping; ≥2 disks; n × S capacity; no fault tolerance."],["RAID 1","Mirroring; ≥2 disks; capacity of one disk; survives 1 failure (2-disk)."],["RAID 5","Striping + parity; ≥3 disks; (n−1) × S; survives 1 failure."],["RAID 6","Double parity; ≥4 disks; (n−2) × S; survives 2 failures."],["RAID 10","Mirrored pairs striped; ≥4 disks; half capacity; 1 failure per pair."],["PSU rails","+12 V (CPU, GPU, motors), +5 V (USB, logic), +3.3 V (logic), +5 VSB standby."],["PCIe power limits","Slot 75 W, 6-pin 75 W, 8-pin 150 W, 12V-2x6 up to 600 W."],["80 PLUS order","White, Bronze, Silver, Gold, Platinum, Titanium."],["Laser steps","Processing, Charging, Exposing, Developing, Transferring, Fusing, Cleaning."],["Toner smudges","Fuser failure."],["Ghost images","Drum cleaning/erase problem."],["Garbled print","Wrong driver or print language."],["USB speeds","2.0 480 Mbps; 3.2 Gen 1 5 Gbps; Gen 2 10; Gen 2x2 20; USB4 40 (v2 80)."],["Thunderbolt 3/4/5","40 / 40 / 80 Gbps over USB-C."],["Analog-only video connector","VGA (DE-15)."],["DVI variants","DVI-D digital, DVI-A analog, DVI-I both."],["Adapter vs converter","Adapter changes the plug; converter changes the signal."],["ESD prevention","Wrist strap to ground, ESD mat, anti-static bags, handle by edges."],["SDS","Safety Data Sheet: hazards, handling, first aid, disposal of chemicals like toner."]]}</script>
+<!-- module-data:end -->
+</body>
+</html>

@@ -1,0 +1,16 @@
+# Render Blueprint: deploys the Datacenter Omnibus as a free static site.
+# In Render: New -> Blueprint -> pick this repository.
+services:
+  - type: web
+    name: datacenter-omnibus
+    runtime: static
+    buildCommand: ""
+    staticPublishPath: .
+    pullRequestPreviewsEnabled: false
+    headers:
+      - path: /*
+        name: X-Content-Type-Options
+        value: nosniff
+      - path: /*
+        name: Referrer-Policy
+        value: strict-origin-when-cross-origin

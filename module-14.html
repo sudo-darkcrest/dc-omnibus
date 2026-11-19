@@ -1,0 +1,453 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Module 14 · Security Foundations and Cryptography | Datacenter Omnibus</title>
+<meta name="description" content="CIA, AAA, zero trust, security controls, identity and access management, symmetric and asymmetric cryptography, hashing, PKI, TLS 1.3 and post-quantum cryptography, with five labs using real Web Crypto.">
+<link rel="stylesheet" href="assets/omnibus.css">
+<style>
+  .hexout { font-family: var(--mono); font-size: .82rem; word-break: break-all; background: var(--surface-2); border-radius: 8px; padding: 8px 10px; border: 1px solid var(--line); }
+  .hexout .d { background: var(--bad-soft); color: var(--bad); border-radius: 2px; }
+  .chain { display: flex; flex-wrap: wrap; gap: 10px; align-items: stretch; justify-content: center; }
+  .cert { flex: 1 1 200px; border: 2px solid var(--line); border-radius: 10px; padding: 10px; background: var(--surface); cursor: pointer; text-align: left; }
+  .cert.ok { border-color: var(--good); } .cert.bad { border-color: var(--bad); background: var(--bad-soft); }
+  .cert h4 { margin: 0 0 4px; }
+  .arrowdown { align-self: center; font-size: 1.4rem; color: var(--ink-2); }
+</style>
+</head>
+<body data-module="14">
+<a class="skip" href="#main">Skip to content</a>
+<div id="topbar"></div>
+<main class="page" id="main">
+
+<section class="intro">
+  <div class="kicker">Part 4 · Security, Cloud and the Data Center · Module 14</div>
+  <h1>Security Foundations and Cryptography</h1>
+  <p class="why"><b>Why this matters.</b> Every security decision traces back to a few principles (confidentiality, integrity, availability, least privilege, zero trust) and a toolbox of controls and cryptography. Security+ Domain 1 (General Security Concepts) is built on exactly this, and the same ideas reappear in CISM and CISA as governance. The labs here use your browser's real Web Crypto engine.</p>
+  <h3>You will be able to</h3>
+  <ul class="outcomes">
+    <li>Apply CIA, AAA, non-repudiation, least privilege, defense in depth and zero trust.</li>
+    <li>Classify controls by category (technical, managerial, operational, physical) and type (preventive, detective…).</li>
+    <li>Explain MFA, SSO, SAML, OAuth 2.0, OIDC, Kerberos, RADIUS/TACACS+ and access control models.</li>
+    <li>Choose symmetric vs asymmetric crypto, hashing, salting and key stretching correctly.</li>
+    <li>Follow a certificate chain and a TLS 1.3 handshake, and explain where post-quantum crypto stands.</li>
+  </ul>
+  <nav class="jumpnav" id="jumpnav" aria-label="On this page"></nav>
+</section>
+
+<section class="certmap" id="certmap">
+  <h2>Cert map</h2>
+  <div id="certmap-badges"></div>
+</section>
+
+<section class="lesson" id="concepts">
+  <h2>1. Core security concepts</h2>
+  <div class="grid3">
+    <div class="tile"><h4>Confidentiality</h4><p>Only authorized people can read it. Tools: encryption, access control, data classification.</p></div>
+    <div class="tile"><h4>Integrity</h4><p>Data isn't altered without detection. Tools: hashing, digital signatures, change control.</p></div>
+    <div class="tile"><h4>Availability</h4><p>Systems are up when needed. Tools: redundancy, backups, DDoS protection, patching.</p></div>
+  </div>
+  <ul>
+    <li><b>AAA</b>: <b>Authentication</b> (prove who you are), <b>Authorization</b> (what you may do), <b>Accounting</b> (logging what you did). Systems and devices authenticate too (certificates, keys).</li>
+    <li><b>Non-repudiation</b>: the sender can't deny sending: digital signatures plus logs.</li>
+    <li><b>Least privilege</b>: minimum access needed; <b>defense in depth</b>: layered controls so one failure isn't fatal.</li>
+    <li><b>Zero trust</b>: "never trust, always verify." No implicit trust from network location. The <b>control plane</b> decides (policy engine, policy administrator; adaptive identity, threat scope reduction); the <b>data plane</b> enforces through a <b>policy enforcement point</b> (PEP) in front of each resource; implicit trust zones disappear.</li>
+    <li><b>Gap analysis</b>: compare the current state with a target framework to find missing controls.</li>
+    <li><b>Deception</b>: <b>honeypot</b> (fake system), <b>honeynet</b> (fake network), <b>honeyfile</b>, <b>honeytoken</b> (fake credential or record that alerts when used), DNS sinkholes.</li>
+    <li><b>Physical security basics</b>: bollards, fencing, lighting, access badges, guards, cameras, access control vestibules (mantraps), sensors (infrared, pressure, microwave, ultrasonic).</li>
+  </ul>
+  <h3>Control categories and types</h3>
+  <div class="tablewrap"><table>
+    <thead><tr><th>Category</th><th>Meaning</th><th>Examples</th></tr></thead>
+    <tbody>
+      <tr><td><b>Technical</b></td><td>Implemented by systems</td><td>Firewalls, encryption, MFA, EDR</td></tr>
+      <tr><td><b>Managerial</b></td><td>Administrative: policy and oversight</td><td>Risk assessments, policies, security planning</td></tr>
+      <tr><td><b>Operational</b></td><td>Done by people day to day</td><td>Awareness training, guards, change management</td></tr>
+      <tr><td><b>Physical</b></td><td>Tangible barriers</td><td>Locks, fences, bollards, cameras</td></tr>
+    </tbody>
+  </table></div>
+  <div class="tablewrap"><table>
+    <thead><tr><th>Type</th><th>Purpose</th><th>Example</th></tr></thead>
+    <tbody>
+      <tr><td><b>Preventive</b></td><td>Stop it happening</td><td>Firewall rule, door lock</td></tr>
+      <tr><td><b>Deterrent</b></td><td>Discourage the attempt</td><td>Warning sign, visible camera</td></tr>
+      <tr><td><b>Detective</b></td><td>Notice it happening</td><td>IDS, log review, motion sensor</td></tr>
+      <tr><td><b>Corrective</b></td><td>Fix after the event</td><td>Restore from backup, patch</td></tr>
+      <tr><td><b>Compensating</b></td><td>Alternative when the primary isn't possible</td><td>Isolate a legacy system that can't be patched</td></tr>
+      <tr><td><b>Directive</b></td><td>Tell people what to do</td><td>Policy, "authorized personnel only" sign</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section class="lesson" id="iam">
+  <h2>2. Identity and access management</h2>
+  <div class="tablewrap"><table>
+    <thead><tr><th>Factor</th><th>Something…</th><th>Examples</th></tr></thead>
+    <tbody>
+      <tr><td>Knowledge</td><td>you know</td><td>Password, PIN</td></tr>
+      <tr><td>Possession</td><td>you have</td><td>Phone authenticator, hardware key, smart card</td></tr>
+      <tr><td>Inherence</td><td>you are</td><td>Fingerprint, face</td></tr>
+      <tr><td>Location</td><td>somewhere you are</td><td>GPS, IP geolocation</td></tr>
+    </tbody>
+  </table></div>
+  <p><b>MFA</b> combines different factor types (two passwords is not MFA). Phishing-resistant MFA uses FIDO2/WebAuthn: <b>passkeys</b> store a private key on your device; the server keeps only the public key, and the browser binds it to the real site's domain. Password best practice (NIST SP 800-63B): long passphrases, check against breached lists, no forced periodic changes without cause, no composition rules, and use a password manager.</p>
+  <div class="tablewrap"><table>
+    <thead><tr><th>Protocol</th><th>Does what</th><th>Notes</th></tr></thead>
+    <tbody>
+      <tr><td><b>SSO</b></td><td>One login for many apps</td><td>Implemented with SAML, OIDC or Kerberos</td></tr>
+      <tr><td><b>SAML 2.0</b></td><td>Federated authentication via XML assertions</td><td>Identity provider (IdP) vouches for the user to a service provider (SP); enterprise web SSO</td></tr>
+      <tr><td><b>OAuth 2.0</b></td><td><b>Authorization</b>: delegated access with tokens</td><td>"Let this app read my calendar" without sharing your password</td></tr>
+      <tr><td><b>OpenID Connect</b></td><td><b>Authentication</b> layer on top of OAuth 2.0</td><td>ID token (JWT); "Sign in with…" buttons</td></tr>
+      <tr><td><b>Kerberos</b></td><td>Ticket-based authentication</td><td>Active Directory; KDC issues a TGT then service tickets; needs time sync; UDP/TCP 88</td></tr>
+      <tr><td><b>LDAP / LDAPS</b></td><td>Directory queries</td><td>389 / 636</td></tr>
+      <tr><td><b>RADIUS</b></td><td>AAA for network access</td><td>UDP 1812/1813; encrypts only the password; Wi-Fi 802.1X, VPN</td></tr>
+      <tr><td><b>TACACS+</b></td><td>AAA for device administration</td><td>TCP 49; encrypts the whole payload; separates authN, authZ and accounting; per-command authorization</td></tr>
+    </tbody>
+  </table></div>
+  <div class="tablewrap"><table>
+    <thead><tr><th>Access model</th><th>Who decides</th><th>Example</th></tr></thead>
+    <tbody>
+      <tr><td><b>DAC</b> (discretionary)</td><td>The owner</td><td>Sharing your own file</td></tr>
+      <tr><td><b>MAC</b> (mandatory)</td><td>System labels and clearances</td><td>Top Secret data, SELinux</td></tr>
+      <tr><td><b>RBAC</b> (role-based)</td><td>Job role</td><td>"Nurse" role can read charts</td></tr>
+      <tr><td><b>ABAC</b> (attribute-based)</td><td>Attributes of user, resource, environment</td><td>Allow if department = finance AND device compliant AND 9-to-5</td></tr>
+      <tr><td><b>Rule-based</b></td><td>Admin-defined rules for everyone</td><td>Firewall ACL, time-of-day rules</td></tr>
+    </tbody>
+  </table></div>
+  <p><b>PAM</b> (privileged access management) vaults admin credentials, rotates them, records sessions and grants <b>just-in-time</b> (temporary) elevation instead of standing admin rights. Account lifecycle: provisioning, regular access reviews (attestation), and prompt deprovisioning.</p>
+</section>
+
+<section class="lesson" id="crypto">
+  <h2>3. Cryptography essentials</h2>
+  <div class="grid2">
+    <div class="tile"><h4>Symmetric</h4><p>One shared key encrypts and decrypts. Fast, for bulk data.</p><ul><li><b>AES</b> (128/192/256-bit keys), modes: <b>GCM</b> (authenticated, preferred), CBC (older).</li><li><b>ChaCha20-Poly1305</b>: fast in software and on phones.</li><li>Problem: securely sharing the key, and n(n−1)/2 keys for n people.</li><li>Legacy/broken: DES, 3DES, RC4.</li></ul></div>
+    <div class="tile"><h4>Asymmetric (public key)</h4><p>A key pair: public key shared, private key kept secret. Slow; used for key exchange and signatures.</p><ul><li><b>RSA</b> (2048-bit minimum; 3072+ recommended).</li><li><b>ECC</b> (256-bit ECC ≈ 3072-bit RSA strength): ECDSA, Ed25519.</li><li><b>Diffie-Hellman / ECDHE</b>: agree on a shared secret over an open channel; ephemeral keys give <b>perfect forward secrecy</b>.</li></ul></div>
+  </div>
+  <div class="callout analogy">Asymmetric encryption is a mailbox: anyone can drop a letter through the slot (public key), only the owner has the key to open it (private key). A digital signature is a wax seal only you can make, which anyone can check against your known seal design.</div>
+  <h3>Hashing, salting and key stretching</h3>
+  <p>A <dfn>hash</dfn> is a one-way, fixed-length fingerprint: the same input always gives the same output, and a tiny change flips about half the bits (the <b>avalanche effect</b>). Use <b>SHA-256/SHA-384</b> (SHA-2) or <b>SHA-3</b>. <b>MD5</b> and <b>SHA-1</b> are broken: attackers can create <b>collisions</b> (two inputs with the same hash). <b>HMAC</b> combines a hash with a secret key to prove integrity and authenticity.</p>
+  <p>Passwords are stored as <b>salted, stretched</b> hashes: a random <b>salt</b> per user defeats rainbow tables and makes identical passwords look different; <b>key stretching</b> (<b>PBKDF2</b>, <b>bcrypt</b>, <b>scrypt</b>, <b>Argon2</b>) makes each guess slow.</p>
+  <h3>Digital signatures</h3>
+  <p>The sender hashes the message and encrypts the hash with their <b>private key</b>. Anyone decrypts it with the sender's <b>public key</b> and compares it to their own hash of the message. A match proves integrity, authenticity and non-repudiation.</p>
+</section>
+
+<section class="lesson" id="pki">
+  <h2>4. PKI and certificates</h2>
+  <p>A <dfn>certificate</dfn> (X.509) binds a public key to an identity, signed by a <b>Certificate Authority</b> (CA). Browsers trust a set of <b>root CAs</b>; roots sign <b>intermediate CAs</b>, which sign <b>leaf</b> (end-entity) certificates. A <b>Registration Authority</b> (RA) verifies identities for the CA. A <b>CSR</b> (certificate signing request) contains your public key and requested names.</p>
+  <div class="tablewrap"><table>
+    <thead><tr><th>Term</th><th>Meaning</th></tr></thead>
+    <tbody>
+      <tr><td><b>CRL</b></td><td>Certificate Revocation List published by the CA.</td></tr>
+      <tr><td><b>OCSP</b> / <b>OCSP stapling</b></td><td>Real-time revocation check; stapling lets the server attach a fresh signed OCSP response, so clients don't query the CA.</td></tr>
+      <tr><td><b>Pinning</b></td><td>An app accepts only a specific certificate or key (now mostly used in mobile apps).</td></tr>
+      <tr><td><b>Wildcard</b></td><td>*.example.com covers one level of subdomains.</td></tr>
+      <tr><td><b>SAN</b></td><td>Subject Alternative Name: one cert lists many names.</td></tr>
+      <tr><td><b>Self-signed</b></td><td>Signed by its own key: fine for labs or internal roots, but untrusted by default.</td></tr>
+      <tr><td><b>Key escrow</b></td><td>A trusted third party holds a copy of keys for recovery.</td></tr>
+      <tr><td><b>Certificate transparency</b></td><td>Public logs of issued certificates to catch mis-issuance.</td></tr>
+    </tbody>
+  </table></div>
+  <h3>TLS 1.2 vs TLS 1.3</h3>
+  <div class="tablewrap"><table>
+    <thead><tr><th>&nbsp;</th><th>TLS 1.2</th><th>TLS 1.3 (RFC 8446)</th></tr></thead>
+    <tbody>
+      <tr><td>Handshake round trips</td><td>2</td><td>1 (0-RTT resumption optional, with replay risk)</td></tr>
+      <tr><td>Key exchange</td><td>RSA or (EC)DHE</td><td>Only ephemeral (EC)DHE: forward secrecy always</td></tr>
+      <tr><td>Ciphers</td><td>Many, some weak (CBC, RC4, SHA-1)</td><td>Five AEAD suites (AES-GCM, ChaCha20-Poly1305)</td></tr>
+      <tr><td>Certificate</td><td>Sent in cleartext</td><td>Encrypted</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section class="lesson" id="datastates">
+  <h2>5. Protecting data and keys</h2>
+  <ul>
+    <li><b>Data states</b>: <b>at rest</b> (disk encryption, database TDE), <b>in transit</b> (TLS, IPsec, SSH), <b>in use</b> (memory; protected by secure enclaves and confidential computing).</li>
+    <li><b>Full-disk encryption</b> (BitLocker, FileVault, LUKS), partition, file, volume, database and record-level encryption.</li>
+    <li><b>TPM</b>: chip in a computer that stores keys and measures boot integrity. <b>HSM</b>: hardened appliance or cloud service for high-value keys (CAs, payments). <b>Secure enclave</b>: isolated processor area. <b>KMS</b>: key management service.</li>
+    <li><b>Obfuscation</b>: <b>steganography</b> (hide data inside images/audio), <b>tokenization</b> (replace a card number with a random token; the mapping lives in a vault), <b>data masking</b> (show ****1234).</li>
+    <li><b>Blockchain</b>: an append-only, distributed ledger where each block contains the previous block's hash; an <b>open public ledger</b>.</li>
+  </ul>
+  <h3>Post-quantum cryptography</h3>
+  <p>A large quantum computer running Shor's algorithm would break RSA, Diffie-Hellman and ECC. Symmetric crypto and hashes are much less affected (use AES-256, SHA-384+). NIST published its first PQC standards in August 2024: <b>FIPS 203 ML-KEM</b> (Kyber, key encapsulation), <b>FIPS 204 ML-DSA</b> (Dilithium, signatures) and <b>FIPS 205 SLH-DSA</b> (SPHINCS+, hash-based signatures). FN-DSA (Falcon) is being standardized as FIPS 206, and HQC was selected in 2025 as a backup KEM. "Harvest now, decrypt later" is why organizations are inventorying crypto and adopting <b>hybrid</b> key exchange (classical + ML-KEM) today. Check NIST for the latest status.</p>
+</section>
+
+<section class="lab" id="labs">
+  <h2>Interactive labs</h2>
+
+  <div class="lab-card" id="lab-enc" data-lab="Encryption Playground: Caesar cipher, then real AES-GCM in your browser with the Web Crypto API; the right key decrypts and a wrong key fails.">
+    <h3>Lab 1: Encryption Playground</h3>
+    <h4>Part A: Caesar cipher (why simple substitution fails)</h4>
+    <div class="row"><label>Text <input type="text" id="cz-in" value="ATTACK AT DAWN" style="width:min(18em,100%)"></label><label>Shift <input type="range" id="cz-k" min="1" max="25" value="3"> <b id="cz-kv"></b></label></div>
+    <div class="hexout" id="cz-out"></div>
+    <h4>Part B: AES-256-GCM (real, in your browser)</h4>
+    <div class="controls">
+      <label class="field"><span>Message</span><input type="text" id="ae-msg" value="Meet at the data center at 9."></label>
+      <label class="field"><span>Passphrase to encrypt</span><input type="text" id="ae-pass" value="correct horse battery staple"></label>
+      <label class="field"><span>Passphrase to decrypt</span><input type="text" id="ae-pass2" value="correct horse battery staple"></label>
+    </div>
+    <div class="row"><button type="button" class="primary" id="ae-enc">Encrypt</button><button type="button" id="ae-dec">Decrypt</button><button type="button" id="ae-tamper">Flip one ciphertext bit</button></div>
+    <div class="hexout" id="ae-out">Ciphertext appears here.</div>
+    <div class="caption" id="enc-cap" aria-live="polite"></div>
+  </div>
+
+  <div class="lab-card" id="lab-pk" data-lab="Public Key Visualizer: Alice and Bob animations for public-key encryption, digital signatures and a Diffie-Hellman paint-mixing exchange.">
+    <h3>Lab 2: Public Key Visualizer</h3>
+    <div class="row" role="group" aria-label="Scenario"><button type="button" class="primary" data-pk="enc">Encrypt to Bob</button><button type="button" data-pk="sig">Alice signs</button><button type="button" data-pk="dh">Diffie-Hellman paint mixing</button></div>
+    <div id="pk-step"></div>
+    <div class="stage"><svg id="pk-svg" viewBox="0 0 760 270" width="760" role="img" aria-label="Alice, Bob and Eve key exchange"></svg></div>
+    <div class="caption" id="pk-cap" aria-live="polite"></div>
+  </div>
+
+  <div class="lab-card" id="lab-hash" data-lab="Hash Demo: live SHA-256 with Web Crypto, the avalanche effect when one character changes, and salted password hashes.">
+    <h3>Lab 3: Hash Demo (SHA-256)</h3>
+    <div class="controls">
+      <label class="field"><span>Input A</span><input type="text" id="hs-a" value="Transfer $100 to Bob"></label>
+      <label class="field"><span>Input B (change one character)</span><input type="text" id="hs-b" value="Transfer $900 to Bob"></label>
+    </div>
+    <p><b>SHA-256(A)</b></p><div class="hexout" id="hs-ha"></div>
+    <p><b>SHA-256(B)</b> (differing hex digits highlighted)</p><div class="hexout" id="hs-hb"></div>
+    <p id="hs-diff" style="font-weight:700"></p>
+    <h4>Salted password storage</h4>
+    <div class="row"><label>Password <input type="text" id="hs-pw" value="Summer2026!"></label><button type="button" id="hs-salt">Store for two users</button></div>
+    <div class="tablewrap"><table><thead><tr><th>User</th><th>Salt (random)</th><th>SHA-256(salt + password), first 32 hex</th></tr></thead><tbody id="hs-tbl"></tbody></table></div>
+    <div class="caption" id="hs-cap" aria-live="polite"></div>
+  </div>
+
+  <div class="lab-card" id="lab-tls" data-lab="TLS 1.3 Handshake Stepper: step through ClientHello, ServerHello, certificate, key exchange and Finished messages with what each proves.">
+    <h3>Lab 4: TLS 1.3 Handshake Stepper</h3>
+    <div id="tl-step"></div>
+    <div class="stage"><svg id="tl-svg" viewBox="0 0 760 360" width="760" role="img" aria-label="TLS 1.3 handshake sequence"></svg></div>
+    <div class="caption" id="tl-cap" aria-live="polite"></div>
+  </div>
+
+  <div class="lab-card" id="lab-chain" data-lab="Certificate Chain Inspector: click through root, intermediate and leaf certificates and see what breaks when a certificate expires, is revoked, or has the wrong name.">
+    <h3>Lab 5: Certificate Chain Inspector</h3>
+    <div class="row"><label><input type="checkbox" id="ch-exp"> Leaf expired</label><label><input type="checkbox" id="ch-rev"> Intermediate revoked</label><label><input type="checkbox" id="ch-name"> Visiting shop.example.org instead</label><label><input type="checkbox" id="ch-root"> Root not in trust store</label></div>
+    <div class="chain" id="ch-cards"></div>
+    <div class="tile" id="ch-fields" style="margin-top:10px"></div>
+    <div class="caption" id="ch-cap" aria-live="polite"></div>
+  </div>
+</section>
+
+<section class="glossary" id="glossary">
+  <h2>Key terms</h2>
+  <div id="glossary-list"></div>
+</section>
+
+<section class="memory" id="memory">
+  <h2>Memory aids</h2>
+  <div class="mnemonic"><b>Encrypt</b> with the <b>recipient's public</b> key; <b>sign</b> with <b>your own private</b> key. "Lock with theirs, sign with mine."</div>
+  <div class="mnemonic">OAuth = <b>Auth</b>ori<b>z</b>ation ("OAuth lets an app <i>do</i> things"); OIDC = <b>ID</b>entity ("OIDC tells the app <i>who</i> you are").</div>
+  <div class="mnemonic">RADIUS vs TACACS+: <b>R</b>ADIUS for <b>R</b>emote network access (UDP, password only encrypted); <b>T</b>ACACS+ for <b>T</b>erminal/admin (TCP 49, everything encrypted).</div>
+  <div class="mnemonic">Control types: "<b>P</b>lease <b>D</b>on't <b>D</b>o <b>C</b>razy <b>C</b>omputer <b>D</b>amage": Preventive, Deterrent, Detective, Corrective, Compensating, Directive.</div>
+  <div class="tablewrap"><table><thead><tr><th>Number</th><th>Meaning</th></tr></thead><tbody>
+    <tr><td>AES 128/192/256</td><td>AES key sizes (block size is always 128 bits)</td></tr>
+    <tr><td>SHA-256 = 256 bits</td><td>64 hex characters</td></tr>
+    <tr><td>RSA 2048+</td><td>Minimum RSA key size today</td></tr>
+    <tr><td>256-bit ECC ≈ 3072-bit RSA</td><td>Why ECC keys are smaller</td></tr>
+    <tr><td>88 / 389 / 636 / 1812 / 49</td><td>Kerberos / LDAP / LDAPS / RADIUS auth / TACACS+</td></tr>
+    <tr><td>FIPS 203 / 204 / 205</td><td>ML-KEM / ML-DSA / SLH-DSA (NIST PQC, 2024)</td></tr>
+  </tbody></table></div>
+  <div class="tablewrap"><table><thead><tr><th>Exam trap</th><th>Why it is wrong</th></tr></thead><tbody>
+    <tr><td>"Hashing is encryption."</td><td>Hashes are one-way; encryption is reversible with a key.</td></tr>
+    <tr><td>"Encrypt with your private key for confidentiality."</td><td>Anyone with your public key could read it; that's a signature, not secrecy.</td></tr>
+    <tr><td>"A password plus a security question is MFA."</td><td>Both are knowledge factors.</td></tr>
+    <tr><td>"OAuth authenticates users."</td><td>OAuth authorizes; OIDC adds authentication.</td></tr>
+    <tr><td>"Salts must be secret."</td><td>Salts are stored with the hash; their job is uniqueness, not secrecy (a secret extra value is a "pepper").</td></tr>
+  </tbody></table></div>
+</section>
+
+<section class="quiz" id="quiz">
+  <h2>Knowledge check</h2>
+  <div id="quiz-area"></div>
+</section>
+
+<section class="flashcards" id="flashcards">
+  <h2>Flashcards</h2>
+  <div id="deck-area"></div>
+</section>
+
+<section class="deeper" id="deeper">
+  <h2>Go deeper (official sources)</h2>
+  <ul>
+    <li><a href="https://www.comptia.org/en-us/certifications/security/" rel="noopener">CompTIA Security+ exam objectives</a></li>
+    <li><a href="https://csrc.nist.gov/pubs/sp/800/207/final" rel="noopener">NIST SP 800-207: Zero Trust Architecture</a></li>
+    <li><a href="https://pages.nist.gov/800-63-4/" rel="noopener">NIST SP 800-63: Digital Identity Guidelines</a></li>
+    <li><a href="https://csrc.nist.gov/projects/post-quantum-cryptography" rel="noopener">NIST Post-Quantum Cryptography project (FIPS 203, 204, 205)</a></li>
+    <li><a href="https://www.rfc-editor.org/rfc/rfc8446" rel="noopener">RFC 8446: TLS 1.3</a></li>
+    <li><a href="https://www.rfc-editor.org/rfc/rfc5280" rel="noopener">RFC 5280: X.509 certificates and CRLs</a></li>
+    <li><a href="https://fidoalliance.org/passkeys/" rel="noopener">FIDO Alliance: Passkeys</a></li>
+  </ul>
+</section>
+</main>
+<footer class="foot">Datacenter Omnibus · Original study material. Not affiliated with or endorsed by any certification body.</footer>
+
+<script src="data/catalog.js"></script>
+<script src="assets/omnibus.js"></script>
+<script src="data/m14.js"></script>
+<script>
+(function () {
+  var h = OMNI.h, S = OMNI.svg, $ = function (id) { return document.getElementById(id); };
+  function txt(p, x, y, t, a) { var e = S("text", Object.assign({ x: x, y: y, class: "svg-text", "font-size": 12 }, a || {}), p); e.textContent = t; return e; }
+  var subtle = window.crypto && window.crypto.subtle;
+  var enc = new TextEncoder();
+  function hex(buf) { return Array.prototype.map.call(new Uint8Array(buf), function (b) { return b.toString(16).padStart(2, "0"); }).join(""); }
+  function b64(u8) { var s = ""; u8.forEach(function (b) { s += String.fromCharCode(b); }); return btoa(s); }
+
+  /* ================= Lab 1 ================= */
+  function caesar() {
+    var k = +$("cz-k").value, s = $("cz-in").value.toUpperCase(); $("cz-kv").textContent = k;
+    var out = s.replace(/[A-Z]/g, function (c) { return String.fromCharCode((c.charCodeAt(0) - 65 + k) % 26 + 65); });
+    $("cz-out").innerHTML = "<b>Ciphertext:</b> " + OMNI.esc(out) + "<br><b>Brute force (all 25 shifts take a computer microseconds):</b> " + [1, 2, 3, 4, 5].map(function (t) { return "shift " + t + ": " + OMNI.esc(out.replace(/[A-Z]/g, function (c) { return String.fromCharCode((c.charCodeAt(0) - 65 - t + 26) % 26 + 65); })); }).join(" · ") + " …";
+  }
+  if (!OMNI.esc) OMNI.esc = function (s) { return String(s).replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); };
+  $("cz-in").oninput = caesar; $("cz-k").oninput = caesar; caesar();
+  var aes = null;
+  function deriveKey(pass, salt) { return subtle.importKey("raw", enc.encode(pass), "PBKDF2", false, ["deriveKey"]).then(function (base) { return subtle.deriveKey({ name: "PBKDF2", salt: salt, iterations: 200000, hash: "SHA-256" }, base, { name: "AES-GCM", length: 256 }, false, ["encrypt", "decrypt"]); }); }
+  function noCrypto() { OMNI.say("enc-cap", "<span class='no'>Your browser blocked Web Crypto here</span> (it needs a secure context such as https:// or localhost). The rest of the page still works; open the site from a web host to try real AES."); }
+  $("ae-enc").onclick = function () {
+    if (!subtle) return noCrypto();
+    var salt = crypto.getRandomValues(new Uint8Array(16)), iv = crypto.getRandomValues(new Uint8Array(12));
+    deriveKey($("ae-pass").value, salt).then(function (key) { return subtle.encrypt({ name: "AES-GCM", iv: iv }, key, enc.encode($("ae-msg").value)); }).then(function (ct) {
+      aes = { salt: salt, iv: iv, ct: new Uint8Array(ct) };
+      $("ae-out").innerHTML = "<b>Salt:</b> " + b64(salt) + "<br><b>IV (nonce):</b> " + b64(iv) + "<br><b>Ciphertext + 16-byte GCM tag:</b> " + b64(aes.ct);
+      OMNI.say("enc-cap", "Encrypted with AES-256-GCM. The passphrase was stretched into a 256-bit key with PBKDF2 (200,000 iterations, random salt). A fresh random IV means encrypting the same message again gives different ciphertext. GCM also adds an authentication tag, so any tampering is detected. Now press Decrypt, or change the decrypt passphrase first.");
+    }).catch(function () { noCrypto(); });
+  };
+  $("ae-dec").onclick = function () {
+    if (!subtle) return noCrypto(); if (!aes) { OMNI.say("enc-cap", "Encrypt something first."); return; }
+    deriveKey($("ae-pass2").value, aes.salt).then(function (key) { return subtle.decrypt({ name: "AES-GCM", iv: aes.iv }, key, aes.ct); }).then(function (pt) {
+      OMNI.say("enc-cap", "<span class='pill-ok'>Decrypted</span> “" + OMNI.esc(new TextDecoder().decode(pt)) + "”. Same passphrase + same salt → same key. That's symmetric encryption: one shared secret both locks and unlocks.");
+    }).catch(function () { OMNI.say("enc-cap", "<span class='pill-no'>Decryption failed</span> The key is wrong or the ciphertext was modified, so the GCM authentication tag didn't verify. AES-GCM refuses to return any plaintext rather than returning garbage: that's <b>integrity</b> as well as confidentiality."); });
+  };
+  $("ae-tamper").onclick = function () { if (!aes) { OMNI.say("enc-cap", "Encrypt something first."); return; } aes.ct[0] ^= 1; $("ae-out").innerHTML += "<br><span class='no'>Bit 0 of the ciphertext flipped.</span>"; OMNI.say("enc-cap", "One bit of ciphertext changed in transit. Press Decrypt and watch GCM detect it."); };
+
+  /* ================= Lab 2 ================= */
+  var pkMode = "enc", pkStep;
+  var PK = {
+    enc: [
+      { c: "Bob generates a key pair. He publishes his <b>public key</b> (the open padlock) for anyone; his <b>private key</b> never leaves his device.", d: { bobPub: 1 } },
+      { c: "Alice gets Bob's public key (from his certificate, so she knows it's really his).", d: { bobPub: 1, aliceHas: 1 } },
+      { c: "Alice encrypts the message with <b>Bob's public key</b>: she snaps Bob's padlock shut on the box.", d: { bobPub: 1, aliceHas: 1, locked: "bob" } },
+      { c: "The locked box crosses the internet. Eve copies it, but she only has the public key, which can't open it.", d: { bobPub: 1, locked: "bob", travel: 1, eve: "✗ can't open" } },
+      { c: "Bob opens it with his <b>private key</b>. Confidentiality achieved. In practice, Alice encrypts a random AES key this way and uses AES for the actual data (hybrid encryption).", d: { bobPub: 1, opened: 1 } }],
+    sig: [
+      { c: "Alice writes a message and computes its <b>hash</b> (fingerprint), e.g., SHA-256.", d: { hash: 1 } },
+      { c: "Alice encrypts the hash with <b>her own private key</b>. That encrypted hash is the <b>digital signature</b>.", d: { hash: 1, sig: 1 } },
+      { c: "She sends the message plus signature. The message itself is NOT secret here; anyone, including Eve, can read it.", d: { sig: 1, travel: 1, eve: "can read, can't forge" } },
+      { c: "Bob decrypts the signature with <b>Alice's public key</b> and hashes the message himself.", d: { sig: 1, verify: 1 } },
+      { c: "The hashes match: the message wasn't changed (<b>integrity</b>), it came from Alice's key (<b>authenticity</b>), and she can't deny it (<b>non-repudiation</b>). If Eve changed one character, the hashes would differ.", d: { sig: 1, verify: 2 } }],
+    dh: [
+      { c: "Alice and Bob publicly agree on a common color (yellow). Eve sees it.", d: { dh: 1 } },
+      { c: "Each secretly picks a private color: Alice red, Bob blue. These never leave their devices.", d: { dh: 2 } },
+      { c: "Each mixes the common color with their secret: Alice gets orange, Bob gets green.", d: { dh: 3 } },
+      { c: "They swap the mixtures in public. Eve sees yellow, orange and green, but 'un-mixing' paint is hard (like the discrete logarithm problem).", d: { dh: 4 } },
+      { c: "Each adds their own secret to the other's mixture. Both end up with the same brown: a <b>shared secret</b> that never crossed the wire. Ephemeral DH (ECDHE) does this fresh for every session, giving forward secrecy.", d: { dh: 5 } }]
+  };
+  function mix() { var a = Array.prototype.slice.call(arguments), r = 0, g = 0, b = 0; a.forEach(function (c) { r += c[0]; g += c[1]; b += c[2]; }); return "rgb(" + Math.round(r / a.length) + "," + Math.round(g / a.length) + "," + Math.round(b / a.length) + ")"; }
+  function person(s, x, name, col) { S("circle", { cx: x, cy: 60, r: 22, fill: col }, s); S("rect", { x: x - 26, y: 85, width: 52, height: 50, rx: 14, fill: col }, s); txt(s, x, 160, name, { "text-anchor": "middle", "font-weight": 800 }); }
+  function lock(s, x, y, col, closed) { S("rect", { x: x - 14, y: y, width: 28, height: 22, rx: 4, fill: col }, s); S("path", { d: closed ? "M" + (x - 9) + " " + y + " v-8 a9 9 0 0 1 18 0 v8" : "M" + (x - 9) + " " + y + " v-8 a9 9 0 0 1 18 0 v-4", fill: "none", stroke: col, "stroke-width": 4 }, s); }
+  function key(s, x, y, col, label) { S("circle", { cx: x, cy: y, r: 7, fill: "none", stroke: col, "stroke-width": 4 }, s); S("line", { x1: x + 7, y1: y, x2: x + 28, y2: y, stroke: col, "stroke-width": 4 }, s); S("line", { x1: x + 22, y1: y, x2: x + 22, y2: y + 7, stroke: col, "stroke-width": 4 }, s); if (label) txt(s, x + 10, y + 22, label, { "font-size": 10, "text-anchor": "middle" }); }
+  function drawPk(i) {
+    var s = $("pk-svg"); s.innerHTML = ""; var d = i >= 0 ? PK[pkMode][i].d : {};
+    person(s, 80, "Alice", "#f472b6"); person(s, 680, "Bob", "#60a5fa"); person(s, 380, "Eve (listening)", "#94a3b8");
+    S("line", { x1: 130, y1: 210, x2: 630, y2: 210, stroke: "var(--ink-2)", "stroke-dasharray": "6 5" }, s); txt(s, 380, 252, "the internet (public)", { "text-anchor": "middle", class: "svg-muted" });
+    if (pkMode === "enc") {
+      if (d.bobPub) { lock(s, 650, 180, "#2563eb", false); txt(s, 650, 255, "Bob's public", { "text-anchor": "middle", "font-size": 10 }); key(s, 700, 190, "#1e3a8a", "private"); }
+      if (d.aliceHas) { lock(s, 110, 180, "#2563eb", false); txt(s, 110, 255, "copy of Bob's public", { "text-anchor": "middle", "font-size": 10 }); }
+      if (d.locked) { var bx = d.travel ? 360 : 170; S("rect", { x: bx, y: 180, width: 44, height: 34, rx: 4, fill: "#fde68a", stroke: "#92400e" }, s); lock(s, bx + 22, 168, "#2563eb", true); }
+      if (d.opened) { S("rect", { x: 600, y: 190, width: 44, height: 30, rx: 4, fill: "#fde68a", stroke: "#92400e" }, s); txt(s, 620, 182, "“Meet at 9”", { "text-anchor": "middle", "font-size": 11, "font-weight": 700 }); }
+      if (d.eve) txt(s, 380, 18, d.eve, { "text-anchor": "middle", fill: "var(--bad)", "font-weight": 700 });
+    } else if (pkMode === "sig") {
+      key(s, 40, 190, "#be185d", "Alice private");
+      if (d.hash) { S("rect", { x: 130, y: 175, width: 110, height: 26, rx: 4, fill: "var(--surface)", stroke: "var(--line)" }, s); txt(s, 185, 192, "hash: 9f2c…a71", { "text-anchor": "middle", "font-size": 10, "font-family": "var(--mono)" }); }
+      if (d.sig) { var x = d.travel ? 330 : (d.verify ? 560 : 140); S("rect", { x: x, y: 180, width: 100, height: 24, rx: 4, fill: "#fbcfe8", stroke: "#be185d" }, s); txt(s, x + 50, 196, "msg + signature", { "text-anchor": "middle", "font-size": 10 }); }
+      if (d.verify) { lock(s, 690, 182, "#be185d", false); txt(s, 690, 255, "Alice's public", { "text-anchor": "middle", "font-size": 10 }); }
+      if (d.verify === 2) txt(s, 610, 30, "✓ hashes match", { "text-anchor": "middle", fill: "var(--good)", "font-weight": 800 });
+      if (d.eve) txt(s, 380, 18, d.eve, { "text-anchor": "middle", fill: "var(--warn)", "font-weight": 700 });
+    } else {
+      var Y = [250, 220, 40], R = [220, 40, 50], B = [40, 90, 230];
+      function pot(x, y, col, lab) { S("circle", { cx: x, cy: y, r: 16, fill: col, stroke: "var(--ink-2)" }, s); if (lab) txt(s, x, y + 30, lab, { "text-anchor": "middle", "font-size": 10 }); }
+      if (d.dh >= 1) { pot(160, 40, mix(Y), "common"); pot(600, 40, mix(Y), "common"); pot(380, 190, mix(Y), "Eve sees"); }
+      if (d.dh >= 2) { pot(40, 200, mix(R), "secret red"); pot(720, 200, mix(B), "secret blue"); }
+      if (d.dh >= 3) { pot(160, 120, mix(Y, R), "Y+R"); pot(600, 120, mix(Y, B), "Y+B"); }
+      if (d.dh >= 4) { pot(330, 190, mix(Y, R)); pot(430, 190, mix(Y, B)); pot(230, 190, mix(Y, B), "from Bob"); pot(530, 190, mix(Y, R), "from Alice"); }
+      if (d.dh >= 5) { pot(130, 250, mix(Y, B, R), "shared!"); pot(630, 250, mix(Y, R, B), "shared!"); }
+    }
+  }
+  function setPk(m) { pkMode = m; OMNI.$$("#lab-pk [data-pk]").forEach(function (b) { b.classList.toggle("primary", b.dataset.pk === m); }); $("pk-step").innerHTML = ""; pkStep = OMNI.stepper($("pk-step"), PK[m], function (i, st) { drawPk(i); OMNI.say("pk-cap", i < 0 ? "Press Next step." : st.c); }, { speed: 2200 }); }
+  OMNI.$$("#lab-pk [data-pk]").forEach(function (b) { b.onclick = function () { setPk(b.dataset.pk); }; });
+  setPk("enc");
+
+  /* ================= Lab 3: hash ================= */
+  function sha(s) { return subtle ? subtle.digest("SHA-256", enc.encode(s)).then(hex) : Promise.reject(); }
+  function bitsDiff(a, b) { var n = 0; for (var i = 0; i < a.length; i++) { var x = parseInt(a[i], 16) ^ parseInt(b[i], 16); while (x) { n += x & 1; x >>= 1; } } return n; }
+  function hashes() {
+    if (!subtle) { $("hs-ha").textContent = "Web Crypto unavailable in this context (needs https or localhost)."; return; }
+    Promise.all([sha($("hs-a").value), sha($("hs-b").value)]).then(function (r) {
+      $("hs-ha").textContent = r[0];
+      $("hs-hb").innerHTML = r[1].split("").map(function (c, i) { return c === r[0][i] ? c : "<span class='d'>" + c + "</span>"; }).join("");
+      var bd = bitsDiff(r[0], r[1]);
+      $("hs-diff").textContent = r[0] === r[1] ? "Identical inputs → identical hashes (deterministic)." : bd + " of 256 bits differ (" + Math.round(bd / 2.56) + "%). Ideal is ~50%: the avalanche effect.";
+      OMNI.say("hs-cap", "SHA-256 always outputs 256 bits (64 hex characters) no matter how long the input. " + (r[0] === r[1] ? "Change one character in B to see the avalanche effect." : "Changing a tiny part of the input changed about half the output bits, so you can't tell how 'close' two inputs are from their hashes. Integrity checks (file downloads, signatures) rely on this."));
+    });
+  }
+  $("hs-a").oninput = hashes; $("hs-b").oninput = hashes; hashes();
+  $("hs-salt").onclick = function () {
+    if (!subtle) return; var pw = $("hs-pw").value, tb = $("hs-tbl"); tb.innerHTML = "";
+    var users = ["alice", "bob"].map(function (u) { var s = hex(crypto.getRandomValues(new Uint8Array(8))); return { u: u, s: s }; });
+    Promise.all(users.map(function (x) { return sha(x.s + pw); }).concat([sha(pw)])).then(function (r) {
+      users.forEach(function (x, i) { tb.appendChild(h("tr", null, [h("td", null, x.u), h("td", null, h("code", null, x.s)), h("td", null, h("code", null, r[i].slice(0, 32) + "…"))])); });
+      tb.appendChild(h("tr", { style: "background:var(--bad-soft)" }, [h("td", null, "(unsalted)"), h("td", null, "none"), h("td", null, h("code", null, r[2].slice(0, 32) + "…"))]));
+      OMNI.say("hs-cap", "Both users chose the same password, but different random salts make their stored hashes completely different, so a rainbow table (precomputed hashes) is useless and cracking one doesn't reveal the other. The unsalted row is what an attacker can look up instantly. Real systems also <b>stretch</b> with bcrypt, scrypt, Argon2 or PBKDF2 so each guess costs real time; plain SHA-256 is far too fast for passwords.");
+    });
+  };
+
+  /* ================= Lab 4: TLS ================= */
+  var TL = [
+    [0, "ClientHello", "Client offers TLS 1.3, cipher suites (e.g., TLS_AES_128_GCM_SHA256), a random value, the server name (SNI) and an ECDHE <b>key share</b> (its public half). Proves nothing yet: it's an offer."],
+    [1, "ServerHello + key share", "Server picks the suite and sends its own ECDHE key share. Both sides can now compute the same handshake secret (Diffie-Hellman). Everything after this is <b>encrypted</b>."],
+    [1, "{EncryptedExtensions}", "Server's remaining settings (e.g., ALPN: h2 or http/1.1), now hidden from observers."],
+    [1, "{Certificate}", "Server sends its certificate chain (leaf + intermediate). The client checks the chain to a trusted root, validity dates, revocation and that the name matches. Proves: this public key belongs to example.com."],
+    [1, "{CertificateVerify}", "Server signs the handshake transcript with its <b>private key</b>. Proves: the server actually holds the private key for that certificate (not just a copied cert)."],
+    [1, "{Finished}", "An HMAC over the whole handshake. Proves: nobody tampered with any handshake message (no downgrade)."],
+    [0, "{Finished}", "Client sends its own Finished. Proves the client saw the same handshake. Total: 1 round trip before application data."],
+    [0, "[Application data: GET /]", "HTTP now flows encrypted with AES-GCM using keys derived from the ECDHE secret. Because keys were ephemeral, recording this traffic and stealing the server key later still can't decrypt it: <b>perfect forward secrecy</b>."]
+  ];
+  function drawTl(i) {
+    var s = $("tl-svg"); s.innerHTML = ""; var d = S("defs", {}, s), m = S("marker", { id: "tla", viewBox: "0 0 10 10", refX: 9, refY: 5, markerWidth: 7, markerHeight: 7, orient: "auto" }, d); S("path", { d: "M0,0 L10,5 L0,10 z", fill: "var(--sec)" }, m);
+    [["Client (browser)", 110], ["Server (example.com)", 650]].forEach(function (p) { txt(s, p[1], 20, p[0], { "text-anchor": "middle", "font-weight": 800 }); S("line", { x1: p[1], y1: 28, x2: p[1], y2: 350, stroke: "var(--ink-2)", "stroke-width": 2 }, s); });
+    if (i >= 1) { S("rect", { x: 110, y: 100, width: 540, height: 250, fill: "var(--good-soft)", opacity: .5 }, s); txt(s, 380, 345, "encrypted from here", { "text-anchor": "middle", fill: "var(--good)", "font-size": 11, "font-weight": 700 }); }
+    for (var k = 0; k <= i && k < TL.length; k++) { var y = 50 + k * 38 + (k > 0 ? 10 : 0), fromC = TL[k][0] === 0; S("line", { x1: fromC ? 110 : 650, y1: y, x2: fromC ? 647 : 113, y2: y + 14, stroke: "var(--sec)", "stroke-width": k === i ? 3 : 1.6, "marker-end": "url(#tla)", opacity: k === i ? 1 : .6 }, s); txt(s, 380, y + 2, TL[k][1], { "text-anchor": "middle", "font-weight": k === i ? 800 : 400, "paint-order": "stroke", stroke: "var(--surface-2)", "stroke-width": 4 }); }
+  }
+  OMNI.stepper($("tl-step"), TL.map(function (t) { return { c: t[2] }; }), function (i, st) { drawTl(i); OMNI.say("tl-cap", i < 0 ? "Press Next step to connect to https://example.com." : st.c); }, { speed: 2400 });
+
+  /* ================= Lab 5: chain ================= */
+  var CERTS = [
+    { n: "Root CA", f: [["Subject", "CN=Example Root CA R1, O=Example Trust"], ["Issuer", "itself (self-signed)"], ["Valid", "2015-01-01 to 2040-01-01"], ["Key", "RSA 4096"], ["Basic constraints", "CA: TRUE"], ["Where it lives", "Pre-installed in the OS/browser trust store; kept offline in an HSM"]] },
+    { n: "Intermediate CA", f: [["Subject", "CN=Example TLS Issuing CA 2"], ["Issuer", "Example Root CA R1"], ["Valid", "2023-06-01 to 2033-06-01"], ["Key", "ECDSA P-384"], ["Basic constraints", "CA: TRUE, pathlen 0"], ["Revocation", "CRL + OCSP published by the root"]] },
+    { n: "Leaf: www.example.com", f: [["Subject", "CN=www.example.com"], ["SAN", "www.example.com, example.com"], ["Issuer", "Example TLS Issuing CA 2"], ["Valid", "2026-09-01 to 2026-11-30"], ["Key", "ECDSA P-256"], ["Extended key usage", "TLS Web Server Authentication"], ["OCSP", "Stapled by the server"]] }
+  ];
+  var chSel = 2;
+  function chain() {
+    var exp = $("ch-exp").checked, rev = $("ch-rev").checked, name = $("ch-name").checked, root = $("ch-root").checked;
+    var st = [root ? "Not in trust store" : "Trusted anchor", rev ? "REVOKED (on CRL / OCSP says revoked)" : "Valid, not revoked", exp ? "EXPIRED (notAfter in the past)" : name ? "Name mismatch: SAN doesn't include shop.example.org" : "Valid for this site"];
+    var bad = [root, rev, exp || name];
+    if (!bad[2] && (root || rev)) { st[2] = "Its own fields are fine, but the chain above it is broken"; bad[2] = true; }
+    var box = $("ch-cards"); box.innerHTML = "";
+    CERTS.forEach(function (c, i) { if (i) box.appendChild(h("div", { class: "arrowdown", "aria-hidden": "true" }, "→")); var b = h("button", { type: "button", class: "cert " + (bad[i] ? "bad" : "ok") }, [h("h4", null, (bad[i] ? "✗ " : "✓ ") + c.n), h("div", { class: "figcap" }, st[i])]); b.onclick = function () { chSel = i; chain(); }; box.appendChild(b); });
+    var fb = $("ch-fields"); fb.innerHTML = ""; fb.appendChild(h("h4", null, CERTS[chSel].n + " fields")); var t = h("table"); CERTS[chSel].f.forEach(function (r) { t.appendChild(h("tr", null, [h("th", null, r[0]), h("td", null, r[1])])); }); fb.appendChild(h("div", { class: "tablewrap" }, t));
+    var why = bad.some(Boolean) ? "<span class='pill-no'>Connection not trusted</span> The browser shows a full-page warning. " + [root ? "The chain doesn't end at a root in the trust store (typical of self-signed or private-CA certs not distributed to clients)." : "", rev ? "The intermediate was revoked, so everything it signed is untrusted (a compromised CA key does this)." : "", exp ? "The leaf certificate expired: renew it (automate with ACME). Certificate lifetimes are shrinking, so automation matters." : "", name && !exp ? "The certificate is valid but for different names; a cert for www.example.com can't vouch for shop.example.org." : ""].filter(Boolean).join(" ") : "<span class='pill-ok'>Trusted</span> The browser builds the path leaf → intermediate → root, checks each signature with the issuer's public key, checks dates, revocation and the hostname. All pass.";
+    OMNI.say("ch-cap", why + " Click any certificate to inspect its fields.");
+  }
+  ["ch-exp", "ch-rev", "ch-name", "ch-root"].forEach(function (id) { $(id).onchange = chain; });
+  chain();
+})();
+</script>
+<!-- module-data:start -->
+<script type="application/json" id="module-data">{"module":14,"title":"Security Foundations and Cryptography","glossary":[["CIA triad","The three goals of security: secrecy, correctness, uptime.","Confidentiality, Integrity and Availability: the core properties that security controls protect.","Confidentiality, Integrity, Availability"],["Non-repudiation","Proof someone can't deny they did it.","Assurance that the sender of data cannot later deny having sent it, usually achieved with digital signatures.",""],["AAA","Who you are, what you may do, what you did.","Authentication, Authorization and Accounting, often provided by RADIUS or TACACS+.","Authentication, Authorization, Accounting"],["Least privilege","Give only the access needed.","Granting users and processes the minimum permissions required to perform their function.",""],["Zero trust","Never trust, always verify.","An architecture that removes implicit trust based on network location; every request is authenticated, authorized and continuously evaluated (NIST SP 800-207).",""],["Policy Enforcement Point","The gate that lets a request through or not.","The zero-trust component that enables, monitors and terminates connections based on decisions from the Policy Decision Point.","PEP"],["Gap analysis","Compare where you are with where you should be.","Assessment of current controls against a target framework to find missing or weak controls.",""],["Control categories","Technical, managerial, operational, physical.","SY0-701 groups controls by how they are implemented: technical, managerial, operational and physical.",""],["Control types","What the control does.","Preventive, deterrent, detective, corrective, compensating and directive.",""],["Compensating control","A substitute when the ideal control isn't possible.","An alternative control that reduces risk to an acceptable level when the primary control can't be applied.",""],["Honeypot","A decoy system to lure attackers.","A deception resource with no production value; any interaction with it is suspicious. Related: honeynet, honeyfile, honeytoken.",""],["MFA","Two or more different kinds of proof.","Multifactor authentication combining factors from different categories: something you know, have, are (or somewhere you are).","Multifactor Authentication"],["SSO","Log in once, use many apps.","Single sign-on: one authentication grants access to multiple systems, often using SAML, OpenID Connect or Kerberos.","Single Sign-On"],["Federation","Trusting another organization's logins.","A trust relationship where an identity provider vouches for users to service providers in other domains.",""],["SAML","XML-based SSO for web apps.","Security Assertion Markup Language: an identity provider sends signed XML assertions to a service provider.","Security Assertion Markup Language"],["OAuth 2.0","Lets an app act for you without your password.","An authorization framework that issues access tokens to clients; OpenID Connect adds authentication on top.",""],["RBAC","Access by job role.","Role-based access control: permissions are assigned to roles, and users get roles.","Role-Based Access Control"],["ABAC","Access by attributes and conditions.","Attribute-based access control: decisions use attributes of user, resource, action and environment.","Attribute-Based Access Control"],["MAC (access control)","Labels decide, not owners.","Mandatory access control: the system enforces access by classification labels and clearances.","Mandatory Access Control"],["DAC","Owner decides who gets access.","Discretionary access control: the resource owner sets permissions (e.g., NTFS file permissions).","Discretionary Access Control"],["Symmetric encryption","One shared key locks and unlocks.","Encryption where the same secret key encrypts and decrypts; fast, used for bulk data (AES, ChaCha20).",""],["Asymmetric encryption","A public key and a private key.","Encryption using a mathematically related key pair; what one key encrypts, only the other decrypts (RSA, ECC).",""],["AES","The standard symmetric cipher.","Advanced Encryption Standard (FIPS 197), a block cipher with 128-bit blocks and 128/192/256-bit keys.","Advanced Encryption Standard"],["AES-GCM","AES that also detects tampering.","Galois/Counter Mode: an authenticated encryption mode providing confidentiality plus an integrity tag.","Galois/Counter Mode"],["Diffie-Hellman","Agree on a secret in public.","A key exchange that lets two parties derive a shared secret over an insecure channel; ECDHE is its ephemeral elliptic-curve form.",""],["Perfect forward secrecy","Old sessions stay safe if a key leaks later.","Using ephemeral session keys so compromise of a long-term private key does not expose past sessions.","PFS"],["Hash","A fixed-size fingerprint of data.","A one-way function producing a fixed-length digest; any change to the input changes the output (SHA-256).",""],["Salt","Random extra data added before hashing.","A unique random value combined with a password before hashing so identical passwords produce different hashes and rainbow tables fail.",""],["Key stretching","Make each guess slow.","Repeatedly hashing or using memory-hard functions (PBKDF2, bcrypt, scrypt, Argon2) to slow brute-force attacks.",""],["Digital signature","Proves who signed and that nothing changed.","A hash of the data encrypted with the signer's private key; verified with the public key. Provides integrity, authentication and non-repudiation.",""],["PKI","The system that issues and checks certificates.","Public key infrastructure: CAs, RAs, certificates, revocation and policies that bind public keys to identities.","Public Key Infrastructure"],["Certificate authority","The trusted issuer of certificates.","An entity that signs certificates; root CAs are self-signed and kept offline, intermediates issue end-entity certificates.","CA"],["CRL / OCSP","Ways to check if a certificate was revoked.","Certificate Revocation List (a published list) and Online Certificate Status Protocol (a real-time query); OCSP stapling lets the server attach the response.","Certificate Revocation List / Online Certificate Status Protocol"],["CSR","Your request to get a certificate.","Certificate signing request: contains the public key and subject info, signed by the requester's private key.","Certificate Signing Request"],["Wildcard / SAN certificate","One certificate for many names.","A wildcard covers one level of subdomains (*.example.com); Subject Alternative Name lists specific names.","SAN = Subject Alternative Name"],["HSM","A hardened box that guards keys.","Hardware security module: tamper-resistant hardware that generates, stores and uses keys without exposing them.","Hardware Security Module"],["TPM","A security chip on the motherboard.","Trusted Platform Module: stores keys and measurements for secure/measured boot and disk encryption such as BitLocker.","Trusted Platform Module"],["Tokenization","Swap real data for a meaningless stand-in.","Replacing sensitive data with a token that maps back to the original only through a secured vault.",""],["Data masking","Hide part of the data.","Obscuring data (e.g., showing only last four card digits) so it remains usable without being fully revealed.",""],["Steganography","Hiding data inside other data.","Concealing a message inside another file (image, audio) so its existence isn't obvious.",""],["Data states","At rest, in transit, in use.","Data stored (at rest), moving across networks (in transit/in motion) and being processed in memory (in use).",""],["Post-quantum cryptography","Crypto that resists future quantum computers.","Algorithms believed secure against quantum attacks; NIST standards FIPS 203 (ML-KEM), 204 (ML-DSA), 205 (SLH-DSA).","PQC"]],"quiz":[{"t":"mc","q":"A bank wants proof that a customer approved a transfer and can't later deny it. Which property is that?","o":["Confidentiality","Availability","Non-repudiation","Obfuscation"],"a":2,"w":["Keeps data secret, doesn't prove who acted.","Keeps systems up.","Correct: provided by digital signatures.","Hides meaning, proves nothing."],"x":"Non-repudiation comes from a signature made with a private key only the signer holds.","c":"S","d":"1.2 Fundamental security concepts"},{"t":"mc","q":"A security guard at a lobby desk is which control category?","o":["Technical","Managerial","Operational","Physical"],"a":2,"w":["Technical controls are implemented by systems.","Managerial are policies and risk assessments.","Correct: SY0-701 classes guards as operational (people doing day-to-day tasks).","Common trap: a fence or lock is physical; a guard is a person carrying out procedures, so CompTIA lists guards as operational. Verify against the current objectives."],"x":"Categories: technical, managerial, operational, physical. Types: preventive, deterrent, detective, corrective, compensating, directive.","c":"S","d":"1.1 Security controls"},{"t":"mc","q":"Legacy equipment can't support MFA, so the team isolates it on a separate VLAN with strict ACLs. What control type is this?","o":["Directive","Compensating","Deterrent","Corrective"],"a":1,"w":["Directive tells people what to do (policy).","Correct: an alternative that reduces the risk.","Deterrent discourages (a warning sign).","Corrective fixes after an incident."],"x":"Compensating controls stand in when the preferred control is not feasible.","c":"S","d":"1.1 Security controls"},{"t":"ms","q":"Which are true of a zero trust architecture? (Choose two.)","o":["Users on the internal LAN are trusted by default","Every access request is authenticated and authorized","A Policy Decision Point evaluates requests and a Policy Enforcement Point applies the decision","A VPN alone satisfies zero trust"],"a":[1,2],"w":["That's the old perimeter model zero trust replaces.","Correct.","Correct: control plane (PDP) and data plane (PEP).","A VPN grants network location trust; zero trust removes it."],"x":"NIST SP 800-207 describes the PDP (policy engine plus administrator) and PEP.","c":"S","d":"1.2 Fundamental security concepts"},{"t":"mc","q":"A user logs in with a password and a code from an authenticator app. Which factors are used?","o":["Something you know + something you are","Something you know + something you have","Something you have + somewhere you are","Two knowledge factors"],"a":1,"w":["No biometric.","Correct: the phone holds the TOTP seed.","No location factor.","The app code proves possession, not knowledge."],"x":"Password + PIN would be two of the same factor, which is not MFA.","c":"S","d":"4.6 Identity and access management"},{"t":"mc","q":"Which access control model lets the file owner decide who can read the file?","o":["MAC","DAC","RBAC","ABAC"],"a":1,"w":["Labels and the system decide.","Correct: discretionary.","Roles decide.","Attributes and policies decide."],"x":"NTFS and Linux file permissions are DAC.","c":"S","d":"4.6 Identity and access management"},{"t":"mc","q":"Why does TLS use asymmetric cryptography during the handshake but symmetric encryption for the data?","o":["Symmetric ciphers can't encrypt large data","Asymmetric is fast but less secure","Asymmetric solves key exchange; symmetric is far faster for bulk data","Browsers require two algorithms by law"],"a":2,"w":["Symmetric is ideal for bulk data.","Asymmetric is the slow one.","Correct: hybrid cryptography.","No such law."],"x":"TLS 1.3 uses (EC)DHE to agree a key, then AES-GCM or ChaCha20-Poly1305 for records.","c":"S","d":"1.4 Cryptographic solutions"},{"t":"mc","q":"Alice wants to send Bob a confidential message using asymmetric encryption. Which key does she encrypt with?","o":["Alice's private key","Alice's public key","Bob's public key","Bob's private key"],"a":2,"w":["That makes a signature, which anyone can verify.","Only Alice's private key could decrypt it, so Bob couldn't.","Correct: only Bob's private key decrypts it.","Alice never has Bob's private key."],"x":"Encrypt with the recipient's public key; sign with your own private key.","c":"S","d":"1.4 Cryptographic solutions"},{"t":"mc","q":"Two users with the same password have different stored hashes. What made the difference?","o":["Encryption","A unique salt per user","Key escrow","Steganography"],"a":1,"w":["Passwords should be hashed, not encrypted.","Correct.","Escrow stores keys with a third party.","Hides data, unrelated."],"x":"Salting defeats rainbow tables; key stretching (bcrypt, Argon2) slows guessing.","c":"S","d":"1.4 Cryptographic solutions"},{"t":"mc","q":"A browser shows a certificate warning even though the certificate hasn't expired. The CA says the key was compromised last week. How would the browser learn this?","o":["CSR","OCSP or CRL","Key stretching","Certificate pinning only"],"a":1,"w":["A CSR requests a certificate.","Correct: revocation checking.","Slows password guessing.","Pinning restricts which certificate is accepted; it doesn't report revocation."],"x":"OCSP stapling lets the server provide a fresh signed OCSP response.","c":"S","d":"1.4 Cryptographic solutions"},{"t":"order","q":"Put the certificate chain in order from the trust anchor down to the website.","o":["Root CA (in the browser's trust store)","Intermediate CA","Server (leaf) certificate for www.example.com"],"x":"The root signs the intermediate, the intermediate signs the leaf. The server sends the leaf and intermediate; the root is already trusted.","c":"S","d":"1.4 Cryptographic solutions"},{"t":"mc","q":"Where are BitLocker keys typically protected on a modern laptop?","o":["HSM","TPM","Secure enclave on the NIC","Key escrow server only"],"a":1,"w":["HSMs are network or PCIe appliances for servers and CAs.","Correct.","Not a thing.","Recovery keys may be escrowed, but the TPM seals the volume key."],"x":"The TPM also stores boot measurements so tampering with the boot chain triggers recovery.","c":"A2","d":"2.x Security measures"},{"t":"scenario","sc":"A payment system must let support staff look up orders without ever seeing full card numbers. The real numbers sit in a separately secured vault and a random value is stored in the order database.","q":"Which technique is this?","o":["Hashing","Tokenization","Masking","Steganography"],"a":1,"w":["A hash can't be mapped back to the card for charging.","Correct: random token, mapped by the vault.","Masking would show part of the real number.","Hides data inside files."],"x":"Tokenization reduces PCI DSS scope because the token is worthless if stolen.","c":"S","d":"3.3 Protecting data"},{"t":"mc","q":"Data being processed in RAM by an application is in which state?","o":["At rest","In transit","In use","Archived"],"a":2,"w":["Stored data.","Moving across a network.","Correct.","A kind of at rest."],"x":"Protecting data in use relies on secure enclaves and confidential computing.","c":"S","d":"3.3 Protecting data"},{"t":"mc","q":"Which NIST standard defines ML-KEM, the post-quantum key encapsulation mechanism?","o":["FIPS 197","FIPS 203","FIPS 204","FIPS 140-3"],"a":1,"w":["That's AES.","Correct.","ML-DSA signatures.","Requirements for crypto modules."],"x":"FIPS 203 ML-KEM, 204 ML-DSA, 205 SLH-DSA (all August 2024).","c":"S","d":"1.4 Cryptographic solutions"}],"flashcards":[["CIA","Confidentiality, Integrity, Availability"],["AAA","Authentication, Authorization, Accounting"],["Control categories (4)","Technical, managerial, operational, physical"],["Control types (6)","Preventive, deterrent, detective, corrective, compensating, directive"],["Zero trust PDP vs PEP","PDP decides (policy engine + administrator); PEP enforces"],["MFA factors","Know, have, are (plus somewhere you are)"],["DAC vs MAC","Owner decides vs labels/system decide"],["RBAC vs ABAC","Role decides vs attributes and conditions decide"],["SAML vs OAuth vs OIDC","SSO assertions (XML) / authorization tokens / authentication on OAuth"],["Symmetric examples","AES, ChaCha20 (3DES is legacy)"],["Asymmetric examples","RSA, ECC, Diffie-Hellman (key exchange)"],["Confidentiality to Bob","Encrypt with Bob's public key"],["Sign a message","Hash it, encrypt hash with your private key"],["Verify a signature","Use the signer's public key"],["AES block size","128 bits; keys 128/192/256"],["AES-GCM adds","Authentication tag (integrity)"],["PFS comes from","Ephemeral key exchange (ECDHE)"],["SHA-256 output","256 bits = 64 hex characters"],["Salt defeats","Rainbow tables"],["Key stretching algorithms","PBKDF2, bcrypt, scrypt, Argon2"],["Revocation check","CRL (list) or OCSP (live query); OCSP stapling"],["Wildcard covers","One subdomain level: *.example.com"],["TPM vs HSM","Chip on one device vs hardened appliance for many keys"],["Tokenization vs masking","Swap for random token vs hide part of real value"],["Data states","At rest, in transit, in use"],["PQC FIPS 203/204/205","ML-KEM / ML-DSA / SLH-DSA"],["TLS 1.3 round trips","1-RTT handshake (0-RTT resumption optional)"]]}</script>
+<!-- module-data:end -->
+</body>
+</html>

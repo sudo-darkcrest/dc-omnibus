@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Labs | Datacenter Omnibus</title>
+<meta name="description" content="A gallery of every interactive lab in the Datacenter Omnibus: simulators, builders, calculators and games across all 24 modules.">
+<link rel="stylesheet" href="assets/omnibus.css">
+<style>
+  .lab-grid { display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 12px; }
+  .lab-grid .mod-card .ms { font-size: .88rem; }
+  .filters { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 8px; }
+  .filters button[aria-pressed="true"] { background: var(--accent); color: #fff; border-color: var(--accent); }
+</style>
+</head>
+<body data-page-title="Labs">
+<a class="skip" href="#main">Skip to content</a>
+<div id="topbar"></div>
+<main class="page" id="main">
+<section class="intro">
+  <div class="kicker">All modules</div>
+  <h1>Labs</h1>
+  <p class="why">Every interactive lab in one place: simulators, builders, calculators and games. Each one has a "What just happened" caption that explains the result in plain words. Click a lab to open it inside its module.</p>
+</section>
+<section id="gallery">
+  <h2>All labs</h2>
+  <div class="row"><input type="search" id="lab-q" placeholder="Search labs…" aria-label="Search labs" style="min-width:16em"></div>
+  <div class="filters" id="lab-parts" role="group" aria-label="Filter by part"></div>
+  <p class="figcap" id="lab-count" aria-live="polite"></p>
+  <div id="lab-list"></div>
+</section>
+</main>
+<footer class="foot">Datacenter Omnibus · Original study material. Not affiliated with or endorsed by CompTIA, PeopleCert, AXELOS, EPI, ISACA or any standards body.</footer>
+
+<script src="data/catalog.js"></script>
+<script src="assets/omnibus.js"></script>
+<script src="data/m01.js"></script>
+<script src="data/m02.js"></script>
+<script src="data/m03.js"></script>
+<script src="data/m04.js"></script>
+<script src="data/m05.js"></script>
+<script src="data/m06.js"></script>
+<script src="data/m07.js"></script>
+<script src="data/m08.js"></script>
+<script src="data/m09.js"></script>
+<script src="data/m10.js"></script>
+<script src="data/m11.js"></script>
+<script src="data/m12.js"></script>
+<script src="data/m13.js"></script>
+<script src="data/m14.js"></script>
+<script src="data/m15.js"></script>
+<script src="data/m16.js"></script>
+<script src="data/m17.js"></script>
+<script src="data/m18.js"></script>
+<script src="data/m19.js"></script>
+<script src="data/m20.js"></script>
+<script src="data/m21.js"></script>
+<script src="data/m22.js"></script>
+<script src="data/m23.js"></script>
+<script src="data/m24.js"></script>
+<script src="data/bank-netplus.js"></script>
+<script src="data/bank-secplus.js"></script>
+<script src="data/bank-dcca.js"></script>
+<script src="data/bank-itil.js"></script>
+<script src="data/bank-cism.js"></script>
+<script src="data/bank-cisa.js"></script>
+<script src="data/bank-aplus.js"></script>
+<script src="data/search-index.js"></script>
+<script src="assets/hub.js"></script>
+<script>
+(function () {
+  var h = OMNI.h, list = document.getElementById("lab-list"), q = document.getElementById("lab-q"), cnt = document.getElementById("lab-count"), part = 0;
+  var fl = document.getElementById("lab-parts");
+  [{ n: 0, name: "All parts" }].concat(OMNI.parts).forEach(function (p) {
+    var b = h("button", { type: "button", "aria-pressed": String(p.n === 0), onclick: function () { part = p.n; OMNI.$$("button", fl).forEach(function (x) { x.setAttribute("aria-pressed", String(x === b)); }); draw(); } }, p.n ? "Part " + p.n + ": " + p.name : p.name);
+    fl.appendChild(b);
+  });
+  function draw() {
+    var s = q.value.trim().toLowerCase(); list.innerHTML = ""; var n = 0;
+    OMNI.catalog.forEach(function (m) {
+      if (part && m.part !== part) return;
+      var labs = (OMNI.labs || []).filter(function (x) { return x[0] === m.n && (!s || (x[2] + " " + x[3] + " " + m.title).toLowerCase().indexOf(s) >= 0); });
+      if (!labs.length) return;
+      n += labs.length;
+      list.appendChild(h("h3", null, "Module " + m.n + ": " + m.title));
+      list.appendChild(h("div", { class: "lab-grid" }, labs.map(function (x) {
+        return h("a", { class: "mod-card c-" + m.cat, href: OMNI.file(m.n) + "#" + x[1] }, [h("span", { class: "mn" }, "Module " + OMNI.pad(m.n)), h("span", { class: "mt" }, x[2]), h("span", { class: "ms" }, x[3])]);
+      })));
+    });
+    cnt.textContent = n + " labs shown";
+  }
+  q.addEventListener("input", draw); draw();
+})();
+</script>
+</body>
+</html>

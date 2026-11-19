@@ -1,0 +1,389 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Module 03 · How We Got Here | Datacenter Omnibus</title>
+<meta name="description" content="A history of computing, networking, storage, security, data centers and standards bodies, with an interactive timeline and Moore's law plot.">
+<link rel="stylesheet" href="assets/omnibus.css">
+</head>
+<body data-module="3">
+<a class="skip" href="#main">Skip to content</a>
+<div id="topbar"></div>
+<main class="page" id="main">
+
+<section class="intro">
+  <div class="kicker">Part 1 · Foundations · Module 03</div>
+  <h1>How We Got Here: A History of Computing, Networking and the Internet</h1>
+  <p class="why"><b>Why this matters.</b> Today's technology is a stack of old decisions. IPv4 addresses run out because of a choice made in 1981. The Ethernet frame still carries fields from 1980. Passwords are hashed because of breaches in the 1980s and 2010s. Knowing the history explains why things are the way they are, makes odd exam facts memorable, and shows you where the next changes are likely to come from.</p>
+  <h3>You will be able to</h3>
+  <ul class="outcomes">
+    <li>Place the key inventions in computing, networking and storage on a timeline with the people and organizations behind them.</li>
+    <li>Explain the generations of computers: relays and vacuum tubes, transistors, integrated circuits and microprocessors.</li>
+    <li>Explain Moore's law and Dennard scaling, and where they stand today.</li>
+    <li>Describe how ARPANET became the internet and how the web, Wi-Fi and broadband followed.</li>
+    <li>Connect famous security incidents to the practices and laws they changed.</li>
+    <li>Name the main standards bodies and roughly when each was formed.</li>
+  </ul>
+  <nav class="jumpnav" id="jumpnav" aria-label="On this page"></nav>
+</section>
+
+<section class="certmap" id="certmap">
+  <h2>Cert map</h2>
+  <p>History is rarely tested directly, but it explains many tested facts (why IPv6 exists, why MD5 is broken, why FAT32 has a 4 GiB file limit).</p>
+  <div id="certmap-badges"></div>
+</section>
+
+<section class="lesson" id="before">
+  <h2>1. Before electronics</h2>
+  <ul>
+    <li><b>Abacus</b> (ancient Mesopotamia, China and Rome): beads on rods for arithmetic. The first "storage" of numbers outside the head.</li>
+    <li><b>Jacquard loom</b> (Joseph Marie Jacquard, 1804): punched cards controlled the weaving pattern. The idea that a machine can follow a <i>stored, changeable program</i> starts here.</li>
+    <li><b>Charles Babbage</b>: the <b>Difference Engine</b> (designed 1820s) to calculate tables mechanically, and the <b>Analytical Engine</b> (designed 1837), which had a "mill" (a processor), a "store" (memory), punched-card input and conditional branching. It was never finished, but its design is a general-purpose computer.</li>
+    <li><b>Ada Lovelace</b> (1843) published notes on the Analytical Engine with an algorithm to compute Bernoulli numbers, often called the first published computer program, and saw that such machines could manipulate symbols, not only numbers.</li>
+    <li><b>Herman Hollerith</b> built electromechanical punched-card tabulators for the 1890 US census, cutting processing from years to months. His company became part of IBM (1924).</li>
+  </ul>
+</section>
+
+<section class="lesson" id="theory">
+  <h2>2. The theory that made computers possible</h2>
+  <div class="tablewrap"><table>
+    <thead><tr><th>Idea</th><th>Who and when</th><th>Why it matters today</th></tr></thead>
+    <tbody>
+      <tr><td>Boolean algebra</td><td>George Boole, 1854</td><td>Logic with true/false values: the math behind every logic gate (Module 2).</td></tr>
+      <tr><td>Switching circuits</td><td>Claude Shannon, 1937 master's thesis</td><td>Showed relay circuits can implement Boolean algebra, so circuits can compute.</td></tr>
+      <tr><td>Turing machine</td><td>Alan Turing, 1936</td><td>A mathematical model of computation. Anything computable can be computed by it; "Turing complete" languages can compute anything computable.</td></tr>
+      <tr><td>Information theory</td><td>Claude Shannon, 1948</td><td>Defined the bit as a unit of information and the maximum error-free rate of a noisy channel (the Shannon limit). Every modem, Wi-Fi radio and fiber link is designed against it.</td></tr>
+      <tr><td>Stored-program (von Neumann) architecture</td><td>John von Neumann, "First Draft of a Report on the EDVAC", 1945 (building on Eckert, Mauchly and others)</td><td>Instructions and data share one memory. Nearly every computer still follows this model (Module 4).</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section class="lesson" id="generations">
+  <h2>3. Generations of computers</h2>
+  <h3>Relays and vacuum tubes (1940s to 1950s)</h3>
+  <p>Early machines switched with electromechanical <b>relays</b> (Zuse Z3, 1941; Harvard Mark I, 1944) or <b>vacuum tubes</b>, glass bulbs that could switch current with no moving parts but ran hot and burned out. <b>Colossus</b> (UK, 1943 to 1944, Tommy Flowers) broke German Lorenz cipher traffic. <b>ENIAC</b> (US, completed 1945, Eckert and Mauchly) used about 17,500 tubes, weighed about 27 tonnes and drew about 150 kW. <b>UNIVAC I</b> (1951) was the first commercial computer in the US.</p>
+  <h3>Transistors (1947 onward)</h3>
+  <p>The <dfn>transistor</dfn>, a solid-state switch and amplifier, was invented at <b>Bell Labs in 1947</b> by John Bardeen, Walter Brattain and William Shockley. Transistors were smaller, cooler, cheaper and far more reliable than tubes. Transistorized computers arrived in the late 1950s.</p>
+  <h3>Integrated circuits (1958 to 1959)</h3>
+  <p>An <dfn>integrated circuit (IC)</dfn> puts many transistors on one piece of semiconductor. <b>Jack Kilby</b> (Texas Instruments, 1958) and <b>Robert Noyce</b> (Fairchild, 1959, silicon planar process) invented it independently. ICs powered the IBM System/360 family's successors, the Apollo guidance computer and minicomputers.</p>
+  <h3>Microprocessors (1971 onward)</h3>
+  <p>A <dfn>microprocessor</dfn> is a whole CPU on one chip. The <b>Intel 4004</b> (1971, about 2,300 transistors, 4-bit) started it, followed by the 8080, the 8086/8088 (the x86 family, 1978) and ARM (Acorn, 1985).</p>
+  <h3>Personal computers, laptops and phones</h3>
+  <p><b>Altair 8800</b> (1975) kits sparked the hobbyist PC market (and Microsoft's first product). <b>Apple II</b> (1977) brought color graphics and spreadsheets (VisiCalc). The <b>IBM PC</b> (1981) used open, off-the-shelf parts, so "PC compatibles" took over business computing. Laptops matured in the late 1980s and 1990s. The smartphone era began with the <b>iPhone (2007)</b> and Android (2008). Cloud computing went mainstream with <b>Amazon Web Services</b> (S3 and EC2, 2006). Since about 2012, GPUs and dedicated AI accelerators drive the biggest growth in data center compute.</p>
+</section>
+
+<section class="lesson" id="moore">
+  <h2>4. Moore's law and Dennard scaling</h2>
+  <p><b>Moore's law</b>: in 1965 Gordon Moore (later an Intel co-founder) observed that the number of components on a chip was doubling every year; in 1975 he revised it to about every two years. It is an observation about economics and manufacturing, not a law of physics.</p>
+  <p><b>Dennard scaling</b> (Robert Dennard, IBM, 1974): as transistors shrink, voltage and current shrink too, so power per unit area stays constant. That let clock speeds rise "for free" for decades.</p>
+  <div class="callout detail">Dennard scaling broke down around 2005 to 2007 because leakage current stopped falling with size. Clock speeds stalled near 3 to 5 GHz, so the industry moved to <b>multiple cores</b>, specialized accelerators (GPUs, NPUs) and smarter designs. Transistor counts kept growing through 3D transistors (FinFET, gate-all-around), chiplets and advanced packaging, though the doubling has slowed and the cost per transistor no longer falls as fast. Modern "3 nm" or "2 nm" names are marketing labels, not a physical gate length.</div>
+  <p>See the doubling in <a href="#lab-moore">Lab 3</a>.</p>
+</section>
+
+<section class="lesson" id="os-history">
+  <h2>5. Operating systems</h2>
+  <div class="tablewrap"><table>
+    <thead><tr><th>OS</th><th>Year</th><th>Note</th></tr></thead>
+    <tbody>
+      <tr><td>Batch systems (e.g. IBM OS/360)</td><td>1950s to 1960s</td><td>Jobs submitted on punched cards and run one after another; time-sharing systems later let many users share one machine.</td></tr>
+      <tr><td>UNIX</td><td>1969 to 1971, Bell Labs (Ken Thompson, Dennis Ritchie)</td><td>Rewritten in C in 1973, making it portable. Ideas (files, pipes, small tools) live on in Linux and macOS.</td></tr>
+      <tr><td>MS-DOS</td><td>1981</td><td>Command-line OS for the IBM PC. FAT file system.</td></tr>
+      <tr><td>Classic Mac OS</td><td>1984</td><td>Brought the graphical user interface (inspired by Xerox PARC) to a mass market.</td></tr>
+      <tr><td>Windows</td><td>1985 (1.0); 95 (1995); NT line (1993) → XP (2001) → 10 (2015) → 11 (2021)</td><td>Windows NT's kernel is the basis of every modern Windows.</td></tr>
+      <tr><td>Linux</td><td>1991, Linus Torvalds</td><td>Open-source kernel; with GNU tools it runs most servers, the cloud, Android and supercomputers.</td></tr>
+      <tr><td>Mac OS X / macOS</td><td>2001</td><td>UNIX-based (Darwin, from NeXTSTEP).</td></tr>
+      <tr><td>iOS and Android</td><td>2007 and 2008</td><td>Mobile operating systems; Android uses the Linux kernel.</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section class="lesson" id="net-history">
+  <h2>6. Networking and the internet</h2>
+  <ul>
+    <li><b>Telegraph</b> (1830s to 1840s, Morse code) and <b>telephone</b> (1876, Bell): the first electrical networks. The phone network's circuit switching dominated for a century.</li>
+    <li><b>Packet switching</b> (Paul Baran and Donald Davies, early to mid 1960s): break data into packets that travel independently, so the network survives broken links.</li>
+    <li><b>ARPANET</b> (1969): first message between UCLA and SRI on 29 October 1969. Funded by the US DoD's ARPA.</li>
+    <li><b>Ethernet</b> (1973, Xerox PARC, Robert Metcalfe and David Boggs); standardized as IEEE 802.3 in 1983.</li>
+    <li><b>TCP/IP</b> (Vint Cerf and Bob Kahn, 1974 paper): ARPANET switched to TCP/IP on <b>1 January 1983</b> ("flag day"), the birth of the internet as a network of networks.</li>
+    <li><b>DNS</b> (1983 to 1987, Paul Mockapetris) replaced a single shared hosts file.</li>
+    <li><b>World Wide Web</b> (Tim Berners-Lee at CERN: proposal 1989, first website 1991): HTML, HTTP and URLs on top of the internet. The web is not the internet; it is one service that runs on it.</li>
+    <li><b>Wi-Fi</b>: IEEE 802.11 published in 1997 (2 Mbps); 802.11b (1999, 11 Mbps) and the Wi-Fi Alliance branding made it mainstream.</li>
+    <li><b>Broadband</b>: DSL and cable modems (DOCSIS 1.0, 1997) in the late 1990s; <b>fiber to the home</b> (PON standards from the 2000s).</li>
+    <li><b>Cellular</b>: 1G analog (1980s), 2G digital (GSM, 1991), 3G (2000s), <b>4G LTE</b> (around 2009 to 2010), <b>5G</b> (from 2019).</li>
+  </ul>
+</section>
+
+<section class="lesson" id="storage-history">
+  <h2>7. Storage</h2>
+  <div class="tablewrap"><table>
+    <thead><tr><th>Medium</th><th>Introduced</th><th>Then</th><th>What it led to</th></tr></thead>
+    <tbody>
+      <tr><td>Punched cards</td><td>1890 (Hollerith)</td><td>80 characters per card (IBM, 1928)</td><td>80-column terminals still echo this.</td></tr>
+      <tr><td>Magnetic tape</td><td>1951 (UNIVAC UNISERVO)</td><td>Sequential access</td><td>LTO tape is still used for cheap, offline backup and archives.</td></tr>
+      <tr><td>Hard disk drive</td><td>1956 (IBM 350 RAMAC)</td><td>About 5 MB on fifty 24-inch platters</td><td>Random access storage; today's HDDs exceed 30 TB.</td></tr>
+      <tr><td>Floppy disk</td><td>1971 (8-inch), 1976 (5.25"), 1982 (3.5")</td><td>Up to 1.44 MB (3.5" HD)</td><td>The "save" icon.</td></tr>
+      <tr><td>CD / DVD / Blu-ray</td><td>1982 / 1995 to 1996 / 2006</td><td>700 MB / 4.7 GB / 25 GB per layer</td><td>Optical media for software and video.</td></tr>
+      <tr><td>Flash memory</td><td>Invented at Toshiba (Fujio Masuoka), 1980s</td><td>USB sticks from about 2000</td><td>SSDs, phones, memory cards.</td></tr>
+      <tr><td>SSD and NVMe</td><td>Consumer SSDs late 2000s; NVMe spec 2011</td><td>NVMe talks directly over PCIe</td><td>Huge drop in storage latency (Module 5).</td></tr>
+      <tr><td>Cloud object storage</td><td>2006 (Amazon S3)</td><td>Storage as a service over HTTP</td><td>Object storage for backups, data lakes, web content (Module 17).</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section class="lesson" id="security-history">
+  <h2>8. Security history: incidents that changed practice</h2>
+  <div class="tablewrap"><table>
+    <thead><tr><th>Year</th><th>Incident</th><th>What changed</th></tr></thead>
+    <tbody>
+      <tr><td>1971</td><td><b>Creeper</b>, an experimental self-moving program on ARPANET; <b>Reaper</b> was written to remove it.</td><td>The first worm and the first "antivirus".</td></tr>
+      <tr><td>1986</td><td><b>Brain</b>, the first IBM PC virus, spread by floppy boot sectors.</td><td>Boot-sector viruses, the start of commercial antivirus.</td></tr>
+      <tr><td>1986</td><td>US <b>Computer Fraud and Abuse Act</b>.</td><td>Unauthorized access became a federal crime in the US.</td></tr>
+      <tr><td>1988</td><td><b>Morris worm</b> infected an estimated 10% of the ~60,000 internet hosts.</td><td>Led to the first CERT Coordination Center (CERT/CC) at Carnegie Mellon and the first felony CFAA conviction.</td></tr>
+      <tr><td>2000 to 2004</td><td>ILOVEYOU, Code Red, SQL Slammer, Blaster.</td><td>Microsoft's Trustworthy Computing memo (2002), monthly "Patch Tuesday" (2003), default firewalls.</td></tr>
+      <tr><td>2010</td><td><b>Stuxnet</b> sabotaged industrial centrifuges.</td><td>Showed malware can cause physical damage to OT/ICS.</td></tr>
+      <tr><td>2013 to 2014</td><td>Target (via an HVAC vendor) and Yahoo breaches.</td><td>Third-party (supply chain) risk and network segmentation became board topics.</td></tr>
+      <tr><td>2017</td><td><b>WannaCry</b> and <b>NotPetya</b>; <b>Equifax</b> breach via an unpatched web framework.</td><td>Patch management, backups and ransomware readiness became priorities; the GDPR (in force May 2018) raised penalties.</td></tr>
+      <tr><td>2020</td><td><b>SolarWinds</b> supply chain compromise.</td><td>Software bills of materials (SBOMs), US Executive Order 14028 (2021), zero trust push.</td></tr>
+      <tr><td>2021</td><td><b>Colonial Pipeline</b> ransomware; <b>Log4Shell</b> (CVE-2021-44228).</td><td>Critical infrastructure reporting rules; dependency and open-source risk management.</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section class="lesson" id="dc-history">
+  <h2>9. Data centers: from mainframe rooms to the edge</h2>
+  <ol>
+    <li><b>Mainframe rooms</b> (1950s to 1970s): one huge computer in a raised-floor room with dedicated cooling and power.</li>
+    <li><b>Server rooms</b> (1980s to 1990s): rooms of PC servers as client-server computing spread.</li>
+    <li><b>Colocation</b> (late 1990s, the dot-com boom): rent space, power and cooling in a shared facility; connect to many carriers in a meet-me room.</li>
+    <li><b>Hyperscale</b> (2000s onward): giant facilities run by cloud and internet companies, with custom servers and very efficient cooling (PUE near 1.1).</li>
+    <li><b>Edge</b> (2010s onward): small data centers close to users for low latency (5G, content delivery, IoT).</li>
+    <li><b>AI-era</b> (2020s): racks drawing 40 to over 100 kW, driving liquid cooling and new power designs (Module 18).</li>
+  </ol>
+</section>
+
+<section class="lesson" id="bodies">
+  <h2>10. Standards bodies and when they formed</h2>
+  <div class="tablewrap"><table>
+    <thead><tr><th>Body</th><th>Founded</th><th>Known for</th></tr></thead>
+    <tbody>
+      <tr><td>ITU (International Telecommunication Union)</td><td>1865 (as the International Telegraph Union); UN agency since 1947</td><td>Telecom standards: G.652 fiber, G.694 WDM grids, X.509 certificates</td></tr>
+      <tr><td>ANSI (American National Standards Institute)</td><td>1918</td><td>Coordinates US standards; accredits bodies such as TIA</td></tr>
+      <tr><td>ISO (International Organization for Standardization)</td><td>1947</td><td>ISO/IEC 27001, 9001, 22301; OSI reference model (ISO/IEC 7498)</td></tr>
+      <tr><td>IEEE (Institute of Electrical and Electronics Engineers)</td><td>1963 (merger of AIEE, 1884, and IRE, 1912)</td><td>802.3 Ethernet, 802.11 Wi-Fi</td></tr>
+      <tr><td>IETF (Internet Engineering Task Force)</td><td>1986</td><td>RFCs for IP, TCP, DNS, HTTP, TLS</td></tr>
+      <tr><td>TIA (Telecommunications Industry Association)</td><td>1988</td><td>TIA-568 cabling, TIA-942 data centers</td></tr>
+      <tr><td>NIST (National Institute of Standards and Technology)</td><td>1901 (as the National Bureau of Standards; renamed 1988)</td><td>FIPS 197 (AES), SP 800 series, Cybersecurity Framework</td></tr>
+    </tbody>
+  </table></div>
+  <p>Module 23 covers these bodies and many more in depth.</p>
+</section>
+
+<section class="lab" id="labs">
+  <h2>Interactive labs</h2>
+
+  <div class="lab-card" id="lab-timeline" data-lab="Interactive Timeline: a zoomable, filterable timeline of computing, networking, storage, security and data center history.">
+    <h3>Lab 1: Interactive Timeline</h3>
+    <div class="row" id="tl-filters" role="group" aria-label="Filter by category"></div>
+    <div class="row"><label>Zoom: from <select id="tl-from" aria-label="Start year"></select></label><label>to <select id="tl-to" aria-label="End year"></select></label>
+      <button type="button" id="tl-zin">Zoom in</button><button type="button" id="tl-zout">Zoom out</button></div>
+    <div class="stage" style="overflow-x:auto"><svg id="tl-svg" viewBox="0 0 1000 260" width="1000" role="group" aria-label="Timeline of events"></svg></div>
+    <div class="tile" id="tl-card" aria-live="polite"><h4>Click any dot</h4><p>Each event opens a card with what it was, why it mattered and the module that covers its modern form.</p></div>
+    <div class="caption" id="tl-cap" aria-live="polite">Showing all events.</div>
+  </div>
+
+  <div class="lab-card" id="lab-then" data-lab="Then vs Now: drag across four eras to compare a computer's size, speed, memory, cost and power on a log scale.">
+    <h3>Lab 2: Then vs Now</h3>
+    <label class="field"><span>Era</span><input type="range" id="tn-era" min="0" max="3" step="1" value="0" aria-valuetext="1950s"></label>
+    <p class="big" id="tn-name"></p>
+    <div id="tn-bars"></div>
+    <div class="caption" id="tn-cap" aria-live="polite"></div>
+    <p class="figcap">Figures are approximate, order-of-magnitude values for a typical machine of each era. Bars use a logarithmic scale: each grid step is 10 times bigger.</p>
+  </div>
+
+  <div class="lab-card" id="lab-moore" data-lab="Moore's Law plot: transistor counts of famous chips on a log scale with hover details and a two-year doubling line.">
+    <h3>Lab 3: Moore's Law Plot</h3>
+    <div class="row"><label><input type="checkbox" id="mo-line" checked> Show 2-year doubling line from the 4004</label></div>
+    <div class="stage"><svg id="mo-svg" viewBox="0 0 900 420" width="900" role="img" aria-label="Transistor count by year, log scale"></svg></div>
+    <div class="caption" id="mo-cap" aria-live="polite">Hover or tap a dot (or Tab to it) for details.</div>
+  </div>
+</section>
+
+<section class="glossary" id="glossary">
+  <h2>Key terms</h2>
+  <div id="glossary-list"></div>
+</section>
+
+<section class="memory" id="memory">
+  <h2>Memory aids</h2>
+  <div class="mnemonic">Key years: <b>'47</b> transistor · <b>'69</b> ARPANET and UNIX · <b>'71</b> 4004 microprocessor · <b>'73</b> Ethernet · <b>'81</b> IBM PC · <b>'83</b> TCP/IP flag day · <b>'88</b> Morris worm · <b>'91</b> web and Linux · <b>'97</b> Wi-Fi · <b>'06</b> AWS · <b>'07</b> iPhone.</div>
+  <div class="mnemonic">Generations: <b>R</b>eally <b>V</b>ery <b>T</b>iny <b>I</b>deas <b>M</b>atter → Relays, Vacuum tubes, Transistors, Integrated circuits, Microprocessors.</div>
+  <div class="tablewrap"><table><thead><tr><th>Exam / interview trap</th><th>Why it is wrong</th></tr></thead><tbody>
+    <tr><td>"The internet and the web are the same."</td><td>The internet (1983, TCP/IP) is the network; the web (1989 to 1991) is a service using HTTP on top of it.</td></tr>
+    <tr><td>"Moore's law says CPU speed doubles every two years."</td><td>It is about transistor counts. Clock speeds stopped rising around 2005 when Dennard scaling ended.</td></tr>
+    <tr><td>"Ethernet was invented by IEEE."</td><td>It was invented at Xerox PARC (1973); IEEE standardized it as 802.3.</td></tr>
+    <tr><td>"The first computer virus was on the internet."</td><td>Early PC viruses like Brain spread on floppy disks.</td></tr>
+  </tbody></table></div>
+</section>
+
+<section class="quiz" id="quiz">
+  <h2>Knowledge check</h2>
+  <div id="quiz-area"></div>
+</section>
+
+<section class="flashcards" id="flashcards">
+  <h2>Flashcards</h2>
+  <div id="deck-area"></div>
+</section>
+
+<section class="deeper" id="deeper">
+  <h2>Go deeper (official sources)</h2>
+  <ul>
+    <li><a href="https://www.rfc-editor.org/rfc/rfc801" rel="noopener">IETF RFC 801: NCP/TCP Transition Plan (the 1983 cutover)</a></li>
+    <li><a href="https://www.rfc-editor.org/rfc/rfc791" rel="noopener">IETF RFC 791: Internet Protocol (1981)</a></li>
+    <li><a href="https://www.rfc-editor.org/rfc/rfc1135" rel="noopener">IETF RFC 1135: The Helminthiasis of the Internet (the Morris worm)</a></li>
+    <li><a href="https://home.cern/science/computing/birth-web" rel="noopener">CERN: The birth of the web</a></li>
+    <li><a href="https://standards.ieee.org/ieee/802.3/" rel="noopener">IEEE 802.3 Ethernet</a></li>
+    <li><a href="https://www.itu.int/en/history/Pages/default.aspx" rel="noopener">ITU history</a></li>
+    <li><a href="https://www.nist.gov/history" rel="noopener">NIST history</a></li>
+  </ul>
+</section>
+</main>
+<footer class="foot">Datacenter Omnibus · Original study material. Not affiliated with or endorsed by any certification body.</footer>
+
+<script src="data/catalog.js"></script>
+<script src="assets/omnibus.js"></script>
+<script src="data/m03.js"></script>
+<script>
+(function () {
+  var h = OMNI.h, S = OMNI.svg, $ = function (id) { return document.getElementById(id); };
+  /* ---------- Lab 1: Timeline ---------- */
+  var cats = { comp: ["Computing", "var(--hw)"], net: ["Networking", "var(--net)"], stor: ["Storage", "#0ea5e9"], sec: ["Security", "var(--sec)"], dc: ["Data center", "var(--dc)"] };
+  var ev = [
+    [1804, "comp", "Jacquard loom", "Punched cards control weaving patterns.", "The idea of a stored, changeable program.", 3],
+    [1837, "comp", "Analytical Engine designed", "Babbage's general-purpose mechanical computer design.", "Had a processor (mill), memory (store), input and branching.", 4],
+    [1843, "comp", "Lovelace's notes", "Ada Lovelace publishes an algorithm for the Analytical Engine.", "Often called the first published program.", 4],
+    [1876, "net", "Telephone patented", "Bell's telephone; circuit-switched voice networks follow.", "The phone network dominated for a century.", 7],
+    [1890, "stor", "Hollerith tabulator", "Punched cards process the US census.", "Data processing becomes an industry (later IBM).", 3],
+    [1936, "comp", "Turing machine", "Alan Turing's model of computation.", "Defines what is computable.", 4],
+    [1945, "comp", "ENIAC and the von Neumann report", "Electronic general-purpose computer; stored-program architecture described.", "Basis of nearly every computer since.", 4],
+    [1947, "comp", "Transistor invented", "Bell Labs: Bardeen, Brattain, Shockley.", "Replaced vacuum tubes; foundation of all modern chips.", 4],
+    [1948, "comp", "Information theory", "Shannon defines the bit and channel capacity.", "Limits every link from modems to fiber.", 11],
+    [1951, "stor", "Magnetic tape (UNIVAC)", "UNISERVO tape drive.", "Tape still used for backup and archives.", 17],
+    [1956, "stor", "First hard drive", "IBM 350 RAMAC: about 5 MB.", "Random-access disk storage.", 5],
+    [1958, "comp", "Integrated circuit", "Kilby (1958) and Noyce (1959).", "Many transistors on one chip.", 4],
+    [1965, "comp", "Moore's law", "Gordon Moore's observation on component doubling.", "Drove the industry roadmap for 50+ years.", 4],
+    [1969, "net", "ARPANET", "First message UCLA to SRI, 29 Oct 1969.", "Ancestor of the internet; packet switching proven.", 9],
+    [1969, "comp", "UNIX begins", "Thompson and Ritchie at Bell Labs.", "Ancestor of Linux and macOS ideas.", 6],
+    [1971, "comp", "Intel 4004", "First commercial microprocessor, ~2,300 transistors.", "A CPU on one chip.", 4],
+    [1971, "sec", "Creeper", "Experimental self-moving program on ARPANET.", "First worm; Reaper was the first remover.", 15],
+    [1973, "net", "Ethernet", "Metcalfe and Boggs at Xerox PARC.", "Standardized as IEEE 802.3 (1983).", 11],
+    [1974, "net", "TCP/IP paper", "Cerf and Kahn describe TCP.", "The protocol suite of the internet.", 9],
+    [1977, "sec", "DES standardized", "Data Encryption Standard (FIPS 46).", "First public standard cipher; replaced by AES in 2001.", 14],
+    [1981, "comp", "IBM PC", "Open-architecture personal computer.", "PC compatibles take over business computing.", 5],
+    [1983, "net", "TCP/IP flag day", "ARPANET switches to TCP/IP on 1 January.", "Birth of the internet as a network of networks.", 9],
+    [1983, "net", "DNS", "Mockapetris designs the Domain Name System.", "Names instead of a shared hosts file.", 10],
+    [1986, "sec", "Brain virus", "First IBM PC virus, spread by floppies.", "Start of commercial antivirus.", 15],
+    [1988, "sec", "Morris worm", "Infected ~10% of internet hosts.", "Led to CERT/CC.", 15],
+    [1989, "net", "World Wide Web proposed", "Tim Berners-Lee at CERN (first site 1991).", "HTTP, HTML and URLs.", 9],
+    [1991, "comp", "Linux kernel", "Linus Torvalds releases Linux.", "Runs most servers, the cloud and Android.", 6],
+    [1995, "dc", "Colocation boom begins", "Carrier-neutral facilities and meet-me rooms spread.", "Shared data centers.", 18],
+    [1997, "net", "IEEE 802.11", "First Wi-Fi standard (2 Mbps).", "Wireless LANs everywhere.", 13],
+    [1998, "net", "IPv6 specified", "RFC 2460 (updated by RFC 8200 in 2017).", "128-bit addresses to solve IPv4 exhaustion.", 10],
+    [2001, "sec", "AES", "FIPS 197 adopts Rijndael.", "The standard symmetric cipher today.", 14],
+    [2003, "sec", "SQL Slammer / Patch Tuesday", "Fast worms; Microsoft starts monthly patches.", "Patch management becomes routine.", 16],
+    [2006, "dc", "AWS S3 and EC2", "Public cloud computing launches at scale.", "Cloud and hyperscale data centers.", 17],
+    [2007, "comp", "iPhone", "Smartphone era begins (Android 2008).", "Mobile devices become primary computers.", 6],
+    [2007, "dc", "Uptime Tier / PUE metrics spread", "PUE introduced by The Green Grid (2007).", "Measuring data center efficiency.", 18],
+    [2010, "sec", "Stuxnet", "Malware sabotages industrial control systems.", "Cyber attacks can cause physical damage.", 16],
+    [2011, "stor", "NVMe specification", "Storage protocol designed for flash over PCIe.", "Huge drop in storage latency.", 5],
+    [2017, "sec", "WannaCry and NotPetya", "Worming ransomware and destructive wiper.", "Patching and offline backups prioritized.", 16],
+    [2018, "sec", "GDPR in force", "EU data protection regulation.", "Global privacy compliance programs.", 20],
+    [2019, "net", "5G launches", "Commercial 5G networks.", "Higher speed, lower latency, private cellular.", 13],
+    [2020, "sec", "SolarWinds", "Software supply chain compromise.", "SBOMs and zero trust.", 15],
+    [2022, "dc", "AI racks push liquid cooling", "GPU clusters exceed air-cooling limits.", "Direct-to-chip and immersion cooling.", 18],
+    [2024, "sec", "NIST post-quantum standards", "FIPS 203, 204 and 205 published.", "Migration to quantum-resistant crypto.", 14]
+  ];
+  var on = { comp: 1, net: 1, stor: 1, sec: 1, dc: 1 }, from = 1800, to = 2030;
+  var years = [1800, 1850, 1900, 1940, 1960, 1980, 2000, 2010, 2030];
+  years.forEach(function (y) { $("tl-from").appendChild(h("option", { value: y }, y)); $("tl-to").appendChild(h("option", { value: y, selected: y === 2030 ? true : null }, y)); });
+  Object.keys(cats).forEach(function (k) {
+    var b = h("button", { type: "button", "aria-pressed": "true", style: "border-left:6px solid " + cats[k][1] }, cats[k][0]);
+    b.onclick = function () { on[k] = on[k] ? 0 : 1; b.setAttribute("aria-pressed", on[k] ? "true" : "false"); drawTL(); };
+    $("tl-filters").appendChild(b);
+  });
+  $("tl-from").onchange = function () { from = +this.value; if (from >= to) { to = years[years.indexOf(from) + 1] || 2030; $("tl-to").value = to; } drawTL(); };
+  $("tl-to").onchange = function () { to = +this.value; if (to <= from) { from = years[years.indexOf(to) - 1] || 1800; $("tl-from").value = from; } drawTL(); };
+  $("tl-zin").onclick = function () { var mid = (from + to) / 2, span = (to - from) / 4; from = Math.round(mid - span); to = Math.round(mid + span); drawTL(); };
+  $("tl-zout").onclick = function () { var mid = (from + to) / 2, span = (to - from); from = Math.max(1800, Math.round(mid - span)); to = Math.min(2030, Math.round(mid + span)); drawTL(); };
+  function drawTL() {
+    var svg = $("tl-svg"); svg.innerHTML = "";
+    var X = function (y) { return 40 + (y - from) / (to - from) * 920; };
+    S("line", { x1: 40, y1: 200, x2: 960, y2: 200, stroke: "var(--ink-2)", "stroke-width": 2 }, svg);
+    var step = (to - from) > 150 ? 25 : (to - from) > 60 ? 10 : (to - from) > 25 ? 5 : 1;
+    for (var y = Math.ceil(from / step) * step; y <= to; y += step) { S("line", { x1: X(y), y1: 195, x2: X(y), y2: 205, stroke: "var(--ink-2)" }, svg); S("text", { x: X(y), y: 222, "text-anchor": "middle", "font-size": 11, class: "svg-muted", text: y }, svg); }
+    var shown = ev.filter(function (e) { return on[e[1]] && e[0] >= from && e[0] <= to; });
+    var lanes = {};
+    shown.forEach(function (e, i) {
+      var x = X(e[0]), lane = 0; while (lanes[lane] != null && x - lanes[lane] < 26) lane++; lanes[lane] = x;
+      var yy = 180 - (lane % 7) * 24;
+      S("line", { x1: x, y1: 200, x2: x, y2: yy, stroke: cats[e[1]][1], "stroke-width": 1, opacity: .5 }, svg);
+      var g = S("g", { tabindex: "0", role: "button", "aria-label": e[0] + ": " + e[2], style: "cursor:pointer" }, svg);
+      S("circle", { cx: x, cy: yy, r: 9, fill: cats[e[1]][1], stroke: "var(--surface)", "stroke-width": 2 }, g);
+      S("title", { text: e[0] + " " + e[2] }, g);
+      function open() {
+        $("tl-card").innerHTML = "<h4>" + e[0] + ": " + e[2] + " <span class='tag'>" + cats[e[1]][0] + "</span></h4><p><b>What:</b> " + e[3] + "</p><p><b>Why it mattered:</b> " + e[4] + "</p><p><b>Modern form:</b> <a href='" + OMNI.file(e[5]) + "'>Module " + e[5] + "</a></p>";
+        OMNI.say("tl-cap", "You opened " + e[2] + " (" + e[0] + "). " + shown.filter(function (x) { return x[0] < e[0]; }).length + " visible events came before it.");
+      }
+      g.addEventListener("click", open); g.addEventListener("keydown", function (k) { if (k.key === "Enter" || k.key === " ") { k.preventDefault(); open(); } });
+    });
+    OMNI.say("tl-cap", "Showing " + shown.length + " of " + ev.length + " events between " + from + " and " + to + ". Notice how events crowd together after 1950: the pace of change keeps speeding up.");
+  }
+  drawTL();
+
+  /* ---------- Lab 2: Then vs now ---------- */
+  var eras = [
+    { n: "1950s: UNIVAC I (1951)", size: 13000, ops: 1.9e3, mem: 12e3, cost: 1.2e6, pw: 125000, note: "A room-sized machine with about 5,000 vacuum tubes, about 1,000 words of memory and a price over a million dollars at the time." },
+    { n: "1980s: IBM PC (1981)", size: 12, ops: 3.3e5, mem: 64e3, cost: 3000, pw: 63, note: "A desktop with a 4.77 MHz Intel 8088, 64 KB of RAM typical, floppy drives and a price around $3,000 configured." },
+    { n: "2000s: Desktop PC (2005)", size: 10, ops: 1e10, mem: 1e9, cost: 1000, pw: 200, note: "A tower PC with a ~3 GHz single- or dual-core CPU, about 1 GB of RAM and a hard drive." },
+    { n: "Today: Smartphone (2025)", size: 0.2, ops: 1e12, mem: 1e10, cost: 800, pw: 5, note: "A phone with a multi-core CPU, GPU and NPU, 8 to 12 GB of RAM and flash storage, running on a battery." }
+  ];
+  var metrics = [["Weight (kg)", "size", 0.1, 1e5], ["Speed (operations per second)", "ops", 1e3, 1e13], ["Memory (bytes)", "mem", 1e3, 1e11], ["Price (US$ at the time)", "cost", 100, 1e7], ["Power draw (W)", "pw", 1, 1e6]];
+  function fmtBig(v) { if (v >= 1e12) return OMNI.fmt(v / 1e12, 1) + " trillion"; if (v >= 1e9) return OMNI.fmt(v / 1e9, 1) + " billion"; if (v >= 1e6) return OMNI.fmt(v / 1e6, 1) + " million"; return OMNI.fmt(v, 1); }
+  function drawTN() {
+    var i = +$("tn-era").value, e = eras[i], host = $("tn-bars"); host.innerHTML = "";
+    $("tn-era").setAttribute("aria-valuetext", e.n); $("tn-name").textContent = e.n;
+    metrics.forEach(function (m) {
+      var v = e[m[1]], pct = 100 * (Math.log10(v) - Math.log10(m[2])) / (Math.log10(m[3]) - Math.log10(m[2]));
+      host.appendChild(h("div", { style: "margin:8px 0" }, [h("div", null, [h("b", null, m[0] + ": "), fmtBig(v)]), h("div", { class: "meter", role: "img", "aria-label": m[0] + " " + fmtBig(v) }, h("i", { style: "width:" + OMNI.clamp(pct, 1, 100) + "%" }))]));
+    });
+    var first = eras[0];
+    OMNI.say("tn-cap", e.note + (i ? " Compared with UNIVAC: about " + fmtBig(e.ops / first.ops) + " times faster, " + fmtBig(e.mem / first.mem) + " times more memory and " + fmtBig(first.pw / e.pw) + " times less power." : " Drag the slider to move forward in time."));
+  }
+  $("tn-era").addEventListener("input", drawTN); drawTN();
+
+  /* ---------- Lab 3: Moore ---------- */
+  var chips = [[1971, 2300, "Intel 4004"], [1974, 4500, "Intel 8080"], [1978, 29000, "Intel 8086"], [1982, 134000, "Intel 80286"], [1985, 275000, "Intel 80386"], [1989, 1.2e6, "Intel 80486"], [1993, 3.1e6, "Intel Pentium"], [1997, 7.5e6, "Intel Pentium II"], [2000, 4.2e7, "Intel Pentium 4"], [2006, 2.91e8, "Intel Core 2 Duo"], [2008, 7.31e8, "Intel Core i7 (Nehalem)"], [2013, 1e9, "Apple A7"], [2017, 2.11e10, "NVIDIA V100"], [2020, 1.6e10, "Apple M1"], [2020, 5.42e10, "NVIDIA A100"], [2022, 8e10, "NVIDIA H100"], [2022, 1.14e11, "Apple M1 Ultra"], [2023, 1.53e11, "AMD Instinct MI300X"], [2024, 2.08e11, "NVIDIA B200 (two dies)"]];
+  function drawMoore() {
+    var svg = $("mo-svg"); svg.innerHTML = "";
+    var X = function (y) { return 70 + (y - 1970) / 56 * 800; }, Y = function (v) { return 380 - (Math.log10(v) - 3) / 9 * 350; };
+    for (var p = 3; p <= 12; p++) { S("line", { x1: 70, y1: Y(Math.pow(10, p)), x2: 870, y2: Y(Math.pow(10, p)), stroke: "var(--line)" }, svg); S("text", { x: 62, y: Y(Math.pow(10, p)) + 4, "text-anchor": "end", "font-size": 11, class: "svg-muted", text: "10^" + p }, svg); }
+    for (var y = 1970; y <= 2025; y += 10) S("text", { x: X(y), y: 400, "text-anchor": "middle", "font-size": 11, class: "svg-muted", text: y }, svg);
+    S("text", { x: 14, y: 200, transform: "rotate(-90 14 200)", "text-anchor": "middle", "font-size": 12, class: "svg-text", text: "Transistors (log scale)" }, svg);
+    if ($("mo-line").checked) { var d = ""; for (var yr = 1971; yr <= 2026; yr++) { var v = 2300 * Math.pow(2, (yr - 1971) / 2); if (v > 1e12) break; d += (d ? " L" : "M") + X(yr) + "," + Y(v); } S("path", { d: d, fill: "none", stroke: "var(--accent)", "stroke-dasharray": "6 5", "stroke-width": 2 }, svg); }
+    chips.forEach(function (c) {
+      var g = S("g", { tabindex: "0", style: "cursor:pointer" }, svg);
+      S("circle", { cx: X(c[0]), cy: Y(c[1]), r: 7, fill: "var(--hw)", stroke: "var(--surface)", "stroke-width": 2 }, g);
+      function show() { var pred = 2300 * Math.pow(2, (c[0] - 1971) / 2);
+        OMNI.say("mo-cap", "<b>" + c[2] + "</b> (" + c[0] + "): about " + fmtBig(c[1]) + " transistors. A strict 2-year doubling from the 4004 predicts about " + fmtBig(pred) + ", so this chip is " + (c[1] >= pred ? "above" : "below") + " the line by a factor of " + OMNI.fmt(Math.max(c[1] / pred, pred / c[1]), 1) + "."); }
+      g.addEventListener("mouseenter", show); g.addEventListener("focus", show); g.addEventListener("click", show);
+    });
+  }
+  $("mo-line").addEventListener("change", drawMoore); drawMoore();
+})();
+</script>
+<!-- module-data:start -->
+<script type="application/json" id="module-data">{"module":3,"title":"How We Got Here","glossary":[["Vacuum tube","A glass bulb used as an early electronic switch.","A thermionic device controlling electron flow in a vacuum; used for switching and amplification before transistors.",""],["Transistor","A tiny electronic switch with no moving parts.","A semiconductor device that amplifies or switches electronic signals; invented at Bell Labs in 1947.",""],["Integrated circuit","Many transistors built on one chip.","A set of electronic circuits fabricated on a single piece of semiconductor (usually silicon).","IC"],["Microprocessor","A whole CPU on one chip.","An integrated circuit containing the functions of a central processing unit; first commercial example Intel 4004 (1971).",""],["Moore's law","Chips get about twice as many transistors every two years.","Gordon Moore's 1965 observation (revised 1975) that transistor counts on integrated circuits double roughly every two years.",""],["Dennard scaling","Smaller transistors used to mean the same power per area.","The 1974 observation that power density stays constant as transistors shrink; it broke down around 2005 to 2007.",""],["von Neumann architecture","Programs and data share one memory.","A stored-program computer design where instructions and data reside in the same memory and travel over a shared bus.",""],["Turing machine","A simple theoretical computer.","Alan Turing's 1936 abstract model of computation that manipulates symbols on a tape according to rules.",""],["Boolean algebra","Math with true and false.","Algebra of binary variables with operations AND, OR and NOT (George Boole, 1854).",""],["Packet switching","Splitting data into small chunks that travel separately.","A method of transmitting data in independently routed blocks (packets) over shared links.",""],["Circuit switching","Reserving a whole line for one call.","A method that establishes a dedicated end-to-end path for the duration of a session, as in the traditional phone network.",""],["ARPANET","The research network that became the internet.","Advanced Research Projects Agency Network: the first wide-area packet-switched network using what became TCP/IP (1969).","Advanced Research Projects Agency Network"],["World Wide Web","Linked pages you view in a browser.","An information system of hypertext documents identified by URLs and transferred with HTTP, created by Tim Berners-Lee at CERN.","WWW"],["Flag day","The day everyone switched to TCP/IP.","1 January 1983, when ARPANET hosts were required to switch from NCP to TCP/IP.",""],["Worm","Malware that spreads by itself across networks.","Self-replicating malicious code that propagates without user action, typically by exploiting vulnerabilities.",""],["Virus","Malware that attaches to files and spreads when they run.","Malicious code that inserts itself into host programs or boot sectors and replicates when the host is executed.",""],["CERT/CC","A center that coordinates responses to cyber incidents.","CERT Coordination Center at Carnegie Mellon University, created in 1988 after the Morris worm.","Computer Emergency Response Team Coordination Center"],["Colocation","Renting space in someone else's data center.","A data center service where customers rent rack space, power, cooling and connectivity for their own equipment.","colo"],["Hyperscale","Data centers at enormous size.","Very large data centers and architectures designed to scale to hundreds of thousands of servers, run by cloud providers.",""],["Edge computing","Small data centers close to users.","Placing compute and storage near the data source or user to reduce latency and bandwidth use.",""],["Supply chain attack","Attacking a target through a trusted supplier.","Compromise of software, hardware or services from a third party to reach downstream customers (e.g. SolarWinds 2020).",""]],"quiz":[{"t":"mc","q":"Where and when was the transistor invented?","o":["Xerox PARC, 1973","Bell Labs, 1947","Intel, 1971","IBM, 1956"],"a":1,"w":["Xerox PARC invented Ethernet in 1973.","Correct: Bardeen, Brattain and Shockley.","Intel released the first microprocessor, the 4004, in 1971.","IBM released the first hard drive, RAMAC, in 1956."],"x":"The transistor replaced vacuum tubes and made modern electronics possible.","c":"GEN","d":"0"},{"t":"order","q":"Put these computing generations in historical order, earliest first.","o":["Vacuum tubes","Transistors","Integrated circuits","Microprocessors"],"x":"Tubes (1940s), transistors (1947 invention, late-1950s computers), ICs (1958 to 1959), microprocessors (1971).","c":"GEN","d":"0"},{"t":"mc","q":"What does Moore's law describe?","o":["CPU clock speed doubling every 18 months","Transistor counts on chips doubling roughly every two years","Network bandwidth doubling every year","Hard drive prices halving every year"],"a":1,"w":["Clock speed is not what Moore described, and it stalled around 2005.","Correct.","That is sometimes called Nielsen's law, not Moore's.","Storage cost trends are separate (sometimes called Kryder's law)."],"x":"Moore's law is about component (transistor) counts and is an industry observation, not physics.","c":"GEN","d":"0"},{"t":"mc","q":"Why did CPU clock speeds stop rising quickly after the mid-2000s?","o":["Moore's law ended completely in 2005","Dennard scaling broke down, so power density and heat rose","Silicon ran out","Software could not use faster clocks"],"a":1,"w":["Transistor counts kept growing after 2005.","Correct: leakage meant shrinking no longer kept power constant, so designers moved to multicore.","Silicon is abundant.","Faster clocks always help single-threaded code."],"x":"The industry responded with multiple cores and specialized accelerators.","c":"A1","d":"3.0"},{"t":"mc","q":"On which date did ARPANET switch to TCP/IP?","o":["29 October 1969","1 January 1983","6 August 1991","1 January 2000"],"a":1,"w":["That is the first ARPANET message.","Correct: the 'flag day'.","That date is associated with the first public web pages.","That is Y2K."],"x":"RFC 801 describes the NCP to TCP transition plan.","c":"N","d":"1.0"},{"t":"mc","q":"Which statement about the internet and the web is correct?","o":["They are the same thing","The web is a service that runs over the internet","The internet runs on top of the web","The web was invented before TCP/IP"],"a":1,"w":["They are different layers.","Correct: the web uses HTTP over the internet's TCP/IP.","Backwards.","TCP/IP (1983) came years before the web (1989 to 1991)."],"x":"Email, DNS and gaming also use the internet without being 'the web'.","c":"N","d":"1.0"},{"t":"mc","q":"Where was Ethernet invented?","o":["IEEE","Xerox PARC","CERN","Bell Labs"],"a":1,"w":["IEEE standardized it as 802.3 in 1983 but did not invent it.","Correct: Metcalfe and Boggs, 1973.","CERN invented the web.","Bell Labs invented the transistor and UNIX."],"x":"Invention and standardization are different steps.","c":"N","d":"1.0"},{"t":"mc","q":"Which 1988 incident led directly to the creation of CERT/CC?","o":["The Brain virus","The Morris worm","ILOVEYOU","Stuxnet"],"a":1,"w":["Brain (1986) spread by floppy disks.","Correct.","ILOVEYOU was in 2000.","Stuxnet was discovered in 2010."],"x":"The Morris worm infected an estimated 10% of internet hosts.","c":"S","d":"2.4"},{"t":"mc","q":"Stuxnet is most significant because it:","o":["Was the first ransomware","Showed malware could physically damage industrial equipment","Was the first email worm","Spread only by floppy disk"],"a":1,"w":["Ransomware predates it (AIDS Trojan, 1989).","Correct: it sabotaged centrifuges through their control systems.","Email worms appeared in the late 1990s.","It spread by USB and networks."],"x":"Stuxnet made OT/ICS security a mainstream concern.","c":"S","d":"3.1"},{"t":"ms","q":"Which of these were consequences of the SolarWinds compromise (2020)? (Select all that apply.)","o":["More attention to software bills of materials (SBOMs)","The end of all third-party software","US Executive Order 14028 on improving cybersecurity","Greater push toward zero trust"],"a":[0,2,3],"w":["Correct.","Organizations still rely on vendors; they manage the risk instead.","Correct: issued May 2021.","Correct."],"x":"Supply chain risk management is now a core part of Security+ and CISM.","c":"S","d":"2.2"},{"t":"mc","q":"Which standards body was founded first?","o":["IETF","IEEE (as formed in 1963)","ITU","TIA"],"a":2,"w":["IETF: 1986.","IEEE: 1963 (from predecessors of 1884 and 1912).","Correct: 1865 as the International Telegraph Union.","TIA: 1988."],"x":"ITU is one of the oldest international organizations in the world.","c":"GEN","d":"0"},{"t":"mc","q":"The first hard disk drive, the IBM 350 RAMAC (1956), stored about:","o":["5 MB","5 GB","1.44 MB","700 MB"],"a":0,"w":["Correct: on fifty 24-inch platters.","Off by a factor of 1,000.","That is a 3.5-inch floppy.","That is a CD."],"x":"Modern hard drives hold millions of times more in a fraction of the space.","c":"A1","d":"3.4"},{"t":"mc","q":"Which data center era is defined by giant facilities run by cloud providers with custom servers?","o":["Mainframe room","Colocation","Hyperscale","Edge"],"a":2,"w":["Mainframe rooms held one big computer.","Colocation rents space to many customers.","Correct.","Edge sites are small and close to users."],"x":"Hyperscalers run hundreds of thousands of servers per region.","c":"DCCA","d":"1"}],"flashcards":[["Transistor invented","1947, Bell Labs (Bardeen, Brattain, Shockley)."],["Integrated circuit inventors","Jack Kilby (TI, 1958) and Robert Noyce (Fairchild, 1959)."],["First commercial microprocessor","Intel 4004, 1971, about 2,300 transistors."],["Moore's law","Transistor counts double roughly every two years (1965, revised 1975)."],["Dennard scaling","Shrinking transistors kept power density constant; ended ~2005 to 2007, so clock speeds stalled and multicore arrived."],["von Neumann architecture","Instructions and data stored in the same memory (1945 EDVAC report)."],["Analytical Engine","Babbage's 1837 design for a general-purpose mechanical computer."],["First published program","Ada Lovelace's 1843 notes (Bernoulli numbers)."],["ARPANET first message","29 October 1969, UCLA to SRI."],["TCP/IP flag day","1 January 1983."],["Ethernet","Invented at Xerox PARC in 1973; standardized as IEEE 802.3 in 1983."],["World Wide Web","Tim Berners-Lee at CERN: proposed 1989, first site 1991."],["First Wi-Fi standard","IEEE 802.11, 1997 (2 Mbps)."],["Morris worm","1988; infected ~10% of internet hosts; led to CERT/CC."],["Brain virus","1986; first IBM PC virus, spread by floppy boot sectors."],["Stuxnet","Discovered 2010; malware that physically sabotaged industrial centrifuges."],["First hard drive","IBM 350 RAMAC, 1956, about 5 MB."],["AWS launch","2006 (S3 and EC2): start of mainstream public cloud."],["Data center eras","Mainframe rooms → server rooms → colocation → hyperscale → edge (→ AI-scale)."],["Oldest standards body","ITU, founded 1865 as the International Telegraph Union."]]}</script>
+<!-- module-data:end -->
+</body>
+</html>

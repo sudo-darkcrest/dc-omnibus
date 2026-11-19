@@ -1,0 +1,556 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Module 06 · Operating Systems | Datacenter Omnibus</title>
+<meta name="description" content="Windows, macOS, Linux and mobile operating systems, file systems, command line tools, permissions, troubleshooting methodology and backups for CompTIA A+ Core 2.">
+<link rel="stylesheet" href="assets/omnibus.css">
+<style>
+  .perm-grid { display: grid; grid-template-columns: auto repeat(3, 60px); gap: 6px 10px; align-items: center; max-width: 360px; }
+  .vm-cells { display: grid; grid-template-columns: repeat(8, 1fr); gap: 4px; }
+  .vm-cell { height: 38px; border-radius: 6px; border: 1px solid var(--line); display: flex; align-items: center; justify-content: center; font-family: var(--mono); font-size: .8rem; background: var(--surface); }
+  .cal { display: grid; grid-template-columns: repeat(7, minmax(0, 1fr)); gap: 6px; }
+  .cal-day { border: 1px solid var(--line); border-radius: 8px; padding: 6px; text-align: center; background: var(--surface); }
+  .cal-day select { width: 100%; font-size: .8rem; padding: 3px; }
+  .cal-day.need { outline: 3px solid var(--good); }
+  .tabs { display: flex; gap: 4px; }
+</style>
+</head>
+<body data-module="6">
+<a class="skip" href="#main">Skip to content</a>
+<div id="topbar"></div>
+<main class="page" id="main">
+
+<section class="intro">
+  <div class="kicker">Part 2 · Hardware, OS and Home · Module 06</div>
+  <h1>Operating Systems: Windows, macOS, Linux, Mobile</h1>
+  <p class="why"><b>Why this matters.</b> Operating systems are the biggest domain on A+ Core 2, and they are where most support tickets end up: a slow PC, a broken update, a permissions error, a lost file. You need to know where every tool lives, which command fixes what, how file systems and permissions work, and how to troubleshoot methodically. The same skills carry into server administration, cloud and security work.</p>
+  <h3>You will be able to</h3>
+  <ul class="outcomes">
+    <li>Explain what an OS does: kernel, drivers, processes, memory management, virtual memory, file systems and permissions.</li>
+    <li>Use the main Windows tools and commands (Task Manager, Event Viewer, Device Manager, ipconfig, sfc, DISM, robocopy and more).</li>
+    <li>Choose file systems and partition schemes (NTFS, exFAT, ext4, APFS; MBR vs GPT).</li>
+    <li>Use core macOS and Linux tools and read Linux permissions in symbolic and octal form.</li>
+    <li>Apply the CompTIA 7-step troubleshooting method to common OS problems.</li>
+    <li>Design a backup plan using full, incremental, differential and synthetic backups and the 3-2-1 rule.</li>
+  </ul>
+  <nav class="jumpnav" id="jumpnav" aria-label="On this page"></nav>
+</section>
+
+<section class="certmap" id="certmap">
+  <h2>Cert map</h2>
+  <div id="certmap-badges"></div>
+</section>
+
+<section class="lesson" id="what-os">
+  <h2>1. What an operating system does</h2>
+  <ul>
+    <li><b>Kernel</b>: the privileged core. It runs in <b>kernel mode</b> (full hardware access); apps run in <b>user mode</b> and ask the kernel for services through <b>system calls</b>. This separation stops a crashing app from taking down the whole machine.</li>
+    <li><b>Drivers</b>: kernel modules that control specific hardware. A bad driver is a top cause of blue screens.</li>
+    <li><b>Processes and threads</b>: the OS creates, schedules and ends them (Module 4).</li>
+    <li><b>Memory management</b>: each process gets its own <b>virtual address space</b>. The OS and CPU's memory management unit (MMU) map virtual pages (usually 4 KiB) to physical RAM. When RAM is full, rarely used pages move to disk: the <b>page file</b> (Windows <code>pagefile.sys</code>) or <b>swap</b> (Linux). Touching a page that is on disk causes a <b>page fault</b>, and constant paging ("thrashing") makes a PC crawl.</li>
+    <li><b>File systems</b>: organize data on storage into files and folders with metadata (names, sizes, timestamps, permissions).</li>
+    <li><b>Security and permissions</b>: users, groups, access control lists, privilege elevation.</li>
+  </ul>
+</section>
+
+<section class="lesson" id="windows">
+  <h2>2. Windows</h2>
+  <h3 id="win-editions">Editions, installs and upgrades</h3>
+  <div class="tablewrap"><table>
+    <thead><tr><th>Edition</th><th>Key features</th></tr></thead>
+    <tbody>
+      <tr><td>Home</td><td>Consumer; no domain join, no BitLocker management (has Device Encryption on supported hardware), no Group Policy editor, no Remote Desktop host.</td></tr>
+      <tr><td>Pro</td><td>Domain/Entra ID join, BitLocker, Group Policy, Remote Desktop host, Hyper-V.</td></tr>
+      <tr><td>Pro for Workstations</td><td>ReFS creation, more CPUs and RAM, SMB Direct.</td></tr>
+      <tr><td>Enterprise / Education</td><td>Volume licensing; extra security and management features (e.g. Credential Guard, AppLocker policies, DirectAccess/Always On VPN integration).</td></tr>
+    </tbody>
+  </table></div>
+  <ul>
+    <li><b>Install types</b>: clean install, in-place upgrade (keeps apps and files), repair install, image deployment (e.g. with WDS/MDT or cloud provisioning via Windows Autopilot), network boot (PXE), recovery partition reset.</li>
+    <li><b>Boot media</b>: USB, ISO, network (PXE), internal recovery partition.</li>
+    <li><b>Windows 11 requirements</b>: 64-bit 1 GHz 2-core CPU from the supported list, 4 GB RAM, 64 GB storage, UEFI with Secure Boot capability, TPM 2.0.</li>
+    <li>Windows 10 reached end of support on 14 October 2025 (Extended Security Updates available for a fee).</li>
+  </ul>
+  <h3 id="win-tools">Key Windows tools</h3>
+  <div class="tablewrap"><table>
+    <thead><tr><th>Tool</th><th>Open with</th><th>Use it to</th></tr></thead>
+    <tbody>
+      <tr><td>Task Manager</td><td>Ctrl+Shift+Esc / <code>taskmgr</code></td><td>See and end processes; CPU/RAM/disk/network use; startup apps; services; users.</td></tr>
+      <tr><td>Event Viewer</td><td><code>eventvwr.msc</code></td><td>Read System, Application and Security logs; find errors around crash times.</td></tr>
+      <tr><td>Device Manager</td><td><code>devmgmt.msc</code></td><td>Update, roll back, disable or uninstall drivers; yellow ! = problem.</td></tr>
+      <tr><td>Disk Management</td><td><code>diskmgmt.msc</code></td><td>Initialize disks (MBR/GPT), create, extend, shrink and format partitions, assign letters.</td></tr>
+      <tr><td>Services</td><td><code>services.msc</code></td><td>Start, stop and set startup type (Automatic, Manual, Disabled).</td></tr>
+      <tr><td>Registry Editor</td><td><code>regedit</code></td><td>Edit the configuration database (HKLM, HKCU…). Back up before editing.</td></tr>
+      <tr><td>System Configuration</td><td><code>msconfig</code></td><td>Boot options (Safe Mode), selective startup, services.</td></tr>
+      <tr><td>Resource Monitor / Performance Monitor</td><td><code>resmon</code> / <code>perfmon</code></td><td>Detailed live usage; counters, logs and reports over time.</td></tr>
+      <tr><td>Group Policy Editor</td><td><code>gpedit.msc</code> (Pro+)</td><td>Local policy: password rules, software restrictions, scripts.</td></tr>
+      <tr><td>Computer Management</td><td><code>compmgmt.msc</code></td><td>One console with Event Viewer, Disk Management, Local Users and Groups, Services.</td></tr>
+      <tr><td>Control Panel vs Settings</td><td><code>control</code> / Win+I</td><td>Settings is the modern app; Control Panel still holds some legacy applets.</td></tr>
+    </tbody>
+  </table></div>
+  <h3 id="win-cmd">Windows command line</h3>
+  <div class="tablewrap"><table>
+    <thead><tr><th>Command</th><th>Does</th></tr></thead>
+    <tbody>
+      <tr><td><code>ipconfig</code> / <code>/all</code> / <code>/release</code> / <code>/renew</code> / <code>/flushdns</code></td><td>Show IP settings; detailed info (MAC, DHCP, DNS); drop and request a DHCP lease; clear the DNS cache.</td></tr>
+      <tr><td><code>ping</code>, <code>tracert</code>, <code>pathping</code></td><td>Test reachability; show each router hop; hops plus loss statistics.</td></tr>
+      <tr><td><code>nslookup</code></td><td>Query DNS for a name or IP.</td></tr>
+      <tr><td><code>netstat -ano</code></td><td>Show connections, listening ports and the owning process ID.</td></tr>
+      <tr><td><code>chkdsk C: /f /r</code></td><td>Check a volume and fix file system errors (/r also locates bad sectors).</td></tr>
+      <tr><td><code>sfc /scannow</code></td><td>System File Checker: verify and repair protected Windows files.</td></tr>
+      <tr><td><code>DISM /Online /Cleanup-Image /RestoreHealth</code></td><td>Repair the component store sfc relies on (run DISM first if sfc cannot fix files).</td></tr>
+      <tr><td><code>diskpart</code></td><td>Command-line partitioning (list disk, select disk, clean, convert gpt, create partition).</td></tr>
+      <tr><td><code>gpupdate /force</code>, <code>gpresult /r</code></td><td>Reapply Group Policy now; show which policies applied.</td></tr>
+      <tr><td><code>robocopy src dst /MIR</code></td><td>Robust file copy; /MIR mirrors (deletes extras in destination: careful).</td></tr>
+      <tr><td><code>net user</code>, <code>net use</code></td><td>Manage local accounts; map network drives (<code>net use Z: \\server\share</code>).</td></tr>
+      <tr><td><code>hostname</code>, <code>whoami</code>, <code>winver</code>, <code>shutdown /r /t 0</code></td><td>Name of PC; current user; Windows version; restart now.</td></tr>
+      <tr><td><code>format</code>, <code>copy</code>, <code>xcopy</code>, <code>md</code>, <code>rd</code>, <code>cd</code>, <code>dir</code></td><td>Basic file and disk commands.</td></tr>
+    </tbody>
+  </table></div>
+  <p><b>PowerShell</b> is the modern shell: commands are <i>cmdlets</i> named Verb-Noun (<code>Get-Process</code>, <code>Get-Service</code>, <code>Test-NetConnection</code>, <code>Get-ChildItem</code>) and pass objects, not text, through the pipeline. Scripts end in <code>.ps1</code>; the execution policy controls whether they run.</p>
+  <h3 id="win-accounts">Accounts, security and domains</h3>
+  <ul>
+    <li><b>Account types</b>: local accounts, Microsoft accounts, domain (Active Directory) or Entra ID accounts. Standard users vs administrators.</li>
+    <li><b>UAC</b> (User Account Control): prompts before changes needing admin rights, so even admins run with standard rights by default.</li>
+    <li><b>BitLocker</b>: full-volume encryption using the TPM; BitLocker To Go for removable drives. Store the 48-digit recovery key safely (Microsoft account, AD/Entra ID, printout).</li>
+    <li><b>Microsoft Defender</b> Antivirus and Defender Firewall (domain, private, public profiles).</li>
+    <li><b>Workgroup vs domain</b>: a workgroup is peer-to-peer with local accounts on each PC (fine for under ~20 PCs). A <b>domain</b> uses <b>Active Directory Domain Services</b> on domain controllers for central accounts, Group Policy, and organizational units (OUs). Users log on with DOMAIN\user and roaming profiles or folder redirection can follow them.</li>
+    <li>Shares and permissions: NTFS permissions apply locally and over the network; share permissions apply only over the network. The <b>most restrictive</b> of the two wins. Administrative shares end with $ (C$, ADMIN$).</li>
+  </ul>
+</section>
+
+<section class="lesson" id="filesystems">
+  <h2>3. File systems and partitions</h2>
+  <div class="tablewrap"><table>
+    <thead><tr><th>File system</th><th>OS</th><th>Max file size</th><th>Notes</th></tr></thead>
+    <tbody>
+      <tr><td>NTFS</td><td>Windows</td><td>16 TiB+ (practically huge)</td><td>Permissions (ACLs), encryption (EFS), compression, journaling, quotas.</td></tr>
+      <tr><td>FAT32</td><td>All</td><td>4 GiB − 1 byte</td><td>Maximum 32 GB volume when formatted by Windows (2 TiB spec); universal compatibility.</td></tr>
+      <tr><td>exFAT</td><td>All modern</td><td>16 EiB</td><td>For USB drives and SD cards (SDXC); no permissions or journaling.</td></tr>
+      <tr><td>ReFS</td><td>Windows Server, Pro for Workstations</td><td>Huge</td><td>Resilient File System: integrity checksums, designed for large storage pools.</td></tr>
+      <tr><td>ext4</td><td>Linux</td><td>16 TiB</td><td>Default on many Linux distributions; journaling.</td></tr>
+      <tr><td>XFS</td><td>Linux</td><td>8 EiB</td><td>High-performance; default on RHEL.</td></tr>
+      <tr><td>APFS</td><td>macOS, iOS</td><td>8 EiB</td><td>Apple File System: snapshots, cloning, built-in encryption; optimized for SSDs.</td></tr>
+      <tr><td>HFS+</td><td>Older macOS</td><td>8 EiB</td><td>Mac OS Extended; replaced by APFS.</td></tr>
+    </tbody>
+  </table></div>
+  <div class="tablewrap"><table>
+    <thead><tr><th>Partition scheme</th><th>Max disk size</th><th>Partitions</th><th>Firmware</th></tr></thead>
+    <tbody>
+      <tr><td>MBR (Master Boot Record)</td><td>2 TiB (512-byte sectors)</td><td>4 primary (or 3 primary + 1 extended with logical drives)</td><td>Legacy BIOS</td></tr>
+      <tr><td>GPT (GUID Partition Table)</td><td>Effectively 9.4 ZB</td><td>128 by default in Windows</td><td>UEFI (required for Windows 11 boot); keeps a backup header at the end of the disk</td></tr>
+    </tbody>
+  </table></div>
+  <div class="callout trap">"Copy a 6 GB video to a FAT32 USB stick" fails with "file too large" even when the stick has plenty of space. The fix is to reformat it as exFAT (or NTFS).</div>
+</section>
+
+<section class="lesson" id="macos">
+  <h2>4. macOS</h2>
+  <ul>
+    <li><b>Finder</b> (file manager), <b>Spotlight</b> (Cmd+Space search), <b>Dock</b>, <b>Mission Control</b>, <b>System Settings</b> (formerly System Preferences).</li>
+    <li><b>Time Machine</b>: automatic hourly/daily/weekly backups to an external disk or network share.</li>
+    <li><b>FileVault</b>: full-disk encryption.</li>
+    <li><b>Keychain</b> (Keychain Access / Passwords app): stores passwords, certificates and keys.</li>
+    <li><b>Terminal</b>: zsh shell with Unix commands; <b>Disk Utility</b> (First Aid, partitioning, formatting); <b>Activity Monitor</b> (like Task Manager); <b>Console</b> (logs); <b>Boot Camp</b> (Windows on older Intel Macs).</li>
+    <li>Apps install from the App Store or as .dmg (mount, drag to Applications) or .pkg installers. Gatekeeper checks app signatures.</li>
+    <li>Recovery: hold Cmd+R at startup on Intel Macs; on Apple silicon, hold the power button for options.</li>
+  </ul>
+</section>
+
+<section class="lesson" id="linux">
+  <h2>5. Linux</h2>
+  <p>Linux is a kernel; a <b>distribution</b> bundles it with tools, a package manager and defaults: Debian/Ubuntu (apt, .deb), Red Hat/Fedora/Rocky/Alma (dnf, .rpm), SUSE (zypper), Arch (pacman).</p>
+  <h3 id="fhs">The file system hierarchy</h3>
+  <div class="tablewrap"><table>
+    <thead><tr><th>Path</th><th>Holds</th></tr></thead>
+    <tbody>
+      <tr><td><code>/</code></td><td>Root of everything (Linux has no drive letters)</td></tr>
+      <tr><td><code>/home</code></td><td>Users' home folders (<code>~</code>)</td></tr>
+      <tr><td><code>/root</code></td><td>The root (superuser) account's home</td></tr>
+      <tr><td><code>/etc</code></td><td>System configuration files (e.g. <code>/etc/passwd</code>, <code>/etc/shadow</code>, <code>/etc/hosts</code>)</td></tr>
+      <tr><td><code>/var</code></td><td>Variable data: logs in <code>/var/log</code>, mail, caches</td></tr>
+      <tr><td><code>/bin</code>, <code>/usr/bin</code>, <code>/sbin</code></td><td>Programs (sbin: system admin programs)</td></tr>
+      <tr><td><code>/dev</code></td><td>Device files (disks appear as <code>/dev/sda</code>, <code>/dev/nvme0n1</code>)</td></tr>
+      <tr><td><code>/tmp</code>, <code>/mnt</code>, <code>/media</code>, <code>/boot</code>, <code>/proc</code></td><td>Temporary files; mount points; removable media; kernel and bootloader; live process info</td></tr>
+    </tbody>
+  </table></div>
+  <h3 id="linux-cmd">Core commands</h3>
+  <div class="tablewrap"><table>
+    <thead><tr><th>Command</th><th>Does</th></tr></thead>
+    <tbody>
+      <tr><td><code>ls -l</code>, <code>cd</code>, <code>pwd</code></td><td>List with details; change directory; print working directory</td></tr>
+      <tr><td><code>cp</code>, <code>mv</code>, <code>rm</code>, <code>mkdir</code></td><td>Copy; move or rename; remove (<code>rm -r</code> for folders; there is no recycle bin); make directory</td></tr>
+      <tr><td><code>chmod</code>, <code>chown</code></td><td>Change permissions; change owner (<code>chown user:group file</code>)</td></tr>
+      <tr><td><code>sudo</code>, <code>su</code></td><td>Run one command as root (logged, password of the user); switch user</td></tr>
+      <tr><td><code>apt install</code> / <code>dnf install</code></td><td>Install packages from repositories; <code>apt update && apt upgrade</code> to patch</td></tr>
+      <tr><td><code>grep</code>, <code>find</code>, <code>cat</code>, <code>nano</code>/<code>vi</code></td><td>Search text; find files; print a file; edit a file</td></tr>
+      <tr><td><code>ps aux</code>, <code>top</code>, <code>kill PID</code></td><td>List processes; live view; end a process (<code>kill -9</code> forces)</td></tr>
+      <tr><td><code>df -h</code>, <code>du -sh</code></td><td>Free disk space per file system; size of a folder</td></tr>
+      <tr><td><code>ip addr</code>, <code>ping</code>, <code>dig</code>, <code>curl</code></td><td>Show addresses (ifconfig is legacy); test reachability; query DNS; fetch a URL</td></tr>
+      <tr><td><code>man</code>, <code>systemctl</code>, <code>journalctl</code></td><td>Manual pages; manage services; read systemd logs</td></tr>
+    </tbody>
+  </table></div>
+  <h3 id="perms">Permissions: rwx and octal</h3>
+  <p>Each file has an owner, a group and three permission sets: <b>owner (u)</b>, <b>group (g)</b>, <b>others (o)</b>. Each set has <b>r</b>ead (4), <b>w</b>rite (2) and e<b>x</b>ecute (1). Add them per set: rwx = 7, r-x = 5, r-- = 4. So <code>chmod 755 script.sh</code> = <code>rwxr-xr-x</code>. For directories, x means "may enter the folder".</p>
+  <p>Try it in <a href="#lab-perm">Lab 2</a>.</p>
+</section>
+
+<section class="lesson" id="mobile-os">
+  <h2>6. Mobile operating systems</h2>
+  <ul>
+    <li><b>Android</b> (Google; Linux kernel; many manufacturers; Google Play plus sideloading of .apk files) and <b>iOS/iPadOS</b> (Apple only; App Store; tightly controlled).</li>
+    <li><b>MDM</b> (mobile device management) and <b>MAM</b> (mobile application management): enroll devices, push apps and Wi-Fi/VPN profiles, enforce passcodes and encryption, remote wipe, separate work and personal data (Android Work Profile, Apple managed apps).</li>
+    <li><b>Sync and backup</b>: iCloud, Google account backup, Microsoft 365 / Exchange ActiveSync for mail, contacts and calendars; local backups via computer.</li>
+    <li>Security: screen locks (PIN, biometrics), full-device encryption (default on modern phones), OS updates, app permissions, locator apps (Find My, Find My Device), avoid jailbreaking/rooting.</li>
+  </ul>
+</section>
+
+<section class="lesson" id="software">
+  <h2>7. Software: installation, licensing and patching</h2>
+  <ul>
+    <li><b>Install considerations</b>: system requirements (CPU, RAM, storage, 32 vs 64-bit), OS compatibility, distribution method (download, ISO, MSI, store, package manager), impact on the device, network and business, and the need for admin rights.</li>
+    <li><b>Licensing</b>: <b>EULA</b> (end-user license agreement), per-user vs per-device, perpetual vs <b>subscription</b>, volume/enterprise licensing, <b>open source</b> (GPL copyleft vs permissive MIT/Apache), freeware vs shareware. Using unlicensed software is a legal and security risk.</li>
+    <li><b>Updates and patches</b>: security updates, feature updates, driver and firmware updates. Test before broad deployment, schedule maintenance windows, keep a rollback plan (Module 8 change management).</li>
+  </ul>
+</section>
+
+<section class="lesson" id="troubleshooting">
+  <h2>8. Troubleshooting methodology and common OS problems</h2>
+  <h3 id="seven-steps">The CompTIA 7 steps</h3>
+  <ol>
+    <li><b>Identify the problem</b>: gather information from the user, identify changes, back up data before making changes, inquire about environmental or infrastructure changes.</li>
+    <li><b>Establish a theory of probable cause</b> (question the obvious; research if needed).</li>
+    <li><b>Test the theory</b> to determine the cause. If confirmed, determine next steps; if not, establish a new theory or escalate.</li>
+    <li><b>Establish a plan of action</b> to resolve the problem and implement the solution, referring to vendor instructions as needed.</li>
+    <li><b>Implement the solution</b> or escalate as appropriate.</li>
+    <li><b>Verify full system functionality</b> and, if applicable, implement preventive measures.</li>
+    <li><b>Document findings, actions, outcomes and lessons learned.</b></li>
+  </ol>
+  <div class="callout trap">Backing up data comes in step 1, before you change anything. Documentation is the LAST step (7), even though you take notes all along.</div>
+  <div class="tablewrap"><table>
+    <thead><tr><th>Symptom</th><th>Common causes</th><th>Tools / fixes</th></tr></thead>
+    <tbody>
+      <tr><td>Blue screen (BSOD) / stop error</td><td>Bad driver, failing RAM or disk, recent update</td><td>Note the stop code; Event Viewer; roll back driver; Safe Mode; memory diagnostic; sfc/DISM; System Restore</td></tr>
+      <tr><td>Slow boot / slow performance</td><td>Too many startup apps, low RAM (paging), full disk, malware, HDD failing</td><td>Task Manager startup tab; Resource Monitor; disk cleanup; malware scan; SSD upgrade</td></tr>
+      <tr><td>App crashes</td><td>Corrupt install, incompatible version, missing dependency</td><td>Repair/reinstall app; Event Viewer Application log; compatibility mode; updates</td></tr>
+      <tr><td>Profile corruption</td><td>Interrupted shutdown, disk errors</td><td>Temporary profile message; create new profile and copy data; fix registry ProfileList entry</td></tr>
+      <tr><td>Services fail to start</td><td>Dependency service stopped, wrong account password</td><td>services.msc, Event Viewer, reset service account</td></tr>
+      <tr><td>Boot loops / no OS found</td><td>Corrupt boot configuration, failed update</td><td>Windows Recovery Environment: Startup Repair, <code>bootrec /fixmbr /fixboot /rebuildbcd</code>, System Restore, uninstall updates</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section class="lesson" id="backups">
+  <h2>9. Backups</h2>
+  <div class="tablewrap"><table>
+    <thead><tr><th>Type</th><th>Backs up</th><th>Archive bit (Windows)</th><th>To restore you need</th></tr></thead>
+    <tbody>
+      <tr><td>Full</td><td>Everything selected</td><td>Cleared</td><td>That one full backup</td></tr>
+      <tr><td>Incremental</td><td>Changes since the last backup of <i>any</i> type</td><td>Cleared</td><td>Last full + <b>every</b> incremental since</td></tr>
+      <tr><td>Differential</td><td>Changes since the last <i>full</i></td><td>Not cleared</td><td>Last full + the <b>latest</b> differential</td></tr>
+      <tr><td>Synthetic full</td><td>Built on the backup server by merging a full with later incrementals</td><td>n/a</td><td>That synthetic full (no need to re-read the source)</td></tr>
+    </tbody>
+  </table></div>
+  <p><b>3-2-1 rule</b>: keep <b>3</b> copies of data, on <b>2</b> different media types, with <b>1</b> copy off-site (many now add "1 immutable or offline copy, 0 errors after verification" for ransomware resilience). Also consider retention (how long to keep backups), frequency, and <b>testing restores</b>: a backup you have never restored is a hope, not a plan.</p>
+</section>
+
+<section class="lab" id="labs">
+  <h2>Interactive labs</h2>
+
+  <div class="lab-card" id="lab-term" data-lab="Terminal Simulator: a Windows cmd/PowerShell and Linux bash terminal with guided missions.">
+    <h3>Lab 1: Terminal Simulator</h3>
+    <div class="row tabs" role="tablist"><button type="button" role="tab" id="tt-win" aria-selected="true" aria-pressed="true">Windows (cmd / PowerShell)</button><button type="button" role="tab" id="tt-lin" aria-selected="false" aria-pressed="false">Linux (bash)</button></div>
+    <div class="row"><label>Mission <select id="tt-mission"></select></label></div>
+    <div class="term-box" id="tt-out" aria-live="polite"></div>
+    <form class="term-in" id="tt-form"><input type="text" id="tt-in" autocomplete="off" autocapitalize="off" spellcheck="false" aria-label="Command"><button type="submit" class="primary">Run</button></form>
+    <p class="figcap">Try <code>help</code> to list supported commands. Commands are simulated with realistic sample output.</p>
+    <div class="caption" id="tt-cap" aria-live="polite">Pick a mission or type a command.</div>
+  </div>
+
+  <div class="lab-card" id="lab-perm" data-lab="Linux Permission Calculator: tick r/w/x boxes and see octal and symbolic forms update, and vice versa.">
+    <h3>Lab 2: Linux Permission Calculator</h3>
+    <div class="grid2">
+      <div><div class="perm-grid" id="pm-grid"></div></div>
+      <div>
+        <label class="field"><span>Octal</span><input type="text" id="pm-oct" class="mono" value="755" maxlength="3" style="width:90px"></label>
+        <label class="field"><span>Symbolic</span><input type="text" id="pm-sym" class="mono" value="rwxr-xr-x" maxlength="9" style="width:140px"></label>
+        <p class="readout" id="pm-ls"></p>
+      </div>
+    </div>
+    <div class="caption" id="pm-cap" aria-live="polite"></div>
+  </div>
+
+  <div class="lab-card" id="lab-vm" data-lab="Virtual Memory Visualizer: processes request pages, RAM fills, pages swap to disk and page faults are counted.">
+    <h3>Lab 3: Virtual Memory Visualizer</h3>
+    <div class="row"><button type="button" data-p="A">Process A needs a page</button><button type="button" data-p="B">Process B needs a page</button><button type="button" data-p="C">Process C needs a page</button><button type="button" id="vm-touch">Touch a swapped page</button><button type="button" id="vm-reset">Reset</button></div>
+    <h4>Physical RAM (8 frames)</h4><div class="vm-cells" id="vm-ram"></div>
+    <h4>Page file / swap on disk</h4><div class="vm-cells" id="vm-disk"></div>
+    <p class="readout" id="vm-stats"></p>
+    <div class="caption" id="vm-cap" aria-live="polite">Start requesting pages.</div>
+  </div>
+
+  <div class="lab-card" id="lab-ts" data-lab="Troubleshooting Scenario Game: a branching story scored against the CompTIA 7-step method.">
+    <h3>Lab 4: Troubleshooting Scenario Game</h3>
+    <div id="ts-box" class="tile"></div>
+    <div class="caption" id="ts-cap" aria-live="polite"></div>
+  </div>
+
+  <div class="lab-card" id="lab-backup" data-lab="Backup Strategy Planner: choose full, incremental or differential for each day and see what a restore needs.">
+    <h3>Lab 5: Backup Strategy Planner</h3>
+    <div class="row"><button type="button" data-preset="inc">Preset: full Sunday + incrementals</button><button type="button" data-preset="diff">Preset: full Sunday + differentials</button><button type="button" data-preset="full">Preset: full every day</button></div>
+    <div class="cal" id="bk-cal"></div>
+    <div class="row"><label>Disaster strikes after the backup on <select id="bk-day"></select></label></div>
+    <div class="caption" id="bk-cap" aria-live="polite"></div>
+  </div>
+</section>
+
+<section class="glossary" id="glossary">
+  <h2>Key terms</h2>
+  <div id="glossary-list"></div>
+</section>
+
+<section class="memory" id="memory">
+  <h2>Memory aids</h2>
+  <div class="mnemonic">7 steps: <b>I</b> <b>E</b>at <b>T</b>acos, <b>E</b>njoy <b>I</b>ce cream, <b>V</b>erify, <b>D</b>ocument → Identify, Establish theory, Test, Establish plan, Implement, Verify, Document.</div>
+  <div class="mnemonic">Permissions: <b>r=4, w=2, x=1</b>. 7 = rwx, 6 = rw-, 5 = r-x, 4 = r--. "Seven is everything, six can't run, five can't write."</div>
+  <div class="mnemonic">Restore: <b>Incremental = Inconvenient</b> restore (all of them). <b>Differential = Decent</b> restore (full + latest one).</div>
+  <div class="mnemonic">sfc vs DISM: "<b>D</b>ISM <b>D</b>octors the store, then <b>s</b>fc <b>s</b>wap files."</div>
+  <div class="tablewrap"><table><thead><tr><th>Exam trap</th><th>Why it is wrong</th></tr></thead><tbody>
+    <tr><td>"Use FAT32 for a 10 GB disk image file."</td><td>FAT32 cannot hold a file over 4 GiB; use exFAT or NTFS.</td></tr>
+    <tr><td>"MBR is fine for a 4 TB boot disk."</td><td>MBR tops out at 2 TiB; use GPT (UEFI).</td></tr>
+    <tr><td>"Share permissions alone control access."</td><td>Over the network, the most restrictive of share and NTFS permissions applies.</td></tr>
+    <tr><td>"robocopy /MIR is just a copy."</td><td>/MIR deletes destination files not in the source.</td></tr>
+    <tr><td>"chmod 777 fixes permission errors."</td><td>It gives everyone write access: a security risk. Grant the minimum needed.</td></tr>
+    <tr><td>"Differential backups clear the archive bit."</td><td>Only full and incremental backups clear it.</td></tr>
+  </tbody></table></div>
+</section>
+
+<section class="quiz" id="quiz">
+  <h2>Knowledge check</h2>
+  <div id="quiz-area"></div>
+</section>
+
+<section class="flashcards" id="flashcards">
+  <h2>Flashcards</h2>
+  <div id="deck-area"></div>
+</section>
+
+<section class="deeper" id="deeper">
+  <h2>Go deeper (official sources)</h2>
+  <ul>
+    <li><a href="https://learn.microsoft.com/en-us/windows-server/administration/windows-commands/windows-commands" rel="noopener">Microsoft Learn: Windows commands reference</a></li>
+    <li><a href="https://learn.microsoft.com/en-us/windows/whats-new/windows-11-requirements" rel="noopener">Microsoft: Windows 11 requirements</a></li>
+    <li><a href="https://learn.microsoft.com/en-us/powershell/" rel="noopener">Microsoft Learn: PowerShell documentation</a></li>
+    <li><a href="https://support.apple.com/guide/mac-help/welcome/mac" rel="noopener">Apple: macOS User Guide</a></li>
+    <li><a href="https://refspecs.linuxfoundation.org/fhs.shtml" rel="noopener">Linux Foundation: Filesystem Hierarchy Standard</a></li>
+    <li><a href="https://www.comptia.org/en-us/certifications/a/" rel="noopener">CompTIA A+ Core 2 (220-1202) exam objectives</a></li>
+  </ul>
+</section>
+</main>
+<footer class="foot">Datacenter Omnibus · Original study material. Not affiliated with or endorsed by any certification body.</footer>
+
+<script src="data/catalog.js"></script>
+<script src="assets/omnibus.js"></script>
+<script src="data/m06.js"></script>
+<script>
+(function () {
+  var h = OMNI.h, $ = function (id) { return document.getElementById(id); };
+
+  /* ================= Lab 1: Terminal simulator ================= */
+  var os = "win", cwd = { win: "C:\\Users\\student", lin: "/home/student" };
+  var linFiles = { "/home/student": ["notes.txt", "backup.sh", "photos"], "/home/student/photos": ["cat.jpg"], "/etc": ["hosts", "passwd", "shadow", "ssh"], "/var/log": ["syslog", "auth.log"] };
+  var perms = { "backup.sh": "rw-r--r--", "notes.txt": "rw-r--r--" };
+  var W = {
+    help: function () { return "Supported: ipconfig [/all|/release|/renew|/flushdns], ping host, tracert host, nslookup host, netstat -ano, hostname, whoami, chkdsk, sfc /scannow, DISM /Online /Cleanup-Image /RestoreHealth, diskpart, gpupdate /force, gpresult /r, robocopy, net user, dir, cd, cls, Get-Process, Get-Service, Test-NetConnection host"; },
+    ipconfig: function (a) {
+      if (/\/all/i.test(a)) return "Windows IP Configuration\n\n   Host Name . . . . . . . . . . . . : DESKTOP-7Q2\n\nEthernet adapter Ethernet:\n   Physical Address. . . . . . . . . : 3C-52-82-1A-9F-04\n   DHCP Enabled. . . . . . . . . . . : Yes\n   IPv4 Address. . . . . . . . . . . : 192.168.1.42(Preferred)\n   Subnet Mask . . . . . . . . . . . : 255.255.255.0\n   Default Gateway . . . . . . . . . : 192.168.1.1\n   DHCP Server . . . . . . . . . . . : 192.168.1.1\n   DNS Servers . . . . . . . . . . . : 192.168.1.1\n   Lease Obtained. . . . . . . . . . : Today 08:12:44";
+      if (/\/release/i.test(a)) return "Ethernet adapter Ethernet:\n   IPv4 Address. . . : (released)";
+      if (/\/renew/i.test(a)) return "Ethernet adapter Ethernet:\n   IPv4 Address. . . . . . . . . . . : 192.168.1.42\n   Subnet Mask . . . . . . . . . . . : 255.255.255.0\n   Default Gateway . . . . . . . . . : 192.168.1.1";
+      if (/\/flushdns/i.test(a)) return "Successfully flushed the DNS Resolver Cache.";
+      return "Ethernet adapter Ethernet:\n   IPv4 Address. . . . . . . . . . . : 192.168.1.42\n   Subnet Mask . . . . . . . . . . . : 255.255.255.0\n   Default Gateway . . . . . . . . . : 192.168.1.1";
+    },
+    ping: function (a) { var t = a.trim() || "example.com"; return "Pinging " + t + " [93.184.215.14] with 32 bytes of data:\nReply from 93.184.215.14: bytes=32 time=18ms TTL=56\nReply from 93.184.215.14: bytes=32 time=17ms TTL=56\nReply from 93.184.215.14: bytes=32 time=19ms TTL=56\nReply from 93.184.215.14: bytes=32 time=18ms TTL=56\n\nPackets: Sent = 4, Received = 4, Lost = 0 (0% loss)"; },
+    tracert: function (a) { return "Tracing route to " + (a.trim() || "example.com") + " over a maximum of 30 hops\n  1    1 ms    1 ms    1 ms  192.168.1.1\n  2    9 ms    8 ms    9 ms  100.64.0.1\n  3   12 ms   11 ms   12 ms  isp-core.example.net [203.0.113.9]\n  4   17 ms   18 ms   17 ms  93.184.215.14\nTrace complete."; },
+    nslookup: function (a) { return "Server:  router.home\nAddress:  192.168.1.1\n\nNon-authoritative answer:\nName:    " + (a.trim() || "example.com") + "\nAddresses:  2606:2800:21f:cb07:6820:80da:af6b:8b2c\n          93.184.215.14"; },
+    netstat: function () { return "  Proto  Local Address          Foreign Address        State           PID\n  TCP    0.0.0.0:135            0.0.0.0:0              LISTENING       1012\n  TCP    0.0.0.0:445            0.0.0.0:0              LISTENING       4\n  TCP    192.168.1.42:51022     93.184.215.14:443      ESTABLISHED     8840\n  UDP    0.0.0.0:5353           *:*                                    2216"; },
+    hostname: function () { return "DESKTOP-7Q2"; },
+    whoami: function () { return "desktop-7q2\\student"; },
+    chkdsk: function () { return "The type of the file system is NTFS.\nStage 1: Examining basic file system structure ...\nStage 2: Examining file name linkage ...\nStage 3: Examining security descriptors ...\nWindows has scanned the file system and found no problems.\nNo further action is required."; },
+    sfc: function (a) { return /scannow/i.test(a) ? "Beginning system scan. This process will take some time.\nVerification 100% complete.\nWindows Resource Protection found corrupt files and successfully repaired them." : "Usage: sfc /scannow"; },
+    dism: function (a) { return /restorehealth/i.test(a) ? "Deployment Image Servicing and Management tool\n[==========================100.0%==========================]\nThe restore operation completed successfully.\nThe operation completed successfully." : "Try: DISM /Online /Cleanup-Image /RestoreHealth"; },
+    diskpart: function () { return "Microsoft DiskPart\nDISKPART> list disk\n  Disk ###  Status         Size     Free     Dyn  Gpt\n  Disk 0    Online          476 GB      0 B        *\n  Disk 1    Online           29 GB    29 GB\n(simulated: type commands carefully in real life; 'clean' wipes a disk)"; },
+    gpupdate: function () { return "Updating policy...\nComputer Policy update has completed successfully.\nUser Policy update has completed successfully."; },
+    gpresult: function () { return "RSOP data for DESKTOP-7Q2\\student\n    Applied Group Policy Objects\n    -----------------------------\n        Default Domain Policy\n        Workstation Hardening\n        Local Group Policy"; },
+    robocopy: function () { return "ROBOCOPY :: Robust File Copy for Windows\n  Source : C:\\Data\\\n  Dest : \\\\nas\\backup\\Data\\\n               Total    Copied   Skipped  Mismatch    FAILED    Extras\n    Files :      1240        87      1153         0         0         0"; },
+    net: function (a) { return /user/i.test(a) ? "User accounts for \\\\DESKTOP-7Q2\n-------------------------------------------------------------\nAdministrator            DefaultAccount           Guest\nstudent                  WDAGUtilityAccount\nThe command completed successfully." : "Try: net user"; },
+    dir: function () { return " Directory of " + cwd.win + "\n\n11/18/2026  09:14 AM    <DIR>          Desktop\n11/18/2026  09:14 AM    <DIR>          Documents\n11/17/2026  04:02 PM            12,288 report.docx\n               1 File(s)         12,288 bytes"; },
+    cd: function (a) { if (a.trim()) cwd.win = a.trim().indexOf(":") > 0 ? a.trim() : cwd.win + "\\" + a.trim(); return ""; },
+    "get-process": function () { return "Handles  NPM(K)    PM(K)      WS(K)     CPU(s)     Id ProcessName\n-------  ------    -----      -----     ------     -- -----------\n    812      42   182400     201112      45.20   8840 msedge\n    356      19    48120      61304       3.11   2216 svchost\n    611      30    90116     104552      12.07   5120 Teams"; },
+    "get-service": function () { return "Status   Name               DisplayName\n------   ----               -----------\nRunning  Dhcp               DHCP Client\nRunning  Dnscache           DNS Client\nStopped  Spooler            Print Spooler\nRunning  WinDefend          Microsoft Defender Antivirus Service"; },
+    "test-netconnection": function (a) { return "ComputerName     : " + (a.trim() || "example.com") + "\nRemoteAddress    : 93.184.215.14\nInterfaceAlias   : Ethernet\nSourceAddress    : 192.168.1.42\nPingSucceeded    : True\nPingReplyDetails (RTT) : 18 ms"; }
+  };
+  function linPath(p) { if (!p) return cwd.lin; if (p === "~") return "/home/student"; if (p[0] === "/") return p.replace(/\/$/, "") || "/"; if (p === "..") return cwd.lin.split("/").slice(0, -1).join("/") || "/"; return (cwd.lin + "/" + p).replace("//", "/"); }
+  var L = {
+    help: function () { return "Supported: ls [-l], cd, pwd, cat, chmod, chown, sudo, apt, dnf, grep, ps, top, kill, df -h, ip addr, ping, whoami, clear"; },
+    ls: function (a) { var dir = linPath(a.replace("-l", "").trim()), f = linFiles[dir]; if (!f) return "ls: cannot access '" + dir + "': No such file or directory";
+      if (/-l/.test(a)) return f.map(function (x) { var d = linFiles[dir + "/" + x]; return (d ? "drwxr-xr-x" : "-" + (perms[x] || "rw-r--r--")) + " 1 student student " + (d ? "4096" : " 812") + " Nov 18 09:14 " + x; }).join("\n"); return f.join("  "); },
+    cd: function (a) { var p = linPath(a.trim() || "~"); if (!linFiles[p]) return "bash: cd: " + a.trim() + ": No such file or directory"; cwd.lin = p; return ""; },
+    pwd: function () { return cwd.lin; },
+    cat: function (a) { var f = a.trim(); if (/shadow/.test(f)) return "cat: /etc/shadow: Permission denied"; if (/hosts/.test(f)) return "127.0.0.1   localhost\n192.168.1.10 fileserver"; if (/notes/.test(f)) return "Remember: run backup.sh nightly."; return "cat: " + f + ": No such file or directory"; },
+    chmod: function (a) { var m = a.trim().split(/\s+/); if (m.length < 2) return "chmod: missing operand"; var mode = m[0], f = m[1];
+      if (/^[0-7]{3}$/.test(mode)) { perms[f] = mode.split("").map(function (d) { d = +d; return (d & 4 ? "r" : "-") + (d & 2 ? "w" : "-") + (d & 1 ? "x" : "-"); }).join(""); return ""; }
+      if (/^[ugoa]*\+x$/.test(mode)) { var p = (perms[f] || "rw-r--r--").split(""); if (/u|a|^\+/.test(mode)) p[2] = "x"; if (/g|a|^\+/.test(mode)) p[5] = "x"; if (/o|a|^\+/.test(mode)) p[8] = "x"; perms[f] = p.join(""); return ""; }
+      return "(simulated) mode applied"; },
+    chown: function (a) { return /^sudo/.test(a) ? "" : "chown: changing ownership: Operation not permitted (try sudo)"; },
+    sudo: function (a) { var rest = a.trim(); if (/^apt|^dnf/.test(rest)) return pkg(rest); if (/^chown/.test(rest)) return ""; if (/cat \/etc\/shadow/.test(rest)) return "root:$y$j9T$...:20045:0:99999:7:::\nstudent:$y$j9T$...:20045:0:99999:7:::"; return run(rest, true); },
+    apt: function (a) { return "E: Could not open lock file - are you root? (try sudo apt " + a.trim() + ")"; },
+    dnf: function () { return "Error: This command has to be run with superuser privileges (try sudo)."; },
+    grep: function (a) { return /student/.test(a) ? "student:x:1000:1000:Student,,,:/home/student:/bin/bash" : "(no matches)"; },
+    ps: function () { return "USER   PID %CPU %MEM COMMAND\nroot     1  0.0  0.1 /sbin/init\nroot   612  0.0  0.2 /usr/sbin/sshd\nstudent 2210 87.5 4.1 ./runaway.sh\nstudent 2301  0.1  0.3 bash"; },
+    top: function () { return "top - 09:20:11 up 3 days,  load average: 1.12, 0.87, 0.60\nTasks: 142 total,   2 running\n  PID USER     %CPU %MEM COMMAND\n 2210 student  87.5  4.1 runaway.sh\n  612 root      0.3  0.2 sshd"; },
+    kill: function (a) { return /2210/.test(a) ? "[1]+  Terminated              ./runaway.sh" : "bash: kill: (" + a.trim() + ") - No such process"; },
+    df: function () { return "Filesystem      Size  Used Avail Use% Mounted on\n/dev/nvme0n1p2  468G  412G   32G  93% /\n/dev/nvme0n1p1  511M  6.1M  505M   2% /boot/efi"; },
+    ip: function () { return "2: enp3s0: <BROADCAST,MULTICAST,UP,LOWER_UP> mtu 1500\n    link/ether 3c:52:82:1a:9f:05 brd ff:ff:ff:ff:ff:ff\n    inet 192.168.1.55/24 brd 192.168.1.255 scope global dynamic enp3s0\n    inet6 fe80::3e52:82ff:fe1a:9f05/64 scope link"; },
+    ping: function (a) { return "PING " + (a.replace("-c 4", "").trim() || "example.com") + " (93.184.215.14) 56(84) bytes of data.\n64 bytes from 93.184.215.14: icmp_seq=1 ttl=56 time=18.2 ms\n64 bytes from 93.184.215.14: icmp_seq=2 ttl=56 time=17.9 ms\n--- ping statistics ---\n2 packets transmitted, 2 received, 0% packet loss"; },
+    whoami: function () { return "student"; }
+  };
+  function pkg(a) { return /install/.test(a) ? "Reading package lists... Done\nBuilding dependency tree... Done\nThe following NEW packages will be installed: " + a.split(/\s+/).pop() + "\nSetting up " + a.split(/\s+/).pop() + " ... Done" : /update/.test(a) ? "Hit:1 http://archive.ubuntu.com noble InRelease\nReading package lists... Done\n12 packages can be upgraded." : "Done."; }
+  var missions = {
+    win: [["", "Free play"], ["ip", "Find this PC's IPv4 address and default gateway"], ["dns", "Clear the DNS cache after a website moved"], ["files", "Repair corrupted Windows system files (two commands, right order)"], ["gp", "Force Group Policy to apply now and confirm it applied"]],
+    lin: [["", "Free play"], ["perm", "Make backup.sh executable for its owner"], ["proc", "Find and stop the process hogging the CPU"], ["disk", "Check how full the disks are"], ["pkg", "Install the package htop"]]
+  };
+  var progress = [];
+  function checkMission(cmd) {
+    var m = $("tt-mission").value, c = cmd.toLowerCase(); if (!m) return;
+    var done = false, msg = "";
+    if (m === "ip" && /^ipconfig/.test(c)) { done = true; msg = "ipconfig shows IPv4 192.168.1.42 and gateway 192.168.1.1. /all adds MAC, DHCP server and DNS servers."; }
+    if (m === "dns" && /flushdns/.test(c)) { done = true; msg = "The resolver cache is cleared, so the next lookup asks the DNS server for the new address."; }
+    if (m === "files") { if (/^dism.*restorehealth/.test(c)) progress.push("dism"); if (/^sfc.*scannow/.test(c)) { done = progress.indexOf("dism") >= 0; msg = done ? "Correct order: DISM repaired the component store, then sfc replaced corrupted files from it." : "sfc ran. Best practice when sfc cannot repair: run DISM /Online /Cleanup-Image /RestoreHealth first, then sfc again."; } }
+    if (m === "gp") { if (/gpupdate/.test(c)) progress.push("gpu"); if (/gpresult/.test(c) && progress.indexOf("gpu") >= 0) { done = true; msg = "gpupdate /force reapplied policy and gpresult /r confirmed which GPOs applied."; } }
+    if (m === "perm" && /chmod/.test(c) && /backup\.sh/.test(c) && (perms["backup.sh"] || "")[2] === "x") { done = true; msg = "backup.sh is now " + perms["backup.sh"] + ". Check with ls -l. u+x or 744/755 both work; avoid 777."; }
+    if (m === "proc") { if (/^(ps|top)/.test(c)) progress.push("ps"); if (/^kill/.test(c) && /2210/.test(c)) { done = progress.indexOf("ps") >= 0; msg = done ? "You found PID 2210 (runaway.sh at 87.5% CPU) and ended it. kill sends SIGTERM; kill -9 forces SIGKILL if it ignores you." : "You killed it, but first confirm with ps aux or top so you do not end the wrong process."; } }
+    if (m === "disk" && /^df/.test(c)) { done = true; msg = "df -h shows / is 93% full. Next: du -sh to find what is using space."; }
+    if (m === "pkg" && /^sudo (apt|dnf) install htop/.test(c)) { done = true; msg = "Package installs need root, so sudo is required. On Debian/Ubuntu: apt; on RHEL/Fedora: dnf."; }
+    if (msg) OMNI.say("tt-cap", (done ? "<span class='ok'>Mission complete!</span> " : "") + msg);
+  }
+  function prompt() { return os === "win" ? cwd.win + ">" : "student@lab:" + cwd.lin.replace("/home/student", "~") + "$"; }
+  function out(t, cls) { var o = $("tt-out"); o.appendChild(h("div", { class: cls || "" }, t)); o.scrollTop = o.scrollHeight; }
+  function run(line, noEcho) {
+    var parts = line.trim().split(/\s+/), cmd = parts[0] || "", args = line.trim().slice(cmd.length);
+    var table = os === "win" ? W : L, key = os === "win" ? cmd.toLowerCase() : cmd;
+    if (!cmd) return "";
+    if (/^(cls|clear)$/i.test(cmd)) { $("tt-out").innerHTML = ""; return ""; }
+    var fn = table[key];
+    if (!fn) return os === "win" ? "'" + cmd + "' is not recognized as an internal or external command,\noperable program or batch file." : "bash: " + cmd + ": command not found";
+    return fn(args);
+  }
+  $("tt-form").addEventListener("submit", function (e) { e.preventDefault(); var v = $("tt-in").value; out(prompt() + " " + v, "p"); var r = run(v); if (r) out(r, /denied|not recognized|not found|Error|E:/.test(r) ? "e" : ""); $("tt-in").value = ""; checkMission(v); });
+  function setOS(o) { os = o; progress = []; $("tt-win").setAttribute("aria-selected", o === "win"); $("tt-win").setAttribute("aria-pressed", o === "win"); $("tt-lin").setAttribute("aria-selected", o === "lin"); $("tt-lin").setAttribute("aria-pressed", o === "lin");
+    $("tt-mission").innerHTML = ""; missions[o].forEach(function (m) { $("tt-mission").appendChild(h("option", { value: m[0] }, m[1])); });
+    $("tt-out").innerHTML = ""; out(o === "win" ? "Microsoft Windows [Version 10.0.26100]\n(simulated terminal: type help)" : "Ubuntu 24.04 LTS (simulated terminal: type help)"); OMNI.say("tt-cap", "Pick a mission or type a command."); }
+  $("tt-win").onclick = function () { setOS("win"); }; $("tt-lin").onclick = function () { setOS("lin"); };
+  $("tt-mission").onchange = function () { progress = []; OMNI.say("tt-cap", this.value ? "Mission: " + this.options[this.selectedIndex].text + "." : "Free play."); };
+  setOS("win");
+
+  /* ================= Lab 2: Permissions ================= */
+  var who = ["Owner (u)", "Group (g)", "Others (o)"], bits = [4, 2, 1], names = ["r", "w", "x"], boxes = [];
+  var grid = $("pm-grid"); grid.appendChild(h("span")); names.forEach(function (n, i) { grid.appendChild(h("b", { style: "text-align:center" }, n + " (" + bits[i] + ")")); });
+  who.forEach(function (w, r) { grid.appendChild(h("span", null, w)); boxes[r] = []; bits.forEach(function (b, c) { var cb = h("input", { type: "checkbox", "aria-label": w + " " + names[c] }); cb.onchange = function () { fromBoxes(); }; boxes[r].push(cb); grid.appendChild(h("label", { style: "text-align:center" }, cb)); }); });
+  function setBoxes(oct) { oct.split("").forEach(function (d, r) { d = +d; bits.forEach(function (b, c) { boxes[r][c].checked = !!(d & b); }); }); }
+  function cur() { return boxes.map(function (row) { return row.reduce(function (s, cb, c) { return s + (cb.checked ? bits[c] : 0); }, 0); }); }
+  function sym(o) { return o.map(function (d) { return (d & 4 ? "r" : "-") + (d & 2 ? "w" : "-") + (d & 1 ? "x" : "-"); }).join(""); }
+  function show(src) {
+    var o = cur(), s = sym(o);
+    if (src !== "oct") $("pm-oct").value = o.join(""); if (src !== "sym") $("pm-sym").value = s;
+    $("pm-ls").textContent = "-" + s + " 1 alice staff 1024 Nov 18 report.sh   →   chmod " + o.join("") + " report.sh";
+    var warn = o[2] & 2 ? " <span class='no'>Warning: others can write. Anyone on the system can change this file.</span>" : "";
+    OMNI.say("pm-cap", "Owner gets " + s.slice(0, 3) + " (" + o[0] + " = " + [4, 2, 1].filter(function (b) { return o[0] & b; }).join(" + ") + (o[0] ? "" : "0") + "), group " + s.slice(3, 6) + " (" + o[1] + "), others " + s.slice(6) + " (" + o[2] + ")." + warn);
+  }
+  function fromBoxes() { show(); }
+  $("pm-oct").addEventListener("input", function () { if (/^[0-7]{3}$/.test(this.value)) { setBoxes(this.value); show("oct"); } });
+  $("pm-sym").addEventListener("input", function () { var v = this.value; if (/^[r-][w-][x-][r-][w-][x-][r-][w-][x-]$/.test(v)) { setBoxes([0, 3, 6].map(function (i) { return (v[i] === "r" ? 4 : 0) + (v[i + 1] === "w" ? 2 : 0) + (v[i + 2] === "x" ? 1 : 0); }).join("")); show("sym"); } });
+  setBoxes("755"); show();
+
+  /* ================= Lab 3: Virtual memory ================= */
+  var ram = [], disk = [], faults = 0, counters = { A: 0, B: 0, C: 0 }, tick = 0;
+  var colors = { A: "var(--hw-soft)", B: "var(--net-soft)", C: "var(--dc-soft)" };
+  function drawVM() {
+    function cells(host, arr, n) { host.innerHTML = ""; for (var i = 0; i < n; i++) { var p = arr[i]; host.appendChild(h("div", { class: "vm-cell", style: p ? "background:" + colors[p.p] : "" }, p ? p.p + p.n : "free")); } }
+    cells($("vm-ram"), ram, 8); cells($("vm-disk"), disk, Math.max(8, disk.length));
+    $("vm-stats").textContent = "RAM used " + ram.length + "/8 frames · pages on disk " + disk.length + " · page faults " + faults;
+  }
+  function need(p) {
+    counters[p]++; var page = { p: p, n: counters[p], t: ++tick }, msg;
+    if (ram.length < 8) { ram.push(page); msg = "Process " + p + " got page " + p + page.n + " in a free RAM frame. Fast."; }
+    else { ram.sort(function (a, b) { return a.t - b.t; }); var ev = ram.shift(); disk.push(ev); ram.push(page); msg = "RAM was full, so the OS evicted the least recently used page (" + ev.p + ev.n + ") to the page file on disk, then gave the frame to " + p + page.n + ". Writing to disk is thousands of times slower than RAM."; }
+    drawVM(); OMNI.say("vm-cap", msg);
+  }
+  OMNI.$$("#lab-vm [data-p]").forEach(function (b) { b.onclick = function () { need(b.dataset.p); }; });
+  $("vm-touch").onclick = function () {
+    if (!disk.length) { OMNI.say("vm-cap", "No pages are on disk yet. Fill RAM first."); return; }
+    var back = disk.shift(); faults++; ram.sort(function (a, b) { return a.t - b.t; }); var ev = ram.shift(); disk.push(ev); back.t = ++tick; ram.push(back); drawVM();
+    OMNI.say("vm-cap", "<b>Page fault!</b> Process " + back.p + " touched page " + back.p + back.n + ", which was on disk. The CPU trapped to the OS, which swapped out " + ev.p + ev.n + " and read " + back.p + back.n + " back into RAM. " + (faults > 3 ? "Lots of faults like this is called <b>thrashing</b>: the fix is more RAM or fewer running apps." : "One fault costs microseconds to milliseconds."));
+  };
+  $("vm-reset").onclick = function () { ram = []; disk = []; faults = 0; counters = { A: 0, B: 0, C: 0 }; drawVM(); OMNI.say("vm-cap", "Reset."); };
+  drawVM();
+
+  /* ================= Lab 4: Troubleshooting game ================= */
+  var story = {
+    start: { t: "A user calls: \"My PC blue-screens every afternoon since yesterday.\" What do you do first?", o: [["Reinstall Windows right away", "bad1", 0], ["Ask questions: what changed, when it happens, any error codes; back up their data", "s2", 1], ["Replace the RAM", "bad2", 0]] },
+    bad1: { t: "You wiped the PC without backing up or finding the cause. The user lost files and the crashes return the next day (a bad driver was reinstalled). This skipped steps 1 to 4.", end: true },
+    bad2: { t: "You replaced RAM with no evidence. Crashes continue. Always identify the problem and form a theory before acting.", end: true },
+    s2: { t: "The user says a new docking station was installed yesterday, and the stop code mentions a .sys file. You backed up their documents. What is your theory?", o: [["The new dock's driver is faulty", "s3", 1], ["The power supply is failing", "s3b", 0]] },
+    s3b: { t: "Possible, but the timing points at the change made yesterday. Question the obvious: what changed? Try again.", back: "s2" },
+    s3: { t: "How do you test the theory?", o: [["Check Event Viewer and the minidump; boot without the dock to see if crashes stop", "s4", 1], ["Edit the registry to disable random drivers", "s3c", 0]] },
+    s3c: { t: "Random registry edits are risky and do not test a specific theory. Try again.", back: "s3" },
+    s4: { t: "Event Viewer shows the dock's USB display driver crashing. Without the dock, no crashes. Theory confirmed. What next?", o: [["Plan: update the dock driver and firmware from the vendor, schedule with the user, and have a rollback ready", "s5", 1], ["Tell the user never to use the dock again", "s4b", 0]] },
+    s4b: { t: "That avoids the problem but does not resolve it. Establish a plan that fixes the cause. Try again.", back: "s4" },
+    s5: { t: "You install the updated driver and firmware. Now?", o: [["Close the ticket immediately", "s5b", 0], ["Verify: use the dock all afternoon, confirm no crashes; consider pushing the driver to all docks (preventive measure)", "s6", 1]] },
+    s5b: { t: "You must verify full functionality before closing. Try again.", back: "s5" },
+    s6: { t: "Everything works. Final step?", o: [["Document the findings, actions, outcome and lessons learned in the ticket and knowledge base", "win", 1], ["Nothing more needed", "s6b", 0]] },
+    s6b: { t: "Documentation is step 7. It helps the next technician and spots patterns. Try again.", back: "s6" },
+    win: { t: "Ticket resolved using all 7 steps: identify, theorize, test, plan, implement, verify, document.", end: true, good: true }
+  };
+  var score = 0, node = "start", stepsHit = 0;
+  function drawTS() {
+    var s = story[node], box = $("ts-box"); box.innerHTML = "";
+    box.appendChild(h("p", null, s.t));
+    if (s.end) { box.appendChild(h("button", { type: "button", class: "primary", onclick: function () { node = "start"; score = 0; stepsHit = 0; drawTS(); } }, "Play again"));
+      OMNI.say("ts-cap", s.good ? "Score: " + score + " good decisions. You followed the method in order." : "Game over. Score: " + score + ". Replay and follow the 7 steps in order."); return; }
+    if (s.back) { box.appendChild(h("button", { type: "button", onclick: function () { node = s.back; drawTS(); } }, "← Choose again")); OMNI.say("ts-cap", "Not the best move."); return; }
+    s.o.forEach(function (o) { box.appendChild(h("button", { type: "button", style: "display:block;margin:6px 0;text-align:left;width:100%", onclick: function () { if (o[2]) { score++; } node = o[1]; drawTS(); } }, o[0])); });
+    OMNI.say("ts-cap", "Good decisions so far: " + score + ".");
+  }
+  drawTS();
+
+  /* ================= Lab 5: Backup planner ================= */
+  var days = ["Sun", "Mon", "Tue", "Wed", "Thu", "Fri", "Sat"], plan = ["Full", "Incremental", "Incremental", "Incremental", "Incremental", "Incremental", "Incremental"];
+  var cal = $("bk-cal"), sels = [];
+  days.forEach(function (d, i) { var s = h("select", { "aria-label": d + " backup type" }, ["Full", "Incremental", "Differential", "None"].map(function (t) { return h("option", null, t); })); s.value = plan[i]; s.onchange = function () { plan[i] = s.value; drawBK(); }; sels.push(s); cal.appendChild(h("div", { class: "cal-day" }, [h("b", null, d), s])); $("bk-day").appendChild(h("option", { value: i, selected: i === 4 ? true : null }, d)); });
+  $("bk-day").onchange = drawBK;
+  OMNI.$$("#lab-backup [data-preset]").forEach(function (b) { b.onclick = function () { var p = b.dataset.preset; plan = days.map(function (_, i) { return i === 0 || p === "full" ? "Full" : p === "inc" ? "Incremental" : "Differential"; }); sels.forEach(function (s, i) { s.value = plan[i]; }); drawBK(); }; });
+  function drawBK() {
+    var d = +$("bk-day").value, need = [], lastFull = -1;
+    for (var i = d; i >= 0; i--) if (plan[i] === "Full") { lastFull = i; break; }
+    OMNI.$$(".cal-day", cal).forEach(function (c) { c.classList.remove("need"); });
+    if (lastFull < 0) { OMNI.say("bk-cap", "<span class='no'>No full backup on or before " + days[d] + ".</span> Incrementals and differentials are useless without a full backup to build on."); return; }
+    need.push(lastFull);
+    var lastDiff = -1; for (var j = lastFull + 1; j <= d; j++) { if (plan[j] === "Differential") lastDiff = j; }
+    for (var k = lastFull + 1; k <= d; k++) { if (plan[k] === "Incremental") need.push(k); }
+    if (lastDiff >= 0) need.splice(1, 0, lastDiff);
+    need = need.filter(function (v, i, a) { return a.indexOf(v) === i; }).sort();
+    need.forEach(function (i) { cal.children[i].classList.add("need"); });
+    var mixed = plan.slice(lastFull + 1, d + 1).indexOf("Differential") >= 0 && plan.slice(lastFull + 1, d + 1).indexOf("Incremental") >= 0;
+    OMNI.say("bk-cap", "To restore " + days[d] + "'s data you need <b>" + need.length + " backup set(s)</b>: " + need.map(function (i) { return days[i] + " (" + plan[i] + ")"; }).join(" → ") + ". " +
+      (need.length === 1 ? "Fastest restore, but full backups every day use the most storage and time." : plan[need[need.length - 1]] === "Differential" && need.length === 2 ? "Differentials grow each day but keep restores to two sets." : "Incrementals are small and fast to take, but a restore needs every one in the chain, and one damaged set breaks it.") + (mixed ? " Mixing types is unusual: with archive-bit based tools an incremental clears the bit, so a later differential does not re-include those files, and you still need every incremental." : ""));
+  }
+  drawBK();
+})();
+</script>
+<!-- module-data:start -->
+<script type="application/json" id="module-data">{"module":6,"title":"Operating Systems","glossary":[["Kernel mode / user mode","Two privilege levels: full power vs restricted.","CPU privilege rings separating the OS kernel (full hardware access) from applications, which must use system calls.",""],["System call","How an app asks the OS to do something.","A controlled entry point into the kernel for privileged operations such as file I/O or process creation.","syscall"],["Virtual memory","Pretending there is more RAM by using disk.","Per-process virtual address spaces mapped to physical frames by the MMU, with pages swapped to disk when RAM is full.",""],["Page fault","The program needed a page that is not in RAM.","A processor exception raised when a referenced virtual page is not mapped in physical memory, triggering the OS to load it.",""],["Thrashing","The PC spends all its time swapping.","Excessive paging where the system spends more time moving pages between RAM and disk than doing work.",""],["Page file / swap","Disk space used as overflow RAM.","Disk area (pagefile.sys on Windows, swap partition/file on Linux) holding pages evicted from RAM.",""],["NTFS","Windows' main file system.","New Technology File System: journaling file system with ACLs, EFS encryption, compression and quotas.","New Technology File System"],["FAT32","Old universal file system with a 4 GiB file limit.","File Allocation Table, 32-bit: widely compatible; maximum file size 4 GiB − 1 byte.","File Allocation Table 32"],["exFAT","Modern file system for USB drives and SD cards.","Extended FAT: lightweight file system with very large file support and no journaling or permissions.","Extended File Allocation Table"],["APFS","Apple's modern file system.","Apple File System: SSD-optimized, with snapshots, cloning, space sharing and native encryption.","Apple File System"],["ext4","A common Linux file system.","Fourth extended file system: journaling Linux file system with extents.","fourth extended file system"],["MBR","Old partition scheme limited to 2 TiB.","Master Boot Record: legacy partition table in the first sector; 4 primary partitions, 2 TiB limit with 512-byte sectors.","Master Boot Record"],["GPT","Modern partition scheme for UEFI.","GUID Partition Table: UEFI partitioning with 64-bit LBAs, many partitions and a backup header.","GUID Partition Table"],["UAC","The 'Do you want to allow…' prompt.","User Account Control: Windows feature that runs users with standard privileges and requires consent or credentials to elevate.","User Account Control"],["BitLocker","Windows full-disk encryption.","Microsoft full-volume encryption using AES and the TPM for key protection; BitLocker To Go for removable media.",""],["FileVault","Mac full-disk encryption.","macOS full-disk encryption using XTS-AES-128 with a 256-bit key.",""],["Active Directory","Microsoft's central directory of users and computers.","Active Directory Domain Services: a directory service on domain controllers providing authentication (Kerberos), Group Policy and object management.","AD DS"],["Group Policy","Central settings pushed to Windows PCs.","A Windows mechanism that applies configuration settings from Group Policy Objects (GPOs) to users and computers.","GPO"],["Workgroup","Small peer-to-peer Windows network.","A decentralized Windows network where each computer manages its own local accounts.",""],["Domain","Centrally managed Windows network.","A security boundary of computers and users administered centrally through Active Directory.",""],["sfc","Tool that repairs Windows system files.","System File Checker: scans protected system files and replaces corrupted ones from the component store.","System File Checker"],["DISM","Tool that repairs the Windows image.","Deployment Image Servicing and Management: services Windows images and repairs the component store (/RestoreHealth).","Deployment Image Servicing and Management"],["chmod","Linux command to change permissions.","Change mode: sets read/write/execute permissions for owner, group and others in octal or symbolic form.","change mode"],["sudo","Run one command as the administrator.","Superuser do: executes a command with root privileges per the sudoers policy, with logging.","superuser do"],["Package manager","An app store for the command line.","Tool that installs, upgrades and removes software packages and dependencies from repositories (apt, dnf).",""],["MDM","Central control of phones and tablets.","Mobile Device Management: enrollment, configuration profiles, policy enforcement and remote wipe of mobile devices.","Mobile Device Management"],["EULA","The license you click 'I agree' to.","End-User License Agreement: the legal contract defining how licensed software may be used.","End-User License Agreement"],["Incremental backup","Backs up changes since the last backup.","Copies data changed since the last backup of any type and resets the archive bit.",""],["Differential backup","Backs up changes since the last full.","Copies all data changed since the last full backup without resetting the archive bit.",""],["Synthetic full backup","A full backup assembled from earlier backups.","A full backup created on the backup target by combining a previous full with subsequent incrementals.",""],["3-2-1 rule","Three copies, two media, one off-site.","Backup strategy of keeping three copies of data on two different media types with one copy off-site.",""]],"quiz":[{"t":"order","q":"Put the CompTIA troubleshooting steps in order.","o":["Identify the problem","Establish a theory of probable cause","Test the theory to determine the cause","Establish a plan of action and implement the solution","Verify full system functionality","Document findings, actions and outcomes"],"x":"The official list has 7 steps (plan and implement are separate); documentation is always last.","c":"A2","d":"3.0"},{"t":"mc","q":"A user cannot copy a 6 GB video to a 64 GB USB stick: 'file too large'. What is the fix?","o":["Use a larger stick","Reformat the stick as exFAT","Run chkdsk","Convert it to MBR"],"a":1,"w":["Capacity is not the problem.","Correct: FAT32 cannot store files over 4 GiB.","chkdsk fixes errors, not limits.","Partition scheme is unrelated to file size limits."],"x":"exFAT supports huge files and works on Windows and macOS.","c":"A2","d":"1.7"},{"t":"mc","q":"sfc /scannow reports it could not repair some files. What should you run next?","o":["chkdsk /f","DISM /Online /Cleanup-Image /RestoreHealth, then sfc again","gpupdate /force","diskpart clean"],"a":1,"w":["chkdsk fixes file system structure, not system file versions.","Correct.","Group Policy is unrelated.","diskpart clean erases the disk!"],"x":"DISM repairs the component store that sfc copies good files from.","c":"A2","d":"1.2"},{"t":"mc","q":"Which command shows the MAC address, DHCP server and DNS servers of a Windows PC?","o":["ipconfig","ipconfig /all","netstat -ano","hostname"],"a":1,"w":["Plain ipconfig shows only IP, mask and gateway.","Correct.","netstat shows connections and ports.","hostname shows only the name."],"x":"Use /release and /renew to refresh a DHCP lease.","c":"A2","d":"1.2"},{"t":"mc","q":"What permissions does \u003ccode>chmod 640 file\u003c/code> set?","o":["rw-r-----","rwxr--r--","rw-rw-r--","r--r-----"],"a":0,"w":["Correct: 6 = rw-, 4 = r--, 0 = ---.","That is 744.","That is 664.","That is 440."],"x":"r = 4, w = 2, x = 1 for each of owner, group, others.","c":"A2","d":"1.9"},{"t":"mc","q":"A user's files are shared with NTFS permission 'Modify' and share permission 'Read'. What access do they have over the network?","o":["Modify","Read","Full control","No access"],"a":1,"w":["NTFS alone would allow Modify, but the share is more restrictive.","Correct: the most restrictive of share and NTFS applies.","Neither grants Full control.","Both grant some access."],"x":"Locally only NTFS applies; over the network both apply and the stricter wins.","c":"A2","d":"2.0"},{"t":"mc","q":"Which partition scheme is required to boot Windows 11 from a 4 TB drive with UEFI?","o":["MBR","GPT","FAT32","Extended partition"],"a":1,"w":["MBR is limited to 2 TiB and legacy boot.","Correct.","FAT32 is a file system, not a partition scheme (though the EFI partition uses it).","Extended partitions are an MBR concept."],"x":"GPT stores a backup partition table at the end of the disk.","c":"A2","d":"1.4"},{"t":"mc","sc":"Backups: full on Sunday, incrementals Monday to Friday. The server dies Thursday evening after that night's backup.","q":"Which sets do you restore?","o":["Sunday full only","Sunday full + Thursday incremental","Sunday full + Monday, Tuesday, Wednesday and Thursday incrementals","Thursday incremental only"],"a":2,"w":["Misses four days of changes.","Misses Monday to Wednesday changes.","Correct: incrementals form a chain.","An incremental alone is only one day's changes."],"x":"With differentials you would need only Sunday + Thursday.","c":"A2","d":"4.3"},{"t":"ms","q":"Which Windows editions can join an Active Directory domain? (Select all that apply.)","o":["Home","Pro","Enterprise","Education"],"a":[1,2,3],"w":["Home cannot join a domain.","Correct.","Correct.","Correct."],"x":"Home users must upgrade to Pro for domain join, BitLocker management and Group Policy.","c":"A2","d":"1.5"},{"t":"mc","q":"Which Linux command shows how full each mounted file system is?","o":["du -sh","df -h","ls -l","free -h"],"a":1,"w":["du shows the size of folders.","Correct: disk free.","ls lists files.","free shows RAM."],"x":"df = disk free, du = disk usage.","c":"A2","d":"1.9"},{"t":"mc","q":"Which tool would you use to find which process is listening on TCP port 445?","o":["netstat -ano","tracert","nslookup","gpresult"],"a":0,"w":["Correct: -o shows the PID.","tracert shows the route.","nslookup queries DNS.","gpresult shows applied policy."],"x":"Match the PID in Task Manager's Details tab.","c":"A2","d":"1.2"},{"t":"mc","q":"A Windows PC is sluggish; Task Manager shows memory at 98% and the disk at 100% constantly. What is happening?","o":["The CPU is overheating","The system is paging heavily (thrashing) because RAM is exhausted","The network is saturated","The GPU driver crashed"],"a":1,"w":["CPU heat would show as throttling.","Correct: add RAM or close apps.","Network would show in the network graph.","A GPU crash looks different."],"x":"Virtual memory lets programs run when RAM is full, at a big performance cost.","c":"A2","d":"3.1"},{"t":"mc","q":"Which macOS feature provides full-disk encryption?","o":["Time Machine","Gatekeeper","FileVault","Keychain"],"a":2,"w":["Time Machine is backup.","Gatekeeper checks app signatures.","Correct.","Keychain stores credentials."],"x":"Windows equivalent: BitLocker.","c":"A2","d":"1.8"},{"t":"mc","q":"In the troubleshooting method, when should you back up the user's data?","o":["Step 1, while identifying the problem, before making changes","Only if the fix fails","After implementing the solution","During documentation"],"a":0,"w":["Correct.","Too late if the fix destroys data.","Too late.","Too late."],"x":"CompTIA lists 'perform backups before making changes' inside step 1.","c":"A2","d":"3.0"},{"t":"mc","q":"What does UAC do by default for an administrator account?","o":["Runs everything as admin","Runs apps with standard rights and prompts for consent to elevate","Blocks all installations","Encrypts the profile"],"a":1,"w":["That was the pre-Vista model.","Correct.","Installs are allowed after consent.","Encryption is BitLocker/EFS."],"x":"Standard users must enter admin credentials instead of just consenting.","c":"A2","d":"2.0"}],"flashcards":[["Kernel vs user mode","Kernel: full hardware access (OS core, drivers). User: restricted apps that use system calls."],["Page fault","Access to a virtual page not in RAM; OS loads it from disk."],["Task Manager shortcut","Ctrl+Shift+Esc"],["Event Viewer command","eventvwr.msc"],["Device Manager command","devmgmt.msc"],["Disk Management command","diskmgmt.msc"],["sfc vs DISM","DISM /RestoreHealth repairs the component store; sfc /scannow repairs system files from it."],["ipconfig /all shows","MAC, DHCP status and server, lease times, DNS servers, plus IP/mask/gateway."],["netstat -ano","Connections and listening ports with owning PID."],["gpupdate /force vs gpresult /r","Reapply Group Policy now vs show applied policies."],["robocopy /MIR","Mirror source to destination (deletes extras in destination)."],["FAT32 max file size","4 GiB − 1 byte."],["MBR limits","2 TiB, 4 primary partitions, legacy BIOS."],["GPT","UEFI partitioning, huge disks, 128 partitions in Windows, backup header."],["NTFS + share permissions","Over the network the most restrictive applies."],["Windows 11 requirements","64-bit dual-core 1 GHz, 4 GB RAM, 64 GB storage, UEFI Secure Boot, TPM 2.0."],["Home vs Pro","Pro adds domain join, BitLocker, Group Policy, Remote Desktop host, Hyper-V."],["Linux r/w/x values","r = 4, w = 2, x = 1."],["chmod 755","rwxr-xr-x"],["chmod 644","rw-r--r--"],["/etc vs /var/log","/etc = configuration; /var/log = logs."],["df vs du","df: free space per file system. du: size of folders/files."],["apt vs dnf","apt: Debian/Ubuntu. dnf: Red Hat/Fedora."],["macOS backup / encryption / passwords","Time Machine / FileVault / Keychain."],["7 troubleshooting steps","Identify, theorize, test, plan, implement, verify, document."],["Incremental restore","Last full + every incremental since."],["Differential restore","Last full + latest differential."],["3-2-1 rule","3 copies, 2 media types, 1 off-site."],["BSOD first steps","Note stop code, check Event Viewer/minidump, roll back recent driver/update, Safe Mode, memory test."]]}</script>
+<!-- module-data:end -->
+</body>
+</html>

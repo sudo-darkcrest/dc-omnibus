@@ -1,0 +1,564 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Module 09 · How Networks Talk | Datacenter Omnibus</title>
+<meta name="description" content="Network types and topologies, the OSI and TCP/IP models, encapsulation, TCP vs UDP, Ethernet framing, ARP and the full Network+ port list, with interactive labs.">
+<link rel="stylesheet" href="assets/omnibus.css">
+<style>
+  .enc { display: flex; flex-wrap: wrap; align-items: stretch; justify-content: center; gap: 0; margin: 10px 0; font-family: var(--mono); font-size: .85rem; }
+  .enc > div { padding: 10px 8px; border: 2px solid var(--line); text-align: center; cursor: pointer; min-width: 60px; transition: transform .25s; }
+  .enc > div:hover, .enc > div:focus { transform: translateY(-3px); outline: none; }
+  .enc .eth { background: #fde68a; color: #1f2937; } .enc .ip { background: #bfdbfe; color: #1f2937; } .enc .tcp { background: #bbf7d0; color: #1f2937; } .enc .app { background: #e9d5ff; color: #1f2937; } .enc .fcs { background: #fde68a; color: #1f2937; }
+  .bits { font-family: var(--mono); font-size: .72rem; word-break: break-all; line-height: 1.3; max-height: 5.2em; overflow: hidden; }
+  .osi-grid { display: grid; grid-template-columns: 1fr; gap: 6px; }
+  .osi-grid .dropzone { min-height: 46px; }
+  .drill-q { font-size: 1.5rem; font-weight: 800; text-align: center; margin: 10px 0; }
+  .drill-opts { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
+  .drill-opts button { font-size: 1.1rem; padding: 12px; }
+  .layer-tbl td:first-child { font-weight: 800; white-space: nowrap; }
+</style>
+</head>
+<body data-module="9">
+<a class="skip" href="#main">Skip to content</a>
+<div id="topbar"></div>
+<main class="page" id="main">
+
+<section class="intro">
+  <div class="kicker">Part 3 · Networking, Fiber and Wireless · Module 09</div>
+  <h1>How Networks Talk: The OSI and TCP/IP Models</h1>
+  <p class="why"><b>Why this matters.</b> Every networking job, from help desk to data center engineer, uses the layer models as a shared language: "it's a Layer 1 problem" tells a colleague to check the cable, not the firewall. Network+ Domain 1 (Networking Concepts) starts here, and ports and protocols appear on A+, Network+ and Security+ alike.</p>
+  <h3>You will be able to</h3>
+  <ul class="outcomes">
+    <li>Name network types (LAN, WAN, MAN, PAN, WLAN, SAN, CAN) and topologies, including spine-leaf.</li>
+    <li>List the 7 OSI layers and 4 TCP/IP layers with their PDUs, protocols and devices.</li>
+    <li>Explain encapsulation and the difference between MAC addresses, IP addresses and ports.</li>
+    <li>Describe the TCP handshake, sequence numbers, windowing and teardown, and when UDP is better.</li>
+    <li>Explain Ethernet frames, MTU, jumbo frames, ARP and unicast/multicast/broadcast/anycast.</li>
+    <li>Recall the Network+ port list from memory.</li>
+  </ul>
+  <nav class="jumpnav" id="jumpnav" aria-label="On this page"></nav>
+</section>
+
+<section class="certmap" id="certmap">
+  <h2>Cert map</h2>
+  <div id="certmap-badges"></div>
+</section>
+
+<section class="lesson" id="types">
+  <h2>1. What a network is, and the kinds you will meet</h2>
+  <p>A <dfn>network</dfn> is two or more devices connected so they can share data. Networks are grouped by the area they cover and by their purpose.</p>
+  <div class="callout analogy">Think of the postal system. Your house (a device) has an address; your street (a LAN) connects neighbors; highways (WANs) connect cities. Letters (data) are put in envelopes (headers) with addresses so every sorting office knows where to send them.</div>
+  <div class="tablewrap"><table>
+    <thead><tr><th>Type</th><th>Stands for</th><th>Scope</th><th>Example</th></tr></thead>
+    <tbody>
+      <tr><td><b>PAN</b></td><td>Personal Area Network</td><td>A few meters around one person</td><td>Phone + earbuds + watch over Bluetooth</td></tr>
+      <tr><td><b>LAN</b></td><td>Local Area Network</td><td>One building or floor</td><td>Office Ethernet switches</td></tr>
+      <tr><td><b>WLAN</b></td><td>Wireless LAN</td><td>A LAN over Wi-Fi</td><td>Home or office Wi-Fi</td></tr>
+      <tr><td><b>CAN</b></td><td>Campus Area Network</td><td>Several buildings on one site</td><td>University or hospital campus</td></tr>
+      <tr><td><b>MAN</b></td><td>Metropolitan Area Network</td><td>A city</td><td>City fiber ring linking government offices</td></tr>
+      <tr><td><b>WAN</b></td><td>Wide Area Network</td><td>Cities, countries, the world</td><td>The internet; MPLS or SD-WAN between branches</td></tr>
+      <tr><td><b>SAN</b></td><td>Storage Area Network</td><td>Dedicated network for block storage</td><td>Fibre Channel or iSCSI to a storage array</td></tr>
+    </tbody>
+  </table></div>
+  <h3>Topologies</h3>
+  <figure class="figure">
+    <svg viewBox="0 0 860 200" width="860" role="img" aria-label="Network topologies: star, mesh, bus, ring, spine-leaf and hub-and-spoke">
+      <g font-size="13" class="svg-text">
+        <!-- star -->
+        <circle cx="70" cy="90" r="14" fill="var(--net)"/><g stroke="var(--net)" stroke-width="2"><line x1="70" y1="90" x2="20" y2="40"/><line x1="70" y1="90" x2="120" y2="40"/><line x1="70" y1="90" x2="20" y2="140"/><line x1="70" y1="90" x2="120" y2="140"/></g>
+        <g fill="var(--surface)" stroke="var(--net)" stroke-width="2"><circle cx="20" cy="40" r="9"/><circle cx="120" cy="40" r="9"/><circle cx="20" cy="140" r="9"/><circle cx="120" cy="140" r="9"/></g>
+        <text x="70" y="185" text-anchor="middle" font-weight="700">Star</text>
+        <!-- mesh -->
+        <g stroke="var(--net)" stroke-width="2"><line x1="170" y1="40" x2="270" y2="40"/><line x1="170" y1="40" x2="170" y2="140"/><line x1="170" y1="40" x2="270" y2="140"/><line x1="270" y1="40" x2="270" y2="140"/><line x1="270" y1="40" x2="170" y2="140"/><line x1="170" y1="140" x2="270" y2="140"/></g>
+        <g fill="var(--surface)" stroke="var(--net)" stroke-width="2"><circle cx="170" cy="40" r="9"/><circle cx="270" cy="40" r="9"/><circle cx="170" cy="140" r="9"/><circle cx="270" cy="140" r="9"/></g>
+        <text x="220" y="185" text-anchor="middle" font-weight="700">Full mesh</text>
+        <!-- bus -->
+        <line x1="310" y1="90" x2="420" y2="90" stroke="var(--gen)" stroke-width="4"/>
+        <g stroke="var(--gen)" stroke-width="2"><line x1="325" y1="90" x2="325" y2="50"/><line x1="365" y1="90" x2="365" y2="130"/><line x1="405" y1="90" x2="405" y2="50"/></g>
+        <g fill="var(--surface)" stroke="var(--gen)" stroke-width="2"><circle cx="325" cy="45" r="9"/><circle cx="365" cy="135" r="9"/><circle cx="405" cy="45" r="9"/></g>
+        <text x="365" y="185" text-anchor="middle" font-weight="700">Bus (historic)</text>
+        <!-- ring -->
+        <circle cx="500" cy="90" r="50" fill="none" stroke="var(--gen)" stroke-width="2"/>
+        <g fill="var(--surface)" stroke="var(--gen)" stroke-width="2"><circle cx="500" cy="40" r="9"/><circle cx="550" cy="90" r="9"/><circle cx="500" cy="140" r="9"/><circle cx="450" cy="90" r="9"/></g>
+        <text x="500" y="185" text-anchor="middle" font-weight="700">Ring</text>
+        <!-- spine leaf -->
+        <g stroke="var(--net)" stroke-width="1.6"><line x1="620" y1="40" x2="590" y2="130"/><line x1="620" y1="40" x2="640" y2="130"/><line x1="620" y1="40" x2="690" y2="130"/><line x1="680" y1="40" x2="590" y2="130"/><line x1="680" y1="40" x2="640" y2="130"/><line x1="680" y1="40" x2="690" y2="130"/></g>
+        <g fill="var(--net-soft)" stroke="var(--net)" stroke-width="2"><rect x="602" y="28" width="36" height="22" rx="4"/><rect x="662" y="28" width="36" height="22" rx="4"/></g>
+        <g fill="var(--surface)" stroke="var(--net)" stroke-width="2"><rect x="575" y="125" width="30" height="20" rx="4"/><rect x="625" y="125" width="30" height="20" rx="4"/><rect x="675" y="125" width="30" height="20" rx="4"/></g>
+        <text x="640" y="20" text-anchor="middle" font-size="11" class="svg-muted">spines</text><text x="640" y="165" text-anchor="middle" font-size="11" class="svg-muted">leaves</text>
+        <text x="640" y="185" text-anchor="middle" font-weight="700">Spine-leaf</text>
+        <!-- hub and spoke -->
+        <rect x="775" y="80" width="30" height="22" rx="4" fill="var(--net)"/>
+        <g stroke="var(--net)" stroke-width="2" stroke-dasharray="5 4"><line x1="790" y1="90" x2="740" y2="40"/><line x1="790" y1="90" x2="845" y2="40"/><line x1="790" y1="90" x2="740" y2="145"/><line x1="790" y1="90" x2="845" y2="145"/></g>
+        <g fill="var(--surface)" stroke="var(--net)" stroke-width="2"><circle cx="740" cy="40" r="9"/><circle cx="845" cy="40" r="9"/><circle cx="740" cy="145" r="9"/><circle cx="845" cy="145" r="9"/></g>
+        <text x="790" y="185" text-anchor="middle" font-weight="700">Hub-and-spoke</text>
+      </g>
+    </svg>
+    <figcaption>Star is the normal office LAN. Mesh gives the most redundancy (full mesh needs n(n−1)/2 links). Spine-leaf is the modern data center fabric: every leaf connects to every spine, so any server is at most two hops from any other.</figcaption>
+  </figure>
+  <div class="tablewrap"><table>
+    <thead><tr><th>Topology</th><th>How it looks</th><th>Strength</th><th>Weakness</th></tr></thead>
+    <tbody>
+      <tr><td>Star / hub-and-spoke</td><td>Everything connects to a central switch or hub site</td><td>Easy to manage; one cable fault affects one device</td><td>The center is a single point of failure</td></tr>
+      <tr><td>Mesh (full or partial)</td><td>Devices connect to many others</td><td>Redundant paths</td><td>Many links; full mesh scales badly</td></tr>
+      <tr><td>Bus</td><td>One shared cable (old coax Ethernet)</td><td>Cheap</td><td>One break takes down all; collisions</td></tr>
+      <tr><td>Ring</td><td>Each device connects to two neighbors</td><td>Predictable; dual rings self-heal (SONET, metro fiber)</td><td>A single ring breaks at one fault</td></tr>
+      <tr><td>Spine-leaf</td><td>Two tiers, every leaf to every spine</td><td>Predictable low latency for east-west traffic; scale by adding spines/leaves</td><td>Many cables and optics</td></tr>
+      <tr><td>Point-to-point</td><td>One link between two sites</td><td>Simple, private</td><td>No redundancy</td></tr>
+      <tr><td>Hybrid</td><td>A mix of the above</td><td>Fits real needs</td><td>More complex to document</td></tr>
+    </tbody>
+  </table></div>
+  <div class="callout detail">Traditional enterprise networks use a <b>three-tier</b> design (access, distribution, core), or a <b>collapsed core</b> where distribution and core are combined. Traffic flowing between servers inside a data center is <b>east-west</b>; traffic entering or leaving is <b>north-south</b>.</div>
+</section>
+
+<section class="lesson" id="models">
+  <h2>2. The OSI and TCP/IP models side by side</h2>
+  <p>The <dfn>OSI model</dfn> (Open Systems Interconnection, ISO/IEC 7498-1) splits networking into 7 layers so each layer has one job and talks only to the layers above and below it. The <dfn>TCP/IP model</dfn> (from the IETF RFCs, mainly RFC 1122) is what the internet actually runs, with 4 layers.</p>
+  <figure class="figure">
+    <svg viewBox="0 0 700 380" width="700" role="img" aria-label="OSI seven layers mapped to the four TCP/IP layers with PDU names">
+      <g font-size="14" class="svg-text">
+        <text x="150" y="20" text-anchor="middle" font-weight="800">OSI (7)</text>
+        <text x="420" y="20" text-anchor="middle" font-weight="800">TCP/IP (4)</text>
+        <text x="620" y="20" text-anchor="middle" font-weight="800">PDU</text>
+      </g>
+      <g id="osi-rows"></g>
+      <g font-size="14" class="svg-text">
+        <rect x="320" y="30" width="200" height="142" rx="8" fill="#e9d5ff" stroke="#7c3aed"/><text x="420" y="106" text-anchor="middle" fill="#1f2937" font-weight="700">Application</text>
+        <rect x="320" y="178" width="200" height="44" rx="8" fill="#bbf7d0" stroke="#16a34a"/><text x="420" y="205" text-anchor="middle" fill="#1f2937" font-weight="700">Transport</text>
+        <rect x="320" y="228" width="200" height="44" rx="8" fill="#bfdbfe" stroke="#2563eb"/><text x="420" y="255" text-anchor="middle" fill="#1f2937" font-weight="700">Internet</text>
+        <rect x="320" y="278" width="200" height="92" rx="8" fill="#fde68a" stroke="#ca8a04"/><text x="420" y="329" text-anchor="middle" fill="#1f2937" font-weight="700">Link (network access)</text>
+        <text x="620" y="106" text-anchor="middle">Data</text>
+        <text x="620" y="205" text-anchor="middle">Segment (TCP) /</text><text x="620" y="221" text-anchor="middle">Datagram (UDP)</text>
+        <text x="620" y="255" text-anchor="middle">Packet</text>
+        <text x="620" y="305" text-anchor="middle">Frame</text>
+        <text x="620" y="355" text-anchor="middle">Bits</text>
+      </g>
+    </svg>
+    <figcaption>OSI layers 5, 6 and 7 collapse into the TCP/IP Application layer; layers 1 and 2 become Link. Some books show a 5-layer "hybrid" model that keeps Physical and Data Link separate.</figcaption>
+  </figure>
+  <div class="tablewrap"><table class="layer-tbl">
+    <thead><tr><th>#</th><th>OSI layer</th><th>Job</th><th>Protocols / standards</th><th>Devices</th><th>PDU</th></tr></thead>
+    <tbody>
+      <tr><td>7</td><td>Application</td><td>Network services to applications</td><td>HTTP/S, DNS, DHCP, SMTP, IMAP, POP3, FTP, SSH, SNMP, LDAP, NTP, SIP</td><td>Proxies, load balancers (L7), next-gen firewalls</td><td>Data</td></tr>
+      <tr><td>6</td><td>Presentation</td><td>Format, encryption, compression</td><td>TLS/SSL (often placed here), JPEG, ASCII/UTF-8, MIME</td><td>(software)</td><td>Data</td></tr>
+      <tr><td>5</td><td>Session</td><td>Open, manage and close sessions</td><td>RPC, NetBIOS session, SMB session setup, SOCKS</td><td>(software)</td><td>Data</td></tr>
+      <tr><td>4</td><td>Transport</td><td>End-to-end delivery, ports, reliability</td><td>TCP, UDP, QUIC (over UDP)</td><td>Firewalls (stateful), L4 load balancers</td><td>Segment / datagram</td></tr>
+      <tr><td>3</td><td>Network</td><td>Logical addressing and routing</td><td>IPv4, IPv6, ICMP, IPsec, OSPF, BGP (BGP rides on TCP but is a routing protocol)</td><td>Routers, Layer 3 switches</td><td>Packet</td></tr>
+      <tr><td>2</td><td>Data Link</td><td>Local delivery by MAC address, framing, error detection</td><td>Ethernet (802.3), Wi-Fi MAC (802.11), 802.1Q VLANs, ARP (L2/L3 boundary), STP, PPP</td><td>Switches, bridges, wireless APs, NICs</td><td>Frame</td></tr>
+      <tr><td>1</td><td>Physical</td><td>Signals on the medium</td><td>Copper, fiber, radio; connectors; 1000BASE-T, 10GBASE-SR</td><td>Cables, hubs, repeaters, media converters, transceivers</td><td>Bits</td></tr>
+    </tbody>
+  </table></div>
+  <div class="callout trap">Hubs and repeaters are Layer 1 (they just repeat bits). Switches are Layer 2. Routers are Layer 3. A "Layer 3 switch" is a switch that can also route.</div>
+</section>
+
+<section class="lesson" id="encap">
+  <h2>3. Encapsulation, and three kinds of address</h2>
+  <p>As data goes down the stack, each layer adds its own header (and Ethernet also adds a trailer). This is <dfn>encapsulation</dfn>. The receiver strips them in reverse: <dfn>decapsulation</dfn>. Each layer reads only its own header.</p>
+  <div class="enc" aria-label="Encapsulated Ethernet frame">
+    <div class="eth" tabindex="0">Ethernet header<br><small>dst MAC, src MAC, type</small></div>
+    <div class="ip" tabindex="0">IP header<br><small>src IP, dst IP, TTL</small></div>
+    <div class="tcp" tabindex="0">TCP header<br><small>ports, seq, ack</small></div>
+    <div class="app" tabindex="0">Application data<br><small>e.g., HTTP GET</small></div>
+    <div class="fcs" tabindex="0">FCS<br><small>trailer</small></div>
+  </div>
+  <div class="tablewrap"><table>
+    <thead><tr><th>Address</th><th>Layer</th><th>Looks like</th><th>Scope</th><th>Changes hop to hop?</th></tr></thead>
+    <tbody>
+      <tr><td><b>MAC address</b></td><td>2</td><td><code>3C:22:FB:9A:10:7E</code> (48 bits; first 24 = OUI vendor ID)</td><td>Local link only</td><td><b>Yes</b>: rewritten by every router</td></tr>
+      <tr><td><b>IP address</b></td><td>3</td><td><code>192.168.1.20</code> or <code>2001:db8::20</code></td><td>End to end</td><td>No (except when NAT rewrites it)</td></tr>
+      <tr><td><b>Port</b></td><td>4</td><td><code>443</code> (16 bits: 0 to 65535)</td><td>Identifies the application on the host</td><td>No (except PAT)</td></tr>
+    </tbody>
+  </table></div>
+  <div class="callout analogy">IP address = the building's street address. Port = the apartment number. MAC address = the name of the next mail carrier the letter is handed to; it changes at every sorting office.</div>
+  <p>Port ranges (IANA): <b>0 to 1023</b> well-known, <b>1024 to 49151</b> registered, <b>49152 to 65535</b> dynamic/ephemeral (the random source port your client picks). A <dfn>socket</dfn> is IP + protocol + port; a connection is identified by its 5-tuple (source IP, source port, destination IP, destination port, protocol).</p>
+</section>
+
+<section class="lesson" id="tcpudp">
+  <h2>4. TCP vs UDP</h2>
+  <div class="grid2">
+    <div class="tile"><h4>TCP (Transmission Control Protocol, RFC 9293)</h4>
+      <ul><li>Connection-oriented: three-way handshake first.</li><li>Reliable: sequence numbers, acknowledgments, retransmission.</li><li>Ordered delivery; flow control with a sliding <b>window</b>; congestion control.</li><li>20-byte minimum header.</li><li>Used by web, email, file transfer, SSH, databases.</li></ul></div>
+    <div class="tile"><h4>UDP (User Datagram Protocol, RFC 768)</h4>
+      <ul><li>Connectionless: just send.</li><li>No acknowledgments or retransmission (the app may add its own).</li><li>No ordering; very low overhead.</li><li>8-byte header.</li><li>Used by DNS queries, DHCP, TFTP, SNMP, syslog, NTP, VoIP/video, gaming, QUIC (HTTP/3).</li></ul></div>
+  </div>
+  <figure class="figure">
+    <svg viewBox="0 0 520 290" width="520" role="img" aria-label="TCP three-way handshake and four-way teardown">
+      <g font-size="13" class="svg-text">
+        <text x="80" y="20" text-anchor="middle" font-weight="800">Client</text><text x="440" y="20" text-anchor="middle" font-weight="800">Server</text>
+        <line x1="80" y1="28" x2="80" y2="285" stroke="var(--ink-2)" stroke-width="2"/><line x1="440" y1="28" x2="440" y2="285" stroke="var(--ink-2)" stroke-width="2"/>
+        <defs><marker id="ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto"><path d="M0,0 L10,5 L0,10 z" fill="var(--net)"/></marker></defs>
+        <g stroke="var(--net)" stroke-width="2" marker-end="url(#ah)"><line x1="80" y1="45" x2="440" y2="70"/><line x1="440" y1="80" x2="80" y2="105"/><line x1="80" y1="115" x2="440" y2="140"/></g>
+        <text x="260" y="50" text-anchor="middle">SYN, seq=100</text><text x="260" y="85" text-anchor="middle">SYN-ACK, seq=300, ack=101</text><text x="260" y="120" text-anchor="middle">ACK, ack=301</text>
+        <text x="260" y="165" text-anchor="middle" class="svg-muted">… data flows …</text>
+        <g stroke="var(--sec)" stroke-width="2" marker-end="url(#ah)"><line x1="80" y1="180" x2="440" y2="200"/><line x1="440" y1="210" x2="80" y2="228"/><line x1="440" y1="238" x2="80" y2="256"/><line x1="80" y1="262" x2="440" y2="280"/></g>
+        <text x="260" y="186" text-anchor="middle">FIN</text><text x="260" y="215" text-anchor="middle">ACK</text><text x="260" y="244" text-anchor="middle">FIN</text><text x="260" y="268" text-anchor="middle">ACK</text>
+      </g>
+    </svg>
+    <figcaption>Handshake: SYN, SYN-ACK, ACK. Each side picks a random initial sequence number; the ACK number is "the next byte I expect". Graceful close uses FIN/ACK in each direction; RST aborts a connection immediately.</figcaption>
+  </figure>
+  <p><b>Windowing:</b> the receiver advertises how many bytes it can accept before the sender must wait for an ACK. A larger window keeps a long, fast link full. If an ACK doesn't come back before the retransmission timer expires (or three duplicate ACKs arrive), TCP resends the missing segment and slows down.</p>
+  <div class="callout tip">TCP flags to remember: <b>SYN</b> (start), <b>ACK</b> (acknowledge), <b>FIN</b> (finish), <b>RST</b> (reset), <b>PSH</b> (push now), <b>URG</b> (urgent).</div>
+</section>
+
+<section class="lesson" id="ethernet">
+  <h2>5. Ethernet frames, MTU and how traffic is delivered</h2>
+  <div class="tablewrap"><table>
+    <thead><tr><th>Field</th><th>Size</th><th>Purpose</th></tr></thead>
+    <tbody>
+      <tr><td>Preamble + SFD</td><td>8 bytes</td><td>Clock sync and "frame starts now" (handled by the NIC)</td></tr>
+      <tr><td>Destination MAC</td><td>6 bytes</td><td>Who should receive the frame</td></tr>
+      <tr><td>Source MAC</td><td>6 bytes</td><td>Who sent it (switches learn from this)</td></tr>
+      <tr><td>802.1Q tag (optional)</td><td>4 bytes</td><td>VLAN ID (12 bits) and priority (3 bits PCP)</td></tr>
+      <tr><td>EtherType</td><td>2 bytes</td><td>What's inside: 0x0800 IPv4, 0x86DD IPv6, 0x0806 ARP</td></tr>
+      <tr><td>Payload</td><td>46 to 1500 bytes</td><td>The packet (this maximum is the <b>MTU</b>)</td></tr>
+      <tr><td>FCS</td><td>4 bytes</td><td>CRC-32 error check; bad frames are dropped</td></tr>
+    </tbody>
+  </table></div>
+  <p>The standard Ethernet <dfn>MTU</dfn> (maximum transmission unit) is <b>1500 bytes</b>. <dfn>Jumbo frames</dfn> raise it to about <b>9000 bytes</b> to cut overhead for storage (iSCSI, NFS) and vMotion traffic, but every device on the path must agree, or packets are fragmented or dropped. Tunnels (VPN, VXLAN) add headers and reduce the usable MTU, a classic cause of "small pages load, big ones hang".</p>
+  <h3>ARP</h3>
+  <p><dfn>ARP</dfn> (Address Resolution Protocol, RFC 826) finds the MAC address for an IPv4 address on the local network: the host broadcasts "Who has 192.168.1.1? Tell 192.168.1.20", and the owner replies by unicast. Results are cached (<code>arp -a</code>). For a remote destination, the host ARPs for its <b>default gateway</b>, not the far host. IPv6 replaces ARP with <b>Neighbor Discovery</b> (ICMPv6).</p>
+  <div class="tablewrap"><table>
+    <thead><tr><th>Delivery</th><th>Sent to</th><th>Example</th></tr></thead>
+    <tbody>
+      <tr><td><b>Unicast</b></td><td>One specific host</td><td>Loading a web page</td></tr>
+      <tr><td><b>Broadcast</b></td><td>All hosts on the local segment (IPv4 only)</td><td>ARP request, DHCP Discover; MAC FF:FF:FF:FF:FF:FF</td></tr>
+      <tr><td><b>Multicast</b></td><td>Hosts that joined a group</td><td>IPTV, OSPF hellos (224.0.0.5), IPv6 ff02::1</td></tr>
+      <tr><td><b>Anycast</b></td><td>The nearest of several hosts sharing one address</td><td>Public DNS resolvers, root DNS servers, CDNs</td></tr>
+    </tbody>
+  </table></div>
+  <div class="callout trap">IPv6 has <b>no broadcast</b>; it uses multicast instead.</div>
+</section>
+
+<section class="lesson" id="ports">
+  <h2>6. The Network+ port list</h2>
+  <p>Memorize these. Use the Port Drill lab below until you can answer each in under 3 seconds.</p>
+  <div class="tablewrap"><table>
+    <thead><tr><th>Port(s)</th><th>Protocol</th><th>Transport</th><th>What it does</th></tr></thead>
+    <tbody id="port-table"></tbody>
+  </table></div>
+  <div class="callout detail">Secure versions to pair up: Telnet 23 → SSH 22; HTTP 80 → HTTPS 443; LDAP 389 → LDAPS 636; IMAP 143 → IMAPS 993; POP3 110 → POP3S 995; SMTP 25 → SMTP submission with STARTTLS 587 (or implicit TLS 465); SIP 5060 → SIP-TLS 5061; FTP 20/21 → SFTP (over SSH, 22) or FTPS (990).</div>
+</section>
+
+<section class="lab" id="labs">
+  <h2>Interactive labs</h2>
+
+  <div class="lab-card" id="lab-enc" data-lab="Encapsulation Animator: type a message and watch it get wrapped layer by layer into a frame and bits, then unwrapped at the receiver. Click any header to see its fields.">
+    <h3>Lab 1: Encapsulation Animator</h3>
+    <p>Type a message, then press <b>Next step</b> (or <b>Play</b>). Click any colored header to see its fields.</p>
+    <div class="row"><label>Message <input type="text" id="en-msg" value="GET /index.html" maxlength="40"></label>
+      <label>Protocol <select id="en-proto"><option value="tcp">HTTP over TCP (port 80)</option><option value="udp">DNS over UDP (port 53)</option></select></label></div>
+    <div id="en-step"></div>
+    <div class="stage"><div id="en-side" class="figcap" style="text-align:center;font-weight:700"></div><div class="enc" id="en-box"></div><div class="bits" id="en-bits"></div></div>
+    <div class="tile" id="en-fields" style="min-height:60px"><p class="figcap">Header fields appear here when you click a header.</p></div>
+    <div class="caption" id="en-cap" aria-live="polite">Ready. Press Next step to hand the message to the transport layer.</div>
+  </div>
+
+  <div class="lab-card" id="lab-tcp" data-lab="TCP Handshake Visualizer: animate SYN, SYN-ACK and ACK with sequence numbers, toggle packet loss to see retransmission, and change the window size.">
+    <h3>Lab 2: TCP Handshake Visualizer</h3>
+    <div class="row"><label><input type="checkbox" id="tc-loss"> Lose segment 2 in transit</label>
+      <label>Window <select id="tc-win"><option value="1">1 segment</option><option value="2" selected>2 segments</option><option value="4">4 segments</option></select></label>
+      <label>Segments to send <select id="tc-n"><option>4</option><option selected>6</option><option>8</option></select></label></div>
+    <div id="tc-step"></div>
+    <div class="stage"><svg id="tc-svg" viewBox="0 0 560 520" width="560" role="img" aria-label="TCP message sequence diagram"></svg></div>
+    <div class="caption" id="tc-cap" aria-live="polite">Press Next step to start the handshake.</div>
+  </div>
+
+  <div class="lab-card" id="lab-osi" data-lab="OSI Sorter: drag protocols and devices into the correct OSI layer and get a score.">
+    <h3>Lab 3: OSI Sorter</h3>
+    <p>Drag each chip to its layer (or click a chip, then click a layer). Press <b>Check</b> when done.</p>
+    <div class="chips" id="os-bin" aria-label="Unsorted items"></div>
+    <div class="osi-grid" id="os-zones"></div>
+    <div class="row"><button type="button" class="primary" id="os-check">Check</button><button type="button" id="os-reset">New round</button><span id="os-score" class="figcap"></span></div>
+    <div class="caption" id="os-cap" aria-live="polite">Sort the 14 items into the seven layers.</div>
+  </div>
+
+  <div class="lab-card" id="lab-drill" data-lab="Port Drill: a timed 60-second game for ports and protocols with a weak-spots report saved in your browser.">
+    <h3>Lab 4: Port Drill</h3>
+    <div class="row"><label>Mode <select id="pd-mode"><option value="p2n">Protocol → port</option><option value="n2p">Port → protocol</option><option value="mix" selected>Mixed</option></select></label>
+      <button type="button" class="primary" id="pd-start">Start 60-second drill</button><span id="pd-stat" class="figcap"></span></div>
+    <div class="drill-q" id="pd-q" aria-live="polite">Press Start.</div>
+    <div class="drill-opts" id="pd-opts"></div>
+    <div class="tile" id="pd-weak"></div>
+    <div class="caption" id="pd-cap" aria-live="polite">Each correct answer scores 1 point. Misses are remembered as weak spots.</div>
+  </div>
+</section>
+
+<section class="glossary" id="glossary">
+  <h2>Key terms</h2>
+  <div id="glossary-list"></div>
+</section>
+
+<section class="memory" id="memory">
+  <h2>Memory aids</h2>
+  <div class="mnemonic">OSI from layer 1 up: <b>P</b>lease <b>D</b>o <b>N</b>ot <b>T</b>hrow <b>S</b>ausage <b>P</b>izza <b>A</b>way (Physical, Data Link, Network, Transport, Session, Presentation, Application).</div>
+  <div class="mnemonic">From layer 7 down: <b>A</b>ll <b>P</b>eople <b>S</b>eem <b>T</b>o <b>N</b>eed <b>D</b>ata <b>P</b>rocessing.</div>
+  <div class="mnemonic">PDUs from layer 4 down: <b>S</b>ome <b>P</b>eople <b>F</b>ear <b>B</b>irthdays (Segments, Packets, Frames, Bits).</div>
+  <div class="mnemonic">TCP handshake: "<b>SYN</b>? <b>SYN-ACK</b>! <b>ACK</b>." like "Hello? Hello, I hear you! Great, I hear you too."</div>
+  <div class="tablewrap"><table><thead><tr><th>Number</th><th>Meaning</th></tr></thead><tbody>
+    <tr><td>7 / 4</td><td>OSI layers / TCP/IP layers</td></tr>
+    <tr><td>1500 / ~9000</td><td>Standard MTU / jumbo frame MTU (bytes)</td></tr>
+    <tr><td>48 bits</td><td>MAC address length (24-bit OUI + 24-bit device)</td></tr>
+    <tr><td>20 / 8</td><td>Minimum TCP header / UDP header (bytes)</td></tr>
+    <tr><td>65,535</td><td>Highest port number (16 bits)</td></tr>
+    <tr><td>n(n−1)/2</td><td>Links in a full mesh of n nodes</td></tr>
+  </tbody></table></div>
+  <div class="tablewrap"><table><thead><tr><th>Exam trap</th><th>Why it is wrong</th></tr></thead><tbody>
+    <tr><td>"Switches work at Layer 3."</td><td>Standard switches are Layer 2; only multilayer switches route.</td></tr>
+    <tr><td>"DNS only uses UDP."</td><td>DNS uses UDP 53 for most queries and TCP 53 for zone transfers and large responses.</td></tr>
+    <tr><td>"The MAC address stays the same end to end."</td><td>Each router rewrites the source and destination MACs; IPs stay the same.</td></tr>
+    <tr><td>"TFTP is secure FTP."</td><td>TFTP (UDP 69) is Trivial FTP with no authentication at all.</td></tr>
+    <tr><td>"SMTP 587 is SMTPS."</td><td>587 is mail submission with STARTTLS; implicit-TLS SMTPS is 465. Network+ lists 587 as the secure SMTP port, so read the question carefully.</td></tr>
+  </tbody></table></div>
+</section>
+
+<section class="quiz" id="quiz">
+  <h2>Knowledge check</h2>
+  <div id="quiz-area"></div>
+</section>
+
+<section class="flashcards" id="flashcards">
+  <h2>Flashcards</h2>
+  <div id="deck-area"></div>
+</section>
+
+<section class="deeper" id="deeper">
+  <h2>Go deeper (official sources)</h2>
+  <ul>
+    <li><a href="https://www.comptia.org/en-us/certifications/network/" rel="noopener">CompTIA Network+ (N10-009) exam objectives</a></li>
+    <li><a href="https://www.rfc-editor.org/rfc/rfc9293" rel="noopener">RFC 9293: Transmission Control Protocol</a></li>
+    <li><a href="https://www.rfc-editor.org/rfc/rfc768" rel="noopener">RFC 768: User Datagram Protocol</a></li>
+    <li><a href="https://www.rfc-editor.org/rfc/rfc1122" rel="noopener">RFC 1122: Requirements for Internet Hosts (TCP/IP layers)</a></li>
+    <li><a href="https://www.iana.org/assignments/service-names-port-numbers/service-names-port-numbers.xhtml" rel="noopener">IANA Service Name and Port Number Registry</a></li>
+    <li><a href="https://standards.ieee.org/ieee/802.3/10422/" rel="noopener">IEEE 802.3 Ethernet standard</a></li>
+  </ul>
+</section>
+</main>
+<footer class="foot">Datacenter Omnibus · Original study material. Not affiliated with or endorsed by any certification body.</footer>
+
+<script src="data/catalog.js"></script>
+<script src="assets/omnibus.js"></script>
+<script src="data/m09.js"></script>
+<script>
+(function () {
+  var h = OMNI.h, $ = function (id) { return document.getElementById(id); };
+
+  /* OSI figure rows */
+  var osiNames = ["Application", "Presentation", "Session", "Transport", "Network", "Data Link", "Physical"];
+  var osiCol = ["#e9d5ff", "#e9d5ff", "#e9d5ff", "#bbf7d0", "#bfdbfe", "#fde68a", "#fde68a"];
+  var g = document.getElementById("osi-rows");
+  osiNames.forEach(function (n, i) {
+    OMNI.svg("rect", { x: 40, y: 30 + i * 48 + (i > 2 ? 4 : 0) + (i > 4 ? 2 : 0), width: 220, height: 42, rx: 8, fill: osiCol[i], stroke: "#64748b" }, g);
+    var t = OMNI.svg("text", { x: 150, y: 56 + i * 48 + (i > 2 ? 4 : 0) + (i > 4 ? 2 : 0), "text-anchor": "middle", fill: "#1f2937", "font-size": 14, "font-weight": 700 }, g);
+    t.textContent = (7 - i) + ". " + n;
+  });
+
+  /* Port table data (shared with drill) */
+  var PORTS = [
+    ["20/21", "FTP", "TCP", "File Transfer Protocol: 20 data, 21 control (cleartext)"],
+    ["22", "SSH / SFTP / SCP", "TCP", "Secure Shell remote login and secure file transfer"],
+    ["23", "Telnet", "TCP", "Cleartext remote terminal (insecure)"],
+    ["25", "SMTP", "TCP", "Server-to-server email relay"],
+    ["53", "DNS", "UDP/TCP", "Name resolution (TCP for zone transfers and large replies)"],
+    ["67/68", "DHCP", "UDP", "Automatic IP configuration: 67 server, 68 client"],
+    ["69", "TFTP", "UDP", "Trivial FTP, no authentication (device firmware/configs, PXE)"],
+    ["80", "HTTP", "TCP", "Unencrypted web"],
+    ["110", "POP3", "TCP", "Download email from a mailbox"],
+    ["123", "NTP", "UDP", "Time synchronization"],
+    ["143", "IMAP", "TCP", "Access email kept on the server"],
+    ["161/162", "SNMP", "UDP", "Monitoring: 161 polls/queries, 162 traps"],
+    ["389", "LDAP", "TCP/UDP", "Directory queries (e.g., Active Directory)"],
+    ["443", "HTTPS", "TCP (UDP for HTTP/3)", "Web over TLS"],
+    ["445", "SMB", "TCP", "Windows file and printer sharing"],
+    ["514", "Syslog", "UDP", "Log messages to a log server"],
+    ["587", "SMTP (secure submission)", "TCP", "Client email submission with STARTTLS"],
+    ["636", "LDAPS", "TCP", "LDAP over TLS"],
+    ["993", "IMAPS", "TCP", "IMAP over TLS"],
+    ["995", "POP3S", "TCP", "POP3 over TLS"],
+    ["1433", "Microsoft SQL Server", "TCP", "SQL Server database"],
+    ["1521", "Oracle (SQLnet)", "TCP", "Oracle database listener"],
+    ["3306", "MySQL", "TCP", "MySQL/MariaDB database"],
+    ["3389", "RDP", "TCP/UDP", "Remote Desktop Protocol"],
+    ["5060/5061", "SIP", "TCP/UDP", "VoIP call signaling: 5060 cleartext, 5061 TLS"]
+  ];
+  var tb = $("port-table");
+  PORTS.forEach(function (p) { tb.appendChild(h("tr", null, [h("td", null, h("b", null, p[0])), h("td", null, p[1]), h("td", null, p[2]), h("td", null, p[3])])); });
+
+  /* ================= Lab 1: Encapsulation ================= */
+  function hex(s) { return Array.prototype.map.call(s, function (c) { return c.charCodeAt(0).toString(16).padStart(2, "0"); }).join(" "); }
+  function bin(s) { return Array.prototype.map.call(s, function (c) { return (c.charCodeAt(0) & 255).toString(2).padStart(8, "0"); }).join(" "); }
+  var FIELDS = {
+    app: function (m, u) { return [["Content", m], ["Protocol", u ? "DNS query (application layer)" : "HTTP request (application layer)"], ["Bytes (hex)", hex(m)]]; },
+    tcp: function (m, u) { return u ? [["Source port", "53211 (ephemeral)"], ["Destination port", "53 (DNS)"], ["Length", (8 + m.length) + " bytes"], ["Checksum", "0x3f2a"], ["Header size", "8 bytes (UDP)"]] :
+      [["Source port", "51544 (ephemeral)"], ["Destination port", "80 (HTTP)"], ["Sequence number", "1001"], ["Acknowledgment number", "5001"], ["Flags", "ACK, PSH"], ["Window", "64240 bytes"], ["Header size", "20 bytes (TCP, no options)"]]; },
+    ip: function (m, u) { return [["Version", "4"], ["Source IP", "192.168.1.20"], ["Destination IP", u ? "1.1.1.1" : "93.184.215.14"], ["TTL", "64 (decremented by each router)"], ["Protocol", u ? "17 (UDP)" : "6 (TCP)"], ["Header size", "20 bytes"]]; },
+    eth: function () { return [["Destination MAC", "A4:91:B1:00:22:01 (the default gateway, not the web server)"], ["Source MAC", "3C:22:FB:9A:10:7E (this PC)"], ["EtherType", "0x0800 (IPv4)"], ["Header size", "14 bytes"]]; },
+    fcs: function () { return [["Frame Check Sequence", "CRC-32, e.g. 0x9C3B72D1"], ["Purpose", "Receiver recomputes it; a mismatch means the frame is dropped"]]; }
+  };
+  var LBL = { eth: "Ethernet hdr", ip: "IP hdr", tcp: "TCP hdr", udp: "UDP hdr", app: "Data", fcs: "FCS" };
+  var encSteps = [
+    { s: "Sender", parts: ["app"], c: "Layer 7 (Application): the app creates the data. At layers 7 to 5 the PDU is just called <b>data</b>." },
+    { s: "Sender", parts: ["tcp", "app"], c: "Layer 4 (Transport) adds a {T} header with source and destination <b>ports</b>. The PDU is now a <b>{PDU}</b>." },
+    { s: "Sender", parts: ["ip", "tcp", "app"], c: "Layer 3 (Network) adds an IP header with source and destination <b>IP addresses</b> and a TTL. Now it's a <b>packet</b>." },
+    { s: "Sender", parts: ["eth", "ip", "tcp", "app", "fcs"], c: "Layer 2 (Data Link) adds an Ethernet header (MAC addresses) and an FCS trailer. Now it's a <b>frame</b>. The destination MAC is the gateway's, because the server is on another network." },
+    { s: "On the wire", parts: ["bits"], c: "Layer 1 (Physical) sends the frame as <b>bits</b>: voltage changes on copper, light pulses on fiber or radio waves." },
+    { s: "Receiver", parts: ["eth", "ip", "tcp", "app", "fcs"], c: "The receiver's NIC rebuilds the frame, checks the FCS, and sees its own MAC. It removes the Ethernet header and trailer (decapsulation starts)." },
+    { s: "Receiver", parts: ["ip", "tcp", "app"], c: "Layer 3 checks the destination IP is its own, reads the protocol field to know which transport to hand it to, and removes the IP header." },
+    { s: "Receiver", parts: ["tcp", "app"], c: "Layer 4 uses the destination <b>port</b> to deliver the data to the right application, then removes the {T} header." },
+    { s: "Receiver", parts: ["app"], c: "The application receives exactly the data that was sent. Each layer only read its own header: that's the point of layering." }
+  ];
+  var encRoot = $("en-step");
+  OMNI.stepper(encRoot, encSteps, function (i, st) {
+    var box = $("en-box"), msg = $("en-msg").value || "(empty)", udp = $("en-proto").value === "udp";
+    box.innerHTML = ""; $("en-bits").textContent = "";
+    if (i < 0) { $("en-side").textContent = ""; OMNI.say("en-cap", "Ready. Press Next step to hand the message to the transport layer."); return; }
+    $("en-side").textContent = st.s;
+    if (st.parts[0] === "bits") {
+      var all = "\u0000".repeat(14) + "\u0000".repeat(20) + "\u0000".repeat(udp ? 8 : 20) + msg;
+      $("en-bits").textContent = bin(all.slice(0, 80)) + " …";
+    } else st.parts.forEach(function (p) {
+      var cls = p === "tcp" ? "tcp" : p, key = p;
+      var d = h("div", { class: cls, tabindex: 0, role: "button", "aria-label": "Show fields" }, p === "app" ? [LBL.app, h("br"), h("small", null, msg)] : (p === "tcp" && udp ? LBL.udp : LBL[p]));
+      d.onclick = d.onkeydown = function (e) { if (e.type === "keydown" && e.key !== "Enter") return; var f = FIELDS[key](msg, udp); $("en-fields").innerHTML = ""; $("en-fields").appendChild(h("h4", null, (p === "tcp" && udp ? LBL.udp : LBL[p]) + " fields")); var tbl = h("table"); f.forEach(function (r) { tbl.appendChild(h("tr", null, [h("th", null, r[0]), h("td", null, r[1])])); }); $("en-fields").appendChild(h("div", { class: "tablewrap" }, tbl)); };
+      box.appendChild(d);
+    });
+    OMNI.say("en-cap", st.c.replace(/\{T\}/g, udp ? "UDP" : "TCP").replace("{PDU}", udp ? "datagram" : "segment"));
+  });
+
+  /* ================= Lab 2: TCP ================= */
+  var tcEv = [], tcRoot = $("tc-step"), tcStep = null;
+  function buildTcp() {
+    var loss = $("tc-loss").checked, win = +$("tc-win").value, n = +$("tc-n").value, MSS = 1000;
+    var ev = [];
+    ev.push({ d: "c", l: "SYN seq=0", c: "The client sends <b>SYN</b> with its initial sequence number (shown as relative 0; real ISNs are random)." });
+    ev.push({ d: "s", l: "SYN-ACK seq=0 ack=1 win=" + (win * MSS), c: "The server replies <b>SYN-ACK</b>: its own ISN plus ack=1 (\"I expect your byte 1 next\"). It advertises a window of " + win * MSS + " bytes." });
+    ev.push({ d: "c", l: "ACK ack=1", c: "The client sends <b>ACK</b>. The connection is ESTABLISHED after 3 messages (1.5 round trips before the first data byte arrives, counting the client's data)." });
+    var next = 1, acked = 1, lost = loss ? 2 : -1, lostDone = false;
+    while (acked < n + 1) {
+      var burst = [];
+      for (var k = 0; k < win && next <= n; k++) { burst.push(next); next++; }
+      if (!burst.length) break;
+      var gotUpTo = acked;
+      burst.forEach(function (s) {
+        var isLost = s === lost && !lostDone;
+        ev.push({ d: "c", l: "Seg " + s + " seq=" + ((s - 1) * MSS + 1) + (isLost ? "  ✗ LOST" : ""), lost: isLost, c: isLost ? "Segment " + s + " is lost in the network (a congested router dropped it)." : "Client sends segment " + s + " (bytes " + ((s - 1) * MSS + 1) + "–" + s * MSS + "). With a window of " + win + " it may send " + win + " segment(s) before waiting for an ACK." });
+        if (isLost) { lostDone = "pending"; }
+        else if (lostDone !== "pending" && s === gotUpTo) gotUpTo = s + 1;
+      });
+      if (lostDone === "pending") {
+        ev.push({ d: "s", l: "ACK ack=" + ((lost - 1) * MSS + 1) + (burst.indexOf(lost) < burst.length - 1 ? " (dup)" : ""), c: "The server only received data up to segment " + (lost - 1) + ", so it keeps acknowledging byte " + ((lost - 1) * MSS + 1) + ". Any later segments are buffered, out of order." });
+        ev.push({ d: "x", l: "⏱ retransmission timeout", c: "The client's retransmission timer expires (or it sees three duplicate ACKs), so it concludes segment " + lost + " was lost. TCP also shrinks its congestion window." });
+        ev.push({ d: "c", l: "Seg " + lost + " seq=" + ((lost - 1) * MSS + 1) + " (resend)", c: "The client <b>retransmits</b> segment " + lost + ". UDP would never do this; the app would just miss the data." });
+        lostDone = true; gotUpTo = Math.max.apply(null, burst) + 1;
+      }
+      acked = gotUpTo;
+      ev.push({ d: "s", l: "ACK ack=" + ((acked - 1) * MSS + 1), c: "The server acknowledges everything up to byte " + ((acked - 1) * MSS) + " (ACKs are cumulative), which slides the window forward." });
+    }
+    ev.push({ d: "c", l: "FIN", c: "Done sending: the client sends <b>FIN</b>." });
+    ev.push({ d: "s", l: "ACK", c: "The server acknowledges the FIN. The client side is now closed (half-close)." });
+    ev.push({ d: "s", l: "FIN", c: "The server finishes too and sends its own FIN." });
+    ev.push({ d: "c", l: "ACK", c: "The client ACKs and waits in TIME_WAIT briefly. Four messages close the connection (FIN and ACK in each direction)." });
+    return ev;
+  }
+  function drawTcp(upto) {
+    var s = $("tc-svg"); s.innerHTML = ""; var H = Math.max(520, 60 + tcEv.length * 30); s.setAttribute("viewBox", "0 0 560 " + H); s.setAttribute("height", H);
+    var defs = OMNI.svg("defs", {}, s); var mk = OMNI.svg("marker", { id: "tca", viewBox: "0 0 10 10", refX: 9, refY: 5, markerWidth: 7, markerHeight: 7, orient: "auto" }, defs); OMNI.svg("path", { d: "M0,0 L10,5 L0,10 z", fill: "var(--net)" }, mk);
+    var MK = {}; [["tcb", "var(--bad)"], ["tch", "var(--hw)"], ["tcs", "var(--sec)"]].forEach(function (m) { var k = OMNI.svg("marker", { id: m[0], viewBox: "0 0 10 10", refX: 9, refY: 5, markerWidth: 7, markerHeight: 7, orient: "auto" }, defs); OMNI.svg("path", { d: "M0,0 L10,5 L0,10 z", fill: m[1] }, k); MK[m[1]] = "url(#" + m[0] + ")"; }); MK["var(--net)"] = "url(#tca)";
+    [["Client", 70], ["Server", 490]].forEach(function (p) { var t = OMNI.svg("text", { x: p[1], y: 20, "text-anchor": "middle", class: "svg-text", "font-weight": 800 }, s); t.textContent = p[0]; OMNI.svg("line", { x1: p[1], y1: 28, x2: p[1], y2: H - 5, stroke: "var(--ink-2)", "stroke-width": 2 }, s); });
+    for (var i = 0; i <= upto && i < tcEv.length; i++) {
+      var e = tcEv[i], y = 45 + i * 30, col = e.lost ? "var(--bad)" : (i < 3 ? "var(--net)" : (e.l.indexOf("FIN") === 0 || (i >= tcEv.length - 4) ? "var(--sec)" : "var(--hw)"));
+      if (e.d === "x") { var tx = OMNI.svg("text", { x: 70, y: y + 14, "text-anchor": "start", class: "svg-text", "font-size": 12, fill: "var(--bad)" }, s); tx.textContent = "  " + e.l; tx.setAttribute("x", 80); continue; }
+      var x1 = e.d === "c" ? 70 : 490, x2 = e.d === "c" ? 490 : 70;
+      if (e.lost) x2 = 300;
+      OMNI.svg("line", { x1: x1, y1: y, x2: x2, y2: y + 20, stroke: col, "stroke-width": i === upto ? 3 : 2, "marker-end": MK[col] }, s);
+      var lab = OMNI.svg("text", { x: 280, y: y + 6, "text-anchor": "middle", class: "svg-text", "font-size": 12, "paint-order": "stroke", stroke: "var(--surface-2)", "stroke-width": 5, "stroke-linejoin": "round" }, s); lab.textContent = e.l;
+    }
+  }
+  function resetTcp() { tcEv = buildTcp(); tcRoot.innerHTML = ""; tcStep = OMNI.stepper(tcRoot, tcEv, function (i, st) { drawTcp(i); OMNI.say("tc-cap", i < 0 ? "Press Next step to start the handshake. Toggle packet loss or change the window to compare." : st.c); }, { speed: 1300 }); }
+  ["tc-loss", "tc-win", "tc-n"].forEach(function (id) { $(id).onchange = resetTcp; });
+  resetTcp();
+
+  /* ================= Lab 3: OSI Sorter ================= */
+  var ITEMS = [["HTTP", 7], ["DNS", 7], ["SMTP", 7], ["SSH", 7], ["TLS encryption", 6], ["JPEG / ASCII formatting", 6], ["Session setup (RPC, NetBIOS)", 5], ["TCP", 4], ["UDP", 4], ["Port numbers", 4], ["IPv4 / IPv6", 3], ["Router", 3], ["ICMP (ping)", 3], ["Switch", 2], ["MAC address", 2], ["802.1Q VLAN tag", 2], ["Wireless access point", 2], ["Hub / repeater", 1], ["Fiber cable", 1], ["Media converter", 1]];
+  var round = [];
+  function osiRound() {
+    var bin = $("os-bin"), zones = $("os-zones"); bin.innerHTML = ""; zones.innerHTML = "";
+    round = OMNI.shuffle(ITEMS.slice()).slice(0, 14);
+    round.forEach(function (it, i) { bin.appendChild(h("span", { class: "chip", "data-id": i, "data-l": it[1] }, it[0])); });
+    osiNames.forEach(function (n, i) { var z = h("div", { class: "dropzone", "data-l": 7 - i, "aria-label": "Layer " + (7 - i) + " " + n }, h("span", { class: "zone-title" }, (7 - i) + ". " + n)); zones.appendChild(z); });
+    zones.appendChild(h("div", { class: "dropzone", "data-l": 0, "aria-label": "Back to unsorted" }, h("span", { class: "zone-title" }, "Not sure yet (park items here)")));
+    dz.refresh(); $("os-score").textContent = ""; OMNI.say("os-cap", "Sort the 14 items into the seven layers.");
+  }
+  var dz = OMNI.dnd($("lab-osi"), function () { OMNI.$$(".chip", $("lab-osi")).forEach(function (c) { c.classList.remove("ok", "bad"); c.style.outline = ""; }); });
+  $("os-check").onclick = function () {
+    var right = 0, wrong = [], left = 0;
+    OMNI.$$(".chip", $("lab-osi")).forEach(function (c) {
+      var z = c.closest(".dropzone"); var want = +c.dataset.l;
+      if (!z || z.dataset.l === "0") { left++; c.style.outline = "2px dashed var(--warn)"; return; }
+      if (+z.dataset.l === want) { right++; c.style.outline = "3px solid var(--good)"; } else { c.style.outline = "3px solid var(--bad)"; wrong.push(c.textContent + " belongs at Layer " + want); }
+    });
+    $("os-score").textContent = right + " / " + round.length + " correct";
+    OMNI.say("os-cap", (left ? left + " item(s) not placed yet. " : "") + (wrong.length ? "Fix these: " + wrong.join("; ") + "." : (left ? "" : "Perfect sort! Press New round for a different mix.")));
+    try { var best = +(OMNI.store.get("m9-osi-best") || 0); if (right > best) OMNI.store.set("m9-osi-best", right); } catch (e) { }
+  };
+  $("os-reset").onclick = osiRound;
+  osiRound();
+
+  /* ================= Lab 4: Port Drill ================= */
+  var drill = { on: false, score: 0, tries: 0, end: 0, timer: null };
+  function weak() { var w = OMNI.store.get("m9-port-weak", {}); return w && typeof w === "object" ? w : {}; }
+  function saveWeak(w) { OMNI.store.set("m9-port-weak", w); }
+  function showWeak() {
+    var w = weak(), keys = Object.keys(w).sort(function (a, b) { return w[b] - w[a]; }).slice(0, 8);
+    var el = $("pd-weak"); el.innerHTML = "";
+    el.appendChild(h("h4", null, "Your weak spots (saved on this device)"));
+    if (!keys.length) { el.appendChild(h("p", { class: "figcap" }, "None yet. Misses will be listed here.")); return; }
+    var ul = h("ul"); keys.forEach(function (k) { var p = PORTS.filter(function (x) { return x[1] === k; })[0]; ul.appendChild(h("li", null, [h("b", null, k + " = " + (p ? p[0] : "?")), " · missed " + w[k] + "×"])); }); el.appendChild(ul);
+    el.appendChild(h("button", { type: "button", onclick: function () { saveWeak({}); showWeak(); } }, "Clear weak spots"));
+  }
+  function ask() {
+    var mode = $("pd-mode").value; if (mode === "mix") mode = Math.random() < .5 ? "p2n" : "n2p";
+    var w = weak(), pool = PORTS.slice();
+    Object.keys(w).forEach(function (k) { var p = PORTS.filter(function (x) { return x[1] === k; })[0]; if (p) pool.push(p, p); });
+    var ans = pool[Math.floor(Math.random() * pool.length)];
+    var opts = [ans]; while (opts.length < 4) { var o = PORTS[Math.floor(Math.random() * PORTS.length)]; if (opts.indexOf(o) < 0) opts.push(o); }
+    opts = OMNI.shuffle(opts);
+    $("pd-q").textContent = mode === "p2n" ? ans[1] + " uses port…?" : "Port " + ans[0] + " is…?";
+    var box = $("pd-opts"); box.innerHTML = "";
+    opts.forEach(function (o) {
+      var b = h("button", { type: "button" }, mode === "p2n" ? o[0] : o[1]);
+      b.onclick = function () {
+        if (!drill.on) return; drill.tries++;
+        if (o === ans) { drill.score++; OMNI.say("pd-cap", "✓ " + ans[1] + " = " + ans[0] + " (" + ans[2] + "). " + ans[3] + "."); }
+        else { var ww = weak(); ww[ans[1]] = (ww[ans[1]] || 0) + 1; saveWeak(ww); OMNI.say("pd-cap", "✗ " + ans[1] + " is port " + ans[0] + ", not " + (mode === "p2n" ? o[0] : o[1]) + ". Added to weak spots; it will come up more often."); showWeak(); }
+        stat(); ask();
+      };
+      box.appendChild(b);
+    });
+  }
+  function stat() { var left = Math.max(0, Math.ceil((drill.end - Date.now()) / 1000)); $("pd-stat").textContent = "Score " + drill.score + " / " + drill.tries + " · " + left + " s left"; }
+  $("pd-start").onclick = function () {
+    drill = { on: true, score: 0, tries: 0, end: Date.now() + 60000, timer: null };
+    clearInterval(drill.timer);
+    drill.timer = setInterval(function () {
+      stat();
+      if (Date.now() >= drill.end) {
+        clearInterval(drill.timer); drill.on = false; $("pd-opts").innerHTML = "";
+        var pct = drill.tries ? Math.round(drill.score / drill.tries * 100) : 0;
+        var best = 0; try { best = +(OMNI.store.get("m9-port-best") || 0); if (drill.score > best) OMNI.store.set("m9-port-best", drill.score); } catch (e) { }
+        $("pd-q").textContent = "Time! " + drill.score + " correct (" + pct + "%)";
+        OMNI.say("pd-cap", "Drill over. " + (drill.score > best ? "New personal best! " : "Best so far: " + best + ". ") + "Aim for 20+ correct at 90% accuracy. Your weak spots are listed below and will appear more often next time.");
+        showWeak();
+      }
+    }, 250);
+    ask(); stat(); OMNI.say("pd-cap", "Go! Answer as many as you can in 60 seconds.");
+  };
+  showWeak();
+})();
+</script>
+<!-- module-data:start -->
+<script type="application/json" id="module-data">{"module":9,"title":"How Networks Talk","glossary":[["LAN","Network in one building.","Local Area Network: a network spanning a limited area such as a floor, building or home, usually Ethernet and Wi-Fi.","Local Area Network"],["WAN","Network connecting distant sites.","Wide Area Network: a network spanning large geographic areas, linking LANs via carrier links, MPLS, SD-WAN or the internet.","Wide Area Network"],["MAN","Network across a city.","Metropolitan Area Network: a network covering a city or metro region, often a fiber ring.","Metropolitan Area Network"],["PAN","Network around one person.","Personal Area Network: short-range links between personal devices (Bluetooth, USB).","Personal Area Network"],["SAN","Network just for storage.","Storage Area Network: a dedicated network giving servers block-level access to shared storage (Fibre Channel, iSCSI, NVMe-oF).","Storage Area Network"],["Spine-leaf","Two-tier data center network.","A Clos topology where every leaf (access) switch connects to every spine switch, giving equal-cost paths and predictable latency.",""],["East-west traffic","Traffic between servers inside the data center.","Lateral traffic flowing between hosts within the same data center or network segment.",""],["North-south traffic","Traffic in and out of the data center.","Traffic flowing between the internal network and external networks such as the internet.",""],["OSI model","7-layer model of networking.","ISO/IEC 7498-1 Open Systems Interconnection reference model: Physical, Data Link, Network, Transport, Session, Presentation, Application.","Open Systems Interconnection"],["TCP/IP model","The 4-layer model the internet uses.","The Internet protocol suite model: Link, Internet, Transport, Application (RFC 1122).","Transmission Control Protocol/Internet Protocol"],["PDU","The name for a chunk of data at a layer.","Protocol Data Unit: data at L7-5, segment/datagram at L4, packet at L3, frame at L2, bits at L1.","Protocol Data Unit"],["Encapsulation","Wrapping data in headers.","The process of each layer adding its header (and trailer) to the payload from the layer above.",""],["MAC address","A network card's hardware address.","Media Access Control address: a 48-bit Layer 2 identifier; the first 24 bits are the vendor's OUI.","Media Access Control"],["OUI","The vendor part of a MAC address.","Organizationally Unique Identifier: the 24-bit IEEE-assigned prefix identifying the manufacturer.","Organizationally Unique Identifier"],["Port","Number that identifies an app on a host.","A 16-bit Layer 4 identifier (0-65535) used by TCP and UDP to deliver data to the correct process.",""],["Ephemeral port","Random temporary port a client uses.","A short-lived source port from the dynamic range (IANA 49152-65535) assigned for an outbound connection.",""],["Socket","IP address plus port.","An endpoint for communication defined by IP address, transport protocol and port number.",""],["TCP","Reliable, connection-based transport.","Transmission Control Protocol: connection-oriented Layer 4 protocol with handshake, sequencing, acknowledgments, flow and congestion control.","Transmission Control Protocol"],["UDP","Fast, connectionless transport.","User Datagram Protocol: connectionless Layer 4 protocol with an 8-byte header and no delivery guarantees.","User Datagram Protocol"],["Three-way handshake","How TCP connections start.","SYN, SYN-ACK, ACK exchange that synchronizes sequence numbers and establishes a TCP connection.",""],["Sequence number","Counter that orders TCP data.","A 32-bit TCP field identifying the byte position of a segment's first data byte in the stream.",""],["Sliding window","How much data can be in flight.","TCP flow control: the receiver advertises a window of bytes it can accept before requiring an acknowledgment.",""],["Retransmission","Sending lost data again.","TCP resending a segment when its ACK is not received before the retransmission timeout or after three duplicate ACKs.",""],["MTU","Largest packet a link carries.","Maximum Transmission Unit: the largest payload a Layer 2 frame can carry; 1500 bytes on standard Ethernet.","Maximum Transmission Unit"],["Jumbo frame","An extra-large Ethernet frame.","An Ethernet frame with an MTU above 1500 bytes, typically 9000, used for storage and data center traffic.",""],["FCS","Error check at the end of a frame.","Frame Check Sequence: a 4-byte CRC-32 trailer used to detect corrupted frames.","Frame Check Sequence"],["ARP","Finds a MAC address from an IP.","Address Resolution Protocol: broadcasts a request to map an IPv4 address to a MAC address on the local link (RFC 826).","Address Resolution Protocol"],["Broadcast","Send to everyone on the local network.","Traffic addressed to all hosts in a Layer 2 domain (MAC FF:FF:FF:FF:FF:FF); not used in IPv6.",""],["Multicast","Send to a group that signed up.","One-to-many delivery to hosts that joined a group address (IPv4 224.0.0.0/4, IPv6 ff00::/8).",""],["Anycast","Send to the nearest of many.","One address announced from multiple locations; routing delivers to the topologically nearest instance.",""],["Unicast","Send to one host.","One-to-one delivery to a single destination address.",""],["QUIC","Modern UDP-based transport for HTTP/3.","A secure, multiplexed transport protocol over UDP (RFC 9000) used by HTTP/3, with built-in TLS 1.3.","QUIC (not an acronym)"],["TTL","Hop limit on a packet.","Time To Live: an IPv4 header field decremented by each router; the packet is dropped at 0 (IPv6: Hop Limit).","Time To Live"]],"quiz":[{"t":"order","q":"Order the OSI layers from Layer 1 to Layer 7.","o":["Physical","Data Link","Network","Transport","Session","Presentation","Application"],"x":"Please Do Not Throw Sausage Pizza Away.","c":"N","d":"1.1 OSI reference model"},{"t":"mc","q":"At which OSI layer does a router make forwarding decisions?","o":["Layer 1","Layer 2","Layer 3","Layer 4"],"a":2,"w":["Layer 1 is signals and cables.","Layer 2 is switches and MAC addresses.","Correct: routers use IP addresses at the Network layer.","Layer 4 is TCP/UDP ports."],"x":"Hub = L1, switch = L2, router = L3.","c":"N","d":"1.1 OSI reference model"},{"t":"mc","q":"What is the PDU at the Transport layer when using TCP?","o":["Frame","Packet","Segment","Bit"],"a":2,"w":["Frame is Layer 2.","Packet is Layer 3.","Correct (with UDP it's a datagram).","Bits are Layer 1."],"x":"Some People Fear Birthdays: Segment, Packet, Frame, Bits.","c":"N","d":"1.1 OSI reference model"},{"t":"mc","sc":"A packet travels from a PC through three routers to a web server.","q":"Which address changes at every hop?","o":["Destination IP address","Source IP address","Destination MAC address","Destination port"],"a":2,"w":["The IP addresses stay the same (without NAT).","Same, unless NAT rewrites it.","Correct: each router rewrites the Layer 2 header for the next link.","Ports don't change (without PAT)."],"x":"MAC addresses are local-link only.","c":"N","d":"1.1 OSI reference model"},{"t":"order","q":"Order the TCP three-way handshake.","o":["SYN","SYN-ACK","ACK"],"x":"Client SYN, server SYN-ACK, client ACK. Teardown uses FIN/ACK in each direction.","c":"N","d":"1.4 Ports, protocols and traffic types"},{"t":"ms","q":"Which protocols normally use UDP? (Choose three.)","o":["TFTP","SNMP","SSH","DHCP","SMTP"],"a":[0,1,3],"w":["Correct: UDP 69.","Correct: UDP 161/162.","SSH uses TCP 22.","Correct: UDP 67/68.","SMTP uses TCP 25/587."],"x":"Also UDP: NTP 123, syslog 514, most DNS queries, VoIP media, QUIC.","c":"N","d":"1.4 Ports, protocols and traffic types"},{"t":"mc","q":"Which port is used by LDAPS?","o":["389","443","636","993"],"a":2,"w":["Plain LDAP.","HTTPS.","Correct.","IMAPS."],"x":"LDAP 389 → LDAPS 636.","c":"N","d":"1.4 Ports, protocols and traffic types"},{"t":"mc","q":"A network admin needs to allow Windows file sharing through a firewall. Which port?","o":["139","445","3389","1433"],"a":1,"w":["Old NetBIOS session service; modern SMB uses 445.","Correct: SMB over TCP 445.","RDP.","Microsoft SQL Server."],"x":"Never expose 445 to the internet.","c":"A1","d":"2.1 TCP and UDP ports"},{"t":"mc","q":"Which topology connects every leaf switch to every spine switch?","o":["Three-tier","Spine-leaf","Ring","Bus"],"a":1,"w":["Three-tier is access/distribution/core.","Correct.","Ring links neighbors in a loop.","Bus is one shared cable."],"x":"Spine-leaf gives every server a predictable two-hop path for east-west traffic.","c":"N","d":"1.6 Network topologies and architectures"},{"t":"mc","q":"A host needs to send to a server on a different subnet. Whose MAC address does it ARP for?","o":["The server's","The default gateway's","The DNS server's","The broadcast MAC"],"a":1,"w":["The server is not on the local link.","Correct: frames go to the router, which forwards the packet.","DNS has nothing to do with the next hop.","Broadcast is used for the ARP request itself, not as the destination of data."],"x":"Off-subnet traffic is framed to the gateway.","c":"N","d":"1.4 Ports, protocols and traffic types"},{"t":"mc","q":"Which delivery method sends to the nearest of several servers sharing the same address?","o":["Unicast","Broadcast","Multicast","Anycast"],"a":3,"w":["One specific host.","All hosts on the segment.","A joined group.","Correct: used by DNS root servers and CDNs."],"x":"IPv6 has no broadcast; multicast and anycast cover those needs.","c":"N","d":"1.4 Ports, protocols and traffic types"},{"t":"mc","sc":"After enabling a VPN, large file transfers stall but web browsing works.","q":"What is the most likely cause?","o":["DNS misconfiguration","MTU too large for the tunnel, causing fragmentation or drops","Wrong default gateway","Duplicate IP address"],"a":1,"w":["DNS would break browsing too.","Correct: tunnel headers shrink the usable MTU; large packets are dropped if PMTUD fails.","Nothing would work.","Would cause intermittent total loss."],"x":"Lower the MTU/MSS on the tunnel interface.","c":"N","d":"1.4 Ports, protocols and traffic types"},{"t":"ms","q":"Which pairs of insecure and secure ports are correct? (Choose two.)","o":["Telnet 23 → SSH 22","HTTP 80 → HTTPS 8080","IMAP 143 → IMAPS 993","POP3 110 → POP3S 465"],"a":[0,2],"w":["Correct.","HTTPS is 443; 8080 is an alternate HTTP port.","Correct.","POP3S is 995; 465 is SMTPS."],"x":"Know the secure pairs cold; Security+ asks too.","c":"S","d":"4.5 Secure protocols"},{"t":"mc","q":"Which device operates only at Layer 1?","o":["Switch","Hub","Router","Firewall"],"a":1,"w":["Layer 2.","Correct: it repeats bits out every port.","Layer 3.","Layer 3-7."],"x":"Hubs create one big collision domain; that's why switches replaced them.","c":"N","d":"1.2 Network appliances"}],"flashcards":[["OSI layers 1→7","Physical, Data Link, Network, Transport, Session, Presentation, Application"],["TCP/IP 4 layers","Link, Internet, Transport, Application"],["PDUs L4→L1","Segment/datagram, packet, frame, bits"],["Hub / switch / router layers","1 / 2 / 3"],["TCP handshake","SYN, SYN-ACK, ACK"],["TCP vs UDP header","20 bytes min vs 8 bytes"],["Standard / jumbo MTU","1500 / ~9000 bytes"],["MAC length","48 bits; first 24 = OUI"],["Ephemeral port range (IANA)","49152–65535"],["FTP","20 data / 21 control (TCP)"],["SSH / Telnet","22 / 23"],["SMTP / secure submission","25 / 587"],["DNS","53 (UDP; TCP for zone transfers)"],["DHCP","67 server / 68 client (UDP)"],["TFTP","69 UDP"],["POP3 / POP3S","110 / 995"],["IMAP / IMAPS","143 / 993"],["NTP","123 UDP"],["SNMP","161 queries / 162 traps (UDP)"],["LDAP / LDAPS","389 / 636"],["SMB","445 TCP"],["Syslog","514 UDP"],["SQL Server / MySQL","1433 / 3306"],["RDP","3389"],["SIP","5060 / 5061 (TLS)"],["ARP purpose","Map IPv4 address to MAC on the local link"],["Anycast","Nearest of several hosts sharing one address"]]}</script>
+<!-- module-data:end -->
+</body>
+</html>
