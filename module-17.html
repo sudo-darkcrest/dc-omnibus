@@ -3,18 +3,22 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Module 17 · Cloud, Virtualization, Containers and Storage | Datacenter Omnibus</title>
-<meta name="description" content="Hypervisors, containers, Kubernetes, serverless, infrastructure as code, cloud service and deployment models, shared responsibility, cloud networking and security, and DAS/NAS/SAN with block, file and object storage. Five labs.">
+<title>Module 17 · Cyber Security Careers: SOC Work, Attack Frameworks and Certifications | Datacenter Omnibus</title>
+<meta name="description" content="Cyber security careers explained: SOC analyst, incident responder, threat hunter, pentester, cloud security and GRC roles; the Cyber Kill Chain and MITRE ATT&CK; SOC tools and metrics; vulnerability prioritisation; and the security certification landscape from ISC2 CC and Security+ to CySA+, PenTest+, OSCP, CISSP and beyond.">
 <link rel="stylesheet" href="assets/omnibus.css">
 <style>
-  .seg { display: flex; flex-wrap: wrap; gap: 4px; }
-  .seg button.on { background: var(--accent); color: #fff; border-color: var(--accent); }
-  .bar { height: 18px; background: var(--surface-2); border-radius: 4px; overflow: hidden; border: 1px solid var(--line); }
-  .bar i { display: block; height: 100%; }
-  .metric { font-size: 1.6rem; font-weight: 800; line-height: 1.1; }
-  .wl { display: flex; flex-wrap: wrap; gap: 6px; }
-  .wl button.on { background: var(--accent); color: #fff; border-color: var(--accent); }
-  .stor-res { border: 1px solid var(--line); border-radius: 10px; padding: 12px; background: var(--surface); margin-top: 8px; }
+  .chip.ok { border-color: var(--good); background: var(--good-soft); }
+  .chip.bad { border-color: var(--bad); background: var(--bad-soft); }
+  .path-steps { list-style: none; padding: 0; margin: 10px 0; counter-reset: s; }
+  .path-steps li { counter-increment: s; border: 1px solid var(--line); border-left: 5px solid var(--sec); border-radius: 8px; padding: 8px 12px 8px 44px; margin: 6px 0; position: relative; background: var(--surface); }
+  .path-steps li::before { content: counter(s); position: absolute; left: 12px; top: 8px; font-weight: 800; color: var(--sec); font-size: 1.1rem; }
+  .rank-list { list-style: none; padding: 0; }
+  .rank-list li { display: grid; grid-template-columns: 30px 1fr auto; gap: 8px; align-items: center; border: 1px solid var(--line); border-radius: 8px; padding: 8px 10px; margin: 6px 0; background: var(--surface); }
+  .rank-list li.ok { border-color: var(--good); background: var(--good-soft); }
+  .rank-list li.bad { border-color: var(--bad); background: var(--bad-soft); }
+  .rank-list .pos { font-weight: 800; font-size: 1.1rem; text-align: center; }
+  .rank-list .meta { font-size: .85rem; color: var(--ink-2); }
+  .rank-list button { padding: 2px 9px; }
 </style>
 </head>
 <body data-module="17">
@@ -23,16 +27,16 @@
 <main class="page" id="main">
 
 <section class="intro">
-  <div class="kicker">Part 4 · Security, Cloud and the Data Center · Module 17</div>
-  <h1>Cloud, Virtualization, Containers and Storage</h1>
-  <p class="why"><b>Why this matters.</b> Almost every workload today runs on a hypervisor, in a container, in someone's cloud, or all three, and every one of them stores data somewhere. These ideas show up in A+ (virtualization and cloud), Network+ (cloud networking), Security+ (architecture models and shared responsibility) and data center work (storage, density, power for virtualized hosts). This module connects them so you can tell which layer you own and which one you rent.</p>
+  <div class="kicker">Part 4 · Security and Cyber Careers · Module 17</div>
+  <h1>Cyber Security Careers: SOC Work, Attack Frameworks and Certifications</h1>
+  <p class="why"><b>Why this matters.</b> Modules 14 to 16 taught the security concepts behind Security+. This module shows what people actually do with them: watching for attacks in a security operations center, hunting intruders, testing defences, fixing vulnerabilities and managing risk. It explains the frameworks professionals use every day and lays out the certification paths, so you can choose a direction and know which exam to take next.</p>
   <h3>You will be able to</h3>
   <ul class="outcomes">
-    <li>Explain Type 1 vs Type 2 hypervisors, overcommit, live migration and HA (High Availability) clusters.</li>
-    <li>Compare containers and VMs (Virtual Machine), and describe Kubernetes, serverless, microservices, IaC and CI/CD (Continuous Integration / Continuous Delivery).</li>
-    <li>Choose cloud service and deployment models and say who secures what under shared responsibility.</li>
-    <li>Design basic cloud networks with VPCs (Virtual Private Cloud), subnets, security groups, NACLs (Network Access Control List) and gateways.</li>
-    <li>Pick DAS (Direct-Attached Storage), NAS (Network Attached Storage) or SAN (Storage Area Network) and block, file or object storage, and reason about replication and RPO (Recovery Point Objective).</li>
+    <li>Describe the main cyber security roles and how people move between them.</li>
+    <li>Explain an attack using the Cyber Kill Chain and MITRE ATT&amp;CK.</li>
+    <li>Triage security alerts and describe SOC tools (SIEM (Security Information and Event Management), SOAR (Security Orchestration, Automation and Response), EDR (Endpoint Detection and Response)) and metrics.</li>
+    <li>Prioritise vulnerabilities using CVSS (Common Vulnerability Scoring System), exploitation data, exposure and asset value.</li>
+    <li>Choose a certification path, including CySA+, PenTest+, OSCP (OffSec Certified Professional) and CISSP (Certified Information Systems Security Professional), and practise skills legally.</li>
   </ul>
   <nav class="jumpnav" id="jumpnav" aria-label="On this page"></nav>
 </section>
@@ -42,202 +46,166 @@
   <div id="certmap-badges"></div>
 </section>
 
-<section class="lesson" id="virt">
-  <h2>1. Virtualization in depth</h2>
-  <div class="grid2">
-    <div class="tile"><h4>Type 1 (bare metal)</h4><p>The hypervisor runs directly on hardware: VMware ESXi, Microsoft Hyper-V, KVM (Keyboard, Video, Mouse), Xen. Used in data centers and clouds. Less overhead, stronger isolation.</p></div>
-    <div class="tile"><h4>Type 2 (hosted)</h4><p>Runs as an app on a normal OS (Operating System): VirtualBox, VMware Workstation, Parallels. Good for labs and desktops.</p></div>
-  </div>
-  <ul>
-    <li><b>vCPU (Virtual Central Processing Unit)</b>: a virtual processor scheduled onto physical cores/threads. <b>Overcommit</b> means assigning more vCPUs (or RAM (Random Access Memory)) than physically exist, betting not all VMs peak at once. A common starting vCPU:pCPU ratio is about 3:1 to 4:1 for general workloads; databases get less. Too much overcommit shows up as CPU (Central Processing Unit) ready time and memory ballooning/swapping.</li>
-    <li><b>Live migration</b> (vMotion, Hyper-V Live Migration) moves a running VM between hosts with no downtime, needing shared or replicated storage and fast networking.</li>
-    <li><b>HA cluster</b>: if a host fails, its VMs restart on surviving hosts (a short outage). <b>Fault tolerance</b> runs a shadow copy in lockstep for zero downtime. <b>DRS (Distributed Resource Scheduler)</b>-style balancing moves VMs to even out load.</li>
-    <li><b>Virtual switches</b> connect VMs to each other and to physical uplinks, supporting VLAN (Virtual Local Area Network) tagging, NIC (Network Interface Card) teaming and port groups. Distributed virtual switches span many hosts.</li>
-    <li><b>Snapshots</b> capture a VM's state for quick rollback; they are not backups (they depend on the base disk and slow things down if kept long).</li>
-    <li>Security: <b>VM escape</b>, VM sprawl (unmanaged VMs) and resource reuse are the risks; patch hypervisors and keep an inventory.</li>
-  </ul>
-  <div class="callout analogy">A hypervisor is an apartment building manager: one building (server), many apartments (VMs) each with its own front door and kitchen (OS). Containers are rooms in a shared house: everyone has a private room but shares the kitchen (kernel).</div>
+<section class="lesson" id="roles">
+  <h2>1. Cyber security jobs</h2>
+  <p>Cyber security isn't one job. It's a family of roles that defend, attack (with permission), investigate, engineer and govern. Most people start in IT (Information Technology) support, networking or a SOC and move toward a specialty.</p>
+  <figure class="fig"><svg id="career-fig" viewBox="0 0 760 250" width="760" role="img" aria-label="Career ladder: IT support, help desk or networking leads to SOC analyst, which branches to incident responder, threat hunter, penetration tester, security engineer, cloud security and GRC, all leading toward security architect, manager and CISO."></svg></figure>
+  <div class="tablewrap"><table><thead><tr><th>Role</th><th>What they do all day</th><th>Typical certs</th></tr></thead><tbody>
+    <tr><td><b>SOC analyst</b> (Tier 1–3)</td><td>Watch dashboards, triage alerts, investigate suspicious activity, escalate and respond</td><td>Security+, CySA+, BTL1, GIAC (Global Information Assurance Certification) GCIA (Global Information Assurance Certification Certified Intrusion Analyst)</td></tr>
+    <tr><td><b>Incident responder / forensics</b></td><td>Lead response to breaches, collect evidence, find root cause</td><td>CySA+, GIAC GCIH (Global Information Assurance Certification Certified Incident Handler) / GCFA (Global Information Assurance Certification Certified Forensic Analyst), CISM (Certified Information Security Manager; management)</td></tr>
+    <tr><td><b>Threat hunter / intel analyst</b></td><td>Search for hidden attackers, track threat groups and their methods</td><td>CySA+, GIAC GCTI (Global Information Assurance Certification Cyber Threat Intelligence)</td></tr>
+    <tr><td><b>Penetration tester / red team</b></td><td>Attack systems with written permission to prove where defences fail, then write reports</td><td>PenTest+, OSCP, CEH (Certified Ethical Hacker), GIAC GPEN</td></tr>
+    <tr><td><b>Security engineer</b></td><td>Build and run firewalls, EDR, identity systems, SIEM and automation</td><td>Security+, CySA+, vendor certs, CISSP</td></tr>
+    <tr><td><b>Cloud security engineer</b></td><td>Secure AWS (Amazon Web Services), Azure or Google Cloud accounts, identities and workloads</td><td>AWS Security Specialty, CCSP (Certified Cloud Security Professional), AZ-500 (Module 19)</td></tr>
+    <tr><td><b>GRC (Governance, Risk and Compliance) analyst / auditor</b></td><td>Policies, risk assessments, compliance, audits (Modules 23–25)</td><td>CISA (Certified Information Systems Auditor), CISM, ISO (International Organization for Standardization) 27001 Lead Auditor, CRISC (Certified in Risk and Information Systems Control)</td></tr>
+    <tr><td><b>Security architect / manager / CISO (Chief Information Security Officer)</b></td><td>Design security across the organisation, lead teams, report to executives</td><td>CISSP, CISM, SecurityX</td></tr>
+  </tbody></table></div>
+  <div class="callout tip">Employers value <b>proof you can do the work</b> as much as certificates: a home lab write-up, CTF (Capture The Flag) results, a GitHub with scripts or detection rules, or a blog explaining how you investigated something.</div>
 </section>
 
-<section class="lesson" id="containers">
-  <h2>2. Containers, orchestration and automation</h2>
-  <div class="tablewrap"><table>
-    <thead><tr><th>Concept</th><th>What it is</th></tr></thead>
-    <tbody>
-      <tr><td><b>Image</b></td><td>A read-only template (layers of filesystem plus metadata) built from a Dockerfile/Containerfile and stored in a registry</td></tr>
-      <tr><td><b>Container</b></td><td>A running instance of an image: an isolated process sharing the host kernel (namespaces + cgroups). Starts in about a second</td></tr>
-      <tr><td><b>Kubernetes</b></td><td>Orchestrator that schedules containers across a cluster, restarts failures, scales and rolls out updates</td></tr>
-      <tr><td>Pod</td><td>Smallest Kubernetes unit: one or more containers sharing network and storage</td></tr>
-      <tr><td>Node</td><td>A worker machine (VM or physical) that runs pods; the control plane manages nodes</td></tr>
-      <tr><td>Service</td><td>A stable network name/IP (IP: Internet Protocol) that load-balances to a changing set of pods</td></tr>
-      <tr><td>Deployment</td><td>Declares how many replicas of a pod should run and handles rolling updates</td></tr>
-      <tr><td><b>Microservices</b></td><td>An app split into small independent services communicating over APIs (Application Programming Interface), each deployable on its own (vs a monolith)</td></tr>
-      <tr><td><b>Serverless / FaaS</b></td><td>Code runs as functions triggered by events; the provider manages servers and scaling; you pay per execution</td></tr>
-      <tr><td><b>Infrastructure as code</b></td><td>Infrastructure defined in files: <b>Terraform</b> (declarative provisioning), <b>Ansible</b> (configuration management, agentless over SSH (Secure Shell)), CloudFormation, Bicep</td></tr>
-      <tr><td><b>CI/CD</b></td><td>Continuous integration (build and test every change) and continuous delivery/deployment (automatically release it)</td></tr>
-    </tbody></table></div>
-  <div class="callout trap">"Containers are as isolated as VMs." No: containers share the host kernel, so a kernel exploit can affect all of them. High-security multi-tenant workloads often run containers inside VMs.</div>
+<section class="lesson" id="attacks">
+  <h2>2. How attacks unfold</h2>
+  <p>Defenders use models to break an attack into stages. Each stage is a chance to detect and stop it, and the earlier the better.</p>
+  <figure class="fig"><svg id="kc-fig" viewBox="0 0 760 150" width="760" role="img" aria-label="Cyber Kill Chain: reconnaissance, weaponization, delivery, exploitation, installation, command and control, actions on objectives."></svg>
+    <figcaption>The Lockheed Martin Cyber Kill Chain (2011). Break any link and the attack fails.</figcaption></figure>
+  <p><b>MITRE ATT&amp;CK</b> goes further. It's a free, constantly updated catalogue of what real attackers do, organised as <b>tactics</b> (the attacker's goal at each step) containing <b>techniques</b> (how they do it, e.g., T1566 Phishing, T1059 Command and Scripting Interpreter). The Enterprise matrix has 14 tactics:</p>
+  <div class="tablewrap"><table><thead><tr><th>Tactic</th><th>Attacker's goal</th><th>Example technique</th></tr></thead><tbody>
+    <tr><td>Reconnaissance</td><td>Gather information for planning</td><td>Search victim-owned websites, scan for open ports</td></tr>
+    <tr><td>Resource Development</td><td>Get infrastructure and tools</td><td>Register look-alike domains</td></tr>
+    <tr><td>Initial Access</td><td>Get into the network</td><td>Phishing, exploiting a public-facing application</td></tr>
+    <tr><td>Execution</td><td>Run malicious code</td><td>PowerShell, user opening a malicious file</td></tr>
+    <tr><td>Persistence</td><td>Stay in after reboots</td><td>Scheduled task, new account, registry run key</td></tr>
+    <tr><td>Privilege Escalation</td><td>Get higher permissions</td><td>Exploit a vulnerable driver, abuse misconfigured sudo</td></tr>
+    <tr><td>Defense Evasion</td><td>Avoid being detected</td><td>Disable security tools, clear logs</td></tr>
+    <tr><td>Credential Access</td><td>Steal passwords and tokens</td><td>Credential dumping (e.g., from LSASS (Local Security Authority Subsystem Service)), brute force</td></tr>
+    <tr><td>Discovery</td><td>Learn the environment</td><td>List domain users and network shares</td></tr>
+    <tr><td>Lateral Movement</td><td>Move to other systems</td><td>Remote Desktop, pass-the-hash</td></tr>
+    <tr><td>Collection</td><td>Gather the target data</td><td>Archive files, capture screenshots</td></tr>
+    <tr><td>Command and Control</td><td>Talk to compromised systems</td><td>HTTPS (HyperText Transfer Protocol Secure) beaconing, DNS (Domain Name System) tunnelling</td></tr>
+    <tr><td>Exfiltration</td><td>Steal the data</td><td>Upload to cloud storage</td></tr>
+    <tr><td>Impact</td><td>Disrupt or destroy</td><td>Ransomware encryption, wiping data</td></tr>
+  </tbody></table></div>
+  <div class="callout detail">The <b>Diamond Model</b> describes each intrusion event by four linked points: <b>adversary</b>, <b>capability</b> (malware, exploits), <b>infrastructure</b> (IPs (Internet Protocol), domains) and <b>victim</b>. Finding one point helps you pivot to the others.</div>
 </section>
 
-<section class="lesson" id="cloudmodels">
-  <h2>3. Cloud models and shared responsibility</h2>
-  <p>NIST (National Institute of Standards and Technology) SP (Special Publication) 800-145 defines cloud by five characteristics: <b>on-demand self-service</b>, <b>broad network access</b>, <b>resource pooling</b> (multitenancy), <b>rapid elasticity</b> and <b>measured service</b>.</p>
-  <div class="grid2">
-    <div class="tile"><h4>Service models</h4><ul>
-      <li><b>IaaS (Infrastructure as a Service)</b>: rent VMs, storage and networks; you manage OS and up (e.g., EC2 (Elastic Compute Cloud), Azure VMs).</li>
-      <li><b>PaaS (Platform as a Service)</b>: a managed platform; you deploy code and data (e.g., App Service, managed databases).</li>
-      <li><b>SaaS (Software as a Service)</b>: finished software (e.g., Microsoft 365, Salesforce).</li>
-      <li><b>FaaS</b>: serverless functions (e.g., Lambda, Azure Functions).</li>
-    </ul></div>
-    <div class="tile"><h4>Deployment models</h4><ul>
-      <li><b>Public</b>: shared provider infrastructure.</li>
-      <li><b>Private</b>: dedicated to one organization (on-prem or hosted).</li>
-      <li><b>Hybrid</b>: public plus private, connected and orchestrated.</li>
-      <li><b>Community</b>: shared by organizations with common needs (e.g., government).</li>
-      <li><b>Multi-cloud</b>: more than one public provider, for resilience or best-of-breed.</li>
-    </ul></div>
-  </div>
-  <ul>
-    <li><b>Regions</b> are geographic areas; <b>availability zones</b> are separate data centers (independent power, cooling, networking) within a region. Spread across AZs for high availability, across regions for disaster recovery.</li>
-    <li><b>Scalability</b>: the ability to grow (vertical = bigger instance, horizontal = more instances). <b>Elasticity</b>: growing <i>and shrinking</i> automatically with demand.</li>
-    <li><b>Cost basics</b>: pay-as-you-go (OpEx) vs buying hardware (CapEx); reserved/committed-use discounts; spot instances; <b>egress</b> (data out) charges; tagging for cost allocation; turn off idle resources.</li>
-  </ul>
-  <div class="callout std">Shared responsibility: the provider is always responsible for the physical data center; the customer is always responsible for their <b>data</b>, <b>identities and access</b>, and (in most models) how they configure the service. Everything in between shifts toward the provider from IaaS to PaaS to SaaS. Lab 1 shows it layer by layer.</div>
-</section>
-
-<section class="lesson" id="cloudnet">
-  <h2>4. Cloud networking</h2>
-  <figure class="figure">
-    <svg viewBox="0 0 740 250" width="740" role="img" aria-label="A VPC with public and private subnets in two availability zones, an internet gateway, a NAT gateway, and a VPN or direct connection to on-premises">
-      <g id="vpc-fig"></g>
-    </svg>
-    <figcaption>A typical VPC: public subnets hold load balancers and NAT; private subnets hold app servers and databases; on-premises connects through VPN (Virtual Private Network) or a dedicated link.</figcaption>
-  </figure>
-  <div class="tablewrap"><table>
-    <thead><tr><th>Component</th><th>Meaning</th></tr></thead>
-    <tbody>
-      <tr><td><b>VPC / VNet</b></td><td>Your private, isolated network in the cloud with your chosen IP range (e.g., 10.20.0.0/16)</td></tr>
-      <tr><td><b>Subnets</b></td><td>Public (route to an internet gateway) or private (no direct inbound internet)</td></tr>
-      <tr><td><b>Security group</b></td><td><b>Stateful</b>, attached to instances/NICs, <b>allow rules only</b>; return traffic automatically allowed</td></tr>
-      <tr><td><b>Network ACL (Access Control List)</b></td><td><b>Stateless</b>, attached to subnets, allow <b>and</b> deny rules, evaluated in number order; return traffic needs its own rule</td></tr>
-      <tr><td><b>Internet gateway</b></td><td>Lets public subnets reach and be reached from the internet</td></tr>
-      <tr><td><b>NAT gateway</b></td><td>Lets private instances start outbound connections (updates) without being reachable inbound</td></tr>
-      <tr><td><b>VPN / Direct Connect / ExpressRoute</b></td><td>Encrypted tunnel over the internet vs a private dedicated circuit to the provider (predictable latency, no internet path)</td></tr>
-      <tr><td><b>Peering / transit gateway</b></td><td>Connecting VPCs together</td></tr>
-      <tr><td><b>CDN (Content Delivery Network)</b></td><td>Caches content at edge locations close to users: faster delivery and DDoS absorption</td></tr>
-      <tr><td><b>NFV</b></td><td>Network functions virtualization: firewalls, routers and load balancers as software</td></tr>
-    </tbody></table></div>
-</section>
-
-<section class="lesson" id="cloudsec">
-  <h2>5. Cloud security</h2>
-  <ul>
-    <li><b>IAM (Identity and Access Management)</b>: least-privilege roles and policies, MFA for all humans, no long-lived access keys where avoidable, separate accounts/subscriptions for environments.</li>
-    <li><b>CASB</b> (cloud access security broker): visibility and policy enforcement between users and SaaS apps (shadow IT (Information Technology) discovery, DLP (Data Loss Prevention), access control).</li>
-    <li><b>CSPM</b> (cloud security posture management): continuously scans cloud configurations for misconfigurations against benchmarks.</li>
-    <li><b>Misconfiguration</b> is the top cloud risk: public storage buckets, open security groups (0.0.0.0/0 on SSH/RDP), overly permissive IAM, disabled logging, unencrypted snapshots.</li>
-    <li><b>Encryption and key management</b>: encryption at rest and in transit; provider-managed keys vs customer-managed keys (KMS) vs bring/hold your own key (HSM).</li>
-    <li><b>Logging</b>: enable control-plane audit logs (who changed what) and flow logs; send them to a SIEM (Security Information and Event Management).</li>
-  </ul>
-</section>
-
-<section class="lesson" id="storage">
-  <h2>6. Storage</h2>
-  <div class="tablewrap"><table>
-    <thead><tr><th></th><th>DAS</th><th>NAS</th><th>SAN</th></tr></thead>
-    <tbody>
-      <tr><td>What</td><td>Disks attached directly to one server</td><td>A file server appliance on the network</td><td>A dedicated network giving servers block-level disks</td></tr>
-      <tr><td>Access</td><td>Block (SATA (Serial Advanced Technology Attachment), SAS (Serial Attached Small Computer System Interface), NVMe (Non-Volatile Memory Express))</td><td><b>File</b> (SMB/CIFS (CIFS: Common Internet File System), NFS (Network File System)) over Ethernet</td><td><b>Block</b> over Fibre Channel, iSCSI, FCoE (Fibre Channel over Ethernet), NVMe-oF (Non-Volatile Memory Express over Fabrics)</td></tr>
-      <tr><td>Shared?</td><td>No</td><td>Yes, many clients</td><td>Yes, many servers (cluster file systems)</td></tr>
-      <tr><td>Typical use</td><td>Boot drives, local scratch</td><td>Department shares, home folders</td><td>Databases, VM datastores</td></tr>
-    </tbody></table></div>
+<section class="lesson" id="soc">
+  <h2>3. Inside a security operations center</h2>
+  <figure class="fig"><svg id="soc-fig" viewBox="0 0 760 170" width="760" role="img" aria-label="SOC workflow: log sources feed a SIEM, which raises alerts; analysts triage, investigate and respond, with SOAR automating steps and lessons learned tuning detections."></svg></figure>
   <div class="grid3">
-    <div class="tile"><h4>Block</h4><p>Raw volumes the OS formats; lowest latency; databases and VM disks. Cloud: EBS (Elastic Block Store), Azure Managed Disks.</p></div>
-    <div class="tile"><h4>File</h4><p>Hierarchical folders over SMB/NFS; shared access with permissions. Cloud: EFS (Encrypting File System), Azure Files.</p></div>
-    <div class="tile"><h4>Object</h4><p>Flat namespace of objects with metadata, accessed by HTTP (HyperText Transfer Protocol) API; massive scale, cheap; backups, media, data lakes, static websites. Cloud: S3, Azure Blob.</p></div>
+    <div class="tile"><h4>Tools</h4><p><b>SIEM</b> collects and correlates logs. <b>EDR/XDR (XDR: Extended Detection and Response)</b> watches endpoints and more. <b>SOAR</b> automates playbooks. Threat intelligence feeds add context. Ticketing tracks every case.</p></div>
+    <div class="tile"><h4>Alert outcomes</h4><p><b>True positive</b>: a real attack, so respond. <b>False positive</b>: a false alarm, so close it and tune the rule. <b>False negative</b>: missed entirely, the worst case, found by threat hunting or after damage.</p></div>
+    <div class="tile"><h4>Metrics</h4><p><b>MTTD</b> (mean time to detect), <b>MTTR</b> (mean time to respond or recover), alert volume, false positive rate, and dwell time (how long attackers stayed undetected).</p></div>
   </div>
-  <div class="tablewrap"><table>
-    <thead><tr><th>Protocol / feature</th><th>Key facts</th></tr></thead>
-    <tbody>
-      <tr><td><b>Fibre Channel</b></td><td>Dedicated lossless SAN fabric, 8/16/32/64 Gb FC, WWNs (World Wide Name), zoning and LUN (Logical Unit Number) masking</td></tr>
-      <tr><td><b>iSCSI</b></td><td>SCSI (Small Computer System Interface) commands over TCP/IP (TCP: Transmission Control Protocol; port 3260): initiators and targets on regular Ethernet</td></tr>
-      <tr><td><b>FCoE</b></td><td>FC frames inside Ethernet, needs lossless Data Center Bridging (DCB)</td></tr>
-      <tr><td><b>NVMe-oF</b></td><td>NVMe over fabrics (RDMA (Remote Direct Memory Access), FC, TCP): very low latency flash access across the network</td></tr>
-      <tr><td><b>Thin vs thick provisioning</b></td><td>Thin allocates space as data is written (watch for overcommit running out); thick reserves it all up front</td></tr>
-      <tr><td><b>Deduplication / compression</b></td><td>Store identical blocks once / shrink data; great for VDI (Virtual Desktop Infrastructure) and backups</td></tr>
-      <tr><td><b>Snapshots</b></td><td>Point-in-time copies (often copy-on-write); fast, but on the same array, so not a backup by themselves</td></tr>
-      <tr><td><b>Synchronous replication</b></td><td>Write acknowledged only after both sites have it: RPO = 0, but adds round-trip latency; practical over short distances (roughly under 100 km)</td></tr>
-      <tr><td><b>Asynchronous replication</b></td><td>Write acknowledged locally and copied later: no latency penalty, any distance, but RPO &gt; 0</td></tr>
-      <tr><td><b>Tiering</b></td><td>Hot data on fast flash, cold data on cheaper disk or object/archive tiers, moved automatically</td></tr>
-      <tr><td>RAID (Redundant Array of Independent Disks) reminder</td><td>0 striping (no protection), 1 mirroring, 5 single parity, 6 double parity, 10 mirrored stripes (Module 6)</td></tr>
-    </tbody></table></div>
+  <p>Incident response follows the NIST (National Institute of Standards and Technology) phases from Module 16: <b>preparation</b>; <b>detection and analysis</b>; <b>containment, eradication and recovery</b>; and <b>post-incident activity</b> (lessons learned). NIST SP (Special Publication) 800-61 Rev. 3 (2025) now aligns these with the CSF (Cybersecurity Framework) 2.0 functions (verify).</p>
+</section>
+
+<section class="lesson" id="vuln">
+  <h2>4. Vulnerability management</h2>
+  <p>Every organisation has more vulnerabilities than time to fix them, so the skill is <b>prioritising</b>. The cycle: <b>discover</b> assets, <b>scan</b> (authenticated scans see more), <b>prioritise</b>, <b>remediate</b> (patch, reconfigure, or apply a compensating control), <b>verify</b> with a rescan, and <b>report</b>.</p>
+  <div class="tablewrap"><table><thead><tr><th>Signal</th><th>What it tells you</th></tr></thead><tbody>
+    <tr><td><b>CVE (Common Vulnerabilities and Exposures)</b></td><td>The unique ID (Identification) of the flaw, e.g., CVE-2021-44228 (Log4Shell)</td></tr>
+    <tr><td><b>CVSS</b> (0–10)</td><td>Technical severity: attack vector, complexity, privileges needed, user interaction, impact. 9.0+ critical, 7.0–8.9 high</td></tr>
+    <tr><td><b>CISA KEV (Known Exploited Vulnerabilities)</b></td><td>Attackers are exploiting it right now. Treat as urgent</td></tr>
+    <tr><td><b>EPSS (Exploit Prediction Scoring System)</b> (0–100%)</td><td>Probability it will be exploited in the next 30 days</td></tr>
+    <tr><td><b>Exposure and asset value</b></td><td>Is it internet-facing? Does the system hold crown-jewel data or run critical services?</td></tr>
+  </tbody></table></div>
+  <div class="callout trap">"Highest CVSS first" is a classic exam and real-world mistake. A CVSS 7.5 on an internet-facing server that attackers are actively exploiting beats a CVSS 9.8 on an isolated lab machine.</div>
+</section>
+
+<section class="lesson" id="certs">
+  <h2>5. The security certification landscape</h2>
+  <p>There's no single right order, but this ladder works for most people (verify exam codes and requirements, which change):</p>
+  <div class="tablewrap"><table><thead><tr><th>Level</th><th>Certification</th><th>Vendor</th><th>Notes</th></tr></thead><tbody>
+    <tr><td rowspan="3"><b>Entry</b></td><td>Certified in Cybersecurity (CC)</td><td>ISC2 (International Information System Security Certification Consortium)</td><td>Beginner-friendly; free training and exam offers have run (verify)</td></tr>
+    <tr><td>Security+ (SY0-701)</td><td>CompTIA</td><td>The standard first security cert; DoD 8140 approved (Modules 14–16)</td></tr>
+    <tr><td>Google Cybersecurity Certificate</td><td>Google / Coursera</td><td>Online course certificate, good for absolute beginners</td></tr>
+    <tr><td rowspan="5"><b>Intermediate: defence</b></td><td>CySA+ (CS0-003)</td><td>CompTIA</td><td>SOC analyst skills: operations, vulnerability management, IR, reporting. Up to 85 questions, 165 min, 750/900. Practise in the Study Hub</td></tr>
+    <tr><td>Blue Team Level 1 (BTL1)</td><td>Security Blue Team</td><td>Practical, lab-based SOC exam</td></tr>
+    <tr><td>GIAC GSEC (Global Information Assurance Certification Security Essentials), GCIH, GCIA</td><td>GIAC (SANS)</td><td>Highly respected; expensive if bought with SANS training</td></tr>
+    <tr><td>SSCP (Systems Security Certified Practitioner)</td><td>ISC2</td><td>Hands-on security administration; 1 year experience</td></tr>
+    <tr><td>Microsoft SC-200</td><td>Microsoft</td><td>Security operations analyst on Microsoft Sentinel and Defender</td></tr>
+    <tr><td rowspan="3"><b>Intermediate: offence</b></td><td>PenTest+ (PT0-003)</td><td>CompTIA</td><td>Planning, scanning, attacks, reporting</td></tr>
+    <tr><td>OSCP (PEN-200)</td><td>OffSec</td><td>Hard, practical exam hacking machines in a lab; highly valued for pentest jobs</td></tr>
+    <tr><td>CEH</td><td>EC-Council</td><td>Well known to HR (Human Resources) and government; mostly knowledge-based (practical version available)</td></tr>
+    <tr><td rowspan="5"><b>Advanced</b></td><td>CISSP</td><td>ISC2</td><td>Broad 8-domain management and architecture cert; 5 years' experience</td></tr>
+    <tr><td>CISM / CISA</td><td>ISACA (Information Systems Audit and Control Association)</td><td>Security management / IT audit (Modules 24 and 25)</td></tr>
+    <tr><td>SecurityX (formerly CASP (CompTIA Advanced Security Practitioner)+, CAS-005)</td><td>CompTIA</td><td>Advanced hands-on security architecture and engineering</td></tr>
+    <tr><td>CCSP</td><td>ISC2</td><td>Cloud security; 5 years' experience</td></tr>
+    <tr><td>AWS Security – Specialty</td><td>AWS</td><td>Securing AWS (Module 19)</td></tr>
+  </tbody></table></div>
+  <div class="callout detail">US Department of Defense jobs list qualifying certifications by work role under <b>DoD 8140</b>, which replaced the older 8570 baseline. Security+, CySA+, CISSP and others appear on it (verify the current list for a specific role).</div>
+</section>
+
+<section class="lesson" id="start">
+  <h2>6. Getting started the right way</h2>
+  <div class="grid3">
+    <div class="tile"><h4>Build a home lab</h4><p>A spare PC (Personal Computer) or free virtualisation (Module 8) with a few VMs (Virtual Machine): a Windows machine, a Linux server, a firewall VM and a free SIEM. Attack your own machines, then find the evidence in the logs.</p></div>
+    <div class="tile"><h4>Practise legally</h4><p>Use CTF competitions and training platforms built for practice, plus deliberately vulnerable VMs. Only ever test systems you own or have <b>written permission</b> to test.</p></div>
+    <div class="tile"><h4>Show your work</h4><p>Write up what you did and learned. Contribute detection rules or scripts. Join local security meetups and conferences (BSides events are cheap and friendly).</p></div>
+  </div>
+  <div class="callout trap">Good intentions are not a legal defence. Scanning or logging into systems without permission is a crime in most countries, under laws such as the US Computer Fraud and Abuse Act and the UK Computer Misuse Act, even if you only wanted to help.</div>
+</section>
+
+<section class="lesson" id="soc-day">
+  <h2>7. A day on a SOC shift</h2>
+  <p>What does an entry-level security analyst actually do all day? Here is a typical shift in a security operations center.</p>
+  <div class="tablewrap"><table><thead><tr><th>Time</th><th>Activity</th></tr></thead><tbody>
+    <tr><td>08:00</td><td><b>Shift handover.</b> The night team explains open cases: a suspicious login still being investigated and a noisy alert rule.</td></tr>
+    <tr><td>08:30</td><td><b>Alert queue.</b> Review new SIEM alerts. Most are benign: a user travelling, an admin running a scheduled script.</td></tr>
+    <tr><td>10:15</td><td><b>Real finding.</b> A laptop contacts a domain registered two days ago. EDR shows a macro-enabled document launched PowerShell. The analyst isolates the laptop and escalates to tier 2.</td></tr>
+    <tr><td>11:30</td><td><b>Tuning.</b> Adjusts the noisy rule so it ignores a known backup server, cutting false positives without hiding real threats.</td></tr>
+    <tr><td>13:00</td><td><b>Threat intel.</b> Reads a new advisory about an exploited VPN (Virtual Private Network) flaw and searches logs for its indicators.</td></tr>
+    <tr><td>14:30</td><td><b>Phishing reports.</b> Users reported five emails. Two are real phishing; the analyst blocks the sender and removes copies from mailboxes.</td></tr>
+    <tr><td>16:00</td><td><b>Documentation.</b> Writes up each case: what happened, evidence, actions, and whether a rule or process should change.</td></tr>
+  </tbody></table></div>
+  <div class="callout tip">The skills that make analysts stand out are curiosity, careful notes, and clear writing for people who are not technical. Practise by writing short reports on each lab you complete.</div>
+</section>
+
+<section class="lesson" id="portfolio">
+  <h2>8. Building a portfolio that gets interviews</h2>
+  <p>Security hiring managers like evidence. A small portfolio shows what certifications can't.</p>
+  <ul>
+    <li><b>Home lab write-ups:</b> set up a free SIEM, send it logs from a Windows and a Linux virtual machine, simulate a failed-login attack and show how you detected it.</li>
+    <li><b>Detection rules:</b> publish a few simple detection rules with an explanation of what they catch and what false positives to expect.</li>
+    <li><b>Capture-the-flag results:</b> beginner-friendly CTFs and training platforms provide legal, safe practice environments.</li>
+    <li><b>Scripts:</b> a short Python or PowerShell script that parses logs or checks for weak settings.</li>
+    <li><b>A short blog or notes</b> explaining something you learned in plain language.</li>
+  </ul>
+  <div class="callout trap">Only practise attack techniques on systems you own or platforms built for it. Scanning or attacking systems without written permission is illegal in most countries, even "just to test".</div>
 </section>
 
 <section class="lab" id="labs">
   <h2>Interactive labs</h2>
 
-  <div class="lab-card" id="lab-srm" data-lab="Shared Responsibility Slider: switch between on-premises, IaaS, PaaS and SaaS and watch the stack shade to show what the customer vs the provider manages.">
-    <h3>Lab 1: Shared Responsibility Slider</h3>
-    <div class="row"><label>Model <input type="range" id="sr-r" min="0" max="3" value="1" aria-valuetext="IaaS"></label><div class="seg" id="sr-seg"></div></div>
-    <div class="stage"><svg id="sr-svg" viewBox="0 0 580 400" width="580" role="img" aria-label="Responsibility stack"></svg></div>
-    <div class="caption" id="sr-cap" aria-live="polite"></div>
+  <div class="lab-card" id="lab-path" data-lab="Cert Path Finder: choose the cyber security role you want and your experience, and get an ordered certification and skills path with links to the right modules.">
+    <h3>Lab 1: Cert Path Finder</h3>
+    <div class="row"><label>I want to become <select id="cp-role">
+      <option value="soc">SOC analyst</option><option value="ir">Incident responder</option><option value="pt">Penetration tester</option><option value="cloud">Cloud security engineer</option><option value="grc">GRC analyst or IT auditor</option><option value="lead">Security manager or CISO</option></select></label>
+      <label>My experience <select id="cp-exp"><option value="0">New to IT</option><option value="1">1–3 years in IT</option><option value="3">3–5 years in IT or security</option><option value="5">5+ years in security</option></select></label></div>
+    <ol class="path-steps" id="cp-out"></ol>
+    <div class="caption" id="cp-cap" aria-live="polite"></div>
   </div>
 
-  <div class="lab-card" id="lab-cvm" data-lab="Container vs VM Visualizer: stacks side by side; add apps and compare memory use, density and startup time.">
-    <h3>Lab 2: Container vs VM Visualizer</h3>
-    <div class="row"><button type="button" class="primary" id="cv-add">+ Add an app</button><button type="button" id="cv-rem">− Remove an app</button><button type="button" id="cv-boot">Start everything (compare boot times)</button></div>
-    <div class="stage"><svg id="cv-svg" viewBox="0 0 760 330" width="760" role="img" aria-label="Virtual machines and containers side by side"></svg></div>
-    <div class="grid2">
-      <div class="tile"><h4>Virtual machines</h4><div class="bar"><i id="cv-vbar" style="background:var(--hw)"></i></div><p id="cv-vtxt"></p></div>
-      <div class="tile"><h4>Containers</h4><div class="bar"><i id="cv-cbar" style="background:var(--net)"></i></div><p id="cv-ctxt"></p></div>
-    </div>
-    <div class="caption" id="cv-cap" aria-live="polite"></div>
+  <div class="lab-card" id="lab-triage" data-lab="SOC Alert Triage: work through real-looking SIEM alerts and decide whether each is a false positive, needs investigation, or is an incident to escalate now.">
+    <h3>Lab 2: SOC Alert Triage</h3>
+    <p class="figcap">You're a Tier 1 analyst at a fictional company, Harrow Logistics. For each alert, decide what to do.</p>
+    <div id="tr-host"></div>
+    <div class="caption" id="tr-cap" aria-live="polite"></div>
   </div>
 
-  <div class="lab-card" id="lab-scale" data-lab="Autoscaling Simulator: traffic ramps up and down over a day; set scaling rules and see instances added and removed, dropped requests and cost.">
-    <h3>Lab 3: Autoscaling Simulator</h3>
-    <div class="controls">
-      <label class="field"><span>Traffic pattern</span><select id="as-pat"><option value="day">Business day</option><option value="spike">Flash sale spike</option><option value="steady">Steady with noise</option></select></label>
-      <label class="field"><span>Scale out above CPU <b id="as-upv"></b></span><input type="range" id="as-up" min="50" max="95" value="70"></label>
-      <label class="field"><span>Scale in below CPU <b id="as-dnv"></b></span><input type="range" id="as-dn" min="10" max="60" value="30"></label>
-      <label class="field"><span>Minimum instances <b id="as-minv"></b></span><input type="range" id="as-min" min="1" max="6" value="2"></label>
-      <label class="field"><span>Maximum instances <b id="as-maxv"></b></span><input type="range" id="as-max" min="4" max="20" value="12"></label>
-      <label class="field"><span>Cooldown (minutes) <b id="as-cdv"></b></span><input type="range" id="as-cd" min="5" max="60" step="5" value="10"></label>
-    </div>
-    <div class="row"><button type="button" class="primary" id="as-play">Animate the day</button></div>
-    <div class="stage"><svg id="as-svg" viewBox="0 0 760 260" width="760" role="img" aria-label="Traffic, capacity and instance count over 24 hours"></svg></div>
-    <div class="grid3">
-      <div class="tile"><div class="figcap">Autoscaled cost</div><div class="metric" id="as-cost"></div></div>
-      <div class="tile"><div class="figcap">Fixed at peak, all day</div><div class="metric" id="as-fixed"></div></div>
-      <div class="tile"><div class="figcap">Requests dropped</div><div class="metric" id="as-drop"></div></div>
-    </div>
-    <div class="caption" id="as-cap" aria-live="polite"></div>
+  <div class="lab-card" id="lab-attack" data-lab="ATT&CK Mapper: sort the steps of a ransomware intrusion into MITRE ATT&CK tactics.">
+    <h3>Lab 3: ATT&amp;CK Mapper</h3>
+    <p class="figcap">These events come from a (fictional) ransomware investigation. Map each one to its MITRE ATT&amp;CK tactic.</p>
+    <div id="at-host"></div>
+    <div class="caption" id="at-cap" aria-live="polite"></div>
   </div>
 
-  <div class="lab-card" id="lab-stor" data-lab="Storage Type Picker: choose a workload, guess block, file or object storage, and get the recommendation with reasons.">
-    <h3>Lab 4: Storage Type Picker</h3>
-    <p class="figcap">Pick a workload, make your guess, then read why.</p>
-    <div class="wl" id="st-wl"></div>
-    <div id="st-guess" class="row"></div>
-    <div class="stor-res" id="st-res">Choose a workload above.</div>
-    <div class="caption" id="st-cap" aria-live="polite"></div>
-  </div>
-
-  <div class="lab-card" id="lab-repl" data-lab="Replication Lab: synchronous vs asynchronous replication between two sites with a latency slider, showing write delay and data loss (RPO) when the link fails.">
-    <h3>Lab 5: Replication Lab</h3>
-    <div class="controls">
-      <label class="field"><span>Mode</span><span class="seg"><button type="button" id="rp-sync" class="on">Synchronous</button><button type="button" id="rp-async">Asynchronous</button></span></label>
-      <label class="field"><span>Distance between sites: <b id="rp-dv"></b></span><input type="range" id="rp-d" min="10" max="4000" step="10" value="50"></label>
-      <label class="field"><span>Application writes per second: <b id="rp-wv"></b></span><input type="range" id="rp-w" min="10" max="2000" step="10" value="500"></label>
-    </div>
-    <div class="row"><button type="button" class="primary" id="rp-fail">Cut the link</button><button type="button" id="rp-heal">Restore the link</button></div>
-    <div class="stage"><svg id="rp-svg" viewBox="0 0 760 200" width="760" role="img" aria-label="Primary and secondary site with replication traffic"></svg></div>
-    <div class="grid3">
-      <div class="tile"><div class="figcap">Write latency seen by the app</div><div class="metric" id="rp-lat"></div></div>
-      <div class="tile"><div class="figcap">Replication lag (RPO if the primary dies now)</div><div class="metric" id="rp-rpo"></div></div>
-      <div class="tile"><div class="figcap">Writes at risk</div><div class="metric" id="rp-risk"></div></div>
-    </div>
-    <div class="caption" id="rp-cap" aria-live="polite"></div>
+  <div class="lab-card" id="lab-patch" data-lab="Patch Priority Ranker: rank five vulnerabilities using CVSS, CISA KEV, exposure and asset criticality, then compare with an expert ranking.">
+    <h3>Lab 4: Patch Priority Ranker</h3>
+    <p class="figcap">Use the ▲ ▼ buttons to put these vulnerabilities in the order you would fix them (1 = first), then press Check.</p>
+    <ol class="rank-list" id="pp-list"></ol>
+    <div class="row"><button type="button" class="primary" id="pp-check">Check my order</button><button type="button" id="pp-shuffle">Shuffle</button></div>
+    <div class="caption" id="pp-cap" aria-live="polite"></div>
   </div>
 </section>
 
@@ -248,24 +216,23 @@
 
 <section class="memory" id="memory">
   <h2>Memory aids</h2>
-  <div class="mnemonic">Service models as pizza: <b>on-prem</b> = make it at home, <b>IaaS</b> = take-and-bake (you cook), <b>PaaS</b> = delivery (you set the table), <b>SaaS</b> = dine out.</div>
-  <div class="mnemonic">Security <b>G</b>roup = <b>G</b>uest list (allow only, remembers who came in). Network <b>ACL</b> = <b>A</b>irport <b>C</b>heckpoint <b>L</b>ine (checks everyone both ways, can deny).</div>
-  <div class="mnemonic"><b>B</b>lock for <b>B</b>ig databases, <b>F</b>ile for <b>F</b>olders, <b>O</b>bject for <b>O</b>ceans of data.</div>
-  <div class="mnemonic">Sync = <b>S</b>afe but <b>S</b>low (RPO 0). Async = <b>A</b>nywhere, <b>A</b> bit of loss.</div>
+  <div class="mnemonic">Kill Chain: <b>"Real Wizards Deliver Exploits, Install Cauldrons, Act"</b>: Recon, Weaponize, Deliver, Exploit, Install, C2, Actions on objectives.</div>
+  <div class="mnemonic"><b>Patch the "KEE" first</b>: Known exploited, Exposed to the internet, Essential (critical) asset.</div>
+  <div class="mnemonic"><b>False negative = the fire nobody saw.</b> It's the worst SOC outcome.</div>
   <div class="tablewrap"><table><thead><tr><th>Number</th><th>Meaning</th></tr></thead><tbody>
-    <tr><td>3260</td><td>iSCSI TCP port</td></tr>
-    <tr><td>~5 µs per km</td><td>Light in fiber, one way (≈ 1 ms round trip per 100 km)</td></tr>
-    <tr><td>~100 km</td><td>Typical practical limit for synchronous replication</td></tr>
-    <tr><td>5</td><td>NIST cloud characteristics</td></tr>
-    <tr><td>8/16/32/64 Gb</td><td>Fibre Channel speeds</td></tr>
-    <tr><td>3:1 to 4:1</td><td>Common starting vCPU:pCPU overcommit for general workloads</td></tr>
+    <tr><td>7</td><td>Cyber Kill Chain stages</td></tr>
+    <tr><td>14</td><td>MITRE ATT&amp;CK Enterprise tactics</td></tr>
+    <tr><td>4</td><td>Diamond Model points; NIST IR phases</td></tr>
+    <tr><td>9.0–10.0 / 7.0–8.9</td><td>CVSS critical / high</td></tr>
+    <tr><td>85 · 165 min · 750</td><td>CySA+ CS0-003 max questions, time, pass</td></tr>
+    <tr><td>5 years</td><td>Experience to certify CISSP, CISM, CISA, CCSP</td></tr>
   </tbody></table></div>
   <div class="tablewrap"><table><thead><tr><th>Exam trap</th><th>Why it is wrong</th></tr></thead><tbody>
-    <tr><td>"The cloud provider secures my data."</td><td>Data and access are always the customer's responsibility.</td></tr>
-    <tr><td>"Scalability and elasticity mean the same."</td><td>Elasticity adds automatic scale-in as well as scale-out with demand.</td></tr>
-    <tr><td>"A NAS gives block storage."</td><td>NAS is file-level (SMB/NFS); SAN is block-level.</td></tr>
-    <tr><td>"Snapshots are backups."</td><td>They live on the same system and depend on the original disk.</td></tr>
-    <tr><td>"Security groups can deny traffic."</td><td>They're allow-only; use NACLs for explicit deny.</td></tr>
+    <tr><td>"Patch the highest CVSS first, always."</td><td>Exploitation (KEV/EPSS), exposure and asset value matter more.</td></tr>
+    <tr><td>"A false positive is the worst outcome."</td><td>Annoying, but a false negative (missed attack) is worse.</td></tr>
+    <tr><td>"Wipe the infected machine immediately."</td><td>Contain first and preserve evidence; wiping destroys forensic data.</td></tr>
+    <tr><td>"A pentest without permission is fine if you report it."</td><td>Without written authorisation it's illegal.</td></tr>
+    <tr><td>"SIEM and SOAR are the same."</td><td>SIEM detects and correlates; SOAR automates the response.</td></tr>
   </tbody></table></div>
 </section>
 
@@ -282,233 +249,151 @@
 <section class="deeper" id="deeper">
   <h2>Go deeper (official sources)</h2>
   <ul>
-    <li><a href="https://csrc.nist.gov/pubs/sp/800/145/final" rel="noopener">NIST SP 800-145: The NIST Definition of Cloud Computing</a></li>
-    <li><a href="https://csrc.nist.gov/pubs/sp/800/190/final" rel="noopener">NIST SP 800-190: Application Container Security Guide</a></li>
-    <li><a href="https://kubernetes.io/docs/concepts/" rel="noopener">Kubernetes documentation: Concepts</a></li>
-    <li><a href="https://aws.amazon.com/compliance/shared-responsibility-model/" rel="noopener">AWS Shared Responsibility Model</a> and <a href="https://learn.microsoft.com/en-us/azure/security/fundamentals/shared-responsibility" rel="noopener">Microsoft Azure shared responsibility</a></li>
-    <li><a href="https://www.snia.org/education/what-is-san" rel="noopener">SNIA: storage networking education</a></li>
-    <li><a href="https://www.comptia.org/en-us/certifications/network/" rel="noopener">CompTIA Network+</a> and <a href="https://www.comptia.org/en-us/certifications/a/" rel="noopener">CompTIA A+</a> exam objectives</li>
+    <li><a href="https://www.comptia.org/en-us/certifications/cybersecurity-analyst/" rel="noopener">CompTIA CySA+</a> · <a href="https://www.comptia.org/en-us/certifications/pentest/" rel="noopener">CompTIA PenTest+</a> · <a href="https://www.comptia.org/en-us/certifications/securityx/" rel="noopener">CompTIA SecurityX</a></li>
+    <li><a href="https://www.isc2.org/certifications" rel="noopener">ISC2 certifications (CC, SSCP, CISSP, CCSP)</a></li>
+    <li><a href="https://www.offsec.com/courses/pen-200/" rel="noopener">OffSec PEN-200 / OSCP</a> · <a href="https://www.giac.org/" rel="noopener">GIAC certifications</a> · <a href="https://www.eccouncil.org/" rel="noopener">EC-Council (CEH)</a></li>
+    <li><a href="https://attack.mitre.org/" rel="noopener">MITRE ATT&amp;CK</a> · <a href="https://www.lockheedmartin.com/en-us/capabilities/cyber/cyber-kill-chain.html" rel="noopener">Lockheed Martin Cyber Kill Chain</a></li>
+    <li><a href="https://www.cisa.gov/known-exploited-vulnerabilities-catalog" rel="noopener">CISA Known Exploited Vulnerabilities catalog</a> · <a href="https://www.first.org/cvss/" rel="noopener">FIRST CVSS</a> · <a href="https://www.first.org/epss/" rel="noopener">FIRST EPSS</a> · <a href="https://www.cve.org/" rel="noopener">CVE program</a></li>
+    <li><a href="https://csrc.nist.gov/pubs/sp/800/61/r3/final" rel="noopener">NIST SP 800-61 Rev. 3 incident response</a> · <a href="https://niccs.cisa.gov/workforce-development/nice-framework" rel="noopener">NICE Workforce Framework (cyber work roles)</a></li>
   </ul>
 </section>
 </main>
-<footer class="foot">Datacenter Omnibus · Original study material. Not affiliated with or endorsed by any certification body.</footer>
+<footer class="foot">Datacenter Omnibus · Original, independent study material. Not affiliated with or endorsed by any certification body, vendor or standards organisation. All trademarks belong to their owners. Exam details change; always verify on the vendor site. <a href="legal.html">Trademarks and copyright</a></footer>
 
 <script src="data/catalog.js"></script>
 <script src="assets/omnibus.js"></script>
+<script src="assets/labkit.js"></script>
 <script src="data/m17.js"></script>
 <script>
 (function () {
-  var h = OMNI.h, S = OMNI.svg, $ = function (id) { return document.getElementById(id); };
-  function txt(p, x, y, t, a) { var e = S("text", Object.assign({ x: x, y: y, class: "svg-text", "font-size": 12 }, a || {}), p); e.textContent = t; return e; }
-  function rect(p, x, y, w, hh, fill, stroke, extra) { return S("rect", Object.assign({ x: x, y: y, width: w, height: hh, rx: 6, fill: fill, stroke: stroke || "none", "stroke-width": 2 }, extra || {}), p); }
+  var $ = function (id) { return document.getElementById(id); }, S = OMNI.svg, h = OMNI.h;
+  function txt(g, x, y, s, a) { var e = S("text", Object.assign({ x: x, y: y, class: "svg-text", "font-size": 12 }, a || {}), g); e.textContent = s; return e; }
+  function box(g, x, y, w, hh, t, sub, col) { S("rect", { x: x, y: y, width: w, height: hh, rx: 9, fill: "var(--surface)", stroke: col, "stroke-width": 2.2 }, g); txt(g, x + w / 2, y + (sub ? hh / 2 - 2 : hh / 2 + 4), t, { "text-anchor": "middle", "font-weight": 700, "font-size": 11.5 }); if (sub) txt(g, x + w / 2, y + hh / 2 + 13, sub, { "text-anchor": "middle", "font-size": 9.5, class: "svg-text svg-muted" }); }
+  function arrow(g, x1, y1, x2, y2) { S("line", { x1: x1, y1: y1, x2: x2, y2: y2, stroke: "var(--ink-2)", "stroke-width": 1.8 }, g); var a = Math.atan2(y2 - y1, x2 - x1), s = 7; S("polygon", { points: x2 + "," + y2 + " " + (x2 - s * Math.cos(a - .45)) + "," + (y2 - s * Math.sin(a - .45)) + " " + (x2 - s * Math.cos(a + .45)) + "," + (y2 - s * Math.sin(a + .45)), fill: "var(--ink-2)" }, g); }
 
-  /* ===== VPC figure ===== */
+  /* career ladder */
   (function () {
-    var g = $("vpc-fig");
-    rect(g, 150, 20, 440, 210, "var(--net-soft)", "var(--net)", { "stroke-dasharray": "6 4" }); txt(g, 160, 38, "VPC 10.20.0.0/16 (one region)", { "font-weight": 700, "font-size": 11 });
-    [0, 1].forEach(function (i) {
-      var x = 170 + i * 210; rect(g, x, 48, 190, 172, "var(--surface)", "var(--line)"); txt(g, x + 95, 64, "Availability zone " + "AB"[i], { "text-anchor": "middle", "font-size": 11, class: "svg-muted" });
-      rect(g, x + 10, 72, 170, 58, "var(--warn-soft)", "var(--warn)"); txt(g, x + 95, 90, "Public subnet 10.20." + (i + 1) + ".0/24", { "text-anchor": "middle", "font-size": 10 }); txt(g, x + 95, 112, i ? "Load balancer node" : "Load balancer · NAT GW", { "text-anchor": "middle", "font-size": 11, "font-weight": 700 });
-      rect(g, x + 10, 140, 170, 70, "var(--good-soft)", "var(--good)"); txt(g, x + 95, 158, "Private subnet 10.20." + (i + 11) + ".0/24", { "text-anchor": "middle", "font-size": 10 }); txt(g, x + 95, 180, "App servers", { "text-anchor": "middle", "font-size": 11, "font-weight": 700 }); txt(g, x + 95, 198, i ? "Database (standby)" : "Database (primary)", { "text-anchor": "middle", "font-size": 11 });
-    });
-    rect(g, 20, 80, 100, 44, "var(--surface)", "var(--ink-2)"); txt(g, 70, 98, "Internet", { "text-anchor": "middle", "font-weight": 700 }); txt(g, 70, 114, "users", { "text-anchor": "middle", "font-size": 10, class: "svg-muted" });
-    rect(g, 128, 88, 44, 28, "var(--surface)", "var(--warn)"); txt(g, 150, 106, "IGW", { "text-anchor": "middle", "font-size": 11, "font-weight": 700 });
-    S("line", { x1: 120, y1: 102, x2: 128, y2: 102, stroke: "var(--ink-2)", "stroke-width": 2 }, g);
-    rect(g, 620, 130, 110, 60, "var(--surface)", "var(--hw)"); txt(g, 675, 154, "On-premises", { "text-anchor": "middle", "font-weight": 700 }); txt(g, 675, 172, "data center", { "text-anchor": "middle", "font-size": 11 });
-    S("line", { x1: 590, y1: 170, x2: 620, y2: 160, stroke: "var(--hw)", "stroke-width": 3, "stroke-dasharray": "6 3" }, g); txt(g, 675, 210, "VPN or Direct Connect", { "text-anchor": "middle", "font-size": 10, class: "svg-muted" });
+    var g = $("career-fig");
+    box(g, 20, 100, 130, 50, "IT support / help desk", "or networking", "var(--hw)");
+    box(g, 195, 100, 120, 50, "SOC analyst", "Tier 1 → 2 → 3", "var(--sec)");
+    arrow(g, 150, 125, 195, 125);
+    var B = [["Incident responder", 10], ["Threat hunter", 50], ["Pentester / red team", 90], ["Security engineer", 130], ["Cloud security", 170], ["GRC / auditor", 210]];
+    B.forEach(function (b) { box(g, 375, b[1], 150, 32, b[0], "", "var(--sec)"); arrow(g, 315, 125, 375, b[1] + 16); arrow(g, 525, b[1] + 16, 590, 125); });
+    box(g, 590, 95, 155, 60, "Architect / manager", "→ CISO", "var(--gov)");
   })();
 
-  /* ===== Lab 1: Shared responsibility ===== */
-  var LAYERS = ["Data", "Identities and access", "Applications", "Runtime and middleware", "Operating system", "Virtualization", "Servers", "Storage", "Physical network", "Data center facility"];
-  var MODELS = [{ n: "On-premises", c: 10 }, { n: "IaaS", c: 5 }, { n: "PaaS", c: 3 }, { n: "SaaS", c: 2 }];
-  var NOTES = [
-    "On-premises: you own every layer, from the building's power and cooling up to the data. Maximum control, maximum responsibility.",
-    "IaaS: the provider runs the facility, hardware and hypervisor. You manage the operating system (patching!), runtime, apps, data and access. A missed OS patch on an IaaS VM is <b>your</b> problem.",
-    "PaaS: the provider also patches the OS and runtime. You manage your application code, its configuration, the data and who can access it.",
-    "SaaS: the provider runs the whole application. You still own your <b>data</b> and <b>identities and access</b>: who has accounts, MFA, sharing settings. Most SaaS breaches are misconfigured sharing or stolen credentials, not provider failures."
-  ];
-  var srM = 1, seg = $("sr-seg");
-  MODELS.forEach(function (m, i) { var b = h("button", { type: "button" }, m.n); b.onclick = function () { srSet(i); }; seg.appendChild(b); });
-  function srSet(i) {
-    srM = i; $("sr-r").value = i; $("sr-r").setAttribute("aria-valuetext", MODELS[i].n);
-    OMNI.$$("#sr-seg button").forEach(function (b, k) { b.classList.toggle("on", k === i); });
-    var s = $("sr-svg"); s.innerHTML = "";
-    txt(s, 280, 20, MODELS[i].n, { "text-anchor": "middle", "font-weight": 800, "font-size": 15 });
-    LAYERS.forEach(function (l, k) {
-      var cust = k < MODELS[i].c, y = 34 + k * 34;
-      rect(s, 80, y, 400, 30, cust ? "var(--accent-soft)" : "var(--surface)", cust ? "var(--accent)" : "var(--line)");
-      txt(s, 96, y + 20, l, { "font-weight": 700 });
-      txt(s, 464, y + 20, cust ? "You (customer)" : "Provider", { "text-anchor": "end", "font-size": 11, fill: cust ? "var(--accent)" : "var(--ink-2)" });
-    });
-    var yb = 34 + MODELS[i].c * 34 - 2; if (MODELS[i].c < 10) S("line", { x1: 60, y1: yb, x2: 500, y2: yb, stroke: "var(--bad)", "stroke-width": 2, "stroke-dasharray": "6 3" }, s);
-    if (MODELS[i].c < 10) txt(s, 505, yb + 4, "you | provider", { "font-size": 9, fill: "var(--bad)" });
-    OMNI.say("sr-cap", NOTES[i]);
-  }
-  $("sr-r").oninput = function () { srSet(+this.value); }; srSet(1);
+  /* kill chain */
+  (function () {
+    var g = $("kc-fig"), K = [["Recon", "research the target"], ["Weaponize", "build the exploit"], ["Deliver", "email, web, USB"], ["Exploit", "trigger the flaw"], ["Install", "malware, backdoor"], ["C2", "remote control"], ["Actions", "steal, encrypt"]];
+    K.forEach(function (k, i) { var x = 8 + i * 107; box(g, x, 40, 95, 60, (i + 1) + ". " + k[0], k[1], i < 3 ? "var(--warn)" : "var(--sec)"); if (i < 6) arrow(g, x + 95, 70, x + 107, 70); });
+    txt(g, 160, 125, "← before the breach: block early", { "text-anchor": "middle", "font-size": 10.5, class: "svg-text svg-muted" });
+    txt(g, 560, 125, "after the breach: detect and contain fast →", { "text-anchor": "middle", "font-size": 10.5, class: "svg-text svg-muted" });
+  })();
 
-  /* ===== Lab 2: Containers vs VMs ===== */
-  var nApps = 3, HOST = 32, VM_OS = 2, APP = .5, CT_OH = .05, booted = false;
-  var APPNAMES = ["Web", "API", "Cart", "Auth", "Search", "Queue", "Mail", "Report"];
-  function cvDraw(anim) {
-    var s = $("cv-svg"); s.innerHTML = "";
-    function stack(x0, title, base, mid) {
-      txt(s, x0 + 175, 18, title, { "text-anchor": "middle", "font-weight": 800 });
-      rect(s, x0, 290, 350, 30, "var(--surface-2)", "var(--ink-2)"); txt(s, x0 + 175, 310, "Physical server (32 GB RAM)", { "text-anchor": "middle", "font-weight": 700 });
-      rect(s, x0, 254, 350, 30, "var(--surface-2)", "var(--ink-2)"); txt(s, x0 + 175, 274, base, { "text-anchor": "middle", "font-weight": 700 });
-      if (mid) { rect(s, x0, 218, 350, 30, "var(--surface-2)", "var(--ink-2)"); txt(s, x0 + 175, 238, mid, { "text-anchor": "middle", "font-weight": 700 }); }
+  /* SOC workflow */
+  (function () {
+    var g = $("soc-fig");
+    box(g, 10, 50, 110, 60, "Log sources", "endpoints, cloud", "var(--net)");
+    box(g, 160, 50, 100, 60, "SIEM", "correlate, alert", "var(--sec)");
+    box(g, 300, 50, 100, 60, "Triage", "Tier 1", "var(--sec)");
+    box(g, 440, 50, 110, 60, "Investigate", "Tier 2 / 3", "var(--sec)");
+    box(g, 590, 50, 160, 60, "Respond", "contain, eradicate, recover", "var(--good)");
+    arrow(g, 120, 80, 160, 80); arrow(g, 260, 80, 300, 80); arrow(g, 400, 80, 440, 80); arrow(g, 550, 80, 590, 80);
+    box(g, 300, 130, 250, 32, "SOAR automates enrichment and actions", "", "var(--gov)");
+    S("path", { d: "M 670 50 C 670 22, 210 22, 210 48", fill: "none", stroke: "var(--accent)", "stroke-width": 1.8, "stroke-dasharray": "5 4" }, g);
+    txt(g, 440, 14, "lessons learned → tune detections, close false positives", { "text-anchor": "middle", "font-size": 10.5 });
+  })();
+
+  /* Lab 1: cert path finder */
+  (function () {
+    var BASE = { 0: [["CompTIA A+ or equivalent IT support experience", "Modules 4–8"], ["CompTIA Network+", "Modules 9–13"]], 1: [["CompTIA Network+ (if you don't have strong networking yet)", "Modules 9–13"]], 3: [], 5: [] };
+    var ROLE = {
+      soc: { name: "SOC analyst", steps: [["Security+ (or ISC2 CC first if you're brand new)", "Modules 14–16"], ["Build a home lab with a free SIEM; write up 3 investigations", "this module, section 6"], ["CySA+ (and/or Blue Team Level 1)", "this module + Study Hub CySA+ exam"], ["Later: GIAC GCIH / GCIA, then CISSP for senior roles", ""]] },
+      ir: { name: "Incident responder", steps: [["Security+", "Modules 14–16"], ["CySA+", "this module"], ["Learn Windows and Linux forensics and memory analysis in your lab", "Module 6"], ["GIAC GCIH, then GCFA", ""], ["CISM if you move into leading IR teams", "Module 24"]] },
+      pt: { name: "Penetration tester", steps: [["Security+", "Modules 14–16"], ["Learn Linux, scripting (Python, Bash) and web basics; do CTFs", "Modules 6 and 15"], ["PenTest+ or eJPT as a first offensive cert", ""], ["OSCP (the big one for pentest jobs)", ""], ["Later: specialise (web, cloud, red team, OSEP)", ""]] },
+      cloud: { name: "Cloud security engineer", steps: [["Security+", "Modules 14–16"], ["AWS Cloud Practitioner, then Solutions Architect – Associate", "Modules 18 and 19"], ["AWS Security – Specialty (or AZ-500 for Azure)", "Module 19"], ["CCSP once you have 5 years' experience", ""]] },
+      grc: { name: "GRC analyst or IT auditor", steps: [["Security+ or ISC2 CC", "Modules 14–16"], ["ITIL 4 Foundation and an ISO 27001 Foundation course", "Modules 22 and 23"], ["CISA for audit, or CRISC for risk", "Modules 23 and 25"], ["CISM or ISO 27001 Lead Auditor as you grow", "Module 24"]] },
+      lead: { name: "Security manager or CISO", steps: [["Security+ and hands-on experience in a security team", "Modules 14–16"], ["CISSP (needs 5 years' experience)", ""], ["CISM for security management", "Module 24"], ["Learn risk, budgets and board reporting; consider an MBA or ISACA CGEIT later", "Module 23"]] }
+    };
+    function draw() {
+      var r = ROLE[$("cp-role").value], e = +$("cp-exp").value, steps = (BASE[e] || []).concat(r.steps);
+      if (e >= 3) steps = steps.filter(function (s) { return !/^Security\+ \(or ISC2|^Security\+ or ISC2/.test(s[0]); });
+      if (e >= 5) steps = steps.filter(function (s, i) { return i > 0 || /CISSP|CISM|OSCP|Specialty|CISA/.test(s[0]); });
+      $("cp-out").innerHTML = steps.map(function (s) { return "<li><b>" + s[0] + "</b>" + (s[1] ? "<br><span class='figcap'>Study: " + s[1] + "</span>" : "") + "</li>"; }).join("");
+      OMNI.say("cp-cap", "This is a common path to <b>" + r.name + "</b> for someone " + $("cp-exp").selectedOptions[0].text.toLowerCase() + ". " + (e === 0 ? "Starting in IT support or a help desk gives you the foundations every security job builds on. " : "") + "Certifications open doors, but pair each one with hands-on practice you can show an employer. Paths overlap: many people move between these roles over a career.");
     }
-    stack(10, "Virtual machines", "Hypervisor (Type 1)"); stack(400, "Containers", "Host operating system (one shared kernel)", "Container runtime / engine");
-    var w = Math.min(84, (350 - (nApps - 1) * 6) / nApps);
-    for (var i = 0; i < nApps; i++) {
-      var x = 10 + i * (w + 6);
-      rect(s, x, 110, w, 138, "var(--hw-soft, var(--surface))", "var(--hw)");
-      txt(s, x + w / 2, 132, APPNAMES[i], { "text-anchor": "middle", "font-weight": 700, "font-size": 11 });
-      txt(s, x + w / 2, 160, "bins/libs", { "text-anchor": "middle", "font-size": 10 });
-      rect(s, x + 4, 180, w - 8, 60, "var(--warn-soft)", "var(--warn)"); txt(s, x + w / 2, 206, "Guest OS", { "text-anchor": "middle", "font-size": 10, "font-weight": 700 }); txt(s, x + w / 2, 222, "2 GB", { "text-anchor": "middle", "font-size": 10 });
-      var cx = 400 + i * (w + 6);
-      rect(s, cx, 150, w, 62, "var(--net-soft)", "var(--net)");
-      txt(s, cx + w / 2, 174, APPNAMES[i], { "text-anchor": "middle", "font-weight": 700, "font-size": 11 });
-      txt(s, cx + w / 2, 196, "bins/libs", { "text-anchor": "middle", "font-size": 10 });
-      if (anim) {
-        var vt = h("div"); /* placeholder */
-        txt(s, x + w / 2, 100, "", { "text-anchor": "middle", "font-size": 10, class: "vtime", "data-i": i });
-        txt(s, cx + w / 2, 140, "", { "text-anchor": "middle", "font-size": 10, class: "ctime", "data-i": i });
-      }
+    $("cp-role").onchange = draw; $("cp-exp").onchange = draw; draw();
+  })();
+
+  /* Lab 2: SOC alert triage */
+  OMNI.trainer("tr-host", { cap: "tr-cap", label: "alerts",
+    intro: "Read each alert like a SIEM ticket. Choose: close as a false positive, investigate further, or escalate as an incident now.",
+    items: [
+      { s: "<h4>⚠ Impossible travel</h4><p>User <b>m.osei</b> signed in from Manchester at 09:02 and from Lagos at 09:20. Both logins passed MFA. HR records show m.osei is on approved leave in Lagos and used a VPN exit in Manchester for the first login.</p>", o: ["Close as false positive and note the VPN cause", "Escalate as a confirmed account compromise", "Disable every account in the company"], a: 0, x: "The VPN explains the 'impossible' travel and MFA passed. Close it, document why, and suggest tuning the rule to recognise the company VPN ranges." },
+      { s: "<h4>⚠ Ransomware behaviour</h4><p>EDR on file server <b>HL-FS02</b>: 4,800 files renamed to <code>.lockd</code> in 3 minutes by <code>svchost32.exe</code> (unsigned, running from a user temp folder). A ransom note file appeared in several shares.</p>", o: ["Escalate immediately and isolate the server", "Wait an hour to see if it stops", "Close: file renames are normal"], a: 0, x: "Mass renaming plus a ransom note is a true positive. Isolate the host (EDR network containment), escalate to incident response, and preserve evidence. Minutes matter." },
+      { s: "<h4>⚠ Brute force</h4><p>2,100 failed logins to the VPN portal in 10 minutes for 600 different usernames from one IP. <b>No successful logins</b>. The IP is on a threat-intel list of password-spraying sources.</p>", o: ["Investigate: block the IP, check for any later success, confirm MFA coverage", "Close: nothing succeeded, so it doesn't matter", "Escalate as a major breach"], a: 0, x: "It's malicious (a password spray) but not yet a breach. Block the source, confirm no account later succeeded, check MFA is enforced on the VPN, and watch for the same pattern from new IPs." },
+      { s: "<h4>⚠ Malware detected and quarantined</h4><p>Antivirus on laptop <b>HL-LT-117</b> quarantined <code>invoice_8812.xlsm</code> from the Downloads folder. The file was <b>never opened</b>. No other alerts from the host.</p>", o: ["Investigate briefly: confirm quarantine, find the source email and remove copies from other inboxes", "Escalate as a full incident and reimage the laptop", "Ignore it completely"], a: 0, x: "The control worked, but the email may have reached others. Confirm quarantine, trace the phishing email, purge it from other mailboxes and block the sender: a quick investigation, not a major incident." },
+      { s: "<h4>⚠ Data upload</h4><p>DLP alert: user <b>j.kerr</b> uploaded 14 GB to a personal cloud storage site at 23:40. j.kerr resigned yesterday and leaves on Friday. Files include folders named <i>Customer_Contracts</i>.</p>", o: ["Escalate now: possible insider data theft", "Close: employees upload files all the time", "Email j.kerr and ask politely"], a: 0, x: "Volume, timing, a departing employee and sensitive files make this high-risk. Escalate to IR, HR and legal per policy. Don't tip off the user before the investigation team decides on next steps." },
+      { s: "<h4>⚠ New admin account</h4><p>A new Domain Admin account <b>svc_backup2</b> was created at 03:14 by the account <b>helpdesk-07</b>. There's no change ticket, and helpdesk staff aren't allowed to create admin accounts.</p>", o: ["Escalate now: likely privilege escalation and persistence", "Close: probably a backup job", "Wait for the weekly report"], a: 0, x: "An unauthorised privileged account at 3 a.m. with no change ticket matches ATT&CK Persistence and Privilege Escalation. Escalate, disable the new account per playbook, and investigate how helpdesk-07 got those rights." },
+      { s: "<h4>⚠ Port scan</h4><p>IDS: an internal host <b>10.20.5.44</b> scanned ports 1–1024 across the server subnet. The asset inventory shows 10.20.5.44 is the vulnerability scanner, and today is the scheduled scan window.</p>", o: ["Close as expected activity and tune the rule for the scanner", "Escalate as lateral movement", "Shut down the scanner permanently"], a: 0, x: "Authorised scanning is expected. Close it, document why, and add an exception for the scanner during its scan window (but keep alerting if it scans outside the window)." },
+      { s: "<h4>⚠ Beaconing</h4><p>Workstation <b>HL-WS-221</b> connects to <code>cdn-update-check[.]top</code> every 60 seconds, ±2 seconds, sending small identical HTTPS requests. The domain was registered 4 days ago.</p>", o: ["Investigate and escalate: likely command-and-control beaconing", "Close: it's probably a software update", "Block all HTTPS traffic company-wide"], a: 0, x: "Very regular intervals to a newly registered, odd domain is a classic C2 sign. Isolate or closely monitor the host, block the domain, and look for the same domain on other machines." }
+    ]
+  });
+
+  /* Lab 3: ATT&CK mapper */
+  OMNI.sorter("at-host", { cap: "at-cap",
+    zones: [["ia", "Initial Access"], ["ex", "Execution"], ["pe", "Persistence"], ["ca", "Credential Access"], ["lm", "Lateral Movement"], ["im", "Impact"]],
+    items: [
+      ["Employee opens a phishing email attachment", "ia", "phishing is how the attacker first got in (T1566)."],
+      ["Attacker logs in to an exposed RDP server with a bought password", "ia", "using valid accounts on an external service is an Initial Access technique."],
+      ["Macro launches a PowerShell script", "ex", "running scripts is Command and Scripting Interpreter (T1059)."],
+      ["Malware runs from a scheduled task every hour", "pe", "scheduled tasks are used to keep access after reboots (T1053)."],
+      ["A new hidden local admin account is created", "pe", "creating accounts keeps access (T1136)."],
+      ["Passwords are dumped from LSASS memory", "ca", "OS credential dumping (T1003)."],
+      ["Attacker tries common passwords against all users", "ca", "password spraying is brute force (T1110)."],
+      ["Attacker uses stolen admin credentials to RDP into the file server", "lm", "moving to other systems with remote services (T1021)."],
+      ["Files on shared drives are encrypted and a ransom note left", "im", "Data Encrypted for Impact (T1486)."],
+      ["Backups and shadow copies are deleted", "im", "Inhibit System Recovery (T1490) to make ransomware worse."]
+    ],
+    intro: "Each card is one step from a ransomware attack. Put it under the ATT&CK tactic (the attacker's goal) it serves.",
+    done: "All correct! Mapping events to ATT&CK lets a SOC see where in the attack it detected the intruder, and which tactics it has no detections for yet."
+  });
+
+  /* Lab 4: patch priority */
+  (function () {
+    var V = [
+      { n: "VPN appliance remote code execution", cvss: 9.8, kev: true, net: true, crit: true },
+      { n: "Web server path traversal", cvss: 7.5, kev: true, net: true, crit: false },
+      { n: "Lab test server OpenSSL flaw", cvss: 9.1, kev: false, net: false, crit: false },
+      { n: "HR database privilege escalation", cvss: 7.8, kev: false, net: false, crit: true },
+      { n: "Intranet wiki cross-site scripting", cvss: 5.4, kev: false, net: false, crit: false }
+    ];
+    V.forEach(function (v) { v.score = v.cvss + (v.kev ? 6 : 0) + (v.net ? 3 : 0) + (v.crit ? 2 : 0); });
+    var ideal = V.slice().sort(function (a, b) { return b.score - a.score; });
+    var order = OMNI.shuffle(V);
+    function draw(marks) {
+      $("pp-list").innerHTML = "";
+      order.forEach(function (v, i) {
+        var li = h("li", { class: marks ? (ideal[i] === v ? "ok" : "bad") : "" }, [
+          h("span", { class: "pos" }, String(i + 1)),
+          h("div", null, [h("b", null, v.n), h("div", { class: "meta" }, "CVSS " + v.cvss + " · " + (v.kev ? "in CISA KEV (actively exploited)" : "not in KEV") + " · " + (v.net ? "internet-facing" : "internal only") + " · " + (v.crit ? "critical asset" : "low-value asset"))]),
+          h("span", null, [h("button", { type: "button", "aria-label": "Move up", disabled: i === 0, onclick: function () { var t = order[i - 1]; order[i - 1] = v; order[i] = t; draw(); } }, "▲"), " ", h("button", { type: "button", "aria-label": "Move down", disabled: i === order.length - 1, onclick: function () { var t = order[i + 1]; order[i + 1] = v; order[i] = t; draw(); } }, "▼")])
+        ]);
+        $("pp-list").appendChild(li);
+      });
     }
-    var vMem = nApps * (VM_OS + APP), cMem = 1.5 + nApps * (APP + CT_OH);
-    $("cv-vbar").style.width = Math.min(100, vMem / HOST * 100) + "%"; $("cv-cbar").style.width = Math.min(100, cMem / HOST * 100) + "%";
-    $("cv-vtxt").textContent = nApps + " VMs use about " + vMem.toFixed(1) + " GB of 32 GB (each carries a 2 GB guest OS). Room for about " + Math.floor(HOST / (VM_OS + APP)) + " of these apps.";
-    $("cv-ctxt").textContent = nApps + " containers use about " + cMem.toFixed(1) + " GB (1.5 GB host OS + 0.55 GB each). Room for about " + Math.floor((HOST - 1.5) / (APP + CT_OH)) + " of these apps.";
-  }
-  $("cv-add").onclick = function () { if (nApps < 8) { nApps++; cvDraw(); OMNI.say("cv-cap", "Each new VM brings a whole guest OS; each new container is just the app and its libraries."); } };
-  $("cv-rem").onclick = function () { if (nApps > 1) { nApps--; cvDraw(); } };
-  $("cv-boot").onclick = function () {
-    cvDraw(true); var t0 = performance.now(), VMT = 38, CTT = 0.9, scale = OMNI.reduced ? 100 : 8;
-    OMNI.say("cv-cap", "Starting everything… (the clock is sped up 8×)");
-    (function tick() {
-      var el = (performance.now() - t0) / 1000 * scale;
-      OMNI.$$("#cv-svg .vtime").forEach(function (e) { e.textContent = el >= VMT ? "✓ up " + VMT + " s" : "booting " + el.toFixed(0) + " s"; e.setAttribute("fill", el >= VMT ? "var(--good)" : "var(--warn)"); });
-      OMNI.$$("#cv-svg .ctime").forEach(function (e) { e.textContent = el >= CTT ? "✓ up " + CTT + " s" : "starting"; e.setAttribute("fill", el >= CTT ? "var(--good)" : "var(--warn)"); });
-      if (el < VMT) requestAnimationFrame(tick); else OMNI.say("cv-cap", "Containers were ready in under a second because they're just processes on an already-running kernel. VMs took about " + VMT + " seconds each to boot a full operating system. Trade-off: VMs give stronger isolation (separate kernels) and can run different OSes (Windows next to Linux); containers give density and speed, which is why autoscaling and CI/CD love them.");
-    })();
-  };
-  cvDraw();
-
-  /* ===== Lab 3: Autoscaling ===== */
-  var CAP = 100, PRICE = 0.10;
-  function traffic(pat, m) { var hr = m / 60, base; if (pat === "day") base = 120 + 680 * Math.max(0, Math.sin(Math.PI * (hr - 7) / 12)) * (hr > 7 && hr < 19 ? 1 : 0) + (hr > 7 && hr < 19 ? 0 : 0); else if (pat === "spike") base = 200 + (hr >= 12 && hr < 13.5 ? 900 * Math.sin(Math.PI * (hr - 12) / 1.5) : 0) + 60 * Math.sin(hr / 3); else base = 400 + 60 * Math.sin(hr * 2); var n = Math.sin(m * 12.9898) * 43758.5453; n = n - Math.floor(n); return Math.max(20, base + (n - .5) * 60); }
-  function simulate() {
-    var pat = $("as-pat").value, up = +$("as-up").value, dn = +$("as-dn").value, mn = +$("as-min").value, mx = Math.max(+$("as-max").value, mn), cd = +$("as-cd").value;
-    var inst = mn, last = -999, out = [], dropped = 0, total = 0, instMin = 0, peak = 0, boot = 5, pending = [];
-    for (var m = 0; m < 1440; m += 5) {
-      pending = pending.filter(function (p) { if (p <= m) { inst = Math.min(mx, inst + 1); return false; } return true; });
-      var t = traffic(pat, m), cap = inst * CAP, cpu = Math.min(100, t / cap * 100);
-      peak = Math.max(peak, t);
-      if (m - last >= cd) {
-        if (cpu > up && inst + pending.length < mx) { pending.push(m + boot); last = m; }
-        else if (cpu < dn && inst > mn && !pending.length) { inst--; last = m; }
-      }
-      var served = Math.min(t, inst * CAP); dropped += (t - served) * 300; total += t * 300; instMin += inst * 5;
-      out.push({ m: m, t: t, inst: inst, cpu: Math.min(100, t / (inst * CAP) * 100) });
-    }
-    var fixedN = Math.ceil(peak / CAP), cost = instMin / 60 * PRICE, fixed = fixedN * 24 * PRICE;
-    return { out: out, cost: cost, fixed: fixed, fixedN: fixedN, dropPct: dropped / total * 100, mx: mx, pat: pat };
-  }
-  var asAnim = null;
-  function asDraw(upto) {
-    ["up", "dn", "min", "max", "cd"].forEach(function (k) { $("as-" + k + "v").textContent = $("as-" + k).value + (k === "up" || k === "dn" ? "%" : ""); });
-    var r = simulate(), s = $("as-svg"); s.innerHTML = ""; var X = function (m) { return 50 + m / 1440 * 690; }, maxT = Math.max(1200, r.mx * CAP), Y = function (v) { return 220 - v / maxT * 200; };
-    S("line", { x1: 50, y1: 220, x2: 740, y2: 220, stroke: "var(--ink-2)" }, s); S("line", { x1: 50, y1: 20, x2: 50, y2: 220, stroke: "var(--ink-2)" }, s);
-    [0, 6, 12, 18, 24].forEach(function (hh) { txt(s, X(hh * 60), 238, (hh < 10 ? "0" : "") + hh + ":00", { "text-anchor": "middle", "font-size": 10, class: "svg-muted" }); });
-    [0, 400, 800, 1200].filter(function (v) { return v <= maxT; }).forEach(function (v) { txt(s, 44, Y(v) + 4, String(v), { "text-anchor": "end", "font-size": 10, class: "svg-muted" }); });
-    txt(s, 54, 16, "requests/s", { "font-size": 10, class: "svg-muted" });
-    var pts = r.out.filter(function (o) { return upto === undefined || o.m <= upto; });
-    var capPath = "", tPath = "";
-    pts.forEach(function (o, i) { capPath += (i ? "L" : "M") + X(o.m) + "," + Y(o.inst * CAP) + (i < pts.length - 1 ? "L" + X(pts[i + 1].m) + "," + Y(o.inst * CAP) : ""); tPath += (i ? "L" : "M") + X(o.m) + "," + Y(o.t); });
-    S("path", { d: capPath, fill: "none", stroke: "var(--good)", "stroke-width": 2.5 }, s);
-    S("path", { d: tPath, fill: "none", stroke: "var(--accent)", "stroke-width": 1.5 }, s);
-    pts.forEach(function (o) { if (o.t > o.inst * CAP) S("line", { x1: X(o.m), y1: Y(o.inst * CAP), x2: X(o.m), y2: Y(o.t), stroke: "var(--bad)", "stroke-width": 2, opacity: .6 }, s); });
-    txt(s, 560, 34, "— traffic", { fill: "var(--accent)", "font-size": 11 }); txt(s, 640, 34, "— capacity", { fill: "var(--good)", "font-size": 11 }); txt(s, 560, 50, "| dropped (overloaded)", { fill: "var(--bad)", "font-size": 11 });
-    var lastP = pts[pts.length - 1]; if (lastP) txt(s, X(lastP.m), Y(lastP.inst * CAP) - 6, lastP.inst + " inst", { "text-anchor": "middle", "font-size": 10, "font-weight": 700, fill: "var(--good)" });
-    $("as-cost").textContent = "$" + r.cost.toFixed(2); $("as-fixed").textContent = "$" + r.fixed.toFixed(2); $("as-drop").textContent = r.dropPct.toFixed(2) + "%";
-    if (upto === undefined) OMNI.say("as-cap", "Each instance serves " + CAP + " requests/s and costs $" + PRICE.toFixed(2) + "/hour. Autoscaling cost $" + r.cost.toFixed(2) + " for the day versus $" + r.fixed.toFixed(2) + " to run " + r.fixedN + " instances (enough for the peak) around the clock: that's <b>elasticity</b>. " + (r.dropPct > 0.5 ? "But " + r.dropPct.toFixed(1) + "% of requests were dropped while new instances booted. Lower the scale-out threshold, shorten the cooldown, raise the minimum or the maximum, or pre-scale before known events." : "Almost nothing was dropped, so the rules react fast enough.") + " New instances take 5 minutes to boot, which is why thresholds below 100% matter.");
-  }
-  ["as-pat", "as-up", "as-dn", "as-min", "as-max", "as-cd"].forEach(function (id) { $(id).oninput = function () { cancelAnimationFrame(asAnim); asDraw(); }; });
-  $("as-play").onclick = function () { var m = 0; cancelAnimationFrame(asAnim); (function step() { m += OMNI.reduced ? 1440 : 12; asDraw(Math.min(m, 1435)); if (m < 1440) asAnim = requestAnimationFrame(step); else asDraw(); })(); };
-  asDraw();
-
-  /* ===== Lab 4: Storage picker ===== */
-  var WL = [
-    { n: "Transactional database (orders)", a: "block", where: "SAN (FC/iSCSI/NVMe-oF) or cloud block volumes (EBS, Managed Disks)", why: "Databases need low-latency, random reads and writes and control over the file system. Block storage gives a raw volume to one host (or a cluster).", not: "File storage adds protocol overhead and locking; object storage can't do in-place partial updates or low-latency random I/O." },
-    { n: "VM datastores", a: "block", where: "SAN LUNs or vSAN/HCI; NFS datastores are a file-based alternative", why: "Hypervisors format block LUNs with a cluster file system (VMFS) so many hosts can run VMs and live-migrate.", not: "Object storage can't host running VM disks. NFS (file) works for VMware too, so 'file' is a reasonable second answer." },
-    { n: "Department shared drive", a: "file", where: "NAS over SMB (Windows) or NFS (Linux); cloud file shares", why: "People need folders, permissions and simultaneous access by many users, which is exactly what a file protocol provides.", not: "Block storage attaches to one server at a time without a cluster file system; object storage has no real folders or file locking for Office apps." },
-    { n: "User home directories", a: "file", where: "NAS (SMB with folder redirection / NFS)", why: "Per-user folders with permissions, accessed from any workstation.", not: "Block can't be shared easily; object isn't mounted like a drive by ordinary apps." },
-    { n: "Nightly backups (kept 1 year)", a: "object", where: "Object storage with immutability (object lock) and lifecycle rules to archive tiers", why: "Huge, cheap, durable, written once and rarely read. Object lock gives ransomware-resistant immutable copies.", not: "Block or file is more expensive per TB and easier for ransomware to encrypt if reachable." },
-    { n: "Video and photo archive", a: "object", where: "Object storage, cold/archive tier", why: "Massive unstructured data with metadata, accessed over HTTP and scaling to petabytes cheaply.", not: "File systems struggle at billions of files; block is far too expensive for cold data." },
-    { n: "Website images and downloads", a: "object", where: "Object storage behind a CDN (static website hosting)", why: "Served over HTTP directly, globally cacheable, effectively unlimited scale.", not: "Running a file server for static assets adds cost and a single point of failure." },
-    { n: "Analytics data lake", a: "object", where: "Object storage (S3/Blob/ADLS) queried by analytics engines", why: "Cheap, scalable storage of raw data in open formats, separating storage from compute.", not: "Block and file don't scale economically to petabytes of mixed data." },
-    { n: "Container database volume (Kubernetes)", a: "block", where: "Persistent volumes backed by block storage (CSI driver)", why: "A stateful pod needs a durable disk that follows it if it moves to another node.", not: "Shared file volumes are fine for some apps but databases want dedicated block devices." }
-  ];
-  var stSel = -1;
-  WL.forEach(function (w, i) { var b = h("button", { type: "button" }, w.n); b.onclick = function () { stSel = i; OMNI.$$("#st-wl button").forEach(function (x, k) { x.classList.toggle("on", k === i); }); stAsk(); }; $("st-wl").appendChild(b); });
-  function stAsk() {
-    var g = $("st-guess"); g.innerHTML = ""; g.appendChild(h("span", null, "Your guess:"));
-    ["block", "file", "object"].forEach(function (k) { var b = h("button", { type: "button" }, k[0].toUpperCase() + k.slice(1)); b.onclick = function () { stShow(k); }; g.appendChild(b); });
-    $("st-res").innerHTML = "<b>" + WL[stSel].n + "</b>: block, file or object?"; OMNI.say("st-cap", "Think about who accesses it, how (random small writes vs whole files over HTTP) and how much of it there is.");
-  }
-  function stShow(k) {
-    var w = WL[stSel], ok = k === w.a;
-    $("st-res").innerHTML = "<p><span class='" + (ok ? "pill-ok" : "pill-no") + "'>" + (ok ? "Correct" : "Best fit: " + w.a) + "</span> <b>" + w.a.toUpperCase() + " storage</b> · " + w.where + "</p><p><b>Why:</b> " + w.why + "</p><p><b>Why not the others:</b> " + w.not + "</p>";
-    OMNI.say("st-cap", ok ? "Nice. Try another workload." : "Not quite. Read the reasoning, then try another workload.");
-  }
-
-  /* ===== Lab 5: Replication ===== */
-  var rpCapKey = "", rpCapAt = 0, rpHold = 0, rpSync = true, rpLink = true, rpQueue = 0, rpLost = 0, rpT = performance.now(), rpDots = [], rpAcc = 0;
-  function rpParams() { var d = +$("rp-d").value, rtt = d / 100 + .2, w = +$("rp-w").value; return { d: d, rtt: rtt, w: w }; }
-  function rpLabels() { var p = rpParams(); $("rp-dv").textContent = p.d + " km (≈" + p.rtt.toFixed(1) + " ms round trip)"; $("rp-wv").textContent = p.w; }
-  function rpMetrics() {
-    var p = rpParams(), lat, rpo, risk;
-    if (rpSync) { lat = rpLink ? (0.3 + p.rtt) : Infinity; rpo = 0; risk = 0; }
-    else { lat = 0.3; rpo = rpLink ? (p.rtt / 2 + rpQueue / p.w * 1000) : (rpQueue / p.w * 1000); risk = Math.round(rpQueue + (rpLink ? p.w * p.rtt / 2000 : 0)); }
-    $("rp-lat").textContent = lat === Infinity ? "stalled" : lat.toFixed(1) + " ms";
-    $("rp-rpo").textContent = rpo >= 1000 ? (rpo / 1000).toFixed(1) + " s" : rpo.toFixed(1) + " ms";
-    $("rp-risk").textContent = risk.toLocaleString();
-    var maxSerial = lat === Infinity ? 0 : Math.floor(1000 / lat), now = performance.now(), key = rpSync + "|" + rpLink + "|" + p.d + "|" + p.w;
-    if (now < rpHold || (key === rpCapKey && now - rpCapAt < 400)) return; rpCapKey = key; rpCapAt = now;
-    if (!rpLink) OMNI.say("rp-cap", rpSync ? "<span class='pill-warn'>Link down</span> With synchronous replication the primary can't get acknowledgements, so writes <b>stall</b> (or the system must choose to break the mirror and run unprotected). No committed data is lost (RPO = 0), but availability suffers. Real arrays let you pick: stop writes (consistency) or continue unprotected (availability)." : "<span class='pill-no'>Link down</span> The app keeps writing at full speed, but the " + rpQueue.toLocaleString() + " writes queued since the cut exist only at the primary. If the primary site is destroyed now, they're gone: that's your RPO growing every second.");
-    else OMNI.say("rp-cap", rpSync ? "Synchronous: every write waits for the far site to confirm, so the app sees " + lat.toFixed(1) + " ms per write. A single-threaded app can do at most about " + maxSerial.toLocaleString() + " writes/s. Distance hurts: light in fiber needs about 1 ms per 100 km round trip, which is why sync is used for metro distances (roughly under 100 km). RPO = 0." : "Asynchronous: writes are acknowledged locally (" + lat.toFixed(1) + " ms) and shipped afterwards, so distance doesn't slow the app. The cost is a lag of about " + rpo.toFixed(1) + " ms: data written in that window would be lost if the primary failed. Good for long-distance DR.");
-  }
-  function rpDraw() {
-    var s = $("rp-svg"); s.innerHTML = "";
-    rect(s, 20, 50, 160, 90, "var(--surface)", "var(--net)"); txt(s, 100, 80, "Primary site", { "text-anchor": "middle", "font-weight": 800 }); txt(s, 100, 100, "app + storage", { "text-anchor": "middle", "font-size": 11 });
-    if (!rpSync || !rpLink) txt(s, 100, 125, (rpQueue ? "queue: " + rpQueue.toLocaleString() : "queue empty"), { "text-anchor": "middle", "font-size": 11, fill: rpQueue ? "var(--bad)" : "var(--ink-2)" });
-    rect(s, 580, 50, 160, 90, "var(--surface)", "var(--good)"); txt(s, 660, 80, "Secondary site", { "text-anchor": "middle", "font-weight": 800 }); txt(s, 660, 100, "replica", { "text-anchor": "middle", "font-size": 11 });
-    S("line", { x1: 180, y1: 95, x2: 580, y2: 95, stroke: rpLink ? "var(--ink-2)" : "var(--bad)", "stroke-width": 3, "stroke-dasharray": rpLink ? "" : "8 6" }, s);
-    if (!rpLink) txt(s, 380, 85, "✂ link cut", { "text-anchor": "middle", fill: "var(--bad)", "font-weight": 800 });
-    txt(s, 380, 175, rpParams().d + " km", { "text-anchor": "middle", class: "svg-muted", "font-size": 11 });
-    rpDots.forEach(function (d) { S("circle", { cx: 180 + d.x * 400, cy: d.ack ? 108 : 82, r: 4, fill: d.ack ? "var(--good)" : "var(--accent)" }, s); });
-    txt(s, 380, 40, rpSync ? "write → replica → ack → app continues" : "write acked locally, replicated in the background", { "text-anchor": "middle", "font-size": 11, class: "svg-muted" });
-  }
-  function rpLoop(now) {
-    var dt = Math.min(100, now - rpT); rpT = now; var p = rpParams();
-    if (rpLink) { rpAcc += dt / (OMNI.reduced ? 100 : 160); while (rpAcc > 1) { rpAcc--; rpDots.push({ x: 0, ack: false }); } }
-    var speed = dt / 1200;
-    rpDots.forEach(function (d) { if (!d.ack) { d.x += speed; if (d.x >= 1) { d.x = 1; d.ack = rpSync; if (!rpSync) d.done = true; } } else { d.x -= speed; if (d.x <= 0) d.done = true; } });
-    if (!rpLink) { rpDots = []; if (!rpSync) rpQueue += Math.round(p.w * dt / 1000); }
-    rpDots = rpDots.filter(function (d) { return !d.done; });
-    rpDraw(); rpMetrics();
-    requestAnimationFrame(rpLoop);
-  }
-  $("rp-sync").onclick = function () { rpSync = true; this.classList.add("on"); $("rp-async").classList.remove("on"); rpDots = []; };
-  $("rp-async").onclick = function () { rpSync = false; this.classList.add("on"); $("rp-sync").classList.remove("on"); rpDots = []; };
-  $("rp-fail").onclick = function () { rpLink = false; };
-  $("rp-heal").onclick = function () { rpLink = true; if (rpQueue) { var q = rpQueue; rpQueue = 0; rpHold = performance.now() + 6000; OMNI.say("rp-cap", "Link restored: the " + q.toLocaleString() + " queued writes are resynchronized to the secondary. Until that finishes, the secondary is behind."); } };
-  $("rp-d").oninput = $("rp-w").oninput = rpLabels; rpLabels();
-  requestAnimationFrame(rpLoop);
+    $("pp-check").onclick = function () {
+      var right = order.filter(function (v, i) { return ideal[i] === v; }).length; draw(true);
+      OMNI.say("pp-cap", right === V.length ? "Perfect order! You weighed <b>active exploitation</b> and <b>internet exposure</b> above raw CVSS. The VPN flaw is exploited, exposed and critical; the web server flaw is exploited and exposed; the HR database is critical but internal; the lab OpenSSL flaw scores high but is isolated; the wiki XSS is low on every measure." : right + " of " + V.length + " in the expert position (green). Expert order: " + ideal.map(function (v, i) { return (i + 1) + ". " + v.n; }).join("; ") + ". The key idea: actively exploited (KEV) and internet-facing flaws come before higher CVSS scores on isolated systems.");
+    };
+    $("pp-shuffle").onclick = function () { order = OMNI.shuffle(V); draw(); OMNI.say("pp-cap", "Shuffled. Rank them again: think about who can reach each system and whether attackers are already using the flaw."); };
+    draw();
+    OMNI.say("pp-cap", "Five vulnerabilities, limited time. Rank them by real-world risk, not just the CVSS number.");
+  })();
 })();
 </script>
 <!-- module-data:start -->
-<script type="application/json" id="module-data">{"module":17,"title":"Cloud, Containers and Storage","glossary":[["Hypervisor","Software that runs virtual machines.","A virtual machine monitor that abstracts hardware for guest OSes; Type 1 runs on bare metal, Type 2 on a host OS.","Virtual machine monitor"],["vCPU","A virtual processor for a VM.","A virtual CPU scheduled onto physical cores or threads by the hypervisor.","Virtual CPU"],["Overcommit","Promising more resources than you have.","Allocating more vCPU or memory to VMs than physically exists, relying on workloads not peaking together.",""],["Live migration","Moving a running VM with no downtime.","Transferring a VM's memory and state to another host while it runs (e.g., vMotion).",""],["HA cluster","Hosts that restart each other's VMs.","A group of hypervisor hosts that automatically restarts VMs from a failed host on surviving hosts.","High availability"],["Virtual switch","A software switch inside the host.","A Layer 2 switch implemented in the hypervisor connecting VMs to each other and to physical NICs.","vSwitch"],["Container","A packaged app sharing the host kernel.","An isolated process with its own filesystem view, using kernel namespaces and cgroups; starts in seconds.",""],["Container image","The template a container runs from.","A read-only, layered filesystem package with metadata, stored in a registry.",""],["Kubernetes","The container orchestrator.","An open-source system for deploying, scaling and managing containerized applications across clusters.","K8s"],["Pod","Kubernetes' smallest unit.","One or more containers that share network namespace and storage, scheduled together on a node.",""],["Node","A machine in a Kubernetes cluster.","A worker VM or physical server that runs pods under control-plane management.",""],["Kubernetes Service","A stable address for changing pods.","An abstraction providing a fixed virtual IP/DNS name that load-balances across matching pods.",""],["Microservices","An app built from small independent services.","An architecture of loosely coupled services communicating via APIs, each independently deployable.",""],["Serverless","Run code without managing servers.","A model where the provider runs event-triggered functions and scales automatically, billing per execution.","FaaS"],["Infrastructure as code","Servers and networks defined in files.","Managing infrastructure through machine-readable, version-controlled definitions (Terraform, Ansible).","IaC"],["CI/CD","Automatic build, test and release.","Continuous integration and continuous delivery/deployment pipelines.","Continuous Integration / Continuous Delivery"],["IaaS","Rent virtual hardware.","Infrastructure as a service: provider supplies compute, storage and networking; customer manages OS and above.","Infrastructure as a Service"],["PaaS","Rent a ready platform for your code.","Platform as a service: provider manages infrastructure, OS and runtime; customer manages apps and data.","Platform as a Service"],["SaaS","Rent finished software.","Software as a service: provider runs the complete application; customer manages data, users and settings.","Software as a Service"],["Hybrid cloud","Public plus private, working together.","A combination of public and private cloud environments with orchestration between them.",""],["Multi-cloud","Using several cloud providers.","Use of services from more than one public cloud provider.",""],["Shared responsibility model","Who secures what in the cloud.","Division of security duties between provider and customer, varying by service model.",""],["Availability zone","A separate data center within a region.","An isolated location within a cloud region with independent power, cooling and networking.","AZ"],["Elasticity","Automatically growing and shrinking.","The ability to provision and release resources automatically in response to demand.",""],["Scalability","Ability to grow.","Capacity to handle increased load, vertically (bigger) or horizontally (more instances).",""],["VPC / VNet","Your private network in the cloud.","A logically isolated virtual network within a cloud provider, with your own IP ranges and subnets.","Virtual Private Cloud / Virtual Network"],["Security group","Stateful allow-list firewall on instances.","A cloud virtual firewall attached to instances or NICs with allow rules only; return traffic is permitted automatically.",""],["Network ACL","Stateless subnet firewall.","A subnet-level rule list with ordered allow and deny rules, evaluated statelessly.","NACL"],["NAT gateway","Outbound-only internet for private servers.","A managed service allowing private-subnet instances to initiate outbound connections without accepting inbound ones.",""],["Direct Connect / ExpressRoute","Private line to the cloud.","A dedicated private circuit between on-premises networks and a cloud provider.",""],["CDN","Content cached near users.","A content delivery network of edge servers caching content to reduce latency and absorb load.","Content Delivery Network"],["CASB","Gatekeeper between users and cloud apps.","Cloud access security broker: enforces security policies and provides visibility for cloud service use.","Cloud Access Security Broker"],["CSPM","Scanner for cloud misconfigurations.","Cloud security posture management: continuous assessment of cloud configurations against policies.","Cloud Security Posture Management"],["DAS / NAS / SAN","Local disks / file server / storage network.","Direct-attached storage, network-attached storage (file-level) and storage area network (block-level).",""],["Block storage","Raw disks for servers.","Storage presented as fixed-size blocks/volumes formatted by the host OS.",""],["File storage","Shared folders over the network.","Hierarchical file systems accessed via protocols such as SMB and NFS.",""],["Object storage","Huge buckets of files with metadata, via HTTP.","Flat storage of objects identified by keys with metadata, accessed through APIs; massively scalable.",""],["iSCSI","Disk commands over normal IP networks.","Internet Small Computer Systems Interface: SCSI block commands over TCP/IP (port 3260).",""],["Fibre Channel","Dedicated high-speed SAN network.","A lossless storage networking protocol and fabric for block storage, using WWNs and zoning.","FC"],["FCoE","Fibre Channel carried over Ethernet.","Fibre Channel over Ethernet, requiring lossless Data Center Bridging.","Fibre Channel over Ethernet"],["NVMe-oF","Super-fast flash over the network.","NVMe over Fabrics: extends the NVMe protocol across RDMA, Fibre Channel or TCP networks.","NVMe over Fabrics"],["Thin provisioning","Allocate space only as it's used.","Presenting more capacity than physically allocated, consuming space as data is written.",""],["Deduplication","Store repeated data once.","Eliminating duplicate blocks or files so only one copy is stored.",""],["Synchronous replication","Both sites confirm before the write completes.","Replication where writes are acknowledged only after being committed at both sites; RPO zero, distance-limited.",""],["Asynchronous replication","Copy to the far site afterwards.","Replication where writes are acknowledged locally and sent later; any distance, RPO greater than zero.",""],["Storage tiering","Hot data on fast disks, cold data on cheap ones.","Automatically placing data on different media classes based on access patterns.",""]],"quiz":[{"t":"mc","q":"Which hypervisor type runs directly on server hardware?","o":["Type 1","Type 2","Container runtime","Emulator"],"a":0,"w":["Correct: bare metal.","Runs on a host OS.","Runs containers, not VMs.","Translates instructions, much slower."],"x":"ESXi, Hyper-V and KVM are Type 1.","c":"A1","d":"4.x Virtualization and cloud computing"},{"t":"mc","q":"What is the main reason containers start faster and use less memory than VMs?","o":["They share the host's kernel instead of booting a guest OS","They use faster disks","They have no network stack","They run only on bare metal"],"a":0,"w":["Correct.","Disk speed isn't the reason.","They do have networking.","They run anywhere a supported kernel exists."],"x":"The trade-off is weaker isolation than separate kernels.","c":"S","d":"3.1 Architecture models"},{"t":"mc","q":"In Kubernetes, what is the smallest deployable unit?","o":["Pod","Node","Cluster","Image"],"a":0,"w":["Correct.","A machine that runs pods.","The whole set of nodes.","The template a container runs from."],"x":"A pod can hold one or more tightly coupled containers.","c":"S","d":"3.1 Architecture models"},{"t":"mc","q":"A company runs its own VMs on rented cloud servers and patches the operating systems itself. Which service model is this?","o":["IaaS","PaaS","SaaS","FaaS"],"a":0,"w":["Correct.","Provider would patch the OS.","Provider runs the whole app.","Provider runs functions; no OS to patch."],"x":"In IaaS the customer manages the OS and everything above.","c":"N","d":"1.3 Cloud concepts"},{"t":"mc","q":"In every cloud service model, which remains the customer's responsibility?","o":["Data and access management","Physical security of the data center","Hypervisor patching","Power and cooling"],"a":0,"w":["Correct.","Always the provider.","Provider (IaaS and above).","Provider."],"x":"Misconfigured sharing and stolen credentials are customer-side failures.","c":"S","d":"3.1 Architecture models"},{"t":"mc","q":"A web app automatically adds servers during a sale and removes them afterwards. Which cloud characteristic is this?","o":["Elasticity","Multitenancy","Broad network access","Measured service"],"a":0,"w":["Correct.","Sharing infrastructure among customers.","Accessible from many devices.","Metered billing."],"x":"Scalability is the ability to grow; elasticity grows and shrinks automatically.","c":"N","d":"1.3 Cloud concepts"},{"t":"ms","q":"Which statements about cloud security groups and network ACLs are true? (Choose two.)","o":["Security groups are stateful","Network ACLs are stateless and support deny rules","Security groups support explicit deny rules","Network ACLs attach to individual instances"],"a":[0,1],"w":["Correct.","Correct.","Security groups are allow-only.","NACLs attach to subnets."],"x":"Use security groups for instance-level allow lists and NACLs for subnet-level denies.","c":"N","d":"1.3 Cloud concepts"},{"t":"mc","q":"Private-subnet servers need to download patches from the internet without being reachable from it. What should be used?","o":["NAT gateway","Internet gateway with public IPs","Direct Connect","CDN"],"a":0,"w":["Correct.","Would make them reachable inbound.","Private line to on-prem, not the internet.","Caches content for users."],"x":"NAT allows outbound-initiated connections only.","c":"N","d":"1.3 Cloud concepts"},{"t":"mc","q":"Which tool continuously checks cloud accounts for misconfigurations like public storage buckets?","o":["CSPM","CASB","WAF","HSM"],"a":0,"w":["Correct.","Brokers access to SaaS apps.","Protects web apps.","Stores keys."],"x":"Misconfiguration is the leading cause of cloud breaches.","c":"S","d":"2.3 Types of vulnerabilities"},{"t":"mc","q":"Which storage type is accessed over HTTP APIs with a flat namespace and metadata, ideal for backups and media archives?","o":["Object","Block","File","DAS"],"a":0,"w":["Correct.","Raw volumes for one host.","Hierarchical shares.","Local disks."],"x":"S3 and Azure Blob are object storage.","c":"A1","d":"4.x Virtualization and cloud computing"},{"t":"mc","q":"Which protocol carries SCSI block commands over standard TCP/IP networks?","o":["iSCSI","NFS","SMB","Fibre Channel"],"a":0,"w":["Correct: TCP 3260.","File protocol.","File protocol.","Uses its own fabric, not TCP/IP."],"x":"FCoE carries FC over Ethernet; NVMe-oF can run over TCP.","c":"N","d":"1.4 Network topologies and storage"},{"t":"mc","q":"A NAS device provides which type of access?","o":["File-level (SMB/NFS)","Block-level (FC)","Object API only","Direct SAS only"],"a":0,"w":["Correct.","That's a SAN.","Some NAS add S3, but core access is file.","That's DAS."],"x":"SAN = block; NAS = file.","c":"A1","d":"3.x Hardware: storage"},{"t":"mc","q":"Two data centers are 1,500 km apart. The business wants zero added write latency. Which replication should they use, and what is the trade-off?","o":["Asynchronous, accepting an RPO greater than zero","Synchronous, accepting RPO greater than zero","Synchronous with zero latency impact","No replication is possible at that distance"],"a":0,"w":["Correct.","Sync gives RPO 0 but adds ~15 ms per write at this distance.","Physics makes this impossible.","Async works at any distance."],"x":"About 1 ms round trip per 100 km of fiber.","c":"S","d":"3.4 Resilience and recovery"},{"t":"mc","q":"A storage admin presents 10 TB volumes to servers but only 4 TB of physical disk is consumed so far. What feature is in use?","o":["Thin provisioning","Thick provisioning","RAID 1","Tiering"],"a":0,"w":["Correct.","Would reserve all 10 TB.","Mirroring.","Moves data between media."],"x":"Monitor thin pools so they don't run out of real space.","c":"N","d":"1.x Storage concepts (verify objective)"},{"t":"order","q":"Order these service models from MOST to LEAST customer responsibility.","o":["On-premises","IaaS","PaaS","SaaS"],"x":"Responsibility shifts to the provider at each step; data and access always stay with the customer.","c":"S","d":"3.1 Architecture models"}],"flashcards":[["Type 1 vs Type 2 hypervisor","Bare metal vs hosted on an OS"],["Overcommit risk","CPU ready time, memory ballooning/swapping"],["Live migration needs","Shared/replicated storage + fast network"],["HA vs fault tolerance","Restart on another host vs lockstep copy, zero downtime"],["Container isolation","Namespaces + cgroups, shared kernel"],["Pod","Smallest Kubernetes unit"],["Kubernetes Service","Stable IP/DNS for a set of pods"],["Terraform vs Ansible","Provisioning (declarative) vs configuration (agentless)"],["CI vs CD","Build and test every change vs release automatically"],["NIST cloud characteristics (5)","Self-service, network access, pooling, elasticity, measured"],["IaaS: customer manages","OS, runtime, apps, data, access"],["PaaS: customer manages","Apps, data, access"],["SaaS: customer manages","Data, users and access, settings"],["Region vs AZ","Geographic area vs separate data center in it"],["Elasticity vs scalability","Auto grow and shrink vs ability to grow"],["Security group","Stateful, allow-only, on instances"],["Network ACL","Stateless, allow/deny, on subnets, ordered"],["NAT gateway","Outbound internet for private subnets"],["CASB vs CSPM","Controls SaaS use vs scans cloud config"],["DAS / NAS / SAN","Local / file over network / block over network"],["Block / file / object","Databases / shares / backups and media"],["iSCSI port","TCP 3260"],["FCoE needs","Lossless Ethernet (DCB)"],["Thin provisioning risk","Pool runs out of real space"],["Sync replication","RPO 0, adds RTT latency, ~100 km max"],["Async replication","Any distance, RPO > 0"],["Fiber latency rule","~1 ms round trip per 100 km"]]}</script>
+<script type="application/json" id="module-data">{"module":17,"title":"Cyber Security Careers","glossary":[["Security operations center","The team that watches for attacks around the clock.","A team and facility that monitors, detects, analyses and responds to security events, often 24/7.","SOC"],["SOC analyst tiers","Levels of SOC staff from first look to deep investigation.","Tier 1 triages alerts, Tier 2 investigates and responds, Tier 3 hunts threats and handles complex incidents.",""],["SIEM","A system that collects logs and raises alerts.","Security Information and Event Management: aggregates, normalises and correlates logs to detect threats and support investigations.","Security Information and Event Management"],["SOAR","Tools that automate SOC responses.","Security Orchestration, Automation and Response: runs playbooks that enrich alerts and take response actions automatically.","Security Orchestration, Automation and Response"],["EDR","Security software that watches each computer closely.","Endpoint Detection and Response: records endpoint activity, detects malicious behaviour and enables isolation and investigation.","Endpoint Detection and Response"],["XDR","EDR extended across network, cloud and email.","Extended Detection and Response: correlates telemetry from endpoints, network, cloud, identity and email.","Extended Detection and Response"],["True positive","A real attack correctly flagged.","An alert that correctly identifies malicious activity.",""],["False positive","A false alarm.","An alert raised for benign activity.",""],["False negative","A real attack that was missed.","Malicious activity that generated no alert; the most dangerous error.",""],["Threat hunting","Proactively searching for hidden attackers.","Hypothesis-driven searching through data for threats that evaded automated detection.",""],["Threat intelligence","Knowledge about attackers and their methods.","Evidence-based information about threats (actors, TTPs, indicators) used to inform defence.","CTI"],["Indicator of compromise","A clue that a system was attacked.","An artefact such as a malicious IP, domain, file hash or registry key indicating intrusion.","IoC"],["TTPs","How attackers operate.","Tactics, techniques and procedures: the behaviour patterns of threat actors.","Tactics, Techniques and Procedures"],["MITRE ATT&CK","A big public map of attacker techniques.","A knowledge base of adversary tactics and techniques based on real-world observations (14 Enterprise tactics).",""],["Cyber Kill Chain","The seven stages of an attack.","Lockheed Martin model: reconnaissance, weaponization, delivery, exploitation, installation, command and control, actions on objectives.",""],["Diamond Model","Four corners of an intrusion.","Analysis model linking adversary, capability, infrastructure and victim for each event.",""],["CVE","An ID number for a known vulnerability.","Common Vulnerabilities and Exposures: a public catalogue of uniquely identified vulnerabilities (e.g., CVE-2021-44228).","Common Vulnerabilities and Exposures"],["CVSS","A 0–10 severity score for vulnerabilities.","Common Vulnerability Scoring System; base metrics include attack vector, complexity, privileges, user interaction and impact (v3.1 and v4.0).","Common Vulnerability Scoring System"],["KEV catalog","CISA's list of vulnerabilities attackers are actually using.","CISA Known Exploited Vulnerabilities catalog; a strong signal for patch priority.","Known Exploited Vulnerabilities"],["EPSS","A score for how likely a vulnerability is to be exploited soon.","Exploit Prediction Scoring System: probability of exploitation in the next 30 days.","Exploit Prediction Scoring System"],["Compensating control","A different safeguard when the normal fix isn't possible.","An alternative control that reduces risk when the primary control can't be applied (e.g., isolate an unpatchable server).",""],["Penetration test","An authorised, simulated attack to find weaknesses.","A scoped, permitted exercise that exploits vulnerabilities to demonstrate real risk, followed by a report.","Pentest"],["Rules of engagement","The written permission and limits for a test.","Document defining scope, timing, methods, contacts and legal authorisation for security testing.","RoE"],["Red / blue / purple team","Attackers, defenders, and both working together.","Red emulates adversaries, blue defends and detects, purple combines both to improve detections.",""],["MTTD / MTTR","How fast we spot and fix incidents.","Mean time to detect and mean time to respond (or recover); key SOC metrics.",""],["Playbook","Step-by-step instructions for a type of incident.","A documented, repeatable response procedure, e.g., for phishing or ransomware; often automated in SOAR.",""],["Capture the flag","A legal hacking competition or practice game.","Security challenges where participants find hidden 'flags' by solving puzzles or exploiting deliberately vulnerable systems.","CTF"],["DoD 8140","US Defense rules for cyber workforce qualifications.","Department of Defense directive (replacing 8570) defining cyber work roles and qualifying certifications (verify current lists).",""]],"quiz":[{"t":"mc","q":"A Tier 1 SOC analyst's main job is to:","o":["Triage incoming alerts and escalate real incidents","Write the company security strategy","Perform full malware reverse engineering","Approve the security budget"],"a":0,"w":["Correct.","CISO or GRC.","Usually Tier 3 or a specialist.","Management."],"x":"Tier 2 investigates and responds; Tier 3 hunts and handles complex cases.","c":"CYSA","d":"1.3 Security operations processes"},{"t":"mc","q":"Which tool collects logs from many sources and correlates them to raise alerts?","o":["SIEM","Hypervisor","Load balancer","Password manager"],"a":0,"w":["Correct.","Runs VMs.","Distributes traffic.","Stores passwords."],"x":"SOAR then automates the response steps.","c":"CYSA","d":"1.3 Security operations processes"},{"t":"mc","q":"An alert fires for a login from another country, but it's the employee on approved travel using MFA. This is a:","o":["False positive","True positive","False negative","True negative"],"a":0,"w":["Correct: the alert fired on benign activity.","Would mean a real attack.","A missed attack.","No alert on benign activity."],"x":"Tune rules (e.g., with travel data) to cut false positives without creating false negatives.","c":"CYSA","d":"1.2 Indicators of malicious activity"},{"t":"order","q":"Put the Lockheed Martin Cyber Kill Chain in order.","o":["Reconnaissance","Weaponization","Delivery","Exploitation","Installation","Command and control","Actions on objectives"],"x":"Break the chain as early as possible.","c":"CYSA","d":"1.4 Threat intelligence and frameworks"},{"t":"mc","q":"Which framework catalogues real-world attacker tactics and techniques, such as T1566 Phishing?","o":["MITRE ATT&CK","ITIL 4","ISO 9001","TOGAF"],"a":0,"w":["Correct.","Service management.","Quality.","Enterprise architecture."],"x":"ATT&CK helps map detections and find coverage gaps.","c":"CYSA","d":"1.4 Threat intelligence and frameworks"},{"t":"mc","sc":"Two vulnerabilities: A is CVSS 9.8 on an isolated lab server with no network access. B is CVSS 7.5 on an internet-facing web server and is listed in CISA's KEV catalog.","q":"Which should be patched FIRST?","o":["B, because it is exposed and actively exploited","A, because it has the higher CVSS score","Neither; wait for the next quarterly patch cycle","Both at the same time next year"],"a":0,"w":["Correct: exposure plus known exploitation beats raw score.","CVSS alone ignores context.","Too slow for an actively exploited flaw.","Far too slow."],"x":"Prioritise using CVSS + exploitation (KEV, EPSS) + exposure + asset criticality.","c":"CYSA","d":"2.3 Prioritizing vulnerabilities"},{"t":"mc","q":"What should be in place BEFORE a penetration test starts?","o":["Written authorisation and agreed rules of engagement","A public announcement","Disabled logging","The attacker's tools installed on production"],"a":0,"w":["Correct: without permission it's illegal.","No.","Never.","No."],"x":"Scope, timing, contacts and legal sign-off protect everyone.","c":"S","d":"4.3 Penetration testing"},{"t":"mc","q":"Which entry-level certification from ISC2 is aimed at people new to cyber security?","o":["Certified in Cybersecurity (CC)","CISSP","CCSP","CSSLP"],"a":0,"w":["Correct.","Needs 5 years' experience.","Cloud, advanced.","Secure software, advanced."],"x":"ISC2 has offered free CC training and exams under its '1 Million Certified' programme (verify).","c":"GEN","d":"0 General"},{"t":"mc","q":"Which CompTIA certification focuses on hands-on penetration testing and vulnerability assessment?","o":["PenTest+","CySA+","Network+","A+"],"a":0,"w":["Correct (PT0-003).","Defensive analyst.","Networking.","Support."],"x":"OSCP (OffSec) is a respected, very hands-on alternative.","c":"GEN","d":"0 General"},{"t":"mc","q":"Which certification requires five years of paid work in two or more of its eight domains?","o":["CISSP","Security+","ISC2 CC","CySA+"],"a":0,"w":["Correct (a degree or other cert can waive one year; verify).","No experience requirement.","Entry level.","Recommended experience only."],"x":"Pass without the experience and you become an Associate of ISC2 until you earn it.","c":"GEN","d":"0 General"},{"t":"mc","q":"A SOC wants to measure how long attackers go unnoticed. Which metric?","o":["Mean time to detect (MTTD)","Mean time between failures","Recovery point objective","Uptime percentage"],"a":0,"w":["Correct.","Hardware reliability.","Backup data loss tolerance.","Availability."],"x":"MTTR measures how fast the team responds or recovers.","c":"CYSA","d":"4.2 Incident response reporting"},{"t":"mc","q":"During incident response, the analyst isolates an infected laptop from the network. Which phase is this?","o":["Containment","Preparation","Lessons learned","Detection"],"a":0,"w":["Correct.","Before incidents.","After recovery.","Before containment."],"x":"NIST phases: preparation; detection and analysis; containment, eradication and recovery; post-incident activity.","c":"CYSA","d":"3.2 Incident response activities"},{"t":"mc","q":"What is the BEST legal way to practise hacking skills?","o":["Your own lab VMs, CTFs and training platforms designed for it","Scanning your neighbour's Wi-Fi","Testing a company website without permission to 'help' them","Trying passwords on a friend's account"],"a":0,"w":["Correct.","Illegal without permission.","Illegal without permission.","Illegal."],"x":"Laws such as the US Computer Fraud and Abuse Act and the UK Computer Misuse Act apply even with good intentions.","c":"GEN","d":"0 General"}],"flashcards":[["SOC shift handover","The outgoing team explains open cases and issues to the incoming team."],["Alert tuning","Adjusting rules to cut false positives without hiding real threats."],["Legal place to practise attacks","Your own lab or a platform built for it (CTFs, training ranges)."],["SOC tiers","T1 triage · T2 investigate/respond · T3 hunt and complex incidents"],["SIEM vs SOAR","Collect and correlate logs, raise alerts vs automate response playbooks"],["EDR vs XDR","Endpoint detection and response vs extended across network, cloud, email, identity"],["True / false positive / false negative","Real attack flagged / false alarm / missed attack (worst)"],["Kill Chain (7)","Recon, weaponize, deliver, exploit, install, C2, actions on objectives"],["MITRE ATT&CK","Public knowledge base of adversary tactics and techniques"],["Diamond Model","Adversary, capability, infrastructure, victim"],["CVE / CVSS / KEV / EPSS","ID / 0–10 severity / known exploited list / exploit probability"],["Patch priority","Exploited (KEV) + exposed + critical asset first, not CVSS alone"],["MTTD / MTTR","Mean time to detect / respond (recover)"],["NIST IR phases","Prepare → Detect & analyse → Contain, eradicate, recover → Post-incident"],["Red / blue / purple","Attack / defend / work together"],["Entry certs","ISC2 CC, CompTIA Security+, Google Cybersecurity Certificate"],["Analyst certs","CySA+, GIAC GCIH/GCIA, Blue Team Level 1, SC-200"],["Offensive certs","PenTest+, OSCP, CEH, GIAC GPEN"],["Advanced / management","CISSP, CISM, CISA, SecurityX (formerly CASP+), CCSP"],["Cloud security certs","AWS Security Specialty, CCSP, Azure AZ-500"],["CySA+ CS0-003 format","Up to 85 q · 165 min · 750/900 · 33/30/20/17%"],["CISSP requirement","5 years in 2+ of 8 domains (or Associate of ISC2)"],["Legal practice","Own lab, CTFs, training platforms, written permission only"]]}</script>
 <!-- module-data:end -->
 </body>
 </html>

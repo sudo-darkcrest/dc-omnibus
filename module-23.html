@@ -3,26 +3,32 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Module 23 · Who Sets the Rules: Technology Standards and Standards Bodies | Datacenter Omnibus</title>
-<meta name="description" content="Why standards exist, how they are made, and the bodies behind them: IEEE, IETF, ITU-T, ISO/IEC, ANSI, TIA, BICSI, NIST, W3C, USB-IF, Wi-Fi Alliance, JEDEC, Uptime Institute, ASHRAE, NFPA and more, with a searchable standards finder, a 'who made this?' game and an IEEE 802 family tree.">
+<title>Module 23 · Frameworks That Run the Enterprise: Governance, Risk and Compliance | Datacenter Omnibus</title>
+<meta name="description" content="Governance vs management, RACI, COBIT 2019, ISO 27001/27002, ISO 31000, ISO 22301, NIST CSF 2.0, SP 800-53, RMF, CIS Controls, SOC 2, PCI DSS, HIPAA, SOX, GDPR, the policy hierarchy, quantitative and qualitative risk, KRIs and maturity models, with five labs.">
 <link rel="stylesheet" href="assets/omnibus.css">
 <style>
   .seg { display: flex; flex-wrap: wrap; gap: 4px; }
   .seg button.on { background: var(--accent); color: #fff; border-color: var(--accent); }
-  .finder td, .finder th { font-size: .86rem; padding: 5px 7px; vertical-align: top; }
-  .finder mark { background: var(--warn-soft); color: inherit; padding: 0 1px; border-radius: 2px; }
-  .game-card { border: 1px solid var(--line); border-radius: 12px; padding: 16px; background: var(--surface); text-align: center; }
-  .game-card .tech { font-size: 1.5rem; font-weight: 800; margin: 6px 0 12px; }
-  .game-opts { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
-  @media (max-width: 700px) { .game-opts { grid-template-columns: 1fr; } }
-  .game-opts button.ok { border-color: var(--good); background: var(--good-soft); }
-  .game-opts button.bad { border-color: var(--bad); background: var(--bad-soft); }
-  .tree-node { cursor: pointer; }
-  .tree-node:focus { outline: none; }
-  .tree-node:focus rect, .tree-node:hover rect { stroke-width: 3.5; }
-  .tree-node.on rect { stroke: var(--accent); stroke-width: 3.5; }
+  .fwgroups { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; }
+  @media (max-width: 700px) { .fwgroups { grid-template-columns: 1fr 1fr; } }
+  .fwgroup { border: 1px solid var(--line); border-radius: 10px; padding: 8px; background: var(--surface); }
+  .fwgroup h4 { margin: 0 0 6px; font-size: .9rem; }
+  .fwgroup button { display: block; width: 100%; margin: 4px 0; text-align: left; font-size: .85rem; }
+  .fwgroup button.on { background: var(--accent); color: #fff; border-color: var(--accent); }
   .info { border: 1px solid var(--line); border-radius: 10px; padding: 12px; background: var(--surface); margin-top: 8px; }
   .info h4 { margin: 0 0 6px; }
+  .metric { font-size: 1.5rem; font-weight: 800; line-height: 1.1; }
+  .raci td, .raci th { padding: 4px 6px; font-size: .86rem; }
+  .raci select { font-size: .86rem; padding: 2px 4px; }
+  .raci tr.flag td:first-child { box-shadow: inset 4px 0 0 var(--bad); }
+  .raci .note { font-size: .8rem; color: var(--bad); }
+  .csf-rows label { display: grid; grid-template-columns: 9em 1fr 3em 1fr 3em; gap: 6px; align-items: center; font-size: .88rem; margin: 4px 0; }
+  @media (max-width: 700px) { .csf-rows label { grid-template-columns: 6.5em 1fr 2.2em 1fr 2.2em; } }
+  .map-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+  @media (max-width: 700px) { .map-grid { grid-template-columns: 1fr 1fr; } }
+  .map-grid .dropzone { min-height: 86px; }
+  .chip.ok { border-color: var(--good); background: var(--good-soft); }
+  .chip.bad { border-color: var(--bad); background: var(--bad-soft); }
 </style>
 </head>
 <body data-module="23">
@@ -31,15 +37,16 @@
 <main class="page" id="main">
 
 <section class="intro">
-  <div class="kicker">Part 6 · Standards and Study Tools · Module 23</div>
-  <h1>Who Sets the Rules: Technology Standards and Standards Bodies</h1>
-  <p class="why"><b>Why this matters.</b> Every module in this Omnibus has quoted a standard: Cat 6A, 802.11ax, TLS (Transport Layer Security) 1.3, Tier III, ISO (International Organization for Standardization) 27001 Annex A. Exams expect you to know which body owns which standard, and at work you will read standard names on spec sheets, contracts and audit reports. This module ties them all together, explains how standards are made and teaches you to decode a standard's name.</p>
+  <div class="kicker">Part 6 · Service, Governance and Audit · Module 23</div>
+  <h1>Frameworks That Run the Enterprise: Governance, Risk and Compliance</h1>
+  <p class="why"><b>Why this matters.</b> Firewalls and patches only work when someone decides what to protect, how much risk is acceptable, who is accountable and how to prove it to regulators and customers. That is governance, risk and compliance (GRC). This module is the bridge from technical security to the management view of CISM (Certified Information Security Manager; Module 24) and the assurance view of CISA (Certified Information Systems Auditor; Module 25), and it covers all of Security+ domain 5.</p>
   <h3>You will be able to</h3>
   <ul class="outcomes">
-    <li>Explain why standards exist and how a standard or RFC (Request for Comments) is made.</li>
-    <li>Match the main standards bodies to their best-known standards.</li>
-    <li>Recognize consumer standards you meet every day (USB (Universal Serial Bus), HDMI (High-Definition Multimedia Interface), Bluetooth, Qi, Matter, Wi-Fi labels).</li>
-    <li>Read a standard's name and version, such as "IEEE (Institute of Electrical and Electronics Engineers) 802.3bt-2018" or "ISO/IEC (IEC: International Electrotechnical Commission) 27001:2022".</li>
+    <li>Separate governance from management and assign roles with a RACI (Responsible, Accountable, Consulted, Informed) chart.</li>
+    <li>Explain what COBIT (Control Objectives for Information and Related Technologies), ISO (International Organization for Standardization) 27001/27002, ISO 31000/27005, ISO 22301, ISO 20000, NIST (National Institute of Standards and Technology) CSF (Cybersecurity Framework) 2.0, SP (Special Publication) 800-53, the RMF (Risk Management Framework), CIS (Center for Internet Security) Controls, SOC (System and Organization Controls) 2, PCI (Payment Card Industry) DSS (Data Security Standard), HIPAA (Health Insurance Portability and Accountability Act), SOX (Sarbanes-Oxley Act) and GDPR (General Data Protection Regulation) are each for.</li>
+    <li>Place documents in the policy hierarchy: policies, standards, procedures, guidelines and baselines.</li>
+    <li>Run qualitative and quantitative risk analysis (SLE (Single Loss Expectancy), ARO (Annualized Rate of Occurrence), ALE (Annualized Loss Expectancy)) and decide whether a control is worth its cost.</li>
+    <li>Use risk appetite, tolerance, capacity, KRIs (Key Risk Indicator), KPIs (Key Performance Indicator), KGIs (Key Goal Indicator), risk registers and maturity models to report to leadership.</li>
   </ul>
   <nav class="jumpnav" id="jumpnav" aria-label="On this page"></nav>
 </section>
@@ -49,97 +56,203 @@
   <div id="certmap-badges"></div>
 </section>
 
-<section class="lesson" id="why">
-  <h2>1. Why standards exist and how they are made</h2>
-  <div class="grid3">
-    <div class="tile"><h4>Interoperability</h4><p>A Dell laptop joins a Cisco Wi-Fi network and talks to a Linux server because they all follow 802.11, IP (Internet Protocol) and TLS.</p></div>
-    <div class="tile"><h4>Safety</h4><p>Electrical, fire and cabling codes (NEC (National Electrical Code), NFPA (National Fire Protection Association), IEC) protect people and buildings.</p></div>
-    <div class="tile"><h4>Trust</h4><p>Certification against ISO 27001, PCI (Payment Card Industry) DSS (Data Security Standard) or Uptime Tiers lets customers trust what they can't inspect.</p></div>
+<section class="lesson" id="governance">
+  <h2>1. Governance vs management</h2>
+  <figure class="fig"><svg id="gov-fig" viewBox="0 0 760 262" width="760" role="img" aria-label="Governance layers from board to operational teams"></svg>
+  <figcaption class="figcap">Governance sets direction and checks results; management plans and runs the work within that direction.</figcaption></figure>
+  <div class="tablewrap"><table>
+    <thead><tr><th></th><th>Governance</th><th>Management</th></tr></thead>
+    <tbody>
+      <tr><td><b>Question</b></td><td>Are we doing the right things?</td><td>Are we doing things right?</td></tr>
+      <tr><td><b>Who</b></td><td>Board of directors, executive leadership</td><td>CIO (Chief Information Officer), CISO (Chief Information Security Officer), managers and teams</td></tr>
+      <tr><td><b>Activities (COBIT)</b></td><td><b>E</b>valuate, <b>D</b>irect, <b>M</b>onitor</td><td><b>P</b>lan, <b>B</b>uild, <b>R</b>un, <b>M</b>onitor</td></tr>
+      <tr><td><b>Outputs</b></td><td>Strategy, risk appetite, policies, oversight</td><td>Programs, projects, controls, operations, metrics</td></tr>
+    </tbody></table></div>
+  <ul>
+    <li><b>Board of directors</b>: accountable to shareholders; approves strategy and risk appetite; often uses an audit committee and a risk committee.</li>
+    <li><b>Executive management</b> (CEO, CFO, CIO, CISO): turns direction into plans and reports back.</li>
+    <li><b>Steering committee</b>: senior cross-functional group that prioritizes and funds programs (an IT (Information Technology) or security steering committee).</li>
+    <li><b>Data roles</b>: <b>owner</b> (accountable business manager, classifies data), <b>custodian/steward</b> (implements controls day to day), <b>controller</b> and <b>processor</b> (privacy law roles: who decides why and how data is processed vs who processes on their behalf).</li>
+  </ul>
+  <h3 id="raci">RACI charts</h3>
+  <div class="tablewrap"><table>
+    <thead><tr><th>Letter</th><th>Meaning</th><th>Rule</th></tr></thead>
+    <tbody>
+      <tr><td><b>R</b>esponsible</td><td>Does the work</td><td>At least one per task</td></tr>
+      <tr><td><b>A</b>ccountable</td><td>Owns the outcome, signs off, "the buck stops here"</td><td><b>Exactly one</b> per task</td></tr>
+      <tr><td><b>C</b>onsulted</td><td>Gives input before or during (two-way)</td><td>Keep the list short</td></tr>
+      <tr><td><b>I</b>nformed</td><td>Kept up to date (one-way)</td><td>Any number</td></tr>
+    </tbody></table></div>
+</section>
+
+<section class="lesson" id="frameworks">
+  <h2>2. Frameworks, standards and laws</h2>
+  <p>Frameworks answer different questions. Explore them in Lab 1.</p>
+  <div class="tablewrap"><table>
+    <thead><tr><th>Name</th><th>Purpose</th><th>Certifiable?</th></tr></thead>
+    <tbody>
+      <tr><td><b>COBIT 2019</b> (ISACA)</td><td>Governance and management of enterprise IT: 40 objectives in five domains (EDM, APO, BAI, DSS, MEA), design factors, capability levels</td><td>People only (COBIT Foundation); organizations are assessed, not certified</td></tr>
+      <tr><td><b>ISO/IEC (IEC: International Electrotechnical Commission) 27001:2022</b></td><td>Requirements for an ISMS (Information Security Management System; clauses 4–10, PDCA (Plan-Do-Check-Act)) plus Annex A: 93 controls in four themes (organizational 37, people 8, physical 14, technological 34)</td><td>Yes, organizations</td></tr>
+      <tr><td><b>ISO/IEC 27002:2022</b></td><td>Implementation guidance for the same 93 controls</td><td>No</td></tr>
+      <tr><td><b>ISO 31000 / ISO/IEC 27005</b></td><td>General risk management principles / information security risk management</td><td>No</td></tr>
+      <tr><td><b>ISO 22301</b></td><td>Business continuity management system (BCMS)</td><td>Yes</td></tr>
+      <tr><td><b>ISO/IEC 20000-1</b></td><td>Service management system (aligned with ITIL (Information Technology Infrastructure Library), Module 22)</td><td>Yes</td></tr>
+      <tr><td><b>NIST CSF 2.0</b> (2024)</td><td>Common language of cybersecurity outcomes: six functions (Govern, Identify, Protect, Detect, Respond, Recover), categories, current and target profiles, tiers 1–4</td><td>No (voluntary)</td></tr>
+      <tr><td><b>NIST SP 800-53 Rev. 5</b></td><td>Catalogue of security and privacy controls in 20 families (AC (Access Control), AU (Audit and Accountability), CM (Configuration Management), IR (Incident Response)…); mandatory for US federal systems</td><td>No (FedRAMP uses it)</td></tr>
+      <tr><td><b>NIST SP 800-37 (RMF)</b></td><td>Prepare, Categorize, Select, Implement, Assess, Authorize, Monitor</td><td>Systems receive an authorization to operate (ATO)</td></tr>
+      <tr><td><b>CIS Controls v8.1</b></td><td>18 prioritized technical safeguards with Implementation Groups IG1 (basic hygiene) to IG3</td><td>No</td></tr>
+      <tr><td><b>SOC 2</b> (AICPA)</td><td>CPA (Certified Public Accountant) attestation report on a service organization's controls against the Trust Services Criteria; Type I (design, point in time) or Type II (operating effectiveness over 6–12 months)</td><td>A report, not a certificate</td></tr>
+      <tr><td><b>PCI DSS v4.0.1</b></td><td>Contractual standard for anyone storing, processing or transmitting payment card data; 12 requirements</td><td>Validated by a QSA (Qualified Security Assessor) or self-assessment (SAQ)</td></tr>
+      <tr><td><b>HIPAA</b> (US law)</td><td>Privacy, Security and Breach Notification Rules for protected health information (PHI)</td><td>No; regulators enforce</td></tr>
+      <tr><td><b>SOX</b> (US law)</td><td>Section 404: management and auditor assessment of internal control over financial reporting; IT general controls (access, change, operations)</td><td>No; external auditors attest</td></tr>
+      <tr><td><b>GDPR</b> (EU (European Union) law)</td><td>Personal data protection: lawful basis, data subject rights, DPIAs (Data Protection Impact Assessment), DPOs (Data Protection Officer), 72-hour breach notice, fines up to €20M or 4% of global turnover. Similar laws: UK GDPR, CCPA/CPRA (CCPA: California Consumer Privacy Act; CPRA: California Privacy Rights Act; California), LGPD (Lei Geral de Proteção de Dados, Brazil's data protection law; Brazil), PIPEDA (Personal Information Protection and Electronic Documents Act; Canada)</td><td>No; supervisory authorities enforce</td></tr>
+    </tbody></table></div>
+  <div class="callout trap">"NIST CSF certification." There isn't one. ISO 27001 certifies an organization's ISMS; NIST CSF is a voluntary framework you align with or assess against.</div>
+</section>
+
+<section class="lesson" id="policy">
+  <h2>3. The policy hierarchy</h2>
+  <figure class="fig"><svg id="pol-fig" viewBox="0 0 760 240" width="760" role="img" aria-label="Pyramid of policy, standards, procedures with guidelines and baselines beside it"></svg></figure>
+  <div class="tablewrap"><table>
+    <thead><tr><th>Document</th><th>Mandatory?</th><th>Example</th></tr></thead>
+    <tbody>
+      <tr><td><b>Policy</b></td><td>Yes; high level, approved by senior management, rarely changes</td><td>"All remote access to company systems must be strongly authenticated."</td></tr>
+      <tr><td><b>Standard</b></td><td>Yes; specific, measurable</td><td>"Remote access requires phishing-resistant MFA (Multifactor Authentication; FIDO2 (Fast Identity Online 2))."</td></tr>
+      <tr><td><b>Baseline</b></td><td>Yes; minimum configuration for a system type</td><td>"Windows 11 laptops follow the CIS Level 1 benchmark."</td></tr>
+      <tr><td><b>Procedure</b></td><td>Yes; step by step</td><td>"How to enroll a security key: 1. Open the portal…"</td></tr>
+      <tr><td><b>Guideline</b></td><td>No; recommended</td><td>"Consider a password manager for personal accounts."</td></tr>
+    </tbody></table></div>
+</section>
+
+<section class="lesson" id="risk">
+  <h2>4. Risk management in depth</h2>
+  <p><b>Risk</b> = the chance that a <b>threat</b> exploits a <b>vulnerability</b> in an <b>asset</b>, causing <b>impact</b>. Risk is usually expressed as <b>likelihood × impact</b>.</p>
+  <div class="grid2">
+    <div class="tile"><h4>Qualitative analysis</h4><p>Ratings such as low/medium/high or 1–5 scales for likelihood and impact, plotted on a heat map. Fast and easy to communicate, but subjective.</p></div>
+    <div class="tile"><h4>Quantitative analysis</h4><p>Money and numbers: <b>SLE = AV (Asset Value) × EF (Exposure Factor)</b>, <b>ALE = SLE × ARO</b>. Supports cost-benefit decisions, but needs reliable data.</p></div>
   </div>
-  <div class="callout analogy">Standards are like the rules of a sport. Teams (vendors) compete hard, but everyone agrees on the size of the ball and the field so a match can happen at all.</div>
-  <figure class="fig"><svg id="make-fig" viewBox="0 0 760 150" width="760" role="img" aria-label="Standard development process from need to maintenance"></svg>
-  <figcaption class="figcap">Formal bodies (IEEE, ISO, TIA (Telecommunications Industry Association)) use working groups and ballots. The IETF (Internet Engineering Task Force) uses Internet-Drafts and "rough consensus and running code" before a document becomes an RFC.</figcaption></figure>
-  <ul>
-    <li><b>De jure</b> standards are formally approved; <b>de facto</b> standards win by popularity (and are sometimes formalized later, like PDF (Portable Document Format) as ISO 32000).</li>
-    <li><b>Open</b> standards are publicly available (IETF RFCs are free); many ISO, IEC and TIA documents are paid.</li>
-    <li><b>Industry consortia</b> (Wi-Fi Alliance, Bluetooth SIG (Special Interest Group), USB-IF) publish specifications and run certification and logo programs.</li>
-    <li><b>RFC process</b>: Internet-Draft → working group review → IETF last call → IESG (Internet Engineering Steering Group) approval → RFC. RFCs are never edited after publication; changes come as new RFCs that "update" or "obsolete" old ones.</li>
-  </ul>
-</section>
-
-<section class="lesson" id="bodies">
-  <h2>2. The bodies and their key standards</h2>
-  <p>Search the full table in Lab 1. The highlights:</p>
+  <figure class="fig"><svg id="ale-fig" viewBox="0 0 760 120" width="760" role="img" aria-label="Formula chain from asset value to ALE"></svg></figure>
+  <div class="callout detail">A control is worth it when <b>(ALE before − ALE after) − annual cost of the control &gt; 0</b>. Annual cost includes licences, staff time and maintenance. Try it in Lab 2.</div>
   <div class="tablewrap"><table>
-    <thead><tr><th>Body</th><th>Best-known standards</th><th>Module</th></tr></thead>
+    <thead><tr><th>Term</th><th>Meaning</th></tr></thead>
     <tbody>
-      <tr><td><b>IEEE</b></td><td>802.3 Ethernet, 802.11 Wi-Fi, 802.1Q VLANs (Virtual Local Area Network), 802.1X, 802.15 WPAN (Wireless Personal Area Network) (802.15.4 under Zigbee/Thread), 802.3af/at/bt PoE (Power over Ethernet)</td><td>8–10</td></tr>
-      <tr><td><b>IETF</b></td><td>RFC 791 IPv4 (Internet Protocol version 4), RFC 8200 IPv6 (Internet Protocol version 6), RFC 9293 TCP (Transmission Control Protocol), RFC 768 UDP (User Datagram Protocol), RFC 1034/1035 DNS (Domain Name System), RFC 9110 HTTP (HyperText Transfer Protocol) semantics, RFC 8446 TLS 1.3, RFC 1918 private addresses</td><td>8–9, 14</td></tr>
-      <tr><td><b>ITU-T</b></td><td>G.652 single-mode fiber, G.694.1 DWDM (Dense Wavelength Division Multiplexing) grid, G.694.2 CWDM (Coarse Wavelength Division Multiplexing) grid, G.984 GPON (Gigabit Passive Optical Network), G.9807 XGS-PON (10-Gigabit Symmetric Passive Optical Network), X.509 certificates</td><td>11, 14</td></tr>
-      <tr><td><b>ISO / IEC</b></td><td>27001, 27002, 20000, 22301, 9001, 11801 cabling, 22237 data centers</td><td>11, 18–20</td></tr>
-      <tr><td><b>ANSI (American National Standards Institute) / TIA</b></td><td>ANSI accredits; TIA-568 cabling, 606 labeling, 607 grounding and bonding, 942 data centers</td><td>11, 18</td></tr>
-      <tr><td><b>BICSI (Building Industry Consulting Service International)</b></td><td>BICSI 002 data center design; TDMM (Telecommunications Distribution Methods Manual); RCDD (Registered Communications Distribution Designer) credential</td><td>18</td></tr>
-      <tr><td><b>NIST (National Institute of Standards and Technology)</b></td><td>CSF (Cybersecurity Framework) 2.0, SP (Special Publication) 800 series, FIPS (Federal Information Processing Standards) 140-3, FIPS 197 AES (Advanced Encryption Standard), FIPS 203/204/205 post-quantum</td><td>14, 20</td></tr>
-      <tr><td><b>W3C (World Wide Web Consortium)</b></td><td>HTML (HyperText Markup Language; living standard with WHATWG (Web Hypertext Application Technology Working Group)), CSS (Cascading Style Sheets), WCAG (Web Content Accessibility Guidelines) accessibility</td><td>23</td></tr>
-      <tr><td><b>Consortia</b></td><td>USB-IF (USB4), HDMI Forum (HDMI 2.1/2.2), VESA (Video Electronics Standards Association; DisplayPort 2.1), Wi-Fi Alliance (Wi-Fi 7, WPA3 (Wi-Fi Protected Access 3)), Bluetooth SIG, PCI-SIG (PCIe (Peripheral Component Interconnect Express) 6/7), JEDEC (Joint Electron Device Engineering Council; DDR5 (Double Data Rate)), SNIA (Storage Networking Industry Association; storage)</td><td>4–5, 10</td></tr>
-      <tr><td><b>Facility</b></td><td>Uptime Institute (Tiers), ASHRAE (American Society of Heating, Refrigerating and Air-Conditioning Engineers; TC 9.9 thermal), NFPA (70, 70E, 75, 76, 2001)</td><td>18</td></tr>
-      <tr><td><b>Certification bodies</b></td><td>ISACA (Information Systems Audit and Control Association; CISM (Certified Information Security Manager), CISA (Certified Information Systems Auditor), COBIT (Control Objectives for Information and Related Technologies)), PeopleCert (ITIL (Information Technology Infrastructure Library); AXELOS was acquired by PeopleCert in 2021), CompTIA (A+, Network+, Security+), ISC2 (International Information System Security Certification Consortium; CISSP (Certified Information Systems Security Professional), CC)</td><td>1, 19–22</td></tr>
+      <tr><td><b>Risk appetite</b></td><td>Broad amount and type of risk the organization is willing to pursue (set by the board): "We have a low appetite for regulatory risk."</td></tr>
+      <tr><td><b>Risk tolerance</b></td><td>Acceptable variation for a specific objective: "No more than 4 hours of downtime per quarter for the store."</td></tr>
+      <tr><td><b>Risk capacity</b></td><td>The maximum loss the organization could absorb before failing</td></tr>
+      <tr><td><b>Inherent / residual risk</b></td><td>Before controls / after controls. Residual must sit within appetite or be formally accepted</td></tr>
+      <tr><td><b>Treatment</b></td><td>Mitigate (reduce), transfer/share (insurance, outsourcing), avoid (stop the activity), accept (document and monitor)</td></tr>
+      <tr><td><b>Risk register</b></td><td>The list of risks: ID (Identification), description, owner, likelihood, impact, inherent and residual rating, treatment, due date, status</td></tr>
+      <tr><td><b>Risk owner</b></td><td>The business manager accountable for the risk and authorized to decide treatment</td></tr>
+      <tr><td><b>KRI / KPI / KGI</b></td><td>Key risk indicator (leading warning, e.g., % of servers unpatched > 30 days) / key performance indicator (how well a process runs, e.g., mean time to patch) / key goal indicator (lagging: was the goal reached, e.g., zero critical audit findings)</td></tr>
     </tbody></table></div>
-  <div class="callout trap">"The Wi-Fi Alliance wrote 802.11." IEEE writes 802.11; the Wi-Fi Alliance certifies products and gives the generations friendly names (Wi-Fi 6 = 802.11ax, Wi-Fi 7 = 802.11be).</div>
+  <h3 id="thirdparty">Third-party and supply chain risk</h3>
+  <p>Lifecycle: <b>due diligence</b> (questionnaires, SOC 2 reports, ISO certificates, financial health) → <b>contract</b> (security requirements, right to audit, breach notification time, SLAs (Service Level Agreement), data return and deletion) → <b>onboarding</b> → <b>ongoing monitoring</b> (reassessments, security ratings) → <b>offboarding</b> (revoke access, confirm data destruction). Agreements you may see: MSA (Master Service Agreement), SOW (Statement of Work), SLA, NDA (Non-Disclosure Agreement), MOU/MOA (MOU: Memorandum of Understanding; MOA: Memorandum of Agreement), BPA (Blanket Purchase Agreement). Software supply chain controls include SBOMs (Software Bill of Materials) and vendor patch commitments.</p>
 </section>
 
-<section class="lesson" id="consumer">
-  <h2>3. Consumer standards in daily life</h2>
+<section class="lesson" id="metrics">
+  <h2>5. Metrics, reporting and maturity</h2>
+  <ul>
+    <li>Report to the <b>board</b> in business terms: risk trends against appetite, top risks and owners, compliance status, major incidents and their business impact, investment versus risk reduction.</li>
+    <li>Report to <b>operations</b> in technical terms: patch latency, vulnerability counts, alert volumes, MTTD (Mean Time To Detect) and MTTR (Mean Time To Repair).</li>
+    <li>Good metrics are <b>SMART</b>: specific, measurable, achievable, relevant, time-bound.</li>
+  </ul>
   <div class="tablewrap"><table>
-    <thead><tr><th>You see…</th><th>Standard and owner</th><th>What to know</th></tr></thead>
+    <thead><tr><th>CMMI-style level</th><th>Description</th></tr></thead>
     <tbody>
-      <tr><td>USB-C port</td><td>USB4 / USB 3.2 / USB PD (Power Delivery; USB-IF)</td><td>USB-C is the connector shape; the speed (USB 2.0 to USB4 80 Gbps) and power (up to 240 W with PD 3.1 EPR (Extended Power Range)) depend on the device and cable</td></tr>
-      <tr><td>HDMI port</td><td>HDMI 2.1 / 2.2 (HDMI Forum, licensed by HDMI LA)</td><td>HDMI 2.1 up to 48 Gbps (4K120, 8K60); HDMI 2.2 up to 96 Gbps (verify)</td></tr>
-      <tr><td>Bluetooth headphones</td><td>Bluetooth 5.x / 6.0 (Bluetooth SIG)</td><td>LE (Low Energy) Audio and Auracast broadcast audio in newer versions</td></tr>
-      <tr><td>Wireless charging pad</td><td>Qi / Qi2 (Wireless Power Consortium)</td><td>Qi2 adds magnetic alignment (based on MagSafe)</td></tr>
-      <tr><td>Smart bulb with "Works with Matter"</td><td>Matter (Connectivity Standards Alliance)</td><td>Works across ecosystems over Wi-Fi, Ethernet and Thread</td></tr>
-      <tr><td>"Wi-Fi 7 Certified" label</td><td>Wi-Fi Alliance, based on IEEE 802.11be</td><td>Certification proves interoperability testing</td></tr>
-      <tr><td>Tap-to-pay</td><td>NFC (Near Field Communication; ISO/IEC 14443, 18092; NFC Forum) and EMV (Europay, Mastercard and Visa chip-card standard; EMVCo)</td><td>Short range, around 4 cm</td></tr>
+      <tr><td>0 Incomplete / non-existent</td><td>Not performed (used by COBIT's capability scale)</td></tr>
+      <tr><td>1 Initial</td><td>Ad hoc, depends on heroes</td></tr>
+      <tr><td>2 Managed</td><td>Planned and tracked, but per project or team</td></tr>
+      <tr><td>3 Defined</td><td>Documented and standardized across the organization</td></tr>
+      <tr><td>4 Quantitatively managed</td><td>Measured and controlled with metrics</td></tr>
+      <tr><td>5 Optimizing</td><td>Continuous improvement driven by measurement</td></tr>
     </tbody></table></div>
 </section>
 
-<section class="lesson" id="names">
-  <h2>4. How to read a standard's name</h2>
-  <figure class="fig"><svg id="name-fig" viewBox="0 0 760 230" width="760" role="img" aria-label="Anatomy of the names IEEE 802.3bt-2018 and ISO/IEC 27001:2022"></svg></figure>
+<section class="lesson" id="framework-pick">
+  <h2>6. Which framework does this company need?</h2>
+  <p>Frameworks are easier to remember when you match them to situations. Try these before reading the answers.</p>
+  <div class="tablewrap"><table><thead><tr><th>Situation</th><th>Best fit</th><th>Why</th></tr></thead><tbody>
+    <tr><td>A UK software firm wants a certificate to show customers its security is managed properly</td><td>ISO/IEC 27001</td><td>Internationally certifiable information security management system</td></tr>
+    <tr><td>A US cloud start-up sells to other businesses who ask for an independent report on its controls</td><td>SOC 2 Type II</td><td>Auditor's report on controls operating over a period</td></tr>
+    <tr><td>An online shop takes credit cards</td><td>PCI DSS</td><td>Required by the card brands for anyone storing, processing or transmitting card data</td></tr>
+    <tr><td>A US hospital</td><td>HIPAA</td><td>US law protecting health information</td></tr>
+    <tr><td>A company with EU customers' personal data</td><td>GDPR</td><td>EU law applying wherever the data subjects are in the EU</td></tr>
+    <tr><td>A small business wants a free, plain-language starting point</td><td>NIST CSF 2.0 or CIS Controls IG1</td><td>Voluntary, prioritised and widely used</td></tr>
+    <tr><td>A board wants to govern all of IT, not just security</td><td>COBIT</td><td>Governance and management of enterprise IT</td></tr>
+    <tr><td>A US publicly traded company's financial reporting systems</td><td>SOX</td><td>US law requiring controls over financial reporting</td></tr>
+  </tbody></table></div>
+  <div class="callout tip">Laws and contracts are mandatory (GDPR, HIPAA, SOX, PCI DSS through contracts). Frameworks and standards are usually voluntary unless a customer or regulator requires them.</div>
+</section>
+
+<section class="lesson" id="risk-worked">
+  <h2>7. Worked example: a risk register entry</h2>
+  <p>A risk register turns worries into decisions. Here is one entry worked through from start to finish.</p>
   <ul>
-    <li><b>ANSI/TIA-568.2-D</b>: an ANSI-approved TIA standard, part 568.2 (balanced twisted-pair), revision D.</li>
-    <li><b>NIST SP 800-53 Rev. 5</b>: Special Publication series 800, number 53, fifth revision.</li>
-    <li><b>RFC 8446</b>: just a number; check the RFC's header to see if it obsoletes or updates others (8446 obsoletes 5246, TLS 1.2's spec, for TLS 1.3 purposes).</li>
-    <li><b>FIPS 140-3</b>: standard 140, third version.</li>
-    <li><b>EN 50600</b>: a European Norm (CENELEC); the international version is ISO/IEC 22237.</li>
+    <li><b>Risk:</b> Ransomware encrypts the file server and its backups.</li>
+    <li><b>Asset value:</b> the file server and the business it supports are valued at $400,000.</li>
+    <li><b>Exposure factor:</b> an attack would destroy or disrupt about 50% of that value. Single loss expectancy = $400,000 × 0.5 = $200,000.</li>
+    <li><b>Likelihood:</b> estimated once every four years. Annualised rate of occurrence = 0.25.</li>
+    <li><b>Annualised loss expectancy</b> = $200,000 × 0.25 = $50,000 per year.</li>
+    <li><b>Treatment options:</b> immutable offline backups and EDR (Endpoint Detection and Response) costing $15,000 a year would cut the likelihood to once every 20 years (0.05), giving a new ALE of $10,000.</li>
+    <li><b>Decision:</b> spending $15,000 to reduce expected losses by $40,000 a year is worth it. The risk owner accepts the remaining risk and signs off.</li>
   </ul>
+  <div class="callout trap">The four treatment options are: <b>mitigate</b> (reduce), <b>transfer</b> (insurance, outsourcing), <b>avoid</b> (stop the activity) and <b>accept</b>. Ignoring a risk is not acceptance; acceptance is a documented decision by the risk owner.</div>
 </section>
 
 <section class="lab" id="labs">
   <h2>Interactive labs</h2>
 
-  <div class="lab-card" id="lab-find" data-lab="Standards Finder: search or filter standards by topic and see the body, what it covers and which module and cert it relates to.">
-    <h3>Lab 1: Standards Finder</h3>
-    <div class="row"><label>Search <input type="text" id="sf-q" placeholder="e.g. fiber, AES, 942, wireless" style="min-width:14em"></label></div>
-    <div class="row"><span>Topic:</span><div class="seg" id="sf-topic"></div></div>
-    <div class="tablewrap"><table class="finder" id="sf-table"></table></div>
-    <div class="caption" id="sf-cap" aria-live="polite"></div>
+  <div class="lab-card" id="lab-fw" data-lab="Framework Navigator: frameworks grouped by purpose; click one for its scope, who uses it, whether it is certifiable and related exams.">
+    <h3>Lab 1: Framework Navigator</h3>
+    <div class="fwgroups" id="fw-groups"></div>
+    <div class="info" id="fw-info">Choose a framework.</div>
+    <div class="caption" id="fw-cap" aria-live="polite"></div>
   </div>
 
-  <div class="lab-card" id="lab-who" data-lab="Who Made This? game: see a technology such as Wi-Fi 7, Cat 6A, TLS 1.3, Tier III or Annex A and pick the body that governs it.">
-    <h3>Lab 2: "Who Made This?"</h3>
-    <div class="row"><b id="wg-count"></b><span id="wg-score"></span></div>
-    <div class="game-card"><div class="figcap">Which body governs…</div><div class="tech" id="wg-tech"></div><div class="game-opts" id="wg-opts"></div></div>
-    <div class="row"><button type="button" class="primary" id="wg-next">Next →</button><button type="button" id="wg-restart">New game</button></div>
-    <div class="caption" id="wg-cap" aria-live="polite"></div>
+  <div class="lab-card" id="lab-ale" data-lab="ALE Calculator: enter asset value, exposure factor and ARO to get SLE and ALE, then test whether a control's yearly cost is justified.">
+    <h3>Lab 2: ALE Calculator</h3>
+    <div class="row"><span>Example:</span><div class="seg" id="al-ex"></div></div>
+    <div class="controls">
+      <label class="field"><span>Asset value, AV ($)</span><input type="number" id="al-av" value="500000" min="0" step="1000"></label>
+      <label class="field"><span>Exposure factor, EF (%)</span><input type="number" id="al-ef" value="30" min="0" max="100"></label>
+      <label class="field"><span>ARO (times per year)</span><input type="number" id="al-aro" value="0.5" min="0" step="0.05"></label>
+      <label class="field"><span>Control: yearly cost ($)</span><input type="number" id="al-cost" value="25000" min="0" step="500"></label>
+      <label class="field"><span>ARO with control</span><input type="number" id="al-aro2" value="0.1" min="0" step="0.05"></label>
+      <label class="field"><span>EF with control (%)</span><input type="number" id="al-ef2" value="30" min="0" max="100"></label>
+    </div>
+    <div class="grid3">
+      <div class="tile"><div class="figcap">SLE (AV × EF)</div><div class="metric" id="al-sle"></div></div>
+      <div class="tile"><div class="figcap">ALE before → after</div><div class="metric" id="al-ale"></div></div>
+      <div class="tile"><div class="figcap">Net value of control per year</div><div class="metric" id="al-net"></div></div>
+    </div>
+    <div class="stage"><svg id="al-svg" viewBox="0 0 760 150" width="760" role="img" aria-label="Bar chart of yearly loss before and after the control plus control cost"></svg></div>
+    <div class="caption" id="al-cap" aria-live="polite"></div>
   </div>
 
-  <div class="lab-card" id="lab-tree" data-lab="IEEE 802 Family Tree: a clickable tree of IEEE 802 working groups and their best-known amendments.">
-    <h3>Lab 3: IEEE 802 Family Tree</h3>
-    <p class="figcap">Click (or Tab to and press Enter on) a working group to see its best-known standards and amendments.</p>
-    <div class="stage"><svg id="tr-svg" viewBox="0 0 760 300" width="760" role="group" aria-label="IEEE 802 family tree"></svg></div>
-    <div class="info" id="tr-info">Choose a working group.</div>
-    <div class="caption" id="tr-cap" aria-live="polite"></div>
+  <div class="lab-card" id="lab-raci" data-lab="RACI Builder: assign R, A, C and I for tasks and roles; the page flags two Accountables, no Responsible and other mistakes.">
+    <h3>Lab 3: RACI Builder</h3>
+    <p class="figcap">The chart starts with some deliberate mistakes. Fix them by choosing a letter in each cell. "A/R" means the role is both Accountable and Responsible.</p>
+    <div class="tablewrap"><table class="raci" id="rc-table"></table></div>
+    <div class="row"><button type="button" id="rc-reset">Reset to the faulty chart</button><button type="button" id="rc-model">Show a model chart</button></div>
+    <div class="caption" id="rc-cap" aria-live="polite"></div>
+  </div>
+
+  <div class="lab-card" id="lab-csf" data-lab="NIST CSF 2.0 Self-Assessment: rate a fictional company on the six functions and compare current and target profiles on a radar chart.">
+    <h3>Lab 4: NIST CSF 2.0 Self-Assessment</h3>
+    <p class="figcap">Fictional company: <b>Bramblewood Clinics</b>, 12 outpatient clinics with patient records in a SaaS (Software as a Service) system. Rate each function from 1 (partial) to 4 (adaptive), loosely based on CSF tiers, for the current state and the target.</p>
+    <div class="csf-rows" id="cs-rows"></div>
+    <div class="stage"><svg id="cs-svg" viewBox="0 0 760 340" width="760" role="img" aria-label="Radar chart of current and target CSF profile"></svg></div>
+    <div class="caption" id="cs-cap" aria-live="polite"></div>
+  </div>
+
+  <div class="lab-card" id="lab-map" data-lab="Control Mapper: drag controls such as MFA for remote access to where they appear in ISO 27001 Annex A, NIST CSF 2.0 and CIS Controls.">
+    <h3>Lab 5: Control Mapper</h3>
+    <div class="row"><span>Map to:</span><div class="seg" id="mp-fw"></div></div>
+    <p class="figcap">Drag each control (or click it, then click a box) onto the matching category in the chosen framework. References are to ISO/IEC 27001:2022, NIST CSF 2.0 and CIS Controls v8.1 (verify against the current editions).</p>
+    <div class="dropzone" id="mp-bank" aria-label="Controls to map"><span class="zone-title">Controls</span></div>
+    <div class="map-grid" id="mp-zones" style="margin-top:8px"></div>
+    <div class="row"><button type="button" class="primary" id="mp-check">Check</button><button type="button" id="mp-reset">Reset</button></div>
+    <div class="caption" id="mp-cap" aria-live="polite"></div>
   </div>
 </section>
 
@@ -150,23 +263,29 @@
 
 <section class="memory" id="memory">
   <h2>Memory aids</h2>
-  <div class="mnemonic"><b>IEEE</b> = the <b>E</b>thernet and <b>E</b>ther (wireless) people. <b>IETF</b> = the <b>I</b>nternet <b>T</b>raffic rules (RFCs). <b>ITU-T</b> = the <b>T</b>elecom and <b>T</b>hin glass (fiber) people.</div>
-  <div class="mnemonic">TIA cabling numbers "<b>568</b> cables, <b>606</b> labels, <b>607</b> grounds, <b>942</b> data centers": think "cable, label, ground, room".</div>
-  <div class="mnemonic">"<b>X</b>.509 is for e<b>X</b>changing identities; 802.1<b>X</b> is for e<b>X</b>tra port security." Different bodies, similar letters.</div>
+  <div class="mnemonic">CSF 2.0: "<b>G</b>ood <b>I</b>deas <b>P</b>revent <b>D</b>isasters, <b>R</b>eally <b>R</b>eally": Govern, Identify, Protect, Detect, Respond, Recover.</div>
+  <div class="mnemonic">RMF: "<b>P</b>eople <b>C</b>an't <b>S</b>top <b>I</b>nternet <b>A</b>ttacks <b>A</b>ll <b>M</b>onth": Prepare, Categorize, Select, Implement, Assess, Authorize, Monitor.</div>
+  <div class="mnemonic">Policy hierarchy: "<b>P</b>lease <b>S</b>tand <b>P</b>roperly" = Policy, Standard, Procedure (Guidelines are Gentle suggestions; Baselines are the Bare minimum).</div>
+  <div class="mnemonic">Risk treatment "<b>MATA</b>": Mitigate, Avoid, Transfer, Accept.</div>
   <div class="tablewrap"><table><thead><tr><th>Number</th><th>Meaning</th></tr></thead><tbody>
-    <tr><td>802.3 / 802.11 / 802.1Q / 802.1X</td><td>Ethernet / Wi-Fi / VLANs / port access control</td></tr>
-    <tr><td>802.3af / at / bt</td><td>PoE 15.4 W / PoE+ 30 W / PoE++ 60–90 W (at the source)</td></tr>
-    <tr><td>RFC 1918</td><td>10/8, 172.16/12, 192.168/16</td></tr>
-    <tr><td>RFC 8446</td><td>TLS 1.3</td></tr>
-    <tr><td>G.652 / G.657</td><td>Standard / bend-insensitive single-mode fiber</td></tr>
-    <tr><td>FIPS 197 / 140-3 / 203–205</td><td>AES / crypto modules / post-quantum</td></tr>
-    <tr><td>TIA-942 / ISO/IEC 22237</td><td>Data center infrastructure</td></tr>
+    <tr><td>SLE = AV × EF</td><td>Cost of one event</td></tr>
+    <tr><td>ALE = SLE × ARO</td><td>Expected yearly loss; ARO 0.1 = once in 10 years</td></tr>
+    <tr><td>93 / 4</td><td>ISO 27001:2022 Annex A controls / themes</td></tr>
+    <tr><td>6</td><td>NIST CSF 2.0 functions (Govern added in 2024)</td></tr>
+    <tr><td>7</td><td>RMF steps</td></tr>
+    <tr><td>18 / 3</td><td>CIS Controls / Implementation Groups</td></tr>
+    <tr><td>40 / 5</td><td>COBIT 2019 objectives / domains</td></tr>
+    <tr><td>72 hours</td><td>GDPR breach notification to the supervisory authority</td></tr>
+    <tr><td>4% / €20M</td><td>GDPR maximum fine (whichever is higher)</td></tr>
+    <tr><td>12</td><td>PCI DSS principal requirements</td></tr>
   </tbody></table></div>
   <div class="tablewrap"><table><thead><tr><th>Exam trap</th><th>Why it is wrong</th></tr></thead><tbody>
-    <tr><td>"USB-C means USB 3."</td><td>USB-C is a connector; it can carry anything from USB 2.0 to USB4 and Thunderbolt.</td></tr>
-    <tr><td>"ISO writes Wi-Fi."</td><td>IEEE writes 802.11; ISO/IEC sometimes adopts IEEE standards later (e.g., ISO/IEC/IEEE 8802-3).</td></tr>
-    <tr><td>"Uptime Tiers are in TIA-942."</td><td>TIA-942 uses Rated-1 to Rated-4; Tiers are Uptime Institute's.</td></tr>
-    <tr><td>"An RFC can be edited to fix it."</td><td>Published RFCs never change; errata or new RFCs are issued.</td></tr>
+    <tr><td>"Transferring risk transfers accountability."</td><td>Insurance or outsourcing shares the financial impact; the organization stays accountable.</td></tr>
+    <tr><td>"The CISO owns all security risks."</td><td>Business managers own risks; the CISO advises and reports.</td></tr>
+    <tr><td>"SOC 2 Type I proves controls work."</td><td>Type I covers design at a point in time; Type II tests operation over a period.</td></tr>
+    <tr><td>"ISO 27002 is the certifiable one."</td><td>27001 is certifiable; 27002 is guidance.</td></tr>
+    <tr><td>"Two Accountables share the load."</td><td>Exactly one Accountable per task.</td></tr>
+    <tr><td>"Guidelines are mandatory."</td><td>Guidelines are recommendations.</td></tr>
   </tbody></table></div>
 </section>
 
@@ -183,17 +302,19 @@
 <section class="deeper" id="deeper">
   <h2>Go deeper (official sources)</h2>
   <ul>
-    <li><a href="https://standards.ieee.org/" rel="noopener">IEEE Standards Association</a> · <a href="https://www.ieee802.org/" rel="noopener">IEEE 802 LAN/MAN Standards Committee</a></li>
-    <li><a href="https://www.ietf.org/process/rfcs/" rel="noopener">IETF: RFCs</a> · <a href="https://www.rfc-editor.org/" rel="noopener">RFC Editor</a></li>
-    <li><a href="https://www.itu.int/en/ITU-T/" rel="noopener">ITU-T Recommendations</a></li>
-    <li><a href="https://www.iso.org/" rel="noopener">ISO</a> · <a href="https://www.iec.ch/" rel="noopener">IEC</a> · <a href="https://www.ansi.org/" rel="noopener">ANSI</a> · <a href="https://tiaonline.org/" rel="noopener">TIA</a> · <a href="https://www.bicsi.org/" rel="noopener">BICSI</a></li>
-    <li><a href="https://csrc.nist.gov/publications" rel="noopener">NIST Computer Security Resource Center</a></li>
-    <li><a href="https://www.w3.org/standards/" rel="noopener">W3C standards</a> · <a href="https://www.w3.org/WAI/standards-guidelines/wcag/" rel="noopener">WCAG</a></li>
-    <li><a href="https://www.usb.org/" rel="noopener">USB-IF</a> · <a href="https://www.wi-fi.org/" rel="noopener">Wi-Fi Alliance</a> · <a href="https://www.bluetooth.com/" rel="noopener">Bluetooth SIG</a> · <a href="https://www.jedec.org/" rel="noopener">JEDEC</a> · <a href="https://pcisig.com/" rel="noopener">PCI-SIG</a> · <a href="https://csa-iot.org/" rel="noopener">Connectivity Standards Alliance</a></li>
+    <li><a href="https://www.isaca.org/resources/cobit" rel="noopener">ISACA: COBIT</a></li>
+    <li><a href="https://www.iso.org/standard/27001" rel="noopener">ISO/IEC 27001 Information security management systems</a></li>
+    <li><a href="https://www.nist.gov/cyberframework" rel="noopener">NIST Cybersecurity Framework 2.0</a></li>
+    <li><a href="https://csrc.nist.gov/projects/risk-management" rel="noopener">NIST Risk Management Framework and SP 800-53</a></li>
+    <li><a href="https://www.cisecurity.org/controls" rel="noopener">CIS Critical Security Controls</a></li>
+    <li><a href="https://www.aicpa-cima.com/topic/audit-assurance/audit-and-assurance-greater-than-soc-2" rel="noopener">AICPA: SOC 2</a></li>
+    <li><a href="https://www.pcisecuritystandards.org/" rel="noopener">PCI Security Standards Council</a></li>
+    <li><a href="https://www.hhs.gov/hipaa/index.html" rel="noopener">HHS: HIPAA</a></li>
+    <li><a href="https://commission.europa.eu/law/law-topic/data-protection_en" rel="noopener">European Commission: data protection (GDPR)</a></li>
   </ul>
 </section>
 </main>
-<footer class="foot">Datacenter Omnibus · Original study material. Not affiliated with or endorsed by any standards body or certification body.</footer>
+<footer class="foot">Datacenter Omnibus · Original, independent study material. Not affiliated with or endorsed by any certification body, vendor or standards organisation. All trademarks belong to their owners. Exam details change; always verify on the vendor site. <a href="legal.html">Trademarks and copyright</a></footer>
 
 <script src="data/catalog.js"></script>
 <script src="assets/omnibus.js"></script>
@@ -209,196 +330,198 @@
     var a = Math.atan2(y2 - y1, x2 - x1), s = 8;
     S("polygon", { points: x2 + "," + y2 + " " + (x2 - s * Math.cos(a - .45)) + "," + (y2 - s * Math.sin(a - .45)) + " " + (x2 - s * Math.cos(a + .45)) + "," + (y2 - s * Math.sin(a + .45)), fill: "var(--ink-2)" }, p);
   }
+  function money(v) { return (v < 0 ? "−$" : "$") + Math.round(Math.abs(v)).toLocaleString(); }
 
   /* ===== Figures ===== */
   (function () {
-    var g = $("make-fig"), P = [["Need", "industry problem"], ["Working group", "experts volunteer"], ["Drafts", "proposals, debate"], ["Ballot", "vote, resolve comments"], ["Publish", "approved standard"], ["Maintain", "amend, revise"]];
-    P.forEach(function (p, i) { var x = 10 + i * 125; rect(g, x, 30, 108, 60, i === 4 ? "var(--good-soft)" : "var(--surface)", "var(--gen)"); txt(g, x + 54, 56, p[0], { "text-anchor": "middle", "font-weight": 700 }); txt(g, x + 54, 74, p[1], { "text-anchor": "middle", "font-size": 10, class: "svg-muted" }); if (i < 5) arrow(g, x + 108, 60, x + 125, 60); });
-    S("path", { d: "M 690 90 C 690 130, 64 130, 64 92", fill: "none", stroke: "var(--ink-2)", "stroke-width": 1.5, "stroke-dasharray": "5 4" }, g);
-    txt(g, 380, 140, "new needs start the next amendment", { "text-anchor": "middle", "font-size": 10, class: "svg-muted" });
-  })();
-  (function () {
-    var g = $("name-fig");
-    function anat(y, parts) {
-      var x = 40; parts.forEach(function (p) {
-        var w = Math.max(p[0].length * 15 + 16, p[1].length * 6.2 + 14); rect(g, x, y, w, 40, p[2], "var(--line)", { rx: 6 }); txt(g, x + w / 2, y + 27, p[0], { "text-anchor": "middle", "font-weight": 800, "font-size": 18, "font-family": "var(--mono)" });
-        S("line", { x1: x + w / 2, y1: y + 40, x2: x + w / 2, y2: y + 56, stroke: "var(--ink-2)" }, g); txt(g, x + w / 2, y + 70, p[1], { "text-anchor": "middle", "font-size": 10.5, class: "svg-muted" }); x += w + 8;
-      });
-    }
-    anat(15, [["IEEE", "body", "var(--net-soft)"], ["802", "LAN/MAN family", "var(--surface)"], [".3", "Ethernet group", "var(--surface)"], ["bt", "amendment (PoE)", "var(--warn-soft)"], ["-2018", "year approved", "var(--good-soft)"]]);
-    anat(125, [["ISO/IEC", "joint bodies", "var(--gov-soft)"], ["27001", "standard number", "var(--surface)"], [":2022", "edition year", "var(--good-soft)"]]);
-  })();
-
-  /* ===== Lab 1: Standards finder ===== */
-  var STD = [
-    ["IEEE 802.3", "IEEE", "Networking", "Ethernet (copper and fiber, 10 Mb/s to 800 Gb/s)", 9, "N"],
-    ["IEEE 802.3af / at / bt", "IEEE", "Networking", "Power over Ethernet: 15.4 W / 30 W / 60–90 W", 9, "N"],
-    ["IEEE 802.11 (a/b/g/n/ac/ax/be)", "IEEE", "Wireless", "Wireless LAN; Wi-Fi 4 = n, 5 = ac, 6/6E = ax, 7 = be", 10, "N"],
-    ["IEEE 802.1Q", "IEEE", "Networking", "VLAN tagging and bridging", 9, "N"],
-    ["IEEE 802.1X", "IEEE", "Security", "Port-based network access control (with EAP and RADIUS)", 10, "S"],
-    ["IEEE 802.1D / 802.1w", "IEEE", "Networking", "Spanning Tree / Rapid Spanning Tree (now within 802.1Q)", 9, "N"],
-    ["IEEE 802.15.1 / 802.15.4", "IEEE", "Wireless", "WPAN: Bluetooth's original basis / low-rate PHY used by Zigbee and Thread", 10, "N"],
-    ["IEEE 802.3ad / 802.1AX", "IEEE", "Networking", "Link aggregation (LACP)", 9, "N"],
-    ["RFC 791", "IETF", "Networking", "Internet Protocol version 4", 8, "N"],
-    ["RFC 8200", "IETF", "Networking", "Internet Protocol version 6", 8, "N"],
-    ["RFC 9293", "IETF", "Networking", "Transmission Control Protocol (replaces RFC 793)", 8, "N"],
-    ["RFC 768", "IETF", "Networking", "User Datagram Protocol", 8, "N"],
-    ["RFC 1034 / 1035", "IETF", "Networking", "Domain Name System concepts and implementation", 8, "N"],
-    ["RFC 1918", "IETF", "Networking", "Private IPv4 address ranges", 8, "N"],
-    ["RFC 9110 / 9113 / 9114", "IETF", "Web", "HTTP semantics / HTTP/2 / HTTP/3", 8, "N"],
-    ["RFC 8446", "IETF", "Security", "TLS 1.3", 14, "S"],
-    ["RFC 5280", "IETF", "Security", "Internet X.509 certificate and CRL profile", 14, "S"],
-    ["RFC 2131", "IETF", "Networking", "DHCP", 8, "N"],
-    ["ITU-T G.652", "ITU-T", "Optical", "Standard single-mode fiber", 11, "N"],
-    ["ITU-T G.657", "ITU-T", "Optical", "Bend-insensitive single-mode fiber", 11, "N"],
-    ["ITU-T G.694.1", "ITU-T", "Optical", "DWDM frequency grid", 11, "N"],
-    ["ITU-T G.694.2", "ITU-T", "Optical", "CWDM wavelength grid (20 nm spacing)", 11, "N"],
-    ["ITU-T G.984 / G.9807", "ITU-T", "Optical", "GPON / XGS-PON passive optical networks", 11, "N"],
-    ["ITU-T X.509", "ITU-T", "Security", "Public key certificate format", 14, "S"],
-    ["ISO/IEC 27001", "ISO/IEC", "Security", "Information security management system requirements (certifiable)", 20, "CISM"],
-    ["ISO/IEC 27002", "ISO/IEC", "Security", "Information security controls guidance", 20, "CISA"],
-    ["ISO/IEC 20000-1", "ISO/IEC", "Service management", "Service management system requirements", 19, "ITIL"],
-    ["ISO 22301", "ISO", "Service management", "Business continuity management system", 21, "CISM"],
-    ["ISO 9001", "ISO", "Service management", "Quality management system", 22, "CISA"],
-    ["ISO 31000", "ISO", "Security", "Risk management guidelines", 20, "CISM"],
-    ["ISO/IEC 11801", "ISO/IEC", "Cabling", "Generic cabling for customer premises (Class EA, F, FA…)", 11, "N"],
-    ["ISO/IEC 22237", "ISO/IEC", "Data center", "Data centre facilities and infrastructures (based on EN 50600)", 18, "DCCA"],
-    ["EN 50600", "CENELEC", "Data center", "European data centre facility standard series", 18, "DCCA"],
-    ["ANSI/TIA-568", "TIA", "Cabling", "Commercial building telecommunications cabling (Cat 5e, 6, 6A, 8; T568A/B)", 11, "N"],
-    ["ANSI/TIA-606", "TIA", "Cabling", "Administration and labeling of telecom infrastructure", 11, "DCCA"],
-    ["ANSI/TIA-607", "TIA", "Cabling", "Grounding and bonding for telecommunications", 18, "DCCA"],
-    ["ANSI/TIA-942", "TIA", "Data center", "Telecommunications infrastructure for data centers, Rated-1 to 4", 18, "DCCA"],
-    ["BICSI 002", "BICSI", "Data center", "Data center design and implementation best practices", 18, "DCCA"],
-    ["Uptime Tier Standard", "Uptime Institute", "Data center", "Tier I–IV topology and operational sustainability", 18, "DCCA"],
-    ["ASHRAE TC 9.9 Thermal Guidelines", "ASHRAE", "Data center", "Recommended 18–27 °C inlet; allowable classes A1–A4", 18, "DCCA"],
-    ["NFPA 75 / 76", "NFPA", "Data center", "Fire protection of IT equipment / telecom facilities", 18, "DCCA"],
-    ["NFPA 70 (NEC) / 70E", "NFPA", "Data center", "Electrical code / electrical workplace safety (arc flash)", 18, "DCCA"],
-    ["NIST CSF 2.0", "NIST", "Security", "Cybersecurity Framework: Govern, Identify, Protect, Detect, Respond, Recover", 20, "S"],
-    ["NIST SP 800-53 Rev. 5", "NIST", "Security", "Security and privacy controls catalogue", 20, "CISA"],
-    ["NIST SP 800-61 Rev. 3", "NIST", "Security", "Incident response recommendations", 21, "CISM"],
-    ["NIST SP 800-63", "NIST", "Security", "Digital identity guidelines (authentication assurance)", 14, "S"],
-    ["FIPS 197", "NIST", "Security", "AES encryption", 14, "S"],
-    ["FIPS 140-3", "NIST", "Security", "Security requirements for cryptographic modules", 14, "S"],
-    ["FIPS 180-4 / 202", "NIST", "Security", "SHA-2 / SHA-3 hash functions", 14, "S"],
-    ["FIPS 203 / 204 / 205", "NIST", "Security", "Post-quantum: ML-KEM, ML-DSA, SLH-DSA", 14, "S"],
-    ["HTML Living Standard", "WHATWG / W3C", "Web", "The structure of web pages", 23, "GEN"],
-    ["CSS", "W3C", "Web", "Styling of web pages", 23, "GEN"],
-    ["WCAG 2.2", "W3C", "Web", "Web accessibility guidelines (A, AA, AAA)", 23, "GEN"],
-    ["USB4 / USB Power Delivery", "USB-IF", "Consumer", "USB data up to 80 Gb/s (USB4 v2.0) and up to 240 W charging", 5, "A1"],
-    ["HDMI 2.1 / 2.2", "HDMI Forum", "Consumer", "Digital audio/video interface (48 / 96 Gb/s, verify 2.2)", 5, "A1"],
-    ["DisplayPort 2.1", "VESA", "Consumer", "Display interface up to UHBR20 (80 Gb/s)", 5, "A1"],
-    ["Wi-Fi CERTIFIED 7 / WPA3", "Wi-Fi Alliance", "Wireless", "Interoperability certification and security for Wi-Fi", 10, "N"],
-    ["Bluetooth Core 6.0", "Bluetooth SIG", "Wireless", "Bluetooth Classic and Low Energy (verify current version)", 10, "A1"],
-    ["PCI Express 6.0 / 7.0", "PCI-SIG", "Hardware", "Expansion bus: 64 / 128 GT/s per lane", 4, "A1"],
-    ["DDR5 (JESD79-5)", "JEDEC", "Hardware", "System memory standard", 4, "A1"],
-    ["SNIA Swordfish / SMI-S", "SNIA", "Hardware", "Storage management interfaces", 17, "GEN"],
-    ["Qi / Qi2", "Wireless Power Consortium", "Consumer", "Wireless charging", 5, "A1"],
-    ["Matter", "Connectivity Standards Alliance", "Consumer", "Smart home interoperability over IP", 10, "GEN"],
-    ["COBIT 2019", "ISACA", "Service management", "Governance and management of enterprise IT", 20, "CISA"],
-    ["ITIL 4 / ITIL (Version 5)", "PeopleCert", "Service management", "IT/digital service management best practice", 19, "ITIL"],
-    ["PCI DSS v4.0.1", "PCI SSC", "Security", "Payment card data security requirements", 20, "S"]
-  ];
-  var TOPICS = ["All"].concat(STD.map(function (s) { return s[2]; }).filter(function (t, i, a) { return a.indexOf(t) === i; }).sort());
-  var sfTopic = "All";
-  TOPICS.forEach(function (t) { var b = h("button", { type: "button" }, t); b.onclick = function () { sfTopic = t; sfDraw(); }; $("sf-topic").appendChild(b); });
-  function hl(s, q) { s = esc(s); if (!q) return s; var i = s.toLowerCase().indexOf(q.toLowerCase()); return i < 0 ? s : s.slice(0, i) + "<mark>" + s.slice(i, i + q.length) + "</mark>" + s.slice(i + q.length); }
-  function sfDraw() {
-    OMNI.$$("#sf-topic button").forEach(function (b) { b.classList.toggle("on", b.textContent === sfTopic); });
-    var q = $("sf-q").value.trim(), ql = q.toLowerCase();
-    var rows = STD.filter(function (s) { return (sfTopic === "All" || s[2] === sfTopic) && (!ql || s.join(" ").toLowerCase().indexOf(ql) >= 0); });
-    var t = $("sf-table");
-    t.innerHTML = "<thead><tr><th>Standard</th><th>Body</th><th>Covers</th><th>Module</th><th>Cert</th></tr></thead><tbody>" + rows.map(function (s) {
-      return "<tr><td><b>" + hl(s[0], q) + "</b></td><td>" + hl(s[1], q) + "</td><td>" + hl(s[3], q) + "</td><td><a href=\"" + OMNI.file(s[4]) + "\">" + s[4] + "</a></td><td>" + esc(OMNI.certName ? OMNI.certName(s[5]) : s[5]) + "</td></tr>";
-    }).join("") + "</tbody>";
-    OMNI.say("sf-cap", rows.length + " of " + STD.length + " standards shown" + (sfTopic !== "All" ? " in " + sfTopic : "") + (q ? " matching \"" + esc(q) + "\"" : "") + ". " + (rows.length ? "Notice how many bodies a single topic involves: " + rows.map(function (r) { return r[1]; }).filter(function (b, i, a) { return a.indexOf(b) === i; }).slice(0, 6).join(", ") + "." : "No matches; try a shorter word."));
-  }
-  $("sf-q").oninput = sfDraw; sfDraw();
-
-  /* ===== Lab 2: Who made this ===== */
-  var WHO = [
-    ["Wi-Fi 7 (802.11be)", "IEEE", "IEEE writes 802.11be; the Wi-Fi Alliance certifies and brands it 'Wi-Fi 7'."],
-    ["Cat 6A cabling", "TIA", "ANSI/TIA-568 defines Cat 6A (ISO/IEC 11801 calls the channel Class EA)."],
-    ["TLS 1.3", "IETF", "RFC 8446."],
-    ["Tier III data center", "Uptime Institute", "Concurrently maintainable; Uptime's Tier Standard."],
-    ["Annex A controls", "ISO/IEC", "ISO/IEC 27001:2022 Annex A, 93 controls."],
-    ["AES", "NIST", "FIPS 197 (2001), based on the Rijndael cipher."],
-    ["X.509 certificates", "ITU-T", "ITU-T Recommendation X.509, profiled for the internet in RFC 5280."],
-    ["DDR5 memory", "JEDEC", "JESD79-5."],
-    ["USB4", "USB-IF", "USB Implementers Forum."],
-    ["WCAG 2.2", "W3C", "Web Content Accessibility Guidelines."],
-    ["Single-mode fiber G.652", "ITU-T", "ITU-T G-series recommendation."],
-    ["IPv6", "IETF", "RFC 8200."],
-    ["VLAN tagging", "IEEE", "IEEE 802.1Q."],
-    ["Data center thermal guidelines", "ASHRAE", "TC 9.9 recommends 18–27 °C inlet."],
-    ["ITIL", "PeopleCert", "AXELOS was acquired by PeopleCert in 2021."],
-    ["COBIT", "ISACA", "COBIT 2019."],
-    ["PCIe 6.0", "PCI-SIG", "PCI Special Interest Group."],
-    ["Clean agent fire suppression (NFPA 2001)", "NFPA", "National Fire Protection Association."],
-    ["ML-KEM post-quantum encryption", "NIST", "FIPS 203 (2024)."],
-    ["Matter smart home", "Connectivity Standards Alliance", "Formerly the Zigbee Alliance."]
-  ];
-  var BODIES = WHO.map(function (w) { return w[1]; }).filter(function (b, i, a) { return a.indexOf(b) === i; });
-  var wgList, wgI, wgRight, wgDone;
-  function wgNew() { wgList = OMNI.shuffle(WHO.slice()).slice(0, 10); wgI = 0; wgRight = 0; wgDone = false; wgShow(); }
-  function wgShow() {
-    var w = wgList[wgI]; wgDone = false;
-    $("wg-count").textContent = "Round " + (wgI + 1) + " of " + wgList.length; $("wg-score").textContent = " · Score " + wgRight;
-    $("wg-tech").textContent = w[0];
-    var opts = OMNI.shuffle([w[1]].concat(OMNI.shuffle(BODIES.filter(function (b) { return b !== w[1]; })).slice(0, 3)));
-    var O = $("wg-opts"); O.innerHTML = "";
-    opts.forEach(function (o) { var b = h("button", { type: "button" }, o); b.onclick = function () { wgPick(o, b); }; O.appendChild(b); });
-    OMNI.say("wg-cap", "Pick the body that publishes or governs this technology.");
-  }
-  function wgPick(o, btn) {
-    if (wgDone) return; wgDone = true; var w = wgList[wgI], ok = o === w[1]; if (ok) wgRight++;
-    OMNI.$$("#wg-opts button").forEach(function (b) { b.disabled = true; if (b.textContent === w[1]) b.classList.add("ok"); else if (b === btn) b.classList.add("bad"); });
-    $("wg-score").textContent = " · Score " + wgRight;
-    OMNI.say("wg-cap", (ok ? "Correct! " : "Not quite: it's <b>" + w[1] + "</b>. ") + w[2] + (wgI === wgList.length - 1 ? " Game over: " + wgRight + " of " + wgList.length + ". Press New game to play again." : ""));
-  }
-  $("wg-next").onclick = function () { if (wgI < wgList.length - 1) { wgI++; wgShow(); } else wgNew(); };
-  $("wg-restart").onclick = wgNew; wgNew();
-
-  /* ===== Lab 3: IEEE 802 family tree ===== */
-  var TREE = [
-    { k: "802.1", n: "802.1 Higher layer LAN protocols", d: "Bridging, VLANs and network management.", a: ["802.1Q: VLAN tagging, bridging (now includes Spanning Tree 802.1D/w and MSTP 802.1s)", "802.1X: port-based network access control", "802.1AX: link aggregation (LACP, formerly 802.3ad)", "802.1AE: MACsec link encryption", "802.1AB: LLDP neighbor discovery", "802.1 TSN: time-sensitive networking"], m: "Modules 9, 10, 15" },
-    { k: "802.3", n: "802.3 Ethernet", d: "Wired Ethernet from 10 Mb/s to 800 Gb/s and beyond.", a: ["802.3u: Fast Ethernet 100BASE-TX", "802.3ab: 1000BASE-T", "802.3an: 10GBASE-T", "802.3bz: 2.5/5GBASE-T (multi-gig)", "802.3af / at / bt: Power over Ethernet", "802.3ba / bs / ck / df: 40/100, 200/400, 100–400 G electrical, 800 G"], m: "Modules 9, 11" },
-    { k: "802.11", n: "802.11 Wireless LAN", d: "Wi-Fi physical and MAC layers.", a: ["802.11n: Wi-Fi 4 (MIMO, 2.4/5 GHz)", "802.11ac: Wi-Fi 5 (5 GHz, MU-MIMO downlink)", "802.11ax: Wi-Fi 6 / 6E (OFDMA, 6 GHz for 6E)", "802.11be: Wi-Fi 7 (320 MHz, multi-link operation)", "802.11i: security (basis of WPA2)", "802.11r / k / v: fast roaming and assisted roaming"], m: "Module 10" },
-    { k: "802.15", n: "802.15 Wireless personal area networks", d: "Short-range, low-power wireless.", a: ["802.15.1: original Bluetooth basis (Bluetooth now maintained by the Bluetooth SIG)", "802.15.4: low-rate WPAN used by Zigbee, Thread (and so Matter over Thread)", "802.15.4z: ultra-wideband (UWB) precise ranging", "802.15.7: visible light communication"], m: "Module 10" },
-    { k: "802.16", n: "802.16 Broadband wireless access (WiMAX)", d: "Metropolitan wireless broadband; now hibernated, largely replaced by LTE/5G.", a: ["802.16e: mobile WiMAX"], m: "Module 10 (history)" },
-    { k: "802.22", n: "802.22 Wireless regional area networks", d: "Long-range broadband using TV white space spectrum.", a: ["802.22: cognitive radio in unused TV channels"], m: "Background" },
-    { k: "802.24", n: "802.24 Vertical applications TAG", d: "Technical advisory group on smart grid, IoT and vertical markets.", a: ["Coordinates 802 work for industries such as utilities and automotive"], m: "Background" },
-    { k: "802.18/19", n: "802.18 Radio regulatory / 802.19 Coexistence", d: "Advises regulators on spectrum and makes sure wireless standards share bands fairly.", a: ["802.18: regulatory input on spectrum (e.g., 6 GHz opening)", "802.19: coexistence between unlicensed wireless standards"], m: "Background" }
-  ];
-  (function () {
-    var g = $("tr-svg");
-    rect(g, 280, 15, 200, 46, "var(--net-soft)", "var(--net)"); txt(g, 380, 36, "IEEE 802 LMSC", { "text-anchor": "middle", "font-weight": 800 }); txt(g, 380, 52, "LAN/MAN Standards Committee", { "text-anchor": "middle", "font-size": 10, class: "svg-muted" });
-    S("line", { x1: 380, y1: 61, x2: 380, y2: 90, stroke: "var(--ink-2)", "stroke-width": 2 }, g); S("line", { x1: 90, y1: 90, x2: 645, y2: 90, stroke: "var(--ink-2)", "stroke-width": 2 }, g);
-    TREE.forEach(function (t, i) {
-      var row = Math.floor(i / 4), col = i % 4, x = 20 + col * 185, y = 115 + row * 95;
-      if (row === 0) S("line", { x1: x + 70, y1: 90, x2: x + 70, y2: y, stroke: "var(--ink-2)", "stroke-width": 2 }, g);
-      else S("line", { x1: x + 70, y1: y - 25, x2: x + 70, y2: y, stroke: "var(--ink-2)", "stroke-width": 1.5, "stroke-dasharray": "4 3" }, g);
-      var grp = S("g", { class: "tree-node", tabindex: "0", role: "button", "aria-label": t.n, "data-i": String(i) }, g);
-      var main = i < 4;
-      rect(grp, x, y, 140, 60, main ? "var(--surface)" : "var(--surface-2)", main ? "var(--net)" : "var(--line)");
-      txt(grp, x + 70, y + 26, t.k, { "text-anchor": "middle", "font-weight": 800, "font-size": 16 });
-      txt(grp, x + 70, y + 45, ["Bridging, VLANs, 802.1X", "Ethernet", "Wireless LAN (Wi-Fi)", "Wireless PAN", "WiMAX (hibernated)", "Regional (TV white space)", "Vertical applications", "Regulatory, coexistence"][i], { "text-anchor": "middle", "font-size": 9.5, class: "svg-muted" });
-      grp.addEventListener("click", function () { trShow(i); });
-      grp.addEventListener("keydown", function (e) { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); trShow(i); } });
+    var g = $("gov-fig"), L = [["Board of directors", "approves strategy and risk appetite", "var(--gov)"], ["Executive management and steering committee", "CEO, CFO, CIO, CISO: set priorities, fund programs, report up", "var(--sec)"], ["Managers and control owners", "turn policy into standards, procedures and controls", "var(--net)"], ["Teams and staff", "run controls day to day and report metrics", "var(--dc)"]];
+    L.forEach(function (l, i) {
+      var w = 360 + i * 95, x = 380 - w / 2, y = 15 + i * 58;
+      rect(g, x, y, w, 48, "var(--surface)", l[2]);
+      txt(g, 380, y + 21, l[0], { "text-anchor": "middle", "font-weight": 700 });
+      txt(g, 380, y + 38, l[1], { "text-anchor": "middle", "font-size": 10.5, class: "svg-muted" });
     });
-    S("line", { x1: 20, y1: 192, x2: 740, y2: 192, stroke: "none" }, g);
+    arrow(g, 45, 30, 45, 235); txt(g, 20, 135, "Direction", { "font-size": 11, transform: "rotate(-90 20 135)", "text-anchor": "middle", class: "svg-muted" });
+    arrow(g, 715, 235, 715, 30); txt(g, 745, 135, "Reporting", { "font-size": 11, transform: "rotate(90 745 135)", "text-anchor": "middle", class: "svg-muted" });
+    txt(g, 62, 18, "Governance", { "font-weight": 700, fill: "var(--gov)", "font-size": 11 }); txt(g, 62, 254, "Management", { "font-weight": 700, fill: "var(--dc)", "font-size": 11 });
   })();
-  var trSeen = {};
-  function trShow(i) {
-    var t = TREE[i]; trSeen[i] = 1;
-    OMNI.$$("#tr-svg .tree-node").forEach(function (n) { n.classList.toggle("on", +n.dataset.i === i); });
-    $("tr-info").innerHTML = "<h4>" + t.n + "</h4><p>" + t.d + "</p><ul>" + t.a.map(function (a) { return "<li>" + a + "</li>"; }).join("") + "</ul><p class='figcap'>Covered in: " + t.m + "</p>";
-    OMNI.say("tr-cap", "You opened <b>" + t.n + "</b>. " + (i < 4 ? "This is one of the four 802 groups you'll meet constantly on Network+ and A+." : "A smaller or inactive group: good background, rarely examined.") + " Amendments are lettered (a, b… then aa, ab…) and later rolled into the next full revision of the base standard. Explored " + Object.keys(trSeen).length + " of " + TREE.length + ".");
+  (function () {
+    var g = $("pol-fig");
+    var P = [["Policy", "why and what (management intent)", 20, 120], ["Standards", "specific mandatory rules", 80, 220], ["Procedures", "step-by-step how", 150, 320]];
+    P.forEach(function (p, i) {
+      var y = p[2] + i * 0, top = 20 + i * 70, wTop = 80 + i * 150, wBot = 230 + i * 150;
+      S("polygon", { points: (300 - wTop / 2) + "," + top + " " + (300 + wTop / 2) + "," + top + " " + (300 + wBot / 2) + "," + (top + 65) + " " + (300 - wBot / 2) + "," + (top + 65), fill: ["var(--gov-soft)", "var(--sec-soft)", "var(--net-soft)"][i], stroke: ["var(--gov)", "var(--sec)", "var(--net)"][i], "stroke-width": 2 }, g);
+      txt(g, 300, top + 32, p[0], { "text-anchor": "middle", "font-weight": 800 });
+      txt(g, 300, top + 50, p[1], { "text-anchor": "middle", "font-size": 10.5, class: "svg-muted" });
+    });
+    rect(g, 560, 30, 180, 70, "var(--surface)", "var(--good)", { "stroke-dasharray": "6 4" }); txt(g, 650, 58, "Guidelines", { "text-anchor": "middle", "font-weight": 700 }); txt(g, 650, 78, "optional advice", { "text-anchor": "middle", "font-size": 10.5, class: "svg-muted" });
+    rect(g, 560, 125, 180, 70, "var(--surface)", "var(--warn)"); txt(g, 650, 153, "Baselines", { "text-anchor": "middle", "font-weight": 700 }); txt(g, 650, 173, "mandatory minimum config", { "text-anchor": "middle", "font-size": 10.5, class: "svg-muted" });
+    S("line", { x1: 480, y1: 120, x2: 560, y2: 65, stroke: "var(--ink-2)", "stroke-dasharray": "4 4" }, g); S("line", { x1: 480, y1: 150, x2: 560, y2: 160, stroke: "var(--ink-2)", "stroke-dasharray": "4 4" }, g);
+    txt(g, 300, 236, "More general and stable at the top; more specific and changeable at the bottom", { "text-anchor": "middle", "font-size": 10.5, class: "svg-muted" });
+  })();
+  (function () {
+    var g = $("ale-fig"), B = [["AV", "asset value"], ["× EF", "% lost per event"], ["= SLE", "loss per event"], ["× ARO", "events per year"], ["= ALE", "loss per year"]];
+    B.forEach(function (b, i) { var x = 15 + i * 150; rect(g, x, 25, 125, 64, i === 4 ? "var(--accent-soft)" : "var(--surface)", i % 2 ? "var(--ink-2)" : "var(--gov)"); txt(g, x + 62, 52, b[0], { "text-anchor": "middle", "font-weight": 800, "font-size": 16 }); txt(g, x + 62, 74, b[1], { "text-anchor": "middle", "font-size": 10.5, class: "svg-muted" }); });
+  })();
+
+  /* ===== Lab 1: Framework navigator ===== */
+  var FW = [
+    { g: "Governance", n: "COBIT 2019", s: "Governance and management of enterprise IT: 40 objectives across EDM, APO, BAI, DSS and MEA; goals cascade from stakeholder needs to IT goals; capability levels 0–5.", u: "IT governance teams, auditors, boards; common in banks and large enterprises.", c: "Organizations are assessed, not certified. People: COBIT Foundation and Design and Implementation.", x: "CISA (domain 2), CISM (domain 1), CGEIT" },
+    { g: "Governance", n: "ISO/IEC 38500", s: "Principles for the board-level governance of IT: responsibility, strategy, acquisition, performance, conformance, human behaviour; evaluate–direct–monitor model.", u: "Boards and executives.", c: "Not normally certified.", x: "CISA, CGEIT (background)" },
+    { g: "Governance", n: "NIST CSF 2.0", s: "Six functions (Govern, Identify, Protect, Detect, Respond, Recover), 22 categories, profiles and tiers. A common language for outcomes, not a list of mandatory controls.", u: "Any organization, any size or sector; widely used in the US and beyond.", c: "No certification; you align with or assess against it.", x: "Security+ 5.1, CISM, CISA" },
+    { g: "Risk", n: "ISO 31000", s: "Principles, framework and process for managing any kind of risk: establish context, identify, analyse, evaluate, treat, monitor, communicate.", u: "Enterprise risk management teams.", c: "Guidance; not certifiable.", x: "CISM domain 2, CRISC" },
+    { g: "Risk", n: "ISO/IEC 27005", s: "Information security risk management guidance supporting the ISO 27001 risk assessment and treatment requirements.", u: "ISMS teams.", c: "Guidance; not certifiable.", x: "CISM domain 2" },
+    { g: "Risk", n: "NIST RMF (SP 800-37)", s: "Prepare, Categorize (FIPS 199), Select (SP 800-53 controls), Implement, Assess (SP 800-53A), Authorize (ATO by an authorizing official), Monitor.", u: "US federal agencies and contractors; FedRAMP for cloud.", c: "Systems get an authorization to operate, not a certificate.", x: "Security+ 5.x, CISM, CISSP, CGRC" },
+    { g: "Controls", n: "ISO/IEC 27001 and 27002", s: "27001: ISMS requirements (clauses 4–10, PDCA) plus 93 Annex A controls; a Statement of Applicability records chosen controls. 27002: implementation guidance for those controls.", u: "Organizations worldwide wanting a recognized security certification.", c: "27001 is certifiable by accredited bodies (3-year cycle with surveillance audits); 27002 is guidance.", x: "Security+ 5.1, CISM, CISA" },
+    { g: "Controls", n: "NIST SP 800-53", s: "Rev. 5 control catalogue: 20 families (e.g., AC access control, AU audit, CM configuration, IR incident response, SC system and communications protection), with low/moderate/high baselines (SP 800-53B).", u: "US federal systems; often borrowed by others.", c: "Not certifiable; FedRAMP authorizations are built on it.", x: "CISA, CISM, CISSP" },
+    { g: "Controls", n: "CIS Controls v8.1", s: "18 prioritized controls (inventory of assets and software, data protection, secure configuration, access, vulnerability management, logging…), split into Implementation Groups IG1 (essential hygiene), IG2, IG3.", u: "Small to large organizations wanting a practical starting point.", c: "Not certifiable.", x: "Security+, CySA+" },
+    { g: "Compliance", n: "SOC 2", s: "AICPA attestation by a CPA firm on controls relevant to the Trust Services Criteria (security, availability, processing integrity, confidentiality, privacy). Type I = design at a date; Type II = operating effectiveness over a period. SOC 1 covers financial reporting controls; SOC 3 is a public summary.", u: "SaaS and service providers proving security to customers.", c: "A report, not a certification.", x: "CISA domain 2 and 5, Security+ 5.3" },
+    { g: "Compliance", n: "PCI DSS v4.0.1", s: "12 requirements protecting cardholder data (network security controls, secure configurations, protect stored data, encryption in transit, malware, secure software, access, authentication, physical, logging, testing, policy).", u: "Merchants and service providers handling payment cards.", c: "Contractual. Validated by a Qualified Security Assessor (Report on Compliance) or a Self-Assessment Questionnaire.", x: "Security+ 5.4, CISA" },
+    { g: "Compliance", n: "HIPAA", s: "US law. Privacy Rule, Security Rule (administrative, physical and technical safeguards for electronic PHI) and Breach Notification Rule; business associate agreements (BAAs) with vendors.", u: "US healthcare providers, insurers, clearinghouses and their business associates.", c: "No certification; HHS Office for Civil Rights enforces.", x: "Security+ 5.4, CISM, CISA" },
+    { g: "Compliance", n: "SOX", s: "US Sarbanes-Oxley Act (2002). Section 302: executives certify financial reports; Section 404: internal control over financial reporting, including IT general controls (access, change management, operations).", u: "US public companies and their auditors.", c: "No certification; external auditors attest.", x: "CISA, Security+ 5.4" },
+    { g: "Compliance", n: "GDPR", s: "EU regulation (2018) on personal data: principles (lawfulness, purpose limitation, minimization, accuracy, storage limitation, integrity and confidentiality, accountability), data subject rights, DPIAs, DPOs, 72-hour breach notice, fines up to €20M or 4%.", u: "Anyone processing personal data of people in the EU.", c: "No general certification; supervisory authorities enforce.", x: "Security+ 5.4, CISM, CISA" },
+    { g: "Continuity and service", n: "ISO 22301", s: "Business continuity management system: BIA, risk assessment, continuity strategies, plans, exercises and improvement.", u: "Organizations needing resilience assurance (finance, utilities, data centers).", c: "Certifiable.", x: "CISM domain 4, CISA domain 4, DCCA background" },
+    { g: "Continuity and service", n: "ISO/IEC 20000-1", s: "Service management system requirements, closely aligned with ITIL practices (Module 22).", u: "IT service providers and internal IT.", c: "Certifiable.", x: "ITIL, CISA domain 4" },
+    { g: "Continuity and service", n: "NIST SP 800-34", s: "Contingency planning guide for federal information systems: BIA, preventive controls, recovery strategies, plan testing.", u: "US federal and many private organizations.", c: "Guidance.", x: "CISM domain 4, CISA domain 4" }
+  ];
+  var FWG = ["Governance", "Risk", "Controls", "Compliance", "Continuity and service"], fwSeen = {};
+  FWG.forEach(function (gname) {
+    var box = h("div", { class: "fwgroup" }, h("h4", null, gname));
+    FW.forEach(function (f, i) { if (f.g !== gname) return; var b = h("button", { type: "button", "data-i": String(i) }, f.n); b.onclick = function () { fwShow(i); }; box.appendChild(b); });
+    $("fw-groups").appendChild(box);
+  });
+  function fwShow(i) {
+    var f = FW[i]; fwSeen[i] = 1;
+    OMNI.$$("#fw-groups button").forEach(function (b) { b.classList.toggle("on", +b.dataset.i === i); });
+    $("fw-info").innerHTML = "<h4>" + f.n + " <small>(" + f.g + ")</small></h4><p><b>Scope:</b> " + f.s + "</p><p><b>Who uses it:</b> " + f.u + "</p><p><b>Certification:</b> " + f.c + "</p><p><b>Related exams:</b> " + f.x + "</p>";
+    OMNI.say("fw-cap", "You opened <b>" + f.n + "</b>, a " + f.g.toLowerCase() + " framework. " + ({ Governance: "Governance frameworks help leaders set direction and check results.", Risk: "Risk frameworks describe how to find, rate and treat risk.", Controls: "Control frameworks list the safeguards themselves.", Compliance: "Compliance items are laws, contracts or attestations you must satisfy and prove.", "Continuity and service": "These keep services running and recover them after disruption." })[f.g] + " Explored " + Object.keys(fwSeen).length + " of " + FW.length + ".");
   }
-  OMNI.say("tr-cap", "IEEE 802 is a committee with many working groups. Each group owns a base standard and its lettered amendments.");
+  OMNI.say("fw-cap", "Frameworks are grouped by the question they answer. Pick one to see its scope.");
+
+  /* ===== Lab 2: ALE ===== */
+  var ALX = [
+    { n: "Laptop theft", v: [2000, 100, 12, 6000, 12, 15], note: "A fleet averages 12 stolen laptops a year (ARO 12). Full-disk encryption doesn't stop theft, but it cuts the loss from a data breach to just the hardware, so here it lowers EF instead of ARO." },
+    { n: "Ransomware", v: [500000, 30, 0.5, 25000, 0.1, 30], note: "EDR plus immutable backups make a successful attack much less likely." },
+    { n: "Data center flood", v: [2000000, 40, 0.02, 60000, 0.005, 40], note: "Floods are rare (once in 50 years), so the ALE is small and an expensive flood barrier may not pay off; insurance (transfer) may be better." }
+  ];
+  ALX.forEach(function (e, i) { var b = h("button", { type: "button" }, e.n); b.onclick = function () { ["al-av", "al-ef", "al-aro", "al-cost", "al-aro2", "al-ef2"].forEach(function (id, k) { $(id).value = e.v[k]; }); OMNI.$$("#al-ex button").forEach(function (x, k) { x.classList.toggle("on", k === i); }); alNote = e.note; alCalc(); }; $("al-ex").appendChild(b); });
+  var alNote = "";
+  function alCalc() {
+    var av = +$("al-av").value || 0, ef = (+$("al-ef").value || 0) / 100, aro = +$("al-aro").value || 0, cost = +$("al-cost").value || 0, aro2 = +$("al-aro2").value || 0, ef2 = (+$("al-ef2").value || 0) / 100;
+    var sle = av * ef, ale = sle * aro, ale2 = av * ef2 * aro2, net = ale - ale2 - cost;
+    $("al-sle").textContent = money(sle); $("al-ale").textContent = money(ale) + " → " + money(ale2); $("al-net").textContent = money(net);
+    $("al-net").style.color = net >= 0 ? "var(--good)" : "var(--bad)";
+    var g = $("al-svg"); g.innerHTML = "";
+    var mx = Math.max(ale, ale2 + cost, 1), sc = 520 / mx;
+    [["Yearly loss without control", ale, 0, "var(--bad)"], ["With control: loss + control cost", ale2, cost, "var(--good)"]].forEach(function (r, i) {
+      var y = 20 + i * 60; txt(g, 10, y + 22, r[0], { "font-size": 11 });
+      rect(g, 220, y, Math.max(2, r[1] * sc), 34, r[3], "none", { rx: 4, opacity: .8 });
+      if (r[2]) rect(g, 220 + r[1] * sc, y, Math.max(2, r[2] * sc), 34, "var(--warn)", "none", { rx: 4, opacity: .8 });
+      txt(g, 226 + (r[1] + r[2]) * sc, y + 22, money(r[1] + r[2]), { "font-size": 11, "font-weight": 700 });
+    });
+    txt(g, 220, 142, "Orange = control cost", { "font-size": 10, class: "svg-muted" });
+    OMNI.say("al-cap", "SLE = " + money(av) + " × " + Math.round(ef * 100) + "% = " + money(sle) + ". ALE = " + money(sle) + " × " + aro + " = <b>" + money(ale) + "</b> per year. With the control the ALE becomes " + money(ale2) + ", a reduction of " + money(ale - ale2) + ". After paying " + money(cost) + " a year for the control, the net value is <b>" + money(net) + "</b>: " + (net >= 0 ? "the control is worth it on cost alone." : "the control costs more than the loss it prevents, so consider a cheaper control, transferring or accepting the risk (unless a law or contract requires the control).") + (alNote ? " " + alNote : ""));
+  }
+  ["al-av", "al-ef", "al-aro", "al-cost", "al-aro2", "al-ef2"].forEach(function (id) { $(id).oninput = function () { alNote = ""; OMNI.$$("#al-ex button").forEach(function (x) { x.classList.remove("on"); }); alCalc(); }; });
+  $("al-ex").children[1].click();
+
+  /* ===== Lab 3: RACI ===== */
+  var ROLES = ["CISO", "IT ops manager", "Sysadmin", "Data owner (HR)", "Internal audit"];
+  var TASKS = ["Approve the access control policy", "Grant access to the HR system", "Review HR system access quarterly", "Patch servers monthly", "Audit access controls annually"];
+  var FAULTY = [["A", "C", "", "A", "I"], ["", "A", "", "C", ""], ["C", "", "R", "A/R", ""], ["I", "A", "R", "", "C"], ["I", "I", "", "I", "C"]];
+  var MODEL = [["A/R", "C", "", "C", "I"], ["I", "A", "R", "C", ""], ["I", "C", "R", "A", "I"], ["I", "A", "R", "I", ""], ["I", "C", "", "C", "A/R"]];
+  var rc;
+  function rcBuild(src) {
+    rc = src.map(function (r) { return r.slice(); });
+    var t = $("rc-table"); t.innerHTML = "";
+    t.appendChild(h("tr", null, [h("th", null, "Task")].concat(ROLES.map(function (r) { return h("th", null, r); })).concat([h("th", null, "Check")])));
+    TASKS.forEach(function (task, i) {
+      var tr = h("tr", null, [h("td", null, task)]);
+      ROLES.forEach(function (r, j) {
+        var sel = h("select", { "aria-label": task + ": " + r }, ["", "R", "A", "A/R", "C", "I"].map(function (v) { return h("option", { value: v }, v || "–"); }));
+        sel.value = rc[i][j]; sel.onchange = function () { rc[i][j] = sel.value; rcCheck(); };
+        tr.appendChild(h("td", null, sel));
+      });
+      tr.appendChild(h("td", { class: "note" }));
+      t.appendChild(tr);
+    });
+    rcCheck();
+  }
+  function rcCheck() {
+    var rows = OMNI.$$("#rc-table tr").slice(1), bad = 0, msgs = [];
+    TASKS.forEach(function (task, i) {
+      var r = rc[i], a = r.filter(function (v) { return v.indexOf("A") >= 0; }).length, resp = r.filter(function (v) { return v.indexOf("R") >= 0; }).length, c = r.filter(function (v) { return v === "C"; }).length, n = [];
+      if (a === 0) n.push("no Accountable"); if (a > 1) n.push(a + " Accountables"); if (resp === 0) n.push("no Responsible"); if (c > 3) n.push("too many Consulted");
+      if (i === 4 && (r[4].indexOf("A") < 0 && r[4].indexOf("R") < 0)) n.push("audit should be done by internal audit (independence)");
+      if (i === 4 && (r[2].indexOf("R") >= 0 || r[1].indexOf("R") >= 0)) n.push("IT shouldn't audit its own work");
+      if (i === 2 && r[3].indexOf("A") < 0) n.push("the data owner should be accountable for access reviews");
+      rows[i].classList.toggle("flag", n.length > 0); rows[i].lastChild.textContent = n.length ? "⚠ " + n.join("; ") : "✓"; rows[i].lastChild.style.color = n.length ? "var(--bad)" : "var(--good)";
+      if (n.length) { bad++; msgs.push("<b>" + task + "</b>: " + n.join("; ")); }
+    });
+    OMNI.say("rc-cap", bad ? bad + " task(s) need fixing. " + msgs.join(". ") + ". Rules: exactly one A, at least one R, keep C short. Accountability for data access sits with the data owner; audit must be independent of the work it checks." : "Every task has exactly one Accountable and at least one Responsible, the data owner is accountable for access reviews and audit is independent. That is a valid RACI chart.");
+  }
+  $("rc-reset").onclick = function () { rcBuild(FAULTY); };
+  $("rc-model").onclick = function () { rcBuild(MODEL); };
+  rcBuild(FAULTY);
+
+  /* ===== Lab 4: CSF radar ===== */
+  var FN = [["Govern", "GV", 1, 3, "Strategy, roles, policy, oversight and supply chain risk"], ["Identify", "ID", 2, 3, "Assets, risk assessment, improvement"], ["Protect", "PR", 2, 3, "Identity and access, awareness, data security, platform security"], ["Detect", "DE", 1, 3, "Continuous monitoring, adverse event analysis"], ["Respond", "RS", 1, 3, "Incident management, analysis, reporting, mitigation"], ["Recover", "RC", 2, 3, "Recovery plan execution and communication"]];
+  var cs = FN.map(function (f) { return [f[2], f[3]]; });
+  FN.forEach(function (f, i) {
+    var a = h("input", { type: "range", min: 1, max: 4, step: 1, value: f[2], "aria-label": f[0] + " current" }), av = h("b", null, String(f[2]));
+    var b = h("input", { type: "range", min: 1, max: 4, step: 1, value: f[3], "aria-label": f[0] + " target" }), bv = h("b", null, String(f[3]));
+    a.oninput = function () { cs[i][0] = +a.value; av.textContent = a.value; csDraw(); };
+    b.oninput = function () { cs[i][1] = +b.value; bv.textContent = b.value; csDraw(); };
+    $("cs-rows").appendChild(h("label", { title: f[4] }, [h("span", null, f[0] + " (" + f[1] + ")"), a, av, b, bv]));
+  });
+  $("cs-rows").insertBefore(h("div", { class: "figcap" }, "Function · current (1–4) · target (1–4)"), $("cs-rows").firstChild);
+  function csDraw() {
+    var g = $("cs-svg"); g.innerHTML = ""; var cx = 260, cy = 170, R = 130;
+    function pt(i, v) { var a = -Math.PI / 2 + i * Math.PI / 3; return [cx + Math.cos(a) * R * v / 4, cy + Math.sin(a) * R * v / 4]; }
+    for (var lv = 1; lv <= 4; lv++) S("polygon", { points: FN.map(function (f, i) { return pt(i, lv).join(","); }).join(" "), fill: "none", stroke: "var(--line)" }, g);
+    FN.forEach(function (f, i) { var p = pt(i, 4), q = pt(i, 4.6); S("line", { x1: cx, y1: cy, x2: p[0], y2: p[1], stroke: "var(--line)" }, g); txt(g, q[0], q[1] + 4, f[0], { "text-anchor": "middle", "font-weight": 700, "font-size": 12 }); });
+    S("polygon", { points: FN.map(function (f, i) { return pt(i, cs[i][1]).join(","); }).join(" "), fill: "var(--good-soft)", stroke: "var(--good)", "stroke-width": 2, "stroke-dasharray": "6 4", "fill-opacity": .5 }, g);
+    S("polygon", { points: FN.map(function (f, i) { return pt(i, cs[i][0]).join(","); }).join(" "), fill: "var(--accent-soft)", stroke: "var(--accent)", "stroke-width": 2.5, "fill-opacity": .7 }, g);
+    rect(g, 470, 40, 16, 12, "var(--accent-soft)", "var(--accent)", { rx: 2 }); txt(g, 494, 51, "Current profile");
+    rect(g, 470, 62, 16, 12, "var(--good-soft)", "var(--good)", { rx: 2, "stroke-dasharray": "4 2" }); txt(g, 494, 73, "Target profile");
+    var gaps = FN.map(function (f, i) { return { n: f[0], d: f[4], g: cs[i][1] - cs[i][0] }; }).filter(function (x) { return x.g > 0; }).sort(function (a, b) { return b.g - a.g; });
+    gaps.slice(0, 5).forEach(function (x, k) { txt(g, 470, 110 + k * 22, x.n + ": gap " + x.g, { "font-size": 12, "font-weight": k === 0 ? 700 : 400 }); });
+    if (!gaps.length) txt(g, 470, 110, "No gaps: target met", { "font-size": 12, "font-weight": 700 });
+    var top = gaps[0];
+    OMNI.say("cs-cap", gaps.length ? "Bramblewood's biggest gap is <b>" + top.n + "</b> (" + top.d + "), " + top.g + " level(s) below target. " + (top.n === "Govern" ? "CSF 2.0 puts Govern at the centre: without clear roles, risk appetite and policy, the other functions drift. Start there." : top.n === "Detect" || top.n === "Respond" ? "A clinic chain with weak detection and response may not notice ransomware until patient care stops; consider managed detection and response and an incident plan with tabletop exercises." : "Prioritize the largest gaps that protect patient data and care, within budget.") + " Profiles turn a framework into a roadmap: current → target → action plan." : "Current profile meets or exceeds the target on every function. Check whether the target is ambitious enough for a healthcare provider.");
+  }
+  csDraw();
+
+  /* ===== Lab 5: Control mapper ===== */
+  var CTRL = ["MFA for remote access", "Encrypted, tested offline backups", "Monthly vulnerability scanning", "Centralized log monitoring and alerting", "Phishing awareness training", "Incident response plan and tabletop exercises", "Hardware and software asset inventory", "Security clauses in supplier contracts"];
+  var MAPS = {
+    "ISO 27001 Annex A": ["A.8.5 Secure authentication", "A.8.13 Information backup", "A.8.8 Management of technical vulnerabilities", "A.8.16 Monitoring activities", "A.6.3 Information security awareness, education and training", "A.5.24 Incident management planning and preparation", "A.5.9 Inventory of information and other associated assets", "A.5.20 Addressing information security within supplier agreements"],
+    "NIST CSF 2.0": ["PR.AA Identity management, authentication and access control", "PR.DS Data security", "ID.RA Risk assessment", "DE.CM Continuous monitoring", "PR.AT Awareness and training", "RS.MA Incident management", "ID.AM Asset management", "GV.SC Cybersecurity supply chain risk management"],
+    "CIS Controls v8.1": ["6 Access Control Management", "11 Data Recovery", "7 Continuous Vulnerability Management", "8 Audit Log Management", "14 Security Awareness and Skills Training", "17 Incident Response Management", "1 Inventory and Control of Enterprise Assets", "15 Service Provider Management"]
+  };
+  var mpFw = "ISO 27001 Annex A", mpDnd;
+  Object.keys(MAPS).forEach(function (k) { var b = h("button", { type: "button" }, k); b.onclick = function () { mpFw = k; mpReset(); }; $("mp-fw").appendChild(b); });
+  function mpReset() {
+    OMNI.$$("#mp-fw button").forEach(function (b) { b.classList.toggle("on", b.textContent === mpFw); });
+    var bank = $("mp-bank"); bank.innerHTML = '<span class="zone-title">Controls</span>';
+    OMNI.shuffle(CTRL.map(function (c, i) { return i; })).forEach(function (i) { bank.appendChild(h("span", { class: "chip", "data-id": String(i) }, CTRL[i])); });
+    var Z = $("mp-zones"); Z.innerHTML = "";
+    OMNI.shuffle(CTRL.map(function (c, i) { return i; })).forEach(function (i) { Z.appendChild(h("div", { class: "dropzone", "data-z": String(i) }, h("span", { class: "zone-title" }, MAPS[mpFw][i]))); });
+    if (mpDnd) mpDnd.refresh();
+    OMNI.say("mp-cap", "Map the eight controls to " + mpFw + ". One control per box.");
+  }
+  mpReset();
+  mpDnd = OMNI.dnd($("lab-map"), function (c, z) { if (z.dataset.z !== undefined) OMNI.$$(".chip", z).forEach(function (o) { if (o !== c) $("mp-bank").appendChild(o); }); OMNI.$$("#lab-map .chip").forEach(function (o) { o.classList.remove("ok", "bad"); }); });
+  $("mp-reset").onclick = mpReset;
+  $("mp-check").onclick = function () {
+    var right = 0, placed = 0, notes = [];
+    OMNI.$$("#mp-zones .dropzone").forEach(function (z) { var c = z.querySelector(".chip"); if (!c) return; placed++; var ok = c.dataset.id === z.dataset.z; c.classList.toggle("ok", ok); c.classList.toggle("bad", !ok); if (ok) right++; else notes.push("<b>" + esc(CTRL[+c.dataset.id]) + "</b> → " + esc(MAPS[mpFw][+c.dataset.id])); });
+    OMNI.say("mp-cap", right + " of " + placed + " placed controls are correct" + (placed < 8 ? " (" + (8 - placed) + " left)" : "") + ". " + (notes.length ? "Correct homes: " + notes.join("; ") + "." : placed === 8 ? "All mapped! Now switch frameworks: the same control appears in each, which is why organizations map once and comply many times (a \"common control framework\")." : ""));
+  };
 })();
 </script>
 <!-- module-data:start -->
-<script type="application/json" id="module-data">{"module":23,"title":"Who Sets the Rules","glossary":[["Standard","An agreed way of doing something so things work together.","A document, established by consensus and approved by a recognized body, that provides rules, guidelines or characteristics for common and repeated use.",""],["De jure standard","Official standard from a standards body.","A standard formally approved by a recognized standards organization (e.g., ISO, IEEE).",""],["De facto standard","Standard by popularity.","A specification that became standard through widespread use rather than formal approval (e.g., PDF before ISO adoption).",""],["Interoperability","Different products working together.","The ability of systems or components from different vendors to exchange and use information.",""],["Working group","Experts who write a standard.","A committee within a standards body that develops a specific standard or amendment.","WG"],["RFC","An IETF document describing internet standards.","Request for Comments: the IETF's document series; some RFCs are Internet Standards, others informational or experimental.","Request for Comments"],["Amendment","An addition to a base standard.","A document that adds to or changes an existing standard (e.g., IEEE 802.3bt adds 90 W PoE to 802.3).",""],["IEEE","Engineers who make Ethernet and Wi-Fi standards.","Institute of Electrical and Electronics Engineers; its Standards Association publishes 802 LAN/MAN standards and more.","Institute of Electrical and Electronics Engineers"],["IETF","The group that writes internet protocol standards.","Internet Engineering Task Force: open community developing internet standards (IP, TCP, DNS, HTTP, TLS) as RFCs.","Internet Engineering Task Force"],["ITU-T","UN agency for telecom standards.","International Telecommunication Union Telecommunication Standardization Sector; publishes 'Recommendations' such as G.652 fiber and X.509.",""],["ISO","International standards organization.","International Organization for Standardization: publishes international standards across industries (e.g., ISO 9001, ISO/IEC 27001 with IEC).",""],["IEC","International electrical standards body.","International Electrotechnical Commission; works with ISO on IT standards through Joint Technical Committee 1 (JTC 1).","International Electrotechnical Commission"],["ANSI","Coordinates US standards.","American National Standards Institute: accredits US standards developers (like TIA) and represents the US at ISO.","American National Standards Institute"],["TIA","US telecom and cabling standards.","Telecommunications Industry Association: publishes ANSI/TIA-568 cabling, 606 labeling, 607 grounding, 942 data centers.","Telecommunications Industry Association"],["BICSI","Cabling and data center design association.","Professional association for ICT infrastructure; publishes BICSI 002 data center design and the TDMM manual.",""],["NIST","US agency for measurement and security standards.","National Institute of Standards and Technology: publishes FIPS, the SP 800 series and the Cybersecurity Framework.","National Institute of Standards and Technology"],["FIPS","US federal information processing standards.","Mandatory standards for US federal systems, e.g., FIPS 197 (AES), FIPS 140-3 (crypto modules), FIPS 203/204/205 (post-quantum).","Federal Information Processing Standards"],["W3C","Web standards body.","World Wide Web Consortium: develops HTML (with WHATWG), CSS, WCAG accessibility guidelines and other web standards.","World Wide Web Consortium"],["WCAG","Rules for accessible websites.","Web Content Accessibility Guidelines (2.2 current, verify): perceivable, operable, understandable, robust; levels A, AA, AAA.","Web Content Accessibility Guidelines"],["USB-IF","Owns USB standards.","USB Implementers Forum: publishes USB specifications (USB 2.0 to USB4 v2.0) and USB Power Delivery.",""],["Wi-Fi Alliance","Certifies Wi-Fi products.","Industry group that certifies interoperability and markets generations (Wi-Fi 6, 6E, 7) based on IEEE 802.11 amendments, plus WPA3.",""],["Bluetooth SIG","Owns Bluetooth.","Bluetooth Special Interest Group: develops and licenses Bluetooth specifications.","Special Interest Group"],["PCI-SIG","Owns PCI Express.","Peripheral Component Interconnect Special Interest Group: develops PCIe specifications.",""],["JEDEC","Memory standards body.","JEDEC Solid State Technology Association: publishes DDR4, DDR5 and LPDDR memory standards.",""],["VESA","Display standards.","Video Electronics Standards Association: DisplayPort, VESA mounts, DisplayHDR.",""],["SNIA","Storage industry standards.","Storage Networking Industry Association: storage standards and education (e.g., SMI-S, Swordfish).",""],["Uptime Institute","Data center Tier ratings.","Organization that publishes the Tier Standard (I–IV) and certifies data center designs and facilities.",""],["ASHRAE","Heating and cooling engineers.","American Society of Heating, Refrigerating and Air-Conditioning Engineers; TC 9.9 publishes data center thermal guidelines.",""],["NFPA","US fire codes.","National Fire Protection Association: NFPA 70 (NEC), 70E, 75, 76, 2001 and others.",""],["CSA","Wireless charging and smart home standards.","Connectivity Standards Alliance: maintains Matter and Zigbee. (Qi is from the Wireless Power Consortium.)","Connectivity Standards Alliance"],["Matter","Smart home devices working together.","Royalty-free smart home connectivity standard from the CSA running over Wi-Fi, Ethernet and Thread.",""],["Qi","Wireless phone charging standard.","Wireless Power Consortium standard for inductive charging; Qi2 adds magnetic alignment.",""]],"quiz":[{"t":"mc","q":"Which organization publishes the 802.3 Ethernet and 802.11 Wi-Fi standards?","o":["IETF","IEEE","ITU-T","Wi-Fi Alliance"],"a":1,"w":["Writes internet protocols.","Correct.","Telecom recommendations.","Certifies and markets Wi-Fi products, but doesn't write 802.11."],"x":"The Wi-Fi Alliance names generations (Wi-Fi 7 = 802.11be).","c":"N","d":"2.x Ethernet and wireless standards"},{"t":"mc","q":"Which body publishes RFCs such as RFC 791 (IPv4) and RFC 8200 (IPv6)?","o":["IEEE","IETF","ISO","W3C"],"a":1,"w":["LANs.","Correct.","General international.","Web."],"x":"RFC 1918 defines private IPv4 ranges.","c":"N","d":"1.x Networking concepts"},{"t":"mc","q":"Which standard defines X.509 public key certificates?","o":["IEEE 802.1X","ITU-T X.509","FIPS 197","RFC 1918"],"a":1,"w":["Port-based network access control.","Correct (profiled for the internet in RFC 5280).","AES.","Private addressing."],"x":"Watch the similar names: X.509 vs 802.1X.","c":"S","d":"1.4 PKI"},{"t":"mc","q":"Which TIA standard covers data center telecommunications infrastructure?","o":["TIA-568","TIA-606","TIA-607","TIA-942"],"a":3,"w":["Commercial building cabling.","Labeling/administration.","Grounding and bonding.","Correct."],"x":"ISO/IEC 22237 and EN 50600 are the international/European equivalents.","c":"DCCA","d":"1.x Standards and site"},{"t":"mc","q":"In 'ISO/IEC 27001:2022', what does ':2022' indicate?","o":["The edition year","The number of controls","The page count","The version of IEC"],"a":0,"w":["Correct.","93 controls, unrelated.","No.","No."],"x":"ISO/IEC means a joint ISO and IEC standard.","c":"GEN","d":"0 General"},{"t":"mc","q":"In 'IEEE 802.3bt-2018', what does 'bt' identify?","o":["An amendment to 802.3 (here, up to 90 W PoE)","Bluetooth","Base-T copper only","The working group chair"],"a":0,"w":["Correct.","Bluetooth is 802.15.1 heritage, now Bluetooth SIG.","Not the meaning.","No."],"x":"Amendments get letters; they're later rolled into the base standard.","c":"N","d":"2.x Ethernet standards"},{"t":"mc","q":"Which NIST standards specify the first post-quantum cryptography algorithms (ML-KEM, ML-DSA, SLH-DSA)?","o":["FIPS 140-3","FIPS 197","FIPS 203, 204 and 205","SP 800-53"],"a":2,"w":["Crypto module validation.","AES.","Correct (published August 2024).","Security controls."],"x":"FIPS 206 (FN-DSA) and HQC are follow-on work (verify status).","c":"S","d":"1.4 Cryptographic solutions"},{"t":"mc","q":"Which organization publishes the Tier I to IV data center classification?","o":["TIA","Uptime Institute","ASHRAE","BICSI"],"a":1,"w":["Rated-1 to 4 in TIA-942.","Correct.","Thermal guidelines.","Classes F0–F4."],"x":"Don't mix Uptime Tiers with TIA Rated levels.","c":"DCCA","d":"1.x Standards and site"},{"t":"mc","q":"Which body publishes the WCAG accessibility guidelines?","o":["W3C","IETF","ISO only","USB-IF"],"a":0,"w":["Correct.","Internet protocols.","WCAG 2.0 was also adopted as ISO/IEC 40500, but W3C publishes WCAG.","USB."],"x":"WCAG has levels A, AA and AAA.","c":"GEN","d":"0 General"},{"t":"mc","q":"Which organization defines DDR5 memory?","o":["JEDEC","PCI-SIG","VESA","SNIA"],"a":0,"w":["Correct.","PCIe.","DisplayPort.","Storage."],"x":"JEDEC also defines LPDDR for phones.","c":"A1","d":"3.x Hardware: memory"},{"t":"ms","q":"Which of these are IEEE 802 standards? (Select all that apply.)","o":["802.1Q VLAN tagging","802.1X port-based access control","RFC 2131 DHCP","802.11 wireless LAN"],"a":[0,1,3],"w":["Correct.","Correct.","An IETF RFC.","Correct."],"x":"802.1 = bridging and management; 802.3 = Ethernet; 802.11 = WLAN; 802.15 = WPAN.","c":"N","d":"2.x Ethernet and wireless standards"},{"t":"order","q":"Put the typical stages of developing a formal standard in order.","o":["Identify the need and form a working group","Draft the standard","Ballot and resolve comments","Approve and publish","Maintain, amend or revise"],"x":"Consensus and balloting make a standard trusted.","c":"GEN","d":"0 General"},{"t":"mc","q":"ITU-T G.652 specifies:","o":["Standard single-mode optical fiber","Wi-Fi channels","DWDM channel spacing","Ethernet frames"],"a":0,"w":["Correct.","No.","That's G.694.1.","IEEE 802.3."],"x":"G.694.2 is the CWDM grid; G.984/G.9807 are PON families.","c":"N","d":"1.x Cables and fiber"}],"flashcards":[["IEEE 802.3 / 802.11 / 802.1Q / 802.1X","Ethernet / Wi-Fi / VLAN tagging / port-based access control"],["IEEE 802.15","Wireless personal area networks (Bluetooth heritage, Zigbee's base 802.15.4)"],["IETF publishes…","RFCs: IP, TCP, UDP, DNS, HTTP, TLS"],["RFC 791 / 8200 / 1918","IPv4 / IPv6 / private IPv4 ranges"],["ITU-T G.652 / G.694.1 / G.694.2","Single-mode fiber / DWDM grid / CWDM grid"],["ITU-T G.984 / G.9807","GPON / XGS-PON"],["ITU-T X.509","Public key certificates"],["ISO/IEC 27001 / 27002 / 20000 / 22301 / 9001","ISMS / controls guidance / service mgmt / continuity / quality"],["ISO/IEC 11801 / 22237","Generic cabling / data center facilities"],["TIA-568 / 606 / 607 / 942","Cabling / labeling / grounding / data centers"],["BICSI 002","Data center design best practices"],["NIST FIPS 197 / 140-3","AES / crypto module validation"],["NIST FIPS 203 / 204 / 205","ML-KEM / ML-DSA / SLH-DSA (post-quantum)"],["W3C","HTML (with WHATWG), CSS, WCAG"],["USB-IF / HDMI Forum / VESA","USB / HDMI 2.x / DisplayPort"],["Wi-Fi Alliance","Certifies Wi-Fi 6/6E/7 and WPA3"],["Bluetooth SIG / PCI-SIG / JEDEC","Bluetooth / PCIe / DDR memory"],["Uptime / ASHRAE / NFPA","Tiers / thermal guidelines / fire codes"],["ISACA / PeopleCert / CompTIA / ISC2","CISM, CISA, COBIT / ITIL / A+, Net+, Sec+ / CISSP"],["Reading 'IEEE 802.3bt-2018'","Body · standard · amendment · year"],["Reading 'ISO/IEC 27001:2022'","Joint ISO/IEC · number · edition year"],["Matter / Qi","Smart home (CSA) / wireless charging (WPC)"]]}</script>
+<script type="application/json" id="module-data">{"module":23,"title":"Frameworks That Run the Enterprise","glossary":[["Governance","Setting direction and checking it's followed.","The system by which an enterprise is directed and controlled; in COBIT, governance evaluates stakeholder needs, sets direction and monitors performance (EDM).",""],["Management","Running things day to day to reach the goals.","Planning, building, running and monitoring activities aligned with the direction set by the governance body (COBIT: PBRM).",""],["Steering committee","Senior group that prioritizes IT and security work.","A cross-functional executive committee that oversees programs, priorities and investment decisions.",""],["RACI","Who does it, who owns it, who's asked, who's told.","A responsibility assignment matrix: Responsible, Accountable (exactly one), Consulted, Informed.","Responsible, Accountable, Consulted, Informed"],["COBIT 2019","ISACA's framework for governing enterprise IT.","ISACA framework separating governance and management, with 40 governance and management objectives, design factors and capability levels.","Control Objectives for Information and Related Technologies"],["ISO/IEC 27001","The certifiable security management standard.","International standard specifying requirements for an information security management system (ISMS); the 2022 edition has 93 Annex A controls in 4 themes.",""],["ISO/IEC 27002","The guidance book for the 27001 controls.","Code of practice giving implementation guidance for information security controls (the same 93 controls as 27001 Annex A).",""],["ISMS","A managed system for running security.","Information security management system: policies, processes and controls managed with a Plan-Do-Check-Act cycle.","Information Security Management System"],["Statement of Applicability","List of which Annex A controls apply and why.","ISO 27001 document recording which controls are included or excluded and the justification.","SoA"],["ISO 31000","General risk management guidance.","International standard providing principles and guidelines for managing any type of risk.",""],["ISO/IEC 27005","Security risk management guidance.","Guidance on information security risk management supporting ISO 27001.",""],["ISO 22301","Business continuity standard.","Requirements for a business continuity management system (BCMS).",""],["NIST CSF 2.0","A common map of security outcomes.","NIST Cybersecurity Framework 2.0 (2024) with six functions: Govern, Identify, Protect, Detect, Respond, Recover; uses profiles and tiers.","Cybersecurity Framework"],["NIST SP 800-53","The big US catalogue of security controls.","Security and privacy controls for information systems and organizations, grouped into 20 families (Rev. 5).",""],["NIST RMF","Seven steps to authorize and monitor systems.","Risk Management Framework (SP 800-37): Prepare, Categorize, Select, Implement, Assess, Authorize, Monitor.","Risk Management Framework"],["CIS Controls","Prioritized practical security to-do list.","Center for Internet Security Critical Security Controls v8.1: 18 controls with Implementation Groups IG1–IG3.",""],["SOC 2","Audit report on a service provider's controls.","AICPA attestation on controls relevant to the Trust Services Criteria: security, availability, processing integrity, confidentiality, privacy. Type I = design at a point in time; Type II = operating effectiveness over a period.","System and Organization Controls 2"],["PCI DSS","Rules for protecting card data.","Payment Card Industry Data Security Standard (v4.0.1), a contractual requirement for entities that store, process or transmit cardholder data.",""],["HIPAA","US health data protection law.","Health Insurance Portability and Accountability Act; Privacy and Security Rules protect PHI.",""],["SOX","US law on financial reporting controls.","Sarbanes-Oxley Act; Section 404 requires management assessment of internal control over financial reporting.","Sarbanes-Oxley"],["GDPR","EU privacy law.","General Data Protection Regulation: lawful basis, data subject rights, breach notification within 72 hours, fines up to 4% of global turnover.",""],["Policy","High-level rule from management.","A mandatory high-level statement of management intent and direction.",""],["Standard","Specific mandatory requirement.","A mandatory, specific requirement (e.g., minimum password length) supporting a policy.",""],["Procedure","Step-by-step instructions.","Mandatory detailed steps to perform a task.",""],["Guideline","Recommended, not required.","Discretionary advice and best practice.",""],["Baseline","Minimum security configuration.","A mandatory minimum configuration or security level for a system type.",""],["Asset value","What the asset is worth.","The monetary value of an asset (AV), including replacement and business value.","AV"],["Exposure factor","Percentage lost in one incident.","The proportion of asset value lost if a threat occurs (EF).","EF"],["SLE","Cost of one incident.","Single loss expectancy = AV × EF.","Single Loss Expectancy"],["ARO","How often per year.","Annualized rate of occurrence: expected number of occurrences per year.","Annualized Rate of Occurrence"],["ALE","Expected loss per year.","Annualized loss expectancy = SLE × ARO.","Annualized Loss Expectancy"],["Risk appetite","How much risk we're willing to pursue.","The amount and type of risk an organization is willing to accept in pursuit of objectives.",""],["Risk tolerance","Acceptable variation around the appetite.","The acceptable deviation from risk appetite for a specific objective or risk.",""],["Risk capacity","The most risk we could survive.","The maximum amount of risk an organization can absorb before failing.",""],["Inherent vs residual risk","Before controls vs after controls.","Inherent risk exists before controls; residual risk remains after controls are applied.",""],["Risk treatment","Mitigate, transfer, avoid or accept.","The selection of options to modify risk: mitigate (reduce), transfer (share), avoid, accept.",""],["KRI","Early warning metric for risk.","Key risk indicator: a metric signaling rising risk exposure.","Key Risk Indicator"],["KPI","How well a process performs.","Key performance indicator: measures how well a process achieves its goal.","Key Performance Indicator"],["KGI","Did we reach the goal?","Key goal indicator: measures whether a business or IT goal was achieved (lagging).","Key Goal Indicator"],["Risk register","The list of risks and who owns them.","A record of identified risks with likelihood, impact, owner, treatment and status.",""],["Risk owner","Person accountable for a risk.","The person with accountability and authority to manage a risk, usually a business manager.",""],["Maturity model","Levels from chaotic to optimized.","A scale (e.g., CMMI 0/1–5: initial, managed, defined, quantitatively managed, optimizing) for assessing process capability.",""],["Third-party risk","Risk from vendors and partners.","Risk arising from suppliers, service providers and supply chains, managed through due diligence, contracts, right to audit and monitoring.","TPRM"]],"quiz":[{"t":"mc","q":"Who is ultimately accountable for information security governance in an organization?","o":["The CISO","The board of directors and senior management","The IT operations manager","External auditors"],"a":1,"w":["The CISO leads the program but governance accountability sits higher.","Correct.","Too low.","Auditors provide assurance, not governance."],"x":"Governance is directed and controlled from the top; management executes.","c":"CISM","d":"1.1 Governance: roles"},{"t":"mc","q":"In COBIT 2019, which activities belong to governance rather than management?","o":["Evaluate, direct and monitor","Plan, build, run and monitor","Detect, respond and recover","Prepare, categorize and select"],"a":0,"w":["Correct: EDM.","That's management (APO, BAI, DSS, MEA).","NIST CSF functions.","NIST RMF steps."],"x":"COBIT separates the governance domain (EDM) from four management domains.","c":"CISA","d":"2.1 IT governance frameworks"},{"t":"ms","q":"Which of these are mistakes in a RACI chart? (Select all that apply.)","o":["A task with two Accountable roles","A task with no Responsible role","A task with several Informed roles","A task with one Accountable who is also Responsible"],"a":[0,1],"w":["Correct: exactly one A per task.","Correct: someone must do the work.","Fine: many people can be informed.","Allowed: the same role can be A and R."],"x":"One Accountable per task; at least one Responsible.","c":"CISM","d":"1.2 Governance: structures and responsibilities"},{"t":"order","q":"Put the policy hierarchy in order from most general to most specific.","o":["Policy","Standard","Procedure"],"w":["","",""],"x":"Policy (intent) → standard (specific mandatory rules) → procedure (steps). Guidelines are optional advice; baselines are minimum configurations.","c":"S","d":"5.1 Governance documents"},{"t":"mc","q":"Which document is discretionary rather than mandatory?","o":["Policy","Standard","Guideline","Baseline"],"a":2,"w":["Mandatory.","Mandatory.","Correct.","Mandatory minimum."],"x":"Guidelines recommend; the others require.","c":"S","d":"5.1 Governance documents"},{"t":"mc","sc":"A server worth $200,000 sits in a flood zone. A flood would destroy 40% of its value. Floods are expected once every 10 years.","q":"What is the ALE?","o":["$80,000","$8,000","$20,000","$800"],"a":1,"w":["That's the SLE.","Correct: SLE $80,000 × ARO 0.1.","AV × ARO, ignoring EF.","Off by a factor of 10."],"x":"SLE = AV × EF = $200,000 × 0.4 = $80,000. ALE = SLE × ARO = $80,000 × 0.1 = $8,000. A control costing more than $8,000 a year to address only this risk is hard to justify.","c":"S","d":"5.2 Risk analysis: SLE, ALE, ARO"},{"t":"mc","q":"What is the main difference between risk appetite and risk tolerance?","o":["Appetite is the broad amount of risk the organization will pursue; tolerance is the acceptable variation for specific objectives","They are identical","Tolerance is set by auditors","Appetite applies only to IT"],"a":0,"w":["Correct.","Related but different.","Set by management.","Organization-wide."],"x":"Capacity is the maximum the organization could absorb.","c":"CISM","d":"2.1 Risk: appetite and tolerance"},{"t":"mc","q":"Who should own a risk in the risk register?","o":["A business manager with authority and accountability for the affected asset or process","The security analyst who found it","The external auditor","The help desk"],"a":0,"w":["Correct.","Identifies, doesn't own.","Independent; can't own.","No authority."],"x":"Risk owners decide treatment within appetite.","c":"CISM","d":"2.3 Risk: ownership and treatment"},{"t":"mc","q":"Which metric gives early warning that risk exposure is increasing?","o":["KGI","KRI","KPI","SLA"],"a":1,"w":["Lagging: was the goal met?","Correct: key risk indicator.","Process performance.","Service target."],"x":"Example KRI: percentage of critical systems missing patches for 30+ days.","c":"CISM","d":"2.4 Risk: monitoring and reporting"},{"t":"mc","q":"An organization buys cyber insurance for ransomware losses. Which risk treatment is this?","o":["Mitigate","Transfer","Avoid","Accept"],"a":1,"w":["Reduces likelihood or impact.","Correct: shares the financial impact.","Stops the activity.","Takes no action."],"x":"Accountability for the risk is not transferred, only some financial impact.","c":"S","d":"5.2 Risk management strategies"},{"t":"mc","q":"Which framework is certifiable for an organization's information security management system?","o":["NIST CSF 2.0","ISO/IEC 27001","CIS Controls","ISO/IEC 27002"],"a":1,"w":["Voluntary framework; no certification.","Correct.","Prioritized controls; no certification.","Guidance only."],"x":"Accredited certification bodies audit organizations against 27001.","c":"CISA","d":"2.2 Standards and frameworks"},{"t":"mc","q":"Which function was added in NIST CSF 2.0?","o":["Identify","Govern","Recover","Detect"],"a":1,"w":["Existed in 1.1.","Correct.","Existed in 1.1.","Existed in 1.1."],"x":"Govern covers strategy, roles, policy, oversight and supply chain risk management.","c":"S","d":"5.1 Governance frameworks"},{"t":"mc","q":"A cloud provider gives you a SOC 2 Type II report. What does it tell you?","o":["Whether controls were suitably designed and operated effectively over a period","Only that controls were designed at a single point in time","That the provider is PCI DSS compliant","That the provider has no vulnerabilities"],"a":0,"w":["Correct.","That's Type I.","Different standard.","No report proves that."],"x":"Review the scope, exceptions and complementary user entity controls (CUECs).","c":"CISA","d":"2.6 Vendor management"},{"t":"mc","sc":"A company is choosing a new payroll SaaS provider that will process employee bank details.","q":"What should the security manager do FIRST?","o":["Perform due diligence on the provider's security and compliance","Sign the contract quickly to save money","Run a penetration test against the provider without permission","Disable MFA to simplify integration"],"a":0,"w":["Correct: questionnaires, SOC 2 reports, certifications, contract terms (right to audit, breach notice).","Due diligence comes before signing.","Illegal without authorization.","Weakens security."],"x":"Third-party risk management: due diligence → contract → onboarding → monitoring → offboarding.","c":"CISM","d":"2.5 Third-party risk"},{"t":"mc","q":"In a CMMI-style maturity model, which level describes processes that are documented and standardized across the organization?","o":["Initial","Managed","Defined","Optimizing"],"a":2,"w":["Ad hoc and chaotic.","Planned and tracked at project level.","Correct.","Continuous improvement based on measurement."],"x":"1 initial, 2 managed, 3 defined, 4 quantitatively managed, 5 optimizing.","c":"CISA","d":"2.4 Maturity models"}],"flashcards":[["ALE formula","ALE = SLE × ARO (and SLE = asset value × exposure factor)."],["Four risk treatments","Mitigate, transfer, avoid, accept."],["Certifiable security management standard","ISO/IEC 27001."],["Governance vs management","Direct and control (EDM) vs plan, build, run, monitor (PBRM)"],["RACI rules","Exactly one Accountable; at least one Responsible"],["COBIT 2019","ISACA governance framework: 40 objectives, EDM + APO/BAI/DSS/MEA"],["ISO/IEC 27001:2022","Certifiable ISMS; 93 Annex A controls in 4 themes"],["Annex A themes","Organizational (37), people (8), physical (14), technological (34)"],["ISO 27002","Guidance for the controls"],["ISO 31000 / 27005","General risk / information security risk"],["ISO 22301 / ISO 20000","Business continuity / service management"],["NIST CSF 2.0 functions","Govern, Identify, Protect, Detect, Respond, Recover"],["NIST RMF steps","Prepare, Categorize, Select, Implement, Assess, Authorize, Monitor"],["NIST SP 800-53","Control catalogue, 20 families"],["CIS Controls v8.1","18 controls, IG1–IG3"],["SOC 2 Type I vs II","Design at a point in time vs operating effectiveness over a period"],["Trust Services Criteria","Security, availability, processing integrity, confidentiality, privacy"],["PCI DSS / HIPAA / SOX / GDPR","Card data / US health data / financial reporting controls / EU personal data"],["Policy hierarchy","Policy → standard → procedure; guidelines optional; baselines minimum configs"],["SLE","AV × EF"],["ALE","SLE × ARO"],["Control worth it?","ALE before − ALE after − annual control cost > 0"],["Appetite / tolerance / capacity","Willing to pursue / acceptable variation / max survivable"],["Four risk treatments","Mitigate, transfer, avoid, accept"],["KRI / KPI / KGI","Risk warning / process performance / goal achieved"],["Inherent vs residual","Before controls vs after controls"],["CMMI levels","Initial, managed, defined, quantitatively managed, optimizing"],["GDPR breach notice","72 hours to the supervisory authority"]]}</script>
 <!-- module-data:end -->
 </body>
 </html>

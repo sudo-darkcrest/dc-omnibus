@@ -57,6 +57,9 @@ OMNI.register({
     { t: "ms", q: "Which are true of a DNS resolver performing a full lookup with an empty cache? (Choose two.)", o: ["It sends iterative queries to root, TLD and authoritative servers", "The root server returns the final A record", "It caches the answer for the record's TTL", "The client sends iterative queries to each server itself"], a: [0, 2], w: ["Correct.", "Root servers only refer.", "Correct.", "The client (stub) sends one recursive query to the resolver."], x: "Stub → recursive query → resolver → iterative queries.", c: "N", d: "3.4 Network services (DNS)" }
   ],
   flashcards: [
+    ["Usable hosts formula", "2^(host bits) − 2."],
+    ["256 minus the mask octet gives", "The block size (the 'magic number')."],
+    ["A 169.254.x.x address means", "The device couldn't reach a DHCP server (APIPA)."],
     ["RFC 1918 ranges", "10.0.0.0/8 · 172.16.0.0/12 · 192.168.0.0/16"],
     ["APIPA", "169.254.0.0/16: DHCP failed"],
     ["Loopback v4 / v6", "127.0.0.1 / ::1"],

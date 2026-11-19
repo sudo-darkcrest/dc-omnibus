@@ -4,7 +4,7 @@ OMNI.register({
     { c: "S", o: "SY0-701: 3.1 architecture models; 3.2 secure enterprise infrastructure (device placement, zones, firewalls, IDS/IPS, proxies, NAC, VPN, SD-WAN, SASE); 3.3 protecting data (classification, states, sovereignty, methods); 3.4 resilience and recovery" },
     { c: "S", o: "SY0-701: 4.1 security techniques for computing resources (baselines, hardening, mobile, wireless); 4.2 asset management; 4.4 alerting and monitoring (SIEM, SOAR, logs); 4.5 enterprise capabilities (firewall rules, email security, DNS filtering, DLP, NAC, EDR/XDR); 4.7 automation; 4.8 incident response; 4.9 data sources for investigations" },
     { c: "S", o: "SY0-701: 5.1 security governance (policies, standards, procedures, guidelines); 5.2 risk management (register, appetite, treatments, BIA); 5.3 third-party risk; 5.4 compliance and privacy; 5.6 security awareness" },
-    { c: "CISM", o: "Incident management and risk management concepts at an introductory level (expanded in Module 21)" }
+    { c: "CISM", o: "Incident management and risk management concepts at an introductory level (expanded in Module 24)" }
   ],
   glossary: [
     ["Screened subnet (DMZ)", "A buffer zone for public servers.", "A network segment between the internet and the internal network hosting externally accessible services.", "Demilitarized zone"],
@@ -65,6 +65,9 @@ OMNI.register({
     { t: "mc", q: "Which document gives mandatory step-by-step instructions?", o: ["Policy", "Guideline", "Procedure", "Standard"], a: 2, w: ["High-level intent.", "Optional advice.", "Correct.", "Specific mandatory requirements, not steps."], x: "Policy (why) → standard (what) → procedure (how); guidelines are optional.", c: "S", d: "5.1 Security governance" }
   ],
   flashcards: [
+    ["Tabletop exercise", "A discussion-based walk-through of a pretend incident."],
+    ["Why keep a printed incident plan", "Digital copies may be unavailable during an attack."],
+    ["Secure replacements for Telnet, HTTP, FTP", "SSH, HTTPS, SFTP."],
     ["DMZ purpose", "Host public services, isolated from internal"],
     ["IDS vs IPS", "Alerts (passive) vs blocks (inline)"],
     ["Stateless vs stateful", "Per-packet ACL vs tracks sessions"],

@@ -33,12 +33,12 @@ const PER = {
   12: { EF: "Expedited Forwarding", SPF: "Shortest Path First" },
   14: { MAC: "Mandatory Access Control", ECC: "Elliptic Curve Cryptography" },
   16: { MSA: "Master Service Agreement" },
-  17: { FC: "Fibre Channel" },
-  18: { TR: "Telecommunications Room", IV: null, VA: "Volt-Amperes", HFC: "Hydrofluorocarbon" },
-  20: { AC: "Access Control", AU: "Audit and Accountability", CM: "Configuration Management", SOC: "System and Organization Controls", MSA: "Master Service Agreement" },
-  22: { IR: null, CR: null, DR: null },
-  23: { PD: "Power Delivery" },
-  27: { SC: null, AZ: null }
+  18: { FC: "Fibre Channel" },
+  20: { TR: "Telecommunications Room", IV: null, VA: "Volt-Amperes", HFC: "Hydrofluorocarbon" },
+  23: { AC: "Access Control", AU: "Audit and Accountability", CM: "Configuration Management", SOC: "System and Organization Controls", MSA: "Master Service Agreement" },
+  25: { IR: null, CR: null, DR: null },
+  26: { PD: "Power Delivery" },
+  17: { SC: null, AZ: null }
 };
 const DIGIT_BASE = new Set(["DDR", "GDDR", "LPDDR", "SFP", "QSFP", "OM", "OS"]);
 const SMALL = new Set(["of", "and", "the", "for", "to", "in", "on", "a", "an", "&", "with", "over", "as", "by"]);

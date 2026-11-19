@@ -79,6 +79,9 @@ OMNI.register({
     { t: "scenario", sc: "A team stores scan reports in a cloud storage bucket. An auditor finds the bucket is readable by anyone on the internet, and nobody has noticed for months.", q: "Which vulnerability type is this, and what control helps most?", o: ["Zero-day; patch faster", "Cloud misconfiguration; cloud security posture management (CSPM) and least-privilege policies", "Supply chain; vendor assessment", "VM escape; hypervisor patching"], a: 1, w: ["No unknown software flaw here.", "Correct.", "No vendor was compromised.", "No hypervisor involved."], x: "Misconfiguration is the most common cloud vulnerability.", c: "S", d: "2.3 Types of vulnerabilities" }
   ],
   flashcards: [
+    ["Double extortion", "Encrypt data and threaten to leak stolen copies."],
+    ["Common social engineering pressures", "Urgency, authority, fear, greed or curiosity."],
+    ["Best response to a call asking for an MFA code", "Refuse; hang up and verify through a known number."],
     ["Nation-state clue", "APT, long-term stealth, espionage"],
     ["Hacktivist motive", "Ideology / political beliefs"],
     ["Shadow IT", "Unapproved tech used by staff"],

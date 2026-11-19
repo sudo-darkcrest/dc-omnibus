@@ -27,8 +27,8 @@ That's it. You don't need a server, a build step or an internet connection. Ever
 | Page | What it does |
 |---|---|
 | `index.html` | Home page: search everything, module cards by part, cert filter, your progress |
-| `module-01.html` … `module-27.html` | The 27 modules. Each has lessons, labs, key terms, memory aids, a quiz, flashcards and official links |
-| `module-24.html` | Study Hub: cert crosswalk, study plan generator, roadmap, practice exams, combined flashcards, exam-day tips |
+| `module-01.html` … `module-17.html` | The 27 modules. Each has lessons, labs, key terms, memory aids, a quiz, flashcards and official links |
+| `module-27.html` | Study Hub: cert crosswalk, study plan generator, roadmap, practice exams, combined flashcards, exam-day tips |
 | `glossary.html` | Every key term from every module, with a cert filter and A–Z jump |
 | `practice-exams.html` | Timed practice exams for every cert, scored by domain |
 | `flashcards.html` | One Leitner flashcard deck with every module's cards |
@@ -40,13 +40,15 @@ Folder layout:
 assets/omnibus.css   shared styles (light and dark mode, phone layout)
 assets/omnibus.js    shared engine: quiz, flashcards, glossary, labs helpers, progress
 assets/hub.js        study hub tools: exam engine, crosswalk, study plan, roadmap
-assets/labkit.js     reusable sorter and scenario-trainer labs (Modules 25–27)
+assets/labkit.js     reusable sorter and scenario-trainer labs (Modules 17, 19 and 21)
 assets/pcsim.js      whole-computer simulator (Module 4, Lab 5)
 data/catalog.js      list of modules, parts and certs (every page loads this first)
 data/mNN.js          one file per module: cert map, glossary, quiz, flashcards
 data/bank-*.js       extra practice exam questions (A+, Network+, Security+, DCCA, ITIL, CISM, CISA, AWS, AI, CySA+)
 data/search-index.js generated list of headings and labs (made by tools/build.js)
 tools/build.js       optional helper, see below
+tools/acronyms.js    spells out acronyms on first use (see below)
+legal.html           trademarks, copyright and disclaimers
 render.yaml          Render static site setup
 ```
 
@@ -73,13 +75,13 @@ It's a plain static site, so any static host works. Pick one.
 
 ## Add or change a module
 
-1. **Write the data.** Copy an existing `data/mNN.js` (for example `data/m23.js`) to the new number. Fill in `certmap`, `glossary` (each term is `[term, plain meaning, exact definition, expansion]`), `quiz` and `flashcards`.
+1. **Write the data.** Copy an existing `data/mNN.js` (for example `data/m26.js`) to the new number. Fill in `certmap`, `glossary` (each term is `[term, plain meaning, exact definition, expansion]`), `quiz` and `flashcards`.
    - Quiz questions look like `{ t: "mc", q: "...", o: [options], a: 1, w: [why each option], x: "explanation", c: "N", d: "2.3 Objective" }`.
    - `t` can be `mc` (one answer), `ms` (select all, `a` is a list) or `order` (list `o` in the correct order). Add `sc: "..."` for a scenario.
    - `c` is the cert key (`A1`, `A2`, `N`, `S`, `ITIL`, `DCCA`, `CISM`, `CISA` or `GEN`). The first number of `d` is the exam domain.
 2. **Write the page.** Copy an existing `module-NN.html`, change `data-module="NN"` on `<body>`, the text and the labs, and load `data/mNN.js`. Wrap each lab in `<div class="lab-card" id="lab-..." data-lab="short description"><h3>Lab title</h3> ... </div>` so it appears on the Labs page.
 3. **Add it to the catalog.** Add a line to `OMNI.catalog` in `data/catalog.js` with its number, part, color category, title, subtitle and certs.
-4. **Load it on the hub pages.** Add `<script src="data/mNN.js"></script>` to `index.html`, `module-24.html`, `glossary.html`, `practice-exams.html`, `flashcards.html` and `labs.html`.
+4. **Load it on the hub pages.** Add `<script src="data/mNN.js"></script>` to `index.html`, `module-27.html`, `glossary.html`, `practice-exams.html`, `flashcards.html` and `labs.html`.
 5. **Run the build helper** (needs Node.js):
 
    ```

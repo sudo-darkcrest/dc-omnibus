@@ -68,6 +68,9 @@ OMNI.register({
     { t: "mc", q: "Which NIST standard defines ML-KEM, the post-quantum key encapsulation mechanism?", o: ["FIPS 197", "FIPS 203", "FIPS 204", "FIPS 140-3"], a: 1, w: ["That's AES.", "Correct.", "ML-DSA signatures.", "Requirements for crypto modules."], x: "FIPS 203 ML-KEM, 204 ML-DSA, 205 SLH-DSA (all August 2024).", c: "S", d: "1.4 Cryptographic solutions" }
   ],
   flashcards: [
+    ["Tool to prove a file wasn't changed", "A hash (for example SHA-256)."],
+    ["Digital signature uses", "A hash plus the sender's private key."],
+    ["Privilege creep", "Leftover access that builds up as people change jobs."],
     ["CIA", "Confidentiality, Integrity, Availability"],
     ["AAA", "Authentication, Authorization, Accounting"],
     ["Control categories (4)", "Technical, managerial, operational, physical"],

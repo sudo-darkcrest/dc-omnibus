@@ -84,6 +84,9 @@ OMNI.register({
       x: "Standard users must enter admin credentials instead of just consenting.", c: "A2", d: "2.0" }
   ],
   flashcards: [
+    ["Repair Windows system files", "sfc /scannow"],
+    ["Linux command to run as administrator", "sudo"],
+    ["Risk of an OS past end of support", "No more security patches."],
     ["Kernel vs user mode", "Kernel: full hardware access (OS core, drivers). User: restricted apps that use system calls."],
     ["Page fault", "Access to a virtual page not in RAM; OS loads it from disk."],
     ["Task Manager shortcut", "Ctrl+Shift+Esc"],

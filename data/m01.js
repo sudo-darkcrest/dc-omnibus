@@ -60,7 +60,7 @@ OMNI.register({
       x: "You can pass the CISM or CISA exam first, then apply for the credential once you have the experience.", c: "CISM", d: "1" },
     { t: "mc", q: "In the 'follow a click' path, which device swaps your private home IP address for a public one?", o: ["The mouse", "The network card", "The home router (NAT)", "The web server"], a: 2,
       w: ["The mouse only sends input events.", "The NIC frames and transmits but does not translate addresses.", "Correct: the router performs NAT/PAT.", "The server only sees the public address."],
-      x: "Network Address Translation is covered in Modules 10 and 12.", c: "N", d: "1.7" },
+      x: "Network Address Translation is covered in Module 10 and 12.", c: "N", d: "1.7" },
     { t: "mc", q: "Which study technique is MOST effective for long-term memory of port numbers?", o: ["Re-reading the port table every night", "Highlighting the table", "Spaced-repetition flashcards with active recall", "Watching a video at double speed"], a: 2,
       w: ["Re-reading feels familiar but builds weak recall.", "Highlighting is passive.", "Correct: retrieving at spaced intervals builds durable memory.", "Passive and fast: little retention."],
       x: "Active recall plus spacing beats passive review in learning research.", c: "GEN", d: "0" },
@@ -69,9 +69,12 @@ OMNI.register({
       x: "Security+ lists shadow IT as a threat actor/vector because it bypasses security controls.", c: "S", d: "2.1" },
     { t: "ms", q: "Which of these are part of the 'people and processes' layer? (Select all that apply.)", o: ["Change management", "Security awareness training", "Fiber optic cable", "IT audit"], a: [0, 1, 3],
       w: ["Correct: a process (ITIL change enablement).", "Correct: aimed at people.", "Fiber is physical media, near the bottom of the stack.", "Correct: audit checks that processes and controls work."],
-      x: "Modules 19 to 22 focus on this layer.", c: "GEN", d: "0" }
+      x: "Modules 22 to 25 focus on this layer.", c: "GEN", d: "0" }
   ],
   flashcards: [
+    ["Split-half troubleshooting", "Ask questions that rule out a big chunk of causes at once (for example: does it work for a colleague?)."],
+    ["Five-sentence write-up", "Problem, cause, fix, proof it works, how to prevent it."],
+    ["Why ethics matters in IT", "IT staff have privileged access to data; use it only for the job and report issues honestly."],
     ["IT vs computer science?", "IT applies and runs technology for users and organizations. CS studies computation: algorithms, data structures, theory."],
     ["What is OT?", "Operational technology: hardware and software that monitors and controls physical processes (PLCs, SCADA, BMS)."],
     ["The 10 layers, bottom to top", "Physics/electricity, electronics/chips, hardware, firmware, OS, applications, networks, internet/cloud, data/services, people/processes."],
