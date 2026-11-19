@@ -432,7 +432,12 @@
     root.addEventListener("dragleave", function (e) { var z = e.target.closest && e.target.closest(".dropzone"); if (z) z.classList.remove("over"); });
     root.addEventListener("drop", function (e) { var z = e.target.closest && e.target.closest(".dropzone"); if (!z || !picked) return; e.preventDefault(); z.classList.remove("over"); place(picked, z); });
     root.addEventListener("click", function (e) {
-      var c = e.target.closest(".chip"); if (c && root.contains(c)) { pick(picked === c ? null : c); e.stopPropagation(); return; }
+      var c = e.target.closest(".chip");
+      if (c && root.contains(c)) {
+        var cz = c.closest(".dropzone");
+        if (picked && picked !== c && cz && picked.closest(".dropzone") !== cz) { place(picked, cz); e.stopPropagation(); return; }
+        pick(picked === c ? null : c); e.stopPropagation(); return;
+      }
       var z = e.target.closest(".dropzone"); if (z && picked) place(picked, z);
     });
     root.addEventListener("keydown", function (e) {

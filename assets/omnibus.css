@@ -289,3 +289,7 @@ footer.foot { text-align: center; color: var(--ink-2); font-size: .85rem; paddin
 /* long unbreakable strings (IPv6, URLs, hex) must not widen the page on phones */
 p, li, dd, .caption { overflow-wrap: break-word; }
 code, .qtext, .kv span, .opt, .q label { overflow-wrap: anywhere; }
+.kv { display: grid; grid-template-columns: max-content 1fr; gap: 4px 14px; font-family: var(--mono); font-size: .92rem; }
+.kv b { font-family: var(--sans); }
+@media (max-width: 700px) { .kv { grid-template-columns: 1fr; gap: 0 0; } .kv span { margin-bottom: 6px; } }
+.q .qhead .tag { white-space: normal; max-width: 100%; }
