@@ -39,7 +39,7 @@ OMNI.register({
     ["Explainability", "Being able to say why the AI gave an answer.", "The degree to which a model's outputs can be understood and justified to humans.", ""],
     ["GPU", "The chip that does AI's massive parallel maths.", "Graphics processing unit; thousands of cores and high-bandwidth memory make it the main AI training and inference accelerator.", "Graphics Processing Unit"],
     ["NIST AI RMF", "US framework for managing AI risks.", "NIST AI Risk Management Framework 1.0 (2023): Govern, Map, Measure, Manage.", ""],
-    ["EU AI Act", "Europe's AI law based on risk levels.", "EU regulation (in force August 2024, phased in to 2026–27) classifying AI as unacceptable, high, limited or minimal risk.", ""],
+    ["EU AI Act", "Europe's AI law based on risk levels.", "EU regulation (in force August 2024; bans from February 2025, most rules from August 2026, high-risk rules delayed to December 2027 and August 2028 by the 2026 AI Omnibus) classifying AI as unacceptable, high, limited or minimal risk.", ""],
     ["ISO/IEC 42001", "The management-system standard for AI.", "International standard (2023) for an AI management system (AIMS), certifiable like ISO 27001.", ""]
   ],
   quiz: [

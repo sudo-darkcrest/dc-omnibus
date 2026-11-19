@@ -3,7 +3,7 @@ OMNI.register({
   certmap: [
     {"c": "CIPP", "o": "Privacy concepts, laws and regulators, applying the law (CIPP/E and CIPP/US)"},
     {"c": "CIPM", "o": "Privacy program governance and operations"},
-    {"c": "CDPSE", "o": "1 Privacy Governance, 2 Privacy Architecture, 3 Data Lifecycle"}
+    {"c": "CDPSE", "o": "120 questions: 1 Privacy Governance 20%, 2 Privacy Risk Management and Compliance 18%, 3 Data Life Cycle Management 23%, 4 Privacy Engineering 39%"}
   ],
   glossary: [
     ["Personal data", "Information about an identifiable person.", "Any information relating to an identified or identifiable natural person.", "PII"],
@@ -32,7 +32,7 @@ OMNI.register({
     {"t": "mc", "q": "When is a DPIA required under GDPR?", "o": ["Only after a breach", "Never", "When processing is likely to result in high risk to individuals", "For every email"], "a": 2, "x": "For example large-scale monitoring or sensitive data.", "c": "CIPM", "d": "2"},
     {"t": "mc", "q": "Pseudonymised data is best described as what?", "o": ["Still personal data, because it can be re-identified with the key", "Encrypted data", "Not covered by any law", "Fully anonymous"], "a": 0, "x": "Keep the key separate and protected.", "c": "CDPSE", "d": "3"},
     {"t": "mc", "q": "Which principle means collecting only what the purpose needs?", "o": ["Data minimisation", "Portability", "Accuracy", "Accountability"], "a": 0, "x": "Less data means less risk.", "c": "CDPSE", "d": "1"},
-    {"t": "mc", "q": "Which privacy-by-design principle says privacy should be on without the user doing anything?", "o": ["Positive-sum", "End-to-end security", "Privacy as the default setting", "Visibility and transparency"], "a": 2, "x": "Defaults matter because most people never change them.", "c": "CDPSE", "d": "2"},
+    {"t": "mc", "q": "Which privacy-by-design principle says privacy should be on without the user doing anything?", "o": ["Positive-sum", "End-to-end security", "Privacy as the default setting", "Visibility and transparency"], "a": 2, "x": "Defaults matter because most people never change them.", "c": "CDPSE", "d": "4"},
     {"t": "ms", "q": "Which TWO are rights under the GDPR? (Choose two.)", "o": ["Right to data portability", "Right to free products", "Right to erasure", "Right to see other customers' data"], "a": [0, 2], "x": "Also access, rectification, restriction, objection and more.", "c": "CIPP", "d": "3"}
   ],
   flashcards: [

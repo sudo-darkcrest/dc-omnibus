@@ -1,7 +1,7 @@
 OMNI.register({
   n: 15,
   certmap: [
-    {"c": "CCNPS", "o": "SCOR 350-701: 1 Security Concepts, 2 Network Security, 3 Securing the Cloud, 4 Content Security, 5 Endpoint Protection and Detection, 6 Secure Network Access, Visibility and Enforcement"},
+    {"c": "CCNPS", "o": "SCOR 350-701 v2.0: 1 Security Concepts, 2 Network Security, 3 Cloud Security, 4 Secure Service Edge, 5 Endpoint Protection and Detection, 6 Network Access, Visibility and Enforcement"},
     {"c": "CCNA", "o": "200-301: 5 Security Fundamentals and 6 Automation, extended"},
     {"c": "GEN", "o": "Background for CCNP Enterprise (ENCOR 350-401) and the CCIE lab exams."}
   ],

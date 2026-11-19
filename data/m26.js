@@ -2,7 +2,7 @@ OMNI.register({
   n: 26,
   certmap: [
     {"c": "SAA", "o": "SAA-C03: 1 Secure, 2 Resilient, 3 High-Performing, 4 Cost-Optimized architectures"},
-    {"c": "DVA", "o": "DVA-C02: 1 Development, 2 Security, 3 Deployment, 4 Troubleshooting and Optimization"},
+    {"c": "DVA", "o": "DVA-C03: 1 Development with AWS Services, 2 Security, 3 Testing and Deployment, 4 Troubleshooting and Optimization"},
     {"c": "SCS", "o": "Security Specialty: detection and response, logging, infrastructure security, IAM, data protection, governance"}
   ],
   glossary: [
