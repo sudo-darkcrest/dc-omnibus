@@ -24,14 +24,14 @@
 <section class="intro">
   <div class="kicker">Part 4 · Security, Cloud and the Data Center · Module 14</div>
   <h1>Security Foundations and Cryptography</h1>
-  <p class="why"><b>Why this matters.</b> Every security decision traces back to a few principles (confidentiality, integrity, availability, least privilege, zero trust) and a toolbox of controls and cryptography. Security+ Domain 1 (General Security Concepts) is built on exactly this, and the same ideas reappear in CISM and CISA as governance. The labs here use your browser's real Web Crypto engine.</p>
+  <p class="why"><b>Why this matters.</b> Every security decision traces back to a few principles (confidentiality, integrity, availability, least privilege, zero trust) and a toolbox of controls and cryptography. Security+ Domain 1 (General Security Concepts) is built on exactly this, and the same ideas reappear in CISM (Certified Information Security Manager) and CISA (Certified Information Systems Auditor) as governance. The labs here use your browser's real Web Crypto engine.</p>
   <h3>You will be able to</h3>
   <ul class="outcomes">
-    <li>Apply CIA, AAA, non-repudiation, least privilege, defense in depth and zero trust.</li>
+    <li>Apply CIA, AAA (Authentication, Authorization, Accounting), non-repudiation, least privilege, defense in depth and zero trust.</li>
     <li>Classify controls by category (technical, managerial, operational, physical) and type (preventive, detective…).</li>
-    <li>Explain MFA, SSO, SAML, OAuth 2.0, OIDC, Kerberos, RADIUS/TACACS+ and access control models.</li>
+    <li>Explain MFA (Multifactor Authentication), SSO (Single Sign-On), SAML (Security Assertion Markup Language), OAuth 2.0, OIDC (OpenID Connect), Kerberos, RADIUS/TACACS (RADIUS: Remote Authentication Dial-In User Service; TACACS: Terminal Access Controller Access-Control System)+ and access control models.</li>
     <li>Choose symmetric vs asymmetric crypto, hashing, salting and key stretching correctly.</li>
-    <li>Follow a certificate chain and a TLS 1.3 handshake, and explain where post-quantum crypto stands.</li>
+    <li>Follow a certificate chain and a TLS (Transport Layer Security) 1.3 handshake, and explain where post-quantum crypto stands.</li>
   </ul>
   <nav class="jumpnav" id="jumpnav" aria-label="On this page"></nav>
 </section>
@@ -54,14 +54,14 @@
     <li><b>Least privilege</b>: minimum access needed; <b>defense in depth</b>: layered controls so one failure isn't fatal.</li>
     <li><b>Zero trust</b>: "never trust, always verify." No implicit trust from network location. The <b>control plane</b> decides (policy engine, policy administrator; adaptive identity, threat scope reduction); the <b>data plane</b> enforces through a <b>policy enforcement point</b> (PEP) in front of each resource; implicit trust zones disappear.</li>
     <li><b>Gap analysis</b>: compare the current state with a target framework to find missing controls.</li>
-    <li><b>Deception</b>: <b>honeypot</b> (fake system), <b>honeynet</b> (fake network), <b>honeyfile</b>, <b>honeytoken</b> (fake credential or record that alerts when used), DNS sinkholes.</li>
+    <li><b>Deception</b>: <b>honeypot</b> (fake system), <b>honeynet</b> (fake network), <b>honeyfile</b>, <b>honeytoken</b> (fake credential or record that alerts when used), DNS (Domain Name System) sinkholes.</li>
     <li><b>Physical security basics</b>: bollards, fencing, lighting, access badges, guards, cameras, access control vestibules (mantraps), sensors (infrared, pressure, microwave, ultrasonic).</li>
   </ul>
   <h3>Control categories and types</h3>
   <div class="tablewrap"><table>
     <thead><tr><th>Category</th><th>Meaning</th><th>Examples</th></tr></thead>
     <tbody>
-      <tr><td><b>Technical</b></td><td>Implemented by systems</td><td>Firewalls, encryption, MFA, EDR</td></tr>
+      <tr><td><b>Technical</b></td><td>Implemented by systems</td><td>Firewalls, encryption, MFA, EDR (Endpoint Detection and Response)</td></tr>
       <tr><td><b>Managerial</b></td><td>Administrative: policy and oversight</td><td>Risk assessments, policies, security planning</td></tr>
       <tr><td><b>Operational</b></td><td>Done by people day to day</td><td>Awareness training, guards, change management</td></tr>
       <tr><td><b>Physical</b></td><td>Tangible barriers</td><td>Locks, fences, bollards, cameras</td></tr>
@@ -72,7 +72,7 @@
     <tbody>
       <tr><td><b>Preventive</b></td><td>Stop it happening</td><td>Firewall rule, door lock</td></tr>
       <tr><td><b>Deterrent</b></td><td>Discourage the attempt</td><td>Warning sign, visible camera</td></tr>
-      <tr><td><b>Detective</b></td><td>Notice it happening</td><td>IDS, log review, motion sensor</td></tr>
+      <tr><td><b>Detective</b></td><td>Notice it happening</td><td>IDS (Intrusion Detection System), log review, motion sensor</td></tr>
       <tr><td><b>Corrective</b></td><td>Fix after the event</td><td>Restore from backup, patch</td></tr>
       <tr><td><b>Compensating</b></td><td>Alternative when the primary isn't possible</td><td>Isolate a legacy system that can't be patched</td></tr>
       <tr><td><b>Directive</b></td><td>Tell people what to do</td><td>Policy, "authorized personnel only" sign</td></tr>
@@ -85,34 +85,34 @@
   <div class="tablewrap"><table>
     <thead><tr><th>Factor</th><th>Something…</th><th>Examples</th></tr></thead>
     <tbody>
-      <tr><td>Knowledge</td><td>you know</td><td>Password, PIN</td></tr>
+      <tr><td>Knowledge</td><td>you know</td><td>Password, PIN (Personal Identification Number)</td></tr>
       <tr><td>Possession</td><td>you have</td><td>Phone authenticator, hardware key, smart card</td></tr>
       <tr><td>Inherence</td><td>you are</td><td>Fingerprint, face</td></tr>
-      <tr><td>Location</td><td>somewhere you are</td><td>GPS, IP geolocation</td></tr>
+      <tr><td>Location</td><td>somewhere you are</td><td>GPS (Global Positioning System), IP (Internet Protocol) geolocation</td></tr>
     </tbody>
   </table></div>
-  <p><b>MFA</b> combines different factor types (two passwords is not MFA). Phishing-resistant MFA uses FIDO2/WebAuthn: <b>passkeys</b> store a private key on your device; the server keeps only the public key, and the browser binds it to the real site's domain. Password best practice (NIST SP 800-63B): long passphrases, check against breached lists, no forced periodic changes without cause, no composition rules, and use a password manager.</p>
+  <p><b>MFA</b> combines different factor types (two passwords is not MFA). Phishing-resistant MFA uses FIDO2/WebAuthn (FIDO2: Fast Identity Online 2): <b>passkeys</b> store a private key on your device; the server keeps only the public key, and the browser binds it to the real site's domain. Password best practice (NIST (National Institute of Standards and Technology) SP (Special Publication) 800-63B): long passphrases, check against breached lists, no forced periodic changes without cause, no composition rules, and use a password manager.</p>
   <div class="tablewrap"><table>
     <thead><tr><th>Protocol</th><th>Does what</th><th>Notes</th></tr></thead>
     <tbody>
       <tr><td><b>SSO</b></td><td>One login for many apps</td><td>Implemented with SAML, OIDC or Kerberos</td></tr>
-      <tr><td><b>SAML 2.0</b></td><td>Federated authentication via XML assertions</td><td>Identity provider (IdP) vouches for the user to a service provider (SP); enterprise web SSO</td></tr>
+      <tr><td><b>SAML 2.0</b></td><td>Federated authentication via XML (Extensible Markup Language) assertions</td><td>Identity provider (IdP) vouches for the user to a service provider (SP); enterprise web SSO</td></tr>
       <tr><td><b>OAuth 2.0</b></td><td><b>Authorization</b>: delegated access with tokens</td><td>"Let this app read my calendar" without sharing your password</td></tr>
-      <tr><td><b>OpenID Connect</b></td><td><b>Authentication</b> layer on top of OAuth 2.0</td><td>ID token (JWT); "Sign in with…" buttons</td></tr>
-      <tr><td><b>Kerberos</b></td><td>Ticket-based authentication</td><td>Active Directory; KDC issues a TGT then service tickets; needs time sync; UDP/TCP 88</td></tr>
-      <tr><td><b>LDAP / LDAPS</b></td><td>Directory queries</td><td>389 / 636</td></tr>
-      <tr><td><b>RADIUS</b></td><td>AAA for network access</td><td>UDP 1812/1813; encrypts only the password; Wi-Fi 802.1X, VPN</td></tr>
+      <tr><td><b>OpenID Connect</b></td><td><b>Authentication</b> layer on top of OAuth 2.0</td><td>ID (Identification) token (JWT); "Sign in with…" buttons</td></tr>
+      <tr><td><b>Kerberos</b></td><td>Ticket-based authentication</td><td>Active Directory; KDC (Key Distribution Center) issues a TGT (Ticket-Granting Ticket) then service tickets; needs time sync; UDP/TCP (UDP: User Datagram Protocol; TCP: Transmission Control Protocol) 88</td></tr>
+      <tr><td><b>LDAP (Lightweight Directory Access Protocol) / LDAPS (Lightweight Directory Access Protocol Secure)</b></td><td>Directory queries</td><td>389 / 636</td></tr>
+      <tr><td><b>RADIUS</b></td><td>AAA for network access</td><td>UDP 1812/1813; encrypts only the password; Wi-Fi 802.1X, VPN (Virtual Private Network)</td></tr>
       <tr><td><b>TACACS+</b></td><td>AAA for device administration</td><td>TCP 49; encrypts the whole payload; separates authN, authZ and accounting; per-command authorization</td></tr>
     </tbody>
   </table></div>
   <div class="tablewrap"><table>
     <thead><tr><th>Access model</th><th>Who decides</th><th>Example</th></tr></thead>
     <tbody>
-      <tr><td><b>DAC</b> (discretionary)</td><td>The owner</td><td>Sharing your own file</td></tr>
-      <tr><td><b>MAC</b> (mandatory)</td><td>System labels and clearances</td><td>Top Secret data, SELinux</td></tr>
-      <tr><td><b>RBAC</b> (role-based)</td><td>Job role</td><td>"Nurse" role can read charts</td></tr>
-      <tr><td><b>ABAC</b> (attribute-based)</td><td>Attributes of user, resource, environment</td><td>Allow if department = finance AND device compliant AND 9-to-5</td></tr>
-      <tr><td><b>Rule-based</b></td><td>Admin-defined rules for everyone</td><td>Firewall ACL, time-of-day rules</td></tr>
+      <tr><td><b>DAC (Discretionary Access Control)</b> (discretionary)</td><td>The owner</td><td>Sharing your own file</td></tr>
+      <tr><td><b>MAC (Mandatory Access Control)</b> (mandatory)</td><td>System labels and clearances</td><td>Top Secret data, SELinux</td></tr>
+      <tr><td><b>RBAC (Role-Based Access Control)</b> (role-based)</td><td>Job role</td><td>"Nurse" role can read charts</td></tr>
+      <tr><td><b>ABAC (Attribute-Based Access Control)</b> (attribute-based)</td><td>Attributes of user, resource, environment</td><td>Allow if department = finance AND device compliant AND 9-to-5</td></tr>
+      <tr><td><b>Rule-based</b></td><td>Admin-defined rules for everyone</td><td>Firewall ACL (Access Control List), time-of-day rules</td></tr>
     </tbody>
   </table></div>
   <p><b>PAM</b> (privileged access management) vaults admin credentials, rotates them, records sessions and grants <b>just-in-time</b> (temporary) elevation instead of standing admin rights. Account lifecycle: provisioning, regular access reviews (attestation), and prompt deprovisioning.</p>
@@ -121,13 +121,13 @@
 <section class="lesson" id="crypto">
   <h2>3. Cryptography essentials</h2>
   <div class="grid2">
-    <div class="tile"><h4>Symmetric</h4><p>One shared key encrypts and decrypts. Fast, for bulk data.</p><ul><li><b>AES</b> (128/192/256-bit keys), modes: <b>GCM</b> (authenticated, preferred), CBC (older).</li><li><b>ChaCha20-Poly1305</b>: fast in software and on phones.</li><li>Problem: securely sharing the key, and n(n−1)/2 keys for n people.</li><li>Legacy/broken: DES, 3DES, RC4.</li></ul></div>
-    <div class="tile"><h4>Asymmetric (public key)</h4><p>A key pair: public key shared, private key kept secret. Slow; used for key exchange and signatures.</p><ul><li><b>RSA</b> (2048-bit minimum; 3072+ recommended).</li><li><b>ECC</b> (256-bit ECC ≈ 3072-bit RSA strength): ECDSA, Ed25519.</li><li><b>Diffie-Hellman / ECDHE</b>: agree on a shared secret over an open channel; ephemeral keys give <b>perfect forward secrecy</b>.</li></ul></div>
+    <div class="tile"><h4>Symmetric</h4><p>One shared key encrypts and decrypts. Fast, for bulk data.</p><ul><li><b>AES (Advanced Encryption Standard)</b> (128/192/256-bit keys), modes: <b>GCM (Galois/Counter Mode)</b> (authenticated, preferred), CBC (Cipher Block Chaining; older).</li><li><b>ChaCha20-Poly1305</b>: fast in software and on phones.</li><li>Problem: securely sharing the key, and n(n−1)/2 keys for n people.</li><li>Legacy/broken: DES (Data Encryption Standard), 3DES, RC4.</li></ul></div>
+    <div class="tile"><h4>Asymmetric (public key)</h4><p>A key pair: public key shared, private key kept secret. Slow; used for key exchange and signatures.</p><ul><li><b>RSA (Rivest-Shamir-Adleman)</b> (2048-bit minimum; 3072+ recommended).</li><li><b>ECC (Elliptic Curve Cryptography)</b> (256-bit ECC ≈ 3072-bit RSA strength): ECDSA (Elliptic Curve Digital Signature Algorithm), Ed25519.</li><li><b>Diffie-Hellman / ECDHE (Elliptic Curve Diffie-Hellman Ephemeral)</b>: agree on a shared secret over an open channel; ephemeral keys give <b>perfect forward secrecy</b>.</li></ul></div>
   </div>
   <div class="callout analogy">Asymmetric encryption is a mailbox: anyone can drop a letter through the slot (public key), only the owner has the key to open it (private key). A digital signature is a wax seal only you can make, which anyone can check against your known seal design.</div>
   <h3>Hashing, salting and key stretching</h3>
-  <p>A <dfn>hash</dfn> is a one-way, fixed-length fingerprint: the same input always gives the same output, and a tiny change flips about half the bits (the <b>avalanche effect</b>). Use <b>SHA-256/SHA-384</b> (SHA-2) or <b>SHA-3</b>. <b>MD5</b> and <b>SHA-1</b> are broken: attackers can create <b>collisions</b> (two inputs with the same hash). <b>HMAC</b> combines a hash with a secret key to prove integrity and authenticity.</p>
-  <p>Passwords are stored as <b>salted, stretched</b> hashes: a random <b>salt</b> per user defeats rainbow tables and makes identical passwords look different; <b>key stretching</b> (<b>PBKDF2</b>, <b>bcrypt</b>, <b>scrypt</b>, <b>Argon2</b>) makes each guess slow.</p>
+  <p>A <dfn>hash</dfn> is a one-way, fixed-length fingerprint: the same input always gives the same output, and a tiny change flips about half the bits (the <b>avalanche effect</b>). Use <b>SHA-256/SHA-384 (SHA: Secure Hash Algorithm)</b> (SHA-2) or <b>SHA-3</b>. <b>MD5 (Message Digest 5)</b> and <b>SHA-1</b> are broken: attackers can create <b>collisions</b> (two inputs with the same hash). <b>HMAC (Hash-based Message Authentication Code)</b> combines a hash with a secret key to prove integrity and authenticity.</p>
+  <p>Passwords are stored as <b>salted, stretched</b> hashes: a random <b>salt</b> per user defeats rainbow tables and makes identical passwords look different; <b>key stretching</b> (<b>PBKDF2 (Password-Based Key Derivation Function 2)</b>, <b>bcrypt</b>, <b>scrypt</b>, <b>Argon2</b>) makes each guess slow.</p>
   <h3>Digital signatures</h3>
   <p>The sender hashes the message and encrypts the hash with their <b>private key</b>. Anyone decrypts it with the sender's <b>public key</b> and compares it to their own hash of the message. A match proves integrity, authenticity and non-repudiation.</p>
 </section>
@@ -139,7 +139,7 @@
     <thead><tr><th>Term</th><th>Meaning</th></tr></thead>
     <tbody>
       <tr><td><b>CRL</b></td><td>Certificate Revocation List published by the CA.</td></tr>
-      <tr><td><b>OCSP</b> / <b>OCSP stapling</b></td><td>Real-time revocation check; stapling lets the server attach a fresh signed OCSP response, so clients don't query the CA.</td></tr>
+      <tr><td><b>OCSP (Online Certificate Status Protocol)</b> / <b>OCSP stapling</b></td><td>Real-time revocation check; stapling lets the server attach a fresh signed OCSP response, so clients don't query the CA.</td></tr>
       <tr><td><b>Pinning</b></td><td>An app accepts only a specific certificate or key (now mostly used in mobile apps).</td></tr>
       <tr><td><b>Wildcard</b></td><td>*.example.com covers one level of subdomains.</td></tr>
       <tr><td><b>SAN</b></td><td>Subject Alternative Name: one cert lists many names.</td></tr>
@@ -153,8 +153,8 @@
     <thead><tr><th>&nbsp;</th><th>TLS 1.2</th><th>TLS 1.3 (RFC 8446)</th></tr></thead>
     <tbody>
       <tr><td>Handshake round trips</td><td>2</td><td>1 (0-RTT resumption optional, with replay risk)</td></tr>
-      <tr><td>Key exchange</td><td>RSA or (EC)DHE</td><td>Only ephemeral (EC)DHE: forward secrecy always</td></tr>
-      <tr><td>Ciphers</td><td>Many, some weak (CBC, RC4, SHA-1)</td><td>Five AEAD suites (AES-GCM, ChaCha20-Poly1305)</td></tr>
+      <tr><td>Key exchange</td><td>RSA or (EC)DHE (Diffie-Hellman Ephemeral)</td><td>Only ephemeral (EC)DHE: forward secrecy always</td></tr>
+      <tr><td>Ciphers</td><td>Many, some weak (CBC, RC4, SHA-1)</td><td>Five AEAD (Authenticated Encryption with Associated Data) suites (AES-GCM (Galois/Counter Mode), ChaCha20-Poly1305)</td></tr>
       <tr><td>Certificate</td><td>Sent in cleartext</td><td>Encrypted</td></tr>
     </tbody>
   </table></div>
@@ -163,14 +163,14 @@
 <section class="lesson" id="datastates">
   <h2>5. Protecting data and keys</h2>
   <ul>
-    <li><b>Data states</b>: <b>at rest</b> (disk encryption, database TDE), <b>in transit</b> (TLS, IPsec, SSH), <b>in use</b> (memory; protected by secure enclaves and confidential computing).</li>
-    <li><b>Full-disk encryption</b> (BitLocker, FileVault, LUKS), partition, file, volume, database and record-level encryption.</li>
-    <li><b>TPM</b>: chip in a computer that stores keys and measures boot integrity. <b>HSM</b>: hardened appliance or cloud service for high-value keys (CAs, payments). <b>Secure enclave</b>: isolated processor area. <b>KMS</b>: key management service.</li>
+    <li><b>Data states</b>: <b>at rest</b> (disk encryption, database TDE (Transparent Data Encryption)), <b>in transit</b> (TLS, IPsec (Internet Protocol Security), SSH (Secure Shell)), <b>in use</b> (memory; protected by secure enclaves and confidential computing).</li>
+    <li><b>Full-disk encryption</b> (BitLocker, FileVault, LUKS (Linux Unified Key Setup)), partition, file, volume, database and record-level encryption.</li>
+    <li><b>TPM (Trusted Platform Module)</b>: chip in a computer that stores keys and measures boot integrity. <b>HSM (Hardware Security Module)</b>: hardened appliance or cloud service for high-value keys (CAs, payments). <b>Secure enclave</b>: isolated processor area. <b>KMS</b>: key management service.</li>
     <li><b>Obfuscation</b>: <b>steganography</b> (hide data inside images/audio), <b>tokenization</b> (replace a card number with a random token; the mapping lives in a vault), <b>data masking</b> (show ****1234).</li>
     <li><b>Blockchain</b>: an append-only, distributed ledger where each block contains the previous block's hash; an <b>open public ledger</b>.</li>
   </ul>
   <h3>Post-quantum cryptography</h3>
-  <p>A large quantum computer running Shor's algorithm would break RSA, Diffie-Hellman and ECC. Symmetric crypto and hashes are much less affected (use AES-256, SHA-384+). NIST published its first PQC standards in August 2024: <b>FIPS 203 ML-KEM</b> (Kyber, key encapsulation), <b>FIPS 204 ML-DSA</b> (Dilithium, signatures) and <b>FIPS 205 SLH-DSA</b> (SPHINCS+, hash-based signatures). FN-DSA (Falcon) is being standardized as FIPS 206, and HQC was selected in 2025 as a backup KEM. "Harvest now, decrypt later" is why organizations are inventorying crypto and adopting <b>hybrid</b> key exchange (classical + ML-KEM) today. Check NIST for the latest status.</p>
+  <p>A large quantum computer running Shor's algorithm would break RSA, Diffie-Hellman and ECC. Symmetric crypto and hashes are much less affected (use AES-256, SHA-384+). NIST published its first PQC standards in August 2024: <b>FIPS (Federal Information Processing Standards) 203 ML-KEM (Module-Lattice-based Key Encapsulation Mechanism)</b> (Kyber, key encapsulation), <b>FIPS 204 ML-DSA (Module-Lattice-based Digital Signature Algorithm)</b> (Dilithium, signatures) and <b>FIPS 205 SLH-DSA (Stateless Hash-based Digital Signature Algorithm)</b> (SPHINCS+, hash-based signatures). FN-DSA (Fast-Fourier Lattice-based Digital Signature Algorithm; Falcon) is being standardized as FIPS 206, and HQC (Hamming Quasi-Cyclic) was selected in 2025 as a backup KEM (Key Encapsulation Mechanism). "Harvest now, decrypt later" is why organizations are inventorying crypto and adopting <b>hybrid</b> key exchange (classical + ML-KEM) today. Check NIST for the latest status.</p>
 </section>
 
 <section class="lab" id="labs">

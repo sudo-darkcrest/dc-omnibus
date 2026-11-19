@@ -15,13 +15,13 @@
 <section class="intro">
   <div class="kicker">Part 1 · Foundations · Module 03</div>
   <h1>How We Got Here: A History of Computing, Networking and the Internet</h1>
-  <p class="why"><b>Why this matters.</b> Today's technology is a stack of old decisions. IPv4 addresses run out because of a choice made in 1981. The Ethernet frame still carries fields from 1980. Passwords are hashed because of breaches in the 1980s and 2010s. Knowing the history explains why things are the way they are, makes odd exam facts memorable, and shows you where the next changes are likely to come from.</p>
+  <p class="why"><b>Why this matters.</b> Today's technology is a stack of old decisions. IPv4 (Internet Protocol version 4) addresses run out because of a choice made in 1981. The Ethernet frame still carries fields from 1980. Passwords are hashed because of breaches in the 1980s and 2010s. Knowing the history explains why things are the way they are, makes odd exam facts memorable, and shows you where the next changes are likely to come from.</p>
   <h3>You will be able to</h3>
   <ul class="outcomes">
     <li>Place the key inventions in computing, networking and storage on a timeline with the people and organizations behind them.</li>
     <li>Explain the generations of computers: relays and vacuum tubes, transistors, integrated circuits and microprocessors.</li>
     <li>Explain Moore's law and Dennard scaling, and where they stand today.</li>
-    <li>Describe how ARPANET became the internet and how the web, Wi-Fi and broadband followed.</li>
+    <li>Describe how ARPANET (Advanced Research Projects Agency Network) became the internet and how the web, Wi-Fi and broadband followed.</li>
     <li>Connect famous security incidents to the practices and laws they changed.</li>
     <li>Name the main standards bodies and roughly when each was formed.</li>
   </ul>
@@ -30,7 +30,7 @@
 
 <section class="certmap" id="certmap">
   <h2>Cert map</h2>
-  <p>History is rarely tested directly, but it explains many tested facts (why IPv6 exists, why MD5 is broken, why FAT32 has a 4 GiB file limit).</p>
+  <p>History is rarely tested directly, but it explains many tested facts (why IPv6 (Internet Protocol version 6) exists, why MD5 (Message Digest 5) is broken, why FAT32 has a 4 GiB file limit).</p>
   <div id="certmap-badges"></div>
 </section>
 
@@ -54,7 +54,7 @@
       <tr><td>Switching circuits</td><td>Claude Shannon, 1937 master's thesis</td><td>Showed relay circuits can implement Boolean algebra, so circuits can compute.</td></tr>
       <tr><td>Turing machine</td><td>Alan Turing, 1936</td><td>A mathematical model of computation. Anything computable can be computed by it; "Turing complete" languages can compute anything computable.</td></tr>
       <tr><td>Information theory</td><td>Claude Shannon, 1948</td><td>Defined the bit as a unit of information and the maximum error-free rate of a noisy channel (the Shannon limit). Every modem, Wi-Fi radio and fiber link is designed against it.</td></tr>
-      <tr><td>Stored-program (von Neumann) architecture</td><td>John von Neumann, "First Draft of a Report on the EDVAC", 1945 (building on Eckert, Mauchly and others)</td><td>Instructions and data share one memory. Nearly every computer still follows this model (Module 4).</td></tr>
+      <tr><td>Stored-program (von Neumann) architecture</td><td>John von Neumann, "First Draft of a Report on the EDVAC (Electronic Discrete Variable Automatic Computer)", 1945 (building on Eckert, Mauchly and others)</td><td>Instructions and data share one memory. Nearly every computer still follows this model (Module 4).</td></tr>
     </tbody>
   </table></div>
 </section>
@@ -62,22 +62,22 @@
 <section class="lesson" id="generations">
   <h2>3. Generations of computers</h2>
   <h3>Relays and vacuum tubes (1940s to 1950s)</h3>
-  <p>Early machines switched with electromechanical <b>relays</b> (Zuse Z3, 1941; Harvard Mark I, 1944) or <b>vacuum tubes</b>, glass bulbs that could switch current with no moving parts but ran hot and burned out. <b>Colossus</b> (UK, 1943 to 1944, Tommy Flowers) broke German Lorenz cipher traffic. <b>ENIAC</b> (US, completed 1945, Eckert and Mauchly) used about 17,500 tubes, weighed about 27 tonnes and drew about 150 kW. <b>UNIVAC I</b> (1951) was the first commercial computer in the US.</p>
+  <p>Early machines switched with electromechanical <b>relays</b> (Zuse Z3, 1941; Harvard Mark I, 1944) or <b>vacuum tubes</b>, glass bulbs that could switch current with no moving parts but ran hot and burned out. <b>Colossus</b> (UK, 1943 to 1944, Tommy Flowers) broke German Lorenz cipher traffic. <b>ENIAC (Electronic Numerical Integrator and Computer)</b> (US, completed 1945, Eckert and Mauchly) used about 17,500 tubes, weighed about 27 tonnes and drew about 150 kW. <b>UNIVAC (Universal Automatic Computer) I</b> (1951) was the first commercial computer in the US.</p>
   <h3>Transistors (1947 onward)</h3>
   <p>The <dfn>transistor</dfn>, a solid-state switch and amplifier, was invented at <b>Bell Labs in 1947</b> by John Bardeen, Walter Brattain and William Shockley. Transistors were smaller, cooler, cheaper and far more reliable than tubes. Transistorized computers arrived in the late 1950s.</p>
   <h3>Integrated circuits (1958 to 1959)</h3>
   <p>An <dfn>integrated circuit (IC)</dfn> puts many transistors on one piece of semiconductor. <b>Jack Kilby</b> (Texas Instruments, 1958) and <b>Robert Noyce</b> (Fairchild, 1959, silicon planar process) invented it independently. ICs powered the IBM System/360 family's successors, the Apollo guidance computer and minicomputers.</p>
   <h3>Microprocessors (1971 onward)</h3>
-  <p>A <dfn>microprocessor</dfn> is a whole CPU on one chip. The <b>Intel 4004</b> (1971, about 2,300 transistors, 4-bit) started it, followed by the 8080, the 8086/8088 (the x86 family, 1978) and ARM (Acorn, 1985).</p>
+  <p>A <dfn>microprocessor</dfn> is a whole CPU (Central Processing Unit) on one chip. The <b>Intel 4004</b> (1971, about 2,300 transistors, 4-bit) started it, followed by the 8080, the 8086/8088 (the x86 family, 1978) and ARM (Acorn, 1985).</p>
   <h3>Personal computers, laptops and phones</h3>
-  <p><b>Altair 8800</b> (1975) kits sparked the hobbyist PC market (and Microsoft's first product). <b>Apple II</b> (1977) brought color graphics and spreadsheets (VisiCalc). The <b>IBM PC</b> (1981) used open, off-the-shelf parts, so "PC compatibles" took over business computing. Laptops matured in the late 1980s and 1990s. The smartphone era began with the <b>iPhone (2007)</b> and Android (2008). Cloud computing went mainstream with <b>Amazon Web Services</b> (S3 and EC2, 2006). Since about 2012, GPUs and dedicated AI accelerators drive the biggest growth in data center compute.</p>
+  <p><b>Altair 8800</b> (1975) kits sparked the hobbyist PC market (and Microsoft's first product). <b>Apple II</b> (1977) brought color graphics and spreadsheets (VisiCalc). The <b>IBM PC</b> (1981) used open, off-the-shelf parts, so "PC compatibles" took over business computing. Laptops matured in the late 1980s and 1990s. The smartphone era began with the <b>iPhone (2007)</b> and Android (2008). Cloud computing went mainstream with <b>Amazon Web Services</b> (S3 and EC2 (Elastic Compute Cloud), 2006). Since about 2012, GPUs (Graphics Processing Unit) and dedicated AI (Artificial Intelligence) accelerators drive the biggest growth in data center compute.</p>
 </section>
 
 <section class="lesson" id="moore">
   <h2>4. Moore's law and Dennard scaling</h2>
   <p><b>Moore's law</b>: in 1965 Gordon Moore (later an Intel co-founder) observed that the number of components on a chip was doubling every year; in 1975 he revised it to about every two years. It is an observation about economics and manufacturing, not a law of physics.</p>
   <p><b>Dennard scaling</b> (Robert Dennard, IBM, 1974): as transistors shrink, voltage and current shrink too, so power per unit area stays constant. That let clock speeds rise "for free" for decades.</p>
-  <div class="callout detail">Dennard scaling broke down around 2005 to 2007 because leakage current stopped falling with size. Clock speeds stalled near 3 to 5 GHz, so the industry moved to <b>multiple cores</b>, specialized accelerators (GPUs, NPUs) and smarter designs. Transistor counts kept growing through 3D transistors (FinFET, gate-all-around), chiplets and advanced packaging, though the doubling has slowed and the cost per transistor no longer falls as fast. Modern "3 nm" or "2 nm" names are marketing labels, not a physical gate length.</div>
+  <div class="callout detail">Dennard scaling broke down around 2005 to 2007 because leakage current stopped falling with size. Clock speeds stalled near 3 to 5 GHz, so the industry moved to <b>multiple cores</b>, specialized accelerators (GPUs, NPUs (Neural Processing Unit)) and smarter designs. Transistor counts kept growing through 3D transistors (FinFET, gate-all-around), chiplets and advanced packaging, though the doubling has slowed and the cost per transistor no longer falls as fast. Modern "3 nm" or "2 nm" names are marketing labels, not a physical gate length.</div>
   <p>See the doubling in <a href="#lab-moore">Lab 3</a>.</p>
 </section>
 
@@ -88,10 +88,10 @@
     <tbody>
       <tr><td>Batch systems (e.g. IBM OS/360)</td><td>1950s to 1960s</td><td>Jobs submitted on punched cards and run one after another; time-sharing systems later let many users share one machine.</td></tr>
       <tr><td>UNIX</td><td>1969 to 1971, Bell Labs (Ken Thompson, Dennis Ritchie)</td><td>Rewritten in C in 1973, making it portable. Ideas (files, pipes, small tools) live on in Linux and macOS.</td></tr>
-      <tr><td>MS-DOS</td><td>1981</td><td>Command-line OS for the IBM PC. FAT file system.</td></tr>
-      <tr><td>Classic Mac OS</td><td>1984</td><td>Brought the graphical user interface (inspired by Xerox PARC) to a mass market.</td></tr>
-      <tr><td>Windows</td><td>1985 (1.0); 95 (1995); NT line (1993) → XP (2001) → 10 (2015) → 11 (2021)</td><td>Windows NT's kernel is the basis of every modern Windows.</td></tr>
-      <tr><td>Linux</td><td>1991, Linus Torvalds</td><td>Open-source kernel; with GNU tools it runs most servers, the cloud, Android and supercomputers.</td></tr>
+      <tr><td>MS-DOS (Microsoft Disk Operating System)</td><td>1981</td><td>Command-line OS for the IBM PC. FAT (File Allocation Table) file system.</td></tr>
+      <tr><td>Classic Mac OS</td><td>1984</td><td>Brought the graphical user interface (inspired by Xerox PARC (Palo Alto Research Center)) to a mass market.</td></tr>
+      <tr><td>Windows</td><td>1985 (1.0); 95 (1995); NT (New Technology) line (1993) → XP (Experience) (2001) → 10 (2015) → 11 (2021)</td><td>Windows NT's kernel is the basis of every modern Windows.</td></tr>
+      <tr><td>Linux</td><td>1991, Linus Torvalds</td><td>Open-source kernel; with GNU (GNU's Not Unix) tools it runs most servers, the cloud, Android and supercomputers.</td></tr>
       <tr><td>Mac OS X / macOS</td><td>2001</td><td>UNIX-based (Darwin, from NeXTSTEP).</td></tr>
       <tr><td>iOS and Android</td><td>2007 and 2008</td><td>Mobile operating systems; Android uses the Linux kernel.</td></tr>
     </tbody>
@@ -103,14 +103,14 @@
   <ul>
     <li><b>Telegraph</b> (1830s to 1840s, Morse code) and <b>telephone</b> (1876, Bell): the first electrical networks. The phone network's circuit switching dominated for a century.</li>
     <li><b>Packet switching</b> (Paul Baran and Donald Davies, early to mid 1960s): break data into packets that travel independently, so the network survives broken links.</li>
-    <li><b>ARPANET</b> (1969): first message between UCLA and SRI on 29 October 1969. Funded by the US DoD's ARPA.</li>
-    <li><b>Ethernet</b> (1973, Xerox PARC, Robert Metcalfe and David Boggs); standardized as IEEE 802.3 in 1983.</li>
-    <li><b>TCP/IP</b> (Vint Cerf and Bob Kahn, 1974 paper): ARPANET switched to TCP/IP on <b>1 January 1983</b> ("flag day"), the birth of the internet as a network of networks.</li>
-    <li><b>DNS</b> (1983 to 1987, Paul Mockapetris) replaced a single shared hosts file.</li>
-    <li><b>World Wide Web</b> (Tim Berners-Lee at CERN: proposal 1989, first website 1991): HTML, HTTP and URLs on top of the internet. The web is not the internet; it is one service that runs on it.</li>
+    <li><b>ARPANET</b> (1969): first message between UCLA (University of California, Los Angeles) and SRI (Stanford Research Institute) on 29 October 1969. Funded by the US DoD's ARPA (Advanced Research Projects Agency).</li>
+    <li><b>Ethernet</b> (1973, Xerox PARC, Robert Metcalfe and David Boggs); standardized as IEEE (Institute of Electrical and Electronics Engineers) 802.3 in 1983.</li>
+    <li><b>TCP/IP (TCP: Transmission Control Protocol; IP: Internet Protocol)</b> (Vint Cerf and Bob Kahn, 1974 paper): ARPANET switched to TCP/IP on <b>1 January 1983</b> ("flag day"), the birth of the internet as a network of networks.</li>
+    <li><b>DNS (Domain Name System)</b> (1983 to 1987, Paul Mockapetris) replaced a single shared hosts file.</li>
+    <li><b>World Wide Web</b> (Tim Berners-Lee at CERN (European Organization for Nuclear Research): proposal 1989, first website 1991): HTML (HyperText Markup Language), HTTP (HyperText Transfer Protocol) and URLs (Uniform Resource Locator) on top of the internet. The web is not the internet; it is one service that runs on it.</li>
     <li><b>Wi-Fi</b>: IEEE 802.11 published in 1997 (2 Mbps); 802.11b (1999, 11 Mbps) and the Wi-Fi Alliance branding made it mainstream.</li>
-    <li><b>Broadband</b>: DSL and cable modems (DOCSIS 1.0, 1997) in the late 1990s; <b>fiber to the home</b> (PON standards from the 2000s).</li>
-    <li><b>Cellular</b>: 1G analog (1980s), 2G digital (GSM, 1991), 3G (2000s), <b>4G LTE</b> (around 2009 to 2010), <b>5G</b> (from 2019).</li>
+    <li><b>Broadband</b>: DSL (Digital Subscriber Line) and cable modems (DOCSIS (Data Over Cable Service Interface Specification) 1.0, 1997) in the late 1990s; <b>fiber to the home</b> (PON (Passive Optical Network) standards from the 2000s).</li>
+    <li><b>Cellular</b>: 1G analog (1980s), 2G digital (GSM (Global System for Mobile Communications), 1991), 3G (2000s), <b>4G LTE (Long-Term Evolution)</b> (around 2009 to 2010), <b>5G</b> (from 2019).</li>
   </ul>
 </section>
 
@@ -120,12 +120,12 @@
     <thead><tr><th>Medium</th><th>Introduced</th><th>Then</th><th>What it led to</th></tr></thead>
     <tbody>
       <tr><td>Punched cards</td><td>1890 (Hollerith)</td><td>80 characters per card (IBM, 1928)</td><td>80-column terminals still echo this.</td></tr>
-      <tr><td>Magnetic tape</td><td>1951 (UNIVAC UNISERVO)</td><td>Sequential access</td><td>LTO tape is still used for cheap, offline backup and archives.</td></tr>
-      <tr><td>Hard disk drive</td><td>1956 (IBM 350 RAMAC)</td><td>About 5 MB on fifty 24-inch platters</td><td>Random access storage; today's HDDs exceed 30 TB.</td></tr>
-      <tr><td>Floppy disk</td><td>1971 (8-inch), 1976 (5.25"), 1982 (3.5")</td><td>Up to 1.44 MB (3.5" HD)</td><td>The "save" icon.</td></tr>
-      <tr><td>CD / DVD / Blu-ray</td><td>1982 / 1995 to 1996 / 2006</td><td>700 MB / 4.7 GB / 25 GB per layer</td><td>Optical media for software and video.</td></tr>
-      <tr><td>Flash memory</td><td>Invented at Toshiba (Fujio Masuoka), 1980s</td><td>USB sticks from about 2000</td><td>SSDs, phones, memory cards.</td></tr>
-      <tr><td>SSD and NVMe</td><td>Consumer SSDs late 2000s; NVMe spec 2011</td><td>NVMe talks directly over PCIe</td><td>Huge drop in storage latency (Module 5).</td></tr>
+      <tr><td>Magnetic tape</td><td>1951 (UNIVAC UNISERVO)</td><td>Sequential access</td><td>LTO (Linear Tape-Open) tape is still used for cheap, offline backup and archives.</td></tr>
+      <tr><td>Hard disk drive</td><td>1956 (IBM 350 RAMAC (Random Access Method of Accounting and Control))</td><td>About 5 MB (Megabyte) on fifty 24-inch platters</td><td>Random access storage; today's HDDs exceed 30 TB (Terabyte).</td></tr>
+      <tr><td>Floppy disk</td><td>1971 (8-inch), 1976 (5.25"), 1982 (3.5")</td><td>Up to 1.44 MB (3.5" HD (High Density))</td><td>The "save" icon.</td></tr>
+      <tr><td>CD (Compact Disc) / DVD / Blu-ray</td><td>1982 / 1995 to 1996 / 2006</td><td>700 MB / 4.7 GB (Gigabyte) / 25 GB per layer</td><td>Optical media for software and video.</td></tr>
+      <tr><td>Flash memory</td><td>Invented at Toshiba (Fujio Masuoka), 1980s</td><td>USB (Universal Serial Bus) sticks from about 2000</td><td>SSDs (Solid-State Drive), phones, memory cards.</td></tr>
+      <tr><td>SSD and NVMe (Non-Volatile Memory Express)</td><td>Consumer SSDs late 2000s; NVMe spec 2011</td><td>NVMe talks directly over PCIe (Peripheral Component Interconnect Express)</td><td>Huge drop in storage latency (Module 5).</td></tr>
       <tr><td>Cloud object storage</td><td>2006 (Amazon S3)</td><td>Storage as a service over HTTP</td><td>Object storage for backups, data lakes, web content (Module 17).</td></tr>
     </tbody>
   </table></div>
@@ -139,11 +139,11 @@
       <tr><td>1971</td><td><b>Creeper</b>, an experimental self-moving program on ARPANET; <b>Reaper</b> was written to remove it.</td><td>The first worm and the first "antivirus".</td></tr>
       <tr><td>1986</td><td><b>Brain</b>, the first IBM PC virus, spread by floppy boot sectors.</td><td>Boot-sector viruses, the start of commercial antivirus.</td></tr>
       <tr><td>1986</td><td>US <b>Computer Fraud and Abuse Act</b>.</td><td>Unauthorized access became a federal crime in the US.</td></tr>
-      <tr><td>1988</td><td><b>Morris worm</b> infected an estimated 10% of the ~60,000 internet hosts.</td><td>Led to the first CERT Coordination Center (CERT/CC) at Carnegie Mellon and the first felony CFAA conviction.</td></tr>
-      <tr><td>2000 to 2004</td><td>ILOVEYOU, Code Red, SQL Slammer, Blaster.</td><td>Microsoft's Trustworthy Computing memo (2002), monthly "Patch Tuesday" (2003), default firewalls.</td></tr>
-      <tr><td>2010</td><td><b>Stuxnet</b> sabotaged industrial centrifuges.</td><td>Showed malware can cause physical damage to OT/ICS.</td></tr>
-      <tr><td>2013 to 2014</td><td>Target (via an HVAC vendor) and Yahoo breaches.</td><td>Third-party (supply chain) risk and network segmentation became board topics.</td></tr>
-      <tr><td>2017</td><td><b>WannaCry</b> and <b>NotPetya</b>; <b>Equifax</b> breach via an unpatched web framework.</td><td>Patch management, backups and ransomware readiness became priorities; the GDPR (in force May 2018) raised penalties.</td></tr>
+      <tr><td>1988</td><td><b>Morris worm</b> infected an estimated 10% of the ~60,000 internet hosts.</td><td>Led to the first CERT (Computer Emergency Response Team) Coordination Center (CERT/CC) at Carnegie Mellon and the first felony CFAA conviction.</td></tr>
+      <tr><td>2000 to 2004</td><td>ILOVEYOU, Code Red, SQL (Structured Query Language) Slammer, Blaster.</td><td>Microsoft's Trustworthy Computing memo (2002), monthly "Patch Tuesday" (2003), default firewalls.</td></tr>
+      <tr><td>2010</td><td><b>Stuxnet</b> sabotaged industrial centrifuges.</td><td>Showed malware can cause physical damage to OT/ICS (OT: Operational Technology).</td></tr>
+      <tr><td>2013 to 2014</td><td>Target (via an HVAC (Heating, Ventilation and Air Conditioning) vendor) and Yahoo breaches.</td><td>Third-party (supply chain) risk and network segmentation became board topics.</td></tr>
+      <tr><td>2017</td><td><b>WannaCry</b> and <b>NotPetya</b>; <b>Equifax</b> breach via an unpatched web framework.</td><td>Patch management, backups and ransomware readiness became priorities; the GDPR (General Data Protection Regulation; in force May 2018) raised penalties.</td></tr>
       <tr><td>2020</td><td><b>SolarWinds</b> supply chain compromise.</td><td>Software bills of materials (SBOMs), US Executive Order 14028 (2021), zero trust push.</td></tr>
       <tr><td>2021</td><td><b>Colonial Pipeline</b> ransomware; <b>Log4Shell</b> (CVE-2021-44228).</td><td>Critical infrastructure reporting rules; dependency and open-source risk management.</td></tr>
     </tbody>
@@ -156,8 +156,8 @@
     <li><b>Mainframe rooms</b> (1950s to 1970s): one huge computer in a raised-floor room with dedicated cooling and power.</li>
     <li><b>Server rooms</b> (1980s to 1990s): rooms of PC servers as client-server computing spread.</li>
     <li><b>Colocation</b> (late 1990s, the dot-com boom): rent space, power and cooling in a shared facility; connect to many carriers in a meet-me room.</li>
-    <li><b>Hyperscale</b> (2000s onward): giant facilities run by cloud and internet companies, with custom servers and very efficient cooling (PUE near 1.1).</li>
-    <li><b>Edge</b> (2010s onward): small data centers close to users for low latency (5G, content delivery, IoT).</li>
+    <li><b>Hyperscale</b> (2000s onward): giant facilities run by cloud and internet companies, with custom servers and very efficient cooling (PUE (Power Usage Effectiveness) near 1.1).</li>
+    <li><b>Edge</b> (2010s onward): small data centers close to users for low latency (5G, content delivery, IoT (Internet of Things)).</li>
     <li><b>AI-era</b> (2020s): racks drawing 40 to over 100 kW, driving liquid cooling and new power designs (Module 18).</li>
   </ol>
 </section>
@@ -167,13 +167,13 @@
   <div class="tablewrap"><table>
     <thead><tr><th>Body</th><th>Founded</th><th>Known for</th></tr></thead>
     <tbody>
-      <tr><td>ITU (International Telecommunication Union)</td><td>1865 (as the International Telegraph Union); UN agency since 1947</td><td>Telecom standards: G.652 fiber, G.694 WDM grids, X.509 certificates</td></tr>
-      <tr><td>ANSI (American National Standards Institute)</td><td>1918</td><td>Coordinates US standards; accredits bodies such as TIA</td></tr>
-      <tr><td>ISO (International Organization for Standardization)</td><td>1947</td><td>ISO/IEC 27001, 9001, 22301; OSI reference model (ISO/IEC 7498)</td></tr>
-      <tr><td>IEEE (Institute of Electrical and Electronics Engineers)</td><td>1963 (merger of AIEE, 1884, and IRE, 1912)</td><td>802.3 Ethernet, 802.11 Wi-Fi</td></tr>
-      <tr><td>IETF (Internet Engineering Task Force)</td><td>1986</td><td>RFCs for IP, TCP, DNS, HTTP, TLS</td></tr>
+      <tr><td>ITU (International Telecommunication Union)</td><td>1865 (as the International Telegraph Union); UN (United Nations) agency since 1947</td><td>Telecom standards: G.652 fiber, G.694 WDM (Wavelength Division Multiplexing) grids, X.509 certificates</td></tr>
+      <tr><td>ANSI (American National Standards Institute)</td><td>1918</td><td>Coordinates US standards; accredits bodies such as TIA (Telecommunications Industry Association)</td></tr>
+      <tr><td>ISO (International Organization for Standardization)</td><td>1947</td><td>ISO/IEC (IEC: International Electrotechnical Commission) 27001, 9001, 22301; OSI (Open Systems Interconnection) reference model (ISO/IEC 7498)</td></tr>
+      <tr><td>IEEE (Institute of Electrical and Electronics Engineers)</td><td>1963 (merger of AIEE (American Institute of Electrical Engineers), 1884, and IRE (Institute of Radio Engineers), 1912)</td><td>802.3 Ethernet, 802.11 Wi-Fi</td></tr>
+      <tr><td>IETF (Internet Engineering Task Force)</td><td>1986</td><td>RFCs (Request for Comments) for IP, TCP, DNS, HTTP, TLS (Transport Layer Security)</td></tr>
       <tr><td>TIA (Telecommunications Industry Association)</td><td>1988</td><td>TIA-568 cabling, TIA-942 data centers</td></tr>
-      <tr><td>NIST (National Institute of Standards and Technology)</td><td>1901 (as the National Bureau of Standards; renamed 1988)</td><td>FIPS 197 (AES), SP 800 series, Cybersecurity Framework</td></tr>
+      <tr><td>NIST (National Institute of Standards and Technology)</td><td>1901 (as the National Bureau of Standards; renamed 1988)</td><td>FIPS (Federal Information Processing Standards) 197 (AES), SP (Special Publication) 800 series, Cybersecurity Framework</td></tr>
     </tbody>
   </table></div>
   <p>Module 23 covers these bodies and many more in depth.</p>

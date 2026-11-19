@@ -25,12 +25,12 @@
 <section class="intro">
   <div class="kicker">Part 2 · Hardware, OS and Home · Module 06</div>
   <h1>Operating Systems: Windows, macOS, Linux, Mobile</h1>
-  <p class="why"><b>Why this matters.</b> Operating systems are the biggest domain on A+ Core 2, and they are where most support tickets end up: a slow PC, a broken update, a permissions error, a lost file. You need to know where every tool lives, which command fixes what, how file systems and permissions work, and how to troubleshoot methodically. The same skills carry into server administration, cloud and security work.</p>
+  <p class="why"><b>Why this matters.</b> Operating systems are the biggest domain on A+ Core 2, and they are where most support tickets end up: a slow PC (Personal Computer), a broken update, a permissions error, a lost file. You need to know where every tool lives, which command fixes what, how file systems and permissions work, and how to troubleshoot methodically. The same skills carry into server administration, cloud and security work.</p>
   <h3>You will be able to</h3>
   <ul class="outcomes">
     <li>Explain what an OS does: kernel, drivers, processes, memory management, virtual memory, file systems and permissions.</li>
-    <li>Use the main Windows tools and commands (Task Manager, Event Viewer, Device Manager, ipconfig, sfc, DISM, robocopy and more).</li>
-    <li>Choose file systems and partition schemes (NTFS, exFAT, ext4, APFS; MBR vs GPT).</li>
+    <li>Use the main Windows tools and commands (Task Manager, Event Viewer, Device Manager, ipconfig, sfc, DISM (Deployment Image Servicing and Management), robocopy and more).</li>
+    <li>Choose file systems and partition schemes (NTFS (New Technology File System), exFAT (Extended File Allocation Table), ext4, APFS (Apple File System); MBR (Master Boot Record) vs GPT (GUID (Globally Unique Identifier) Partition Table)).</li>
     <li>Use core macOS and Linux tools and read Linux permissions in symbolic and octal form.</li>
     <li>Apply the CompTIA 7-step troubleshooting method to common OS problems.</li>
     <li>Design a backup plan using full, incremental, differential and synthetic backups and the 3-2-1 rule.</li>
@@ -49,7 +49,7 @@
     <li><b>Kernel</b>: the privileged core. It runs in <b>kernel mode</b> (full hardware access); apps run in <b>user mode</b> and ask the kernel for services through <b>system calls</b>. This separation stops a crashing app from taking down the whole machine.</li>
     <li><b>Drivers</b>: kernel modules that control specific hardware. A bad driver is a top cause of blue screens.</li>
     <li><b>Processes and threads</b>: the OS creates, schedules and ends them (Module 4).</li>
-    <li><b>Memory management</b>: each process gets its own <b>virtual address space</b>. The OS and CPU's memory management unit (MMU) map virtual pages (usually 4 KiB) to physical RAM. When RAM is full, rarely used pages move to disk: the <b>page file</b> (Windows <code>pagefile.sys</code>) or <b>swap</b> (Linux). Touching a page that is on disk causes a <b>page fault</b>, and constant paging ("thrashing") makes a PC crawl.</li>
+    <li><b>Memory management</b>: each process gets its own <b>virtual address space</b>. The OS and CPU (Central Processing Unit)'s memory management unit (MMU) map virtual pages (usually 4 KiB) to physical RAM (Random Access Memory). When RAM is full, rarely used pages move to disk: the <b>page file</b> (Windows <code>pagefile.sys</code>) or <b>swap</b> (Linux). Touching a page that is on disk causes a <b>page fault</b>, and constant paging ("thrashing") makes a PC crawl.</li>
     <li><b>File systems</b>: organize data on storage into files and folders with metadata (names, sizes, timestamps, permissions).</li>
     <li><b>Security and permissions</b>: users, groups, access control lists, privilege elevation.</li>
   </ul>
@@ -62,15 +62,15 @@
     <thead><tr><th>Edition</th><th>Key features</th></tr></thead>
     <tbody>
       <tr><td>Home</td><td>Consumer; no domain join, no BitLocker management (has Device Encryption on supported hardware), no Group Policy editor, no Remote Desktop host.</td></tr>
-      <tr><td>Pro</td><td>Domain/Entra ID join, BitLocker, Group Policy, Remote Desktop host, Hyper-V.</td></tr>
-      <tr><td>Pro for Workstations</td><td>ReFS creation, more CPUs and RAM, SMB Direct.</td></tr>
-      <tr><td>Enterprise / Education</td><td>Volume licensing; extra security and management features (e.g. Credential Guard, AppLocker policies, DirectAccess/Always On VPN integration).</td></tr>
+      <tr><td>Pro</td><td>Domain/Entra ID (Identification) join, BitLocker, Group Policy, Remote Desktop host, Hyper-V.</td></tr>
+      <tr><td>Pro for Workstations</td><td>ReFS creation, more CPUs and RAM, SMB (Server Message Block) Direct.</td></tr>
+      <tr><td>Enterprise / Education</td><td>Volume licensing; extra security and management features (e.g. Credential Guard, AppLocker policies, DirectAccess/Always On VPN (Virtual Private Network) integration).</td></tr>
     </tbody>
   </table></div>
   <ul>
-    <li><b>Install types</b>: clean install, in-place upgrade (keeps apps and files), repair install, image deployment (e.g. with WDS/MDT or cloud provisioning via Windows Autopilot), network boot (PXE), recovery partition reset.</li>
-    <li><b>Boot media</b>: USB, ISO, network (PXE), internal recovery partition.</li>
-    <li><b>Windows 11 requirements</b>: 64-bit 1 GHz 2-core CPU from the supported list, 4 GB RAM, 64 GB storage, UEFI with Secure Boot capability, TPM 2.0.</li>
+    <li><b>Install types</b>: clean install, in-place upgrade (keeps apps and files), repair install, image deployment (e.g. with WDS/MDT (WDS: Windows Deployment Services; MDT: Microsoft Deployment Toolkit) or cloud provisioning via Windows Autopilot), network boot (PXE), recovery partition reset.</li>
+    <li><b>Boot media</b>: USB (Universal Serial Bus), ISO (International Organization for Standardization), network (PXE), internal recovery partition.</li>
+    <li><b>Windows 11 requirements</b>: 64-bit 1 GHz 2-core CPU from the supported list, 4 GB (Gigabyte) RAM, 64 GB storage, UEFI (Unified Extensible Firmware Interface) with Secure Boot capability, TPM (Trusted Platform Module) 2.0.</li>
     <li>Windows 10 reached end of support on 14 October 2025 (Extended Security Updates available for a fee).</li>
   </ul>
   <h3 id="win-tools">Key Windows tools</h3>
@@ -82,7 +82,7 @@
       <tr><td>Device Manager</td><td><code>devmgmt.msc</code></td><td>Update, roll back, disable or uninstall drivers; yellow ! = problem.</td></tr>
       <tr><td>Disk Management</td><td><code>diskmgmt.msc</code></td><td>Initialize disks (MBR/GPT), create, extend, shrink and format partitions, assign letters.</td></tr>
       <tr><td>Services</td><td><code>services.msc</code></td><td>Start, stop and set startup type (Automatic, Manual, Disabled).</td></tr>
-      <tr><td>Registry Editor</td><td><code>regedit</code></td><td>Edit the configuration database (HKLM, HKCU…). Back up before editing.</td></tr>
+      <tr><td>Registry Editor</td><td><code>regedit</code></td><td>Edit the configuration database (HKLM (the Local Machine section of the Windows registry), HKCU (the Current User section of the Windows registry)…). Back up before editing.</td></tr>
       <tr><td>System Configuration</td><td><code>msconfig</code></td><td>Boot options (Safe Mode), selective startup, services.</td></tr>
       <tr><td>Resource Monitor / Performance Monitor</td><td><code>resmon</code> / <code>perfmon</code></td><td>Detailed live usage; counters, logs and reports over time.</td></tr>
       <tr><td>Group Policy Editor</td><td><code>gpedit.msc</code> (Pro+)</td><td>Local policy: password rules, software restrictions, scripts.</td></tr>
@@ -94,7 +94,7 @@
   <div class="tablewrap"><table>
     <thead><tr><th>Command</th><th>Does</th></tr></thead>
     <tbody>
-      <tr><td><code>ipconfig</code> / <code>/all</code> / <code>/release</code> / <code>/renew</code> / <code>/flushdns</code></td><td>Show IP settings; detailed info (MAC, DHCP, DNS); drop and request a DHCP lease; clear the DNS cache.</td></tr>
+      <tr><td><code>ipconfig</code> / <code>/all</code> / <code>/release</code> / <code>/renew</code> / <code>/flushdns</code></td><td>Show IP (Internet Protocol) settings; detailed info (MAC (Media Access Control), DHCP (Dynamic Host Configuration Protocol), DNS (Domain Name System)); drop and request a DHCP lease; clear the DNS cache.</td></tr>
       <tr><td><code>ping</code>, <code>tracert</code>, <code>pathping</code></td><td>Test reachability; show each router hop; hops plus loss statistics.</td></tr>
       <tr><td><code>nslookup</code></td><td>Query DNS for a name or IP.</td></tr>
       <tr><td><code>netstat -ano</code></td><td>Show connections, listening ports and the owning process ID.</td></tr>
@@ -127,20 +127,20 @@
     <thead><tr><th>File system</th><th>OS</th><th>Max file size</th><th>Notes</th></tr></thead>
     <tbody>
       <tr><td>NTFS</td><td>Windows</td><td>16 TiB+ (practically huge)</td><td>Permissions (ACLs), encryption (EFS), compression, journaling, quotas.</td></tr>
-      <tr><td>FAT32</td><td>All</td><td>4 GiB − 1 byte</td><td>Maximum 32 GB volume when formatted by Windows (2 TiB spec); universal compatibility.</td></tr>
-      <tr><td>exFAT</td><td>All modern</td><td>16 EiB</td><td>For USB drives and SD cards (SDXC); no permissions or journaling.</td></tr>
+      <tr><td>FAT32 (File Allocation Table 32)</td><td>All</td><td>4 GiB − 1 byte</td><td>Maximum 32 GB volume when formatted by Windows (2 TiB spec); universal compatibility.</td></tr>
+      <tr><td>exFAT</td><td>All modern</td><td>16 EiB</td><td>For USB drives and SD (Secure Digital) cards (SDXC); no permissions or journaling.</td></tr>
       <tr><td>ReFS</td><td>Windows Server, Pro for Workstations</td><td>Huge</td><td>Resilient File System: integrity checksums, designed for large storage pools.</td></tr>
       <tr><td>ext4</td><td>Linux</td><td>16 TiB</td><td>Default on many Linux distributions; journaling.</td></tr>
-      <tr><td>XFS</td><td>Linux</td><td>8 EiB</td><td>High-performance; default on RHEL.</td></tr>
-      <tr><td>APFS</td><td>macOS, iOS</td><td>8 EiB</td><td>Apple File System: snapshots, cloning, built-in encryption; optimized for SSDs.</td></tr>
-      <tr><td>HFS+</td><td>Older macOS</td><td>8 EiB</td><td>Mac OS Extended; replaced by APFS.</td></tr>
+      <tr><td>XFS (Extents File System)</td><td>Linux</td><td>8 EiB</td><td>High-performance; default on RHEL (Red Hat Enterprise Linux).</td></tr>
+      <tr><td>APFS</td><td>macOS, iOS</td><td>8 EiB</td><td>Apple File System: snapshots, cloning, built-in encryption; optimized for SSDs (Solid-State Drive).</td></tr>
+      <tr><td>HFS (Hierarchical File System)+</td><td>Older macOS</td><td>8 EiB</td><td>Mac OS Extended; replaced by APFS.</td></tr>
     </tbody>
   </table></div>
   <div class="tablewrap"><table>
     <thead><tr><th>Partition scheme</th><th>Max disk size</th><th>Partitions</th><th>Firmware</th></tr></thead>
     <tbody>
-      <tr><td>MBR (Master Boot Record)</td><td>2 TiB (512-byte sectors)</td><td>4 primary (or 3 primary + 1 extended with logical drives)</td><td>Legacy BIOS</td></tr>
-      <tr><td>GPT (GUID Partition Table)</td><td>Effectively 9.4 ZB</td><td>128 by default in Windows</td><td>UEFI (required for Windows 11 boot); keeps a backup header at the end of the disk</td></tr>
+      <tr><td>MBR (Master Boot Record)</td><td>2 TiB (512-byte sectors)</td><td>4 primary (or 3 primary + 1 extended with logical drives)</td><td>Legacy BIOS (Basic Input/Output System)</td></tr>
+      <tr><td>GPT (GUID (Globally Unique Identifier) Partition Table)</td><td>Effectively 9.4 ZB (Zettabyte)</td><td>128 by default in Windows</td><td>UEFI (required for Windows 11 boot); keeps a backup header at the end of the disk</td></tr>
     </tbody>
   </table></div>
   <div class="callout trap">"Copy a 6 GB video to a FAT32 USB stick" fails with "file too large" even when the stick has plenty of space. The fix is to reformat it as exFAT (or NTFS).</div>
@@ -188,7 +188,7 @@
       <tr><td><code>grep</code>, <code>find</code>, <code>cat</code>, <code>nano</code>/<code>vi</code></td><td>Search text; find files; print a file; edit a file</td></tr>
       <tr><td><code>ps aux</code>, <code>top</code>, <code>kill PID</code></td><td>List processes; live view; end a process (<code>kill -9</code> forces)</td></tr>
       <tr><td><code>df -h</code>, <code>du -sh</code></td><td>Free disk space per file system; size of a folder</td></tr>
-      <tr><td><code>ip addr</code>, <code>ping</code>, <code>dig</code>, <code>curl</code></td><td>Show addresses (ifconfig is legacy); test reachability; query DNS; fetch a URL</td></tr>
+      <tr><td><code>ip addr</code>, <code>ping</code>, <code>dig</code>, <code>curl</code></td><td>Show addresses (ifconfig is legacy); test reachability; query DNS; fetch a URL (Uniform Resource Locator)</td></tr>
       <tr><td><code>man</code>, <code>systemctl</code>, <code>journalctl</code></td><td>Manual pages; manage services; read systemd logs</td></tr>
     </tbody>
   </table></div>
@@ -203,15 +203,15 @@
     <li><b>Android</b> (Google; Linux kernel; many manufacturers; Google Play plus sideloading of .apk files) and <b>iOS/iPadOS</b> (Apple only; App Store; tightly controlled).</li>
     <li><b>MDM</b> (mobile device management) and <b>MAM</b> (mobile application management): enroll devices, push apps and Wi-Fi/VPN profiles, enforce passcodes and encryption, remote wipe, separate work and personal data (Android Work Profile, Apple managed apps).</li>
     <li><b>Sync and backup</b>: iCloud, Google account backup, Microsoft 365 / Exchange ActiveSync for mail, contacts and calendars; local backups via computer.</li>
-    <li>Security: screen locks (PIN, biometrics), full-device encryption (default on modern phones), OS updates, app permissions, locator apps (Find My, Find My Device), avoid jailbreaking/rooting.</li>
+    <li>Security: screen locks (PIN (Personal Identification Number), biometrics), full-device encryption (default on modern phones), OS updates, app permissions, locator apps (Find My, Find My Device), avoid jailbreaking/rooting.</li>
   </ul>
 </section>
 
 <section class="lesson" id="software">
   <h2>7. Software: installation, licensing and patching</h2>
   <ul>
-    <li><b>Install considerations</b>: system requirements (CPU, RAM, storage, 32 vs 64-bit), OS compatibility, distribution method (download, ISO, MSI, store, package manager), impact on the device, network and business, and the need for admin rights.</li>
-    <li><b>Licensing</b>: <b>EULA</b> (end-user license agreement), per-user vs per-device, perpetual vs <b>subscription</b>, volume/enterprise licensing, <b>open source</b> (GPL copyleft vs permissive MIT/Apache), freeware vs shareware. Using unlicensed software is a legal and security risk.</li>
+    <li><b>Install considerations</b>: system requirements (CPU, RAM, storage, 32 vs 64-bit), OS compatibility, distribution method (download, ISO, MSI (Microsoft Installer package), store, package manager), impact on the device, network and business, and the need for admin rights.</li>
+    <li><b>Licensing</b>: <b>EULA</b> (end-user license agreement), per-user vs per-device, perpetual vs <b>subscription</b>, volume/enterprise licensing, <b>open source</b> (GPL (General Public License) copyleft vs permissive MIT/Apache (MIT: Massachusetts Institute of Technology)), freeware vs shareware. Using unlicensed software is a legal and security risk.</li>
     <li><b>Updates and patches</b>: security updates, feature updates, driver and firmware updates. Test before broad deployment, schedule maintenance windows, keep a rollback plan (Module 8 change management).</li>
   </ul>
 </section>
@@ -233,7 +233,7 @@
     <thead><tr><th>Symptom</th><th>Common causes</th><th>Tools / fixes</th></tr></thead>
     <tbody>
       <tr><td>Blue screen (BSOD) / stop error</td><td>Bad driver, failing RAM or disk, recent update</td><td>Note the stop code; Event Viewer; roll back driver; Safe Mode; memory diagnostic; sfc/DISM; System Restore</td></tr>
-      <tr><td>Slow boot / slow performance</td><td>Too many startup apps, low RAM (paging), full disk, malware, HDD failing</td><td>Task Manager startup tab; Resource Monitor; disk cleanup; malware scan; SSD upgrade</td></tr>
+      <tr><td>Slow boot / slow performance</td><td>Too many startup apps, low RAM (paging), full disk, malware, HDD (Hard Disk Drive) failing</td><td>Task Manager startup tab; Resource Monitor; disk cleanup; malware scan; SSD upgrade</td></tr>
       <tr><td>App crashes</td><td>Corrupt install, incompatible version, missing dependency</td><td>Repair/reinstall app; Event Viewer Application log; compatibility mode; updates</td></tr>
       <tr><td>Profile corruption</td><td>Interrupted shutdown, disk errors</td><td>Temporary profile message; create new profile and copy data; fix registry ProfileList entry</td></tr>
       <tr><td>Services fail to start</td><td>Dependency service stopped, wrong account password</td><td>services.msc, Event Viewer, reset service account</td></tr>

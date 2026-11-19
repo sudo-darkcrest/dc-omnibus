@@ -34,14 +34,14 @@
 <section class="intro">
   <div class="kicker">Part 4 · Security, Cloud and the Data Center · Module 18</div>
   <h1>The Data Center: Power, Cooling, Space, Cabling and Safety</h1>
-  <p class="why"><b>Why this matters.</b> Every server, switch and cloud region lives in a building that has to deliver clean power, remove heat, organize thousands of cables, stop fires and keep people out, all without ever going down. This is the core of the EPI Data Center Certified Associate (DCCA) and the foundation for CDCP and CDCS, and it adds physical context to Network+ (cabling, power) and Security+ (physical security, resilience). The module ends with a 50-question DCCA-style readiness quiz.</p>
+  <p class="why"><b>Why this matters.</b> Every server, switch and cloud region lives in a building that has to deliver clean power, remove heat, organize thousands of cables, stop fires and keep people out, all without ever going down. This is the core of the EPI (Enterprise Products Integration) Data Center Certified Associate (DCCA) and the foundation for CDCP (Certified Data Centre Professional) and CDCS (Certified Data Centre Specialist), and it adds physical context to Network+ (cabling, power) and Security+ (physical security, resilience). The module ends with a 50-question DCCA-style readiness quiz.</p>
   <h3>You will be able to</h3>
   <ul class="outcomes">
-    <li>Describe data center types and the main standards: TIA-942, EN 50600 / ISO/IEC 22237, Uptime Tiers, BICSI 002, ASHRAE TC 9.9 and NFPA 75/76.</li>
-    <li>Trace a power chain from utility to rack, size a UPS and explain N, N+1, 2N and 2N+1.</li>
+    <li>Describe data center types and the main standards: TIA-942 (Telecommunications Industry Association), EN 50600 / ISO/IEC (IEC: International Electrotechnical Commission) 22237, Uptime Tiers, BICSI (Building Industry Consulting Service International) 002, ASHRAE (American Society of Heating, Refrigerating and Air-Conditioning Engineers) TC 9.9 and NFPA (National Fire Protection Association) 75/76.</li>
+    <li>Trace a power chain from utility to rack, size a UPS (Uninterruptible Power Supply) and explain N, N+1, 2N and 2N+1.</li>
     <li>Explain cooling, hot and cold aisles, containment, ASHRAE ranges and liquid cooling for high-density racks.</li>
     <li>Plan racks, structured cabling spaces, labeling, grounding and bonding.</li>
-    <li>Choose fire detection and suppression, apply physical security, and run safe, measured operations (DCIM, PUE, WUE, LOTO).</li>
+    <li>Choose fire detection and suppression, apply physical security, and run safe, measured operations (DCIM (Data Center Infrastructure Management), PUE (Power Usage Effectiveness), WUE (Water Usage Effectiveness), LOTO (Lockout/Tagout)).</li>
   </ul>
   <nav class="jumpnav" id="jumpnav" aria-label="On this page"></nav>
 </section>
@@ -56,17 +56,17 @@
   <div class="tablewrap"><table>
     <thead><tr><th>Type</th><th>Description</th></tr></thead>
     <tbody>
-      <tr><td><b>Enterprise</b></td><td>Owned and operated by one organization for its own IT</td></tr>
+      <tr><td><b>Enterprise</b></td><td>Owned and operated by one organization for its own IT (Information Technology)</td></tr>
       <tr><td><b>Colocation</b> (colo)</td><td>A provider rents space, power, cooling and connectivity; customers bring their own equipment (cages, cabinets, suites); interconnection in the meet-me room</td></tr>
-      <tr><td><b>Hyperscale</b></td><td>Massive facilities (often tens to hundreds of MW) run by cloud and internet companies with highly standardized designs</td></tr>
+      <tr><td><b>Hyperscale</b></td><td>Massive facilities (often tens to hundreds of MW (Megawatt)) run by cloud and internet companies with highly standardized designs</td></tr>
       <tr><td><b>Edge</b></td><td>Small sites close to users or devices for low latency (cell towers, factories, retail)</td></tr>
       <tr><td><b>Modular / containerized</b></td><td>Prefabricated modules or shipping containers with built-in power and cooling; fast to deploy</td></tr>
     </tbody></table></div>
   <div class="tablewrap"><table>
     <thead><tr><th>Standard / body</th><th>What it covers</th></tr></thead>
     <tbody>
-      <tr><td><b>ANSI/TIA-942</b></td><td>Telecommunications infrastructure for data centers: spaces (ER, MDA, HDA, ZDA, EDA), cabling, and Rated-1 to Rated-4 levels for architecture, electrical, mechanical and telecom (current edition TIA-942-C, verify)</td></tr>
-      <tr><td><b>EN 50600 / ISO/IEC 22237</b></td><td>European and international data center facility series: availability classes 1 to 4, protection classes, energy efficiency KPIs</td></tr>
+      <tr><td><b>ANSI/TIA-942 (ANSI: American National Standards Institute)</b></td><td>Telecommunications infrastructure for data centers: spaces (ER (Entrance Room), MDA (Main Distribution Area), HDA (Horizontal Distribution Area), ZDA (Zone Distribution Area), EDA (Equipment Distribution Area)), cabling, and Rated-1 to Rated-4 levels for architecture, electrical, mechanical and telecom (current edition TIA-942-C, verify)</td></tr>
+      <tr><td><b>EN 50600 / ISO/IEC 22237</b></td><td>European and international data center facility series: availability classes 1 to 4, protection classes, energy efficiency KPIs (Key Performance Indicator)</td></tr>
       <tr><td><b>Uptime Institute Tier Standard</b></td><td>Tier I to IV topology classification and certification (design, constructed facility, operational sustainability)</td></tr>
       <tr><td><b>BICSI 002</b></td><td>Data center design and implementation best practices, availability Classes F0 to F4</td></tr>
       <tr><td><b>ASHRAE TC 9.9</b></td><td>Thermal guidelines: recommended and allowable inlet temperature and humidity for IT equipment classes (A1 to A4, H1)</td></tr>
@@ -81,7 +81,7 @@
     <li><b>Location risks</b>: flood plains, seismic zones, hurricanes, wildfire, flight paths, nearby hazards (chemical plants, rail lines), crime, political stability. <b>Benefits</b>: access to multiple power grids and fiber carriers, water availability, climate (free cooling hours), tax and land costs, skilled staff.</li>
     <li><b>Floor loading</b>: a loaded rack can weigh 1,000 to 1,500 kg; floors are rated in kN/m² (or lb/ft²), and point loads matter for raised-floor pedestals. Check the route from the loading dock too.</li>
     <li><b>Raised floor vs slab</b>: raised floors (commonly 600 × 600 mm / 24 × 24 in tiles) create an underfloor plenum for cold air and cables; slab floors with overhead cabling and ducted or in-row cooling are common in newer high-density builds.</li>
-    <li><b>Room layout</b>: white space (IT), grey space (power and cooling plant), loading dock, staging/burn-in, storage, NOC, offices.</li>
+    <li><b>Room layout</b>: white space (IT), grey space (power and cooling plant), loading dock, staging/burn-in, storage, NOC (Network Operations Center), offices.</li>
     <li><b>Entrance room / MMR</b>: where carrier circuits enter (ideally two diverse entrances); the <b>meet-me room</b> is where carriers and customers cross-connect in a colo.</li>
     <li><b>Security zones</b>: concentric layers from site perimeter → building → data hall → cage → cabinet (Section 7).</li>
   </ul>
@@ -110,7 +110,7 @@
   <div class="grid3">
     <div class="tile"><h4>Standby / offline UPS</h4><p>Load runs on utility; switches to battery on failure (a few ms). Cheap, for desktops.</p></div>
     <div class="tile"><h4>Line-interactive</h4><p>Adds voltage regulation (autotransformer) without going to battery; small server rooms.</p></div>
-    <div class="tile"><h4>Online double-conversion</h4><p>AC→DC→AC all the time, so zero transfer time and clean output. The data center standard (VFI in IEC 62040-3). Has a static bypass if the inverter fails.</p></div>
+    <div class="tile"><h4>Online double-conversion</h4><p>AC (Alternating Current)→DC (Direct Current)→AC all the time, so zero transfer time and clean output. The data center standard (VFI (Voltage and Frequency Independent) in IEC 62040-3). Has a static bypass if the inverter fails.</p></div>
   </div>
   <div class="tablewrap"><table>
     <thead><tr><th>Batteries</th><th>VRLA (valve-regulated lead-acid)</th><th>Lithium-ion</th></tr></thead>
@@ -132,10 +132,10 @@
   <h3>Power math</h3>
   <ul>
     <li><b>Watts = Volts × Amps</b> (for DC or unity power factor). Single-phase AC: <b>W = V × A × PF</b>. Three-phase: <b>W = √3 × V<sub>line-line</sub> × A × PF</b> (√3 ≈ 1.732).</li>
-    <li><b>VA</b> is apparent power; <b>W</b> is real power; <b>power factor</b> = W ÷ VA (modern IT power supplies ≈ 0.95 to 0.99). A UPS has <i>both</i> a kVA and a kW rating; don't exceed either.</li>
+    <li><b>VA (Volt-Amperes)</b> is apparent power; <b>W</b> is real power; <b>power factor</b> = W ÷ VA (modern IT power supplies ≈ 0.95 to 0.99). A UPS has <i>both</i> a kVA and a kW rating; don't exceed either.</li>
     <li>Circuits are commonly loaded to no more than <b>80%</b> of breaker rating for continuous loads (NEC practice).</li>
     <li><b>PUE</b> = total facility power ÷ IT power (ideal 1.0). <b>DCiE</b> = IT ÷ total × 100%. A PUE of 1.5 = DCiE 67%.</li>
-    <li>Heat: every watt of IT load becomes a watt of heat. 1 kW ≈ 3,412 BTU/h; 1 ton of cooling = 12,000 BTU/h ≈ 3.5 kW.</li>
+    <li>Heat: every watt of IT load becomes a watt of heat. 1 kW ≈ 3,412 BTU/h (BTU: British Thermal Unit); 1 ton of cooling = 12,000 BTU/h ≈ 3.5 kW.</li>
   </ul>
 </section>
 
@@ -150,15 +150,15 @@
   <div class="tablewrap"><table>
     <thead><tr><th>Item</th><th>Key facts</th></tr></thead>
     <tbody>
-      <tr><td><b>CRAC</b> vs <b>CRAH</b></td><td>Computer room air conditioner (own compressor, DX refrigerant) vs computer room air handler (fans and a chilled-water coil fed by a chiller plant)</td></tr>
+      <tr><td><b>CRAC</b> vs <b>CRAH</b></td><td>Computer room air conditioner (own compressor, DX (Direct Expansion) refrigerant) vs computer room air handler (fans and a chilled-water coil fed by a chiller plant)</td></tr>
       <tr><td><b>Chillers</b> and cooling towers</td><td>Produce chilled water centrally; towers reject heat by evaporation (uses water)</td></tr>
       <tr><td><b>Economizers</b> (free cooling)</td><td>Use cool outside air (airside) or cool water/air through heat exchangers (waterside) instead of compressors when the weather allows</td></tr>
       <tr><td><b>Containment</b></td><td><b>Cold aisle containment</b> (CAC) encloses the cold aisle with doors and a roof; <b>hot aisle containment</b> (HAC) encloses the hot aisle and ducts it back to cooling. Both stop mixing and allow higher supply temperatures</td></tr>
       <tr><td><b>Blanking panels</b> and brush grommets</td><td>Fill empty U spaces and cable openings so hot exhaust can't recirculate to the front</td></tr>
       <tr><td><b>ASHRAE recommended inlet</b></td><td><b>18 to 27 °C</b> (64.4 to 80.6 °F) for most IT equipment; humidity by dew point (about −9 to 15 °C) and a maximum relative humidity (60 to 70% depending on edition). Allowable ranges are wider (A1: 15 to 32 °C). Verify the current edition</td></tr>
-      <tr><td><b>Liquid cooling</b></td><td><b>Rear-door heat exchangers</b> (water coil on the rack door), <b>direct-to-chip</b> (cold plates on CPUs/GPUs), <b>immersion</b> (servers in dielectric fluid, single- or two-phase)</td></tr>
+      <tr><td><b>Liquid cooling</b></td><td><b>Rear-door heat exchangers</b> (water coil on the rack door), <b>direct-to-chip</b> (cold plates on CPUs/GPUs (GPU: Graphics Processing Unit; CPU: Central Processing Unit)), <b>immersion</b> (servers in dielectric fluid, single- or two-phase)</td></tr>
     </tbody></table></div>
-  <div class="callout detail">Why AI racks need liquid: a traditional rack draws about 5 to 10 kW; GPU training racks can draw 40 to over 100 kW. Air simply can't carry that much heat through a cabinet (you'd need hurricane-level airflow), while water carries roughly 3,500 times more heat per unit volume than air.</div>
+  <div class="callout detail">Why AI (Artificial Intelligence) racks need liquid: a traditional rack draws about 5 to 10 kW; GPU training racks can draw 40 to over 100 kW. Air simply can't carry that much heat through a cabinet (you'd need hurricane-level airflow), while water carries roughly 3,500 times more heat per unit volume than air.</div>
 </section>
 
 <section class="lesson" id="racks">
@@ -181,7 +181,7 @@
       <tr><td><b>TR</b> Telecommunications room</td><td>Serves areas outside the computer room (offices, NOC)</td></tr>
     </tbody></table></div>
   <ul>
-    <li><b>Fiber trunks and MPO/MTP</b>: pre-terminated multi-fiber trunks (12 or 24 fibers, now 16 for 400G/800G) with cassettes; polarity methods A, B and C (Module 11).</li>
+    <li><b>Fiber trunks and MPO/MTP (Multi-fiber Push-On)</b>: pre-terminated multi-fiber trunks (12 or 24 fibers, now 16 for 400G/800G) with cassettes; polarity methods A, B and C (Module 11).</li>
     <li>Top-of-rack (ToR) switches vs end-of-row (EoR) / middle-of-row (MoR) designs.</li>
     <li><b>Labeling</b> (TIA-606): unique, consistent identifiers on both ends of every cable, port and panel; keep records in DCIM.</li>
     <li><b>Grounding and bonding</b> (TIA-607): a telecommunications bonding backbone, rack bonding conductors and a common bonding network so all metal is at the same potential; protects people and equipment.</li>
@@ -197,20 +197,20 @@
   <div class="tablewrap"><table>
     <thead><tr><th>System</th><th>How it works</th><th>Data center notes</th></tr></thead>
     <tbody>
-      <tr><td><b>VESDA / aspirating smoke detection</b></td><td>Pipes continuously sample air to a very sensitive laser detector</td><td>Detects smoldering cable insulation minutes before visible smoke; multiple alarm levels (alert, action, fire)</td></tr>
+      <tr><td><b>VESDA (Very Early Smoke Detection Apparatus) / aspirating smoke detection</b></td><td>Pipes continuously sample air to a very sensitive laser detector</td><td>Detects smoldering cable insulation minutes before visible smoke; multiple alarm levels (alert, action, fire)</td></tr>
       <tr><td>Spot smoke / heat detectors</td><td>Point detectors on ceilings and under floors</td><td>Often cross-zoned to trigger suppression only when two detectors agree</td></tr>
       <tr><td><b>Wet pipe sprinkler</b></td><td>Pipes always full of water; heads open individually by heat</td><td>Simple and reliable but risk of leaks over IT; common in offices</td></tr>
       <tr><td><b>Dry pipe sprinkler</b></td><td>Pipes hold pressurized air; water enters when a head opens</td><td>For freezing areas (loading docks, unheated spaces)</td></tr>
       <tr><td><b>Pre-action sprinkler</b></td><td>Pipes dry until detection opens the valve; a head must also fuse (double interlock needs both)</td><td>The usual choice over IT equipment: no water unless two things go wrong</td></tr>
-      <tr><td><b>Clean agents</b></td><td>Gaseous suppression that leaves no residue: <b>FM-200 (HFC-227ea)</b> and <b>Novec 1230 (FK-5-1-12)</b> remove heat; <b>inert gases</b> (IG-541 Inergen, IG-55, IG-01) lower oxygen below combustion level but stay breathable for a short time</td><td>Needs a sealed room (door fan integrity test), pre-discharge alarms and abort switches. HFCs are being phased down; FK-5-1-12 supply is changing (3M exited in 2025). Halon is banned for new systems</td></tr>
+      <tr><td><b>Clean agents</b></td><td>Gaseous suppression that leaves no residue: <b>FM-200 (HFC-227ea)</b> and <b>Novec 1230 (FK-5-1-12)</b> remove heat; <b>inert gases</b> (IG-541 Inergen, IG-55, IG-01) lower oxygen below combustion level but stay breathable for a short time</td><td>Needs a sealed room (door fan integrity test), pre-discharge alarms and abort switches. HFCs (Hydrofluorocarbon) are being phased down; FK-5-1-12 supply is changing (3M exited in 2025). Halon is banned for new systems</td></tr>
       <tr><td>Water mist</td><td>Fine droplets cool and displace oxygen with little water</td><td>An option for some rooms, including lithium-ion battery areas</td></tr>
-      <tr><td><b>EPO</b> (emergency power off)</td><td>A button that cuts power to the room's IT and HVAC</td><td>Required by some codes (NEC 645) for life safety; protect with covers to prevent accidental presses</td></tr>
+      <tr><td><b>EPO</b> (emergency power off)</td><td>A button that cuts power to the room's IT and HVAC (Heating, Ventilation and Air Conditioning)</td><td>Required by some codes (NEC 645) for life safety; protect with covers to prevent accidental presses</td></tr>
     </tbody></table></div>
 </section>
 
 <section class="lesson" id="physsec">
   <h2>7. Physical security</h2>
-  <p>Defense in depth, from the outside in: <b>perimeter</b> (fences, bollards, gates, lighting, guard posts, vehicle barriers) → <b>building</b> (single staffed entrance, reception, visitor logs and escorts) → <b>data hall</b> (badges plus biometrics, <b>mantraps</b>/access control vestibules that admit one person at a time and prevent tailgating) → <b>cage</b> → <b>cabinet</b> (locks, combination or electronic locks with audit). Throughout: <b>CCTV</b> with recorded retention, intrusion alarms, guards, and regular access reviews.</p>
+  <p>Defense in depth, from the outside in: <b>perimeter</b> (fences, bollards, gates, lighting, guard posts, vehicle barriers) → <b>building</b> (single staffed entrance, reception, visitor logs and escorts) → <b>data hall</b> (badges plus biometrics, <b>mantraps</b>/access control vestibules that admit one person at a time and prevent tailgating) → <b>cage</b> → <b>cabinet</b> (locks, combination or electronic locks with audit). Throughout: <b>CCTV (Closed-Circuit Television)</b> with recorded retention, intrusion alarms, guards, and regular access reviews.</p>
   <div class="callout trap">"A badge reader alone stops tailgating." No: tailgating defeats badge-only doors. Mantraps, turnstiles, guards and a culture of challenging strangers do.</div>
 </section>
 
@@ -225,15 +225,15 @@
     <div class="tile"><h4>Maintenance and change</h4><ul>
       <li><b>Preventive</b> (scheduled), <b>predictive</b> (condition-based: thermal imaging, vibration, battery impedance), corrective (repair after failure).</li>
       <li>Change management with method of procedure (MOP) and emergency operating procedures (EOP); <b>concurrent maintainability</b> lets you maintain without shutting down IT.</li>
-      <li>Documentation: as-built drawings, single-line diagrams, labeling, runbooks; SLAs with customers and vendors.</li>
+      <li>Documentation: as-built drawings, single-line diagrams, labeling, runbooks; SLAs (Service Level Agreement) with customers and vendors.</li>
     </ul></div>
     <div class="tile"><h4>Health and safety</h4><ul>
       <li><b>Lockout/tagout (LOTO)</b>: isolate and lock energy sources before working; only the person who applied the lock removes it.</li>
-      <li><b>Arc flash</b>: explosive energy from electrical faults; follow NFPA 70E boundaries and PPE, work de-energized whenever possible.</li>
+      <li><b>Arc flash</b>: explosive energy from electrical faults; follow NFPA 70E boundaries and PPE (Personal Protective Equipment), work de-energized whenever possible.</li>
       <li>Safe lifting (team lifts, server lifts), raised-floor tile safety (never leave holes open), hearing protection near generators, clean agent discharge procedures.</li>
     </ul></div>
     <div class="tile"><h4>Sustainability</h4><ul>
-      <li><b>PUE</b> (energy), <b>WUE</b> (water usage effectiveness: liters of water per kWh of IT energy), <b>CUE</b> (carbon), renewable energy factor.</li>
+      <li><b>PUE</b> (energy), <b>WUE</b> (water usage effectiveness: liters of water per kWh of IT energy), <b>CUE (Carbon Usage Effectiveness)</b> (carbon), renewable energy factor.</li>
       <li>Renewables via power purchase agreements, higher supply temperatures, free cooling, <b>heat reuse</b> (district heating), efficient UPS modes.</li>
     </ul></div>
   </div>

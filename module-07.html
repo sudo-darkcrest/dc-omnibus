@@ -17,16 +17,16 @@
 <main class="page" id="main">
 
 <section class="intro">
-  <div class="kicker">Part 2 · Hardware, OS and Home · Module 07</div>
+  <div class="kicker">Part 2 · Hardware, OS (Operating System) and Home · Module 07</div>
   <h1>Home Computing and Consumer Tech</h1>
-  <p class="why"><b>Why this matters.</b> Everyone becomes the family IT person eventually, and A+ tests SOHO (small office/home office) networking, wireless security and personal device support directly. Homes are also where many attacks start: a reused password, a cheap camera with default credentials, an old router. This module turns you into the person who sets up a home network properly and keeps the household safe.</p>
+  <p class="why"><b>Why this matters.</b> Everyone becomes the family IT (Information Technology) person eventually, and A+ tests SOHO (small office/home office) networking, wireless security and personal device support directly. Homes are also where many attacks start: a reused password, a cheap camera with default credentials, an old router. This module turns you into the person who sets up a home network properly and keeps the household safe.</p>
   <h3>You will be able to</h3>
   <ul class="outcomes">
-    <li>Explain modem vs router vs access point vs mesh, and compare ISP connection types.</li>
-    <li>Configure a home router securely: SSID, WPA3, guest network, DHCP, port forwarding, firmware and parental controls.</li>
-    <li>Choose between Wi-Fi, Zigbee, Z-Wave, Thread and Matter for smart home devices, and isolate IoT safely.</li>
+    <li>Explain modem vs router vs access point vs mesh, and compare ISP (Internet Service Provider) connection types.</li>
+    <li>Configure a home router securely: SSID (Service Set Identifier), WPA3 (Wi-Fi Protected Access 3), guest network, DHCP (Dynamic Host Configuration Protocol), port forwarding, firmware and parental controls.</li>
+    <li>Choose between Wi-Fi, Zigbee, Z-Wave, Thread and Matter for smart home devices, and isolate IoT (Internet of Things) safely.</li>
     <li>Read a device spec sheet and match it to the user's needs.</li>
-    <li>Protect a household with password managers, MFA, updates, backups and phishing awareness.</li>
+    <li>Protect a household with password managers, MFA (Multifactor Authentication), updates, backups and phishing awareness.</li>
     <li>Fix common home problems: slow Wi-Fi, dead spots, printer and charging issues.</li>
   </ul>
   <nav class="jumpnav" id="jumpnav" aria-label="On this page"></nav>
@@ -42,9 +42,9 @@
   <div class="tablewrap"><table>
     <thead><tr><th>Device</th><th>Plain meaning</th><th>What it really does</th></tr></thead>
     <tbody>
-      <tr><td><b>Modem</b></td><td>The translator between your home and the ISP's line.</td><td>Modulates/demodulates the ISP's signal (cable DOCSIS, DSL). For fiber, the equivalent is the <b>ONT</b> (optical network terminal).</td></tr>
-      <tr><td><b>Router</b></td><td>The traffic director between your home network and the internet.</td><td>Routes between your LAN and the ISP (WAN), performs NAT, runs a DHCP server, DNS forwarding and a firewall.</td></tr>
-      <tr><td><b>Switch</b></td><td>Adds more wired ports.</td><td>Forwards Ethernet frames between devices on the same LAN by MAC address (Module 12).</td></tr>
+      <tr><td><b>Modem</b></td><td>The translator between your home and the ISP's line.</td><td>Modulates/demodulates the ISP's signal (cable DOCSIS (Data Over Cable Service Interface Specification), DSL (Digital Subscriber Line)). For fiber, the equivalent is the <b>ONT</b> (optical network terminal).</td></tr>
+      <tr><td><b>Router</b></td><td>The traffic director between your home network and the internet.</td><td>Routes between your LAN (Local Area Network) and the ISP (WAN), performs NAT, runs a DHCP server, DNS (Domain Name System) forwarding and a firewall.</td></tr>
+      <tr><td><b>Switch</b></td><td>Adds more wired ports.</td><td>Forwards Ethernet frames between devices on the same LAN by MAC (Media Access Control) address (Module 12).</td></tr>
       <tr><td><b>Access point (AP)</b></td><td>Makes the Wi-Fi.</td><td>Bridges wireless clients onto the wired LAN.</td></tr>
       <tr><td><b>Mesh system</b></td><td>Several Wi-Fi boxes that work as one network.</td><td>Multiple nodes sharing one SSID, with wireless (or wired, "Ethernet backhaul") links between nodes and coordinated roaming.</td></tr>
     </tbody>
@@ -54,9 +54,9 @@
   <div class="tablewrap"><table>
     <thead><tr><th>Type</th><th>Medium</th><th>Typical speeds</th><th>Notes</th></tr></thead>
     <tbody>
-      <tr><td>DSL (ADSL/VDSL)</td><td>Telephone copper</td><td>ADSL up to ~24 Mbps; VDSL2 ~100 Mbps</td><td>Speed drops with distance from the exchange; asymmetric (download faster than upload).</td></tr>
+      <tr><td>DSL (ADSL/VDSL)</td><td>Telephone copper</td><td>ADSL up to ~24 Mbps; VDSL2 (Very-high-bit-rate Digital Subscriber Line 2) ~100 Mbps</td><td>Speed drops with distance from the exchange; asymmetric (download faster than upload).</td></tr>
       <tr><td>Cable (DOCSIS 3.0/3.1/4.0)</td><td>Coaxial (hybrid fiber-coax)</td><td>Hundreds of Mbps to multi-gigabit</td><td>Bandwidth shared with neighbors on the node; upload lower than download.</td></tr>
-      <tr><td>Fiber (FTTH/FTTP)</td><td>Optical fiber to an ONT in the home</td><td>1 to 10 Gbps, often symmetric</td><td>Usually GPON or XGS-PON passive optical networks (Module 11).</td></tr>
+      <tr><td>Fiber (FTTH/FTTP)</td><td>Optical fiber to an ONT in the home</td><td>1 to 10 Gbps, often symmetric</td><td>Usually GPON (Gigabit Passive Optical Network) or XGS-PON (10-Gigabit Symmetric Passive Optical Network) passive optical networks (Module 11).</td></tr>
       <tr><td>Fixed wireless</td><td>Radio from a tower to a roof antenna</td><td>25 to several hundred Mbps</td><td>Needs line of sight; weather can affect it; common in rural areas.</td></tr>
       <tr><td>5G / 4G home internet</td><td>Cellular network</td><td>100 Mbps to 1+ Gbps</td><td>Easy setup; varies with signal and network load.</td></tr>
       <tr><td>Satellite (GEO)</td><td>Satellite ~35,786 km up</td><td>25 to 100+ Mbps</td><td>High latency (~600 ms round trip), poor for gaming and calls.</td></tr>
@@ -68,13 +68,13 @@
     <li>Change the <b>default admin password</b> (and username if possible); disable remote administration from the WAN.</li>
     <li><b>Update firmware</b> (enable automatic updates if available). Replace routers that no longer get updates.</li>
     <li>Set the <b>SSID</b> (network name). Hiding it gives no real security.</li>
-    <li>Use <b>WPA3-Personal</b> (SAE), or WPA2/WPA3 transition mode for older devices, with a long passphrase. Never WEP or WPA (TKIP).</li>
-    <li>Disable <b>WPS</b> (its PIN method can be brute-forced).</li>
-    <li>Enable a <b>guest network</b> with client isolation for visitors, and ideally a separate network or VLAN for IoT.</li>
-    <li><b>DHCP</b>: the router hands out addresses (e.g. 192.168.1.100 to .199). Use <b>DHCP reservations</b> so printers and NAS boxes keep the same IP.</li>
-    <li><b>Port forwarding</b>: maps an external port to an internal device (e.g. TCP 25565 to a game server). Only forward what you need. Disable <b>UPnP</b> if you do not need devices to open ports automatically.</li>
+    <li>Use <b>WPA3-Personal</b> (SAE), or WPA2/WPA3 (WPA2: Wi-Fi Protected Access 2) transition mode for older devices, with a long passphrase. Never WEP (Wired Equivalent Privacy) or WPA (Wi-Fi Protected Access; TKIP (Temporal Key Integrity Protocol)).</li>
+    <li>Disable <b>WPS (Wi-Fi Protected Setup)</b> (its PIN (Personal Identification Number) method can be brute-forced).</li>
+    <li>Enable a <b>guest network</b> with client isolation for visitors, and ideally a separate network or VLAN (Virtual Local Area Network) for IoT.</li>
+    <li><b>DHCP</b>: the router hands out addresses (e.g. 192.168.1.100 to .199). Use <b>DHCP reservations</b> so printers and NAS (Network Attached Storage) boxes keep the same IP (Internet Protocol).</li>
+    <li><b>Port forwarding</b>: maps an external port to an internal device (e.g. TCP (Transmission Control Protocol) 25565 to a game server). Only forward what you need. Disable <b>UPnP (Universal Plug and Play)</b> if you do not need devices to open ports automatically.</li>
     <li><b>Parental controls / content filtering</b>: schedules and DNS-based filtering.</li>
-    <li>Change the default LAN range if it clashes with a VPN, and consider setting custom DNS servers.</li>
+    <li>Change the default LAN range if it clashes with a VPN (Virtual Private Network), and consider setting custom DNS servers.</li>
   </ol>
 </section>
 
@@ -83,11 +83,11 @@
   <div class="tablewrap"><table>
     <thead><tr><th>Protocol</th><th>Radio</th><th>Range</th><th>Power use</th><th>Mesh?</th><th>Hub needed?</th></tr></thead>
     <tbody>
-      <tr><td>Wi-Fi</td><td>2.4 / 5 GHz (IEEE 802.11)</td><td>House-wide via router</td><td>High</td><td>Only with mesh Wi-Fi</td><td>No (uses your router)</td></tr>
+      <tr><td>Wi-Fi</td><td>2.4 / 5 GHz (IEEE (Institute of Electrical and Electronics Engineers) 802.11)</td><td>House-wide via router</td><td>High</td><td>Only with mesh Wi-Fi</td><td>No (uses your router)</td></tr>
       <tr><td>Zigbee</td><td>2.4 GHz (IEEE 802.15.4)</td><td>~10 to 20 m per hop</td><td>Very low</td><td>Yes</td><td>Yes (Zigbee coordinator)</td></tr>
-      <tr><td>Z-Wave</td><td>Sub-GHz (908.42 MHz US, 868.42 MHz EU)</td><td>~30 m+ per hop; passes walls well</td><td>Very low</td><td>Yes</td><td>Yes (Z-Wave controller)</td></tr>
-      <tr><td>Thread</td><td>2.4 GHz (IEEE 802.15.4), IPv6-based</td><td>~10 to 30 m per hop</td><td>Very low</td><td>Yes, self-healing</td><td>A Thread border router (often built into speakers or hubs)</td></tr>
-      <tr><td>Bluetooth LE</td><td>2.4 GHz</td><td>~10 m</td><td>Low</td><td>Bluetooth Mesh exists</td><td>No (phone)</td></tr>
+      <tr><td>Z-Wave</td><td>Sub-GHz (908.42 MHz US, 868.42 MHz EU (European Union))</td><td>~30 m+ per hop; passes walls well</td><td>Very low</td><td>Yes</td><td>Yes (Z-Wave controller)</td></tr>
+      <tr><td>Thread</td><td>2.4 GHz (IEEE 802.15.4), IPv6-based (Internet Protocol version 6)</td><td>~10 to 30 m per hop</td><td>Very low</td><td>Yes, self-healing</td><td>A Thread border router (often built into speakers or hubs)</td></tr>
+      <tr><td>Bluetooth LE (Low Energy)</td><td>2.4 GHz</td><td>~10 m</td><td>Low</td><td>Bluetooth Mesh exists</td><td>No (phone)</td></tr>
     </tbody>
   </table></div>
   <p><b>Matter</b> (from the Connectivity Standards Alliance, first released 2022) is not a radio: it is an application-layer standard that runs over Wi-Fi, Ethernet and Thread so devices work across Apple Home, Google Home, Amazon Alexa and SmartThings.</p>
@@ -102,9 +102,9 @@
   <h2>3. Home media</h2>
   <ul>
     <li><b>Streaming</b>: 4K streams need roughly 15 to 25 Mbps each; wire the TV with Ethernet if Wi-Fi is weak.</li>
-    <li><b>NAS</b> (network attached storage): a small file server with drives (often RAID 1 or 5) for backups and media. Still keep an off-site copy.</li>
+    <li><b>NAS</b> (network attached storage): a small file server with drives (often RAID (Redundant Array of Independent Disks) 1 or 5) for backups and media. Still keep an off-site copy.</li>
     <li><b>Media servers</b> (Plex, Jellyfin, Kodi) organize and stream your own files.</li>
-    <li><b>HDMI-CEC</b> (Consumer Electronics Control): one remote controls several HDMI devices.</li>
+    <li><b>HDMI-CEC</b> (Consumer Electronics Control): one remote controls several HDMI (High-Definition Multimedia Interface) devices.</li>
     <li><b>ARC / eARC</b> (enhanced Audio Return Channel): sends audio from the TV back down the HDMI cable to a soundbar or receiver; eARC supports lossless and object-based formats such as Dolby Atmos (TrueHD).</li>
   </ul>
 </section>
@@ -112,7 +112,7 @@
 <section class="lesson" id="devices">
   <h2>4. Choosing personal devices</h2>
   <ul>
-    <li><b>Laptop</b>: portable, battery; choose by CPU class, RAM (16 GB is a sensible minimum for most users now), SSD size, screen, weight and battery life.</li>
+    <li><b>Laptop</b>: portable, battery; choose by CPU (Central Processing Unit) class, RAM (Random Access Memory) (16 GB (Gigabyte) is a sensible minimum for most users now), SSD (Solid-State Drive) size, screen, weight and battery life.</li>
     <li><b>Desktop</b>: more power per dollar, upgradeable, better cooling; best for gaming and heavy editing.</li>
     <li><b>Tablet</b>: media, reading, light work, drawing.</li>
     <li><b>Phone</b>: always with you; pick by OS ecosystem, update support length, camera and battery.</li>
@@ -124,12 +124,12 @@
   <h2>5. Personal security at home</h2>
   <ul>
     <li><b>Passwords</b>: long passphrases (four or more random words, 16+ characters) beat short complex ones. Never reuse passwords; use a <b>password manager</b> (it generates and fills unique passwords and spots phishing domains).</li>
-    <li><b>MFA</b> (multifactor authentication): add an authenticator app, a hardware security key or a <b>passkey</b>. SMS codes are better than nothing but can be stolen by SIM swapping.</li>
-    <li><b>Phishing</b> at home: fake delivery texts, "your account is locked" emails, tech-support scam pop-ups and calls. Go to the site yourself instead of clicking links; never let a caller remote into your PC.</li>
+    <li><b>MFA</b> (multifactor authentication): add an authenticator app, a hardware security key or a <b>passkey</b>. SMS (Short Message Service) codes are better than nothing but can be stolen by SIM (Subscriber Identity Module) swapping.</li>
+    <li><b>Phishing</b> at home: fake delivery texts, "your account is locked" emails, tech-support scam pop-ups and calls. Go to the site yourself instead of clicking links; never let a caller remote into your PC (Personal Computer).</li>
     <li><b>Updates</b>: OS, browser, router and apps. Enable automatic updates.</li>
     <li><b>Backups</b>: 3-2-1 (Module 6), with one copy offline or versioned in the cloud to survive ransomware.</li>
     <li><b>Antivirus</b>: built-in Microsoft Defender is good; macOS has XProtect. Avoid "cleaner" apps.</li>
-    <li><b>Safe browsing</b>: check for HTTPS but remember HTTPS does not mean a site is honest; use an ad/tracker blocker; download only from official sources.</li>
+    <li><b>Safe browsing</b>: check for HTTPS (HyperText Transfer Protocol Secure) but remember HTTPS does not mean a site is honest; use an ad/tracker blocker; download only from official sources.</li>
     <li><b>Kids and older relatives</b>: parental controls, separate standard (non-admin) accounts, app store restrictions, scam-call awareness, credit freezes, and a trusted person to ask before paying anyone.</li>
   </ul>
 </section>
@@ -152,7 +152,7 @@
   <h2>7. Power at home</h2>
   <ul>
     <li><b>Surge protector</b>: diverts voltage spikes using MOVs (metal oxide varistors). Rated in joules (higher is better) and clamping voltage (lower is better). MOVs wear out with each surge. A plain power strip has no protection.</li>
-    <li><b>UPS</b> (uninterruptible power supply): a battery that keeps devices running through outages and brownouts long enough to save work and shut down cleanly. Size it in VA and W (Module 18). Put the modem, router and NAS on a small UPS to keep internet up during short outages.</li>
+    <li><b>UPS</b> (uninterruptible power supply): a battery that keeps devices running through outages and brownouts long enough to save work and shut down cleanly. Size it in VA (Volt-Amperes) and W (Module 18). Put the modem, router and NAS on a small UPS to keep internet up during short outages.</li>
     <li><b>Battery care</b> (lithium-ion): avoid heat and staying at 100% for long periods (use optimized/limited charging), avoid deep discharges, recycle properly, and never use a swollen battery.</li>
   </ul>
 </section>

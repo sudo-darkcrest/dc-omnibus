@@ -52,14 +52,14 @@
 <section class="intro">
   <div class="kicker">Part 4 · Security, Cloud and the Data Center · Module 15</div>
   <h1>Know the Enemy: Threats, Attacks and Vulnerabilities</h1>
-  <p class="why"><b>Why this matters.</b> You can't defend against what you can't recognize. Security+ Domain 2 (Threats, Vulnerabilities and Mitigations) is about 22% of the exam, and every later topic (architecture, operations, incident response) assumes you can name the attack and the control that stops it. Everything here is explained conceptually and defensively: how the attack works, how to prevent it, how to detect it and how to respond. There is no working exploit code anywhere on this page, and the SQL injection lab is a simulation with no real database.</p>
+  <p class="why"><b>Why this matters.</b> You can't defend against what you can't recognize. Security+ Domain 2 (Threats, Vulnerabilities and Mitigations) is about 22% of the exam, and every later topic (architecture, operations, incident response) assumes you can name the attack and the control that stops it. Everything here is explained conceptually and defensively: how the attack works, how to prevent it, how to detect it and how to respond. There is no working exploit code anywhere on this page, and the SQL (Structured Query Language) injection lab is a simulation with no real database.</p>
   <h3>You will be able to</h3>
   <ul class="outcomes">
     <li>Name threat actors, their motives and resources, and the vectors they use.</li>
     <li>Recognize social engineering and phishing red flags in real-looking messages.</li>
     <li>Tell malware types and application, network, password and crypto attacks apart, and pick the control for each.</li>
     <li>Describe vulnerability types, indicators of compromise, MITRE ATT&amp;CK and the Cyber Kill Chain.</li>
-    <li>Score a vulnerability with CVSS and run a vulnerability management cycle, including pen test rules of engagement.</li>
+    <li>Score a vulnerability with CVSS (Common Vulnerability Scoring System) and run a vulnerability management cycle, including pen test rules of engagement.</li>
   </ul>
   <nav class="jumpnav" id="jumpnav" aria-label="On this page"></nav>
 </section>
@@ -80,11 +80,11 @@
       <tr><td><b>Hacktivist</b></td><td>Low to medium</td><td>Ideology, philosophical/political beliefs</td><td>"Defaced the website with a protest message", DDoS for a cause</td></tr>
       <tr><td><b>Insider threat</b></td><td>Varies, but has legitimate access and knowledge</td><td>Revenge, financial gain, carelessness</td><td>"A disgruntled employee copied the customer list"</td></tr>
       <tr><td><b>Unskilled attacker</b> (script kiddie)</td><td>Low; runs others' tools</td><td>Thrill, notoriety, disruption</td><td>"Used a downloaded tool without understanding it"</td></tr>
-      <tr><td><b>Shadow IT</b></td><td>Internal, well-meaning</td><td>Convenience (gets work done around IT)</td><td>"A team signed up for an unapproved cloud file service"</td></tr>
+      <tr><td><b>Shadow IT (Information Technology)</b></td><td>Internal, well-meaning</td><td>Convenience (gets work done around IT)</td><td>"A team signed up for an unapproved cloud file service"</td></tr>
     </tbody></table></div>
   <p>Motives the exam lists: data exfiltration, espionage, service disruption, blackmail, financial gain, philosophical/political beliefs, ethical (white hat), revenge, disruption/chaos, war.</p>
   <h3>Threat vectors and attack surface</h3>
-  <p>The <b>attack surface</b> is every place an attacker could try to get in; a <b>threat vector</b> is the path they use. Vectors include: messages (email, SMS, instant messaging), image-based and file-based (malicious attachments), voice calls, removable devices (USB drops), vulnerable software (client-based vs agentless), unsupported systems and applications, unsecure networks (wireless, wired, Bluetooth), open service ports, default credentials, and the <b>supply chain</b> (managed service providers, vendors, suppliers).</p>
+  <p>The <b>attack surface</b> is every place an attacker could try to get in; a <b>threat vector</b> is the path they use. Vectors include: messages (email, SMS (Short Message Service), instant messaging), image-based and file-based (malicious attachments), voice calls, removable devices (USB (Universal Serial Bus) drops), vulnerable software (client-based vs agentless), unsupported systems and applications, unsecure networks (wireless, wired, Bluetooth), open service ports, default credentials, and the <b>supply chain</b> (managed service providers, vendors, suppliers).</p>
   <div class="callout tip"><b>Defender's view:</b> reduce the attack surface first (close ports, remove unused software, change defaults, retire unsupported systems), then harden what must stay exposed.</div>
 </section>
 
@@ -94,14 +94,14 @@
   <div class="tablewrap"><table>
     <thead><tr><th>Attack</th><th>How it works</th><th>Defense</th></tr></thead>
     <tbody>
-      <tr><td><b>Phishing</b></td><td>Mass fraudulent email luring clicks, credentials or attachments</td><td>Awareness training, email filtering, SPF/DKIM/DMARC, MFA, reporting button</td></tr>
+      <tr><td><b>Phishing</b></td><td>Mass fraudulent email luring clicks, credentials or attachments</td><td>Awareness training, email filtering, SPF/DKIM/DMARC (SPF: Sender Policy Framework; DMARC: Domain-based Message Authentication, Reporting and Conformance), MFA (Multifactor Authentication), reporting button</td></tr>
       <tr><td><b>Spear phishing</b></td><td>Phishing tailored to a specific person or group using researched details</td><td>Training with realistic simulations, verify through a second channel</td></tr>
       <tr><td><b>Whaling</b></td><td>Spear phishing aimed at executives</td><td>Executive training, payment approval controls</td></tr>
       <tr><td><b>Vishing</b> / <b>smishing</b></td><td>Voice-call / SMS phishing (often fake bank, IT support or delivery)</td><td>Call back on a known number; never give codes over the phone</td></tr>
       <tr><td><b>Pretexting</b></td><td>An invented scenario ("I'm from the auditor's office") to justify the request</td><td>Identity verification procedures</td></tr>
       <tr><td><b>Business email compromise (BEC)</b></td><td>Compromised or spoofed executive/vendor mailbox requests wire transfers or changes to bank details</td><td>Out-of-band verification for any payment change, dual approval</td></tr>
-      <tr><td><b>Watering hole</b></td><td>Compromise a website the target group visits</td><td>Patching, browser isolation, web filtering, EDR</td></tr>
-      <tr><td><b>Typosquatting</b> / brand impersonation</td><td>Look-alike domains (examp1e.com) or fake brand pages</td><td>Register look-alikes, DNS filtering, check the real domain</td></tr>
+      <tr><td><b>Watering hole</b></td><td>Compromise a website the target group visits</td><td>Patching, browser isolation, web filtering, EDR (Endpoint Detection and Response)</td></tr>
+      <tr><td><b>Typosquatting</b> / brand impersonation</td><td>Look-alike domains (examp1e.com) or fake brand pages</td><td>Register look-alikes, DNS (Domain Name System) filtering, check the real domain</td></tr>
       <tr><td><b>Impersonation</b></td><td>Pretending to be someone trusted (IT, boss, vendor), in person or remotely</td><td>Verification, badges, "challenge strangers" culture</td></tr>
       <tr><td><b>Misinformation / disinformation</b></td><td>False content, accidental or deliberate, to influence people</td><td>Media literacy, official channels</td></tr>
     </tbody></table></div>
@@ -109,7 +109,7 @@
   <h3>Red flags to train your eye</h3>
   <ul>
     <li><b>Sender</b>: display name doesn't match the address; look-alike domain (ha1cyondata.com, company-corp.com); free mail for a "CEO".</li>
-    <li><b>Links</b>: displayed text differs from the real URL; the real domain is the part just before the first single slash (login.example.com.evil.ru belongs to <i>evil.ru</i>).</li>
+    <li><b>Links</b>: displayed text differs from the real URL (Uniform Resource Locator); the real domain is the part just before the first single slash (login.example.com.evil.ru belongs to <i>evil.ru</i>).</li>
     <li><b>Urgency or secrecy</b>: "within 2 hours", "keep this confidential", "I'm in a meeting, just do it".</li>
     <li><b>Attachments</b>: unexpected, double extensions (invoice.pdf.exe), macro-enabled Office files, password-protected ZIPs.</li>
     <li><b>Requests</b>: gift cards, wire transfers, bank detail changes, MFA codes, password resets.</li>
@@ -126,11 +126,11 @@
       <tr><td><b>Trojan</b></td><td>Pretends to be useful software; RAT = remote access trojan</td><td>Application allow-listing, trusted sources only</td></tr>
       <tr><td><b>Ransomware</b></td><td>Encrypts data (and often steals it first: "double extortion") and demands payment</td><td>Offline/immutable backups, EDR, segmentation, patching</td></tr>
       <tr><td><b>Spyware</b> / <b>keylogger</b></td><td>Secretly collects activity / records keystrokes</td><td>EDR, MFA (stolen password alone isn't enough)</td></tr>
-      <tr><td><b>Rootkit</b></td><td>Hides deep in the OS/kernel or firmware to stay invisible</td><td>Secure boot, measured boot (TPM), reimage rather than clean</td></tr>
+      <tr><td><b>Rootkit</b></td><td>Hides deep in the OS/kernel (OS: Operating System) or firmware to stay invisible</td><td>Secure boot, measured boot (TPM), reimage rather than clean</td></tr>
       <tr><td><b>Logic bomb</b></td><td>Dormant code that triggers on a condition or date (often an insider)</td><td>Code review, separation of duties, change management</td></tr>
       <tr><td><b>Bloatware</b></td><td>Unneeded preinstalled software that widens the attack surface</td><td>Remove at provisioning; standard images</td></tr>
-      <tr><td><b>Fileless malware</b></td><td>Lives in memory and abuses built-in tools (PowerShell, WMI): "living off the land"</td><td>EDR behavior detection, script logging, constrained language mode</td></tr>
-      <tr><td><b>Botnet</b></td><td>Many infected machines (bots) controlled through C2, used for DDoS, spam, credential stuffing</td><td>Egress filtering, DNS filtering, patching IoT</td></tr>
+      <tr><td><b>Fileless malware</b></td><td>Lives in memory and abuses built-in tools (PowerShell, WMI (Windows Management Instrumentation)): "living off the land"</td><td>EDR behavior detection, script logging, constrained language mode</td></tr>
+      <tr><td><b>Botnet</b></td><td>Many infected machines (bots) controlled through C2, used for DDoS, spam, credential stuffing</td><td>Egress filtering, DNS filtering, patching IoT (Internet of Things)</td></tr>
     </tbody></table></div>
   <div class="callout trap">the difference between a virus and a worm is <b>user interaction</b>. "Spread to 500 servers overnight with nobody clicking anything" = worm.</div>
 </section>
@@ -140,16 +140,16 @@
   <div class="tablewrap"><table>
     <thead><tr><th>Attack</th><th>Concept (what goes wrong)</th><th>Prevent / detect</th></tr></thead>
     <tbody>
-      <tr><td><b>SQL injection (SQLi)</b></td><td>User input is pasted into a database query, so input can change the query's <i>meaning</i></td><td>Parameterized queries (prepared statements), input validation, least-privilege DB accounts, WAF</td></tr>
-      <tr><td><b>Cross-site scripting (XSS)</b></td><td>The site echoes attacker-supplied script into pages other users view (stored, reflected, DOM-based)</td><td>Output encoding, input validation, Content Security Policy, HttpOnly cookies</td></tr>
+      <tr><td><b>SQL injection (SQLi)</b></td><td>User input is pasted into a database query, so input can change the query's <i>meaning</i></td><td>Parameterized queries (prepared statements), input validation, least-privilege DB accounts, WAF (Web Application Firewall)</td></tr>
+      <tr><td><b>Cross-site scripting (XSS)</b></td><td>The site echoes attacker-supplied script into pages other users view (stored, reflected, DOM-based (Document Object Model))</td><td>Output encoding, input validation, Content Security Policy, HttpOnly cookies</td></tr>
       <tr><td><b>Cross-site request forgery (CSRF)</b></td><td>A malicious page makes the victim's logged-in browser send an unwanted request to another site</td><td>Anti-CSRF tokens, SameSite cookies, re-authentication for sensitive actions</td></tr>
       <tr><td><b>Server-side request forgery (SSRF)</b></td><td>The server is tricked into fetching internal URLs (e.g., cloud metadata) for the attacker</td><td>Allow-list outbound destinations, block metadata endpoints, IMDSv2</td></tr>
-      <tr><td><b>Buffer overflow</b></td><td>Writing more data than a memory buffer holds overwrites adjacent memory, possibly redirecting execution</td><td>Memory-safe languages, bounds checking, ASLR, DEP/NX, stack canaries</td></tr>
+      <tr><td><b>Buffer overflow</b></td><td>Writing more data than a memory buffer holds overwrites adjacent memory, possibly redirecting execution</td><td>Memory-safe languages, bounds checking, ASLR (Address Space Layout Randomization), DEP/NX (DEP: Data Execution Prevention), stack canaries</td></tr>
       <tr><td><b>Race condition</b> (TOCTOU)</td><td>Time-of-check to time-of-use gap: state changes between checking and acting</td><td>Atomic operations, locking, careful design</td></tr>
       <tr><td><b>Directory traversal</b></td><td>Paths like <code>../../</code> escape the intended folder to read other files</td><td>Canonicalize paths, allow-lists, run with least privilege</td></tr>
-      <tr><td><b>Privilege escalation</b></td><td>Gaining higher rights: vertical (user → admin) or horizontal (user A → user B's data)</td><td>Patching, least privilege, PAM, monitoring for new admin accounts</td></tr>
-      <tr><td><b>Replay</b></td><td>Capturing valid data (token, session, auth exchange) and resending it</td><td>Timestamps, nonces, session expiry, TLS</td></tr>
-      <tr><td><b>Injection (general)</b></td><td>Any input interpreted as commands: OS command, LDAP, XML</td><td>Never build commands from raw input; validate and use safe APIs</td></tr>
+      <tr><td><b>Privilege escalation</b></td><td>Gaining higher rights: vertical (user → admin) or horizontal (user A → user B's data)</td><td>Patching, least privilege, PAM (Privileged Access Management), monitoring for new admin accounts</td></tr>
+      <tr><td><b>Replay</b></td><td>Capturing valid data (token, session, auth exchange) and resending it</td><td>Timestamps, nonces, session expiry, TLS (Transport Layer Security)</td></tr>
+      <tr><td><b>Injection (general)</b></td><td>Any input interpreted as commands: OS command, LDAP (Lightweight Directory Access Protocol), XML (Extensible Markup Language)</td><td>Never build commands from raw input; validate and use safe APIs (Application Programming Interface)</td></tr>
     </tbody></table></div>
   <div class="callout detail"><b>The single idea behind injection:</b> the program mixes <b>code</b> and <b>data</b> in one string. A parameterized query sends them separately, so data can never become code. Lab 2 shows this visually.</div>
 </section>
@@ -165,15 +165,15 @@
   <div class="tablewrap"><table>
     <thead><tr><th>Attack</th><th>Concept</th><th>Defense</th></tr></thead>
     <tbody>
-      <tr><td><b>DDoS</b></td><td>Many sources overwhelm bandwidth, protocol state (SYN flood) or the application layer</td><td>Upstream scrubbing / DDoS protection service, CDN, rate limiting, SYN cookies</td></tr>
-      <tr><td><b>Reflected / amplified DDoS</b></td><td>Spoofed requests to open DNS, NTP, memcached or CLDAP servers that reply much larger</td><td>Close open resolvers, BCP 38 egress filtering (block spoofed sources), scrubbing</td></tr>
-      <tr><td><b>On-path</b> (man-in-the-middle)</td><td>Attacker relays and can read/alter traffic between two parties</td><td>TLS with certificate validation, HSTS, mutual auth, VPNs</td></tr>
-      <tr><td><b>ARP poisoning</b></td><td>Fake ARP replies map the gateway's IP to the attacker's MAC on the local segment</td><td>Dynamic ARP Inspection (with DHCP snooping), static ARP for critical hosts</td></tr>
-      <tr><td><b>DNS poisoning / spoofing</b></td><td>False DNS answers cached so users go to the attacker's IP</td><td>DNSSEC, randomized source ports, trusted resolvers, DoH/DoT</td></tr>
+      <tr><td><b>DDoS</b></td><td>Many sources overwhelm bandwidth, protocol state (SYN (Synchronize flag) flood) or the application layer</td><td>Upstream scrubbing / DDoS protection service, CDN (Content Delivery Network), rate limiting, SYN cookies</td></tr>
+      <tr><td><b>Reflected / amplified DDoS</b></td><td>Spoofed requests to open DNS, NTP (Network Time Protocol), memcached or CLDAP (Connectionless Lightweight Directory Access Protocol) servers that reply much larger</td><td>Close open resolvers, BCP (Business Continuity Plan) 38 egress filtering (block spoofed sources), scrubbing</td></tr>
+      <tr><td><b>On-path</b> (man-in-the-middle)</td><td>Attacker relays and can read/alter traffic between two parties</td><td>TLS with certificate validation, HSTS (HyperText Transfer Protocol Strict Transport Security), mutual auth, VPNs (Virtual Private Network)</td></tr>
+      <tr><td><b>ARP (Address Resolution Protocol) poisoning</b></td><td>Fake ARP replies map the gateway's IP (Internet Protocol) to the attacker's MAC (Media Access Control) on the local segment</td><td>Dynamic ARP Inspection (with DHCP (Dynamic Host Configuration Protocol) snooping), static ARP for critical hosts</td></tr>
+      <tr><td><b>DNS poisoning / spoofing</b></td><td>False DNS answers cached so users go to the attacker's IP</td><td>DNSSEC (Domain Name System Security Extensions), randomized source ports, trusted resolvers, DoH/DoT</td></tr>
       <tr><td><b>MAC flooding</b></td><td>Fill the switch's MAC table so it floods frames out every port (acts like a hub)</td><td>Port security (limit MACs per port)</td></tr>
-      <tr><td><b>VLAN hopping</b></td><td>Switch spoofing (negotiating a trunk) or double tagging on the native VLAN</td><td>Disable DTP/auto-trunking, set access ports explicitly, unused native VLAN</td></tr>
+      <tr><td><b>VLAN (Virtual Local Area Network) hopping</b></td><td>Switch spoofing (negotiating a trunk) or double tagging on the native VLAN</td><td>Disable DTP/auto-trunking (DTP: Dynamic Trunking Protocol), set access ports explicitly, unused native VLAN</td></tr>
       <tr><td><b>Credential replay</b> / pass-the-hash</td><td>Reusing captured credentials or hashes to authenticate</td><td>MFA, Kerberos hardening, Credential Guard, unique local admin passwords (LAPS)</td></tr>
-      <tr><td><b>Wireless</b></td><td>Rogue AP (unauthorized AP on your network), evil twin (fake AP with your SSID), deauthentication, jamming, Bluetooth bluejacking/bluesnarfing</td><td>WIDS/WIPS, 802.1X, WPA3 with protected management frames, site surveys</td></tr>
+      <tr><td><b>Wireless</b></td><td>Rogue AP (Access Point; unauthorized AP on your network), evil twin (fake AP with your SSID (Service Set Identifier)), deauthentication, jamming, Bluetooth bluejacking/bluesnarfing</td><td>WIDS/WIPS (WIDS: Wireless Intrusion Detection System; WIPS: Wireless Intrusion Prevention System), 802.1X, WPA3 (Wi-Fi Protected Access 3) with protected management frames, site surveys</td></tr>
     </tbody></table></div>
 </section>
 
@@ -188,8 +188,8 @@
       <li><b>Rainbow tables</b>: precomputed hash lookups; defeated by <b>salting</b>.</li>
     </ul><p><b>Defense:</b> MFA, salted and stretched hashes (bcrypt, Argon2), smart lockout, breached-password checks, passkeys.</p></div>
     <div class="tile"><h4>Cryptographic attacks</h4><ul>
-      <li><b>Downgrade</b>: force a weaker protocol or cipher (e.g., old SSL/TLS). Defense: disable legacy versions, TLS 1.3, HSTS.</li>
-      <li><b>Collision</b>: two different inputs produce the same hash (MD5, SHA-1 are broken). Defense: SHA-256 or better.</li>
+      <li><b>Downgrade</b>: force a weaker protocol or cipher (e.g., old SSL/TLS (SSL: Secure Sockets Layer)). Defense: disable legacy versions, TLS 1.3, HSTS.</li>
+      <li><b>Collision</b>: two different inputs produce the same hash (MD5 (Message Digest 5), SHA-1 (Secure Hash Algorithm) are broken). Defense: SHA-256 or better.</li>
       <li><b>Birthday attack</b>: collisions are found far faster than expected (about the square root of the output space), because of the birthday paradox. Defense: longer hash outputs.</li>
       <li><b>Side-channel</b>: timing, power or emissions leak keys. Defense: constant-time code, hardware protections.</li>
     </ul></div>
@@ -202,14 +202,14 @@
   <div class="tablewrap"><table>
     <thead><tr><th>Area</th><th>Examples</th><th>Mitigation</th></tr></thead>
     <tbody>
-      <tr><td>Operating system</td><td>Unpatched kernels, default services, weak configurations</td><td>Patch management, hardening baselines (CIS Benchmarks)</td></tr>
-      <tr><td>Web and application</td><td>Injection, XSS, broken access control, memory injection, insecure dependencies</td><td>Secure SDLC, code review, SAST/DAST, WAF</td></tr>
+      <tr><td>Operating system</td><td>Unpatched kernels, default services, weak configurations</td><td>Patch management, hardening baselines (CIS (Center for Internet Security) Benchmarks)</td></tr>
+      <tr><td>Web and application</td><td>Injection, XSS, broken access control, memory injection, insecure dependencies</td><td>Secure SDLC (System Development Life Cycle), code review, SAST/DAST (SAST: Static Application Security Testing; DAST: Dynamic Application Security Testing), WAF</td></tr>
       <tr><td>Hardware and firmware</td><td>End-of-life (no more patches), legacy systems, firmware flaws</td><td>Lifecycle replacement, firmware updates, isolation of legacy</td></tr>
-      <tr><td>Virtualization</td><td><b>VM escape</b> (break out to the hypervisor), resource reuse between VMs</td><td>Patch hypervisors, separate trust levels onto different hosts</td></tr>
-      <tr><td>Cloud-specific</td><td>Misconfiguration: public storage buckets, overly broad IAM roles, open management ports</td><td>CSPM tools, least privilege, infrastructure as code with policy checks</td></tr>
-      <tr><td>Supply chain</td><td>Compromised vendor software updates, hardware tampering, malicious open-source packages, MSP access</td><td>Vendor assessment, SBOM, code signing, least-privilege vendor access</td></tr>
+      <tr><td>Virtualization</td><td><b>VM (Virtual Machine) escape</b> (break out to the hypervisor), resource reuse between VMs</td><td>Patch hypervisors, separate trust levels onto different hosts</td></tr>
+      <tr><td>Cloud-specific</td><td>Misconfiguration: public storage buckets, overly broad IAM (Identity and Access Management) roles, open management ports</td><td>CSPM (Cloud Security Posture Management) tools, least privilege, infrastructure as code with policy checks</td></tr>
+      <tr><td>Supply chain</td><td>Compromised vendor software updates, hardware tampering, malicious open-source packages, MSP access</td><td>Vendor assessment, SBOM (Software Bill of Materials), code signing, least-privilege vendor access</td></tr>
       <tr><td>Cryptographic</td><td>Weak algorithms, poor key management, expired certificates</td><td>Crypto inventory, modern algorithms, automated certificate renewal</td></tr>
-      <tr><td>Mobile</td><td><b>Sideloading</b> (apps from outside the store), <b>jailbreaking/rooting</b> (removing OS restrictions)</td><td>MDM policies blocking jailbroken devices, approved app stores</td></tr>
+      <tr><td>Mobile</td><td><b>Sideloading</b> (apps from outside the store), <b>jailbreaking/rooting</b> (removing OS restrictions)</td><td>MDM (Mobile Device Management) policies blocking jailbroken devices, approved app stores</td></tr>
       <tr><td><b>Zero-day</b></td><td>A flaw unknown to the vendor, with no patch available</td><td>Defense in depth, EDR behavior detection, segmentation, fast patching once released</td></tr>
       <tr><td>Misconfiguration</td><td>Default credentials, open permissions, unnecessary services</td><td>Configuration management, baselines, scanning</td></tr>
     </tbody></table></div>
@@ -243,17 +243,17 @@
     <figcaption>Vulnerability management is a loop, not a one-time scan.</figcaption>
   </figure>
   <ul>
-    <li><b>Identify</b>: vulnerability scans (credentialed scans see more than non-credentialed; agent vs agentless), application security testing (SAST static, DAST dynamic), package monitoring, threat feeds (OSINT, ISACs, dark web), penetration tests, bug bounties.</li>
-    <li><b>Analyze</b>: confirm results (watch for <b>false positives</b>, and worse, <b>false negatives</b>), prioritize using <b>CVSS</b>, the <b>CVE</b> identifier, exposure, environmental factors, asset value and whether it's actively exploited (CISA KEV catalog).</li>
+    <li><b>Identify</b>: vulnerability scans (credentialed scans see more than non-credentialed; agent vs agentless), application security testing (SAST static, DAST dynamic), package monitoring, threat feeds (OSINT (Open-Source Intelligence), ISACs (Information Sharing and Analysis Center), dark web), penetration tests, bug bounties.</li>
+    <li><b>Analyze</b>: confirm results (watch for <b>false positives</b>, and worse, <b>false negatives</b>), prioritize using <b>CVSS</b>, the <b>CVE (Common Vulnerabilities and Exposures)</b> identifier, exposure, environmental factors, asset value and whether it's actively exploited (CISA (Certified Information Systems Auditor) KEV (Known Exploited Vulnerabilities) catalog).</li>
     <li><b>Respond</b>: patch, insurance, segmentation, compensating controls, or formal <b>exceptions/exemptions</b> with risk acceptance.</li>
     <li><b>Validate</b>: rescan, audit, verify. <b>Report</b>: metrics to management.</li>
   </ul>
   <div class="tablewrap"><table>
     <thead><tr><th>Term</th><th>Meaning</th></tr></thead>
     <tbody>
-      <tr><td><b>CVE</b></td><td>Common Vulnerabilities and Exposures: a unique ID for a public vulnerability (CVE-2021-44228)</td></tr>
+      <tr><td><b>CVE</b></td><td>Common Vulnerabilities and Exposures: a unique ID (Identification) for a public vulnerability (CVE-2021-44228)</td></tr>
       <tr><td><b>CVSS</b></td><td>Common Vulnerability Scoring System: 0.0 to 10.0 severity. v3.1 is most common in scanners; v4.0 was published in 2023</td></tr>
-      <tr><td><b>NVD</b></td><td>NIST's National Vulnerability Database: enriches CVEs with CVSS scores</td></tr>
+      <tr><td><b>NVD</b></td><td>NIST (National Institute of Standards and Technology)'s National Vulnerability Database: enriches CVEs with CVSS scores</td></tr>
       <tr><td>Known environment</td><td>Pen testers get full information (white box)</td></tr>
       <tr><td>Partially known</td><td>Some information (gray box)</td></tr>
       <tr><td>Unknown environment</td><td>No information, like a real outsider (black box)</td></tr>

@@ -87,6 +87,7 @@ It's a plain static site, so any static host works. Pick one.
    ```
 
    This refreshes the hidden module data block inside each module page and regenerates `data/search-index.js`, so the new headings and labs show up in search and on the Labs page.
+6. **Spell out acronyms.** Run `node tools/acronyms.js` to list acronyms that appear on a module page without being spelled out the first time, then `node tools/acronyms.js --write` to add the full name in brackets. Add new acronyms to `tools/acronyms.json`; when an acronym means something different on one page, add it to the `PER` table at the top of `tools/acronyms.js`.
 
 ## Accessibility
 

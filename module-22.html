@@ -40,14 +40,14 @@
 <section class="intro">
   <div class="kicker">Part 5 · Service, Governance and Audit · Module 22</div>
   <h1>Checking the System: Information Systems Auditing</h1>
-  <p class="why"><b>Why this matters.</b> Every control in this Omnibus, from a firewall rule to a backup schedule, only counts if someone can prove it works. IT auditors give boards, regulators and customers that independent assurance. ISACA's Certified Information Systems Auditor (CISA) is the leading credential for it and is valued in audit firms, banks, government and any organization under SOX, PCI DSS or ISO 27001. This module teaches the auditor's mindset (independence, evidence, risk, reporting) across all five CISA domains and ends with a 75-question practice exam.</p>
+  <p class="why"><b>Why this matters.</b> Every control in this Omnibus, from a firewall rule to a backup schedule, only counts if someone can prove it works. IT (Information Technology) auditors give boards, regulators and customers that independent assurance. ISACA (Information Systems Audit and Control Association)'s Certified Information Systems Auditor (CISA) is the leading credential for it and is valued in audit firms, banks, government and any organization under SOX (Sarbanes-Oxley Act), PCI (Payment Card Industry) DSS (Data Security Standard) or ISO (International Organization for Standardization) 27001. This module teaches the auditor's mindset (independence, evidence, risk, reporting) across all five CISA domains and ends with a 75-question practice exam.</p>
   <h3>You will be able to</h3>
   <ul class="outcomes">
-    <li>Plan and run a risk-based IS audit under ISACA standards, collect evidence, sample, use CAATs, report and follow up.</li>
+    <li>Plan and run a risk-based IS audit under ISACA standards, collect evidence, sample, use CAATs (Computer-Assisted Audit Techniques), report and follow up.</li>
     <li>Evaluate IT governance, strategy, organizational structure, segregation of duties, risk, vendors and performance.</li>
-    <li>Audit system acquisition and development: business cases, SDLC, Agile and DevOps controls, testing, changeover and post-implementation review.</li>
-    <li>Audit IT operations and resilience: scheduling, change, configuration, patching, incidents, assets, databases, capacity, BIA, backup, BCP and DRP.</li>
-    <li>Audit protection of information assets: frameworks, privacy, physical controls, IAM, network, data, encryption, cloud and monitoring.</li>
+    <li>Audit system acquisition and development: business cases, SDLC (System Development Life Cycle), Agile and DevOps controls, testing, changeover and post-implementation review.</li>
+    <li>Audit IT operations and resilience: scheduling, change, configuration, patching, incidents, assets, databases, capacity, BIA (Business Impact Analysis), backup, BCP (Business Continuity Plan) and DRP (Disaster Recovery Plan).</li>
+    <li>Audit protection of information assets: frameworks, privacy, physical controls, IAM (Identity and Access Management), network, data, encryption, cloud and monitoring.</li>
   </ul>
   <nav class="jumpnav" id="jumpnav" aria-label="On this page"></nav>
 </section>
@@ -83,11 +83,11 @@
   <h2>2. Domain 1: The IS auditing process</h2>
   <figure class="fig"><svg id="life-fig" viewBox="0 0 760 120" width="760" role="img" aria-label="Audit lifecycle: plan, fieldwork, report, follow up"></svg></figure>
   <ul>
-    <li><b>Standards and ethics</b>: ISACA IS Audit and Assurance Standards (general, performance, reporting), guidelines, tools and techniques, and the Code of Professional Ethics. Also IIA standards for internal audit generally.</li>
+    <li><b>Standards and ethics</b>: ISACA IS Audit and Assurance Standards (general, performance, reporting), guidelines, tools and techniques, and the Code of Professional Ethics. Also IIA (Institute of Internal Auditors) standards for internal audit generally.</li>
     <li><b>Audit charter</b>: approved by the board/audit committee; defines authority, scope, responsibility and reporting line (functionally to the audit committee).</li>
     <li><b>Risk-based planning</b>: understand the business, assess <b>inherent risk</b>, <b>control risk</b> and <b>detection risk</b> (audit risk = IR × CR × DR), then set scope and objectives.</li>
     <li><b>Types of audit</b>: compliance, financial, operational, integrated, IS, forensic, specialized (e.g., third-party/SOC), administrative; internal vs external.</li>
-    <li><b>Controls</b>: preventive, detective, corrective (also deterrent, compensating); <b>general</b> (ITGC: access, change, operations, backup) vs <b>application</b> (input, processing, output).</li>
+    <li><b>Controls</b>: preventive, detective, corrective (also deterrent, compensating); <b>general</b> (ITGC, Information Technology General Controls: access, change, operations, backup) vs <b>application</b> (input, processing, output).</li>
     <li><b>Testing</b>: <b>compliance tests</b> check controls operate; <b>substantive tests</b> check the data. Weak controls mean more substantive testing.</li>
     <li><b>Evidence</b>: inquiry (weakest), observation, inspection, reperformance, analytics, confirmation. Independent and system-generated is strongest.</li>
     <li><b>Sampling</b>: statistical (random, systematic, stratified; projectable) vs judgmental. <b>Attribute</b> sampling for rates (compliance), <b>variable</b> sampling for amounts (substantive). Higher confidence or lower tolerable error means a larger sample. Try Lab 2.</li>
@@ -100,11 +100,11 @@
 <section class="lesson" id="d2">
   <h2>3. Domain 2: Governance and management of IT</h2>
   <ul>
-    <li><b>IT governance</b>: strategy aligned with business strategy, steering committees, frameworks (COBIT 2019; see Module 20), value delivery and benefits realization.</li>
+    <li><b>IT governance</b>: strategy aligned with business strategy, steering committees, frameworks (COBIT (Control Objectives for Information and Related Technologies) 2019; see Module 20), value delivery and benefits realization.</li>
     <li><b>Policies, standards and procedures</b>: approved by senior management, communicated, reviewed regularly.</li>
-    <li><b>Organizational structure</b>: CIO, CISO and audit reporting lines; security independent of operations.</li>
+    <li><b>Organizational structure</b>: CIO (Chief Information Officer), CISO (Chief Information Security Officer) and audit reporting lines; security independent of operations.</li>
     <li><b>Segregation of duties</b>: separate <b>authorization</b>, <b>recording</b>, <b>custody</b> and <b>reconciliation</b>; in IT, separate development, testing, production operations and security administration. Where SoD isn't possible, use <b>compensating controls</b> (supervisory review, logging). Try Lab 3.</li>
-    <li><b>Enterprise architecture</b> (TOGAF, Zachman), <b>IT risk management</b>, <b>maturity models</b>, <b>resource and vendor management</b> (contracts, SLAs, right to audit, exit plans), <b>quality management</b> (ISO 9001) and <b>performance monitoring</b> (balanced scorecard, KPIs).</li>
+    <li><b>Enterprise architecture</b> (TOGAF (The Open Group Architecture Framework), Zachman), <b>IT risk management</b>, <b>maturity models</b>, <b>resource and vendor management</b> (contracts, SLAs (Service Level Agreement), right to audit, exit plans), <b>quality management</b> (ISO 9001) and <b>performance monitoring</b> (balanced scorecard, KPIs (Key Performance Indicator)).</li>
   </ul>
 </section>
 
@@ -112,10 +112,10 @@
   <h2>4. Domain 3: Acquisition, development and implementation</h2>
   <ul>
     <li><b>Project governance</b>: sponsor, steering committee, project manager; scope, time, cost, quality; earned value; stage gates.</li>
-    <li><b>Business case and feasibility</b>: technical, economic (ROI, NPV, payback), operational, legal and schedule feasibility.</li>
-    <li><b>SDLC models</b>: waterfall (sequential, heavy documentation), Agile (iterative sprints, backlog, definition of done), DevOps / DevSecOps (CI/CD with automated tests and security gates), prototyping, RAD.</li>
+    <li><b>Business case and feasibility</b>: technical, economic (ROI (Return on Investment), NPV (Net Present Value), payback), operational, legal and schedule feasibility.</li>
+    <li><b>SDLC models</b>: waterfall (sequential, heavy documentation), Agile (iterative sprints, backlog, definition of done), DevOps / DevSecOps (CI/CD (Continuous Integration / Continuous Delivery) with automated tests and security gates), prototyping, RAD (Rapid Application Development).</li>
     <li><b>Development controls</b>: requirements sign-off, secure coding, code review, separate dev/test/prod environments, version control, migration by someone other than the developer (or automated pipeline with approvals).</li>
-    <li><b>Testing</b>: unit → integration → system (functional, performance, security, regression) → UAT by business users; test data should not be live sensitive data unless masked.</li>
+    <li><b>Testing</b>: unit → integration → system (functional, performance, security, regression) → UAT (User Acceptance Testing) by business users; test data should not be live sensitive data unless masked.</li>
     <li><b>Migration and changeover</b>: data conversion with reconciliation (record counts, control totals); parallel, pilot, phased or direct cutover with a fallback plan. Try Lab 4.</li>
     <li><b>Post-implementation review</b>: benefits vs the business case, lessons learned, usually some months after go-live.</li>
   </ul>
@@ -127,12 +127,12 @@
     <thead><tr><th>Area</th><th>What the auditor checks</th></tr></thead>
     <tbody>
       <tr><td>IT operations and job scheduling</td><td>Authorized schedules, exception handling, operator logs, restart procedures</td></tr>
-      <tr><td>Change, configuration, release and patch management</td><td>Changes approved, tested and documented; trace system changes back to tickets to find unauthorized ones; CMDB accuracy; patch compliance</td></tr>
+      <tr><td>Change, configuration, release and patch management</td><td>Changes approved, tested and documented; trace system changes back to tickets to find unauthorized ones; CMDB (Configuration Management Database) accuracy; patch compliance</td></tr>
       <tr><td>Incident and problem management</td><td>Logging, prioritization, escalation, root cause analysis, recurring incidents</td></tr>
       <tr><td>IT asset management</td><td>Complete inventory, ownership, lifecycle, licensing, secure disposal</td></tr>
-      <tr><td>Database management</td><td>DBA privileges, logging of privileged activity, integrity controls, backup</td></tr>
+      <tr><td>Database management</td><td>DBA (Database Administrator) privileges, logging of privileged activity, integrity controls, backup</td></tr>
       <tr><td>Capacity and performance</td><td>Monitoring, forecasting, thresholds</td></tr>
-      <tr><td>BIA</td><td>Critical processes identified with RTO, RPO and MTD approved by business owners</td></tr>
+      <tr><td>BIA</td><td>Critical processes identified with RTO (Recovery Time Objective), RPO (Recovery Point Objective) and MTD (Maximum Tolerable Downtime) approved by business owners</td></tr>
       <tr><td>Backup and restore</td><td>Schedules match RPO, offsite/immutable copies, encryption, <b>restore tests</b></td></tr>
       <tr><td>BCP and DRP</td><td>Plans current, roles assigned, recovery sites (hot, warm, cold, mirrored, reciprocal, cloud), tested regularly, results acted on</td></tr>
     </tbody></table></div>
@@ -142,14 +142,14 @@
 <section class="lesson" id="d5">
   <h2>6. Domain 5: Protection of information assets</h2>
   <ul>
-    <li><b>Frameworks</b>: ISO 27001/27002, NIST CSF, CIS (Module 20). <b>Privacy principles</b>: lawfulness, purpose limitation, data minimization, accuracy, storage limitation, integrity and confidentiality, accountability; privacy by design; DPIAs.</li>
-    <li><b>Physical and environmental</b>: perimeter, mantraps, badges, CCTV, visitor logs; fire suppression, temperature and humidity, water detection, UPS (Module 18).</li>
-    <li><b>Identity and access management</b>: joiner-mover-leaver, least privilege, role-based access, MFA, privileged access management, periodic access reviews by owners.</li>
-    <li><b>Network and endpoint</b>: segmentation, firewalls, IDS/IPS, VPN, wireless (WPA3-Enterprise), EDR, hardening, MDM.</li>
-    <li><b>Data</b>: classification by owners, DLP, retention, secure disposal (wipe, degauss, shred, crypto-erase).</li>
-    <li><b>Encryption and PKI</b>: symmetric vs asymmetric, hashing, digital signatures (integrity, authentication, non-repudiation), CA/RA/CRL/OCSP, key management.</li>
+    <li><b>Frameworks</b>: ISO 27001/27002, NIST (National Institute of Standards and Technology) CSF (Cybersecurity Framework), CIS (Center for Internet Security; Module 20). <b>Privacy principles</b>: lawfulness, purpose limitation, data minimization, accuracy, storage limitation, integrity and confidentiality, accountability; privacy by design; DPIAs (Data Protection Impact Assessment).</li>
+    <li><b>Physical and environmental</b>: perimeter, mantraps, badges, CCTV (Closed-Circuit Television), visitor logs; fire suppression, temperature and humidity, water detection, UPS (Uninterruptible Power Supply; Module 18).</li>
+    <li><b>Identity and access management</b>: joiner-mover-leaver, least privilege, role-based access, MFA (Multifactor Authentication), privileged access management, periodic access reviews by owners.</li>
+    <li><b>Network and endpoint</b>: segmentation, firewalls, IDS/IPS (IDS: Intrusion Detection System; IPS: Intrusion Prevention System), VPN (Virtual Private Network), wireless (WPA3-Enterprise), EDR (Endpoint Detection and Response), hardening, MDM (Mobile Device Management).</li>
+    <li><b>Data</b>: classification by owners, DLP (Data Loss Prevention), retention, secure disposal (wipe, degauss, shred, crypto-erase).</li>
+    <li><b>Encryption and PKI (Public Key Infrastructure)</b>: symmetric vs asymmetric, hashing, digital signatures (integrity, authentication, non-repudiation), CA/RA/CRL/OCSP (CA: Certificate Authority; OCSP: Online Certificate Status Protocol), key management.</li>
     <li><b>Cloud and virtualization</b>: shared responsibility, SOC 2 reports, right to audit, hypervisor hardening, data location.</li>
-    <li><b>Monitoring, incident response and evidence</b>: centralized time-synced logs, SIEM, IR plans, forensics with chain of custody and hashes.</li>
+    <li><b>Monitoring, incident response and evidence</b>: centralized time-synced logs, SIEM (Security Information and Event Management), IR plans, forensics with chain of custody and hashes.</li>
   </ul>
 </section>
 

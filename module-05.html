@@ -27,17 +27,17 @@
 <main class="page" id="main">
 
 <section class="intro">
-  <div class="kicker">Part 2 · Hardware, OS and Home · Module 05</div>
+  <div class="kicker">Part 2 · Hardware, OS (Operating System) and Home · Module 05</div>
   <h1>PC Hardware: Every Part and How It Connects</h1>
-  <p class="why"><b>Why this matters.</b> Hardware is the largest single domain on A+ Core 1, and it is what you touch every day in desktop support and data center work. You need to identify every part, know what fits with what (sockets, RAM generations, form factors, power connectors) and replace parts safely. This module goes component by component, then lets you build a PC, break a RAID array and run a laser printer.</p>
+  <p class="why"><b>Why this matters.</b> Hardware is the largest single domain on A+ Core 1, and it is what you touch every day in desktop support and data center work. You need to identify every part, know what fits with what (sockets, RAM (Random Access Memory) generations, form factors, power connectors) and replace parts safely. This module goes component by component, then lets you build a PC (Personal Computer), break a RAID (Redundant Array of Independent Disks) array and run a laser printer.</p>
   <h3>You will be able to</h3>
   <ul class="outcomes">
-    <li>Identify motherboard form factors, sockets, slots and headers, and configure key BIOS/UEFI settings.</li>
-    <li>Choose compatible CPUs, coolers, RAM and storage, and calculate RAID capacity and fault tolerance.</li>
+    <li>Identify motherboard form factors, sockets, slots and headers, and configure key BIOS/UEFI (BIOS: Basic Input/Output System; UEFI: Unified Extensible Firmware Interface) settings.</li>
+    <li>Choose compatible CPUs (Central Processing Unit), coolers, RAM and storage, and calculate RAID capacity and fault tolerance.</li>
     <li>Select a power supply by wattage, efficiency and connectors.</li>
     <li>Identify ports, cables and display types by sight and by spec.</li>
     <li>Describe the 7-step laser printing process and fix common printer problems.</li>
-    <li>Work safely: ESD, electrical safety, lifting and disposal.</li>
+    <li>Work safely: ESD (electrostatic discharge), electrical safety, lifting and disposal.</li>
   </ul>
   <nav class="jumpnav" id="jumpnav" aria-label="On this page"></nav>
 </section>
@@ -53,26 +53,26 @@
   <div class="tablewrap"><table>
     <thead><tr><th>Form factor</th><th>Size</th><th>Expansion slots</th><th>Typical use</th></tr></thead>
     <tbody>
-      <tr><td>ATX</td><td>12 × 9.6 in (305 × 244 mm)</td><td>Up to 7</td><td>Standard desktops, workstations</td></tr>
+      <tr><td>ATX (Advanced Technology eXtended)</td><td>12 × 9.6 in (305 × 244 mm)</td><td>Up to 7</td><td>Standard desktops, workstations</td></tr>
       <tr><td>microATX (mATX)</td><td>9.6 × 9.6 in (244 × 244 mm)</td><td>Up to 4</td><td>Smaller desktops; fits ATX cases too</td></tr>
       <tr><td>mini-ITX</td><td>6.7 × 6.7 in (170 × 170 mm)</td><td>1</td><td>Small form factor, home theater PCs</td></tr>
     </tbody>
   </table></div>
   <ul>
-    <li><b>CPU socket</b>: must match the CPU. Intel uses LGA (land grid array: pins in the socket), e.g. LGA 1700 (12th to 14th gen) and LGA 1851 (Core Ultra 200S). AMD desktop uses AM4 (PGA: pins on the CPU) and AM5 (LGA, DDR5 only).</li>
-    <li><b>Chipset</b>: sets features such as overclocking, number of USB and SATA ports and extra PCIe lanes (Module 4).</li>
-    <li><b>Slots</b>: DIMM slots for RAM, PCIe x1/x4/x16 slots, M.2 slots (keyed M for NVMe/SATA SSDs, E for Wi-Fi cards).</li>
-    <li><b>Headers</b>: front-panel connectors (power switch, reset, LEDs), USB headers, fan headers (3-pin DC, 4-pin PWM), audio, RGB, TPM header on some boards.</li>
-    <li><b>CMOS battery</b>: a CR2032 coin cell keeps the real-time clock and (on older boards) settings. Symptom of a dead one: the clock resets to a default date, and settings reset after power loss.</li>
+    <li><b>CPU socket</b>: must match the CPU. Intel uses LGA (land grid array: pins in the socket), e.g. LGA 1700 (12th to 14th gen) and LGA 1851 (Core Ultra 200S). AMD desktop uses AM4 (PGA, pin grid array: pins on the CPU) and AM5 (LGA, DDR5 (Double Data Rate) only).</li>
+    <li><b>Chipset</b>: sets features such as overclocking, number of USB (Universal Serial Bus) and SATA (Serial Advanced Technology Attachment) ports and extra PCIe (Peripheral Component Interconnect Express) lanes (Module 4).</li>
+    <li><b>Slots</b>: DIMM (Dual Inline Memory Module) slots for RAM, PCIe x1/x4/x16 slots, M.2 slots (keyed M for NVMe/SATA (NVMe: Non-Volatile Memory Express) SSDs (Solid-State Drive), E for Wi-Fi cards).</li>
+    <li><b>Headers</b>: front-panel connectors (power switch, reset, LEDs (Light-Emitting Diode)), USB headers, fan headers (3-pin DC (Direct Current), 4-pin PWM (Pulse-Width Modulation)), audio, RGB (Red, Green, Blue), TPM (Trusted Platform Module) header on some boards.</li>
+    <li><b>CMOS (Complementary Metal-Oxide-Semiconductor) battery</b>: a CR2032 coin cell keeps the real-time clock and (on older boards) settings. Symptom of a dead one: the clock resets to a default date, and settings reset after power loss.</li>
   </ul>
   <h3 id="uefi-settings">BIOS/UEFI settings you must know</h3>
   <ul>
     <li><b>Boot order</b>: which device the firmware tries first (USB, NVMe, network/PXE).</li>
     <li><b>Secure Boot</b>: only signed bootloaders can run (needed for Windows 11).</li>
-    <li><b>TPM</b> (Trusted Platform Module): a chip or firmware module (Intel PTT, AMD fTPM) that stores keys for BitLocker and boot measurements. Windows 11 requires TPM 2.0.</li>
-    <li><b>Virtualization support</b>: Intel VT-x / AMD-V (and VT-d / AMD-Vi for device passthrough) must be enabled for hypervisors.</li>
+    <li><b>TPM</b> (Trusted Platform Module): a chip or firmware module (Intel PTT (Platform Trust Technology), AMD fTPM) that stores keys for BitLocker and boot measurements. Windows 11 requires TPM 2.0.</li>
+    <li><b>Virtualization support</b>: Intel VT-x (Virtualization Technology) / AMD-V (and VT-d / AMD-Vi for device passthrough) must be enabled for hypervisors.</li>
     <li><b>Passwords</b>: a supervisor/administrator password protects settings; a user/boot password is required before booting.</li>
-    <li>Other: fan curves, XMP/EXPO memory profiles, enabling/disabling onboard devices, USB permissions, boot-time intrusion detection.</li>
+    <li>Other: fan curves, XMP/EXPO (XMP: Extreme Memory Profile; EXPO: Extended Profiles for Overclocking) memory profiles, enabling/disabling onboard devices, USB permissions, boot-time intrusion detection.</li>
   </ul>
 </section>
 
@@ -81,7 +81,7 @@
   <p>Match the CPU to the socket <i>and</i> the chipset/BIOS version. Desktop CPUs are rated by cores/threads, base and boost clock, cache and <dfn>TDP</dfn> (thermal design power: the heat, in watts, the cooler must remove at base load; real boost power can be much higher).</p>
   <ul>
     <li><b>Heat sink and fan</b>: metal fins conduct heat away; the fan moves air across them.</li>
-    <li><b>Thermal paste</b> (thermal interface material) fills microscopic gaps between the CPU's heat spreader and the cooler. Replace it whenever the cooler is removed. Thermal pads are used on VRMs and memory.</li>
+    <li><b>Thermal paste</b> (thermal interface material) fills microscopic gaps between the CPU's heat spreader and the cooler. Replace it whenever the cooler is removed. Thermal pads are used on VRMs (Voltage Regulator Module) and memory.</li>
     <li><b>Liquid cooling</b>: an all-in-one (AIO) loop pumps coolant from a cold plate to a radiator. Watch for pump failure and leaks.</li>
     <li>Symptoms of poor cooling: <b>thermal throttling</b> (slowdowns), sudden shutdowns, loud fans.</li>
   </ul>
@@ -92,17 +92,17 @@
   <div class="tablewrap"><table>
     <thead><tr><th>Type</th><th>Pins</th><th>Voltage</th><th>Notes</th></tr></thead>
     <tbody>
-      <tr><td>DDR4 DIMM</td><td>288</td><td>1.2 V</td><td>2133 to 3200 MT/s standard (higher with XMP)</td></tr>
-      <tr><td>DDR5 DIMM</td><td>288 (notch in a different place)</td><td>1.1 V</td><td>4800 MT/s and up; two 32-bit subchannels per module; on-module power management (PMIC); on-die ECC</td></tr>
-      <tr><td>DDR4 SODIMM</td><td>260</td><td>1.2 V</td><td>Laptops and small PCs</td></tr>
-      <tr><td>DDR5 SODIMM</td><td>262</td><td>1.1 V</td><td>Laptops; LPDDR5 is soldered and not upgradeable; CAMM2 is a newer replaceable laptop module</td></tr>
+      <tr><td>DDR4 DIMM</td><td>288</td><td>1.2 V</td><td>2133 to 3200 MT/s (MT: Megatransfers) standard (higher with XMP)</td></tr>
+      <tr><td>DDR5 DIMM</td><td>288 (notch in a different place)</td><td>1.1 V</td><td>4800 MT/s and up; two 32-bit subchannels per module; on-module power management (PMIC); on-die ECC (Error-Correcting Code)</td></tr>
+      <tr><td>DDR4 SODIMM (Small Outline Dual Inline Memory Module)</td><td>260</td><td>1.2 V</td><td>Laptops and small PCs</td></tr>
+      <tr><td>DDR5 SODIMM</td><td>262</td><td>1.1 V</td><td>Laptops; LPDDR5 (Low-Power Double Data Rate 5) is soldered and not upgradeable; CAMM2 is a newer replaceable laptop module</td></tr>
     </tbody>
   </table></div>
   <ul>
     <li><b>DIMM vs SODIMM</b>: full-size desktop modules vs small outline laptop modules.</li>
     <li><b>ECC</b> (error-correcting code) memory detects and corrects single-bit errors; used in servers. Registered (buffered) ECC is common in servers. DDR5's on-die ECC protects only inside the chip; it is not full ECC.</li>
     <li><b>Channels</b>: install matching pairs in the color-coded slots (often A2 and B2) for dual channel. Quad and more channels are for workstations and servers.</li>
-    <li><b>Speed and timings</b>: MT/s (megatransfers per second; DDR4-3200 = 3200 MT/s) and CAS latency (CL16). Real latency in ns = CL × 2000 ÷ MT/s.</li>
+    <li><b>Speed and timings</b>: MT/s (megatransfers per second; DDR4-3200 = 3200 MT/s) and CAS (Column Address Strobe) latency (CL16). Real latency in ns = CL (Column Address Strobe latency) × 2000 ÷ MT/s.</li>
     <li>Mixing speeds works, but everything runs at the slowest module's speed.</li>
   </ul>
 </section>
@@ -110,11 +110,11 @@
 <section class="lesson" id="storage">
   <h2>4. Storage and RAID</h2>
   <ul>
-    <li><b>HDD</b>: spinning magnetic platters and a moving read/write head. Speeds of 5,400, 7,200, 10,000 or 15,000 RPM. Form factors 3.5" (desktop/server) and 2.5" (laptop). Cheap per TB; slow random access; sensitive to shock.</li>
-    <li><b>SSD</b>: NAND flash, no moving parts. Interfaces: <b>SATA</b> (2.5" or M.2, max ~550 MB/s because SATA III is 6 Gbps) and <b>NVMe</b> over <b>PCIe</b> (M.2 or U.2/E3.S in servers; several GB/s).</li>
+    <li><b>HDD (Hard Disk Drive)</b>: spinning magnetic platters and a moving read/write head. Speeds of 5,400, 7,200, 10,000 or 15,000 RPM (Revolutions Per Minute). Form factors 3.5" (desktop/server) and 2.5" (laptop). Cheap per TB (Terabyte); slow random access; sensitive to shock.</li>
+    <li><b>SSD</b>: NAND (Not-AND) flash, no moving parts. Interfaces: <b>SATA</b> (2.5" or M.2, max ~550 MB/s (MB: Megabyte) because SATA III is 6 Gbps) and <b>NVMe</b> over <b>PCIe</b> (M.2 or U.2/E3.S in servers; several GB/s (GB: Gigabyte)).</li>
     <li><b>M.2</b> is a <i>form factor</i>, not a protocol: an M.2 slot can carry SATA, NVMe or both. Check the board manual and the key (M key, B key, B+M). Sizes are named by width and length: 2280 = 22 mm × 80 mm.</li>
-    <li><b>Flash types</b>: SLC (1 bit per cell, most durable), MLC (2), TLC (3), QLC (4, cheapest, lowest endurance). Endurance is rated in TBW (terabytes written) or DWPD (drive writes per day).</li>
-    <li>Other: flash drives and memory cards (SD, microSD), optical drives (CD 700 MB, DVD 4.7 GB single layer, Blu-ray 25 GB per layer).</li>
+    <li><b>Flash types</b>: SLC (Single-Level Cell) (1 bit per cell, most durable), MLC (Multi-Level Cell) (2), TLC (Triple-Level Cell) (3), QLC (Quad-Level Cell) (4, cheapest, lowest endurance). Endurance is rated in TBW (terabytes written) or DWPD (drive writes per day).</li>
+    <li>Other: flash drives and memory cards (SD (Secure Digital), microSD), optical drives (CD (Compact Disc) 700 MB, DVD (Digital Versatile Disc) 4.7 GB single layer, Blu-ray 25 GB per layer).</li>
   </ul>
   <h3 id="raid">RAID</h3>
   <p><dfn>RAID</dfn> (redundant array of independent disks) combines several drives to gain speed, redundancy or both. RAID is <b>not a backup</b>: deleting a file or ransomware affects every disk at once.</p>
@@ -134,18 +134,18 @@
 <section class="lesson" id="expansion">
   <h2>5. Expansion cards and GPUs</h2>
   <ul>
-    <li>Common cards: <b>video (GPU)</b>, <b>sound</b>, <b>network</b> (NIC, Wi-Fi), <b>capture cards</b>, storage controllers (RAID/HBA), USB expansion.</li>
+    <li>Common cards: <b>video (GPU)</b>, <b>sound</b>, <b>network</b> (NIC (Network Interface Card), Wi-Fi), <b>capture cards</b>, storage controllers (RAID/HBA), USB expansion.</li>
     <li>A card fits any physically larger PCIe slot (x1 card in x16 slot), but runs at the lanes the slot actually wires. PCIe is backward and forward compatible between generations; the link runs at the lower generation.</li>
-    <li>Graphics: <b>integrated</b> GPUs share system RAM; <b>dedicated</b> GPUs have their own VRAM (GDDR6/GDDR7) and often need extra power connectors (8-pin PCIe or 12V-2x6).</li>
+    <li>Graphics: <b>integrated</b> GPUs share system RAM; <b>dedicated</b> GPUs have their own VRAM (Video Random Access Memory; GDDR6/GDDR7 (GDDR: Graphics Double Data Rate)) and often need extra power connectors (8-pin PCIe or 12V-2x6).</li>
   </ul>
 </section>
 
 <section class="lesson" id="psu">
   <h2>6. Power supplies</h2>
-  <p>A <dfn>PSU</dfn> converts wall AC (110 to 120 V or 220 to 240 V; most modern units are auto-switching) into the DC voltages components need.</p>
+  <p>A <dfn>PSU (Power Supply Unit)</dfn> converts wall AC (Alternating Current) (110 to 120 V or 220 to 240 V; most modern units are auto-switching) into the DC voltages components need.</p>
   <ul>
     <li><b>Rails</b>: +12 V (CPU, GPU, drives' motors, fans), +5 V (USB, some drive logic), +3.3 V (some motherboard and M.2 logic). Plus +5 V standby (keeps wake-on-LAN and USB charging alive when "off").</li>
-    <li><b>Connectors</b>: 24-pin ATX main; 4+4 or 8-pin <b>EPS</b> CPU power; 6+2-pin <b>PCIe</b> (75 W per 6-pin, 150 W per 8-pin) and the 16-pin <b>12V-2x6</b> (revised 12VHPWR, up to 600 W) for GPUs; <b>SATA power</b> (15-pin, includes 3.3 V); Molex (4-pin, legacy).</li>
+    <li><b>Connectors</b>: 24-pin ATX main; 4+4 or 8-pin <b>EPS (Entry-level Power Supply specification)</b> CPU power; 6+2-pin <b>PCIe</b> (75 W per 6-pin, 150 W per 8-pin) and the 16-pin <b>12V-2x6</b> (revised 12VHPWR, up to 600 W) for GPUs; <b>SATA power</b> (15-pin, includes 3.3 V); Molex (4-pin, legacy).</li>
     <li><b>Wattage</b>: add the components' draw and leave headroom (aim for 50 to 80% load at peak, for efficiency and growth).</li>
     <li><b>80 PLUS</b> efficiency ratings (115 V internal, at 20/50/100% load): White 80/80/80%, Bronze 82/85/82%, Silver 85/88/85%, Gold 87/90/87%, Platinum 90/92/89%, Titanium 92/94/90% (Titanium also 90% at 10% load).</li>
     <li><b>Modular</b> (detachable cables), <b>semi-modular</b> (fixed 24-pin/EPS) or <b>non-modular</b>. Redundant hot-swappable PSUs are standard in servers.</li>
@@ -162,17 +162,17 @@
       <tr><td>USB 3.2 Gen 1 (was USB 3.0)</td><td>5 Gbps</td><td>Blue USB-A, USB-C</td></tr>
       <tr><td>USB 3.2 Gen 2</td><td>10 Gbps</td><td>USB-A or USB-C</td></tr>
       <tr><td>USB 3.2 Gen 2x2</td><td>20 Gbps</td><td>USB-C only</td></tr>
-      <tr><td>USB4 / USB4 v2</td><td>20/40 Gbps / up to 80 Gbps</td><td>USB-C only; tunnels DisplayPort and PCIe</td></tr>
+      <tr><td>USB4 (Universal Serial Bus 4) / USB4 v2</td><td>20/40 Gbps / up to 80 Gbps</td><td>USB-C only; tunnels DisplayPort and PCIe</td></tr>
       <tr><td>Thunderbolt 3 / 4 / 5</td><td>40 / 40 / 80 Gbps (120 Gbps boost for video)</td><td>USB-C connector; daisy-chaining, docks, external GPUs</td></tr>
-      <tr><td>HDMI 2.0 / 2.1</td><td>18 / 48 Gbps</td><td>Digital video + audio; Type A (standard), C (mini), D (micro); CEC and eARC</td></tr>
-      <tr><td>DisplayPort 1.4 / 2.1</td><td>32.4 / up to 80 Gbps</td><td>One corner cut; locking latch; daisy-chain via MST</td></tr>
-      <tr><td>DVI</td><td>Digital (DVI-D), analog (DVI-A) or both (DVI-I)</td><td>Legacy; single or dual link</td></tr>
-      <tr><td>VGA</td><td>Analog video</td><td>DE-15 (three rows of pins), blue; legacy</td></tr>
+      <tr><td>HDMI (High-Definition Multimedia Interface) 2.0 / 2.1</td><td>18 / 48 Gbps</td><td>Digital video + audio; Type A (standard), C (mini), D (micro); CEC (Consumer Electronics Control) and eARC (Enhanced Audio Return Channel)</td></tr>
+      <tr><td>DisplayPort 1.4 / 2.1</td><td>32.4 / up to 80 Gbps</td><td>One corner cut; locking latch; daisy-chain via MST (Multi-Stream Transport)</td></tr>
+      <tr><td>DVI (Digital Visual Interface)</td><td>Digital (DVI-D), analog (DVI-A) or both (DVI-I)</td><td>Legacy; single or dual link</td></tr>
+      <tr><td>VGA (Video Graphics Array)</td><td>Analog video</td><td>DE-15 (D-subminiature, shell size E; three rows of pins), blue; legacy</td></tr>
       <tr><td>SATA / eSATA</td><td>6 Gbps (SATA III)</td><td>7-pin L-shaped data; eSATA is the shielded external version</td></tr>
-      <tr><td>RJ45</td><td>Ethernet (8P8C)</td><td>Twisted pair (Module 11)</td></tr>
-      <tr><td>RJ11</td><td>Telephone/DSL (6P2C or 6P4C)</td><td>Smaller than RJ45</td></tr>
+      <tr><td>RJ45 (Registered Jack 45)</td><td>Ethernet (8P8C)</td><td>Twisted pair (Module 11)</td></tr>
+      <tr><td>RJ11 (Registered Jack 11)</td><td>Telephone/DSL (DSL: Digital Subscriber Line) (6P2C or 6P4C)</td><td>Smaller than RJ45</td></tr>
       <tr><td>Lightning</td><td>Apple proprietary (USB 2.0 speed)</td><td>Replaced by USB-C on iPhone 15 and later</td></tr>
-      <tr><td>Audio</td><td>3.5 mm TRS/TRRS jacks; optical S/PDIF (TOSLINK)</td><td>Green = line out, pink = mic, blue = line in</td></tr>
+      <tr><td>Audio</td><td>3.5 mm TRS/TRRS (TRS: Tip-Ring-Sleeve; TRRS: Tip-Ring-Ring-Sleeve) jacks; optical S/PDIF (TOSLINK)</td><td>Green = line out, pink = mic, blue = line in</td></tr>
     </tbody>
   </table></div>
   <p><b>Adapters and converters</b>: an <i>adapter</i> changes the connector shape (USB-C to USB-A); a <i>converter</i> changes the signal (DisplayPort to HDMI active converter, HDMI to VGA needs digital-to-analog conversion).</p>
@@ -183,14 +183,14 @@
   <div class="tablewrap"><table>
     <thead><tr><th>Tech</th><th>How it works</th><th>Strengths</th><th>Weaknesses</th></tr></thead>
     <tbody>
-      <tr><td>LCD TN</td><td>Twisted nematic liquid crystal with backlight</td><td>Fast, cheap</td><td>Poor viewing angles and color</td></tr>
+      <tr><td>LCD (Liquid Crystal Display) TN</td><td>Twisted nematic liquid crystal with backlight</td><td>Fast, cheap</td><td>Poor viewing angles and color</td></tr>
       <tr><td>LCD IPS</td><td>In-plane switching</td><td>Best LCD color and viewing angles</td><td>"IPS glow", lower contrast</td></tr>
       <tr><td>LCD VA</td><td>Vertical alignment</td><td>High contrast</td><td>Slower response, some smearing</td></tr>
       <tr><td>Mini-LED</td><td>LCD with thousands of local-dimming LED zones</td><td>Very bright, good contrast</td><td>Blooming around bright objects</td></tr>
-      <tr><td>OLED</td><td>Each pixel emits its own light</td><td>Perfect blacks, very fast</td><td>Burn-in risk, cost</td></tr>
+      <tr><td>OLED (Organic Light-Emitting Diode)</td><td>Each pixel emits its own light</td><td>Perfect blacks, very fast</td><td>Burn-in risk, cost</td></tr>
     </tbody>
   </table></div>
-  <p>Key specs: <b>resolution</b> (1920×1080 FHD, 2560×1440 QHD, 3840×2160 4K UHD), <b>refresh rate</b> (60, 120, 144, 240 Hz), response time, brightness (nits), color gamut, and <b>touch</b> (capacitive in phones and laptops; a digitizer handles pen input). Laptop displays also contain a backlight (LED; older CCFL needed an inverter), Wi-Fi antennas and the webcam/microphone in the lid.</p>
+  <p>Key specs: <b>resolution</b> (1920×1080 FHD (Full High Definition, 1920 × 1080), 2560×1440 QHD (Quad High Definition, 2560 × 1440), 3840×2160 4K UHD (Ultra High Definition, 3840 × 2160)), <b>refresh rate</b> (60, 120, 144, 240 Hz), response time, brightness (nits), color gamut, and <b>touch</b> (capacitive in phones and laptops; a digitizer handles pen input). Laptop displays also contain a backlight (LED; older CCFL (Cold Cathode Fluorescent Lamp) needed an inverter), Wi-Fi antennas and the webcam/microphone in the lid.</p>
 </section>
 
 <section class="lesson" id="printers">
@@ -210,7 +210,7 @@
     <li><b>Inkjet</b>: thermal (heated bubble) or piezoelectric heads spray ink. Maintenance: clean or align heads, replace cartridges, calibrate.</li>
     <li><b>Thermal</b>: heat-sensitive paper (receipts, labels). Maintenance: clean the heating element with isopropyl alcohol; replace paper.</li>
     <li><b>Impact</b> (dot matrix): pins strike an inked ribbon; prints multipart (carbon) forms; tractor-feed paper.</li>
-    <li><b>3D printers</b>: filament (FDM: PLA, ABS, PETG) or resin (SLA). Maintenance: level the bed, clean the nozzle, keep filament dry.</li>
+    <li><b>3D printers</b>: filament (FDM, Fused Deposition Modeling: PLA (Polylactic Acid), ABS (Acrylonitrile Butadiene Styrene), PETG (Polyethylene Terephthalate Glycol)) or resin (SLA). Maintenance: level the bed, clean the nozzle, keep filament dry.</li>
     <li>Laser maintenance kits contain a fuser, transfer roller and pickup rollers; reset the page counter after installing.</li>
   </ul>
   <div class="tablewrap"><table>
@@ -219,13 +219,13 @@
       <tr><td>Toner smudges or rubs off</td><td>Fuser not hot enough or failing</td></tr>
       <tr><td>Ghost images (faint repeats)</td><td>Drum not cleaned/erased properly; failing drum or cleaning blade</td></tr>
       <tr><td>Vertical white or black lines</td><td>Scratched drum, dirty corona, toner low or clumped</td></tr>
-      <tr><td>Garbled characters</td><td>Wrong driver or print language (PCL vs PostScript); corrupted job</td></tr>
+      <tr><td>Garbled characters</td><td>Wrong driver or print language (PCL (Printer Command Language) vs PostScript); corrupted job</td></tr>
       <tr><td>Paper jams / multiple sheets fed</td><td>Worn pickup or separation rollers; wrong paper; humidity</td></tr>
       <tr><td>Faded prints</td><td>Low toner, economy mode, or a dirty laser scanner window</td></tr>
       <tr><td>Speckles</td><td>Toner leaking or debris on the drum</td></tr>
     </tbody>
   </table></div>
-  <p>Printer sharing and security: install via USB, Ethernet or Wi-Fi; share through a print server or the OS; enable secure release (badge or PIN at the device), user authentication, audit logs and hard drive wiping on multifunction devices.</p>
+  <p>Printer sharing and security: install via USB, Ethernet or Wi-Fi; share through a print server or the OS; enable secure release (badge or PIN (Personal Identification Number) at the device), user authentication, audit logs and hard drive wiping on multifunction devices.</p>
 </section>
 
 <section class="lesson" id="mobile">
@@ -233,9 +233,9 @@
   <ul>
     <li><b>Replaceable parts</b> (varies by model): battery, RAM (if SODIMM, not soldered), M.2 SSD, Wi-Fi card, keyboard, display, speakers, fans. Always use the service manual, track screws on a magnetic mat and disconnect the battery first.</li>
     <li><b>Docking</b>: docking stations and port replicators over USB-C/Thunderbolt add displays, Ethernet and power with one cable.</li>
-    <li><b>Mobile connectivity</b>: cellular (4G/5G, eSIM), hotspot and tethering, Wi-Fi, <b>Bluetooth</b> (pair: enable, make discoverable, select, enter or confirm PIN, test), <b>NFC</b> (contactless payments, pairing, a few centimeters), GPS location services.</li>
+    <li><b>Mobile connectivity</b>: cellular (4G/5G, eSIM), hotspot and tethering, Wi-Fi, <b>Bluetooth</b> (pair: enable, make discoverable, select, enter or confirm PIN, test), <b>NFC (Near Field Communication)</b> (contactless payments, pairing, a few centimeters), GPS (Global Positioning System) location services.</li>
     <li><b>Accessories</b>: touch pens, headsets, speakers, webcams, trackpads, drawing pads.</li>
-    <li>Device sync, MDM enrollment and app management are covered in Module 6.</li>
+    <li>Device sync, MDM (Mobile Device Management) enrollment and app management are covered in Module 6.</li>
   </ul>
 </section>
 
@@ -243,10 +243,10 @@
   <h2>11. Safety</h2>
   <ul>
     <li><b>ESD</b> (electrostatic discharge) can destroy chips with a spark you cannot feel (under ~3,000 V). Use an ESD wrist strap connected to ground or the chassis, an ESD mat, anti-static bags, and hold parts by their edges. Low humidity increases ESD risk.</li>
-    <li><b>Electrical safety</b>: unplug before opening a PC; never open PSUs or CRT monitors; remove jewelry; use equipment grounding; know where circuit breakers are.</li>
+    <li><b>Electrical safety</b>: unplug before opening a PC; never open PSUs or CRT (Cathode Ray Tube) monitors; remove jewelry; use equipment grounding; know where circuit breakers are.</li>
     <li><b>Lifting</b>: lift with your legs, keep your back straight, get help for heavy items (commonly above about 50 lb / 23 kg), use carts.</li>
     <li><b>Disposal</b>: batteries (lithium-ion can catch fire), toner, CRTs and circuit boards go to approved recycling, following local regulations.</li>
-    <li><b>SDS</b> (safety data sheet; older name MSDS): describes a chemical's hazards, handling, first aid and disposal, such as toner or cleaning fluids.</li>
+    <li><b>SDS</b> (safety data sheet; older name MSDS (Material Safety Data Sheet)): describes a chemical's hazards, handling, first aid and disposal, such as toner or cleaning fluids.</li>
   </ul>
 </section>
 

@@ -21,15 +21,15 @@
 <section class="intro">
   <div class="kicker">Part 3 · Networking, Fiber and Wireless · Module 12</div>
   <h1>Switches, Routers and the Services That Run Networks</h1>
-  <p class="why"><b>Why this matters.</b> Switches and routers are the heart of every network, and the services around them (time, logging, monitoring, VPNs, QoS) keep it running. Network+ Domain 2 (Network Implementation) and Domain 3 (Network Operations) live here. Understanding VLANs, spanning tree and routing decisions is what separates "it's broken" from "the trunk is missing VLAN 30".</p>
+  <p class="why"><b>Why this matters.</b> Switches and routers are the heart of every network, and the services around them (time, logging, monitoring, VPNs (Virtual Private Network), QoS (Quality of Service)) keep it running. Network+ Domain 2 (Network Implementation) and Domain 3 (Network Operations) live here. Understanding VLANs (Virtual Local Area Network), spanning tree and routing decisions is what separates "it's broken" from "the trunk is missing VLAN 30".</p>
   <h3>You will be able to</h3>
   <ul class="outcomes">
-    <li>Choose the right network appliance for a job and place it in the OSI model.</li>
-    <li>Explain MAC learning, flooding, VLANs, trunks, the native VLAN, STP/RSTP and LACP.</li>
+    <li>Choose the right network appliance for a job and place it in the OSI (Open Systems Interconnection) model.</li>
+    <li>Explain MAC (Media Access Control) learning, flooding, VLANs, trunks, the native VLAN, STP/RSTP (STP: Spanning Tree Protocol; RSTP: Rapid Spanning Tree Protocol) and LACP (Link Aggregation Control Protocol).</li>
     <li>Read a routing table, compare static and dynamic routing, and use administrative distance.</li>
-    <li>Describe RIP, OSPF, EIGRP, BGP and FHRP, and network services such as NTP, SNMP, syslog and NetFlow.</li>
-    <li>Compare VPN types, GRE, MPLS, SD-WAN and SASE, and explain QoS with DSCP, shaping and policing.</li>
-    <li>Produce the core network documents: diagrams, rack diagrams, IP schemes and baselines.</li>
+    <li>Describe RIP (Routing Information Protocol), OSPF (Open Shortest Path First), EIGRP (Enhanced Interior Gateway Routing Protocol), BGP (Border Gateway Protocol) and FHRP (First Hop Redundancy Protocol), and network services such as NTP (Network Time Protocol), SNMP (Simple Network Management Protocol), syslog and NetFlow.</li>
+    <li>Compare VPN types, GRE (Generic Routing Encapsulation), MPLS (Multiprotocol Label Switching), SD-WAN (Software-Defined Wide Area Network) and SASE (Secure Access Service Edge), and explain QoS with DSCP (Differentiated Services Code Point), shaping and policing.</li>
+    <li>Produce the core network documents: diagrams, rack diagrams, IP (Internet Protocol) schemes and baselines.</li>
   </ul>
   <nav class="jumpnav" id="jumpnav" aria-label="On this page"></nav>
 </section>
@@ -47,15 +47,15 @@
       <tr><td><b>Hub</b> (historic)</td><td>1</td><td>Repeats every bit out every port; one collision domain. Replaced by switches.</td></tr>
       <tr><td><b>Switch (Layer 2)</b></td><td>2</td><td>Forwards frames by MAC address; each port is its own collision domain; VLANs split broadcast domains.</td></tr>
       <tr><td><b>Layer 3 switch</b></td><td>2 and 3</td><td>Switch that also routes between VLANs at wire speed (SVIs).</td></tr>
-      <tr><td><b>Router</b></td><td>3</td><td>Forwards packets between networks by IP; separates broadcast domains; often does NAT and VPN.</td></tr>
-      <tr><td><b>Firewall</b></td><td>3 to 7</td><td>Allows or blocks traffic by rules; stateful firewalls track connections; NGFWs inspect applications and users.</td></tr>
-      <tr><td><b>Load balancer</b></td><td>4 or 7</td><td>Spreads client requests across servers; health checks; TLS offload.</td></tr>
+      <tr><td><b>Router</b></td><td>3</td><td>Forwards packets between networks by IP; separates broadcast domains; often does NAT (Network Address Translation) and VPN.</td></tr>
+      <tr><td><b>Firewall</b></td><td>3 to 7</td><td>Allows or blocks traffic by rules; stateful firewalls track connections; NGFWs (Next-Generation Firewall) inspect applications and users.</td></tr>
+      <tr><td><b>Load balancer</b></td><td>4 or 7</td><td>Spreads client requests across servers; health checks; TLS (Transport Layer Security) offload.</td></tr>
       <tr><td><b>Proxy</b></td><td>7</td><td>Makes requests on behalf of clients (forward) or servers (reverse); caching and filtering.</td></tr>
-      <tr><td><b>IDS / IPS</b></td><td>3 to 7</td><td>Intrusion detection alerts; intrusion prevention sits inline and blocks.</td></tr>
-      <tr><td><b>Access point / WLAN controller</b></td><td>2</td><td>Bridges Wi-Fi to Ethernet; a controller centrally manages many lightweight APs.</td></tr>
-      <tr><td><b>Modem / media converter</b></td><td>1</td><td>Converts signal types (cable/DSL to Ethernet; copper to fiber).</td></tr>
-      <tr><td><b>VoIP gear</b></td><td>7</td><td>IP phones, PBX/call managers, VoIP gateways to the phone network.</td></tr>
-      <tr><td><b>SD-WAN appliance</b></td><td>3 to 7</td><td>Steers branch traffic over multiple WAN links by application policy.</td></tr>
+      <tr><td><b>IDS (Intrusion Detection System) / IPS</b></td><td>3 to 7</td><td>Intrusion detection alerts; intrusion prevention sits inline and blocks.</td></tr>
+      <tr><td><b>Access point / WLAN (Wireless Local Area Network) controller</b></td><td>2</td><td>Bridges Wi-Fi to Ethernet; a controller centrally manages many lightweight APs.</td></tr>
+      <tr><td><b>Modem / media converter</b></td><td>1</td><td>Converts signal types (cable/DSL (DSL: Digital Subscriber Line) to Ethernet; copper to fiber).</td></tr>
+      <tr><td><b>VoIP gear</b></td><td>7</td><td>IP phones, PBX/call (PBX: Private Branch Exchange) managers, VoIP gateways to the phone network.</td></tr>
+      <tr><td><b>SD-WAN appliance</b></td><td>3 to 7</td><td>Steers branch traffic over multiple WAN (Wide Area Network) links by application policy.</td></tr>
     </tbody>
   </table></div>
 </section>
@@ -64,9 +64,9 @@
   <h2>2. Switching: MAC tables, VLANs and loops</h2>
   <p>A switch <b>learns</b> by reading the <b>source</b> MAC of every frame and noting which port it came in on. It <b>forwards</b> by looking up the <b>destination</b> MAC. If the destination is unknown (or it's a broadcast), it <b>floods</b> the frame out every port in that VLAN except the one it arrived on.</p>
   <h3>VLANs and trunks</h3>
-  <p>A <dfn>VLAN</dfn> (virtual LAN) splits one physical switch into separate broadcast domains. An <b>access port</b> belongs to one VLAN and sends untagged frames to the end device. A <b>trunk port</b> carries many VLANs between switches by adding an <b>IEEE 802.1Q tag</b> (12-bit VLAN ID: 1 to 4094). The <b>native VLAN</b> is the one VLAN sent untagged on a trunk; both ends must match, and best practice is to change it from VLAN 1 to an unused VLAN to block VLAN hopping. Traffic between VLANs needs a router or Layer 3 switch.</p>
+  <p>A <dfn>VLAN</dfn> (virtual LAN (Local Area Network)) splits one physical switch into separate broadcast domains. An <b>access port</b> belongs to one VLAN and sends untagged frames to the end device. A <b>trunk port</b> carries many VLANs between switches by adding an <b>IEEE (Institute of Electrical and Electronics Engineers) 802.1Q tag</b> (12-bit VLAN ID (Identification): 1 to 4094). The <b>native VLAN</b> is the one VLAN sent untagged on a trunk; both ends must match, and best practice is to change it from VLAN 1 to an unused VLAN to block VLAN hopping. Traffic between VLANs needs a router or Layer 3 switch.</p>
   <h3>Spanning Tree (STP) and loops</h3>
-  <p>Redundant links create Layer 2 <b>loops</b>; with no TTL in Ethernet, broadcasts circle forever (a <b>broadcast storm</b>) and MAC tables flap. <dfn>STP</dfn> (IEEE 802.1D) blocks just enough ports to make a loop-free tree:</p>
+  <p>Redundant links create Layer 2 <b>loops</b>; with no TTL (Time To Live) in Ethernet, broadcasts circle forever (a <b>broadcast storm</b>) and MAC tables flap. <dfn>STP</dfn> (IEEE 802.1D) blocks just enough ports to make a loop-free tree:</p>
   <ol>
     <li>Elect the <b>root bridge</b>: lowest <b>bridge ID</b> = priority (default 32768, in steps of 4096) + MAC address.</li>
     <li>Every other switch picks one <b>root port</b>: its lowest-cost path to the root (cost: 10 Mbps 100, 100 Mbps 19, 1 Gbps 4, 10 Gbps 2).</li>
@@ -81,13 +81,13 @@
       <tr><td>Convergence</td><td>30 to 50 seconds (hello 2 s, forward delay 15 s, max age 20 s)</td><td>A few seconds or less</td></tr>
     </tbody>
   </table></div>
-  <p>Edge features: <b>PortFast</b>/edge ports skip the wait on host ports; <b>BPDU guard</b> shuts a host port that receives switch BPDUs; <b>root guard</b> stops another switch becoming root.</p>
+  <p>Edge features: <b>PortFast</b>/edge ports skip the wait on host ports; <b>BPDU (Bridge Protocol Data Unit) guard</b> shuts a host port that receives switch BPDUs; <b>root guard</b> stops another switch becoming root.</p>
   <h3>More switch features</h3>
   <ul>
     <li><b>Link aggregation</b> (LACP, IEEE 802.3ad, now 802.1AX): bundle several links into one logical link for bandwidth and redundancy. STP sees one link.</li>
     <li><b>Port mirroring</b> (SPAN): copies traffic from ports or VLANs to a monitor port for an analyzer or IDS.</li>
     <li><b>Port security</b>: limit MAC addresses per port, sticky MACs; 802.1X for authentication (Module 16).</li>
-    <li><b>Jumbo frames</b>, <b>speed/duplex</b> (mismatch = late collisions and slowness), <b>PoE</b> budgets (Module 11).</li>
+    <li><b>Jumbo frames</b>, <b>speed/duplex</b> (mismatch = late collisions and slowness), <b>PoE (Power over Ethernet)</b> budgets (Module 11).</li>
   </ul>
 </section>
 
@@ -107,13 +107,13 @@
     <thead><tr><th>Protocol</th><th>Type</th><th>Metric</th><th>Where used</th></tr></thead>
     <tbody>
       <tr><td><b>RIP</b> v2 / RIPng</td><td>Distance vector</td><td>Hop count (max 15)</td><td>Tiny or legacy networks</td></tr>
-      <tr><td><b>OSPF</b></td><td>Link state (Dijkstra SPF), areas, area 0 backbone</td><td>Cost (based on bandwidth)</td><td>Most enterprise internal networks; open standard</td></tr>
+      <tr><td><b>OSPF</b></td><td>Link state (Dijkstra SPF (Shortest Path First)), areas, area 0 backbone</td><td>Cost (based on bandwidth)</td><td>Most enterprise internal networks; open standard</td></tr>
       <tr><td><b>EIGRP</b></td><td>Advanced distance vector (hybrid)</td><td>Composite (bandwidth, delay)</td><td>Cisco-centric enterprises</td></tr>
       <tr><td><b>IS-IS</b></td><td>Link state</td><td>Cost</td><td>Large service providers, data center fabrics</td></tr>
-      <tr><td><b>BGP</b></td><td>Path vector, TCP 179</td><td>Path attributes (AS path, local preference…)</td><td>The internet between autonomous systems; also data center fabrics and SD-WAN</td></tr>
+      <tr><td><b>BGP</b></td><td>Path vector, TCP (Transmission Control Protocol) 179</td><td>Path attributes (AS path, local preference…)</td><td>The internet between autonomous systems; also data center fabrics and SD-WAN</td></tr>
     </tbody>
   </table></div>
-  <p><b>FHRP</b> (First Hop Redundancy Protocol) gives hosts a virtual default gateway IP shared by two routers so one can fail without clients noticing: <b>HSRP</b> (Cisco), <b>VRRP</b> (open standard), GLBP (Cisco, load-balancing).</p>
+  <p><b>FHRP</b> (First Hop Redundancy Protocol) gives hosts a virtual default gateway IP shared by two routers so one can fail without clients noticing: <b>HSRP (Hot Standby Router Protocol)</b> (Cisco), <b>VRRP (Virtual Router Redundancy Protocol)</b> (open standard), GLBP (Gateway Load Balancing Protocol; Cisco, load-balancing).</p>
 </section>
 
 <section class="lesson" id="services">
@@ -121,11 +121,11 @@
   <div class="tablewrap"><table>
     <thead><tr><th>Service</th><th>What it does</th><th>Key facts</th></tr></thead>
     <tbody>
-      <tr><td><b>NTP</b></td><td>Synchronizes clocks</td><td>UDP 123; stratum 0 = reference clock, stratum 1 = server attached to it; accurate time matters for logs, Kerberos and certificates. PTP (IEEE 1588) for sub-microsecond needs.</td></tr>
-      <tr><td><b>SNMP</b></td><td>Monitors and manages devices</td><td>UDP 161 (polls), 162 (traps); MIBs and OIDs describe data; v1/v2c use cleartext community strings, <b>v3 adds authentication and encryption</b>.</td></tr>
+      <tr><td><b>NTP</b></td><td>Synchronizes clocks</td><td>UDP (User Datagram Protocol) 123; stratum 0 = reference clock, stratum 1 = server attached to it; accurate time matters for logs, Kerberos and certificates. PTP (Precision Time Protocol; IEEE 1588) for sub-microsecond needs.</td></tr>
+      <tr><td><b>SNMP</b></td><td>Monitors and manages devices</td><td>UDP 161 (polls), 162 (traps); MIBs (Management Information Base) and OIDs (Object Identifier) describe data; v1/v2c use cleartext community strings, <b>v3 adds authentication and encryption</b>.</td></tr>
       <tr><td><b>Syslog</b></td><td>Central logging</td><td>UDP 514 (TCP/TLS 6514); severity 0 Emergency to 7 Debug.</td></tr>
       <tr><td><b>NetFlow / IPFIX / sFlow</b></td><td>Flow records: who talked to whom, how much</td><td>For capacity planning and security analytics, without full packet capture.</td></tr>
-      <tr><td><b>IPAM</b></td><td>IP address management</td><td>Tracks subnets, assignments, DHCP and DNS in one place.</td></tr>
+      <tr><td><b>IPAM (Internet Protocol Address Management)</b></td><td>IP address management</td><td>Tracks subnets, assignments, DHCP (Dynamic Host Configuration Protocol) and DNS (Domain Name System) in one place.</td></tr>
       <tr><td><b>DHCP relay, DNS</b></td><td>Addressing and names</td><td>See Module 10.</td></tr>
     </tbody>
   </table></div>
@@ -137,14 +137,14 @@
   <div class="tablewrap"><table>
     <thead><tr><th>Technology</th><th>What it is</th></tr></thead>
     <tbody>
-      <tr><td><b>Site-to-site VPN</b></td><td>Always-on encrypted tunnel between two networks' gateways, usually IPsec.</td></tr>
+      <tr><td><b>Site-to-site VPN</b></td><td>Always-on encrypted tunnel between two networks' gateways, usually IPsec (Internet Protocol Security).</td></tr>
       <tr><td><b>Client-to-site (remote access) VPN</b></td><td>A user's device tunnels to the company. <b>Full tunnel</b> sends all traffic through it; <b>split tunnel</b> sends only corporate traffic.</td></tr>
-      <tr><td><b>IPsec</b></td><td>Layer 3 suite: IKE negotiates keys; <b>AH</b> authenticates; <b>ESP</b> encrypts and authenticates; tunnel vs transport mode.</td></tr>
-      <tr><td><b>SSL/TLS VPN</b></td><td>VPN over TLS (port 443), often clientless through a browser; passes most firewalls.</td></tr>
+      <tr><td><b>IPsec</b></td><td>Layer 3 suite: IKE (Internet Key Exchange) negotiates keys; <b>AH (Authentication Header)</b> authenticates; <b>ESP (Encapsulating Security Payload)</b> encrypts and authenticates; tunnel vs transport mode.</td></tr>
+      <tr><td><b>SSL/TLS (SSL: Secure Sockets Layer) VPN</b></td><td>VPN over TLS (port 443), often clientless through a browser; passes most firewalls.</td></tr>
       <tr><td><b>GRE</b></td><td>Generic Routing Encapsulation: simple unencrypted tunnel that can carry multicast/routing protocols; often wrapped in IPsec.</td></tr>
       <tr><td><b>MPLS</b></td><td>Carrier WAN that forwards on labels instead of IP lookups; private, with QoS.</td></tr>
-      <tr><td><b>SD-WAN</b></td><td>Software-defined WAN: centrally managed overlay that sends each application over the best of several links (broadband, LTE/5G, MPLS).</td></tr>
-      <tr><td><b>SASE</b> / SSE</td><td>Secure Access Service Edge: SD-WAN plus cloud-delivered security (secure web gateway, CASB, ZTNA, firewall as a service).</td></tr>
+      <tr><td><b>SD-WAN</b></td><td>Software-defined WAN: centrally managed overlay that sends each application over the best of several links (broadband, LTE/5G (LTE: Long-Term Evolution), MPLS).</td></tr>
+      <tr><td><b>SASE</b> / SSE (Security Service Edge)</td><td>Secure Access Service Edge: SD-WAN plus cloud-delivered security (secure web gateway, CASB (Cloud Access Security Broker), ZTNA (Zero Trust Network Access), firewall as a service).</td></tr>
     </tbody>
   </table></div>
 </section>
@@ -153,7 +153,7 @@
   <h2>5. Quality of Service</h2>
   <p>When a link is congested, packets wait in queues. Voice and video suffer from <b>latency</b> (delay), <b>jitter</b> (variation in delay) and <b>loss</b>; a file download barely notices. <dfn>QoS</dfn> classifies and marks traffic, then queues it so sensitive traffic goes first.</p>
   <ul>
-    <li><b>Marking</b>: <b>DSCP</b> (6 bits in the IP header). Voice = <b>EF (46)</b>, interactive video ≈ AF41 (34), best effort = 0. Layer 2 uses <b>CoS</b> (3-bit 802.1p in the 802.1Q tag).</li>
+    <li><b>Marking</b>: <b>DSCP</b> (6 bits in the IP header). Voice = <b>EF (Expedited Forwarding) (46)</b>, interactive video ≈ AF41 (34), best effort = 0. Layer 2 uses <b>CoS</b> (3-bit 802.1p in the 802.1Q tag).</li>
     <li><b>Queuing</b>: priority/low-latency queuing for voice, weighted fair queuing for the rest.</li>
     <li><b>Shaping</b> buffers excess traffic to smooth it to a rate (adds delay, no loss); <b>policing</b> drops or re-marks traffic over the rate (no delay, causes loss).</li>
     <li>Targets for VoIP: one-way latency &lt; 150 ms, jitter &lt; 30 ms, loss &lt; 1%.</li>
@@ -169,8 +169,8 @@
       <tr><td><b>Logical diagram</b></td><td>Subnets, VLANs, routing domains, traffic flows (Layer 2/3).</td></tr>
       <tr><td><b>Rack diagram / elevation</b></td><td>What is mounted in each rack unit (U), power feeds.</td></tr>
       <tr><td><b>IP scheme / IPAM records</b></td><td>Subnets, gateways, DHCP scopes, static assignments.</td></tr>
-      <tr><td><b>Baseline</b></td><td>Normal performance (bandwidth, CPU, latency) to compare against when troubleshooting.</td></tr>
-      <tr><td><b>Asset inventory, wiring/port maps, change records, SOPs</b></td><td>What you have, where it connects, what changed and how to do routine tasks.</td></tr>
+      <tr><td><b>Baseline</b></td><td>Normal performance (bandwidth, CPU (Central Processing Unit), latency) to compare against when troubleshooting.</td></tr>
+      <tr><td><b>Asset inventory, wiring/port maps, change records, SOPs (Standard Operating Procedure)</b></td><td>What you have, where it connects, what changed and how to do routine tasks.</td></tr>
     </tbody>
   </table></div>
 </section>

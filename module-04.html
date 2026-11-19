@@ -26,15 +26,15 @@
 <section class="intro">
   <div class="kicker">Part 1 · Foundations · Module 04</div>
   <h1>Inside the Machine: How a Computer Actually Works</h1>
-  <p class="why"><b>Why this matters.</b> Troubleshooting is guessing unless you know what the machine is doing. Why does adding RAM speed up a slow PC but a faster CPU does not? Why does a laptop fail to boot with "no bootable device"? Why is an SSD so much faster than a hard drive? Every one of these is answered by how the CPU, memory, buses and firmware work together. A+ Core 1 tests the parts; this module explains the machine they form.</p>
+  <p class="why"><b>Why this matters.</b> Troubleshooting is guessing unless you know what the machine is doing. Why does adding RAM (Random Access Memory) speed up a slow PC (Personal Computer) but a faster CPU (Central Processing Unit) does not? Why does a laptop fail to boot with "no bootable device"? Why is an SSD (Solid-State Drive) so much faster than a hard drive? Every one of these is answered by how the CPU, memory, buses and firmware work together. A+ Core 1 tests the parts; this module explains the machine they form.</p>
   <h3>You will be able to</h3>
   <ul class="outcomes">
     <li>Describe the von Neumann model and why modern CPUs use split (Harvard-style) L1 caches.</li>
     <li>Name the parts of a CPU and walk through the fetch-decode-execute cycle step by step.</li>
-    <li>Explain pipelining, superscalar and out-of-order execution, branch prediction, cores and SMT.</li>
+    <li>Explain pipelining, superscalar and out-of-order execution, branch prediction, cores and SMT (Simultaneous Multithreading).</li>
     <li>Rank the memory hierarchy by size and speed and explain cache hits and misses.</li>
     <li>List the stages of the boot process and the symptom you would see if each one failed.</li>
-    <li>Explain what GPUs, NPUs and other accelerators are good at.</li>
+    <li>Explain what GPUs (Graphics Processing Unit), NPUs (Neural Processing Unit) and other accelerators are good at.</li>
   </ul>
   <nav class="jumpnav" id="jumpnav" aria-label="On this page"></nav>
 </section>
@@ -70,12 +70,12 @@
 
 <section class="lesson" id="cpu">
   <h2>2. The CPU in detail</h2>
-  <div class="callout analogy">A chef in a kitchen. The <b>recipe book</b> is RAM. The <b>control unit</b> is the chef reading the next step. The <b>ALU</b> is the chopping board where work happens. <b>Registers</b> are the chef's hands: tiny, but instant. The <b>clock</b> is a metronome: one beat, one small action.</div>
+  <div class="callout analogy">A chef in a kitchen. The <b>recipe book</b> is RAM. The <b>control unit</b> is the chef reading the next step. The <b>ALU (Arithmetic Logic Unit)</b> is the chopping board where work happens. <b>Registers</b> are the chef's hands: tiny, but instant. The <b>clock</b> is a metronome: one beat, one small action.</div>
   <div class="tablewrap"><table>
     <thead><tr><th>Part</th><th>Plain meaning</th><th>Precise meaning</th></tr></thead>
     <tbody>
       <tr><td><b>Control unit (CU)</b></td><td>The manager that reads instructions and tells everyone what to do.</td><td>Decodes instructions and generates control signals that direct the datapath, memory and I/O.</td></tr>
-      <tr><td><b>Arithmetic logic unit (ALU)</b></td><td>The calculator.</td><td>Performs integer arithmetic (add, subtract) and logic (AND, OR, XOR, shifts). Floating-point units (FPUs) and vector units handle other math.</td></tr>
+      <tr><td><b>Arithmetic logic unit (ALU)</b></td><td>The calculator.</td><td>Performs integer arithmetic (add, subtract) and logic (AND, OR, XOR (Exclusive OR), shifts). Floating-point units (FPUs) and vector units handle other math.</td></tr>
       <tr><td><b>Registers</b></td><td>Tiny, super-fast storage inside the CPU.</td><td>Small fixed-size storage cells (e.g. 64-bit) read and written in one cycle.</td></tr>
       <tr><td>Program counter (PC)</td><td>"Which step am I on?"</td><td>Holds the address of the next instruction (called the instruction pointer, RIP, on x86-64).</td></tr>
       <tr><td>Instruction register (IR)</td><td>"The step I am doing now."</td><td>Holds the instruction currently being decoded and executed.</td></tr>
@@ -96,8 +96,8 @@
   <div class="tablewrap"><table>
     <thead><tr><th>ISA</th><th>Style</th><th>Where you find it</th></tr></thead>
     <tbody>
-      <tr><td>x86-64 (AMD64 / Intel 64)</td><td>CISC: many complex, variable-length instructions (internally translated into simpler micro-ops)</td><td>Most PCs and servers (Intel, AMD)</td></tr>
-      <tr><td>ARM (AArch64)</td><td>RISC: fewer, simpler, fixed-length instructions</td><td>Phones, tablets, Apple silicon Macs, many cloud servers (AWS Graviton)</td></tr>
+      <tr><td>x86-64 (AMD64 / Intel 64)</td><td>CISC (Complex Instruction Set Computer): many complex, variable-length instructions (internally translated into simpler micro-ops)</td><td>Most PCs and servers (Intel, AMD)</td></tr>
+      <tr><td>ARM (AArch64)</td><td>RISC (Reduced Instruction Set Computer): fewer, simpler, fixed-length instructions</td><td>Phones, tablets, Apple silicon Macs, many cloud servers (AWS (Amazon Web Services) Graviton)</td></tr>
       <tr><td>RISC-V</td><td>RISC, open and royalty-free</td><td>Microcontrollers, storage controllers, growing in many devices</td></tr>
     </tbody>
   </table></div>
@@ -122,11 +122,11 @@
     <thead><tr><th>Level</th><th>Typical size</th><th>Typical access time</th><th>Technology</th></tr></thead>
     <tbody>
       <tr><td>Registers</td><td>Hundreds of bytes per core</td><td>&lt; 1 ns (1 cycle)</td><td>Flip-flops in the core</td></tr>
-      <tr><td>L1 cache</td><td>32 to 64 KiB instruction + 32 to 64 KiB data per core</td><td>~1 ns (about 4 cycles)</td><td>SRAM</td></tr>
+      <tr><td>L1 cache</td><td>32 to 64 KiB instruction + 32 to 64 KiB data per core</td><td>~1 ns (about 4 cycles)</td><td>SRAM (Static Random Access Memory)</td></tr>
       <tr><td>L2 cache</td><td>256 KiB to 3 MiB per core</td><td>~3 to 5 ns</td><td>SRAM</td></tr>
       <tr><td>L3 cache</td><td>8 to 100+ MiB shared</td><td>~10 to 20 ns</td><td>SRAM</td></tr>
-      <tr><td>Main memory (RAM)</td><td>8 GiB to several TiB</td><td>~60 to 100 ns</td><td>DRAM (DDR4, DDR5)</td></tr>
-      <tr><td>NVMe SSD</td><td>0.5 to 30+ TB</td><td>~20 to 100 µs</td><td>NAND flash</td></tr>
+      <tr><td>Main memory (RAM)</td><td>8 GiB to several TiB</td><td>~60 to 100 ns</td><td>DRAM (Dynamic Random Access Memory; DDR4 (Double Data Rate), DDR5)</td></tr>
+      <tr><td>NVMe (Non-Volatile Memory Express) SSD</td><td>0.5 to 30+ TB (Terabyte)</td><td>~20 to 100 µs</td><td>NAND (Not-AND) flash</td></tr>
       <tr><td>Hard disk</td><td>1 to 30+ TB</td><td>~5 to 10 ms</td><td>Magnetic platters</td></tr>
       <tr><td>Network / cloud</td><td>Unlimited</td><td>~1 to 100+ ms</td><td>Remote servers</td></tr>
     </tbody>
@@ -135,10 +135,10 @@
   <h3 id="ram">RAM basics</h3>
   <ul>
     <li>Every byte of RAM has an <b>address</b>. A 64-bit CPU can address far more than any machine has installed; a 32-bit system is limited to 4 GiB (2<sup>32</sup> bytes).</li>
-    <li>RAM is <b>volatile</b>: it loses its contents without power. Storage (SSD, HDD) is non-volatile.</li>
+    <li>RAM is <b>volatile</b>: it loses its contents without power. Storage (SSD, HDD (Hard Disk Drive)) is non-volatile.</li>
     <li><b>DRAM</b> stores each bit as charge in a tiny capacitor that leaks, so it is refreshed thousands of times a second; dense and cheap. <b>SRAM</b> uses six transistors per bit, needs no refresh, and is fast but expensive: used for caches.</li>
-    <li><b>DDR</b> (double data rate) SDRAM transfers data on both clock edges. Generations (DDR3, DDR4, DDR5) are not interchangeable: different voltages and notch positions (Module 5). DDR5 has two independent 32-bit subchannels per module and on-die ECC.</li>
-    <li><b>Channels</b>: each memory channel is an independent 64-bit path. Dual channel doubles bandwidth if DIMMs are installed in matching slots.</li>
+    <li><b>DDR</b> (double data rate) SDRAM (Synchronous Dynamic Random Access Memory) transfers data on both clock edges. Generations (DDR3, DDR4, DDR5) are not interchangeable: different voltages and notch positions (Module 5). DDR5 has two independent 32-bit subchannels per module and on-die ECC (Error-Correcting Code).</li>
+    <li><b>Channels</b>: each memory channel is an independent 64-bit path. Dual channel doubles bandwidth if DIMMs (Dual Inline Memory Module) are installed in matching slots.</li>
   </ul>
 </section>
 
@@ -147,9 +147,9 @@
   <ul>
     <li><b>Front-side bus (history)</b>: until about 2008, the CPU reached RAM through a northbridge chip over the FSB, a bottleneck.</li>
     <li><b>Integrated memory controller</b>: today the memory controller sits on the CPU itself, so RAM connects directly to the processor.</li>
-    <li><b>PCI Express (PCIe)</b>: a serial point-to-point link made of <i>lanes</i> (one pair to send, one to receive). Slots are x1, x4, x8 or x16. Each generation roughly doubles per-lane bandwidth: Gen 3 ≈ 1 GB/s per lane, Gen 4 ≈ 2 GB/s, Gen 5 ≈ 4 GB/s, Gen 6 ≈ 8 GB/s (each direction).</li>
-    <li><b>Chipset</b> (Platform Controller Hub on Intel): connects slower devices (USB, SATA, extra PCIe lanes, audio, networking) to the CPU over a dedicated link.</li>
-    <li><b>DMA (direct memory access)</b>: devices such as NICs and disk controllers copy data straight to RAM without the CPU moving every byte, freeing the CPU.</li>
+    <li><b>PCI (Peripheral Component Interconnect) Express (PCIe)</b>: a serial point-to-point link made of <i>lanes</i> (one pair to send, one to receive). Slots are x1, x4, x8 or x16. Each generation roughly doubles per-lane bandwidth: Gen 3 ≈ 1 GB/s (GB: Gigabyte) per lane, Gen 4 ≈ 2 GB/s, Gen 5 ≈ 4 GB/s, Gen 6 ≈ 8 GB/s (each direction).</li>
+    <li><b>Chipset</b> (Platform Controller Hub on Intel): connects slower devices (USB (Universal Serial Bus), SATA (Serial Advanced Technology Attachment), extra PCIe lanes, audio, networking) to the CPU over a dedicated link.</li>
+    <li><b>DMA (direct memory access)</b>: devices such as NICs (Network Interface Card) and disk controllers copy data straight to RAM without the CPU moving every byte, freeing the CPU.</li>
   </ul>
 </section>
 
@@ -157,10 +157,10 @@
   <h2>5. The boot process</h2>
   <ol>
     <li><b>Power on</b>: the power supply starts and stabilizes its voltages, then sends a <b>Power Good</b> (PWR_OK) signal to the motherboard.</li>
-    <li><b>Firmware starts</b>: the CPU begins executing firmware (UEFI, or legacy BIOS) from flash on the motherboard.</li>
-    <li><b>POST</b> (power-on self-test): firmware checks CPU, RAM, video and key devices. Failures produce beep codes or LED/POST codes.</li>
-    <li><b>Find a boot device</b>: firmware follows the boot order. UEFI reads the EFI System Partition on a GPT disk; legacy BIOS reads the MBR. <b>Secure Boot</b> checks the bootloader's digital signature.</li>
-    <li><b>Bootloader</b> (Windows Boot Manager, GRUB): loads the OS kernel.</li>
+    <li><b>Firmware starts</b>: the CPU begins executing firmware (UEFI (Unified Extensible Firmware Interface), or legacy BIOS (Basic Input/Output System)) from flash on the motherboard.</li>
+    <li><b>POST</b> (power-on self-test): firmware checks CPU, RAM, video and key devices. Failures produce beep codes or LED/POST (LED: Light-Emitting Diode) codes.</li>
+    <li><b>Find a boot device</b>: firmware follows the boot order. UEFI reads the EFI (Extensible Firmware Interface) System Partition on a GPT (GUID (Globally Unique Identifier) Partition Table) disk; legacy BIOS reads the MBR (Master Boot Record). <b>Secure Boot</b> checks the bootloader's digital signature.</li>
+    <li><b>Bootloader</b> (Windows Boot Manager, GRUB (Grand Unified Bootloader)): loads the OS (Operating System) kernel.</li>
     <li><b>Kernel</b>: initializes memory management and drivers, mounts the root file system.</li>
     <li><b>OS services</b> start (Windows services, Linux systemd units).</li>
     <li><b>Login</b>: the user signs in and their profile loads.</li>
@@ -182,9 +182,9 @@
   <h2>7. GPUs, NPUs and other accelerators</h2>
   <p>A CPU has a few powerful cores good at complex, branching tasks. An <dfn>accelerator</dfn> is a processor specialized for one kind of work.</p>
   <ul>
-    <li><b>GPU</b> (graphics processing unit): thousands of simpler cores doing the same math on lots of data at once. Built for graphics, now central to AI training and inference and scientific computing. Has its own fast memory (GDDR or HBM).</li>
+    <li><b>GPU</b> (graphics processing unit): thousands of simpler cores doing the same math on lots of data at once. Built for graphics, now central to AI (Artificial Intelligence) training and inference and scientific computing. Has its own fast memory (GDDR (Graphics Double Data Rate) or HBM (High Bandwidth Memory)).</li>
     <li><b>NPU</b> (neural processing unit): low-power AI inference engine in phones and laptops ("AI PCs"), measured in TOPS (trillions of operations per second).</li>
-    <li><b>Others</b>: TPUs and other AI ASICs, FPGAs (reprogrammable logic), DPUs/SmartNICs (offload networking and storage in data centers), video encoders, crypto engines (AES-NI instructions), and the TPM security chip (Module 14).</li>
+    <li><b>Others</b>: TPUs (Tensor Processing Unit) and other AI ASICs (Application-Specific Integrated Circuit), FPGAs (Field-Programmable Gate Array; reprogrammable logic), DPUs/SmartNICs (DPU: Data Processing Unit; offload networking and storage in data centers), video encoders, crypto engines (AES-NI instructions), and the TPM (Trusted Platform Module) security chip (Module 14).</li>
   </ul>
 </section>
 
@@ -210,7 +210,7 @@
     <div class="row" role="group" aria-label="Scenario"><button type="button" data-mode="clean" aria-pressed="true">No hazards</button><button type="button" data-mode="data" aria-pressed="false">Data hazard (stall)</button><button type="button" data-mode="branch" aria-pressed="false">Branch misprediction (flush)</button></div>
     <div class="row"><button type="button" id="pp-step" class="primary">Next cycle →</button><button type="button" id="pp-all">Show all</button><button type="button" id="pp-reset">Reset</button><span class="readout" id="pp-stats"></span></div>
     <div class="tablewrap"><table class="pipe" id="pp-table"></table></div>
-    <p class="figcap">Stages: IF fetch, ID decode, EX execute, MEM memory access, WB write back.</p>
+    <p class="figcap">Stages: IF fetch, ID (Instruction Decode) decode, EX execute, MEM memory access, WB write back.</p>
     <div class="caption" id="pp-cap" aria-live="polite"></div>
   </div>
 

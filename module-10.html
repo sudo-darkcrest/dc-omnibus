@@ -26,14 +26,14 @@
 <section class="intro">
   <div class="kicker">Part 3 · Networking, Fiber and Wireless · Module 10</div>
   <h1>IP Addressing and Subnetting, Made Visual</h1>
-  <p class="why"><b>Why this matters.</b> Every device that talks on a network needs an address, and every network engineer must be able to carve address space into subnets quickly and correctly. Subnetting is the single most feared Network+ topic, and it only takes practice. DHCP and DNS problems are behind a huge share of real help desk tickets.</p>
+  <p class="why"><b>Why this matters.</b> Every device that talks on a network needs an address, and every network engineer must be able to carve address space into subnets quickly and correctly. Subnetting is the single most feared Network+ topic, and it only takes practice. DHCP (Dynamic Host Configuration Protocol) and DNS (Domain Name System) problems are behind a huge share of real help desk tickets.</p>
   <h3>You will be able to</h3>
   <ul class="outcomes">
-    <li>Read an IPv4 address and mask in binary and find the network, broadcast and usable host range.</li>
-    <li>Subnet with the "magic number" method in your head, and design a VLSM plan.</li>
-    <li>Recognize private, APIPA, loopback and special ranges, and explain NAT and PAT.</li>
-    <li>Compress and expand IPv6 addresses and name the IPv6 address types.</li>
-    <li>Step through DHCP DORA and a DNS lookup, and pick the right DNS record type.</li>
+    <li>Read an IPv4 (Internet Protocol version 4) address and mask in binary and find the network, broadcast and usable host range.</li>
+    <li>Subnet with the "magic number" method in your head, and design a VLSM (Variable Length Subnet Masking) plan.</li>
+    <li>Recognize private, APIPA (Automatic Private Internet Protocol Addressing), loopback and special ranges, and explain NAT (Network Address Translation) and PAT (Port Address Translation).</li>
+    <li>Compress and expand IPv6 (Internet Protocol version 6) addresses and name the IPv6 address types.</li>
+    <li>Step through DHCP DORA (Discover, Offer, Request, Acknowledge) and a DNS lookup, and pick the right DNS record type.</li>
   </ul>
   <nav class="jumpnav" id="jumpnav" aria-label="On this page"></nav>
 </section>
@@ -46,16 +46,16 @@
 <section class="lesson" id="ipv4">
   <h2>1. IPv4 addresses</h2>
   <p>An IPv4 address is <b>32 bits</b>, written as four 8-bit <dfn>octets</dfn> in decimal: <code>192.168.10.37</code>. The <dfn>subnet mask</dfn> says which bits are the <b>network</b> part and which are the <b>host</b> part. <dfn>CIDR</dfn> (Classless Inter-Domain Routing) notation writes the mask as a count of network bits: <code>/24</code> = <code>255.255.255.0</code>.</p>
-  <div class="callout analogy">An IP address is like a phone number: the area code (network bits) says which region; the rest (host bits) picks one phone. The mask tells you where the area code ends.</div>
+  <div class="callout analogy">An IP (Internet Protocol) address is like a phone number: the area code (network bits) says which region; the rest (host bits) picks one phone. The mask tells you where the area code ends.</div>
   <div class="tablewrap"><table>
     <thead><tr><th>Range</th><th>Purpose</th><th>Notes</th></tr></thead>
     <tbody>
-      <tr><td><b>10.0.0.0/8</b></td><td>Private (RFC 1918)</td><td>Large enterprises, cloud VPCs</td></tr>
+      <tr><td><b>10.0.0.0/8</b></td><td>Private (RFC (Request for Comments) 1918)</td><td>Large enterprises, cloud VPCs (Virtual Private Cloud)</td></tr>
       <tr><td><b>172.16.0.0/12</b></td><td>Private (RFC 1918)</td><td>172.16.0.0 to 172.31.255.255 (a common trap)</td></tr>
       <tr><td><b>192.168.0.0/16</b></td><td>Private (RFC 1918)</td><td>Home and small office</td></tr>
       <tr><td><b>169.254.0.0/16</b></td><td>APIPA / link-local</td><td>Self-assigned when DHCP fails: a top troubleshooting clue</td></tr>
       <tr><td><b>127.0.0.0/8</b></td><td>Loopback</td><td>127.0.0.1 = "this host"</td></tr>
-      <tr><td><b>100.64.0.0/10</b></td><td>Carrier-grade NAT (RFC 6598)</td><td>Shared ISP space</td></tr>
+      <tr><td><b>100.64.0.0/10</b></td><td>Carrier-grade NAT (RFC 6598)</td><td>Shared ISP (Internet Service Provider) space</td></tr>
       <tr><td><b>224.0.0.0/4</b></td><td>Multicast (old class D)</td><td>224.0.0.0 to 239.255.255.255</td></tr>
       <tr><td><b>0.0.0.0/0</b></td><td>Default route</td><td>"Everything else"</td></tr>
     </tbody>
@@ -137,33 +137,33 @@
     </tbody>
   </table></div>
   <ul>
-    <li><b>SLAAC</b> (Stateless Address Autoconfiguration): the host takes the /64 prefix from a router advertisement and builds its own interface ID, so no DHCP server is needed. DHCPv6 can still supply DNS or full stateful addressing.</li>
-    <li><b>EUI-64</b>: builds the 64-bit interface ID from the 48-bit MAC by inserting <code>FFFE</code> in the middle and flipping the 7th bit. Many OSes now use random (privacy) IDs instead.</li>
-    <li><b>Dual stack</b>: run IPv4 and IPv6 side by side (the preferred transition). <b>Tunneling</b> (6to4, Teredo, GRE) carries IPv6 inside IPv4. <b>NAT64/DNS64</b> lets IPv6-only clients reach IPv4 servers.</li>
-    <li>Standard LAN subnet: <b>/64</b>. Sites typically receive a /48 or /56.</li>
+    <li><b>SLAAC</b> (Stateless Address Autoconfiguration): the host takes the /64 prefix from a router advertisement and builds its own interface ID (Identification), so no DHCP server is needed. DHCPv6 can still supply DNS or full stateful addressing.</li>
+    <li><b>EUI-64 (Extended Unique Identifier 64-bit)</b>: builds the 64-bit interface ID from the 48-bit MAC (Media Access Control) by inserting <code>FFFE</code> in the middle and flipping the 7th bit. Many OSes now use random (privacy) IDs instead.</li>
+    <li><b>Dual stack</b>: run IPv4 and IPv6 side by side (the preferred transition). <b>Tunneling</b> (6to4, Teredo, GRE (Generic Routing Encapsulation)) carries IPv6 inside IPv4. <b>NAT64/DNS64 (NAT64: Network Address Translation from IPv6 to IPv4; DNS64: Domain Name System translation for IPv6-only clients)</b> lets IPv6-only clients reach IPv4 servers.</li>
+    <li>Standard LAN (Local Area Network) subnet: <b>/64</b>. Sites typically receive a /48 or /56.</li>
   </ul>
 </section>
 
 <section class="lesson" id="dhcpdns">
   <h2>5. DHCP and DNS</h2>
   <h3>DHCP: DORA</h3>
-  <p><dfn>DHCP</dfn> (Dynamic Host Configuration Protocol, UDP 67 server/68 client) hands out IP address, mask, default gateway, DNS servers and lease time in four messages: <b>D</b>iscover (client broadcast), <b>O</b>ffer (server), <b>R</b>equest (client broadcast, so other servers know), <b>A</b>cknowledge (server). A <dfn>scope</dfn> is the address pool; <dfn>exclusions</dfn> keep static devices out of it; <dfn>reservations</dfn> tie a MAC to a fixed IP. Clients try to renew at 50% of the lease (T1) and rebind at 87.5% (T2). Because Discover is a broadcast, routers block it; a <dfn>DHCP relay</dfn> (Cisco: <code>ip helper-address</code>) forwards it to a server on another subnet.</p>
+  <p><dfn>DHCP</dfn> (Dynamic Host Configuration Protocol, UDP (User Datagram Protocol) 67 server/68 client) hands out IP address, mask, default gateway, DNS servers and lease time in four messages: <b>D</b>iscover (client broadcast), <b>O</b>ffer (server), <b>R</b>equest (client broadcast, so other servers know), <b>A</b>cknowledge (server). A <dfn>scope</dfn> is the address pool; <dfn>exclusions</dfn> keep static devices out of it; <dfn>reservations</dfn> tie a MAC to a fixed IP. Clients try to renew at 50% of the lease (T1) and rebind at 87.5% (T2). Because Discover is a broadcast, routers block it; a <dfn>DHCP relay</dfn> (Cisco: <code>ip helper-address</code>) forwards it to a server on another subnet.</p>
   <h3>DNS</h3>
   <div class="tablewrap"><table>
     <thead><tr><th>Record</th><th>Maps</th><th>Example</th></tr></thead>
     <tbody>
       <tr><td><b>A</b></td><td>Name → IPv4</td><td>www → 93.184.215.14</td></tr>
-      <tr><td><b>AAAA</b></td><td>Name → IPv6</td><td>www → 2606:2800::1</td></tr>
-      <tr><td><b>CNAME</b></td><td>Alias → canonical name</td><td>shop → www.example.com</td></tr>
+      <tr><td><b>AAAA (Internet Protocol version 6 address record)</b></td><td>Name → IPv6</td><td>www → 2606:2800::1</td></tr>
+      <tr><td><b>CNAME (Canonical Name record)</b></td><td>Alias → canonical name</td><td>shop → www.example.com</td></tr>
       <tr><td><b>MX</b></td><td>Domain → mail server (with priority)</td><td>10 mail.example.com</td></tr>
-      <tr><td><b>TXT</b></td><td>Free text: SPF, DKIM, DMARC, domain verification</td><td>"v=spf1 include:… -all"</td></tr>
-      <tr><td><b>PTR</b></td><td>IP → name (reverse lookup)</td><td>14.215.184.93.in-addr.arpa</td></tr>
-      <tr><td><b>NS</b></td><td>Zone → its authoritative name servers</td><td>ns1.example.com</td></tr>
+      <tr><td><b>TXT</b></td><td>Free text: SPF (Sender Policy Framework), DKIM (DomainKeys Identified Mail), DMARC (Domain-based Message Authentication, Reporting and Conformance), domain verification</td><td>"v=spf1 include:… -all"</td></tr>
+      <tr><td><b>PTR (Pointer record)</b></td><td>IP → name (reverse lookup)</td><td>14.215.184.93.in-addr.arpa</td></tr>
+      <tr><td><b>NS (Name Server record)</b></td><td>Zone → its authoritative name servers</td><td>ns1.example.com</td></tr>
       <tr><td><b>SOA</b></td><td>Start of Authority: primary server, serial, timers</td><td>One per zone</td></tr>
-      <tr><td><b>SRV</b></td><td>Service → host and port</td><td>_ldap._tcp → dc1:389</td></tr>
+      <tr><td><b>SRV (Service record)</b></td><td>Service → host and port</td><td>_ldap._tcp → dc1:389</td></tr>
     </tbody>
   </table></div>
-  <p>A <b>recursive</b> query asks the resolver "get me the final answer". The resolver then makes <b>iterative</b> queries: root servers → TLD servers (.com) → the domain's authoritative server, and caches the result for its <dfn>TTL</dfn>. <dfn>DNSSEC</dfn> signs records so resolvers can verify they weren't forged. <b>DoH</b> (DNS over HTTPS, port 443) and <b>DoT</b> (DNS over TLS, port 853) encrypt queries for privacy.</p>
+  <p>A <b>recursive</b> query asks the resolver "get me the final answer". The resolver then makes <b>iterative</b> queries: root servers → TLD (Top-Level Domain) servers (.com) → the domain's authoritative server, and caches the result for its <dfn>TTL (Time To Live)</dfn>. <dfn>DNSSEC (Domain Name System Security Extensions)</dfn> signs records so resolvers can verify they weren't forged. <b>DoH</b> (DNS over HTTPS (HyperText Transfer Protocol Secure), port 443) and <b>DoT</b> (DNS over TLS (Transport Layer Security), port 853) encrypt queries for privacy.</p>
 </section>
 
 <section class="lab" id="labs">
