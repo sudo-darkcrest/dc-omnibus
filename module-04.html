@@ -230,6 +230,12 @@
     <div class="tile" id="boot-card"><h4>Press Next step</h4><p>Each stage shows what happens, what can fail and the symptom a technician would see.</p></div>
     <div class="caption" id="boot-cap" aria-live="polite">Ready to power on.</div>
   </div>
+
+  <div class="lab-card" id="lab-pc" data-lab="Whole Computer Simulator: set the clock frequency and watch instructions being received, decoded and processed, results moved to RAM, and output sent to a display.">
+    <h3>Lab 5: Whole Computer Simulator</h3>
+    <p>This puts the whole machine together: a keyboard for <b>input</b>, a CPU with a <b>clock</b>, registers and an ALU, <b>RAM</b>, and a display for <b>output</b>. Pick a program, type the numbers to feed it, set the clock speed and run it. Every clock tick does one small step: fetch (two ticks), decode, then execute. Instructions: <code>IN</code> reads the keyboard, <code>OUT</code> writes to the display, plus <code>LOAD</code>, <code>ADD</code>, <code>SUB</code>, <code>STORE</code>, <code>JUMP</code>, <code>JZ</code> and <code>HALT</code> as in Lab 1.</p>
+    <div id="pc-sim"></div>
+  </div>
 </section>
 
 <section class="glossary" id="glossary">
@@ -280,6 +286,8 @@
 <script src="data/catalog.js"></script>
 <script src="assets/omnibus.js"></script>
 <script src="data/m04.js"></script>
+<script src="assets/pcsim.js"></script>
+<script>OMNI.pcSim("pc-sim");</script>
 <script>
 (function () {
   var h = OMNI.h, S = OMNI.svg, $ = function (id) { return document.getElementById(id); };

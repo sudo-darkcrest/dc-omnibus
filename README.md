@@ -1,6 +1,6 @@
 # Datacenter Omnibus
 
-An interactive study site for IT, networking, data centers, security, service management and audit. It has 24 modules with diagrams, interactive labs, quizzes and flashcards, and covers:
+An interactive study site for IT, networking, data centers, security, service management and audit. It has 27 modules with diagrams, interactive labs, quizzes and flashcards, and covers:
 
 - CompTIA A+ (220-1201 / 220-1202)
 - CompTIA Network+ (N10-009)
@@ -9,6 +9,9 @@ An interactive study site for IT, networking, data centers, security, service ma
 - EPI DCCA (Data Centre Certified Associate)
 - ISACA CISM
 - ISACA CISA
+- CompTIA CySA+ (CS0-003)
+- AWS Certified Cloud Practitioner (CLF-C02)
+- AWS Certified AI Practitioner (AIF-C01)
 
 Exam codes and weights are the ones published at the time of writing (Nov 2026). Always check the vendor's site before you book.
 
@@ -24,12 +27,12 @@ That's it. You don't need a server, a build step or an internet connection. Ever
 | Page | What it does |
 |---|---|
 | `index.html` | Home page: search everything, module cards by part, cert filter, your progress |
-| `module-01.html` … `module-24.html` | The 24 modules. Each has lessons, labs, key terms, memory aids, a quiz, flashcards and official links |
+| `module-01.html` … `module-27.html` | The 27 modules. Each has lessons, labs, key terms, memory aids, a quiz, flashcards and official links |
 | `module-24.html` | Study Hub: cert crosswalk, study plan generator, roadmap, practice exams, combined flashcards, exam-day tips |
 | `glossary.html` | Every key term from every module, with a cert filter and A–Z jump |
 | `practice-exams.html` | Timed practice exams for every cert, scored by domain |
 | `flashcards.html` | One Leitner flashcard deck with every module's cards |
-| `labs.html` | A gallery of all 108 interactive labs |
+| `labs.html` | A gallery of every interactive lab |
 
 Folder layout:
 
@@ -37,9 +40,11 @@ Folder layout:
 assets/omnibus.css   shared styles (light and dark mode, phone layout)
 assets/omnibus.js    shared engine: quiz, flashcards, glossary, labs helpers, progress
 assets/hub.js        study hub tools: exam engine, crosswalk, study plan, roadmap
+assets/labkit.js     reusable sorter and scenario-trainer labs (Modules 25–27)
+assets/pcsim.js      whole-computer simulator (Module 4, Lab 5)
 data/catalog.js      list of modules, parts and certs (every page loads this first)
 data/mNN.js          one file per module: cert map, glossary, quiz, flashcards
-data/bank-*.js       extra practice exam questions (A+, Network+, Security+, DCCA, ITIL, CISM, CISA)
+data/bank-*.js       extra practice exam questions (A+, Network+, Security+, DCCA, ITIL, CISM, CISA, AWS, AI, CySA+)
 data/search-index.js generated list of headings and labs (made by tools/build.js)
 tools/build.js       optional helper, see below
 render.yaml          Render static site setup

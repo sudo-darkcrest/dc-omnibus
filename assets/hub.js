@@ -13,10 +13,13 @@
     ITIL: { q: "40", time: "60 min", pass: "65% (26/40)", types: "Multiple choice only", pre: "None (training via an accredited partner is common). ITIL Version 5 Foundation launched Feb 2026", weights: { 1: 12.5, 2: 15, 3: 5, 4: 2.5, 5: 5, 6: 17.5, 7: 42.5 }, full: 40, min: 60 },
     DCCA: { q: "Check with EPI", time: "Check with EPI", pass: "Check with EPI", types: "Multiple choice (verify)", pre: "None; usually taken after EPI's official course", weights: null, full: 50, min: 60 },
     CISM: { q: "150", time: "4 hours", pass: "450 / 800 (scaled)", types: "Multiple choice", pre: "5 years infosec experience, 3 in management, to certify (can pass the exam first)", weights: { 1: 17, 2: 20, 3: 33, 4: 30 }, full: 150, min: 240 },
-    CISA: { q: "150", time: "4 hours", pass: "450 / 800 (scaled)", types: "Multiple choice", pre: "5 years IS audit, control, assurance or security experience to certify (waivers available)", weights: { 1: 18, 2: 18, 3: 12, 4: 26, 5: 26 }, full: 150, min: 240 }
+    CISA: { q: "150", time: "4 hours", pass: "450 / 800 (scaled)", types: "Multiple choice", pre: "5 years IS audit, control, assurance or security experience to certify (waivers available)", weights: { 1: 18, 2: 18, 3: 12, 4: 26, 5: 26 }, full: 150, min: 240 },
+    CLF: { q: "65 (50 scored)", time: "90 min", pass: "700 / 1000 (scaled)", types: "Multiple choice, multiple response", pre: "None; about 6 months of AWS exposure recommended", weights: { 1: 24, 2: 30, 3: 34, 4: 12 }, full: 65, min: 90 },
+    AIF: { q: "65 (50 scored)", time: "90 min", pass: "700 / 1000 (scaled)", types: "Multiple choice, multiple response, ordering, matching, case study", pre: "None; up to 6 months of exposure to AI/ML on AWS recommended", weights: { 1: 20, 2: 24, 3: 28, 4: 14, 5: 14 }, full: 65, min: 90 },
+    CYSA: { q: "Up to 85", time: "165 min", pass: "750 / 900", types: "Multiple choice, performance-based", pre: "None; Network+ and Security+ (or equivalent) and about 4 years hands-on recommended", weights: { 1: 33, 2: 30, 3: 20, 4: 17 }, full: 85, min: 165 }
   };
-  OMNI.BANK_MODULE = { aplus: 5, netplus: 13, secplus: 16, dcca: 18, itil: 19, cism: 21, cisa: 22 };
-  OMNI.EXAM_CERTS = ["A1", "A2", "N", "S", "ITIL", "DCCA", "CISM", "CISA"];
+  OMNI.BANK_MODULE = { aws: 25, ai: 26, cysa: 27, aplus: 5, netplus: 13, secplus: 16, dcca: 18, itil: 19, cism: 21, cisa: 22 };
+  OMNI.EXAM_CERTS = ["A1", "A2", "N", "S", "ITIL", "DCCA", "CISM", "CISA", "CLF", "AIF", "CYSA"];
 
   function pool(cert) {
     return OMNI.allQuestions().filter(function (q) { if (q.bank && !q.m) q.m = OMNI.BANK_MODULE[q.bank]; return q.c === cert; });
@@ -153,7 +156,7 @@
     if (typeof svg === "string") svg = document.getElementById(svg); if (!svg) return;
     function txt(x, y, t, a) { var e = S("text", Object.assign({ x: x, y: y, class: "svg-text", "font-size": 12, "text-anchor": "middle" }, a || {}), svg); e.textContent = t; return e; }
     function box(x, y, w, t, sub, col, exp) {
-      var a = S("a", { href: OMNI.file({ "A+": 4, "Network+": 8, "Security+": 14, "DCCA": 18, "ITIL 4": 19, "CISM": 21, "CISA": 22 }[t] || 24) }, svg);
+      var a = S("a", { href: OMNI.file({ "A+": 4, "Network+": 8, "Security+": 14, "DCCA": 18, "ITIL 4": 19, "CISM": 21, "CISA": 22, "AWS Cloud Practitioner": 25, "AWS AI Practitioner": 26, "CySA+": 27 }[t] || 24) }, svg);
       S("rect", { x: x, y: y, width: w, height: 58, rx: 10, fill: "var(--surface)", stroke: col, "stroke-width": 2.5 }, a);
       var e1 = S("text", { x: x + w / 2, y: y + 24, class: "svg-text", "font-size": 14, "font-weight": 800, "text-anchor": "middle" }, a); e1.textContent = t;
       var e2 = S("text", { x: x + w / 2, y: y + 42, class: "svg-text svg-muted", "font-size": 10, "text-anchor": "middle" }, a); e2.textContent = sub;
@@ -168,6 +171,10 @@
     B.forEach(function (b) { box(b[3], 190, 165, b[0], b[1], b[2], b[4]); arr(505, 98, b[3] + 82, 190); });
     txt(380, 22, "Click a box to open its module. Arrows show a common order, not a requirement.", { "font-size": 10.5, class: "svg-text svg-muted" });
     txt(380, 280, "ITIL 4 and DCCA can be taken any time (no prerequisites). CISM and CISA can be passed first, but certification needs verified work experience.", { "font-size": 10.5, class: "svg-text svg-muted" });
+    txt(380, 312, "Also great next steps (no prerequisites, but build on the core three):", { "font-size": 11, "font-weight": 700, class: "svg-text" });
+    box(40, 325, 210, "AWS Cloud Practitioner", "cloud · Module 25", "var(--dc)");
+    box(275, 325, 210, "AWS AI Practitioner", "AI and ML · Module 26", "var(--gen)");
+    box(510, 325, 210, "CySA+", "SOC analyst · Module 27", "var(--sec)");
   };
 
   /* ---------- Combined flashcard deck ---------- */

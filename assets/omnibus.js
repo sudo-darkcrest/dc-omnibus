@@ -123,7 +123,7 @@
     if (!el || !map) return;
     var on = {}; map.forEach(function (x) { on[x.c] = x; });
     var row = h("div", { class: "badges" });
-    ["A1", "A2", "N", "S", "ITIL", "DCCA", "CISM", "CISA"].forEach(function (k) {
+    OMNI.certOrder.filter(function (k) { return k !== "GEN" && (on[k] || ["A1", "A2", "N", "S", "ITIL", "DCCA", "CISM", "CISA"].indexOf(k) >= 0); }).forEach(function (k) {
       var c = OMNI.certs[k]; var x = on[k];
       row.appendChild(h("div", { class: "cert-badge" + (x ? "" : " off"), title: x ? "" : "Not a focus of this module" }, [
         h("b", null, c.name + (x ? " ✓" : "")), h("small", null, c.code), x ? h("small", null, x.o) : h("small", null, "not covered here")
