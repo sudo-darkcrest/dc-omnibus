@@ -1,0 +1,526 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Module 13 · Wireless, Cellular and Network Operations | Datacenter Omnibus</title>
+<meta name="description" content="Radio basics, Wi-Fi standards and security, site surveys, cellular and other wireless, network monitoring, availability and DR metrics, troubleshooting tools, and a 60-question Network+ readiness exam.">
+<link rel="stylesheet" href="assets/omnibus.css">
+<style>
+  .pcap { font-family: var(--mono); font-size: .8rem; }
+  .pcap tbody tr { cursor: pointer; }
+  .pcap tbody tr.sel { background: var(--accent-soft) !important; }
+  .pcap .p-dhcp { background: #eef6ff; } .pcap .p-dns { background: #e8f8ee; } .pcap .p-tcp { background: #f4f1ff; } .pcap .p-http { background: #fff8e6; } .pcap .p-tls { background: #ffeef0; }
+  [data-theme="dark"] .pcap tbody tr[class^="p-"] { background: transparent; }
+  @media (prefers-color-scheme: dark) { :root:not([data-theme="light"]) .pcap tbody tr[class^="p-"] { background: transparent; } }
+  .tree details { margin: 4px 0 4px 10px; } .tree summary { cursor: pointer; font-weight: 700; } .tree div { font-family: var(--mono); font-size: .82rem; margin-left: 18px; }
+  .aprow { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; padding: 6px 0; border-bottom: 1px solid var(--line); }
+  .case-opts button { display: block; width: 100%; text-align: left; margin: 6px 0; }
+</style>
+</head>
+<body data-module="13">
+<a class="skip" href="#main">Skip to content</a>
+<div id="topbar"></div>
+<main class="page" id="main">
+
+<section class="intro">
+  <div class="kicker">Part 3 · Networking, Fiber and Wireless · Module 13</div>
+  <h1>Wireless, Cellular and Keeping Networks Healthy</h1>
+  <p class="why"><b>Why this matters.</b> Wi-Fi is how most users connect, and it is the most common source of "the network is slow". Running a network also means monitoring it, planning for failure and fixing problems methodically. Network+ Domains 2, 3 and 5 meet here, with overlap into A+ (wireless, tools) and Security+ (wireless attacks). The module ends with a 60-question Network+ readiness exam covering Modules 9 to 13.</p>
+  <h3>You will be able to</h3>
+  <ul class="outcomes">
+    <li>Explain RF basics: channels, width, interference, RSSI, SNR, antennas, MIMO, beamforming and OFDMA.</li>
+    <li>Compare Wi-Fi 4 to Wi-Fi 7, plan non-overlapping channels and choose WPA2/WPA3 Personal or Enterprise.</li>
+    <li>Describe cellular (4G/5G, private cellular), Bluetooth, NFC, RFID and satellite.</li>
+    <li>Use monitoring data and metrics (latency, jitter, loss, uptime), and DR terms (RPO, RTO, MTTR, MTBF).</li>
+    <li>Pick the right command or tool and follow the troubleshooting method to a fix.</li>
+  </ul>
+  <nav class="jumpnav" id="jumpnav" aria-label="On this page"></nav>
+</section>
+
+<section class="certmap" id="certmap">
+  <h2>Cert map</h2>
+  <div id="certmap-badges"></div>
+</section>
+
+<section class="lesson" id="radio">
+  <h2>1. Radio basics</h2>
+  <p>Wi-Fi is radio: electromagnetic waves at 2.4, 5 and 6 GHz. Higher frequency means a shorter wavelength (2.4 GHz ≈ 12.5 cm, 5 GHz ≈ 6 cm, 6 GHz ≈ 5 cm), more available channels and speed, but less range and worse penetration through walls.</p>
+  <div class="tablewrap"><table>
+    <thead><tr><th>Term</th><th>Meaning</th></tr></thead>
+    <tbody>
+      <tr><td><b>Channel / channel width</b></td><td>A slice of spectrum. Wider channels (20, 40, 80, 160, 320 MHz) carry more data but leave fewer non-overlapping channels.</td></tr>
+      <tr><td><b>Interference</b></td><td><b>Co-channel</b>: APs on the same channel take turns (contention). <b>Adjacent-channel</b>: partially overlapping channels corrupt each other (worse). Non-Wi-Fi sources: microwaves, Bluetooth, cordless phones (2.4 GHz).</td></tr>
+      <tr><td><b>Reflection, refraction, absorption, scattering</b></td><td>Metal reflects; water, people and concrete absorb; signal weakens with distance (free-space path loss).</td></tr>
+      <tr><td><b>RSSI</b></td><td>Received signal strength, in dBm. −30 excellent, −67 good for voice and video, −70 OK for data, −80 unusable.</td></tr>
+      <tr><td><b>SNR</b></td><td>Signal minus noise floor (dB). 25 dB+ is good; below 15 dB is poor.</td></tr>
+      <tr><td><b>Antennas</b></td><td><b>Omnidirectional</b> radiates in all horizontal directions (ceiling APs). <b>Directional</b> (Yagi, patch, parabolic) focuses energy for long hallways or point-to-point bridges. Gain is measured in dBi.</td></tr>
+      <tr><td><b>MIMO / MU-MIMO</b></td><td>Multiple antennas send several spatial streams at once; MU-MIMO serves several clients simultaneously.</td></tr>
+      <tr><td><b>Beamforming</b></td><td>Steers signal toward a client for a stronger link.</td></tr>
+      <tr><td><b>OFDMA</b></td><td>Wi-Fi 6+ splits a channel into resource units so many clients transmit in one burst (great for dense areas).</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section class="lesson" id="wifi">
+  <h2>2. Wi-Fi standards and channels</h2>
+  <div class="tablewrap"><table>
+    <thead><tr><th>Standard</th><th>Name</th><th>Bands</th><th>Max theoretical rate</th><th>Key features</th></tr></thead>
+    <tbody>
+      <tr><td>802.11b</td><td>—</td><td>2.4 GHz</td><td>11 Mbps</td><td>DSSS, legacy</td></tr>
+      <tr><td>802.11a</td><td>—</td><td>5 GHz</td><td>54 Mbps</td><td>OFDM</td></tr>
+      <tr><td>802.11g</td><td>—</td><td>2.4 GHz</td><td>54 Mbps</td><td>OFDM on 2.4</td></tr>
+      <tr><td>802.11n</td><td>Wi-Fi 4</td><td>2.4 / 5 GHz</td><td>600 Mbps</td><td>MIMO, 40 MHz channels</td></tr>
+      <tr><td>802.11ac</td><td>Wi-Fi 5</td><td>5 GHz</td><td>~6.9 Gbps</td><td>80/160 MHz, MU-MIMO (downlink), 256-QAM</td></tr>
+      <tr><td>802.11ax</td><td>Wi-Fi 6 / 6E</td><td>2.4 / 5 (+ 6 GHz for 6E)</td><td>~9.6 Gbps</td><td>OFDMA, uplink MU-MIMO, 1024-QAM, target wake time, BSS coloring</td></tr>
+      <tr><td>802.11be</td><td>Wi-Fi 7</td><td>2.4 / 5 / 6 GHz</td><td>~46 Gbps</td><td>320 MHz channels, multi-link operation (MLO), 4096-QAM</td></tr>
+    </tbody>
+  </table></div>
+  <figure class="figure">
+    <svg viewBox="0 0 700 150" width="700" role="img" aria-label="2.4 GHz channels 1 to 11 showing that only 1, 6 and 11 do not overlap">
+      <g id="ch24"></g>
+    </svg>
+    <figcaption>In the 2.4 GHz band, channels are 5 MHz apart but each is about 20 to 22 MHz wide, so only <b>1, 6 and 11</b> don't overlap (in North America). 5 GHz has many more 20 MHz channels (some require DFS radar detection), and 6 GHz adds up to 59 more (Wi-Fi 6E/7).</figcaption>
+  </figure>
+</section>
+
+<section class="lesson" id="wsec">
+  <h2>3. Wireless security</h2>
+  <div class="tablewrap"><table>
+    <thead><tr><th>Protocol</th><th>Encryption</th><th>Status</th></tr></thead>
+    <tbody>
+      <tr><td><b>WEP</b></td><td>RC4 with weak IVs</td><td>Broken: cracked in minutes. Never use.</td></tr>
+      <tr><td><b>WPA</b></td><td>TKIP (RC4-based)</td><td>Deprecated.</td></tr>
+      <tr><td><b>WPA2</b></td><td>AES-CCMP</td><td>Still common. <b>Personal (PSK)</b> uses a shared passphrase; <b>Enterprise</b> uses 802.1X with a RADIUS server and per-user credentials or certificates (EAP-TLS, PEAP).</td></tr>
+      <tr><td><b>WPA3</b></td><td>AES (GCMP-256 in 192-bit Enterprise)</td><td>Current. Personal uses <b>SAE</b> (Simultaneous Authentication of Equals), which resists offline passphrase guessing and gives forward secrecy. Enhanced Open (OWE) encrypts open networks.</td></tr>
+    </tbody>
+  </table></div>
+  <ul>
+    <li><b>Captive portal</b>: a web page users must accept or log into before access (hotels, guests).</li>
+    <li><b>Rogue AP</b>: an unauthorized AP plugged into the network. <b>Evil twin</b>: an attacker's AP mimicking a real SSID to capture logins. Defend with WIDS/WIPS, 802.1X, certificate validation and user training.</li>
+    <li>Disable WPS, change default admin credentials, use separate guest SSIDs/VLANs, and keep AP firmware patched. Hiding the SSID and MAC filtering are weak controls, not security.</li>
+  </ul>
+</section>
+
+<section class="lesson" id="survey">
+  <h2>4. Site surveys, placement and roaming</h2>
+  <p>A <dfn>site survey</dfn> measures RF coverage and interference before (predictive) and after (validation) deployment. The output is a <b>heat map</b> of signal strength. Good design: plan for capacity, not just coverage; overlap cells by about 15 to 20% at −67 dBm so clients roam smoothly; use 1/6/11 on 2.4 GHz; lower transmit power in dense areas; mount APs on ceilings away from metal. <b>Roaming</b> is a client moving between APs on the same SSID; 802.11r (fast transition), 802.11k (neighbor reports) and 802.11v (BSS transition) make it faster. A <b>wireless LAN controller</b> centrally manages AP channels, power and roaming.</p>
+</section>
+
+<section class="lesson" id="cellular">
+  <h2>5. Cellular and other wireless</h2>
+  <div class="tablewrap"><table>
+    <thead><tr><th>Technology</th><th>Range</th><th>Use</th></tr></thead>
+    <tbody>
+      <tr><td><b>4G LTE</b></td><td>Kilometers</td><td>Mobile broadband; WAN backup for branches.</td></tr>
+      <tr><td><b>5G</b></td><td>Low-band (wide) to mmWave (short, very fast)</td><td>Higher speeds, lower latency, massive IoT; network slicing.</td></tr>
+      <tr><td><b>Private cellular</b> (private LTE/5G, CBRS in the US)</td><td>Campus</td><td>Factories, ports, warehouses needing controlled, reliable wireless.</td></tr>
+      <tr><td><b>Bluetooth</b> (incl. BLE)</td><td>~10 m (up to ~100 m)</td><td>Peripherals, audio, beacons; 2.4 GHz PAN.</td></tr>
+      <tr><td><b>NFC</b></td><td>~4 cm</td><td>Tap-to-pay, badges, pairing.</td></tr>
+      <tr><td><b>RFID</b></td><td>cm to tens of m</td><td>Asset and inventory tags, access cards.</td></tr>
+      <tr><td><b>Satellite</b></td><td>Global</td><td>Remote sites. GEO has ~600 ms round-trip latency; LEO constellations ~25 to 60 ms.</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section class="lesson" id="ops">
+  <h2>6. Network operations: monitoring, availability and recovery</h2>
+  <div class="grid2">
+    <div class="tile"><h4>Monitoring sources</h4><ul>
+      <li><b>SNMP</b> polls and traps for interface counters, CPU, temperature.</li>
+      <li><b>Syslog</b> events from every device into a central server.</li>
+      <li><b>SIEM</b> correlates logs for security events and alerts.</li>
+      <li><b>Flow data</b> (NetFlow/IPFIX/sFlow) for top talkers and anomalies.</li>
+      <li><b>Packet capture</b> for deep troubleshooting; <b>API</b>/streaming telemetry on modern gear.</li></ul></div>
+    <div class="tile"><h4>Performance metrics</h4><ul>
+      <li><b>Bandwidth</b> (capacity) vs <b>throughput</b> (actual) vs <b>goodput</b> (useful data).</li>
+      <li><b>Latency</b>: delay, usually round-trip in ms.</li>
+      <li><b>Jitter</b>: variation in latency.</li>
+      <li><b>Packet loss</b>: % of packets that never arrive.</li>
+      <li><b>Uptime / availability</b>: 99.9% ≈ 8.8 h downtime per year; 99.99% ≈ 53 min; 99.999% ≈ 5.3 min.</li>
+      <li><b>Interface errors</b>: CRC errors (cabling), runts/giants, discards (congestion).</li></ul></div>
+  </div>
+  <div class="tablewrap"><table>
+    <thead><tr><th>Term</th><th>Meaning</th><th>Example</th></tr></thead>
+    <tbody>
+      <tr><td><b>RPO</b></td><td>Recovery Point Objective: maximum acceptable data loss, measured in time</td><td>RPO 15 min → back up or replicate at least every 15 min</td></tr>
+      <tr><td><b>RTO</b></td><td>Recovery Time Objective: maximum acceptable downtime</td><td>RTO 4 h → service back within 4 hours</td></tr>
+      <tr><td><b>MTTR</b></td><td>Mean Time To Repair/Recover</td><td>Average 2 h to replace a failed switch</td></tr>
+      <tr><td><b>MTBF</b></td><td>Mean Time Between Failures (repairable items)</td><td>Power supply MTBF 100,000 h</td></tr>
+    </tbody>
+  </table></div>
+  <p><b>High availability</b>: redundancy at every layer (dual power supplies, NIC teaming, LACP, redundant switches and routers with FHRP, multiple ISPs). <b>Active-active</b> uses both paths at once; <b>active-passive</b> keeps one on standby. DR sites: <b>hot</b> (running, minutes), <b>warm</b> (hardware ready, hours to days), <b>cold</b> (space and power only, days to weeks). Test DR plans with tabletop exercises and failover tests.</p>
+  <div class="tablewrap"><table>
+    <thead><tr><th>Document</th><th>Purpose</th></tr></thead>
+    <tbody>
+      <tr><td><b>AUP</b></td><td>Acceptable Use Policy: what users may and may not do on company systems.</td></tr>
+      <tr><td><b>SLA</b></td><td>Service Level Agreement: measurable commitments (uptime, response time) and remedies.</td></tr>
+      <tr><td><b>MOU</b></td><td>Memorandum of Understanding: a less formal agreement of intent between parties.</td></tr>
+      <tr><td><b>NDA</b></td><td>Non-Disclosure Agreement: protects confidential information.</td></tr>
+      <tr><td>Also</td><td>Change management records (Module 8), incident response plan, BYOD policy, password policy, data retention, playbooks.</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section class="lesson" id="troubleshoot">
+  <h2>7. Network troubleshooting method and tools</h2>
+  <ol>
+    <li>Identify the problem (gather information, question users, identify symptoms, determine what changed, duplicate the problem, approach multiple problems individually).</li>
+    <li>Establish a theory of probable cause (question the obvious; consider top-to-bottom or bottom-to-top OSI, or divide and conquer).</li>
+    <li>Test the theory to determine the cause (if not confirmed, establish a new theory or escalate).</li>
+    <li>Establish a plan of action to resolve the problem and identify potential effects.</li>
+    <li>Implement the solution or escalate as necessary.</li>
+    <li>Verify full system functionality and implement preventive measures.</li>
+    <li>Document findings, actions, outcomes and lessons learned.</li>
+  </ol>
+  <div class="tablewrap"><table>
+    <thead><tr><th>Command / tool</th><th>Use</th></tr></thead>
+    <tbody>
+      <tr><td><code>ping</code></td><td>Reachability and round-trip time (ICMP echo).</td></tr>
+      <tr><td><code>traceroute</code> / <code>tracert</code></td><td>Each hop on the path (TTL expiry). <code>pathping</code> (Windows) combines ping and tracert with per-hop loss.</td></tr>
+      <tr><td><code>nslookup</code> / <code>dig</code></td><td>Query DNS records directly.</td></tr>
+      <tr><td><code>ipconfig</code> / <code>ip addr</code> (<code>ifconfig</code> legacy)</td><td>Show IP settings; <code>ipconfig /release /renew /flushdns</code>.</td></tr>
+      <tr><td><code>arp -a</code> / <code>ip neigh</code></td><td>View the ARP cache (IP to MAC).</td></tr>
+      <tr><td><code>netstat</code> / <code>ss</code></td><td>Open connections and listening ports.</td></tr>
+      <tr><td><code>route print</code> / <code>ip route</code>, <code>show ip route</code></td><td>View routing tables.</td></tr>
+      <tr><td><code>nmap</code></td><td>Discover hosts and open ports (only on networks you're authorized to scan).</td></tr>
+      <tr><td><code>tcpdump</code> / <b>Wireshark</b></td><td>Capture and decode packets.</td></tr>
+      <tr><td><code>iperf</code></td><td>Measure throughput between two endpoints.</td></tr>
+      <tr><td>Speed tester, Wi-Fi analyzer, spectrum analyzer</td><td>Internet speed; SSIDs/channels/RSSI; non-Wi-Fi RF interference.</td></tr>
+      <tr><td><code>show interface</code>, <code>show mac address-table</code>, <code>show vlan</code>, LLDP/CDP neighbors</td><td>Switch and router state, errors and neighbors.</td></tr>
+    </tbody>
+  </table></div>
+  <div class="tablewrap"><table>
+    <thead><tr><th>Symptom</th><th>Common causes</th></tr></thead>
+    <tbody>
+      <tr><td>169.254.x.x address</td><td>DHCP unreachable, scope exhausted, missing DHCP relay, wrong VLAN</td></tr>
+      <tr><td>Can ping IPs but not names</td><td>DNS server wrong or down</td></tr>
+      <tr><td>Slow link, CRC/late collisions</td><td>Duplex mismatch, bad cable, EMI</td></tr>
+      <tr><td>Network-wide slowdown, high CPU, flapping MACs</td><td>Switching loop / broadcast storm (STP disabled)</td></tr>
+      <tr><td>Intermittent Wi-Fi</td><td>Interference, co-channel overlap, low RSSI, roaming issues, too few APs for client density</td></tr>
+      <tr><td>Large transfers hang, small ones work</td><td>MTU/fragmentation over tunnels</td></tr>
+      <tr><td>Duplicate IP warnings</td><td>Static IP inside DHCP scope, rogue DHCP server</td></tr>
+      <tr><td>Works after reboot, fails later</td><td>Lease/ARP cache issues, memory leak, overheating</td></tr>
+    </tbody>
+  </table></div>
+</section>
+
+<section class="lab" id="labs">
+  <h2>Interactive labs</h2>
+
+  <div class="lab-card" id="lab-chan" data-lab="Wi-Fi Channel Planner: drop APs on a floor plan, assign bands and channels, and see co-channel and adjacent-channel interference highlighted on 2.4, 5 and 6 GHz.">
+    <h3>Lab 1: Wi-Fi Channel Planner</h3>
+    <p>Drag APs on the floor plan (or select one and use the arrow keys). Set each AP's band and channel below. Overlapping coverage on the same channel is <b style="color:#ea580c">co-channel</b>; partially overlapping channels are <b style="color:#dc2626">adjacent-channel</b> interference.</p>
+    <div class="row"><button type="button" id="cp-add">+ Add AP</button><button type="button" id="cp-auto">Auto-plan channels</button><button type="button" id="cp-bad">Load a bad plan</button></div>
+    <div class="stage"><svg id="cp-svg" viewBox="0 0 760 400" width="760" role="img" aria-label="Floor plan with access points" style="touch-action:none"></svg></div>
+    <div id="cp-list"></div>
+    <div class="caption" id="cp-cap" aria-live="polite"></div>
+  </div>
+
+  <div class="lab-card" id="lab-wave" data-lab="Wave Basics: adjust frequency and amplitude of a sine wave and see the wavelength in centimeters for radio and nanometers for light.">
+    <h3>Lab 2: Wave Basics</h3>
+    <div class="controls">
+      <label class="field"><span>Frequency: <b id="wv-f-v"></b></span><input type="range" id="wv-f" min="0" max="1000" value="200"></label>
+      <label class="field"><span>Amplitude: <b id="wv-a-v"></b></span><input type="range" id="wv-a" min="10" max="100" value="70"></label>
+      <label class="field"><span>Jump to</span><select id="wv-preset"><option value="">Choose…</option><option value="2.4e9">Wi-Fi 2.4 GHz</option><option value="5e9">Wi-Fi 5 GHz</option><option value="6e9">Wi-Fi 6 GHz</option><option value="7e8">5G low-band 700 MHz</option><option value="2.8e10">5G mmWave 28 GHz</option><option value="3.5287e14">850 nm fiber</option><option value="2.2885e14">1310 nm fiber</option><option value="1.9341e14">1550 nm fiber</option><option value="5.45e14">Green light 550 nm</option></select></label>
+    </div>
+    <div class="stage"><svg id="wv-svg" viewBox="0 0 760 220" width="760" role="img" aria-label="Sine wave"></svg></div>
+    <div class="caption" id="wv-cap" aria-live="polite"></div>
+  </div>
+
+  <div class="lab-card" id="lab-pcap" data-lab="Packet Capture Explorer: a pre-made capture of DHCP, DNS, a TCP handshake, HTTP and TLS in a Wireshark-like table; click a packet to decode its headers.">
+    <h3>Lab 3: Packet Capture Explorer</h3>
+    <div class="row"><label>Display filter <input type="text" id="pc-filter" placeholder="e.g. dns, tcp, tls, ip.addr==1.1.1.1" style="width:min(22em,100%)"></label><button type="button" id="pc-clear">Clear</button></div>
+    <div class="tablewrap" style="max-height:330px;overflow:auto"><table class="pcap"><thead><tr><th>No.</th><th>Time</th><th>Source</th><th>Destination</th><th>Protocol</th><th>Len</th><th>Info</th></tr></thead><tbody id="pc-rows"></tbody></table></div>
+    <div class="tile tree" id="pc-tree"><p class="figcap">Click a packet to see its decoded headers.</p></div>
+    <div class="caption" id="pc-cap" aria-live="polite">This capture shows a laptop joining the network and opening a web page. Click packet 1.</div>
+  </div>
+
+  <div class="lab-card" id="lab-cases" data-lab="Network Troubleshooting Scenarios: 10 branching cases scored on the steps you choose.">
+    <h3>Lab 4: Network Troubleshooting Scenarios</h3>
+    <div class="row"><span id="cs-prog" class="figcap"></span><button type="button" id="cs-restart">Restart all cases</button></div>
+    <div class="tile" id="cs-box"></div>
+    <div class="caption" id="cs-cap" aria-live="polite"></div>
+  </div>
+</section>
+
+<section class="glossary" id="glossary">
+  <h2>Key terms</h2>
+  <div id="glossary-list"></div>
+</section>
+
+<section class="memory" id="memory">
+  <h2>Memory aids</h2>
+  <div class="mnemonic">2.4 GHz non-overlapping channels: <b>1, 6, 11</b>: "one, six, eleven: Wi-Fi heaven".</div>
+  <div class="mnemonic">Wi-Fi numbers: <b>4 = n, 5 = ac, 6 = ax, 7 = be</b>: "<b>N</b>ever <b>Ac</b>t <b>Ax</b>ious, <b>Be</b> calm".</div>
+  <div class="mnemonic"><b>RPO</b> = <b>P</b>oint in time you can roll back to (data loss). <b>RTO</b> = <b>T</b>ime to get back up (downtime).</div>
+  <div class="mnemonic">Troubleshooting: "<b>I T</b>hink <b>T</b>hat <b>E</b>veryone <b>I</b>s <b>V</b>ery <b>D</b>etermined": Identify, Theory, Test, Establish plan, Implement, Verify, Document.</div>
+  <div class="tablewrap"><table><thead><tr><th>Number</th><th>Meaning</th></tr></thead><tbody>
+    <tr><td>−67 dBm</td><td>Minimum RSSI target for voice/video Wi-Fi</td></tr>
+    <tr><td>25 dB</td><td>Good SNR</td></tr>
+    <tr><td>99.999%</td><td>"Five nines" ≈ 5.26 minutes downtime per year</td></tr>
+    <tr><td>~600 ms</td><td>GEO satellite round-trip latency</td></tr>
+  </tbody></table></div>
+  <div class="tablewrap"><table><thead><tr><th>Exam trap</th><th>Why it is wrong</th></tr></thead><tbody>
+    <tr><td>"Hide the SSID to secure Wi-Fi."</td><td>Hidden SSIDs are visible in probe traffic; use WPA3/802.1X.</td></tr>
+    <tr><td>"Use channels 1, 2 and 3 to avoid interference."</td><td>Adjacent channels overlap; 1/6/11 don't.</td></tr>
+    <tr><td>"Raise every AP to full power for better coverage."</td><td>Causes co-channel contention and sticky clients; tune power to the design.</td></tr>
+    <tr><td>"MTBF measures repair time."</td><td>MTBF is time between failures; MTTR is repair time.</td></tr>
+    <tr><td>"Jump straight to replacing hardware."</td><td>Follow the method: identify, theorize, test first.</td></tr>
+  </tbody></table></div>
+</section>
+
+<section class="quiz" id="quiz">
+  <h2>Knowledge check</h2>
+  <div id="quiz-area"></div>
+</section>
+
+<section class="quiz" id="readiness">
+  <h2>Network+ readiness exam (60 questions, Modules 9 to 13)</h2>
+  <p>Questions come from the Network+ tagged items in Modules 9 to 13 plus an extra Network+ bank, scored by the five N10-009 domains: Networking Concepts (23%), Network Implementation (20%), Network Operations (19%), Network Security (14%) and Network Troubleshooting (24%). The real exam has up to 90 questions (including performance-based) in 90 minutes, passing score 720 on a 100 to 900 scale; this practice set uses a 60-minute timer.</p>
+  <div id="readiness-area"></div>
+</section>
+
+<section class="flashcards" id="flashcards">
+  <h2>Flashcards</h2>
+  <div id="deck-area"></div>
+</section>
+
+<section class="deeper" id="deeper">
+  <h2>Go deeper (official sources)</h2>
+  <ul>
+    <li><a href="https://www.comptia.org/en-us/certifications/network/" rel="noopener">CompTIA Network+ (N10-009) exam objectives</a></li>
+    <li><a href="https://www.wi-fi.org/discover-wi-fi" rel="noopener">Wi-Fi Alliance: Wi-Fi generations and WPA3</a></li>
+    <li><a href="https://standards.ieee.org/ieee/802.11/7028/" rel="noopener">IEEE 802.11 Wireless LAN standard</a></li>
+    <li><a href="https://csrc.nist.gov/pubs/sp/800/153/final" rel="noopener">NIST SP 800-153: Guidelines for Securing WLANs</a></li>
+    <li><a href="https://csrc.nist.gov/pubs/sp/800/34/r1/upd1/final" rel="noopener">NIST SP 800-34: Contingency Planning Guide</a></li>
+    <li><a href="https://www.3gpp.org/technologies" rel="noopener">3GPP: LTE and 5G technologies</a></li>
+  </ul>
+</section>
+</main>
+<footer class="foot">Datacenter Omnibus · Original study material. Not affiliated with or endorsed by any certification body.</footer>
+
+<script src="data/catalog.js"></script>
+<script src="assets/omnibus.js"></script>
+<script src="data/m09.js"></script>
+<script src="data/m10.js"></script>
+<script src="data/m11.js"></script>
+<script src="data/m12.js"></script>
+<script src="data/m13.js"></script>
+<script src="data/bank-netplus.js"></script>
+<script>
+(function () {
+  var h = OMNI.h, S = OMNI.svg, $ = function (id) { return document.getElementById(id); };
+  function txt(p, x, y, t, a) { var e = S("text", Object.assign({ x: x, y: y, class: "svg-text", "font-size": 12 }, a || {}), p); e.textContent = t; return e; }
+  OMNI.readiness({ el: "readiness-area", id: "netplus", modules: [9, 10, 11, 12, 13], banks: ["netplus"], certs: ["N"], count: 60, timerMin: 60 });
+
+  /* 2.4 GHz channel figure */
+  (function () {
+    var g = $("ch24"), X = function (mhz) { return 30 + (mhz - 2400) / 75 * 640; };
+    for (var c = 1; c <= 11; c++) {
+      var f = 2407 + 5 * c, good = c === 1 || c === 6 || c === 11, d = "M" + X(f - 11) + " 120 Q " + X(f) + " " + (good ? 10 : 40) + " " + X(f + 11) + " 120";
+      S("path", { d: d, fill: good ? "rgba(22,163,74,.18)" : "none", stroke: good ? "#16a34a" : "#94a3b8", "stroke-width": good ? 2.5 : 1.2 }, g);
+      txt(g, X(f), 138, c, { "text-anchor": "middle", "font-weight": good ? 800 : 400, fill: good ? "#16a34a" : null });
+    }
+    txt(g, 30, 148, "2.400 GHz", { "font-size": 10 }); txt(g, 670, 148, "2.475 GHz", { "font-size": 10, "text-anchor": "end" });
+  })();
+
+  /* ================= Lab 1: channel planner ================= */
+  var BANDS = { "2.4": { r: 175, ch: [1, 2, 3, 4, 5, 6, 7, 8, 9, 10, 11], col: "#f59e0b" }, "5": { r: 125, ch: [36, 40, 44, 48, 52, 56, 60, 64, 100, 104, 108, 112, 149, 153, 157, 161], col: "#3b82f6" }, "6": { r: 105, ch: [5, 21, 37, 53, 69, 85, 101, 117], col: "#a855f7" } };
+  var aps = [], sel = 0, uid = 0;
+  function range(ap) {
+    if (ap.band === "2.4") { var f = 2407 + 5 * ap.ch; return [f - 11, f + 11]; }
+    if (ap.band === "6") { var f6 = 5950 + 5 * ap.ch; return [f6 - 10, f6 + 10 + (ap.w - 20)]; }
+    var f5 = 5000 + 5 * ap.ch, w = ap.w; if (w === 20) return [f5 - 10, f5 + 10];
+    var idx = BANDS["5"].ch.indexOf(ap.ch), per = w / 20, start = Math.floor(idx / per) * per, lo = 5000 + 5 * BANDS["5"].ch[start]; return [lo - 10, lo - 10 + w];
+  }
+  function mk(x, y, band, ch, w) { return { id: ++uid, x: x, y: y, band: band, ch: ch, w: w || 20 }; }
+  function issues() {
+    var out = [];
+    for (var i = 0; i < aps.length; i++) for (var j = i + 1; j < aps.length; j++) {
+      var a = aps[i], b = aps[j]; if (a.band !== b.band) continue;
+      var d = Math.hypot(a.x - b.x, a.y - b.y), r = BANDS[a.band].r; if (d > r * 1.6) continue;
+      var ra = range(a), rb = range(b); if (ra[1] <= rb[0] || rb[1] <= ra[0]) continue;
+      var same = ra[0] === rb[0] && ra[1] === rb[1]; out.push({ a: a, b: b, t: same ? "co" : (a.band === "5" && (a.w > 20 || b.w > 20) && (ra[0] <= rb[0] && ra[1] >= rb[1] || rb[0] <= ra[0] && rb[1] >= ra[1]) ? "co" : "adj") });
+    }
+    return out;
+  }
+  function drawCp() {
+    var s = $("cp-svg"); s.innerHTML = "";
+    S("rect", { x: 10, y: 10, width: 740, height: 380, fill: "var(--surface)", stroke: "var(--ink-2)", "stroke-width": 3 }, s);
+    [[260, 10, 260, 200], [500, 10, 500, 200], [10, 200, 330, 200], [430, 200, 750, 200], [380, 200, 380, 390]].forEach(function (w) { S("line", { x1: w[0], y1: w[1], x2: w[2], y2: w[3], stroke: "var(--ink-2)", "stroke-width": 3 }, s); });
+    [["Office A", 130, 30], ["Conference", 380, 30], ["Office B", 625, 30], ["Open plan", 195, 380], ["Lab", 565, 380]].forEach(function (l) { txt(s, l[1], l[2], l[0], { "text-anchor": "middle", class: "svg-muted" }); });
+    aps.forEach(function (ap) { var b = BANDS[ap.band]; S("circle", { cx: ap.x, cy: ap.y, r: b.r, fill: b.col, opacity: .1, stroke: b.col, "stroke-opacity": .5 }, s); });
+    var iss = issues();
+    iss.forEach(function (it) { S("line", { x1: it.a.x, y1: it.a.y, x2: it.b.x, y2: it.b.y, stroke: it.t === "co" ? "#ea580c" : "#dc2626", "stroke-width": 4, "stroke-dasharray": it.t === "co" ? "8 5" : "" }, s); });
+    aps.forEach(function (ap, i) {
+      var b = BANDS[ap.band], bad = iss.some(function (it) { return it.a === ap || it.b === ap; });
+      var g = S("g", { tabindex: 0, role: "button", "aria-label": "AP " + (i + 1) + " " + ap.band + " GHz channel " + ap.ch, style: "cursor:grab" }, s);
+      S("circle", { cx: ap.x, cy: ap.y, r: 20, fill: i === sel ? "var(--accent)" : b.col, stroke: bad ? "#dc2626" : "#fff", "stroke-width": 3 }, g);
+      txt(g, ap.x, ap.y - 2, "AP" + (i + 1), { "text-anchor": "middle", fill: "#fff", "font-weight": 800, "font-size": 10 }); txt(g, ap.x, ap.y + 10, "ch " + ap.ch, { "text-anchor": "middle", fill: "#fff", "font-size": 9 });
+      g.addEventListener("pointerdown", function (e) { sel = i; drag = { ap: ap }; g.setPointerCapture && g.setPointerCapture(e.pointerId); drawList(); });
+      g.addEventListener("focus", function () { if (sel !== i) { sel = i; drawList(); } });
+      g.addEventListener("keydown", function (e) { var k = { ArrowLeft: [-10, 0], ArrowRight: [10, 0], ArrowUp: [0, -10], ArrowDown: [0, 10] }[e.key]; if (k) { e.preventDefault(); ap.x = OMNI.clamp(ap.x + k[0], 30, 730); ap.y = OMNI.clamp(ap.y + k[1], 30, 370); drawCp(); var n = $("cp-svg").querySelectorAll("g[role=button]")[i]; if (n) n.focus(); } });
+    });
+    var co = iss.filter(function (x) { return x.t === "co"; }).length, adj = iss.length - co;
+    OMNI.say("cp-cap", iss.length ? (adj ? "<b style='color:#dc2626'>" + adj + " adjacent-channel</b> conflict(s): partially overlapping channels corrupt each other's signals, the worst case. " : "") + (co ? "<b style='color:#ea580c'>" + co + " co-channel</b> conflict(s): same channel, overlapping cells, so the APs must take turns (contention) and capacity drops. " : "") + "Fix by spreading channels (1/6/11 on 2.4 GHz), using narrower 5 GHz channels in dense areas, moving APs, or lowering transmit power." : "Clean plan: no overlapping cells share or partially overlap a channel. " + (aps.some(function (a) { return a.band === "2.4"; }) ? "On 2.4 GHz you only get three clean channels, which is why dense designs lean on 5 and 6 GHz." : "5 and 6 GHz give many more clean channels."));
+  }
+  var drag = null;
+  $("cp-svg").addEventListener("pointermove", function (e) { if (!drag) return; var r = $("cp-svg").getBoundingClientRect(); drag.ap.x = OMNI.clamp((e.clientX - r.left) / r.width * 760, 30, 730); drag.ap.y = OMNI.clamp((e.clientY - r.top) / r.height * 400, 30, 370); drawCp(); });
+  window.addEventListener("pointerup", function () { drag = null; });
+  function drawList() {
+    var box = $("cp-list"); box.innerHTML = "";
+    aps.forEach(function (ap, i) {
+      var band = h("select", { "aria-label": "Band AP" + (i + 1) }); ["2.4", "5", "6"].forEach(function (b) { band.appendChild(h("option", { value: b }, b + " GHz")); }); band.value = ap.band;
+      var ch = h("select", { "aria-label": "Channel AP" + (i + 1) }); BANDS[ap.band].ch.forEach(function (c) { ch.appendChild(h("option", { value: c }, "ch " + c)); }); ch.value = ap.ch;
+      var w = h("select", { "aria-label": "Width AP" + (i + 1) }); (ap.band === "2.4" ? [20] : ap.band === "5" ? [20, 40, 80] : [20, 80]).forEach(function (x) { w.appendChild(h("option", { value: x }, x + " MHz")); }); w.value = ap.w;
+      band.onchange = function () { ap.band = band.value; ap.ch = BANDS[ap.band].ch[0]; ap.w = ap.band === "6" ? 80 : 20; drawList(); drawCp(); };
+      ch.onchange = function () { ap.ch = +ch.value; drawCp(); }; w.onchange = function () { ap.w = +w.value; drawCp(); };
+      box.appendChild(h("div", { class: "aprow", style: i === sel ? "background:var(--accent-soft)" : "" }, [h("b", null, "AP" + (i + 1)), band, ch, w, h("button", { type: "button", onclick: function () { aps.splice(i, 1); sel = 0; drawList(); drawCp(); } }, "Remove")]));
+    });
+  }
+  $("cp-add").onclick = function () { if (aps.length >= 8) return; aps.push(mk(100 + Math.random() * 560, 80 + Math.random() * 240, "5", 36, 20)); sel = aps.length - 1; drawList(); drawCp(); };
+  $("cp-auto").onclick = function () {
+    var pick = { "2.4": [1, 6, 11], "5": [36, 52, 100, 149, 44, 60, 108, 157], "6": [5, 21, 37, 53, 69, 85] };
+    ["2.4", "5", "6"].forEach(function (b) {
+      var list = aps.filter(function (a) { return a.band === b; });
+      list.forEach(function (a) { if (b === "5") a.w = 20; if (b === "6") a.w = 80;
+        var best = pick[b][0], bestScore = Infinity;
+        pick[b].forEach(function (c) { var sc = 0; list.forEach(function (o) { if (o === a || o.ch !== c || o._done !== true) return; sc += 1000 / (1 + Math.hypot(o.x - a.x, o.y - a.y)); }); if (sc < bestScore) { bestScore = sc; best = c; } });
+        a.ch = best; a._done = true; });
+      list.forEach(function (a) { delete a._done; });
+    });
+    drawList(); drawCp();
+  };
+  $("cp-bad").onclick = function () { aps = [mk(130, 110, "2.4", 1), mk(380, 110, "2.4", 3), mk(625, 110, "2.4", 6), mk(200, 300, "2.4", 6), mk(560, 300, "5", 36, 80), mk(420, 290, "5", 44, 20)]; sel = 0; drawList(); drawCp(); };
+  $("cp-bad").click();
+
+  /* ================= Lab 2: waves ================= */
+  function fmtLen(m) { if (m >= 1) return m.toFixed(2) + " m"; if (m >= 0.01) return (m * 100).toFixed(1) + " cm"; if (m >= 0.001) return (m * 1000).toFixed(2) + " mm"; if (m >= 1e-6) return (m * 1e6).toFixed(2) + " µm"; return (m * 1e9).toFixed(0) + " nm"; }
+  function fmtF(f) { if (f >= 1e12) return (f / 1e12).toFixed(1) + " THz"; if (f >= 1e9) return (f / 1e9).toFixed(2) + " GHz"; return (f / 1e6).toFixed(0) + " MHz"; }
+  function sv2f(v) { return Math.pow(10, 8 + v / 1000 * 7); }
+  function f2sv(f) { return Math.round((Math.log10(f) - 8) / 7 * 1000); }
+  function wave() {
+    var f = sv2f(+$("wv-f").value), A = +$("wv-a").value, lam = 299792458 / f;
+    $("wv-f-v").textContent = fmtF(f); $("wv-a-v").textContent = A + "%";
+    var region = f < 3e11 ? (f < 1e9 ? "radio (UHF/VHF)" : "microwave radio (Wi-Fi, cellular, radar)") : f < 4e14 ? "infrared (fiber optics use 850 to 1625 nm here)" : f <= 7.9e14 ? "visible light" : "ultraviolet";
+    var cycles = 1 + (Math.log10(f) - 8) / 7 * 15, s = $("wv-svg"); s.innerHTML = "";
+    var col = f > 4e14 && f < 7.9e14 ? "hsl(" + Math.round(270 - (f - 4e14) / 3.9e14 * 270) + ",80%,45%)" : f >= 3e11 ? "#b91c1c" : "#2563eb";
+    S("line", { x1: 20, y1: 110, x2: 740, y2: 110, stroke: "var(--line)", "stroke-dasharray": "4 4" }, s);
+    var d = ""; for (var x = 0; x <= 720; x += 2) d += (x ? " L" : "M") + (20 + x) + " " + (110 - A * 0.9 * Math.sin(x / 720 * cycles * 2 * Math.PI)).toFixed(1);
+    S("path", { d: d, fill: "none", stroke: col, "stroke-width": 3 }, s);
+    var wl = 720 / cycles; S("line", { x1: 20 + wl * 0.25, y1: 205, x2: 20 + wl * 1.25, y2: 205, stroke: "var(--sec)", "stroke-width": 2 }, s); txt(s, 20 + wl * 0.75, 200, "λ = " + fmtLen(lam), { "text-anchor": "middle", fill: "var(--sec)", "font-weight": 700 });
+    txt(s, 740, 20, region, { "text-anchor": "end", "font-weight": 700 });
+    OMNI.say("wv-cap", fmtF(f) + " → wavelength " + fmtLen(lam) + " (λ = c / f). Region: " + region + ". Amplitude is the wave's strength (power), independent of frequency. " + (f < 3e11 ? "Radio wavelengths are centimeters long, which is why antenna sizes are in centimeters and why longer waves (2.4 GHz) pass walls better than shorter ones (6 GHz)." : "Light wavelengths are hundreds of nanometers; fiber windows sit at 850, 1310 and 1550 nm (Module 11). Same physics, a million times higher frequency than Wi-Fi."));
+  }
+  $("wv-f").oninput = wave; $("wv-a").oninput = wave;
+  $("wv-preset").onchange = function () { if (this.value) { $("wv-f").value = f2sv(+this.value); wave(); } };
+  $("wv-f").value = f2sv(2.4e9); wave();
+
+  /* ================= Lab 3: packet capture ================= */
+  var C = "192.168.1.57", GW = "192.168.1.1", WEB = "93.184.215.14", MACC = "3c:22:fb:9a:10:7e", MACG = "a4:91:b1:00:22:01";
+  var PK = [
+    { p: "DHCP", cls: "dhcp", s: "0.0.0.0", d: "255.255.255.255", sp: 68, dp: 67, l: 342, i: "DHCP Discover - Transaction ID 0x3903f326", t: "udp", app: [["Message type", "Discover (1)"], ["Client MAC", MACC], ["Requested IP", "(none)"], ["Parameter list", "Subnet mask, Router, DNS"]], dm: "ff:ff:ff:ff:ff:ff", note: "Broadcast from 0.0.0.0: the client has no address yet." },
+    { p: "DHCP", cls: "dhcp", s: GW, d: C, sp: 67, dp: 68, l: 342, i: "DHCP Offer - Transaction ID 0x3903f326", t: "udp", app: [["Message type", "Offer (2)"], ["Your IP", C], ["Subnet mask", "255.255.255.0"], ["Router", GW], ["DNS", GW], ["Lease time", "86400 s (1 day)"]], note: "The server offers 192.168.1.57 with mask, gateway, DNS and lease." },
+    { p: "DHCP", cls: "dhcp", s: "0.0.0.0", d: "255.255.255.255", sp: 68, dp: 67, l: 354, i: "DHCP Request - Transaction ID 0x3903f326", t: "udp", app: [["Message type", "Request (3)"], ["Requested IP", C], ["Server identifier", GW]], dm: "ff:ff:ff:ff:ff:ff", note: "Still broadcast, so other DHCP servers know their offers were declined." },
+    { p: "DHCP", cls: "dhcp", s: GW, d: C, sp: 67, dp: 68, l: 342, i: "DHCP ACK - Transaction ID 0x3903f326", t: "udp", app: [["Message type", "ACK (5)"], ["Your IP", C], ["Lease time", "86400 s"]], note: "DORA complete: the client now uses 192.168.1.57." },
+    { p: "ARP", cls: "dhcp", s: MACC, d: "Broadcast", l: 42, i: "Who has " + GW + "? Tell " + C, t: "arp", app: [["Opcode", "request (1)"], ["Sender", MACC + " / " + C], ["Target", "00:00:00:00:00:00 / " + GW]], note: "To send anything off-subnet, the PC needs the gateway's MAC." },
+    { p: "ARP", cls: "dhcp", s: MACG, d: MACC, l: 42, i: GW + " is at " + MACG, t: "arp", app: [["Opcode", "reply (2)"], ["Sender", MACG + " / " + GW]], note: "Unicast ARP reply; the PC caches it." },
+    { p: "DNS", cls: "dns", s: C, d: GW, sp: 53122, dp: 53, l: 75, i: "Standard query 0x1a2b A www.example.com", t: "udp", app: [["Transaction ID", "0x1a2b"], ["Flags", "Recursion desired"], ["Query", "www.example.com, type A, class IN"]], note: "Recursive DNS query to the resolver (the router here)." },
+    { p: "DNS", cls: "dns", s: GW, d: C, sp: 53, dp: 53122, l: 91, i: "Standard query response 0x1a2b A www.example.com A " + WEB, t: "udp", app: [["Transaction ID", "0x1a2b"], ["Flags", "Response, recursion available"], ["Answer", "www.example.com A " + WEB + " TTL 3600"]], note: "The answer, with a TTL for caching." },
+    { p: "TCP", cls: "tcp", s: C, d: WEB, sp: 51544, dp: 80, l: 66, i: "51544 → 80 [SYN] Seq=0 Win=64240 Len=0 MSS=1460", t: "tcp", fl: "SYN", seq: 0, ack: 0, note: "Handshake step 1. MSS 1460 = 1500 MTU − 20 IP − 20 TCP." },
+    { p: "TCP", cls: "tcp", s: WEB, d: C, sp: 80, dp: 51544, l: 66, i: "80 → 51544 [SYN, ACK] Seq=0 Ack=1 Win=65535 Len=0", t: "tcp", fl: "SYN, ACK", seq: 0, ack: 1, note: "Handshake step 2." },
+    { p: "TCP", cls: "tcp", s: C, d: WEB, sp: 51544, dp: 80, l: 54, i: "51544 → 80 [ACK] Seq=1 Ack=1 Win=64240 Len=0", t: "tcp", fl: "ACK", seq: 1, ack: 1, note: "Handshake step 3: connection established." },
+    { p: "HTTP", cls: "http", s: C, d: WEB, sp: 51544, dp: 80, l: 412, i: "GET /index.html HTTP/1.1", t: "tcp", fl: "PSH, ACK", seq: 1, ack: 1, app: [["Request line", "GET /index.html HTTP/1.1"], ["Host", "www.example.com"], ["User-Agent", "Mozilla/5.0"], ["Accept", "text/html"]], note: "Cleartext HTTP: anyone on the path can read this, including cookies." },
+    { p: "HTTP", cls: "http", s: WEB, d: C, sp: 80, dp: 51544, l: 1290, i: "HTTP/1.1 200 OK (text/html)", t: "tcp", fl: "PSH, ACK", seq: 1, ack: 359, app: [["Status", "200 OK"], ["Content-Type", "text/html; charset=UTF-8"], ["Content-Length", "1256"]], note: "The page arrives. Ack=359 acknowledges the 358-byte request." },
+    { p: "TCP", cls: "tcp", s: C, d: WEB, sp: 51545, dp: 443, l: 66, i: "51545 → 443 [SYN] Seq=0 Win=64240 Len=0 MSS=1460", t: "tcp", fl: "SYN", seq: 0, ack: 0, note: "A new connection to port 443 for HTTPS (new source port)." },
+    { p: "TCP", cls: "tcp", s: WEB, d: C, sp: 443, dp: 51545, l: 66, i: "443 → 51545 [SYN, ACK] Seq=0 Ack=1", t: "tcp", fl: "SYN, ACK", seq: 0, ack: 1, note: "" },
+    { p: "TCP", cls: "tcp", s: C, d: WEB, sp: 51545, dp: 443, l: 54, i: "51545 → 443 [ACK] Seq=1 Ack=1", t: "tcp", fl: "ACK", seq: 1, ack: 1, note: "" },
+    { p: "TLSv1.3", cls: "tls", s: C, d: WEB, sp: 51545, dp: 443, l: 571, i: "Client Hello (SNI=www.example.com)", t: "tcp", fl: "PSH, ACK", seq: 1, ack: 1, app: [["Handshake", "Client Hello"], ["Supported versions", "TLS 1.3, 1.2"], ["Cipher suites", "TLS_AES_128_GCM_SHA256, TLS_CHACHA20_POLY1305_SHA256, …"], ["SNI", "www.example.com (visible in cleartext)"], ["Key share", "x25519"]], note: "TLS begins. The server name (SNI) is still visible unless Encrypted Client Hello is used." },
+    { p: "TLSv1.3", cls: "tls", s: WEB, d: C, sp: 443, dp: 51545, l: 1514, i: "Server Hello, Change Cipher Spec, Application Data", t: "tcp", fl: "ACK", seq: 1, ack: 518, app: [["Handshake", "Server Hello"], ["Cipher suite", "TLS_AES_128_GCM_SHA256"], ["Key share", "x25519"], ["Certificate", "(encrypted in TLS 1.3)"]], note: "From here on everything is encrypted; the capture shows only 'Application Data'." },
+    { p: "TLSv1.3", cls: "tls", s: C, d: WEB, sp: 51545, dp: 443, l: 420, i: "Application Data", t: "tcp", fl: "PSH, ACK", seq: 518, ack: 1461, app: [["Encrypted payload", "17 03 03 01 8f 3a c1 9e … (unreadable)"]], note: "The HTTPS request, encrypted: compare with packet 12." }
+  ];
+  PK.forEach(function (p, i) { p.n = i + 1; p.time = (i * 0.0137 + (i > 7 ? 0.21 : 0) + (i > 12 ? 0.05 : 0)).toFixed(6); });
+  function rows() {
+    var f = $("pc-filter").value.trim().toLowerCase(), tb = $("pc-rows"); tb.innerHTML = "";
+    var m = f.match(/^ip\.addr\s*==\s*([\d.]+)$/);
+    PK.filter(function (p) { if (!f) return true; if (m) return p.s === m[1] || p.d === m[1]; if (f === "tcp") return p.t === "tcp"; if (f === "udp") return p.t === "udp"; if (f === "tls") return p.cls === "tls"; return (p.p + " " + p.i + " " + p.s + " " + p.d).toLowerCase().indexOf(f) >= 0; })
+      .forEach(function (p) { var tr = h("tr", { class: "p-" + p.cls, tabindex: 0 }, [p.n, p.time, p.s, p.d, p.p, p.l, p.i].map(function (c) { return h("td", null, String(c)); })); tr.onclick = tr.onkeydown = function (e) { if (e.type === "keydown" && e.key !== "Enter") return; OMNI.$$("#pc-rows tr").forEach(function (r) { r.classList.remove("sel"); }); tr.classList.add("sel"); tree(p); }; tb.appendChild(tr); });
+  }
+  function tree(p) {
+    var t = $("pc-tree"); t.innerHTML = "";
+    function sec(title, items, open) { var d = h("details", open ? { open: "" } : null, h("summary", null, title)); items.forEach(function (it) { d.appendChild(h("div", null, it[0] + ": " + it[1])); }); t.appendChild(d); }
+    t.appendChild(h("h4", null, "Frame " + p.n + ": " + p.l + " bytes on wire"));
+    var smac = p.t === "arp" ? p.s : (p.s === C || p.s === "0.0.0.0" ? MACC : MACG), dmac = p.dm || (p.t === "arp" ? (p.d === "Broadcast" ? "ff:ff:ff:ff:ff:ff" : p.d) : (p.s === C || p.s === "0.0.0.0" ? MACG : MACC));
+    sec("Ethernet II", [["Destination", dmac], ["Source", smac], ["Type", p.t === "arp" ? "ARP (0x0806)" : "IPv4 (0x0800)"]]);
+    if (p.t !== "arp") sec("Internet Protocol Version 4", [["Source", p.s], ["Destination", p.d], ["TTL", p.s === WEB ? "54 (arrived after ~10 hops from 64)" : "64"], ["Protocol", p.t === "tcp" ? "TCP (6)" : "UDP (17)"], ["Header length", "20 bytes"]]);
+    if (p.t === "udp") sec("User Datagram Protocol", [["Source port", p.sp], ["Destination port", p.dp], ["Length", p.l - 34]]);
+    if (p.t === "tcp") sec("Transmission Control Protocol", [["Source port", p.sp], ["Destination port", p.dp], ["Sequence number (relative)", p.seq], ["Acknowledgment number", p.ack], ["Flags", p.fl], ["Window", "64240"]]);
+    if (p.app) sec(p.p === "ARP" ? "Address Resolution Protocol" : p.p === "DHCP" ? "Dynamic Host Configuration Protocol" : p.p === "DNS" ? "Domain Name System" : p.p === "HTTP" ? "Hypertext Transfer Protocol" : "Transport Layer Security", p.app, true);
+    OMNI.say("pc-cap", "Packet " + p.n + " (" + p.p + "): " + (p.note || p.i) + " Expand each layer above: it's the same encapsulation from Module 9, read from the outside in.");
+  }
+  $("pc-filter").oninput = rows; $("pc-clear").onclick = function () { $("pc-filter").value = ""; rows(); };
+  rows();
+
+  /* ================= Lab 4: scenarios ================= */
+  var CASES = [
+    { t: "Users on the new third-floor VLAN get 169.254.x.x addresses. Other floors are fine.",
+      a: [["Check whether DHCP requests from that VLAN reach the server (relay/IP helper on the new VLAN interface)", 2, "The new VLAN's router interface has no ip helper-address, so DHCP Discover broadcasts never leave the VLAN."], ["Replace the users' network cards", 0, "Many PCs failing at once on one VLAN isn't a NIC problem."], ["Reboot the DHCP server", 0, "Other floors get addresses, so the server works."], ["Set static IPs on every PC", 1, "That would work around it, but doesn't find the cause and won't scale."]],
+      b: [["Add ip helper-address pointing to the DHCP server on the VLAN 30 interface", 2, "Correct: the relay forwards broadcasts as unicast to the server."], ["Increase the lease time", 0, "Lease time isn't the issue."], ["Enable STP", 0, "Unrelated."], ["Disable the firewall on the PCs", 0, "Unrelated."]] },
+    { t: "One VLAN can reach other internal VLANs but not the internet.",
+      a: [["Check the router's NAT configuration and the default route for that subnet", 2, "The NAT inside-source ACL lists the old subnets but not the new 10.30.0.0/24."], ["Check the trunk allowed VLAN list", 1, "Internal routing works, so the trunk is fine."], ["Run a cable certifier", 0, "Layer 1 is clearly fine: internal traffic flows."], ["Flush DNS on clients", 0, "Even IP-based internet access fails."]],
+      b: [["Add the new subnet to the NAT ACL", 2, "Correct: now its traffic is translated to the public address."], ["Add a second ISP", 0, "Doesn't fix NAT."], ["Change the native VLAN", 0, "Unrelated."], ["Turn on jumbo frames", 0, "Unrelated."]] },
+    { t: "VoIP calls are choppy every evening between 7 and 9 PM.",
+      a: [["Check WAN utilization and jitter during that window", 2, "Off-site backups saturate the WAN from 7 to 9 PM; voice jitter hits 80 ms."], ["Replace the IP phones", 0, "The problem is time-based, not device-based."], ["Check DNS", 0, "DNS doesn't affect call audio."], ["Change Wi-Fi channels", 0, "The phones are wired."]],
+      b: [["Apply QoS: mark voice EF and give it a priority queue; optionally shape backups", 2, "Correct."], ["Disable backups permanently", 1, "Fixes calls but breaks recovery; reschedule or shape instead."], ["Increase the MTU", 0, "Unrelated."], ["Add a VLAN for backups only", 0, "VLANs don't create WAN bandwidth."]] },
+    { t: "A user can ping 8.8.8.8 but can't open any websites by name.",
+      a: [["Run nslookup to test name resolution", 2, "nslookup times out against the configured DNS server 10.0.0.53."], ["Reinstall the browser", 0, "All apps would fail by name."], ["Check the cable", 0, "Pinging an internet IP proves connectivity."], ["Renew the DHCP lease", 1, "Reasonable, but test DNS first to confirm."]],
+      b: [["Correct the DNS server setting (or restore DHCP-provided DNS)", 2, "Correct."], ["Add a static route", 0, "Routing works."], ["Change the default gateway", 0, "Gateway works."], ["Replace the switch", 0, "Unrelated."]] },
+    { t: "A server's wired link is slow, with many late collisions and CRC errors.",
+      a: [["Check speed/duplex settings on both ends", 2, "The switch port is hard-set to 100/full; the server NIC auto-negotiated 100/half."], ["Increase server RAM", 0, "Unrelated."], ["Move the server to Wi-Fi", 0, "Worse."], ["Check DNS", 0, "Unrelated."]],
+      b: [["Set both ends to auto-negotiate (or both to the same fixed values)", 2, "Correct: duplex mismatch causes late collisions."], ["Enable PoE", 0, "Unrelated."], ["Shorten the DHCP lease", 0, "Unrelated."], ["Enable port security", 0, "Unrelated."]] },
+    { t: "Wi-Fi drops constantly in the conference room when it's full.",
+      a: [["Do a site survey with a Wi-Fi analyzer during a meeting", 2, "Two APs near the room use channel 6 at full power and 60 clients share one AP."], ["Replace all laptops", 0, "Unlikely to be all devices."], ["Switch to WEP for speed", 0, "Insecure and not faster."], ["Hide the SSID", 0, "No effect on capacity."]],
+      b: [["Add an AP, move clients to 5/6 GHz, fix channel plan and lower power", 2, "Correct: design for capacity and avoid co-channel overlap."], ["Turn every AP to maximum power", 0, "Increases contention."], ["Use channel 3 for one AP", 0, "Creates adjacent-channel interference."], ["Disable 5 GHz", 0, "Removes most capacity."]] },
+    { t: "After someone plugged in a small desk switch, the whole floor slowed to a crawl; switch CPUs are at 100%.",
+      a: [["Look for a Layer 2 loop: MAC flapping, broadcast storm, STP status", 2, "The desk switch is cabled into two wall ports, creating a loop, and STP is disabled on the access switches."], ["Upgrade the internet circuit", 0, "Internal problem."], ["Restart the DHCP server", 0, "Not the cause."], ["Change DNS servers", 0, "Not the cause."]],
+      b: [["Remove the loop, enable RSTP and BPDU guard on access ports", 2, "Correct: prevents a repeat."], ["Add more VLANs", 0, "Doesn't stop loops."], ["Increase MTU", 0, "Unrelated."], ["Disable port security", 0, "Wrong direction."]] },
+    { t: "Branch users over the new IPsec VPN can load small web pages but large downloads and some sites hang.",
+      a: [["Test with ping using the don't-fragment bit and increasing sizes", 2, "Pings above 1400 bytes with DF fail: the tunnel overhead reduces the path MTU."], ["Replace the branch router", 0, "Too drastic; tunnel works for small packets."], ["Change the DHCP scope", 0, "Unrelated."], ["Disable DNS", 0, "Unrelated."]],
+      b: [["Lower the tunnel MTU / clamp TCP MSS (e.g., 1360)", 2, "Correct."], ["Enable jumbo frames on the internet link", 0, "The ISP path won't carry them."], ["Disable encryption", 0, "Insecure."], ["Add QoS", 0, "Doesn't fix MTU."]] },
+    { t: "Nobody can reach the file server this morning. Last night's change window included firewall work.",
+      a: [["Review the change log and recent firewall rule changes", 2, "A new ACL line blocks TCP 445 between the user VLANs and the server VLAN."], ["Rebuild the file server", 0, "Too drastic; check what changed first."], ["Replace user switches", 0, "Unrelated."], ["Reset user passwords", 0, "Unrelated."]],
+      b: [["Roll back or correct the ACL per the change plan, then document", 2, "Correct: the rollback plan exists for exactly this."], ["Allow any-any on the firewall", 0, "Fixes it insecurely."], ["Move the server to the user VLAN", 0, "Bypasses segmentation."], ["Wait and see", 0, "Not acceptable."]] },
+    { t: "A new PoE PTZ camera keeps rebooting every few minutes.",
+      a: [["Check the switch port's PoE class and the switch's total PoE budget", 2, "The camera needs 25 W (PoE+) but the port supplies 802.3af (15.4 W), and the switch budget is nearly used up."], ["Update the camera's DNS", 0, "Unrelated."], ["Replace the fiber uplink", 0, "Unrelated."], ["Change the camera's VLAN", 0, "Unrelated."]],
+      b: [["Move it to a PoE+ (802.3at) port or add a PoE+ injector; check the budget", 2, "Correct."], ["Use a longer cable", 0, "Increases loss."], ["Disable LLDP", 0, "LLDP helps negotiate power."], ["Set the port to 10 Mbps", 0, "Unrelated."]] }
+  ];
+  var ci = 0, stage = "a", score = 0, maxScore = CASES.length * 4, firstFinding = "";
+  function showCase() {
+    var box = $("cs-box"); box.innerHTML = "";
+    $("cs-prog").textContent = "Case " + Math.min(ci + 1, CASES.length) + " of " + CASES.length + " · Score " + score + " / " + maxScore;
+    if (ci >= CASES.length) { box.appendChild(h("h4", null, "All cases done: " + score + " / " + maxScore)); box.appendChild(h("p", null, score >= maxScore * 0.8 ? "Excellent methodical troubleshooting." : "Review the symptom table above and try again: always test a theory before changing things.")); OMNI.store.set("m13-cases-best", Math.max(score, OMNI.store.get("m13-cases-best", 0))); return; }
+    var c = CASES[ci];
+    box.appendChild(h("h4", null, "Ticket: " + c.t));
+    if (stage === "b") box.appendChild(h("p", null, [h("b", null, "Finding: "), firstFinding]));
+    box.appendChild(h("p", null, h("b", null, stage === "a" ? "Step 1: what do you check first?" : "Step 2: what's the fix?")));
+    var opts = h("div", { class: "case-opts" });
+    OMNI.shuffle(c[stage].slice()).forEach(function (o) {
+      opts.appendChild(h("button", { type: "button", onclick: function () {
+        score += o[1];
+        if (stage === "a") { firstFinding = c.a.filter(function (x) { return x[1] === 2; })[0][2]; OMNI.say("cs-cap", (o[1] === 2 ? "✓ Good first test (+2). " : o[1] === 1 ? "Partly useful (+1). " : "✗ Not the best first step (+0). ") + o[2] + (o[1] < 2 ? " The best first check reveals the finding shown next." : "")); stage = "b"; }
+        else { OMNI.say("cs-cap", (o[1] === 2 ? "✓ Fixed (+2). " : o[1] === 1 ? "Partial (+1). " : "✗ That doesn't fix it (+0). ") + o[2] + " Then verify and document."); stage = "a"; ci++; }
+        showCase();
+      } }, o[0]));
+    });
+    box.appendChild(opts);
+  }
+  $("cs-restart").onclick = function () { ci = 0; stage = "a"; score = 0; OMNI.say("cs-cap", "Restarted. Pick the most useful first test for each ticket."); showCase(); };
+  OMNI.say("cs-cap", "Pick the most useful first test for each ticket, then the fix. 2 points for the best choice, 1 for partial."); showCase();
+})();
+</script>
+<!-- module-data:start -->
+<script type="application/json" id="module-data">{"module":13,"title":"Wireless, Cellular and Operations","glossary":[["RSSI","Received Wi-Fi signal strength.","Received Signal Strength Indicator, usually in dBm (e.g., −67 dBm).","Received Signal Strength Indicator"],["Noise floor","Background RF noise level.","The level of ambient RF energy against which signals are measured (e.g., −95 dBm).",""],["Co-channel interference","APs on the same channel taking turns.","Contention between overlapping cells on the same channel, reducing airtime per client.",""],["Adjacent-channel interference","Partially overlapping channels clashing.","Corruption caused by overlapping frequencies of nearby, non-identical channels.",""],["Channel bonding","Joining channels for more speed.","Combining adjacent 20 MHz channels into 40/80/160/320 MHz channels.",""],["DFS","Radar-avoidance rules on some 5 GHz channels.","Dynamic Frequency Selection: APs must detect radar and vacate certain 5 GHz channels.","Dynamic Frequency Selection"],["MIMO","Many antennas, many streams.","Multiple-Input Multiple-Output: spatial multiplexing across antennas; MU-MIMO serves multiple clients simultaneously.","Multiple-Input Multiple-Output"],["Beamforming","Aiming Wi-Fi at a client.","Adjusting phase across antennas to focus energy toward a receiver.",""],["OFDMA","Sharing one channel among many clients at once.","Orthogonal Frequency-Division Multiple Access: Wi-Fi 6+ allocates resource units to multiple users per transmission.","Orthogonal Frequency-Division Multiple Access"],["Omnidirectional antenna","Antenna that radiates all around.","Antenna with 360° horizontal coverage pattern.",""],["Directional antenna","Antenna that focuses in one direction.","Yagi, patch or parabolic antenna with high gain in a narrow beam.",""],["Wi-Fi 6E","Wi-Fi 6 on the 6 GHz band.","802.11ax devices supporting 6 GHz spectrum.",""],["Wi-Fi 7","Newest Wi-Fi generation.","802.11be: 320 MHz channels, Multi-Link Operation, 4096-QAM.",""],["WPA2-Enterprise","Wi-Fi login per user via RADIUS.","WPA2 with 802.1X/EAP authentication against a RADIUS server.",""],["WPA3 SAE","Modern Wi-Fi password handshake.","Simultaneous Authentication of Equals: password-authenticated key exchange resistant to offline dictionary attacks.","Simultaneous Authentication of Equals"],["Captive portal","Web login page before Wi-Fi works.","A web page that intercepts traffic until the user authenticates or accepts terms.",""],["Rogue AP","Unauthorized access point.","A wireless access point connected to the network without authorization.",""],["Evil twin","Fake Wi-Fi copying a real one.","A malicious AP impersonating a legitimate SSID to intercept traffic or credentials.",""],["Site survey","Measuring Wi-Fi coverage.","Predictive or on-site RF assessment producing heat maps, channel and placement plans.",""],["Heat map","Color map of signal strength.","Visual representation of RF signal levels across a floor plan.",""],["Roaming","Moving between APs without dropping.","Client re-association between APs of the same ESS; aided by 802.11r/k/v.",""],["5G","Fifth-generation cellular.","3GPP cellular standard with low-band, mid-band and mmWave spectrum, lower latency and network slicing.",""],["Private cellular","Your own LTE/5G network.","Enterprise-operated cellular network (e.g., CBRS in the US) for controlled coverage.",""],["NFC","Very short-range tap communication.","Near Field Communication: ~4 cm range, used for payments and pairing.","Near Field Communication"],["RFID","Radio tags for tracking.","Radio Frequency Identification: passive or active tags read by radio.","Radio Frequency Identification"],["Latency","Delay.","Time for data to travel from source to destination (often round-trip, ms).",""],["Packet loss","Packets that never arrive.","Percentage of packets dropped in transit.",""],["Availability","Percent of time a service is up.","Uptime / total time; 99.999% (five nines) ≈ 5.26 min downtime per year.",""],["RPO","How much data you can afford to lose.","Recovery Point Objective: maximum tolerable data loss measured in time.","Recovery Point Objective"],["RTO","How fast you must be back up.","Recovery Time Objective: maximum tolerable time to restore a service.","Recovery Time Objective"],["MTTR","Average time to fix.","Mean Time To Repair/Recover.","Mean Time To Repair"],["MTBF","Average time between failures.","Mean Time Between Failures for repairable components.","Mean Time Between Failures"],["Hot site","Ready-to-go backup site.","Fully equipped, running alternate site with near-real-time data; minutes to switch.",""],["SLA","Promised service levels.","Service Level Agreement: measurable commitments such as uptime and response time.","Service Level Agreement"],["MOU","Informal agreement.","Memorandum of Understanding: statement of intent between parties, usually non-binding.","Memorandum of Understanding"],["SIEM","Central security log analysis.","Security Information and Event Management: aggregates and correlates logs to detect incidents.","Security Information and Event Management"],["iperf","Throughput test tool.","Client/server tool measuring achievable TCP/UDP bandwidth between two hosts.",""],["pathping","Ping plus traceroute with loss per hop.","Windows tool combining traceroute with per-hop latency and loss statistics.",""]],"quiz":[{"t":"mc","q":"Which 2.4 GHz channels don't overlap (North America)?","o":["1, 5, 9","1, 6, 11","2, 7, 12","1, 4, 8, 11"],"a":1,"w":["Overlap.","Correct.","12 isn't used in North America and overlaps.","Four channels overlap."],"x":"Channels are 5 MHz apart, ~20-22 MHz wide.","c":"N","d":"2.3 Wireless technologies"},{"t":"mc","q":"Which Wi-Fi generation introduced the 6 GHz band?","o":["Wi-Fi 5","Wi-Fi 6","Wi-Fi 6E","Wi-Fi 4"],"a":2,"w":["5 GHz only.","2.4/5 GHz.","Correct.","2.4/5 GHz."],"x":"Wi-Fi 7 also uses 6 GHz with 320 MHz channels.","c":"N","d":"2.3 Wireless technologies"},{"t":"mc","q":"A company wants each employee to log into Wi-Fi with their own directory credentials. What should they use?","o":["WPA2-Personal","WPA3-Enterprise with 802.1X and RADIUS","WEP","Open network with MAC filtering"],"a":1,"w":["Shared passphrase.","Correct.","Broken.","Weak and easily spoofed."],"x":"Enterprise mode authenticates each user.","c":"N","d":"2.3 Wireless technologies"},{"t":"mc","q":"What does WPA3-Personal use instead of the WPA2 four-way handshake with PSK?","o":["TKIP","SAE","WEP","LEAP"],"a":1,"w":["WPA1.","Correct: resists offline dictionary attacks.","Broken.","Old Cisco EAP."],"x":"SAE = Simultaneous Authentication of Equals.","c":"S","d":"2.x Wireless security"},{"t":"mc","sc":"Users near the lobby connect to 'CorpWiFi' but are asked for credentials on an unfamiliar page; IT finds an extra AP broadcasting the same SSID.","q":"What attack is this?","o":["Rogue AP","Evil twin","Jamming","Bluejacking"],"a":1,"w":["A rogue AP is unauthorized, not necessarily impersonating.","Correct.","Jamming blocks signals.","Bluetooth spam."],"x":"Defend with 802.1X certificate validation and WIPS.","c":"S","d":"2.4 Wireless attacks"},{"t":"mc","q":"Which antenna is best for a long, narrow warehouse aisle or a building-to-building link?","o":["Omnidirectional","Directional (Yagi/patch)","Dipole","Isotropic"],"a":1,"w":["Radiates in all directions.","Correct.","A dipole is omnidirectional.","Theoretical reference."],"x":"Directional = high gain in one direction.","c":"N","d":"2.3 Wireless technologies"},{"t":"mc","q":"Which metric is the maximum tolerable data loss measured in time?","o":["RTO","RPO","MTTR","MTBF"],"a":1,"w":["Downtime.","Correct.","Repair time.","Time between failures."],"x":"RPO drives backup/replication frequency.","c":"N","d":"3.3 Disaster recovery"},{"t":"mc","q":"Which DR site has space and power but no equipment installed?","o":["Hot site","Warm site","Cold site","Mobile site"],"a":2,"w":["Fully running.","Has equipment, needs data.","Correct.","Trailer-based; not the term here."],"x":"Hot → minutes, warm → hours/days, cold → days/weeks.","c":"N","d":"3.3 Disaster recovery"},{"t":"mc","q":"Which document defines measurable uptime and response commitments with a provider?","o":["AUP","MOU","SLA","NDA"],"a":2,"w":["User behavior rules.","Informal intent.","Correct.","Confidentiality."],"x":"SLAs often include penalties/credits.","c":"N","d":"3.1 Organizational documents and policies"},{"t":"mc","q":"Which tool shows per-hop latency AND packet loss on Windows?","o":["ping","tracert","pathping","nslookup"],"a":2,"w":["End-to-end only.","Hops but no loss statistics.","Correct.","DNS."],"x":"Linux equivalent: mtr.","c":"N","d":"5.5 Network troubleshooting tools"},{"t":"mc","q":"Which tool measures maximum throughput between two hosts?","o":["iperf","dig","arp","nmap"],"a":0,"w":["Correct.","DNS.","ARP cache.","Port scanning."],"x":"Run iperf server on one end and client on the other.","c":"N","d":"5.5 Network troubleshooting tools"},{"t":"order","q":"Order the Network+ troubleshooting steps.","o":["Identify the problem","Establish a theory of probable cause","Test the theory","Establish a plan of action","Implement the solution or escalate","Verify full system functionality","Document findings"],"x":"I Think That Everyone Is Very Determined.","c":"N","d":"5.1 Troubleshooting methodology"},{"t":"ms","q":"Which are likely causes of intermittent Wi-Fi in a crowded room? (Choose two.)","o":["Co-channel interference from APs at full power","Too many clients for the number of APs","Wrong DNS server","Expired SSL certificate on a website"],"a":[0,1],"w":["Correct.","Correct.","Would break name resolution consistently.","Affects one site only."],"x":"Design for capacity.","c":"N","d":"5.4 Wireless performance issues"},{"t":"mc","q":"A network has 99.99% availability. About how much downtime per year is that?","o":["5 minutes","53 minutes","8.8 hours","3.65 days"],"a":1,"w":["Five nines.","Correct.","Three nines.","Two nines."],"x":"Each extra 9 cuts downtime by 10×.","c":"N","d":"3.3 High availability"},{"t":"mc","q":"Which wireless technology works at about 4 cm and is used for tap-to-pay?","o":["Bluetooth","NFC","RFID UHF","Zigbee"],"a":1,"w":["~10 m.","Correct.","Meters.","Mesh IoT, tens of m."],"x":"NFC also pairs devices quickly.","c":"A1","d":"2.x Wireless protocols"}],"flashcards":[["Non-overlapping 2.4 GHz","1, 6, 11"],["Wi-Fi 4 / 5 / 6 / 7","802.11n / ac / ax / be"],["Wi-Fi 6E adds","6 GHz band"],["Wi-Fi 7 features","320 MHz, MLO, 4096-QAM"],["Good RSSI for voice","−67 dBm or better"],["Good SNR","25 dB+"],["OFDMA","Many clients per transmission (Wi-Fi 6+)"],["WEP / WPA / WPA2 / WPA3","Broken RC4 / TKIP / AES-CCMP / SAE + AES"],["Enterprise Wi-Fi","802.1X + EAP + RADIUS"],["Evil twin","Fake AP copying a real SSID"],["Rogue AP","Unauthorized AP on the network"],["Roaming standards","802.11r fast transition, k neighbors, v steering"],["NFC range","~4 cm"],["GEO vs LEO latency","~600 ms vs ~25–60 ms"],["RPO","Max data loss (time)"],["RTO","Max downtime"],["MTTR / MTBF","Repair time / time between failures"],["Hot / warm / cold site","Running / equipped / empty"],["Five nines","≈ 5.26 min downtime/year"],["SLA / MOU / NDA / AUP","Service levels / intent / secrecy / acceptable use"],["pathping","Per-hop latency + loss (Windows)"],["iperf","Throughput test"],["dig / nslookup","DNS queries"],["ss / netstat","Connections and listening ports"],["169.254 symptom","DHCP failure"],["Late collisions","Duplex mismatch"],["Troubleshooting 7 steps","Identify, theory, test, plan, implement, verify, document"]]}</script>
+<!-- module-data:end -->
+</body>
+</html>
