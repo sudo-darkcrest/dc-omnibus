@@ -8,11 +8,11 @@ OMNI.register({
     { c: "S", o: "SY0-701: all 5 domains, practice exams from Modules 16 to 18 and 23 and the Security+ bank" },
     { c: "ITIL", o: "ITIL 4 Foundation: all 7 syllabus areas, Module 31 and the ITIL bank (ITIL Version 5 Foundation launched Feb 2026, verify which you book)" },
     { c: "DCCA", o: "EPI DCCA: Module 22 and the DCCA bank (verify syllabus with EPI)" },
-    { c: "CISM", o: "CISM 2022 job practice: all 4 domains, Modules 18, 32 and 35 and the CISM bank" },
+    { c: "CISM", o: "CISM (outline updated November 3, 2026): all 4 domains, Modules 18, 32 and 35 and the CISM bank" },
     { c: "CISA", o: "CISA 2024 job practice: all 5 domains, Modules 32 and 36 and the CISA bank" },
     { c: "CLF", o: "AWS CLF-C02: all 4 domains, Modules 23 and 25 and the AWS bank" },
     { c: "AIF", o: "AWS AIF-C01: all 5 domains, Module 30 and the AI bank" },
-    { c: "CYSA", o: "CompTIA CS0-003: all 4 domains, Modules 17, 18 and 21 and the CySA+ bank" }
+    { c: "CYSA", o: "CompTIA CS0-004: all 4 domains, Modules 17, 18 and 21 and the CySA+ bank" }
   ],
   glossary: [
     ["Exam objectives", "The official list of what an exam can ask.", "A vendor-published document listing the domains, objectives and sub-topics an exam covers; the best checklist for study.", ""],
@@ -59,10 +59,10 @@ OMNI.register({
     ["CISM and CISA experience rule", "Pass the exam any time; certification needs years of relevant experience."],
     ["A+ Core 1 / Core 2 codes", "220-1201 / 220-1202 (pass 675 / 700 of 900)"],
     ["Network+ code and pass", "N10-009 · 720 / 900 · up to 90 q · 90 min"],
-    ["Security+ code and pass", "SY0-701 · 750 / 900 · up to 90 q · 90 min"],
+    ["Security+ code and pass", "SY0-701 (English until June 11, 2027) or SY0-801 · 750 / 900 · up to 90 q · 90 min"],
     ["ITIL 4 Foundation format", "40 MC questions · 60 min · 65% (26/40)"],
     ["CISM / CISA format", "150 MC questions · 4 hours · 450 / 800 scaled"],
-    ["CISM domain weights", "Governance 17% · Risk 20% · Program 33% · Incident 30%"],
+    ["CISM domain weights", "Governance 18% · Risk 20% · Program 33% · Incident 29%"],
     ["CISA domain weights", "Audit 18% · Governance 18% · Acquisition 12% · Operations 26% · Protection 26%"],
     ["Security+ domain weights", "General 12% · Threats 22% · Architecture 18% · Operations 28% · Program 20%"],
     ["Network+ domain weights", "Concepts 23% · Implementation 20% · Operations 19% · Security 14% · Troubleshooting 24%"],

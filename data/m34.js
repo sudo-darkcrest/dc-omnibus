@@ -1,7 +1,7 @@
 OMNI.register({
   n: 34,
   certmap: [
-    {"c": "CRISC", "o": "1 Governance, 2 IT Risk Assessment, 3 Risk Response and Reporting, 4 Information Technology and Security"},
+    {"c": "CRISC", "o": "1 Governance, 2 Risk Assessment, 3 Risk Response and Reporting, 4 Technology and Security"},
     {"c": "CGEIT", "o": "1 Governance of Enterprise IT, 2 IT Resources, 3 Benefits Realization, 4 Risk Optimization"},
     {"c": "CISM", "o": "Domain 2 Information Security Risk Management, extended"}
   ],

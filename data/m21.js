@@ -1,7 +1,7 @@
 OMNI.register({
   n: 21,
   certmap: [
-    { c: "CYSA", o: "CS0-003: 1 Security Operations (33%), 2 Vulnerability Management (30%), 3 Incident Response and Management (20%), 4 Reporting and Communication (17%) (verify whether a newer CySA+ version has launched)" },
+    { c: "CYSA", o: "CS0-004: 1 Security Operations (34%), 2 Vulnerability Management (26%), 3 Incident Response and Management (24%), 4 Reporting and Communication (16%). CS0-004 launched June 23, 2026; CS0-003 retires Dec 22, 2026. Objective numbers below follow CS0-003" },
     { c: "S", o: "SY0-701: 2.x threat actors and vectors, 4.x security operations, alerting, vulnerability management and incident response (deeper practice for the Security+ concepts in Modules 16–18)" },
     { c: "CISM", o: "CISM: 4 Incident Management (SOC metrics, playbooks, escalation)" },
     { c: "GEN", o: "Career guide for everyone interested in cyber security: roles, skills, how to practise legally, and which certifications to take in what order." }
@@ -71,8 +71,8 @@ OMNI.register({
     ["Analyst certs", "CySA+, GIAC GCIH/GCIA, Blue Team Level 1, SC-200"],
     ["Offensive certs", "PenTest+, OSCP, CEH, GIAC GPEN"],
     ["Advanced / management", "CISSP, CISM, CISA, SecurityX (formerly CASP+), CCSP"],
-    ["Cloud security certs", "AWS Security Specialty, CCSP, Azure AZ-500"],
-    ["CySA+ CS0-003 format", "Up to 85 q · 165 min · 750/900 · 33/30/20/17%"],
+    ["Cloud security certs", "AWS Security Specialty, CCSP, Microsoft SC-500 (replaced AZ-500 on Aug 31, 2026)"],
+    ["CySA+ CS0-004 format", "Up to 85 q · 165 min · 750/900 · 34/26/24/16%"],
     ["CISSP requirement", "5 years in 2+ of 8 domains (or Associate of ISC2)"],
     ["Legal practice", "Own lab, CTFs, training platforms, written permission only"]
   ]

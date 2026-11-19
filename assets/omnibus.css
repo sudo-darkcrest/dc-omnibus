@@ -194,6 +194,10 @@ label { cursor: pointer; }
 .glist .gp { margin: 4px 0 0; }
 .glist .ge { margin: 2px 0 0; color: var(--ink-2); font-size: .93rem; }
 .glist .ge::before { content: "Exact: "; font-weight: 700; }
+.glist li { scroll-margin-top: 140px; }
+.glist li.hit { border-color: var(--accent, #2563eb); box-shadow: 0 0 0 3px color-mix(in srgb, var(--accent, #2563eb) 25%, transparent); }
+a.gl { color: inherit; text-decoration: underline dotted; text-decoration-thickness: 1px; text-underline-offset: 3px; }
+a.gl:hover, a.gl:focus-visible { color: var(--accent, #2563eb); text-decoration-style: solid; }
 .letters { display: flex; flex-wrap: wrap; gap: 4px; margin: 8px 0; }
 .letters button { padding: 3px 8px; font-size: .85rem; }
 

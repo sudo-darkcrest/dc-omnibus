@@ -1,7 +1,7 @@
 OMNI.register({
   n: 35,
   certmap: [
-    { c: "CISM", o: "ISACA CISM 2022 job practice (verify on isaca.org): Domain 1 Information Security Governance (17%): enterprise governance, information security strategy; Domain 2 Information Security Risk Management (20%): risk assessment, risk response; Domain 3 Information Security Program (33%): program development, program management; Domain 4 Incident Management (30%): incident management readiness, incident management operations" },
+    { c: "CISM", o: "ISACA CISM 2022 job practice (verify on isaca.org): Domain 1 Information Security Governance (18%): enterprise governance, information security strategy; Domain 2 Information Security Risk Management (20%): risk assessment, risk response; Domain 3 Information Security Program (33%): program development, program management; Domain 4 Incident Management (29%): incident management readiness, incident management operations" },
     { c: "S", o: "SY0-701: 5.1 governance roles and structures; 5.2 risk management; 4.8 incident response process; 3.4 resilience and recovery; 5.6 security awareness" },
     { c: "CISA", o: "Domain 2 governance and management of IT; Domain 4 business resilience (BIA, BCP, DRP) from the auditor's view (see Module 36)" }
   ],
@@ -76,7 +76,7 @@ OMNI.register({
     ["In CISM scenarios, who accepts risk", "The business (risk) owner, advised by security."],
     ["Best first step for a new compliance requirement", "Gap analysis."],
     ["A good board security metric", "Tied to business risk, for example time to patch known-exploited vulnerabilities on critical systems."],
-    ["CISM domains and weights (verify)", "1 Governance 17% · 2 Risk management 20% · 3 Program 33% · 4 Incident management 30%"],
+    ["CISM domains and weights (verify)", "1 Governance 18% · 2 Risk management 20% · 3 Program 33% · 4 Incident management 29%"],
     ["CISM exam (verify)", "150 questions, 4 hours, scaled 200–800, pass 450"],
     ["CISM experience", "5 years in infosec, including 3 in management across 3+ domains"],
     ["Think like a manager", "Business alignment, senior management, governance, risk-based"],

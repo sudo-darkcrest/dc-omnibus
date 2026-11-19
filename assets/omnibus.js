@@ -136,6 +136,7 @@
   };
 
   /* ---------- glossary ---------- */
+  OMNI.slug = function (t) { return "g-" + String(t).toLowerCase().replace(/&/g, "and").replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, ""); };
   OMNI.renderGlossary = function (el, terms, opts) {
     opts = opts || {};
     terms = terms.slice().sort(function (a, b) { return a[0].toLowerCase().localeCompare(b[0].toLowerCase()); });
@@ -158,7 +159,7 @@
         if (letter && t[0].charAt(0).toUpperCase() !== letter) return;
         if (cf && t.certs && t.certs.indexOf(cf) < 0) return;
         shown++;
-        list.appendChild(h("li", null, [
+        list.appendChild(h("li", opts.ids ? { id: OMNI.slug(t[0]) } : null, [
           h("div", null, [h("span", { class: "gt" }, t[0]), t[3] ? h("span", { class: "gx" }, "  (" + t[3] + ")") : null,
             t.m && opts.links ? h("a", { href: OMNI.file(t.m) + "#glossary", style: "float:right;font-size:.85rem" }, "Module " + t.m) : null]),
           h("p", { class: "gp" }, t[1]), h("p", { class: "ge" }, t[2])
@@ -181,6 +182,71 @@
     el.appendChild(h("div", { class: "row" }, [input, certSel]));
     if (letterRow) el.appendChild(letterRow);
     el.appendChild(count); el.appendChild(list); draw();
+    if (opts.ids) {
+      var jump = function () {
+        var id = decodeURIComponent((location.hash || "").slice(1)); if (id.indexOf("g-") !== 0) return;
+        if (!document.getElementById(id)) { input.value = ""; letter = ""; if (certSel) certSel.value = ""; if (letterRow) mark(letterRow.firstChild); draw(); }
+        var li = document.getElementById(id); if (!li) return;
+        OMNI.$$(".glist li.hit").forEach(function (x) { x.classList.remove("hit"); });
+        li.classList.add("hit"); li.scrollIntoView({ block: "center" });
+      };
+      window.addEventListener("hashchange", jump); setTimeout(jump, 0); window.addEventListener("load", function () { setTimeout(jump, 60); });
+    }
+  };
+
+  /* ---------- clickable glossary terms ----------
+     Links the first use of each glossary term (data/glossary-index.js: [term, abbr, plain, slug, module])
+     in a page's lessons to its entry on glossary.html. */
+  OMNI.linkTerms = function (root, here) {
+    var idx = OMNI.glossaryIndex; if (!idx || !idx.length || !root) return;
+    var esc = function (s) { return s.replace(/[.*+?^${}()|[\]\\]/g, "\\$&"); };
+    var caps = function (s) { return (s.match(/[A-Z]/g) || []).length >= 2; };
+    // Everyday words that are glossary terms only in one subject: link them only on their own module's page.
+    var GENERIC = " application layer enterprise certification interrupt word protocol driver register thread ticket port socket broadcast frequency flooding policing baseline availability scope containment bonding pod node region subscription project folder weight parameter training token attention prompt temperature service product value output outcome utility warranty customer user sponsor governance practice incident problem change impact urgency priority management policy standard procedure guideline roadmap culture metric escalation independence finding follow-up amendment stem qualifier distractor interleaving domain workgroup container cache entropy salt hash ";
+    var EXACT = " Matter ";
+    var pats = [];
+    idx.forEach(function (e) {
+      if (GENERIC.indexOf(" " + e[0].toLowerCase() + " ") >= 0 && e[4] !== here) return;
+      var words = [e[0]];
+      if (e[1] && !/\s/.test(e[1]) && caps(e[1]) && e[1].length <= 12) words.push(e[1]);
+      words.forEach(function (w) { if (w.length >= 2) pats.push({ w: w, cs: caps(w) || EXACT.indexOf(" " + w + " ") >= 0, e: e }); });
+    });
+    pats.sort(function (a, b) { return b.w.length - a.w.length; });
+    var bySrc = {}, alts = [];
+    pats.forEach(function (p) { var k = (p.cs ? "C" : "I") + p.w.toLowerCase(); if (bySrc[k]) return; bySrc[k] = p; alts.push(p); });
+    var re = new RegExp("(^|[^A-Za-z0-9-])(" + alts.map(function (p) { return esc(p.w) + (EXACT.indexOf(" " + p.w + " ") >= 0 ? "" : "(?:e?s)?"); }).join("|") + ")(?![A-Za-z0-9]|-[A-Za-z0-9])", "gi");
+    var done = OMNI._linked = OMNI._linked || {};
+    var SKIP = { A: 1, CODE: 1, PRE: 1, KBD: 1, H1: 1, H2: 1, H3: 1, H4: 1, H5: 1, H6: 1, BUTTON: 1, SVG: 1, SCRIPT: 1, STYLE: 1, TEXTAREA: 1, INPUT: 1, SELECT: 1, LABEL: 1, SUMMARY: 1 };
+    function find(m) {
+      var low = m.toLowerCase(), cands = [low, low.replace(/es$/, ""), low.replace(/s$/, "")];
+      for (var i = 0; i < cands.length; i++) {
+        var pc = bySrc["C" + cands[i]], pi = bySrc["I" + cands[i]];
+        if (pc && m.slice(0, pc.w.length) === pc.w && (pc.w !== "Matter" || m === "Matter")) return pc;
+        if (pi) return pi;
+      }
+      return null;
+    }
+    function walk(node) {
+      if (node.nodeType === 1) {
+        var cl = node.classList;
+        if (SKIP[node.nodeName.toUpperCase()] || (cl && (cl.contains("lab-card") || cl.contains("nolink") || cl.contains("kicker") || cl.contains("q")))) return;
+        Array.prototype.slice.call(node.childNodes).forEach(walk); return;
+      }
+      if (node.nodeType !== 3 || !node.nodeValue || node.nodeValue.length < 2) return;
+      var text = node.nodeValue, last = 0, frag = null, mm; re.lastIndex = 0;
+      while ((mm = re.exec(text))) {
+        var word = mm[2], p = find(word), start = mm.index + mm[1].length;
+        if (!p || done[p.e[3]]) continue;
+        done[p.e[3]] = 1;
+        frag = frag || document.createDocumentFragment();
+        frag.appendChild(document.createTextNode(text.slice(last, start)));
+        var a = document.createElement("a");
+        a.className = "gl"; a.href = "glossary.html#" + p.e[3]; a.title = p.e[0] + ": " + p.e[2]; a.textContent = word;
+        frag.appendChild(a); last = start + word.length;
+      }
+      if (frag) { frag.appendChild(document.createTextNode(text.slice(last))); node.parentNode.replaceChild(frag, node); }
+    }
+    walk(root);
   };
 
   /* ---------- quiz / exam engine ----------
@@ -485,6 +551,7 @@
     topbar(); jumpnav();
     if (!n) return;
     OMNI.progress.visit(n);
+    OMNI.$$(".intro .why, section.lesson, section.memory").forEach(function (el) { OMNI.linkTerms(el, n); });
     var d = OMNI.data[n]; if (!d) return;
     var cm = document.getElementById("certmap-badges"); if (cm) OMNI.renderCertMap(cm, d.certmap);
     var g = document.getElementById("glossary-list"); if (g && d.glossary) OMNI.renderGlossary(g, d.glossary);
