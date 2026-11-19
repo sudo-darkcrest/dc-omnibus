@@ -1,0 +1,184 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Datacenter Omnibus</title>
+<meta name="description" content="An interactive study site for IT, networking, data centers, security, service management and audit: 24 modules with labs, quizzes and flashcards for A+, Network+, Security+, ITIL, DCCA, CISM and CISA.">
+<link rel="stylesheet" href="assets/omnibus.css">
+<style>
+  .stats { display: grid; grid-template-columns: repeat(4, 1fr); gap: 10px; margin: 12px 0; }
+  .stats .tile b { display: block; font-size: 1.6rem; }
+  .filters { display: flex; flex-wrap: wrap; gap: 6px; }
+  .filters button[aria-pressed="true"] { background: var(--accent); color: #fff; border-color: var(--accent); }
+  .partname { margin: 18px 0 8px; font-size: 1.1rem; }
+  .mod-card.hidden { display: none; }
+  #search { width: 100%; max-width: 560px; font-size: 1.05rem; }
+  .quick { display: grid; grid-template-columns: repeat(5, 1fr); gap: 10px; }
+  .quick a { text-decoration: none; color: var(--ink); }
+  .quick .tile { height: 100%; }
+  .quick .tile:hover { border-color: var(--accent); }
+  @media (max-width: 700px) { .stats { grid-template-columns: repeat(2, 1fr); } .quick { grid-template-columns: repeat(2, 1fr); } }
+</style>
+</head>
+<body data-page-title="Contents">
+<a class="skip" href="#main">Skip to content</a>
+<div id="topbar"></div>
+<main class="page" id="main">
+
+<section class="intro hero">
+  <div class="kicker">Interactive study guide</div>
+  <h1>Datacenter Omnibus</h1>
+  <p class="why">Welcome! This is a complete, hands-on course in how technology works, from the parts inside a computer to networks, fiber, data centers, security, service management and audit. Every module explains things in plain words first, then adds the exact terms the exams use. You'll find diagrams, interactive labs, quizzes and flashcards on every page.</p>
+  <p>It covers <b>CompTIA A+</b> (220-1201/1202), <b>Network+</b> (N10-009), <b>Security+</b> (SY0-701), <b>ITIL 4 Foundation</b>, <b>EPI DCCA</b>, <b>ISACA CISM</b> and <b>ISACA CISA</b>. New to tech? Start at Module 1 and go in order. Studying for one exam? Pick it below to see just its modules, or open the <a href="module-24.html">Study Hub</a> for a plan.</p>
+  <div class="quick">
+    <a href="module-01.html"><div class="tile"><h4>▶ Start here</h4><p class="figcap">Module 1: The Big Picture</p></div></a>
+    <a href="module-24.html"><div class="tile"><h4>🗓 Study hub</h4><p class="figcap">Plans, crosswalk, roadmap</p></div></a>
+    <a href="practice-exams.html"><div class="tile"><h4>⏱ Practice exams</h4><p class="figcap">Timed, every cert</p></div></a>
+    <a href="flashcards.html"><div class="tile"><h4>🃏 Flashcards</h4><p class="figcap">One Leitner deck</p></div></a>
+    <a href="labs.html"><div class="tile"><h4>🧪 Labs</h4><p class="figcap">Every interactive lab</p></div></a>
+  </div>
+</section>
+
+<section id="find">
+  <h2>Search everything</h2>
+  <label for="search" class="figcap">Search glossary terms, lesson headings and labs across all 24 modules.</label><br>
+  <input type="search" id="search" placeholder="Try: subnet, RAID, Tier III, phishing, ITIL, OTDR…" autocomplete="off">
+  <p class="figcap" id="search-count" aria-live="polite"></p>
+  <ul class="results" id="results"></ul>
+</section>
+
+<section id="progress">
+  <h2>Your progress</h2>
+  <div class="stats" id="stats"></div>
+  <div class="meter" role="img" id="meter" aria-label=""><i></i></div>
+  <p class="figcap">Progress is saved only in this browser on this device. Nothing is sent anywhere. <button type="button" id="reset">Reset progress</button></p>
+</section>
+
+<section id="modules">
+  <h2>Modules</h2>
+  <div class="filters" role="group" aria-label="Filter modules by certification" id="filters"></div>
+  <p class="figcap" id="filter-note" aria-live="polite"></p>
+  <div id="parts"></div>
+</section>
+</main>
+<footer class="foot">Datacenter Omnibus · Original study material. Not affiliated with or endorsed by CompTIA, PeopleCert, AXELOS, EPI, ISACA or any standards body. Exam details change; always verify on the vendor site.</footer>
+
+<script src="data/catalog.js"></script>
+<script src="assets/omnibus.js"></script>
+<script src="data/m01.js"></script>
+<script src="data/m02.js"></script>
+<script src="data/m03.js"></script>
+<script src="data/m04.js"></script>
+<script src="data/m05.js"></script>
+<script src="data/m06.js"></script>
+<script src="data/m07.js"></script>
+<script src="data/m08.js"></script>
+<script src="data/m09.js"></script>
+<script src="data/m10.js"></script>
+<script src="data/m11.js"></script>
+<script src="data/m12.js"></script>
+<script src="data/m13.js"></script>
+<script src="data/m14.js"></script>
+<script src="data/m15.js"></script>
+<script src="data/m16.js"></script>
+<script src="data/m17.js"></script>
+<script src="data/m18.js"></script>
+<script src="data/m19.js"></script>
+<script src="data/m20.js"></script>
+<script src="data/m21.js"></script>
+<script src="data/m22.js"></script>
+<script src="data/m23.js"></script>
+<script src="data/m24.js"></script>
+<script src="data/bank-netplus.js"></script>
+<script src="data/bank-secplus.js"></script>
+<script src="data/bank-dcca.js"></script>
+<script src="data/bank-itil.js"></script>
+<script src="data/bank-cism.js"></script>
+<script src="data/bank-cisa.js"></script>
+<script src="data/bank-aplus.js"></script>
+<script src="data/search-index.js"></script>
+<script src="assets/hub.js"></script>
+<script>
+(function () {
+  var h = OMNI.h, $ = function (id) { return document.getElementById(id); };
+  var prog = OMNI.progress.all(), visited = prog.visited || {}, quiz = prog.quiz || {};
+
+  /* progress */
+  function drawStats() {
+    prog = OMNI.progress.all(); visited = prog.visited || {}; quiz = prog.quiz || {};
+    var nMods = OMNI.catalog.length, v = Object.keys(visited).length, qz = Object.keys(quiz);
+    var passed = qz.filter(function (k) { return quiz[k].score / quiz[k].total >= 0.8; }).length;
+    var avg = qz.length ? Math.round(100 * qz.reduce(function (s, k) { return s + quiz[k].score / quiz[k].total; }, 0) / qz.length) : 0;
+    var labsN = (OMNI.labs || []).length;
+    $("stats").innerHTML = "";
+    [[v + " / " + nMods, "modules opened"], [qz.length, "quizzes taken"], [passed, "quizzes at 80%+"], [qz.length ? avg + "%" : "–", "average quiz score"]].forEach(function (s) {
+      $("stats").appendChild(h("div", { class: "tile" }, [h("b", null, String(s[0])), h("span", { class: "figcap" }, s[1])]));
+    });
+    $("meter").firstChild.style.width = (100 * passed / nMods) + "%";
+    $("meter").setAttribute("aria-label", passed + " of " + nMods + " module quizzes passed at 80% or more");
+    void labsN;
+  }
+  $("reset").onclick = function () { OMNI.store.set("progress", { visited: {}, quiz: {} }); drawStats(); drawCards(); };
+
+  /* module cards */
+  var cert = OMNI.store.get("home:cert", "");
+  function drawCards() {
+    var host = $("parts"); host.innerHTML = ""; var shown = 0;
+    OMNI.parts.forEach(function (pt) {
+      var mods = OMNI.catalog.filter(function (m) { return m.part === pt.n; });
+      var grid = h("div", { class: "mod-grid" });
+      var any = false;
+      mods.forEach(function (m) {
+        var on = !cert || m.certs.indexOf(cert) >= 0;
+        if (on) { any = true; shown++; }
+        var q = quiz[m.n], status = q ? "Quiz best: " + q.score + "/" + q.total : visited[m.n] ? "Opened" : "";
+        grid.appendChild(h("a", { class: "mod-card c-" + m.cat + (on ? "" : " hidden"), href: OMNI.file(m.n) }, [
+          h("span", { class: "mn" }, "Module " + OMNI.pad(m.n)),
+          h("span", { class: "mt" }, m.title),
+          h("span", { class: "ms" }, m.sub),
+          status ? h("span", { class: "done" }, (q && q.score / q.total >= 0.8 ? "✓ " : "") + status) : null,
+          h("span", { class: "mtags" }, m.certs.map(function (c) { return h("span", { class: "tag" }, OMNI.certName(c)); }))
+        ]));
+      });
+      if (any) { host.appendChild(h("h3", { class: "partname" }, "Part " + pt.n + ": " + pt.name)); host.appendChild(grid); }
+    });
+    $("filter-note").textContent = cert ? shown + " modules cover " + OMNI.certName(cert) + ". Modules 1 and 3 are useful background for every cert." : "Showing all " + shown + " modules.";
+  }
+  var fl = $("filters");
+  [""].concat(OMNI.certOrder.filter(function (k) { return k !== "GEN"; })).forEach(function (k) {
+    var b = h("button", { type: "button", "aria-pressed": String(k === cert), onclick: function () {
+      cert = k; OMNI.store.set("home:cert", k); OMNI.$$("button", fl).forEach(function (x) { x.setAttribute("aria-pressed", String(x === b)); }); drawCards();
+    } }, k ? OMNI.certName(k) : "All");
+    fl.appendChild(b);
+  });
+
+  /* search */
+  var gl = OMNI.mergedGlossary();
+  var idx = [];
+  gl.forEach(function (t) { idx.push({ k: "Term", title: t[0] + (t[3] ? " (" + t[3] + ")" : ""), sub: t[1], href: OMNI.file(t.m) + "#glossary", m: t.m, hay: (t[0] + " " + t[3] + " " + t[1] + " " + t[2]).toLowerCase() }); });
+  (OMNI.headings || []).forEach(function (x) { idx.push({ k: "Lesson", title: x[2], sub: OMNI.mod(x[0]).title, href: OMNI.file(x[0]) + "#" + x[1], m: x[0], hay: (x[2]).toLowerCase() }); });
+  (OMNI.labs || []).forEach(function (x) { idx.push({ k: "Lab", title: x[2], sub: x[3], href: OMNI.file(x[0]) + "#" + x[1], m: x[0], hay: (x[2] + " " + x[3]).toLowerCase() }); });
+  var input = $("search"), res = $("results"), cnt = $("search-count"), timer;
+  function search() {
+    var q = input.value.trim().toLowerCase(); res.innerHTML = "";
+    if (q.length < 2) { cnt.textContent = idx.length + " things to search."; return; }
+    var words = q.split(/\s+/);
+    var hits = idx.map(function (x) {
+      if (!words.every(function (w) { return x.hay.indexOf(w) >= 0; })) return null;
+      var tl = x.title.toLowerCase(), score = tl === q ? 0 : tl.indexOf(q) === 0 ? 1 : tl.indexOf(q) >= 0 ? 2 : 3;
+      return { x: x, s: score };
+    }).filter(Boolean).sort(function (a, b) { return a.s - b.s; });
+    cnt.textContent = hits.length ? hits.length + " result(s)" + (hits.length > 40 ? ", showing the first 40" : "") : "No results. Try a shorter word.";
+    hits.slice(0, 40).forEach(function (r) {
+      var x = r.x;
+      res.appendChild(h("li", null, h("a", { href: x.href }, [h("span", { class: "tag" }, x.k), " ", h("b", null, x.title), h("br"), h("small", null, "Module " + x.m + " · " + x.sub)])));
+    });
+  }
+  input.addEventListener("input", function () { clearTimeout(timer); timer = setTimeout(search, 120); });
+
+  drawStats(); drawCards(); search();
+})();
+</script>
+</body>
+</html>
