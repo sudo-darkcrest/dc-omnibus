@@ -1,0 +1,213 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Module 34 · Risk and IT Governance | Datacenter Omnibus</title>
+<meta name="description" content="CRISC and CGEIT from ISACA: risk appetite, tolerance and capacity, inherent and residual risk, risk scenarios, KRIs, KPIs and KCIs, qualitative and quantitative analysis, risk responses, the three lines model, COBIT EDM governance, business cases, portfolio management and benefits realization.">
+<link rel="stylesheet" href="assets/omnibus.css">
+<style>
+  .chip.ok { border-color: var(--good); background: var(--good-soft); }
+  .chip.bad { border-color: var(--bad); background: var(--bad-soft); }
+</style>
+</head>
+<body data-module="34">
+<a class="skip" href="#main">Skip to content</a>
+<div id="topbar"></div>
+<main class="page" id="main">
+
+<section class="intro">
+  <div class="kicker">Part 6 · Service, Governance and Audit · Module 34</div>
+  <h1>Risk and IT Governance</h1>
+  <p class="why"><b>Why this matters.</b> CRISC (Certified in Risk and Information Systems Control) and CGEIT (Certified in the Governance of Enterprise IT) are both on the top-paying list. They are for people who decide which IT (Information Technology) risks are acceptable and whether IT spending is worth it. Even if you never sit them, understanding risk language and governance helps you explain technical problems to managers in terms they act on.</p>
+  <h3>You will be able to</h3>
+  <ul class="outcomes">
+    <li>Describe the CRISC and CGEIT exams and experience requirements.</li>
+    <li>Define risk appetite, tolerance, capacity, inherent and residual risk, and choose good KRIs (Key Risk Indicator).</li>
+    <li>Build risk scenarios and analyse them qualitatively and quantitatively.</li>
+    <li>Select risk responses and controls, and explain the three lines model.</li>
+    <li>Explain governance versus management, COBIT (Control Objectives for Information and Related Technologies) EDM, business cases, portfolio management and benefits realization.</li>
+  </ul>
+  <nav class="jumpnav" id="jumpnav" aria-label="On this page"></nav>
+</section>
+
+<section class="certmap" id="certmap">
+  <h2>Cert map</h2>
+  <div id="certmap-badges"></div>
+</section>
+
+<section class="lesson" id="intro">
+  <h2>1. CRISC and CGEIT: risk and the boardroom</h2>
+  <p>ISACA (Information Systems Audit and Control Association), which offers CISM (Certified Information Security Manager; Module 35) and CISA (Certified Information Systems Auditor; Module 36), also has two certifications on the top-paying list: <b>CRISC</b> (Certified in Risk and Information Systems Control) for IT risk professionals and <b>CGEIT</b> (Certified in the Governance of Enterprise IT) for senior leaders who make sure IT serves the business.</p>
+  <div class="tablewrap"><table><thead><tr><th></th><th>CRISC</th><th>CGEIT</th></tr></thead><tbody>
+    <tr><td>Domains (verify)</td><td>1 Governance 26%; 2 IT Risk Assessment 20%; 3 Risk Response and Reporting 32%; 4 Information Technology and Security 22%</td><td>1 Governance of Enterprise IT 40%; 2 IT Resources 15%; 3 Benefits Realization 26%; 4 Risk Optimization 19%</td></tr>
+    <tr><td>Exam</td><td colspan="2">150 multiple-choice questions, 4 hours, scaled score 200 to 800 with 450 to pass</td></tr>
+    <tr><td>Experience</td><td>3 years of IT risk and control work across at least 2 domains, including Domain 1 or 2</td><td>5 years supporting governance of enterprise IT, including at least 1 year in Domain 1</td></tr>
+    <tr><td>Typical roles</td><td>IT risk manager, control assurance, GRC (Governance, Risk and Compliance) analyst, business continuity</td><td>CIO (Chief Information Officer), IT director, governance or strategy lead, consultant</td></tr>
+  </tbody></table></div>
+  <p>Both need continuing education (20 hours a year, 120 over three years) and adherence to ISACA's code of ethics. As with CISM, you can pass the exam first and apply once you have the experience.</p>
+  <div class="callout tip">Module 32 introduced governance frameworks. This module goes deeper into how risk is measured, owned and reported, and how boards make sure IT spending creates value.</div>
+</section>
+
+<section class="lesson" id="concepts">
+  <h2>2. The language of risk</h2>
+  <div class="tablewrap"><table><thead><tr><th>Term</th><th>Meaning</th></tr></thead><tbody>
+    <tr><td>Risk appetite</td><td>How much risk the organisation is willing to take, overall, to reach its goals (set by the board)</td></tr>
+    <tr><td>Risk tolerance</td><td>The acceptable variation around the appetite for a specific objective (for example "no more than 4 hours of downtime a year")</td></tr>
+    <tr><td>Risk capacity</td><td>The most risk the organisation can absorb before it fails</td></tr>
+    <tr><td>Inherent risk</td><td>Risk before any controls</td></tr>
+    <tr><td>Residual risk</td><td>Risk left after controls; must be within appetite or escalated</td></tr>
+    <tr><td>Risk owner</td><td>The accountable business person who decides how the risk is treated</td></tr>
+    <tr><td>Control owner</td><td>The person responsible for operating a specific control</td></tr>
+    <tr><td>Risk register</td><td>The living list of risks, owners, ratings, responses and status</td></tr>
+  </tbody></table></div>
+  <h3>Indicators</h3>
+  <ul>
+    <li><b>KRI</b> (key risk indicator): an early warning that risk is rising, for example "number of unpatched critical servers".</li>
+    <li><b>KPI</b> (key performance indicator): how well a process is performing, for example "percentage of changes completed on time".</li>
+    <li><b>KCI</b> (key control indicator): whether a control is working, for example "percentage of access reviews completed".</li>
+  </ul>
+  <div class="callout trap"><b>Exam trap.</b> A good KRI is <i>leading</i> (predicts trouble) and has a threshold that triggers action. "Number of breaches last year" is lagging.</div>
+</section>
+
+<section class="lesson" id="assess">
+  <h2>3. Identifying and assessing IT risk</h2>
+  <ol>
+    <li><b>Set the context</b>: business objectives, scope, appetite and the frameworks in use.</li>
+    <li><b>Identify risks</b> using <b>risk scenarios</b>: a threat actor, an event, an asset, a time and the business impact ("A disgruntled admin deletes the customer database, stopping orders for two days").</li>
+    <li><b>Analyse</b> likelihood and impact:
+      <ul>
+        <li><b>Qualitative</b>: high/medium/low ratings plotted on a <b>heat map</b>. Quick and easy to communicate, but subjective.</li>
+        <li><b>Quantitative</b>: money and probabilities (ALE (Annualized Loss Expectancy), Module 20), or models such as <b>FAIR</b> (Factor Analysis of Information Risk) that estimate ranges of loss.</li>
+      </ul></li>
+    <li><b>Evaluate</b> against appetite and prioritise.</li>
+  </ol>
+  <p>Frameworks you'll meet: <b>ISO (International Organization for Standardization) 31000</b> (general risk management principles), <b>ISO/IEC (IEC: International Electrotechnical Commission) 27005</b> (information security risk), <b>NIST (National Institute of Standards and Technology) SP (Special Publication) 800-30</b> (risk assessments) and <b>SP 800-37</b> (Risk Management Framework), <b>COSO ERM</b> (enterprise risk management) and <b>COBIT</b> (Module 32).</p>
+  <p>Inputs include the business impact analysis (Module 20), vulnerability scans, threat intelligence, audit findings, incident history and third-party risk assessments.</p>
+</section>
+
+<section class="lesson" id="respond">
+  <h2>4. Responding to and reporting risk</h2>
+  <ul>
+    <li><b>Responses</b>: <b>accept</b> (formally, by the risk owner, within appetite), <b>mitigate</b> (add controls), <b>transfer / share</b> (insurance, outsourcing with contracts) or <b>avoid</b> (stop the activity).</li>
+    <li><b>Control types by purpose</b>: preventive, detective, corrective, deterrent, compensating and recovery. <b>By nature</b>: administrative (policies, training), technical (encryption, MFA (Multifactor Authentication)) and physical (locks, guards).</li>
+    <li><b>Control design and testing</b>: is the control designed to address the risk, and is it operating effectively? Gather evidence; don't assume.</li>
+    <li><b>Action plans</b> have owners, deadlines and budgets, tracked in the register.</li>
+    <li><b>Reporting</b>: dashboards for executives show top risks, trends, KRIs breaching thresholds and overdue actions. Tailor detail to the audience.</li>
+  </ul>
+  <h3>The three lines model</h3>
+  <div class="tablewrap"><table><thead><tr><th>Line</th><th>Who</th><th>Role</th></tr></thead><tbody>
+    <tr><td>First</td><td>Business and IT operations</td><td>Own and manage risks and run controls day to day</td></tr>
+    <tr><td>Second</td><td>Risk management, compliance, security functions</td><td>Set frameworks, advise, monitor and challenge</td></tr>
+    <tr><td>Third</td><td>Internal audit</td><td>Independent assurance to the board (Module 36)</td></tr>
+  </tbody></table></div>
+  <div class="callout tip">On ISACA exams, the risk practitioner advises and facilitates. The <b>risk owner</b> (business) decides and accepts. If an answer has the risk practitioner accepting risk, it's usually wrong.</div>
+</section>
+
+<section class="lesson" id="gov">
+  <h2>5. Governance of enterprise IT (CGEIT)</h2>
+  <p><b>Governance</b> is the board's job: setting direction and checking results. <b>Management</b> plans, builds, runs and monitors within that direction. COBIT expresses governance as <b>EDM</b>: <b>Evaluate</b> options and needs, <b>Direct</b> through priorities and decisions, and <b>Monitor</b> performance and compliance.</p>
+  <ul>
+    <li><b>Strategic alignment</b>: IT strategy follows from business strategy. An IT steering committee of business and IT leaders prioritises investments.</li>
+    <li><b>Governance framework</b>: decision rights (who decides what), policies, organisational structures, culture and information flows.</li>
+    <li><b>Stakeholders</b>: the board, executives, regulators, customers and staff have different needs; governance balances them.</li>
+    <li><b>Enterprise architecture</b> (for example TOGAF (The Open Group Architecture Framework)) gives a target picture so projects fit together.</li>
+  </ul>
+  <h3>IT resources</h3>
+  <p>Make sure the right people, skills, infrastructure, applications, information and suppliers are available. Decide what to build, buy or outsource, and manage vendors through contracts and performance reviews.</p>
+</section>
+
+<section class="lesson" id="value">
+  <h2>6. Benefits realization and risk optimization</h2>
+  <h3>Getting value from IT spending</h3>
+  <ul>
+    <li><b>Business case</b>: costs, benefits, risks, options and how benefits will be measured. It should be updated and revisited throughout the project, not filed away.</li>
+    <li><b>Portfolio management</b>: treat IT investments like an investment portfolio. Balance new initiatives against keeping the lights on, and stop projects that no longer deliver value.</li>
+    <li><b>Benefits realization</b>: assign benefit owners, track benefits after go-live, and compare with the business case.</li>
+    <li>Measures: return on investment (ROI), net present value (NPV), total cost of ownership (TCO) and the <b>balanced scorecard</b> (financial, customer, internal process, and learning and growth perspectives).</li>
+  </ul>
+  <h3>Risk optimization</h3>
+  <p>For CGEIT, risk isn't only something to minimise. The board should take <i>enough</i> risk to achieve goals, within appetite, and ensure IT risk is part of enterprise risk management rather than a separate silo.</p>
+  <div class="callout analogy"><b>Analogy.</b> CRISC is the ship's navigator, constantly measuring dangers and recommending course changes. CGEIT is the ship's owner and captain deciding where the voyage should go and whether it is worth the fuel.</div>
+</section>
+
+<section class="lesson" id="prep">
+  <h2>7. Preparing for ISACA's management exams</h2>
+  <ul>
+    <li>Think like a <b>business-focused advisor</b>: the best answer supports business objectives, follows a framework, and assigns accountability to the right owner.</li>
+    <li>Look for the <b>first</b> or <b>best</b> step: usually understanding business objectives, context or the risk itself before choosing controls.</li>
+    <li>Use ISACA's official review manual and question database; ISACA's own wording matters.</li>
+    <li>Natural order: CISA or CISM first for many people, then CRISC; CGEIT later as you move into senior leadership.</li>
+  </ul>
+</section>
+
+<section class="lab" id="labs">
+  <h2>Interactive labs</h2>
+
+  <div class="lab-card" id="lab-term" data-lab="Risk Vocabulary Sorter: match statements to appetite, tolerance, inherent risk, residual risk, KRI, KPI and KCI.">
+    <h3>Lab 1: Risk Vocabulary Sorter</h3>
+    <div id="lab-term-host"></div>
+    <div class="caption" id="lab-term-cap" aria-live="polite"></div>
+  </div>
+
+  <div class="lab-card" id="lab-choice" data-lab="Risk Practitioner's Choice: pick the best ISACA-style answer to each risk and governance scenario.">
+    <h3>Lab 2: Risk Practitioner's Choice</h3>
+    <div id="lab-choice-host"></div>
+    <div class="caption" id="lab-choice-cap" aria-live="polite"></div>
+  </div>
+</section>
+
+<section class="glossary" id="glossary">
+  <h2>Key terms</h2>
+  <div id="glossary-list"></div>
+</section>
+
+<section class="memory" id="memory">
+  <h2>Memory aids</h2>
+  <div class="mnemonic">Risk responses: <b>"ATMA"</b>: Accept, Transfer, Mitigate, Avoid.</div>
+  <div class="mnemonic">Indicators: <b>KRI = Risk rising; KPI = Process performing; KCI = Control working</b>.</div>
+  <div class="mnemonic">COBIT governance: <b>EDM = Evaluate, Direct, Monitor</b>.</div>
+  <div class="mnemonic">Three lines: <b>Do it, Watch it, Check it</b>: operations, risk/compliance, internal audit.</div>
+  <div class="tablewrap"><table><thead><tr><th>Exam trap</th><th>Why it is wrong</th></tr></thead><tbody>
+    <tr><td>"The risk practitioner accepts the risk."</td><td>The business risk owner accepts.</td></tr>
+    <tr><td>"Last year's incident count is a good KRI."</td><td>It's lagging; KRIs should be leading.</td></tr>
+    <tr><td>"The business case is done once approved."</td><td>Revisit it throughout and after delivery.</td></tr>
+  </tbody></table></div>
+</section>
+
+<section class="quiz" id="quiz">
+  <h2>Knowledge check</h2>
+  <div id="quiz-area"></div>
+</section>
+
+<section class="flashcards" id="flashcards">
+  <h2>Flashcards</h2>
+  <div id="deck-area"></div>
+</section>
+
+<section class="deeper" id="deeper">
+  <h2>Go deeper (official sources)</h2>
+  <ul>
+    <li><a href="https://www.isaca.org/credentialing/crisc" rel="noopener">ISACA CRISC</a> (exam content outline)</li>
+    <li><a href="https://www.isaca.org/credentialing/cgeit" rel="noopener">ISACA CGEIT</a></li>
+    <li><a href="https://www.iso.org/iso-31000-risk-management.html" rel="noopener">ISO 31000 risk management</a></li>
+    <li><a href="https://csrc.nist.gov/pubs/sp/800/30/r1/final" rel="noopener">NIST SP 800-30 Rev. 1: Guide for Conducting Risk Assessments</a></li>
+    <li><a href="https://www.theiia.org/en/content/position-papers/2020/the-iias-three-lines-model-an-update-of-the-three-lines-of-defense/" rel="noopener">The IIA's Three Lines Model</a></li>
+  </ul>
+</section>
+</main>
+<footer class="foot">Datacenter Omnibus · Original, independent study material. Not affiliated with or endorsed by any certification body, vendor or standards organisation. All trademarks belong to their owners. Exam details change; always verify on the vendor site. <a href="legal.html">Trademarks and copyright</a></footer>
+
+<!-- module-data:start -->
+<script type="application/json" id="module-data">{"module":34,"title":"Risk and IT Governance","glossary":[["CRISC","ISACA's IT risk certification.","Certified in Risk and Information Systems Control.","Certified in Risk and Information Systems Control"],["CGEIT","ISACA's IT governance certification.","Certified in the Governance of Enterprise IT.","Certified in the Governance of Enterprise IT"],["Risk appetite","How much risk the organisation will take.","The broad amount of risk an organisation is willing to accept in pursuit of its objectives.",""],["Risk tolerance","Acceptable wiggle room for one objective.","The acceptable level of variation relative to achieving a specific objective.",""],["Risk capacity","The most risk it can survive.","The maximum risk an organisation can bear without threatening its existence.",""],["Inherent risk","Risk before controls.","The level of risk before any action is taken to alter its likelihood or impact.",""],["Residual risk","Risk left after controls.","The risk remaining after risk responses have been applied.",""],["Risk scenario","A story of how a risk could happen.","A description of a possible event involving a threat, asset, time and business impact.",""],["Key risk indicator","An early warning sign.","A metric that signals increasing risk exposure, with thresholds for action.","KRI"],["Key control indicator","Is the control working?","A metric showing how well a control is operating.","KCI"],["Three lines model","Do it, watch it, check it.","A model dividing risk roles among operational management, oversight functions and internal audit.",""],["FAIR","A way to put money on cyber risk.","Factor Analysis of Information Risk: a quantitative model for estimating loss exposure.","Factor Analysis of Information Risk"],["Benefits realization","Making sure promised value arrives.","Managing and measuring investments so expected business benefits are delivered.",""],["Balanced scorecard","Four views of performance.","A strategic measurement framework using financial, customer, internal process, and learning and growth perspectives.",""]],"quiz":[{"t":"mc","q":"Who should formally accept residual risk?","o":["The vendor","The risk practitioner","The risk owner in the business","The internal auditor"],"a":2,"x":"Practitioners advise.","c":"CRISC","d":"1"},{"t":"mc","q":"What is risk left after controls called?","o":["Residual risk","Risk capacity","Risk appetite","Inherent risk"],"a":0,"x":"Inherent is before controls.","c":"CRISC","d":"2"},{"t":"mc","q":"Which is the BEST key risk indicator?","o":["Number of employees","Number of critical vulnerabilities older than 30 days","Number of meetings held","Last year's revenue"],"a":1,"x":"Leading and actionable.","c":"CRISC","d":"3"},{"t":"mc","q":"Which describes the maximum risk an organisation can bear before failing?","o":["Risk capacity","Risk appetite","Residual risk","Risk tolerance"],"a":0,"x":"Appetite should sit well below capacity.","c":"CRISC","d":"1"},{"t":"mc","q":"Which analysis method uses high/medium/low ratings on a heat map?","o":["Monte Carlo only","FAIR only","Quantitative","Qualitative"],"a":3,"x":"Quick but subjective.","c":"CRISC","d":"2"},{"t":"mc","q":"Outsourcing a process with strong contract clauses and insurance is an example of what?","o":["Risk acceptance","Risk avoidance","Ignoring risk","Risk transfer (sharing)"],"a":3,"x":"Accountability can't be fully transferred, though.","c":"CRISC","d":"3"},{"t":"mc","q":"Which line provides independent assurance to the board?","o":["First line: operations","Third line: internal audit","External vendors","Second line: risk management"],"a":1,"x":"Independence is key.","c":"CRISC","d":"1"},{"t":"mc","q":"In COBIT, what does EDM stand for?","o":["Evaluate, Direct, Monitor","Execute, Deliver, Measure","Enable, Defend, Mitigate","Engineer, Deploy, Maintain"],"a":0,"x":"Governance objectives.","c":"CGEIT","d":"1"},{"t":"mc","q":"Who is primarily responsible for governance of enterprise IT?","o":["The help desk","Individual developers","Vendors","The board and executive management"],"a":3,"x":"Management executes within that direction.","c":"CGEIT","d":"1"},{"t":"mc","q":"A project's business case no longer shows positive value. What is the BEST action?","o":["Continue as planned","Add more scope","Re-evaluate and consider stopping or changing the project","Remove the business case"],"a":2,"x":"Portfolio governance.","c":"CGEIT","d":"3"},{"t":"mc","q":"Which tool measures performance across financial, customer, internal process and learning perspectives?","o":["Risk register","Network diagram","Balanced scorecard","Gantt chart"],"a":2,"x":"Links IT to business goals.","c":"CGEIT","d":"3"},{"t":"ms","q":"Which TWO are good characteristics of a KRI? (Choose two.)","o":["It only measures past losses","It is leading (predicts trouble)","It has a threshold that triggers action","It is impossible to measure"],"a":[1,2],"x":"KRIs should be measurable, timely and actionable.","c":"CRISC","d":"3"}],"flashcards":[["CRISC domains","Governance, risk assessment, response and reporting, IT and security."],["CGEIT domains","Governance of EIT, IT resources, benefits realization, risk optimization."],["Appetite vs tolerance vs capacity","Overall willingness / acceptable variation / maximum survivable."],["Inherent vs residual","Before controls vs after controls."],["KRI / KPI / KCI","Risk rising / process performing / control working."],["Risk scenario","Threat + event + asset + time + impact."],["Risk responses","Accept, transfer, mitigate, avoid."],["Risk owner","Business person accountable for a risk; accepts it."],["Three lines","Operations, oversight functions, internal audit."],["COBIT EDM","Evaluate, Direct, Monitor (governance)."],["Business case","Living document revisited through and after delivery."],["Balanced scorecard","Financial, customer, internal process, learning and growth."]]}</script>
+<!-- module-data:end -->
+<script src="data/catalog.js"></script>
+<script src="assets/omnibus.js"></script>
+<script src="assets/labkit.js"></script>
+<script src="data/m34.js"></script>
+<script>
+  OMNI.sorter("lab-term-host", {"zones": [["app", "Appetite"], ["tol", "Tolerance"], ["inh", "Inherent risk"], ["res", "Residual risk"], ["kri", "KRI"], ["kpi", "KPI"], ["kci", "KCI"]], "items": [["Risk appetite set by the board", "app", "Overall willingness to take risk."], ["Max 4 hours downtime per year for orders", "tol", "Tolerance for a specific objective."], ["Risk before controls", "inh", "Inherent risk."], ["Risk left after controls", "res", "Residual risk."], ["Unpatched critical servers count", "kri", "Leading indicator of rising risk."], ["Percentage of access reviews completed", "kci", "Indicator that a control is working."], ["Changes completed on time", "kpi", "Process performance."], ["Phishing click rate trending up", "kri", "Early warning."]], "intro": "Drag each statement to the right term.", "done": "All matched. These definitions appear on every ISACA risk exam.", "cap": "lab-term-cap"});
+  OMNI.trainer("lab-choice-host", {"label": "scenarios", "intro": "Pick the answer a business-focused risk advisor would choose.", "items": [{"s": "<p>A business manager wants to launch a service that exceeds the agreed risk tolerance. What should the risk practitioner do FIRST?</p>", "o": ["Escalate to the risk owner and senior management with an analysis of the risk", "Block the launch personally", "Accept the risk on the business's behalf", "Ignore it"], "a": 0, "x": "Advise and escalate; the owner decides."}, {"s": "<p>Who should formally accept a residual risk for the payroll system?</p>", "o": ["The business owner of the payroll process", "The IT risk analyst", "The external auditor", "The help desk"], "a": 0, "x": "Risk ownership sits with the business."}, {"s": "<p>Which is the BEST key risk indicator for ransomware exposure?</p>", "o": ["Percentage of critical systems missing security patches beyond policy", "Number of ransomware attacks last year", "Total IT budget", "Number of printers"], "a": 0, "x": "Leading, measurable, with a threshold."}, {"s": "<p>A control has been designed well, but nobody has checked it actually runs. What next?</p>", "o": ["Test its operating effectiveness and gather evidence", "Mark it effective", "Remove it", "Buy insurance"], "a": 0, "x": "Design and operation are tested separately."}, {"s": "<p>A project's expected benefits have disappeared because the market changed. What should governance do?</p>", "o": ["Re-evaluate the business case and consider stopping or changing the project", "Finish it anyway", "Increase its budget", "Hide it from the board"], "a": 0, "x": "Portfolio management stops projects that no longer deliver value."}, {"s": "<p>The board wants to know whether IT is supporting business goals. Which tool helps present this from several angles?</p>", "o": ["A balanced scorecard", "A packet capture", "A firewall log", "An org chart"], "a": 0, "x": "Financial, customer, internal process and learning perspectives."}, {"s": "<p>Which function provides independent assurance to the board?</p>", "o": ["Internal audit (third line)", "IT operations (first line)", "Risk management (second line)", "Vendors"], "a": 0, "x": "Independence is the third line's defining feature."}, {"s": "<p>An organization buys cyber insurance for data breach costs. What response is this?</p>", "o": ["Transfer (share)", "Avoid", "Accept", "Mitigate"], "a": 0, "x": "Financial impact is shifted to the insurer."}], "cap": "lab-choice-cap"});
+</script>
+</body>
+</html>

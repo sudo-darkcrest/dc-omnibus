@@ -3,42 +3,18 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Module 25 · Running IT as a Service: ITIL 4 | Datacenter Omnibus</title>
-<meta name="description" content="ITIL 4 Foundation: key concepts, the four dimensions, the service value system, seven guiding principles, the service value chain, continual improvement and the practices, with five labs and a 40-question practice exam. Includes a note on ITIL (Version 5), launched February 2026.">
+<title>Module 25 · Amazon Web Services: AWS Cloud, Core Services and Certifications | Datacenter Omnibus</title>
+<meta name="description" content="Amazon Web Services explained: Regions and Availability Zones, core services, the shared responsibility model, IAM, pricing and support, the Well-Architected Framework, and the AWS certification path from Cloud Practitioner to Professional.">
 <link rel="stylesheet" href="assets/omnibus.css">
 <style>
-  .svs-part { cursor: pointer; }
-  .svs-part:focus { outline: none; }
-  .svs-part:focus rect, .svs-part:focus circle, .svs-part:hover rect, .svs-part:hover circle { stroke-width: 4; }
-  .svs-part.on rect, .svs-part.on circle { stroke: var(--accent); stroke-width: 4; }
-  .info { border: 1px solid var(--line); border-radius: 10px; padding: 12px; background: var(--surface); margin-top: 8px; }
-  .info h4 { margin: 0 0 6px; }
-  .acts { display: flex; flex-wrap: wrap; gap: 6px; }
-  .stream { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; min-height: 46px; border: 2px dashed var(--line); border-radius: 10px; padding: 8px; }
-  .stream .step { background: var(--gov-soft); border: 1px solid var(--gov); border-radius: 8px; padding: 4px 10px; font-weight: 600; }
-  .stream .arrow { color: var(--ink-2); }
-  .seg { display: flex; flex-wrap: wrap; gap: 4px; }
-  .seg button.on { background: var(--accent); color: #fff; border-color: var(--accent); }
-  .sort-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
-  @media (max-width: 700px) { .sort-grid { grid-template-columns: 1fr 1fr; } }
-  .sort-grid .dropzone { min-height: 110px; }
   .chip.ok { border-color: var(--good); background: var(--good-soft); }
   .chip.bad { border-color: var(--bad); background: var(--bad-soft); }
-  .story { border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; margin: 8px 0; background: var(--surface); }
-  .story select { max-width: 100%; margin-top: 6px; }
-  .story.ok { border-color: var(--good); background: var(--good-soft); }
-  .story.bad { border-color: var(--bad); background: var(--bad-soft); }
-  .story .fb { font-size: .9rem; margin-top: 4px; }
-  .call { border: 1px solid var(--line); border-radius: 10px; padding: 12px; background: var(--surface); }
-  .call .who { font-weight: 700; }
-  .call .msg { font-style: italic; margin: 6px 0; }
-  .pmx td, .pmx th { text-align: center; padding: 6px 8px; }
-  .pmx td.hit { outline: 3px solid var(--accent); font-weight: 800; }
-  .p1 { background: var(--bad-soft); } .p2 { background: var(--warn-soft); } .p3 { background: var(--accent-soft); } .p4 { background: var(--good-soft); }
-  .qlist { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0; }
-  .qlist span { border: 1px solid var(--line); border-radius: 999px; padding: 2px 10px; font-size: .85rem; }
-  .qlist span.now { border-color: var(--accent); background: var(--accent-soft); font-weight: 700; }
-  .qlist span.done { opacity: .6; text-decoration: line-through; }
+  .az-cell { cursor: pointer; }
+  .az-cell:focus { outline: 3px solid var(--accent); }
+  .bars .bar { display: grid; grid-template-columns: 170px 1fr 90px; gap: 8px; align-items: center; margin: 6px 0; font-size: .92rem; }
+  .bars .bar i { display: block; height: 18px; border-radius: 4px; background: var(--accent); }
+  .bars .bar.best i { background: var(--good); }
+  @media (max-width: 700px) { .bars .bar { grid-template-columns: 1fr; gap: 2px; } }
 </style>
 </head>
 <body data-module="25">
@@ -47,26 +23,16 @@
 <main class="page" id="main">
 
 <section class="intro">
-  <div class="kicker">Part 6 · Service, Governance and Audit · Module 25</div>
-  <h1>Running IT as a Service: ITIL 4</h1>
-  <div class="callout" style="border-left-color:var(--warn);background:var(--warn-soft)" id="itil5"><b>Version note (November 2026).</b> PeopleCert launched <b>ITIL (Information Technology Infrastructure Library; Version 5)</b> and its new ITIL Foundation (Version 5) exam in <b>February 2026</b>. ITIL 4 Foundation is still offered alongside it during a transition period; PeopleCert has said the two run in parallel for at least 12 months, and some training providers quote an ITIL 4 sunset at the end of 2027 (verify on peoplecert.org before you book). What changed in Version 5, according to published summaries (verify):
-    <ul>
-      <li>ITIL is reframed from "IT (Information Technology) service management" to <b>digital product and service management</b>.</li>
-      <li>The six-activity <b>service value chain</b> is replaced by an eight-activity <b>Product and Service Lifecycle Model</b>: Discover, Design, Build, Transition, Deliver, Support, Operate, Evolve.</li>
-      <li>The <b>seven guiding principles</b> and the <b>four dimensions</b> are kept, and all 34 practices remain (practice groups are reorganized).</li>
-      <li>New guidance on <b>AI (Artificial Intelligence)</b> (governance, ethics, risk), experience (user, customer, employee) and observability.</li>
-      <li>Foundation exam format looks the same: 40 multiple-choice questions, 60 minutes, 65% to pass. ITIL 5 certificates carry a three-year renewal; existing ITIL 4 Foundation holders do not need to retake, and an optional short "Foundation Bridge" exam exists.</li>
-    </ul>
-    This module teaches the <b>ITIL 4 Foundation</b> syllabus, because most of it (concepts, principles, dimensions, practices) carries straight into Version 5. Where Version 5 differs, the lessons say so.</div>
-  <p class="why"><b>Why this matters.</b> Technology only creates value when people can rely on it. ITIL is the most widely used framework for running IT as a set of services: taking requests, fixing outages, finding root causes, making safe changes and improving over time. Service desks, operations teams, data centers and cloud providers all use its language, and many job ads ask for ITIL 4 Foundation. It also links directly to Security+ change management and incident response, and to CISA (Certified Information Systems Auditor)'s IT operations domain.</p>
+  <div class="kicker">Part 5 · Cloud, Data Center and AI · Module 25</div>
+  <h1>Amazon Web Services: AWS Cloud, Core Services and Certifications</h1>
+  <p class="why"><b>Why this matters.</b> AWS is the largest public cloud. Many of the data centers in Module 22 exist to run clouds like it, and many IT (Information Technology) jobs now expect you to know its basic building blocks. Module 23 explained cloud in general; this module makes it concrete with AWS's own services, pricing and certifications, starting with the beginner-friendly <b>AWS Certified Cloud Practitioner</b>.</p>
   <h3>You will be able to</h3>
   <ul class="outcomes">
-    <li>Define service, product, service offering, value, outcomes, costs, risks, utility and warranty, and the roles of customer, user and sponsor.</li>
-    <li>Explain the four dimensions of service management and the PESTLE (Political, Economic, Social, Technological, Legal, Environmental) factors that affect them.</li>
-    <li>Describe the service value system and the six activities of the service value chain, and combine them into value streams.</li>
-    <li>Apply the seven guiding principles to real situations.</li>
-    <li>Recall the purpose of 15 ITIL practices and explain the seven practices examined in detail.</li>
-    <li>Relate ITIL to DevOps, Agile, Lean and ISO/IEC (ISO: International Organization for Standardization; IEC: International Electrotechnical Commission) 20000, and know what changed in ITIL (Version 5).</li>
+    <li>Explain Regions, Availability Zones and edge locations, and design for high availability.</li>
+    <li>Match common needs to core AWS services (compute, storage, databases, networking, security, monitoring).</li>
+    <li>Split security duties between AWS and the customer, and apply IAM (Identity and Access Management) best practices.</li>
+    <li>Choose the cheapest pricing option for a workload and name AWS's cost tools and support plans.</li>
+    <li>Plan an AWS certification path and know the Cloud Practitioner exam format.</li>
   </ul>
   <nav class="jumpnav" id="jumpnav" aria-label="On this page"></nav>
 </section>
@@ -76,277 +42,171 @@
   <div id="certmap-badges"></div>
 </section>
 
-<section class="lesson" id="concepts">
-  <h2>1. Key concepts of service management</h2>
-  <div class="callout analogy">A restaurant is a service. You want the outcome "a nice dinner without cooking." The restaurant removes costs (buying ingredients, washing up) and risks (burning the food) but imposes others (the bill, the wait). The menu is the service offering. The food is the utility; the clean kitchen, short wait and safe food are the warranty.</div>
-  <div class="tablewrap"><table>
-    <thead><tr><th>Term</th><th>Plain meaning</th><th>ITIL 4 definition (paraphrased)</th></tr></thead>
-    <tbody>
-      <tr><td><b>Service</b></td><td>Useful work done for you</td><td>A means of enabling value co-creation by facilitating outcomes customers want, without them having to manage specific costs and risks</td></tr>
-      <tr><td><b>Product</b></td><td>The package of resources behind it</td><td>A configuration of an organization's resources designed to offer value for a consumer</td></tr>
-      <tr><td><b>Service offering</b></td><td>What exactly you get</td><td>A formal description of one or more services for a target consumer group: <b>goods</b> (ownership transfers, e.g., a phone), <b>access to resources</b> (e.g., a mailbox) and <b>service actions</b> (e.g., user support)</td></tr>
-      <tr><td><b>Value</b></td><td>How useful it is to you</td><td>The perceived benefits, usefulness and importance of something; it is <b>co-created</b> by provider and consumer</td></tr>
-      <tr><td><b>Output</b> vs <b>outcome</b></td><td>What we hand over vs what you achieve</td><td>Output: a tangible or intangible deliverable of an activity. Outcome: a result for a stakeholder enabled by one or more outputs</td></tr>
-      <tr><td><b>Cost</b></td><td>Money spent</td><td>Costs <b>removed</b> from the consumer (staff, hardware they no longer need) and costs <b>imposed</b> (the price, training)</td></tr>
-      <tr><td><b>Risk</b></td><td>Things that might go wrong</td><td>A possible event that could cause harm or loss, or make it harder to achieve objectives; services remove some risks and impose others</td></tr>
-      <tr><td><b>Utility</b></td><td>Fit for purpose: <i>what</i> it does</td><td>The functionality offered by a product or service to meet a particular need</td></tr>
-      <tr><td><b>Warranty</b></td><td>Fit for use: <i>how well</i></td><td>Assurance that a product or service will meet agreed requirements: availability, capacity, security, continuity</td></tr>
-    </tbody></table></div>
-  <h3 id="roles">Roles and relationships</h3>
-  <div class="tablewrap"><table>
-    <thead><tr><th>Role</th><th>Does what</th><th>Example (payroll service)</th></tr></thead>
-    <tbody>
-      <tr><td><b>Customer</b></td><td>Defines requirements and takes responsibility for outcomes</td><td>HR (Human Resources) manager</td></tr>
-      <tr><td><b>User</b></td><td>Uses the service</td><td>Payroll clerks</td></tr>
-      <tr><td><b>Sponsor</b></td><td>Authorizes budget</td><td>Finance director</td></tr>
-    </tbody></table></div>
-  <p>A <b>service relationship</b> is a cooperation between a provider and a consumer. It includes <b>service provision</b> (the provider managing resources and delivering), <b>service consumption</b> (the consumer using and paying) and <b>service relationship management</b> (joint activities to keep co-creating value). Organizations are often both providers and consumers in a chain of relationships.</p>
-  <div class="callout trap">"The customer and the user are always different people." Not true: they are roles, and one person can be customer, user and sponsor at once.</div>
-</section>
-
-<section class="lesson" id="dimensions">
-  <h2>2. The four dimensions of service management</h2>
-  <figure class="fig"><svg id="dim-fig" viewBox="0 0 760 300" width="760" role="img" aria-label="Four dimensions around a central value, surrounded by PESTLE factors"></svg>
-  <figcaption class="figcap">Every service, and the whole service value system, must consider all four dimensions. External PESTLE factors push on all of them.</figcaption></figure>
-  <div class="tablewrap"><table>
-    <thead><tr><th>Dimension</th><th>Covers</th><th>Ask yourself</th></tr></thead>
-    <tbody>
-      <tr><td><b>Organizations and people</b></td><td>Structure, roles, culture, skills, staffing, leadership, communication</td><td>Do people know their roles, and does the culture support trust and collaboration?</td></tr>
-      <tr><td><b>Information and technology</b></td><td>The information and knowledge needed, and the technology (tools, AI, cloud, databases) that supports services</td><td>What data does this service manage, and which tools do we need?</td></tr>
-      <tr><td><b>Partners and suppliers</b></td><td>Relationships with other organizations involved in design, delivery and support; sourcing strategy</td><td>What do we buy, outsource or integrate, and why?</td></tr>
-      <tr><td><b>Value streams and processes</b></td><td>How parts of the organization work together: workflows, activities, controls</td><td>What are the steps, and where is the waste?</td></tr>
-    </tbody></table></div>
-  <p><b>PESTLE</b> factors constrain and influence all four dimensions: <b>P</b>olitical, <b>E</b>conomic, <b>S</b>ocial, <b>T</b>echnological, <b>L</b>egal, <b>E</b>nvironmental. A new privacy law (legal) can change the information you can store, the suppliers you can use and the processes you follow.</p>
-</section>
-
-<section class="lesson" id="svs">
-  <h2>3. The service value system (SVS)</h2>
-  <p>The SVS shows how all of an organization's components and activities work together to turn <b>opportunity and demand</b> into <b>value</b>. Its five components are the <b>guiding principles</b>, <b>governance</b>, the <b>service value chain</b>, <b>practices</b> and <b>continual improvement</b>. The SVS aims to break down <b>silos</b> and make the organization flexible. Explore it in Lab 1.</p>
-  <ul>
-    <li><b>Opportunity</b>: options to add value for stakeholders. <b>Demand</b>: the need or desire for products and services.</li>
-    <li><b>Governance</b>: the means by which an organization is directed and controlled. The governing body <b>evaluates</b>, <b>directs</b> and <b>monitors</b>.</li>
-    <li><b>Practices</b>: sets of organizational resources for performing work. ITIL 4 has 34 practices in three groups: general management (14), service management (17) and technical management (3).</li>
-    <li><b>Continual improvement</b> happens at every level, from strategy down to individual tasks.</li>
-  </ul>
-</section>
-
-<section class="lesson" id="principles">
-  <h2>4. The seven guiding principles</h2>
-  <p>A guiding principle is a recommendation that guides an organization <b>in all circumstances</b>. Consider all seven together and decide which matter most in each situation; they interact.</p>
-  <div class="tablewrap"><table>
-    <thead><tr><th>Principle</th><th>In one line</th><th>Example</th></tr></thead>
-    <tbody>
-      <tr><td><b>Focus on value</b></td><td>Everything should link to value for someone; know your consumer</td><td>Before adding a new report, ask which decision it helps and who reads it</td></tr>
-      <tr><td><b>Start where you are</b></td><td>Don't start from scratch; observe the current state directly and reuse what works</td><td>Walk the service desk floor before redesigning its process</td></tr>
-      <tr><td><b>Progress iteratively with feedback</b></td><td>Small, manageable steps with feedback loops</td><td>Roll out self-service to one department, gather feedback, then expand</td></tr>
-      <tr><td><b>Collaborate and promote visibility</b></td><td>Work across boundaries; make work and progress visible</td><td>A shared Kanban board shows every team where requests are stuck</td></tr>
-      <tr><td><b>Think and work holistically</b></td><td>No service or part stands alone; see the whole system</td><td>Check how a database change affects monitoring, support and suppliers</td></tr>
-      <tr><td><b>Keep it simple and practical</b></td><td>Use the minimum steps; remove what adds no value; outcome-based thinking</td><td>Drop an approval step that nobody ever rejects</td></tr>
-      <tr><td><b>Optimize and automate</b></td><td>Optimize first, then automate; use technology to free people for valuable work</td><td>Simplify the onboarding workflow, then automate account creation</td></tr>
-    </tbody></table></div>
-  <div class="callout tip">In ITIL (Version 5) the seven principles keep the same names (verify).</div>
-</section>
-
-<section class="lesson" id="valuechain">
-  <h2>5. The service value chain</h2>
-  <figure class="fig"><svg id="vc-fig" viewBox="0 0 760 260" width="760" role="img" aria-label="Six service value chain activities between demand and value"></svg>
-  <figcaption class="figcap">Six activities, any order, used as often as needed. A specific path for one scenario is a value stream.</figcaption></figure>
-  <div class="tablewrap"><table>
-    <thead><tr><th>Activity</th><th>Purpose</th></tr></thead>
-    <tbody>
-      <tr><td><b>Plan</b></td><td>Shared understanding of the vision, current status and improvement direction for all four dimensions and all products and services</td></tr>
-      <tr><td><b>Improve</b></td><td>Continual improvement of products, services and practices across all value chain activities and the four dimensions</td></tr>
-      <tr><td><b>Engage</b></td><td>Good understanding of stakeholder needs, transparency, continual engagement and good relationships with all stakeholders (the main interface with users and customers)</td></tr>
-      <tr><td><b>Design and transition</b></td><td>Products and services continually meet stakeholder expectations for quality, costs and time to market</td></tr>
-      <tr><td><b>Obtain/build</b></td><td>Service components are available when and where needed and meet agreed specifications</td></tr>
-      <tr><td><b>Deliver and support</b></td><td>Services are delivered and supported according to agreed specifications and stakeholder expectations</td></tr>
-    </tbody></table></div>
-  <div class="callout detail">Value chain activities use different combinations of practices. Incident management, for example, contributes to engage, deliver and support, improve, and more. In ITIL (Version 5) the value chain is replaced by the eight-activity Product and Service Lifecycle Model (Discover, Design, Build, Transition, Deliver, Support, Operate, Evolve; verify).</div>
-</section>
-
-<section class="lesson" id="ci">
-  <h2>6. The continual improvement model</h2>
-  <figure class="fig"><svg id="ci-fig" viewBox="0 0 760 185" width="760" role="img" aria-label="Seven steps of the continual improvement model"></svg></figure>
-  <ol>
-    <li><b>What is the vision?</b> Understand the high-level business direction.</li>
-    <li><b>Where are we now?</b> Objective baseline assessment.</li>
-    <li><b>Where do we want to be?</b> Measurable targets (gap analysis).</li>
-    <li><b>How do we get there?</b> A plan, often as iterations.</li>
-    <li><b>Take action.</b> Carry out the plan.</li>
-    <li><b>Did we get there?</b> Check results against targets.</li>
-    <li><b>How do we keep the momentum going?</b> Embed the change, celebrate success, start the next loop.</li>
-  </ol>
-  <p>Ideas are recorded and prioritized in a <b>continual improvement register (CIR)</b>. Continual improvement is everyone's responsibility.</p>
-</section>
-
-<section class="lesson" id="practices">
-  <h2>7. ITIL practices</h2>
-  <h3 id="purposes">Purpose of the 15 practices you must recognize</h3>
-  <div class="tablewrap"><table>
-    <thead><tr><th>Practice</th><th>Purpose (paraphrased)</th></tr></thead>
-    <tbody>
-      <tr><td>Information security management</td><td>Protect the information needed by the organization to conduct its business</td></tr>
-      <tr><td>Relationship management</td><td>Establish and nurture links with stakeholders at strategic and tactical levels</td></tr>
-      <tr><td>Supplier management</td><td>Ensure suppliers and their performance are managed to support seamless products and services</td></tr>
-      <tr><td>Availability management</td><td>Ensure services deliver agreed levels of availability</td></tr>
-      <tr><td>IT asset management</td><td>Plan and manage the full lifecycle of all IT assets: maximize value, control costs, manage risks, support decisions</td></tr>
-      <tr><td>Monitoring and event management</td><td>Systematically observe services and components and record and report selected changes of state (events)</td></tr>
-      <tr><td>Release management</td><td>Make new and changed services and features available for use</td></tr>
-      <tr><td>Service configuration management</td><td>Ensure accurate, reliable information about services and the configuration items (CIs) that support them is available when needed</td></tr>
-      <tr><td>Deployment management</td><td>Move new or changed hardware, software, documentation, processes or other components to live (or other) environments</td></tr>
-      <tr><td>Continual improvement *</td><td>Align practices and services with changing business needs through ongoing improvement</td></tr>
-      <tr><td>Change enablement *</td><td>Maximize the number of successful changes by ensuring risks are assessed, changes are authorized and the change schedule is managed</td></tr>
-      <tr><td>Incident management *</td><td>Minimize the negative impact of incidents by restoring normal service operation as quickly as possible</td></tr>
-      <tr><td>Problem management *</td><td>Reduce the likelihood and impact of incidents by identifying actual and potential causes and managing workarounds and known errors</td></tr>
-      <tr><td>Service request management *</td><td>Support the agreed quality of a service by handling all pre-defined, user-initiated service requests effectively and user-friendly</td></tr>
-      <tr><td>Service desk *</td><td>Capture demand for incident resolution and service requests; the entry point and single point of contact for all users</td></tr>
-      <tr><td>Service level management *</td><td>Set clear business-based targets for service levels, and ensure delivery is properly assessed, monitored and managed against them</td></tr>
-    </tbody></table></div>
-  <p class="figcap">* The seven practices examined in detail. The current syllabus lists 15 practices by purpose; continual improvement appears in both lists (verify the current syllabus).</p>
-
-  <h3 id="incident">Incident management</h3>
-  <ul>
-    <li>An <b>incident</b> is an unplanned interruption to a service or a reduction in its quality. Restore service fast; finding the cause is problem management's job.</li>
-    <li>Log every incident, <b>prioritize</b> by agreed classification (impact × urgency), keep users informed and update the record with symptoms, impact, CIs and actions.</li>
-    <li><b>Major incidents</b> get a separate procedure; security incidents may too. Some incidents are resolved by users (self-help), the service desk, support teams, suppliers or temporary teams. <b>Swarming</b> brings experts together.</li>
-  </ul>
-  <h3 id="problem">Problem management</h3>
-  <ul>
-    <li>A <b>problem</b> is a cause, or potential cause, of one or more incidents. A <b>known error</b> is a problem that has been analyzed but not resolved. A <b>workaround</b> reduces impact until a permanent fix.</li>
-    <li>Three phases: <b>problem identification</b> (trend analysis, recurring incidents, information from suppliers and developers), <b>problem control</b> (analysis using all four dimensions, documenting workarounds) and <b>error control</b> (managing known errors, assessing permanent solutions).</li>
-    <li>Permanent fixes usually go through <b>change enablement</b>.</li>
-  </ul>
-  <h3 id="change">Change enablement</h3>
-  <ul>
-    <li>A <b>change</b> is adding, modifying or removing anything that could directly or indirectly affect services.</li>
-    <li><b>Standard</b>: low risk, pre-authorized, well understood, often a service request. <b>Normal</b>: scheduled, assessed and authorized by the right <b>change authority</b>. <b>Emergency</b>: implemented as soon as possible (e.g., a critical patch), possibly with a separate authority and less documentation, but still assessed.</li>
-    <li>ITIL 4 <b>decentralizes</b> change authority: a <b>CAB (Change Advisory Board)</b> is just one option; peer review in a DevOps pipeline can authorize low-risk changes. The <b>change schedule</b> helps plan, communicate and avoid conflicts.</li>
-  </ul>
-  <h3 id="request">Service request management</h3>
-  <ul>
-    <li>A <b>service request</b> is a user request that starts an agreed, normal service action: information, access, a laptop, a password reset, feedback or a complaint.</li>
-    <li>Standardize and automate as much as possible; set clear policies on approvals; set realistic, agreed fulfilment times; some requests trigger a standard change.</li>
-  </ul>
-  <h3 id="desk">Service desk</h3>
-  <ul>
-    <li>The <b>single point of contact</b> for all users. Channels: phone, chat, email, portals, walk-in, social media. Can be centralized, <b>virtual</b> or follow-the-sun.</li>
-    <li>Staff need empathy, communication, customer-service skills, incident analysis and prioritization, and a practical understanding of the business, not only technical depth.</li>
-  </ul>
-  <h3 id="slm">Service level management</h3>
-  <ul>
-    <li>Sets business-based targets and makes sure delivery is measured against them. An <b>SLA (Service Level Agreement)</b> should relate to a defined service, describe outcomes (not just operational metrics) and be written in clear language.</li>
-    <li>Beware the <b>watermelon SLA</b>: green metrics, red customers. Gather customer engagement, feedback, surveys and business metrics.</li>
-    <li>Related terms: <b>OLA (Operational Level Agreement)</b> (between internal teams) and <b>UC</b> (underpinning contract with an external supplier). These come from earlier ITIL versions and are still common at work.</li>
-  </ul>
-  <div class="callout trap">"Incident management finds the root cause." No: incident management restores service; problem management finds and manages causes. A help desk that "fixes it by rebooting" closes the incident; the problem stays open until the cause is known.</div>
-</section>
-
-<section class="lesson" id="fit">
-  <h2>8. How ITIL fits with DevOps, Agile, Lean and ISO/IEC 20000</h2>
-  <div class="tablewrap"><table>
-    <thead><tr><th>Approach</th><th>How it relates to ITIL 4</th></tr></thead>
-    <tbody>
-      <tr><td><b>Agile</b></td><td>Iterative delivery and fast feedback; matches "progress iteratively with feedback" and value streams</td></tr>
-      <tr><td><b>DevOps</b></td><td>Joins development and operations with automation (CI/CD); ITIL 4 supports this with decentralized change authority and "optimize and automate"</td></tr>
-      <tr><td><b>Lean</b></td><td>Removing waste and improving flow; matches value stream mapping and "keep it simple and practical"</td></tr>
-      <tr><td><b>ISO/IEC 20000-1</b></td><td>The international standard for a service management system (SMS); organizations can be <b>certified</b> against it. ITIL is guidance, not a certifiable standard for organizations (people get ITIL certificates; organizations get ISO/IEC 20000 certification)</td></tr>
-    </tbody></table></div>
-  <h3 id="exam">The ITIL 4 Foundation exam</h3>
-  <div class="tablewrap"><table>
-    <thead><tr><th>Item</th><th>Detail (verify on peoplecert.org)</th></tr></thead>
-    <tbody>
-      <tr><td>Questions</td><td>40 multiple choice, one correct answer each</td></tr>
-      <tr><td>Time</td><td>60 minutes (extra time for non-native speakers in some cases)</td></tr>
-      <tr><td>Pass mark</td><td>65% (26 of 40)</td></tr>
-      <tr><td>Format</td><td>Closed book, online proctored or at a test center; no prerequisites</td></tr>
-      <tr><td>Weighting</td><td>Roughly 42.5% on the seven practices in detail (17 questions); the rest on concepts, principles, dimensions, SVS, value chain and practice purposes</td></tr>
-    </tbody></table></div>
-</section>
-
-<section class="lesson" id="itil-scenario">
-  <h2>9. ITIL in action: one incident, many practices</h2>
-  <p>ITIL practices make the most sense when you see them work together. Follow one email outage through an organisation that uses ITIL 4.</p>
-  <ol>
-    <li><b>Monitoring and event management</b> detects that the email service is failing health checks at 10:02 and raises an alert.</li>
-    <li><b>Service desk</b> starts receiving calls and links them to one major incident, keeping users updated through the status page.</li>
-    <li><b>Incident management</b> aims to restore service as fast as possible. Engineers fail over to the backup server at 10:40. Service is restored; the incident is resolved.</li>
-    <li><b>Problem management</b> then asks why it happened. The root cause: a certificate expired because nobody owned its renewal. A known error is recorded with the workaround.</li>
-    <li><b>Change enablement</b> approves a change to add automatic certificate renewal and expiry alerts.</li>
-    <li><b>Service configuration management</b> updates the configuration record so certificates appear as configuration items with owners.</li>
-    <li><b>Service level management</b> reports the 38-minute outage against the agreed availability target.</li>
-    <li><b>Continual improvement</b> adds "inventory all certificates" to the improvement register.</li>
-  </ol>
-  <div class="callout trap">Exam favourite: incident management restores service quickly; problem management finds and removes the underlying cause. They are different practices with different goals.</div>
-</section>
-
-<section class="lesson" id="itil-terms">
-  <h2>10. Words ITIL uses in a specific way</h2>
-  <p>ITIL Foundation questions often hinge on precise definitions. These are the ones people mix up most.</p>
-  <div class="tablewrap"><table><thead><tr><th>Term</th><th>ITIL meaning</th></tr></thead><tbody>
-    <tr><td>Service</td><td>A means of enabling value co-creation by facilitating outcomes customers want, without the customer managing specific costs and risks</td></tr>
-    <tr><td>Output vs outcome</td><td>An output is something produced (a report); an outcome is the result for a stakeholder (a better decision)</td></tr>
-    <tr><td>Utility vs warranty</td><td>Utility: what the service does (fit for purpose). Warranty: how well it does it (fit for use: availability, capacity, security, continuity)</td></tr>
-    <tr><td>Incident</td><td>An unplanned interruption or reduction in quality of a service</td></tr>
-    <tr><td>Problem</td><td>A cause, or potential cause, of one or more incidents</td></tr>
-    <tr><td>Known error</td><td>A problem that has been analysed but not yet resolved</td></tr>
-    <tr><td>Change</td><td>Adding, modifying or removing anything that could directly or indirectly affect services</td></tr>
-    <tr><td>Service request</td><td>A user request that is a normal part of service delivery (a password reset, a new laptop)</td></tr>
+<section class="lesson" id="infra">
+  <h2>1. What AWS is and where it lives</h2>
+  <p>Amazon Web Services launched in 2006 with S3 storage and EC2 (Elastic Compute Cloud) virtual servers. Today it offers more than 200 services that you rent by the second, hour or request, instead of buying hardware. You click (or call an API (Application Programming Interface)) and minutes later you have servers, databases or AI (Artificial Intelligence) models running in Amazon's data centers.</p>
+  <div class="callout analogy">AWS is like a utility company for computing. You don't build a power station to switch on a light; you plug in and pay for what you use. AWS does the same for servers, storage and networks.</div>
+  <figure class="fig"><svg id="geo-fig" viewBox="0 0 760 250" width="760" role="img" aria-label="An AWS Region contains three or more Availability Zones, each with one or more data centers, linked by low-latency fiber. Edge locations sit near users outside the Region."></svg>
+    <figcaption>A Region holds three or more Availability Zones (AZs) a few kilometres to tens of kilometres apart, joined by fast private fiber. Edge locations sit close to users to cache content (CloudFront) and answer DNS (Domain Name System; Route 53).</figcaption></figure>
+  <div class="tablewrap"><table><thead><tr><th>Term</th><th>Plain meaning</th><th>Why it matters</th></tr></thead><tbody>
+    <tr><td><b>Region</b></td><td>A geographic area, e.g., us-east-1 (N. Virginia), eu-west-2 (London)</td><td>Pick for latency to users, data residency laws, price and which services are offered</td></tr>
+    <tr><td><b>Availability Zone</b></td><td>One or more data centers with their own power and cooling</td><td>Run in 2+ AZs so one failure doesn't take you down (high availability)</td></tr>
+    <tr><td><b>Edge location</b></td><td>A small site near users</td><td>Faster websites and DNS; also used by Shield for DDoS protection</td></tr>
+    <tr><td><b>Local Zone / Wavelength / Outposts</b></td><td>AWS closer to a city, inside 5G networks, or in your own building</td><td>Very low latency or on-premises requirements</td></tr>
   </tbody></table></div>
-  <div class="callout tip">A password reset is a service request, not an incident: nothing is broken; the user needs a standard thing done.</div>
+  <div class="callout trap">"Multi-AZ" and "multi-Region" are not the same. Multi-AZ protects against a data center failure (high availability). Multi-Region protects against a whole Region failing or serves users worldwide (disaster recovery and latency), at higher cost and complexity.</div>
+</section>
+
+<section class="lesson" id="services">
+  <h2>2. Core services you should know</h2>
+  <p>Don't try to learn all 200+. The Cloud Practitioner exam and most jobs focus on these:</p>
+  <div class="tablewrap"><table><thead><tr><th>Category</th><th>Service</th><th>What it does</th></tr></thead><tbody>
+    <tr><td rowspan="3"><b>Compute</b></td><td>EC2</td><td>Virtual servers ("instances") you size and manage</td></tr>
+    <tr><td>Lambda</td><td>Runs your code on events; no servers to manage (serverless)</td></tr>
+    <tr><td>ECS (Elastic Container Service), EKS (Elastic Kubernetes Service), Fargate</td><td>Containers (Module 23): AWS's own orchestrator, managed Kubernetes, serverless containers</td></tr>
+    <tr><td rowspan="3"><b>Storage</b></td><td>S3</td><td>Object storage in "buckets"; 11 nines (99.999999999%) durability</td></tr>
+    <tr><td>EBS (Elastic Block Store) / EFS (Encrypting File System)</td><td>A virtual disk for one instance / a shared NFS file system</td></tr>
+    <tr><td>S3 Glacier, Storage Gateway, Snow Family</td><td>Cheap archive / link on-premises storage to AWS / ship data on physical devices</td></tr>
+    <tr><td rowspan="2"><b>Databases</b></td><td>RDS (Relational Database Service), Aurora</td><td>Managed relational (SQL) databases; AWS patches and backs them up</td></tr>
+    <tr><td>DynamoDB, Redshift, ElastiCache</td><td>Serverless NoSQL / data warehouse / in-memory cache</td></tr>
+    <tr><td rowspan="2"><b>Networking</b></td><td>VPC (Virtual Private Cloud)</td><td>Your private network: subnets, route tables, internet and NAT (Network Address Translation) gateways</td></tr>
+    <tr><td>Route 53, CloudFront, ELB (Elastic Load Balancing), Direct Connect</td><td>DNS / CDN / load balancers / private fiber link to your data center</td></tr>
+    <tr><td rowspan="2"><b>Security</b></td><td>IAM, KMS (Key Management Service), Secrets Manager</td><td>Who can do what / encryption keys / store passwords and API keys</td></tr>
+    <tr><td>Shield, WAF (Web Application Firewall), GuardDuty, Inspector, Macie, Security Hub</td><td>DDoS / web firewall / threat detection / vulnerability scans / find sensitive data / one dashboard</td></tr>
+    <tr><td rowspan="2"><b>Management</b></td><td>CloudWatch, CloudTrail, Config</td><td>Metrics and alarms / audit log of API calls / configuration history and rules</td></tr>
+    <tr><td>Organizations, Control Tower, Trusted Advisor</td><td>Many accounts and policies / multi-account setup / best-practice checks</td></tr>
+    <tr><td><b>AI</b></td><td>Bedrock, SageMaker AI, Rekognition, Comprehend, Transcribe, Q</td><td>Foundation models by API / build and train models / images / text / speech / AI assistant (see Module 30)</td></tr>
+  </tbody></table></div>
+  <div class="callout tip">A quick way to remember the monitoring trio: <b>CloudTrail</b> = who did it (trail of footprints), <b>CloudWatch</b> = how is it doing (watching gauges), <b>Config</b> = how is it set up (configuration).</div>
+</section>
+
+<section class="lesson" id="security">
+  <h2>3. Security: shared responsibility and IAM</h2>
+  <p>AWS secures the <b>cloud itself</b>: buildings, hardware, the hypervisor and its global network. You secure <b>what you put in the cloud</b>: your data, who can log in, operating system patches on EC2, firewall rules and encryption settings. The more managed the service, the more AWS does (see the Shared Responsibility Slider in Module 23).</p>
+  <div class="grid3">
+    <div class="tile"><h4>Lock the root user</h4><p>Turn on MFA (Multifactor Authentication), create no access keys for it, and use it only for the handful of tasks that need it.</p></div>
+    <div class="tile"><h4>Least privilege</h4><p>Give each user, group or role only the permissions it needs. Use <b>IAM roles</b> for applications instead of storing keys in code.</p></div>
+    <div class="tile"><h4>Watch everything</h4><p>Turn on CloudTrail in every Region, use GuardDuty for threats and Security Hub for one view of findings.</p></div>
+  </div>
+  <div class="callout detail">IAM policies are JSON (JavaScript Object Notation) documents that allow or deny actions (e.g., <code>s3:GetObject</code>) on resources. An explicit <b>deny always wins</b>. Service control policies (SCPs) in AWS Organizations set the maximum permissions for whole accounts.</div>
+</section>
+
+<section class="lesson" id="pricing">
+  <h2>4. Pricing, cost tools and support</h2>
+  <p>Cloud turns big up-front purchases (CapEx) into pay-as-you-go running costs (OpEx). You pay mainly for <b>compute time, storage used and data transferred out</b> of AWS. Data coming <i>in</i> is generally free.</p>
+  <div class="tablewrap"><table><thead><tr><th>EC2 option</th><th>Discount vs On-Demand (approx., verify)</th><th>Best for</th></tr></thead><tbody>
+    <tr><td>On-Demand</td><td>None</td><td>Short, unpredictable workloads; testing</td></tr>
+    <tr><td>Savings Plans (1 or 3 years)</td><td>Up to ~66% (Compute) or ~72% (EC2 Instance)</td><td>Steady use; flexible across instance types (Compute plan also covers Lambda and Fargate)</td></tr>
+    <tr><td>Reserved Instances (1 or 3 years)</td><td>Up to ~72%</td><td>Steady use of a specific instance type; also used for RDS</td></tr>
+    <tr><td>Spot Instances</td><td>Up to ~90%</td><td>Jobs that can be interrupted (2-minute warning)</td></tr>
+    <tr><td>Dedicated Hosts / Instances</td><td>Costs more</td><td>Licensing that's tied to physical servers, or compliance</td></tr>
+  </tbody></table></div>
+  <div class="grid3">
+    <div class="tile"><h4>Before you build</h4><p><b>AWS Pricing Calculator</b> estimates monthly cost.</p></div>
+    <div class="tile"><h4>While it runs</h4><p><b>Cost Explorer</b> shows what you spent; <b>Budgets</b> alerts you; <b>Cost and Usage Report</b> has every line item; cost allocation <b>tags</b> split costs by team.</p></div>
+    <div class="tile"><h4>Free Tier</h4><p>Some services are always free up to limits, others for 12 months or as short trials. Free Tier terms changed in 2025, so verify current details.</p></div>
+  </div>
+  <p><b>Support plans</b> (verify current names and prices): <b>Basic</b> (free, billing and account help, no technical cases), <b>Developer</b> (business-hours email), <b>Business</b> (24/7 phone and chat, full Trusted Advisor checks), <b>Enterprise On-Ramp</b> and <b>Enterprise</b> (a Technical Account Manager, fastest response for critical issues).</p>
+</section>
+
+<section class="lesson" id="wellarch">
+  <h2>5. Designing well: the Well-Architected Framework</h2>
+  <div class="tablewrap"><table><thead><tr><th>Pillar</th><th>Ask yourself</th></tr></thead><tbody>
+    <tr><td>Operational excellence</td><td>Can we deploy, monitor and improve safely? (infrastructure as code, small changes)</td></tr>
+    <tr><td>Security</td><td>Least privilege, encryption, traceability, protect data in transit and at rest</td></tr>
+    <tr><td>Reliability</td><td>Does it recover from failure? (Multi-AZ, backups, Auto Scaling)</td></tr>
+    <tr><td>Performance efficiency</td><td>Right resource types, serverless where it fits, go global in minutes</td></tr>
+    <tr><td>Cost optimization</td><td>Pay only for what you need; right-size; use the right pricing model</td></tr>
+    <tr><td>Sustainability</td><td>Minimise energy and resources used (added in 2021)</td></tr>
+  </tbody></table></div>
+  <p>The <b>AWS Cloud Adoption Framework (CAF)</b> helps whole organizations move to the cloud through six perspectives: Business, People, Governance, Platform, Security and Operations. Migration strategies are often called the "7 Rs": retire, retain, rehost (lift and shift), relocate, repurchase, replatform and refactor.</p>
+</section>
+
+<section class="lesson" id="certs">
+  <h2>6. AWS certifications</h2>
+  <p>AWS certifications are valid for <b>3 years</b>. Exams are taken at Pearson VUE test centers or online. Levels and current exams (verify codes and prices on the AWS site, as AWS renames and replaces exams regularly):</p>
+  <div class="tablewrap"><table><thead><tr><th>Level</th><th>Certification</th><th>Code</th><th>For</th></tr></thead><tbody>
+    <tr><td rowspan="2"><b>Foundational</b> (~$100)</td><td>Cloud Practitioner</td><td>CLF-C02</td><td>Anyone: cloud concepts, core services, security, billing</td></tr>
+    <tr><td>AI Practitioner</td><td>AIF-C01</td><td>Anyone: AI, machine learning and generative AI on AWS (Module 30)</td></tr>
+    <tr><td rowspan="5"><b>Associate</b> (~$150)</td><td>Solutions Architect – Associate</td><td>SAA-C03</td><td>Designing resilient, secure, cost-effective systems (the most popular AWS cert)</td></tr>
+    <tr><td>Developer – Associate</td><td>DVA-C02</td><td>Building and deploying applications on AWS</td></tr>
+    <tr><td>CloudOps Engineer – Associate (formerly SysOps Administrator)</td><td>SOA-C03 (verify)</td><td>Running, monitoring and automating AWS operations</td></tr>
+    <tr><td>Data Engineer – Associate</td><td>DEA-C01</td><td>Data pipelines and analytics</td></tr>
+    <tr><td>Machine Learning Engineer – Associate</td><td>MLA-C01</td><td>Building and running ML models with SageMaker AI</td></tr>
+    <tr><td rowspan="3"><b>Professional</b> (~$300)</td><td>Solutions Architect – Professional</td><td>SAP-C02</td><td>Complex, multi-account enterprise designs</td></tr>
+    <tr><td>DevOps Engineer – Professional</td><td>DOP-C02</td><td>CI/CD (Continuous Integration / Continuous Delivery), automation and operations at scale</td></tr>
+    <tr><td>Generative AI Developer – Professional (verify)</td><td>AIP-C01 (verify)</td><td>Building production generative AI applications</td></tr>
+    <tr><td rowspan="2"><b>Specialty</b> (~$300)</td><td>Security – Specialty</td><td>SCS-C02/C03 (verify)</td><td>Cloud security engineering (pairs well with Module 21)</td></tr>
+    <tr><td>Advanced Networking – Specialty</td><td>ANS-C01</td><td>Hybrid and complex AWS networking</td></tr>
+  </tbody></table></div>
+  <div class="callout tip"><b>Cloud Practitioner exam:</b> 65 questions (50 scored, 15 unscored), 90 minutes, pass mark 700 out of 1000, multiple choice and multiple response. No prerequisites. Try the Practice Exam Engine in the <a href="module-38.html#lab-exam">Study Hub</a> or the <a href="practice-exams.html">Practice exams page</a> (choose "AWS Cloud Practitioner").</div>
+</section>
+
+<section class="lesson" id="first-app">
+  <h2>7. Your first architecture on AWS</h2>
+  <p>Here is a classic beginner design that appears in many AWS (Amazon Web Services) exam questions: a highly available web application.</p>
+  <ol>
+    <li><b>Network:</b> one VPC (Virtual Private Cloud) spread across two Availability Zones. Each zone has a public subnet (for the load balancer) and a private subnet (for servers and the database).</li>
+    <li><b>Entry point:</b> Route 53 DNS points the domain to an Application Load Balancer in the public subnets. CloudFront can cache images and pages close to users.</li>
+    <li><b>Compute:</b> an Auto Scaling group runs EC2 instances in both private subnets. It adds instances when CPU (Central Processing Unit) is high and replaces any that fail health checks.</li>
+    <li><b>Database:</b> Amazon RDS with Multi-AZ, so a standby copy in the second zone takes over automatically if the primary fails.</li>
+    <li><b>Files:</b> user uploads go to an S3 bucket, with public access blocked.</li>
+    <li><b>Security:</b> security groups allow only the load balancer to talk to the servers, and only the servers to talk to the database. IAM roles give servers permissions without stored passwords.</li>
+    <li><b>Operations:</b> CloudWatch watches metrics and alarms; CloudTrail records every API call for audit.</li>
+  </ol>
+  <p>If one whole Availability Zone fails, the load balancer sends traffic to the healthy zone, Auto Scaling launches replacement servers there, and RDS fails over. Users notice a brief blip at most.</p>
+  <div class="callout tip">Exam pattern: "highly available" means multiple Availability Zones. "Disaster recovery from a regional outage" means multiple Regions.</div>
+</section>
+
+<section class="lesson" id="cost-control">
+  <h2>8. Keeping an AWS bill under control</h2>
+  <p>Cloud bills surprise people because nothing stops a forgotten resource from running. These habits prevent most shocks.</p>
+  <ul>
+    <li><b>Set a budget alarm on day one</b> with AWS Budgets, so you get an email at, say, 50%, 80% and 100% of your monthly limit.</li>
+    <li><b>Tag everything</b> with an owner and project, so Cost Explorer can show who spends what.</li>
+    <li><b>Turn off what isn't used:</b> development servers at night and weekends, unattached storage volumes, old snapshots, idle load balancers.</li>
+    <li><b>Right-size:</b> if a server's CPU never goes above 10%, pick a smaller instance type.</li>
+    <li><b>Commit for steady workloads:</b> Savings Plans or Reserved Instances for always-on servers can cut costs significantly.</li>
+    <li><b>Use Spot for flexible work:</b> batch jobs that can be interrupted run far cheaper.</li>
+    <li><b>Mind data transfer:</b> data coming in is usually free, but data going out to the internet and between Regions costs money.</li>
+  </ul>
+  <div class="callout trap">The AWS Free Tier has limits and time windows. A lab left running after those limits can produce a real bill, so delete lab resources when you finish.</div>
 </section>
 
 <section class="lab" id="labs">
   <h2>Interactive labs</h2>
 
-  <div class="lab-card" id="lab-svs" data-lab="Service Value System Explorer: click each part of the SVS diagram to see its plain meaning, exam definition and an example.">
-    <h3>Lab 1: Service Value System Explorer</h3>
-    <p class="figcap">Click (or Tab to and press Enter on) any part of the diagram.</p>
-    <div class="stage"><svg id="svs-svg" viewBox="0 0 760 330" width="760" role="group" aria-label="Clickable service value system diagram"></svg></div>
-    <div class="info" id="svs-info">Choose a part of the SVS.</div>
-    <div class="caption" id="svs-cap" aria-live="polite"></div>
+  <div class="lab-card" id="lab-az" data-lab="Survive the Outage: place EC2 instances across AWS Availability Zones and Regions, then fail an AZ or a whole Region to see if your site stays up and what it costs.">
+    <h3>Lab 1: Survive the Outage</h3>
+    <p class="figcap">Click AZ boxes to add or remove a web server (about $70/month each, example price). Then press a failure button and see whether your site stays online.</p>
+    <div class="stage"><svg id="az-svg" viewBox="0 0 760 230" width="760" role="group" aria-label="Two AWS Regions with three Availability Zones each. Each AZ is a button that toggles a server."></svg></div>
+    <div class="row"><button type="button" id="az-fail1">Fail us-east-1a</button><button type="button" id="az-fail2">Fail all of us-east-1</button><button type="button" id="az-heal">Restore everything</button><button type="button" id="az-reset">Clear servers</button></div>
+    <div class="caption" id="az-cap" aria-live="polite"></div>
   </div>
 
-  <div class="lab-card" id="lab-vc" data-lab="Value Chain Builder: build a value stream for a scenario from the six value chain activities and get feedback on the order and alternatives.">
-    <h3>Lab 2: Value Chain Builder</h3>
-    <div class="row"><span>Scenario:</span><div class="seg" id="vc-scen"></div></div>
-    <p id="vc-desc"></p>
-    <p class="figcap">Click activities in the order your value stream uses them. You can use an activity more than once.</p>
-    <div class="acts" id="vc-acts"></div>
-    <div class="stream" id="vc-stream" aria-label="Your value stream" aria-live="polite"></div>
-    <div class="row"><button type="button" id="vc-undo">Undo last</button><button type="button" id="vc-clear">Clear</button><button type="button" class="primary" id="vc-check">Check my value stream</button><button type="button" id="vc-show">Show a model answer</button></div>
-    <div class="caption" id="vc-cap" aria-live="polite"></div>
+  <div class="lab-card" id="lab-svc" data-lab="AWS Service Sorter: sort AWS services into compute, storage, database, networking, security and management.">
+    <h3>Lab 2: AWS Service Sorter</h3>
+    <div id="svc-host"></div>
+    <div class="caption" id="svc-cap" aria-live="polite"></div>
   </div>
 
-  <div class="lab-card" id="lab-sort" data-lab="Incident vs Problem vs Change Sorter: sort scenario cards into incident management, problem management, change enablement or service request management.">
-    <h3>Lab 3: Incident vs Problem vs Change Sorter</h3>
-    <p class="figcap">Drag each card (or click it, then click a box) to the practice that should handle it.</p>
-    <div class="dropzone" id="so-bank" aria-label="Unsorted cards"><span class="zone-title">Unsorted</span></div>
-    <div class="sort-grid" id="so-zones" style="margin-top:8px"></div>
-    <div class="row"><button type="button" class="primary" id="so-check">Check</button><button type="button" id="so-reset">Reset</button></div>
-    <div class="caption" id="so-cap" aria-live="polite"></div>
-  </div>
-
-  <div class="lab-card" id="lab-gp" data-lab="Guiding Principle Matcher: match short workplace stories to the ITIL 4 guiding principle each one shows.">
-    <h3>Lab 4: Guiding Principle Matcher</h3>
-    <div id="gp-list"></div>
-    <div class="row"><button type="button" class="primary" id="gp-check">Check answers</button><button type="button" id="gp-reset">Reset</button></div>
-    <div class="caption" id="gp-cap" aria-live="polite"></div>
-  </div>
-
-  <div class="lab-card" id="lab-desk" data-lab="Service Desk Simulator: work a queue of calls; log, categorize, prioritize with an impact × urgency matrix, then escalate or resolve.">
-    <h3>Lab 5: Service Desk Simulator</h3>
-    <div class="qlist" id="sd-queue" aria-label="Call queue"></div>
-    <div class="call" id="sd-call"></div>
-    <div class="controls">
-      <label class="field"><span>1. Log as</span><select id="sd-type"><option value="">Choose…</option><option value="incident">Incident</option><option value="request">Service request</option></select></label>
-      <label class="field"><span>2. Category</span><select id="sd-cat"><option value="">Choose…</option><option>Email and collaboration</option><option>Network and connectivity</option><option>Accounts and access</option><option>Hardware</option><option>Business application</option><option>Security</option></select></label>
-      <label class="field"><span>3. Impact</span><select id="sd-imp"><option value="">Choose…</option><option value="0">High (many users or critical business)</option><option value="1">Medium (a team or department)</option><option value="2">Low (one user)</option></select></label>
-      <label class="field"><span>4. Urgency</span><select id="sd-urg"><option value="">Choose…</option><option value="0">High (work stopped or deadline now)</option><option value="1">Medium (degraded, can wait hours)</option><option value="2">Low (can wait days)</option></select></label>
-      <label class="field"><span>5. Action</span><select id="sd-act"><option value="">Choose…</option><option value="first">Resolve or fulfil at first line (service desk)</option><option value="escalate">Escalate to a second-line or specialist team</option><option value="major">Declare a major incident</option><option value="security">Hand to the security incident procedure</option></select></label>
+  <div class="lab-card" id="lab-price" data-lab="EC2 Pricing Picker: set hours per day and whether a job can be interrupted, and compare On-Demand, Savings Plan, Reserved and Spot costs.">
+    <h3>Lab 3: EC2 Pricing Picker</h3>
+    <div class="row">
+      <label>Instance <select id="pr-type"><option value="0.0416">t3.medium (~$0.042/h)</option><option value="0.096" selected>m5.large (~$0.096/h)</option><option value="0.34">c5.2xlarge (~$0.34/h)</option><option value="3.06">p3.2xlarge GPU (~$3.06/h)</option></select></label>
+      <label>Hours per day <input type="range" id="pr-hours" min="1" max="24" value="24"> <b id="pr-hv">24</b></label>
+      <label><input type="checkbox" id="pr-int"> Can be interrupted</label>
+      <label><input type="checkbox" id="pr-steady" checked> Needed for 1+ years</label>
     </div>
-    <div class="tablewrap"><table class="pmx" id="sd-mx" aria-label="Priority matrix"></table></div>
-    <div class="row"><button type="button" class="primary" id="sd-submit">Submit ticket</button><button type="button" id="sd-next">Next call →</button><button type="button" id="sd-restart">Restart queue</button><b id="sd-score"></b></div>
-    <div class="caption" id="sd-cap" aria-live="polite"></div>
+    <div class="bars" id="pr-bars"></div>
+    <p class="figcap">Example us-east-1 Linux prices and typical discounts for teaching only. Real prices vary by Region and change; use the AWS Pricing Calculator.</p>
+    <div class="caption" id="pr-cap" aria-live="polite"></div>
+  </div>
+
+  <div class="lab-card" id="lab-shared" data-lab="Who Secures It? Sort security tasks into AWS's job or the customer's job under the shared responsibility model.">
+    <h3>Lab 4: Who Secures It?</h3>
+    <div id="sh-host"></div>
+    <div class="caption" id="sh-cap" aria-live="polite"></div>
   </div>
 </section>
 
@@ -357,39 +217,30 @@
 
 <section class="memory" id="memory">
   <h2>Memory aids</h2>
-  <div class="mnemonic">Guiding principles: "<b>F</b>ive <b>S</b>mart <b>P</b>eople <b>C</b>an <b>T</b>hink <b>K</b>indly <b>O</b>ften": Focus on value, Start where you are, Progress iteratively, Collaborate and promote visibility, Think holistically, Keep it simple, Optimize and automate.</div>
-  <div class="mnemonic">Value chain: "<b>P</b>lease <b>I</b>mprove <b>E</b>very <b>D</b>esign, <b>O</b>btain and <b>D</b>eliver": Plan, Improve, Engage, Design and transition, Obtain/build, Deliver and support.</div>
-  <div class="mnemonic">Four dimensions: "<b>O</b>ur <b>I</b>T <b>P</b>artners <b>V</b>alue": Organizations and people, Information and technology, Partners and suppliers, Value streams and processes.</div>
-  <div class="mnemonic">Roles: <b>C</b>ustomer <b>C</b>hooses (requirements), <b>U</b>ser <b>U</b>ses, <b>S</b>ponsor <b>S</b>pends.</div>
+  <div class="mnemonic"><b>Trail, Watch, Config</b>: Trail = who did it, Watch = how it's doing, Config = how it's set up.</div>
+  <div class="mnemonic">Spot = "spare seats on a plane": very cheap, but you can be bumped.</div>
+  <div class="mnemonic">Well-Architected pillars: <b>"O, Snap! Really Pretty Cheap Stuff"</b>: Operational excellence, Security, Reliability, Performance efficiency, Cost optimization, Sustainability.</div>
   <div class="tablewrap"><table><thead><tr><th>Number</th><th>Meaning</th></tr></thead><tbody>
-    <tr><td>4</td><td>Dimensions of service management</td></tr>
-    <tr><td>5</td><td>SVS components (principles, governance, value chain, practices, continual improvement)</td></tr>
-    <tr><td>6</td><td>Value chain activities (Version 5: 8 lifecycle activities, verify)</td></tr>
-    <tr><td>7</td><td>Guiding principles; continual improvement model steps; practices in detail</td></tr>
-    <tr><td>3</td><td>Change types; problem management phases; practice groups</td></tr>
-    <tr><td>15 / 34</td><td>Practices by purpose on the exam / practices in ITIL 4</td></tr>
-    <tr><td>40 · 60 · 65%</td><td>Foundation questions · minutes · pass mark (26/40) (verify)</td></tr>
+    <tr><td>3+</td><td>Availability Zones per Region (most Regions)</td></tr>
+    <tr><td>11 nines</td><td>S3 durability (99.999999999%)</td></tr>
+    <tr><td>~90%</td><td>Maximum Spot discount</td></tr>
+    <tr><td>2 minutes</td><td>Spot interruption warning</td></tr>
+    <tr><td>1 or 3 years</td><td>Savings Plan and Reserved Instance terms</td></tr>
+    <tr><td>65 · 90 min · 700</td><td>Cloud Practitioner questions, time, pass mark</td></tr>
+    <tr><td>3 years</td><td>AWS certification validity</td></tr>
   </tbody></table></div>
   <div class="tablewrap"><table><thead><tr><th>Exam trap</th><th>Why it is wrong</th></tr></thead><tbody>
-    <tr><td>"Value is delivered by the provider to the consumer."</td><td>ITIL 4 says value is <b>co-created</b>.</td></tr>
-    <tr><td>"A standard change needs CAB approval."</td><td>It is pre-authorized; only the procedure was assessed.</td></tr>
-    <tr><td>"Release and deployment are the same."</td><td>Deployment moves components; release makes them available for use.</td></tr>
-    <tr><td>"The value chain has a fixed order."</td><td>Activities combine in any order into value streams.</td></tr>
-    <tr><td>"Optimize and automate means automate first."</td><td>Optimize first; automating waste speeds up waste.</td></tr>
-    <tr><td>"A password reset is an incident."</td><td>It's a service request: a normal, agreed service action.</td></tr>
-    <tr><td>"Utility = available, warranty = features."</td><td>Reversed: utility is what it does, warranty is how well.</td></tr>
+    <tr><td>"AWS patches my EC2 operating system."</td><td>On EC2 you patch the OS. AWS patches the OS only on managed services such as RDS.</td></tr>
+    <tr><td>"CloudWatch shows who deleted the bucket."</td><td>That's CloudTrail. CloudWatch is metrics, logs and alarms.</td></tr>
+    <tr><td>"Use Spot for the production database."</td><td>Spot can be reclaimed at any time. Use On-Demand, Reserved or Savings Plans for steady, critical work.</td></tr>
+    <tr><td>"Security groups can deny traffic."</td><td>Security groups only allow; NACLs can allow and deny.</td></tr>
+    <tr><td>"IAM is per Region."</td><td>IAM is global.</td></tr>
   </tbody></table></div>
 </section>
 
 <section class="quiz" id="quiz">
   <h2>Knowledge check</h2>
   <div id="quiz-area"></div>
-</section>
-
-<section class="quiz" id="readiness">
-  <h2>ITIL 4 Foundation-style practice exam (40 questions)</h2>
-  <p>Forty multiple-choice questions, one correct answer each, like the real exam. Questions are drawn by syllabus area in roughly the real proportions (about 17 of 40 on the seven practices in detail). Turn on the timer for the real 60-minute pace. Aim for 65% (26 of 40) or better, the published pass mark (verify on peoplecert.org).</p>
-  <div id="readiness-area"></div>
 </section>
 
 <section class="flashcards" id="flashcards">
@@ -400,10 +251,12 @@
 <section class="deeper" id="deeper">
   <h2>Go deeper (official sources)</h2>
   <ul>
-    <li><a href="https://www.peoplecert.org/browse-certifications/it-governance-and-service-management/ITIL-1" rel="noopener">PeopleCert: ITIL certifications (ITIL 4 and ITIL Version 5)</a></li>
-    <li><a href="https://www.peoplecert.org/" rel="noopener">PeopleCert: exam booking, syllabus and sample papers</a></li>
-    <li><a href="https://www.iso.org/standard/70636.html" rel="noopener">ISO/IEC 20000-1:2018 Service management system requirements</a></li>
-    <li><a href="https://www.comptia.org/certifications/security" rel="noopener">CompTIA Security+ (change management objectives)</a></li>
+    <li><a href="https://aws.amazon.com/certification/certified-cloud-practitioner/" rel="noopener">AWS Certified Cloud Practitioner</a> (exam guide and sample questions)</li>
+    <li><a href="https://aws.amazon.com/certification/" rel="noopener">All AWS certifications</a> · <a href="https://skillbuilder.aws/" rel="noopener">AWS Skill Builder (free courses)</a></li>
+    <li><a href="https://aws.amazon.com/about-aws/global-infrastructure/" rel="noopener">AWS global infrastructure</a></li>
+    <li><a href="https://aws.amazon.com/compliance/shared-responsibility-model/" rel="noopener">AWS shared responsibility model</a></li>
+    <li><a href="https://aws.amazon.com/architecture/well-architected/" rel="noopener">AWS Well-Architected Framework</a></li>
+    <li><a href="https://calculator.aws/" rel="noopener">AWS Pricing Calculator</a> · <a href="https://aws.amazon.com/free/" rel="noopener">AWS Free Tier</a> · <a href="https://aws.amazon.com/premiumsupport/plans/" rel="noopener">AWS Support plans</a></li>
   </ul>
 </section>
 </main>
@@ -411,286 +264,123 @@
 
 <script src="data/catalog.js"></script>
 <script src="assets/omnibus.js"></script>
+<script src="assets/labkit.js"></script>
 <script src="data/m25.js"></script>
-<script src="data/bank-itil.js"></script>
 <script>
 (function () {
-  var h = OMNI.h, S = OMNI.svg, $ = function (id) { return document.getElementById(id); };
-  var esc = OMNI.esc || function (s) { return String(s).replace(/[&<>"']/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]; }); };
-  function txt(p, x, y, t, a) { var e = S("text", Object.assign({ x: x, y: y, class: "svg-text", "font-size": 12 }, a || {}), p); e.textContent = t; return e; }
-  function rect(p, x, y, w, hh, fill, stroke, extra) { return S("rect", Object.assign({ x: x, y: y, width: w, height: hh, rx: 8, fill: fill, stroke: stroke || "none", "stroke-width": 2 }, extra || {}), p); }
-  function arrow(p, x1, y1, x2, y2) {
-    S("line", { x1: x1, y1: y1, x2: x2, y2: y2, stroke: "var(--ink-2)", "stroke-width": 2 }, p);
-    var a = Math.atan2(y2 - y1, x2 - x1), s = 8;
-    S("polygon", { points: x2 + "," + y2 + " " + (x2 - s * Math.cos(a - .45)) + "," + (y2 - s * Math.sin(a - .45)) + " " + (x2 - s * Math.cos(a + .45)) + "," + (y2 - s * Math.sin(a + .45)), fill: "var(--ink-2)" }, p);
-  }
-  OMNI.readiness({ el: "readiness-area", id: "itil", modules: [19], banks: ["itil"], certs: ["ITIL"], count: 40, timerMin: 60, weights: { 1: 12.5, 2: 15, 3: 5, 4: 2.5, 5: 5, 6: 17.5, 7: 42.5 } });
+  var $ = function (id) { return document.getElementById(id); }, S = OMNI.svg;
+  function txt(g, x, y, s, a) { var e = S("text", Object.assign({ x: x, y: y, class: "svg-text", "font-size": 12 }, a || {}), g); e.textContent = s; return e; }
 
-  /* ===== Figures ===== */
+  /* geography figure */
   (function () {
-    var g = $("dim-fig");
-    rect(g, 10, 10, 740, 280, "var(--surface-2)", "var(--line)");
-    "POLITICAL ECONOMIC SOCIAL TECHNOLOGICAL LEGAL ENVIRONMENTAL".split(" ").forEach(function (w, i) { txt(g, 70 + i * 124, 32, w, { "text-anchor": "middle", "font-size": 11, class: "svg-muted", "font-weight": 700 }); });
-    var D = [["Organizations", "and people", 150, 100, "var(--gov)"], ["Information", "and technology", 610, 100, "var(--net)"], ["Partners", "and suppliers", 150, 230, "var(--dc)"], ["Value streams", "and processes", 610, 230, "var(--sec)"]];
-    S("circle", { cx: 380, cy: 165, r: 52, fill: "var(--accent-soft)", stroke: "var(--accent)", "stroke-width": 2 }, g);
-    txt(g, 380, 162, "Value", { "text-anchor": "middle", "font-weight": 800, "font-size": 15 }); txt(g, 380, 180, "co-created", { "text-anchor": "middle", "font-size": 10, class: "svg-muted" });
-    D.forEach(function (d) {
-      S("line", { x1: d[2], y1: d[3], x2: 380, y2: 165, stroke: d[4], "stroke-width": 2, "stroke-dasharray": "5 4" }, g);
-      rect(g, d[2] - 85, d[3] - 26, 170, 52, "var(--surface)", d[4]);
-      txt(g, d[2], d[3] - 4, d[0], { "text-anchor": "middle", "font-weight": 700 }); txt(g, d[2], d[3] + 13, d[1], { "text-anchor": "middle", "font-weight": 700 });
+    var g = $("geo-fig");
+    S("rect", { x: 150, y: 20, width: 460, height: 200, rx: 14, fill: "var(--surface-2)", stroke: "var(--dc)", "stroke-width": 2.5, "stroke-dasharray": "6 4" }, g);
+    txt(g, 380, 42, "Region (e.g., eu-west-2, London)", { "text-anchor": "middle", "font-weight": 800 });
+    [[175, "AZ a"], [325, "AZ b"], [475, "AZ c"]].forEach(function (a) {
+      S("rect", { x: a[0], y: 60, width: 115, height: 120, rx: 10, fill: "var(--surface)", stroke: "var(--dc)", "stroke-width": 2 }, g);
+      txt(g, a[0] + 57, 80, a[1], { "text-anchor": "middle", "font-weight": 700 });
+      [0, 1].forEach(function (k) { S("rect", { x: a[0] + 15 + k * 46, y: 95, width: 38, height: 50, rx: 4, fill: "var(--surface-2)", stroke: "var(--line)" }, g); txt(g, a[0] + 34 + k * 46, 124, "DC", { "text-anchor": "middle", "font-size": 10, class: "svg-text svg-muted" }); });
+      txt(g, a[0] + 57, 168, "own power + cooling", { "text-anchor": "middle", "font-size": 9.5, class: "svg-text svg-muted" });
     });
-    txt(g, 380, 280, "PESTLE factors act on all four dimensions", { "text-anchor": "middle", "font-size": 11, class: "svg-muted" });
+    [[290, 325], [440, 475]].forEach(function (l) { S("line", { x1: l[0], y1: 120, x2: l[1], y2: 120, stroke: "var(--net)", "stroke-width": 3 }, g); });
+    txt(g, 380, 205, "AZs linked by redundant, low-latency private fiber", { "text-anchor": "middle", "font-size": 10.5, class: "svg-text svg-muted" });
+    [[60, 80], [60, 170], [700, 80], [700, 170]].forEach(function (p) { S("circle", { cx: p[0], cy: p[1], r: 14, fill: "var(--surface)", stroke: "var(--net)", "stroke-width": 2 }, g); txt(g, p[0], p[1] + 4, "E", { "text-anchor": "middle", "font-weight": 800, "font-size": 11 }); });
+    txt(g, 60, 125, "edge", { "text-anchor": "middle", "font-size": 10, class: "svg-text svg-muted" }); txt(g, 60, 138, "locations", { "text-anchor": "middle", "font-size": 10, class: "svg-text svg-muted" });
+    txt(g, 700, 125, "edge", { "text-anchor": "middle", "font-size": 10, class: "svg-text svg-muted" }); txt(g, 700, 138, "locations", { "text-anchor": "middle", "font-size": 10, class: "svg-text svg-muted" });
   })();
+
+  /* Lab 1: survive the outage */
   (function () {
-    var g = $("vc-fig"), A = ["Plan", "Improve", "Engage", "Design and transition", "Obtain/build", "Deliver and support"];
-    rect(g, 10, 95, 110, 70, "var(--surface)", "var(--ink-2)"); txt(g, 65, 125, "Demand", { "text-anchor": "middle", "font-weight": 700 }); txt(g, 65, 142, "and opportunity", { "text-anchor": "middle", "font-size": 10, class: "svg-muted" });
-    rect(g, 640, 95, 110, 70, "var(--good-soft)", "var(--good)"); txt(g, 695, 125, "Products and", { "text-anchor": "middle", "font-weight": 700 }); txt(g, 695, 142, "services → value", { "text-anchor": "middle", "font-weight": 700 });
-    rect(g, 150, 15, 460, 230, "var(--gov-soft)", "var(--gov)");
-    txt(g, 380, 36, "Service value chain: activities combine into value streams", { "text-anchor": "middle", "font-weight": 700, "font-size": 12 });
-    A.forEach(function (a, i) {
-      var x = 165 + (i % 3) * 150, y = 55 + Math.floor(i / 3) * 95;
-      rect(g, x, y, 130, 70, "var(--surface)", "var(--gov)");
-      txt(g, x + 65, y + 40, a, { "text-anchor": "middle", "font-weight": 700, "font-size": a.length > 14 ? 11 : 13 });
+    var g = $("az-svg"), AZ = [["us-east-1", "a"], ["us-east-1", "b"], ["us-east-1", "c"], ["eu-west-2", "a"], ["eu-west-2", "b"], ["eu-west-2", "c"]];
+    var on = {}, failed = {}, cells = [];
+    [["us-east-1 (N. Virginia)", 20], ["eu-west-2 (London)", 395]].forEach(function (r) {
+      S("rect", { x: r[1], y: 10, width: 345, height: 170, rx: 12, fill: "var(--surface-2)", stroke: "var(--dc)", "stroke-width": 2, "stroke-dasharray": "6 4" }, g);
+      txt(g, r[1] + 172, 30, r[0], { "text-anchor": "middle", "font-weight": 800 });
     });
-    arrow(g, 120, 130, 150, 130); arrow(g, 610, 130, 640, 130);
-  })();
-  (function () {
-    var g = $("ci-fig"), st = ["What is the vision?", "Where are we now?", "Where do we want to be?", "How do we get there?", "Take action", "Did we get there?", "Keep the momentum going"];
-    st.forEach(function (s, i) {
-      var x = 10 + i * 107;
-      rect(g, x, 40, 95, 90, i === 4 ? "var(--accent-soft)" : "var(--surface)", "var(--gov)");
-      txt(g, x + 47, 62, String(i + 1), { "text-anchor": "middle", "font-weight": 800, "font-size": 18, fill: "var(--gov)" });
-      var words = s.split(" "), l1 = [], l2 = [];
-      words.forEach(function (w) { (l1.join(" ").length + w.length < 12 ? l1 : l2).push(w); });
-      txt(g, x + 47, 90, l1.join(" "), { "text-anchor": "middle", "font-size": 11 }); txt(g, x + 47, 106, l2.join(" "), { "text-anchor": "middle", "font-size": 11 });
-      if (i < 6) arrow(g, x + 95, 85, x + 107, 85);
+    AZ.forEach(function (a, i) {
+      var x = (i < 3 ? 35 : 410) + (i % 3) * 110;
+      var grp = S("g", { class: "az-cell", tabindex: "0", role: "button", "aria-label": a[0] + a[1] + ": toggle server" }, g);
+      var r = S("rect", { x: x, y: 45, width: 95, height: 120, rx: 8, fill: "var(--surface)", stroke: "var(--line)", "stroke-width": 2 }, grp);
+      txt(grp, x + 47, 65, a[0].slice(-1) === "1" ? "AZ " + a[1] : "AZ " + a[1], { "text-anchor": "middle", "font-weight": 700 });
+      var srv = txt(grp, x + 47, 110, "", { "text-anchor": "middle", "font-size": 26 });
+      var st = txt(grp, x + 47, 150, "click to add", { "text-anchor": "middle", "font-size": 10, class: "svg-text svg-muted" });
+      function toggle() { if (failed[i]) return; on[i] = !on[i]; draw(); judge(); }
+      grp.addEventListener("click", toggle); grp.addEventListener("keydown", function (e) { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggle(); } });
+      cells.push({ r: r, srv: srv, st: st });
     });
-    S("path", { d: "M 700 130 C 700 165, 57 165, 57 132", fill: "none", stroke: "var(--ink-2)", "stroke-width": 1.5, "stroke-dasharray": "5 4" }, g);
-    txt(g, 380, 180, "…and loop back to the vision", { "text-anchor": "middle", "font-size": 10, class: "svg-muted" });
-    txt(g, 380, 22, "Each loop is recorded in the continual improvement register (CIR)", { "text-anchor": "middle", "font-size": 11, class: "svg-muted" });
-  })();
-
-  /* ===== Lab 1: SVS explorer ===== */
-  var SVS = {
-    od: { n: "Opportunity and demand", p: "The reasons to do anything: chances to add value, and requests or needs from customers.", d: "Opportunity represents options or possibilities to add value for stakeholders or otherwise improve the organization. Demand is the need or desire for products and services among internal and external consumers.", e: "Staff ask for remote access (demand); a new cloud platform could cut costs (opportunity)." },
-    gp: { n: "Guiding principles", p: "Seven pieces of advice that apply in every situation.", d: "Recommendations that can guide an organization in all circumstances, regardless of changes in its goals, strategies, type of work or management structure.", e: "Before building a new portal, the team 'starts where they are' by reviewing the existing one." },
-    gov: { n: "Governance", p: "How the top of the organization steers and checks.", d: "The means by which an organization is directed and controlled. The governing body evaluates the organization, directs it by assigning responsibility for strategies and policies, and monitors performance and compliance.", e: "The board sets a policy that all customer data stays in the EU and checks quarterly reports against it." },
-    svc: { n: "Service value chain", p: "Six activities you mix and match to create and deliver value.", d: "An operating model which outlines the key activities required to respond to demand and facilitate value realization: plan, improve, engage, design and transition, obtain/build, deliver and support.", e: "A new-laptop request flows engage → deliver and support → obtain/build → deliver and support." },
-    pr: { n: "Practices", p: "Toolkits of people, processes, information and tools for a type of work.", d: "Sets of organizational resources designed for performing work or accomplishing an objective. ITIL 4 describes 34 practices: general management, service management and technical management.", e: "Incident management, change enablement and the service desk are practices." },
-    ci: { n: "Continual improvement", p: "Always getting a little better, at every level.", d: "A recurring organizational activity performed at all levels to ensure that an organization's performance continually meets stakeholders' expectations, supported by the continual improvement model and register.", e: "The service desk cuts average wait time by 30% after analysing call data, then picks the next target." },
-    val: { n: "Value", p: "The result: benefits that matter to the stakeholders.", d: "The perceived benefits, usefulness and importance of something. In ITIL 4, value is co-created by service providers and consumers.", e: "Sales staff close deals faster because the CRM is reliable and quick." }
-  };
-  (function () {
-    var g = $("svs-svg");
-    function part(key, draw) {
-      var grp = S("g", { class: "svs-part", tabindex: "0", role: "button", "aria-label": SVS[key].n, "data-k": key }, g);
-      draw(grp);
-      grp.addEventListener("click", function () { svsShow(key); });
-      grp.addEventListener("keydown", function (e) { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); svsShow(key); } });
-    }
-    part("od", function (p) { rect(p, 10, 125, 120, 80, "var(--surface)", "var(--ink-2)"); txt(p, 70, 160, "Opportunity", { "text-anchor": "middle", "font-weight": 700 }); txt(p, 70, 178, "and demand", { "text-anchor": "middle", "font-weight": 700 }); });
-    arrow(g, 130, 165, 160, 165);
-    rect(g, 160, 10, 440, 310, "var(--gov-soft)", "var(--gov)");
-    txt(g, 380, 30, "Service value system", { "text-anchor": "middle", "font-weight": 800, "font-size": 13, fill: "var(--gov)" });
-    part("gp", function (p) { rect(p, 180, 45, 400, 40, "var(--surface)", "var(--gov)"); txt(p, 380, 70, "Guiding principles", { "text-anchor": "middle", "font-weight": 700 }); });
-    part("gov", function (p) { rect(p, 180, 95, 400, 40, "var(--surface)", "var(--gov)"); txt(p, 380, 120, "Governance", { "text-anchor": "middle", "font-weight": 700 }); });
-    part("svc", function (p) { rect(p, 180, 145, 400, 70, "var(--surface)", "var(--gov)"); txt(p, 380, 172, "Service value chain", { "text-anchor": "middle", "font-weight": 700 }); txt(p, 380, 192, "plan · improve · engage · design and transition · obtain/build · deliver and support", { "text-anchor": "middle", "font-size": 10, class: "svg-muted" }); });
-    part("pr", function (p) { rect(p, 180, 225, 400, 40, "var(--surface)", "var(--gov)"); txt(p, 380, 250, "Practices (34)", { "text-anchor": "middle", "font-weight": 700 }); });
-    part("ci", function (p) { rect(p, 180, 275, 400, 34, "var(--surface)", "var(--gov)"); txt(p, 380, 297, "Continual improvement", { "text-anchor": "middle", "font-weight": 700 }); });
-    arrow(g, 600, 165, 630, 165);
-    part("val", function (p) { S("circle", { cx: 690, cy: 165, r: 58, fill: "var(--good-soft)", stroke: "var(--good)", "stroke-width": 2 }, p); txt(p, 690, 170, "Value", { "text-anchor": "middle", "font-weight": 800, "font-size": 16 }); });
-  })();
-  var svsSeen = {};
-  function svsShow(k) {
-    var s = SVS[k]; svsSeen[k] = 1;
-    OMNI.$$("#svs-svg .svs-part").forEach(function (x) { x.classList.toggle("on", x.getAttribute("data-k") === k); });
-    $("svs-info").innerHTML = "<h4>" + s.n + "</h4><p><b>Plain meaning:</b> " + s.p + "</p><p><b>Exam definition:</b> " + s.d + "</p><p><b>Example:</b> " + s.e + "</p>";
-    var n = Object.keys(svsSeen).length;
-    OMNI.say("svs-cap", "You opened <b>" + s.n + "</b>. " + (k === "od" ? "This is the SVS input: everything starts with opportunity or demand." : k === "val" ? "This is the SVS output: value, co-created with the consumer." : "This is one of the five SVS components that sit between the input and the output.") + " You have explored " + n + " of 7 parts." + (n === 7 ? " That's all of them: input → five components → value." : ""));
-  }
-  OMNI.say("svs-cap", "The SVS takes opportunity and demand in on the left and produces value on the right. Click a part to explore it.");
-
-  /* ===== Lab 2: Value chain builder ===== */
-  var ACT = ["Plan", "Improve", "Engage", "Design and transition", "Obtain/build", "Deliver and support"];
-  var SCEN = [
-    { n: "New hire needs a laptop", d: "HR tells IT that a new employee starts Monday and needs a laptop with standard software.",
-      model: ["Engage", "Deliver and support", "Obtain/build", "Deliver and support", "Engage"],
-      rules: [
-        function (s) { return s[0] === "Engage" ? null : "Start with <b>Engage</b>: the request arrives through the service desk or portal."; },
-        function (s) { return s.indexOf("Obtain/build") >= 0 ? null : "Include <b>Obtain/build</b>: the laptop has to come from stock or be bought and imaged."; },
-        function (s) { return s.indexOf("Deliver and support") >= 0 ? null : "Include <b>Deliver and support</b>: the request is logged, fulfilled and handed over."; },
-        function (s) { return s.length < 8 ? null : "Keep it simple: a standard request rarely needs more than five or six steps."; }
-      ],
-      why: "This is a standard service request. Engage (request received), deliver and support (logged and routed), obtain/build (take a laptop from stock and image it), deliver and support (deliver and set up), engage (confirm the user is happy and close). Plan and design and transition are not needed because the offering already exists. If the request is common, automating it is 'optimize and automate'." },
-    { n: "Website outage", d: "The online store is down for all customers on a Saturday morning.",
-      model: ["Engage", "Deliver and support", "Obtain/build", "Design and transition", "Deliver and support", "Engage", "Improve"],
-      rules: [
-        function (s) { return s[0] === "Engage" || s[0] === "Deliver and support" ? null : "Begin with <b>Engage</b> (customers or monitoring report the outage) or <b>Deliver and support</b> (operations detect it)."; },
-        function (s) { return s.indexOf("Deliver and support") >= 0 ? null : "<b>Deliver and support</b> is essential: that's where incident management restores service."; },
-        function (s) { return s.indexOf("Plan") < 0 || s.indexOf("Plan") > s.indexOf("Deliver and support") ? null : "Don't start with <b>Plan</b>: restore service first; planning comes later."; },
-        function (s) { return s[s.length - 1] === "Improve" ? null : "End with <b>Improve</b>: a post-incident review (and maybe a problem record) stops it happening again."; }
-      ],
-      why: "A major incident value stream: engage (reports arrive), deliver and support (incident management diagnoses and works around), obtain/build and design and transition (if a fix or rollback must be built, tested and deployed as an emergency change), deliver and support (service restored), engage (customers told), improve (post-incident review, problem management). If a rollback is enough, obtain/build can be skipped." },
-    { n: "Business wants a new feature", d: "Marketing asks for customers to be able to save items to a wish list on the website.",
-      model: ["Engage", "Plan", "Design and transition", "Obtain/build", "Design and transition", "Deliver and support", "Improve"],
-      rules: [
-        function (s) { return s[0] === "Engage" ? null : "Start with <b>Engage</b>: understand what marketing actually needs."; },
-        function (s) { return s.indexOf("Plan") >= 0 ? null : "Include <b>Plan</b>: priority, budget and roadmap fit must be agreed."; },
-        function (s) { return s.indexOf("Design and transition") >= 0 && s.indexOf("Obtain/build") >= 0 ? null : "A new feature needs both <b>Design and transition</b> and <b>Obtain/build</b>."; },
-        function (s) { var b = s.indexOf("Obtain/build"), d = s.lastIndexOf("Deliver and support"); return d > b ? null : "<b>Deliver and support</b> should come after the feature is built and transitioned."; }
-      ],
-      why: "A new-service value stream: engage (requirements), plan (prioritize, fund), design and transition (design), obtain/build (develop and test), design and transition (release and deploy), deliver and support (live use and support), improve (measure use and feedback). In an Agile team this loop repeats in short iterations: 'progress iteratively with feedback'." }
-  ];
-  var vcS = 0, vcSeq = [];
-  SCEN.forEach(function (s, i) { var b = h("button", { type: "button" }, s.n); b.onclick = function () { vcS = i; vcSeq = []; vcDraw(); OMNI.say("vc-cap", "New scenario. Build the value stream from the six activities."); }; $("vc-scen").appendChild(b); });
-  ACT.forEach(function (a) { var b = h("button", { type: "button" }, "+ " + a); b.onclick = function () { if (vcSeq.length < 12) { vcSeq.push(a); vcDraw(); } }; $("vc-acts").appendChild(b); });
-  function vcDraw() {
-    OMNI.$$("#vc-scen button").forEach(function (b, i) { b.classList.toggle("on", i === vcS); });
-    $("vc-desc").innerHTML = "<b>" + SCEN[vcS].n + ":</b> " + SCEN[vcS].d;
-    var st = $("vc-stream"); st.innerHTML = "";
-    if (!vcSeq.length) st.appendChild(h("span", { class: "figcap" }, "Your value stream will appear here."));
-    vcSeq.forEach(function (a, i) { if (i) st.appendChild(h("span", { class: "arrow", "aria-hidden": "true" }, "→")); st.appendChild(h("span", { class: "step" }, (i + 1) + ". " + a)); });
-  }
-  $("vc-undo").onclick = function () { vcSeq.pop(); vcDraw(); };
-  $("vc-clear").onclick = function () { vcSeq = []; vcDraw(); };
-  $("vc-check").onclick = function () {
-    var sc = SCEN[vcS];
-    if (vcSeq.length < 2) { OMNI.say("vc-cap", "Add at least two activities first."); return; }
-    var notes = sc.rules.map(function (r) { return r(vcSeq); }).filter(Boolean);
-    OMNI.say("vc-cap", (notes.length ? "Nearly. " + notes.join(" ") : "Good value stream: it meets all the key checks for this scenario.") + "<br><b>Why:</b> " + sc.why + "<br><small>There is no single correct answer in ITIL; value streams vary between organizations. These checks look for the essential activities and a sensible order.</small>");
-  };
-  $("vc-show").onclick = function () { vcSeq = SCEN[vcS].model.slice(); vcDraw(); OMNI.say("vc-cap", "Model answer loaded. " + SCEN[vcS].why); };
-  vcDraw(); OMNI.say("vc-cap", "Pick a scenario, then click activities in order to build a value stream.");
-
-  /* ===== Lab 3: Sorter ===== */
-  var ZONES = [["inc", "Incident management"], ["prb", "Problem management"], ["chg", "Change enablement"], ["req", "Service request management"]];
-  var CARDS = [
-    ["The payroll app shows an error for every user in Finance.", "inc", "An unplanned interruption: restore service fast."],
-    ["Printers on floor 3 have jammed every Monday for six weeks; find out why.", "prb", "Recurring incidents point to an underlying cause."],
-    ["Upgrade the core switch firmware next Sunday night.", "chg", "Modifying infrastructure that affects services needs assessment and authorization."],
-    ["A user needs access to the Sales shared drive.", "req", "Access is a normal, pre-defined request."],
-    ["Analyse why the VPN keeps dropping after each update and document a workaround.", "prb", "Problem control: analysis and workarounds."],
-    ["Laptop won't power on; the user can't work.", "inc", "A failure affecting a user: incident."],
-    ["Apply a critical security patch today because the flaw is being actively exploited.", "chg", "An emergency change."],
-    ["Order a second monitor for a new designer.", "req", "Hardware from the catalogue: service request (may trigger a standard change)."],
-    ["Email is slow for everyone this morning.", "inc", "A reduction in service quality is also an incident."],
-    ["Add a new firewall rule to allow a partner's API traffic.", "chg", "Changes the configuration of a service component."],
-    ["Trend analysis shows 40% of tickets relate to one database; investigate the cause.", "prb", "Problem identification through trend analysis."],
-    ["Reset a forgotten password.", "req", "The classic service request (often self-service)."]
-  ];
-  var soDnd;
-  function soReset() {
-    var bank = $("so-bank"); bank.innerHTML = '<span class="zone-title">Unsorted</span>';
-    var Z = $("so-zones"); Z.innerHTML = "";
-    ZONES.forEach(function (z) { Z.appendChild(h("div", { class: "dropzone", "data-z": z[0], "aria-label": z[1] }, h("span", { class: "zone-title" }, z[1]))); });
-    OMNI.shuffle(CARDS.map(function (c, i) { return i; })).forEach(function (i) { bank.appendChild(h("span", { class: "chip", "data-id": String(i) }, CARDS[i][0])); });
-    if (soDnd) soDnd.refresh();
-    OMNI.say("so-cap", "Twelve cards to sort. Hint: ask \"Is something broken now?\" (incident), \"Why does it keep breaking?\" (problem), \"Are we altering something?\" (change), or \"Is this a normal ask?\" (request).");
-  }
-  soReset();
-  soDnd = OMNI.dnd($("lab-sort"), function () { OMNI.$$("#lab-sort .chip").forEach(function (c) { c.classList.remove("ok", "bad"); }); });
-  $("so-reset").onclick = soReset;
-  $("so-check").onclick = function () {
-    var right = 0, placed = 0, notes = [];
-    OMNI.$$("#so-zones .dropzone").forEach(function (z) {
-      OMNI.$$(".chip", z).forEach(function (c) {
-        placed++; var cd = CARDS[+c.dataset.id], ok = cd[1] === z.dataset.z;
-        c.classList.toggle("ok", ok); c.classList.toggle("bad", !ok);
-        if (ok) right++; else notes.push("“" + esc(cd[0]) + "” belongs in <b>" + ZONES.filter(function (x) { return x[0] === cd[1]; })[0][1] + "</b>: " + esc(cd[2]));
+    var lb = txt(g, 380, 210, "", { "text-anchor": "middle", "font-weight": 700 });
+    function draw() {
+      cells.forEach(function (c, i) {
+        c.r.setAttribute("fill", failed[i] ? "var(--bad-soft)" : "var(--surface)");
+        c.r.setAttribute("stroke", failed[i] ? "var(--bad)" : on[i] ? "var(--good)" : "var(--line)");
+        c.srv.textContent = on[i] ? (failed[i] ? "✖" : "🖥") : "";
+        c.st.textContent = failed[i] ? "FAILED" : on[i] ? "server running" : "click to add";
       });
-    });
-    OMNI.say("so-cap", right + " of " + placed + " placed cards are correct" + (placed < CARDS.length ? " (" + (CARDS.length - placed) + " still unsorted)" : "") + ". " + (notes.length ? notes.join(" ") : placed === CARDS.length ? "Perfect sort. Remember the links: incidents can raise problems, and problem fixes usually need changes." : ""));
-  };
-
-  /* ===== Lab 4: Guiding principle matcher ===== */
-  var GP = ["Focus on value", "Start where you are", "Progress iteratively with feedback", "Collaborate and promote visibility", "Think and work holistically", "Keep it simple and practical", "Optimize and automate"];
-  var STORIES = [
-    ["Before replacing the ticketing tool, the manager sits with agents for a day to see how they really use the current one.", 1, "Observing the current state directly and reusing what works is 'start where you are'."],
-    ["The team asks customers which parts of the monthly report they actually read, and drops the rest.", 0, "Linking the work to what consumers value is 'focus on value'. (Dropping unused content also shows 'keep it simple'.)"],
-    ["A new self-service portal launches for one office first; feedback shapes the next release before the global rollout.", 2, "Small steps with feedback loops: 'progress iteratively with feedback'."],
-    ["Development, operations and security share one board showing every change and where it is stuck.", 3, "Working across teams and making work visible: 'collaborate and promote visibility'."],
-    ["Before changing the backup schedule, the team checks the impact on network load, the database team, the supplier contract and the DR plan.", 4, "Considering the whole system: 'think and work holistically'."],
-    ["An approval step that no manager has ever rejected in three years is removed.", 5, "Removing steps that add no value: 'keep it simple and practical'."],
-    ["After cutting the onboarding form from 40 fields to 12, the team scripts account creation so it runs automatically.", 6, "Optimize first, then automate: 'optimize and automate'."]
-  ];
-  var gpOrder;
-  function gpReset() {
-    gpOrder = OMNI.shuffle(STORIES.map(function (s, i) { return i; }));
-    var L = $("gp-list"); L.innerHTML = "";
-    gpOrder.forEach(function (si, k) {
-      var sel = h("select", { "aria-label": "Principle for story " + (k + 1), "data-s": String(si) }, [h("option", { value: "" }, "Choose a principle…")].concat(GP.map(function (g, gi) { return h("option", { value: String(gi) }, g); })));
-      L.appendChild(h("div", { class: "story" }, [h("div", null, (k + 1) + ". " + STORIES[si][0]), sel, h("div", { class: "fb" })]));
-    });
-    OMNI.say("gp-cap", "Match each story to the principle it best shows. Several principles can apply to one story; pick the strongest.");
-  }
-  gpReset();
-  $("gp-reset").onclick = gpReset;
-  $("gp-check").onclick = function () {
-    var right = 0, answered = 0;
-    OMNI.$$("#gp-list .story").forEach(function (d) {
-      var sel = d.querySelector("select"), st = STORIES[+sel.dataset.s], fb = d.querySelector(".fb");
-      d.classList.remove("ok", "bad"); fb.textContent = "";
-      if (sel.value === "") return;
-      answered++; var ok = +sel.value === st[1]; if (ok) right++;
-      d.classList.add(ok ? "ok" : "bad");
-      fb.innerHTML = (ok ? "✓ " : "✗ Best answer: <b>" + GP[st[1]] + "</b>. ") + st[2];
-    });
-    OMNI.say("gp-cap", right + " of " + answered + " answered correctly" + (answered < STORIES.length ? " (" + (STORIES.length - answered) + " left)" : "") + ". " + (right === STORIES.length ? "All seven! On the exam, look for the key phrase: 'already exists' → start where you are; 'small steps' → iteratively; 'visible' → collaborate; 'whole' → holistically; 'remove' → simple; 'automate' → optimize and automate." : "Read the explanations under each story."));
-  };
-
-  /* ===== Lab 5: Service desk simulator ===== */
-  var PM = [[1, 2, 3], [2, 3, 4], [3, 4, 5]]; // impact row × urgency col → priority (1 highest)
-  var PNAME = { 1: "P1 Critical", 2: "P2 High", 3: "P3 Medium", 4: "P4 Low", 5: "P5 Planning" };
-  var CALLS = [
-    { who: "Priya, Accounts Payable", msg: "None of us in Finance can open the payments system. We have to release supplier payments by 3 pm today!", type: "incident", cat: "Business application", imp: 1, urg: 0, act: ["escalate"], why: "A whole department (medium impact) with an imminent deadline (high urgency) gives P2. The service desk can't fix an application fault, so escalate to the application team; keep Finance updated." },
-    { who: "Tom, new starter", msg: "Hi, could I get access to the Marketing shared drive? No rush, sometime this week is fine.", type: "request", cat: "Accounts and access", imp: 2, urg: 2, act: ["first"], why: "A normal access request: service request, one user, can wait (P5 planning). Fulfil at first line using the standard approval workflow." },
-    { who: "Monitoring alert + 30 calls", msg: "The online store checkout is failing for all customers. Calls are flooding in.", type: "incident", cat: "Business application", imp: 0, urg: 0, act: ["major"], why: "All customers and lost revenue: high impact, high urgency = P1. Declare a major incident: separate procedure, dedicated team, regular communications." },
-    { who: "Luis, Sales", msg: "I forgot my password and I'm locked out. I have a client call in 20 minutes.", type: "request", cat: "Accounts and access", imp: 2, urg: 0, act: ["first"], why: "A password reset is a service request (some organizations log lockouts as incidents; either is defensible, but ITIL lists password resets as requests). One user, urgent: P3. Resolve at first line or point to self-service reset." },
-    { who: "Grace, HR", msg: "I clicked a link in an email about my 'parcel' and entered my login. Now my mailbox is sending messages I didn't write.", type: "incident", cat: "Security", imp: 1, urg: 0, act: ["security"], why: "A likely compromised account spreading phishing: treat it as a security incident. Impact could spread fast, so at least P2. Hand to the security incident procedure (disable sessions, reset credentials) rather than handling it as a normal ticket." },
-    { who: "Ahmed, Warehouse", msg: "My second monitor flickers sometimes. It's annoying but I can still work.", type: "incident", cat: "Hardware", imp: 2, urg: 2, act: ["first", "escalate"], why: "Degraded quality for one user who can keep working: incident, low impact, low urgency (P5). Try first-line fixes (cable, settings); escalate to desktop support for a swap if needed." }
-  ];
-  (function () {
-    var t = $("sd-mx"), U = ["High", "Medium", "Low"];
-    var head = h("tr", null, [h("th", null, "Impact ↓ / Urgency →")].concat(U.map(function (u) { return h("th", null, u); })));
-    t.appendChild(head);
-    ["High", "Medium", "Low"].forEach(function (im, r) { t.appendChild(h("tr", null, [h("th", null, im)].concat(PM[r].map(function (p, c) { return h("td", { class: "p" + Math.min(4, p), "data-rc": r + "-" + c }, PNAME[p]); })))); });
+    }
+    function count() { var n = 0, up = 0, azs = {}, regions = {}; AZ.forEach(function (a, i) { if (on[i]) { n++; if (!failed[i]) { up++; azs[i] = 1; regions[a[0]] = 1; } } }); return { n: n, up: up, azs: Object.keys(azs).length, regions: Object.keys(regions).length }; }
+    function judge(event) {
+      var c = count(), cost = c.n * 70, alive = c.up > 0;
+      lb.textContent = c.n ? (alive ? "Site ONLINE · " : "Site DOWN · ") + c.up + " of " + c.n + " servers up · ~$" + cost + "/month" : "No servers yet";
+      lb.setAttribute("fill", c.n ? (alive ? "var(--good)" : "var(--bad)") : "var(--ink-2)");
+      var msg;
+      if (!c.n) msg = "Click AZ boxes to place web servers. A load balancer (not drawn) spreads users across every running server.";
+      else if (event && !alive) msg = "Your site went <b>down</b>. Every server was in the failed area. " + (event === "region" ? "To survive a whole Region failing you need servers in a <b>second Region</b>, with DNS (Route 53) failover between them." : "Put servers in at least <b>two Availability Zones</b> so one data center failing doesn't stop you.");
+      else if (event) msg = "Your site <b>stayed up</b> on " + c.up + " server(s). " + (event === "region" ? "Multi-Region costs more and is more complex, but protects against a whole Region outage (disaster recovery)." : "This is high availability: losing one AZ only removed some capacity. Auto Scaling would replace the lost servers in the healthy AZs.");
+      else if (c.azs === 1) msg = "All your servers are in <b>one AZ</b>. That's cheap (~$" + cost + "/month) but a single data center problem takes you offline. Try a failure button.";
+      else if (c.regions === 1) msg = "You're <b>Multi-AZ</b> in one Region (~$" + cost + "/month). That survives an AZ failure, which is what most production sites aim for. Try failing the whole Region too.";
+      else msg = "You're <b>multi-Region</b> (~$" + cost + "/month). That survives even a Region outage, but you also pay for data copies and more complex operations. Most sites only need Multi-AZ.";
+      OMNI.say("az-cap", msg);
+    }
+    $("az-fail1").onclick = function () { failed[0] = 1; draw(); judge("az"); };
+    $("az-fail2").onclick = function () { failed[0] = failed[1] = failed[2] = 1; draw(); judge("region"); };
+    $("az-heal").onclick = function () { failed = {}; draw(); judge(); };
+    $("az-reset").onclick = function () { failed = {}; on = {}; draw(); judge(); };
+    draw(); judge();
   })();
-  var sdI = 0, sdScore = 0, sdDone = {};
-  function sdLoad() {
-    var c = CALLS[sdI];
-    $("sd-call").innerHTML = '<div class="who">📞 Call ' + (sdI + 1) + " of " + CALLS.length + ": " + esc(c.who) + '</div><div class="msg">“' + esc(c.msg) + "”</div>";
-    ["sd-type", "sd-cat", "sd-imp", "sd-urg", "sd-act"].forEach(function (id) { $(id).value = ""; $(id).disabled = !!sdDone[sdI]; });
-    $("sd-submit").disabled = !!sdDone[sdI];
-    var Q = $("sd-queue"); Q.innerHTML = "";
-    CALLS.forEach(function (x, i) { Q.appendChild(h("span", { class: (i === sdI ? "now " : "") + (sdDone[i] ? "done" : "") }, "Call " + (i + 1))); });
-    sdHit(); OMNI.say("sd-cap", "Read the call, then work through steps 1 to 5 and submit the ticket.");
-  }
-  function sdHit() {
-    OMNI.$$("#sd-mx td").forEach(function (td) { td.classList.toggle("hit", td.dataset.rc === $("sd-imp").value + "-" + $("sd-urg").value); });
-  }
-  $("sd-imp").onchange = sdHit; $("sd-urg").onchange = sdHit;
-  $("sd-submit").onclick = function () {
-    var c = CALLS[sdI], v = { type: $("sd-type").value, cat: $("sd-cat").value, imp: $("sd-imp").value, urg: $("sd-urg").value, act: $("sd-act").value };
-    if (!v.type || !v.cat || v.imp === "" || v.urg === "" || !v.act) { OMNI.say("sd-cap", "Complete all five steps first: log type, category, impact, urgency and action."); return; }
-    var pts = 0, notes = [];
-    var pYou = PM[+v.imp][+v.urg], pExp = PM[c.imp][c.urg];
-    if (v.type === c.type) pts++; else notes.push("Log it as a <b>" + (c.type === "incident" ? "incident" : "service request") + "</b>.");
-    if (v.cat === c.cat) pts++; else notes.push("Category: <b>" + c.cat + "</b>.");
-    if (Math.abs(pYou - pExp) <= 0) pts += 2; else if (Math.abs(pYou - pExp) === 1) { pts += 1; notes.push("Priority close: you chose " + PNAME[pYou] + ", expected " + PNAME[pExp] + "."); } else notes.push("Priority: you chose " + PNAME[pYou] + ", expected <b>" + PNAME[pExp] + "</b>.");
-    if (c.act.indexOf(v.act) >= 0) pts++; else notes.push("Action: <b>" + $("sd-act").querySelector('option[value="' + c.act[0] + '"]').textContent + "</b>.");
-    sdScore += pts; sdDone[sdI] = 1;
-    $("sd-score").textContent = "Score: " + sdScore + " / " + Object.keys(sdDone).length * 5;
-    ["sd-type", "sd-cat", "sd-imp", "sd-urg", "sd-act"].forEach(function (id) { $(id).disabled = true; }); $("sd-submit").disabled = true;
-    $("sd-queue").children[sdI].classList.add("done");
-    OMNI.say("sd-cap", "Ticket logged: " + pts + " of 5 points. " + (notes.length ? notes.join(" ") + " " : "Spot on. ") + "<br><b>Why:</b> " + c.why + (Object.keys(sdDone).length === CALLS.length ? "<br><b>Queue cleared!</b> Final score " + sdScore + " / " + CALLS.length * 5 + ". Note how priority came from impact × urgency, not from who shouted loudest or who called first." : ""));
-  };
-  $("sd-next").onclick = function () { sdI = (sdI + 1) % CALLS.length; sdLoad(); };
-  $("sd-restart").onclick = function () { sdI = 0; sdScore = 0; sdDone = {}; $("sd-score").textContent = ""; sdLoad(); };
-  sdLoad();
+
+  /* Lab 2: service sorter */
+  OMNI.sorter("svc-host", { cap: "svc-cap",
+    zones: [["c", "Compute"], ["s", "Storage"], ["d", "Database"], ["n", "Networking and delivery"], ["x", "Security and identity"], ["m", "Management and monitoring"]],
+    items: [["EC2", "c", "virtual servers."], ["Lambda", "c", "serverless functions."], ["Fargate", "c", "serverless containers."], ["S3", "s", "object storage."], ["EBS", "s", "block volumes for EC2."], ["EFS", "s", "shared file storage."], ["RDS", "d", "managed relational databases."], ["DynamoDB", "d", "NoSQL database."], ["Aurora", "d", "AWS-built relational database."], ["VPC", "n", "your private network."], ["CloudFront", "n", "content delivery network."], ["Route 53", "n", "DNS."], ["IAM", "x", "users, roles and permissions."], ["GuardDuty", "x", "threat detection."], ["KMS", "x", "encryption keys."], ["CloudWatch", "m", "metrics, logs and alarms."], ["CloudTrail", "m", "audit log of API calls (also used heavily for security)."], ["Trusted Advisor", "m", "best-practice checks."]],
+    intro: "Each card is an AWS service. Put it in the category it belongs to, then press Check.",
+    done: "All correct! You can now place the core AWS services in their families, which is a big part of Domain 3 on the Cloud Practitioner exam."
+  });
+
+  /* Lab 3: pricing picker */
+  (function () {
+    var DISC = [["On-Demand", 0, false, false], ["Savings Plan (1 yr)", 0.28, true, false], ["Reserved Instance (3 yr)", 0.6, true, false], ["Spot", 0.7, false, true]];
+    function draw() {
+      var rate = +$("pr-type").value, hrs = +$("pr-hours").value, intr = $("pr-int").checked, steady = $("pr-steady").checked; $("pr-hv").textContent = hrs;
+      var rows = DISC.map(function (d) {
+        var ok = (!d[2] || steady) && (!d[3] || intr);
+        var cost = d[2] ? rate * (1 - d[1]) * 24 * 30 : rate * (1 - d[1]) * hrs * 30; // commitments are billed every hour
+        return { n: d[0], cost: cost, ok: ok, commit: d[2], spot: d[3] };
+      });
+      var valid = rows.filter(function (r) { return r.ok; }), best = valid.reduce(function (a, b) { return b.cost < a.cost ? b : a; }), max = Math.max.apply(null, rows.map(function (r) { return r.cost; }));
+      $("pr-bars").innerHTML = rows.map(function (r) {
+        return "<div class='bar" + (r === best ? " best" : "") + "' style='opacity:" + (r.ok ? 1 : .45) + "'><span>" + r.n + (r === best ? " ✓" : "") + "</span><i style='width:" + Math.max(2, 100 * r.cost / max) + "%'></i><b>$" + r.cost.toFixed(0) + "/mo</b></div>";
+      }).join("");
+      var od = rows[0].cost, msg = "For " + hrs + " h/day the cheapest suitable option is <b>" + best.n + "</b> at about <b>$" + best.cost.toFixed(0) + "/month</b>" + (best !== rows[0] ? " (saving ~$" + (od - best.cost).toFixed(0) + " vs On-Demand)" : "") + ". ";
+      if (hrs < 12 && steady) msg += "Notice that Savings Plans and Reserved Instances bill for every hour you committed, even when the server is off, so for part-time use On-Demand (or Spot) can win. ";
+      if (!intr) msg += "Spot is greyed out because your job can't be interrupted. ";
+      if (!steady) msg += "Commitments are greyed out because you don't need the server for a year or more. ";
+      OMNI.say("pr-cap", msg);
+    }
+    ["pr-type", "pr-hours", "pr-int", "pr-steady"].forEach(function (id) { $(id).addEventListener("input", draw); $(id).addEventListener("change", draw); });
+    draw();
+  })();
+
+  /* Lab 4: shared responsibility */
+  OMNI.sorter("sh-host", { cap: "sh-cap",
+    zones: [["aws", "AWS's job (security OF the cloud)"], ["you", "Customer's job (security IN the cloud)"]],
+    items: [["Guards and cameras at data centers", "aws", "physical security is AWS's."], ["Replacing failed hardware", "aws", "AWS owns the hardware."], ["Patching the hypervisor", "aws", "the virtualization layer is AWS's."], ["Patching the OS on an EC2 instance", "you", "you control the guest OS on EC2."], ["Patching the database engine on RDS", "aws", "RDS is managed, so AWS patches the engine (you choose the maintenance window)."], ["Choosing who can access an S3 bucket", "you", "access settings and bucket policies are yours."], ["Encrypting your data at rest", "you", "you choose to enable encryption and manage key access (AWS provides the tools)."], ["Security group rules", "you", "firewall rules are your configuration."], ["Global network between Regions", "aws", "AWS runs the backbone."], ["MFA for your IAM users", "you", "identity settings are yours."]],
+    intro: "Decide whose job each task is. Remember: the more managed the service, the more AWS does.",
+    done: "All correct! The rule of thumb: AWS secures the physical world and the services it manages; you secure your data, identities and anything you configure."
+  });
 })();
 </script>
 <!-- module-data:start -->
-<script type="application/json" id="module-data">{"module":25,"title":"Running IT as a Service","glossary":[["Service","Something useful done for someone, without them owning the costs and risks.","A means of enabling value co-creation by facilitating outcomes that customers want to achieve, without the customer having to manage specific costs and risks.",""],["Product","A packaged set of resources an organization offers.","A configuration of an organization's resources designed to offer value for a consumer.",""],["Service offering","What exactly the customer gets: goods, access and actions.","A formal description of one or more services, designed to address the needs of a target consumer group; may include goods, access to resources and service actions.",""],["Value","How useful and important something is to someone.","The perceived benefits, usefulness and importance of something.",""],["Value co-creation","Value is made together by provider and consumer.","The ITIL 4 view that value is created jointly through active collaboration between providers and consumers.",""],["Output","What the provider produces.","A tangible or intangible deliverable of an activity.",""],["Outcome","What the customer actually achieves.","A result for a stakeholder enabled by one or more outputs.",""],["Utility","Fit for purpose: what it does.","The functionality offered by a product or service to meet a particular need.",""],["Warranty","Fit for use: how well it does it.","Assurance that a product or service will meet agreed requirements (availability, capacity, security, continuity).",""],["Customer","The person who defines the requirements.","A person who defines the requirements for a service and takes responsibility for the outcomes of service consumption.",""],["User","The person who uses the service.","A person who uses services.",""],["Sponsor","The person who approves the budget.","A person who authorizes budget for service consumption.",""],["Service relationship","The working partnership between provider and consumer.","A cooperation between a service provider and service consumer, including service provision, service consumption and service relationship management.",""],["Four dimensions","Four viewpoints you must cover for any service.","Organizations and people; information and technology; partners and suppliers; value streams and processes.",""],["PESTLE","Outside forces that affect all four dimensions.","Political, economic, social, technological, legal and environmental external factors.","Political, Economic, Social, Technological, Legal, Environmental"],["Service value system","The whole ITIL machine that turns demand into value.","A model showing how all components and activities of an organization work together to enable value creation.","SVS"],["Service value chain","Six activities you combine to deliver value.","An operating model of six interconnected activities: plan, improve, engage, design and transition, obtain/build, deliver and support.","SVC"],["Value stream","A specific path through the value chain for one scenario.","A series of steps an organization undertakes to create and deliver products and services to consumers.",""],["Guiding principle","Advice that applies in every situation.","A recommendation that guides an organization in all circumstances, regardless of changes in its goals, strategies, type of work or management structure.",""],["Governance","Direction and control from the top.","The means by which an organization is directed and controlled (evaluate, direct, monitor).",""],["Practice","A set of resources for doing a type of work.","A set of organizational resources designed for performing work or accomplishing an objective.",""],["Incident","Something broke or got worse.","An unplanned interruption to a service or reduction in the quality of a service.",""],["Major incident","A big outage that gets a special procedure.","An incident with significant business impact, requiring a separate procedure, often with a dedicated team.",""],["Problem","The hidden cause behind incidents.","A cause, or potential cause, of one or more incidents.",""],["Known error","A problem we've analyzed but not fixed yet.","A problem that has been analyzed but has not been resolved.",""],["Workaround","A way to reduce the impact until the real fix.","A solution that reduces or eliminates the impact of an incident or problem for which a full resolution is not yet available.",""],["Change","Adding, modifying or removing something that matters.","The addition, modification or removal of anything that could have a direct or indirect effect on services.",""],["Standard change","Low-risk, pre-approved, done often.","A low-risk, pre-authorized change that is well understood and fully documented; implemented without additional authorization.",""],["Normal change","A change that needs assessment and authorization.","A change that must be scheduled, assessed and authorized following a standard process.",""],["Emergency change","Must be done as soon as possible.","A change that must be implemented as soon as possible, e.g., to resolve an incident or implement a security patch; may use a separate change authority.",""],["Change authority","The person or group who approves a change.","A person or group responsible for authorizing a change; ITIL 4 decentralizes this rather than using a single CAB for everything.",""],["CAB","A committee that reviews changes.","Change advisory board: a traditional group that advises on or authorizes changes; in ITIL 4, one possible change authority.","Change Advisory Board"],["Service request","An ordinary ask, not a failure.","A request from a user that initiates a service action agreed as a normal part of service delivery (e.g., a password reset, a laptop, information).",""],["Service desk","The single point of contact for users.","The practice that captures demand for incident resolution and service requests; the entry point and single point of contact between the provider and all users.","SPOC"],["SLA","Written agreement on service targets with a customer.","Service level agreement: a documented agreement between a service provider and a customer that identifies services required and the expected level of service.","Service Level Agreement"],["OLA","Internal agreement between teams.","Operational level agreement between internal parts of the same organization supporting an SLA (an ITIL term not emphasized in the ITIL 4 Foundation glossary).","Operational Level Agreement"],["UC","Contract with an outside supplier.","Underpinning contract: a contract with an external supplier that supports the provider's service levels.","Underpinning Contract"],["Watermelon SLA","Green outside, red inside.","A situation where SLA metrics are met but customers are still unhappy, because metrics don't reflect real outcomes.",""],["Continual improvement model","Seven steps to improve anything.","Vision, where are we now, where do we want to be, how do we get there, take action, did we get there, how do we keep the momentum going.",""],["Impact","How much it hurts the business.","A measure of the effect of an incident on business processes (users affected, revenue, safety).",""],["Urgency","How fast it needs fixing.","How quickly an incident must be resolved to avoid business impact.",""],["Priority","Impact plus urgency decide the order of work.","The relative importance of an incident, usually derived from a matrix of impact and urgency.",""],["Swarming","Many experts tackle a ticket together.","An incident management technique where people with different expertise work together on an incident until it is clear who is best placed to continue.",""],["Configuration item","Anything tracked because it supports a service.","Any component that needs to be managed in order to deliver an IT service.","CI"],["ITIL (Version 5)","The 2026 update of ITIL.","PeopleCert's update to ITIL launched in February 2026, reframing ITIL as digital product and service management, with a Product and Service Lifecycle Model and added AI guidance (verify on peoplecert.org).","ITIL 5"]],"quiz":[{"t":"mc","q":"Which term describes 'the perceived benefits, usefulness and importance of something'?","o":["Outcome","Value","Utility","Output"],"a":1,"w":["An outcome is a result for a stakeholder.","Correct: the ITIL 4 definition of value.","Utility is the functionality offered.","An output is a deliverable of an activity."],"x":"Value is subjective and is co-created by provider and consumer.","c":"ITIL","d":"1.1 Key concepts: value"},{"t":"mc","sc":"A finance director approves the money for a new payroll service. The HR manager defined what the service must do. Payroll clerks log in to it every day.","q":"Which role does the finance director have?","o":["Customer","User","Sponsor","Supplier"],"a":2,"w":["The HR manager is the customer: defines requirements.","The clerks are users.","Correct: authorizes budget.","A supplier provides goods or services to the provider."],"x":"Customer defines requirements, user uses, sponsor pays (authorizes budget). One person can hold several roles.","c":"ITIL","d":"1.2 Key concepts: roles"},{"t":"mc","q":"Which guiding principle recommends assessing what already exists before building something new?","o":["Focus on value","Start where you are","Optimize and automate","Keep it simple and practical"],"a":1,"w":["About knowing who the value is for.","Correct: observe current state directly and reuse what works.","About maximizing value of work, then automating.","About removing unnecessary steps."],"x":"Don't start from scratch without considering what is already available to be leveraged.","c":"ITIL","d":"2.1 Guiding principles"},{"t":"mc","sc":"A team plans to automate a 14-step approval workflow. An analyst points out that 6 of the steps add nothing and should be removed first.","q":"Which guiding principle is being applied?","o":["Optimize and automate","Collaborate and promote visibility","Progress iteratively with feedback","Think and work holistically"],"a":0,"w":["Correct: optimize first (simplify), then automate.","About involving the right people and making work visible.","About small steps with feedback.","About seeing the whole system."],"x":"Automating a bad process just makes mistakes faster. 'Keep it simple and practical' also fits removal of waste, but the automate context points to optimize and automate.","c":"ITIL","d":"2.1 Guiding principles"},{"t":"mc","q":"Which of the four dimensions includes workflows, value streams and how activities are coordinated?","o":["Organizations and people","Information and technology","Partners and suppliers","Value streams and processes"],"a":3,"w":["Covers culture, roles, skills and structures.","Covers data, tools and technology.","Covers relationships with other organizations.","Correct."],"x":"All four dimensions apply to every service and to the SVS as a whole; PESTLE factors influence them.","c":"ITIL","d":"3.1 Four dimensions"},{"t":"mc","q":"What is the input to the ITIL service value system?","o":["Value","Opportunity and demand","Governance","Practices"],"a":1,"w":["Value is the output.","Correct.","Governance is a component inside the SVS.","Practices are a component inside the SVS."],"x":"Opportunity and demand → SVS (guiding principles, governance, service value chain, practices, continual improvement) → value.","c":"ITIL","d":"4.1 Service value system"},{"t":"mc","q":"Which value chain activity provides the main interface with users and other stakeholders?","o":["Plan","Engage","Deliver and support","Obtain/build"],"a":1,"w":["Creates shared understanding of vision and direction.","Correct: understanding needs, transparency, good relationships.","Ensures services are delivered and supported to specification.","Ensures components are available when needed."],"x":"Engage handles demand coming in and communication going out.","c":"ITIL","d":"5.1 Service value chain"},{"t":"mc","q":"What is the purpose of the information security management practice?","o":["To protect the information needed by the organization to conduct its business","To ensure services achieve agreed availability","To set clear business-based targets for service levels","To maximize the number of successful changes"],"a":0,"w":["Correct.","That's availability management.","That's service level management.","That's change enablement."],"x":"Foundation expects you to recognize the purpose of 15 practices.","c":"ITIL","d":"6.1 Practices: purpose"},{"t":"mc","q":"Which practice has the purpose of ensuring accurate and reliable information about the configuration of services and the CIs that support them is available when needed?","o":["IT asset management","Service configuration management","Deployment management","Monitoring and event management"],"a":1,"w":["Plans and manages the full lifecycle of IT assets (value, cost, risk).","Correct.","Moves components into live environments.","Observes services and records state changes."],"x":"Configuration management cares about relationships between CIs; asset management cares about financial lifecycle.","c":"ITIL","d":"6.1 Practices: purpose"},{"t":"mc","q":"What is the purpose of incident management?","o":["To minimize the negative impact of incidents by restoring normal service operation as quickly as possible","To find and remove the causes of incidents","To handle all pre-defined user-initiated requests","To capture demand and act as a single point of contact"],"a":0,"w":["Correct.","That's problem management.","That's service request management.","That's the service desk."],"x":"Incident = restore fast; problem = find the cause.","c":"ITIL","d":"7.3 Incident management"},{"t":"mc","q":"Which is a phase of problem management?","o":["Error control","Change scheduling","Request fulfilment","Event correlation"],"a":0,"w":["Correct: problem identification, problem control, error control.","Part of change enablement.","Part of service request management.","Part of monitoring and event management."],"x":"Error control manages known errors, including workarounds and possible permanent fixes.","c":"ITIL","d":"7.4 Problem management"},{"t":"mc","q":"Which type of change is low risk, pre-authorized and typically initiated as a service request?","o":["Normal change","Emergency change","Standard change","Major change"],"a":2,"w":["Needs assessment and authorization each time.","Must be done ASAP; expedited authorization.","Correct.","Not an ITIL 4 change type."],"x":"Standard changes have a risk assessment done once, when the procedure is created.","c":"ITIL","d":"7.2 Change enablement"},{"t":"mc","q":"How should timescales for service requests be set?","o":["Agreed and based on what the organization can realistically deliver","Always as short as possible","Set by the service desk agent for each request","Identical for every request type"],"a":0,"w":["Correct: expectations should be clear and realistic.","Unrealistic promises damage trust.","Should be standardized, not ad hoc.","Different requests have different steps."],"x":"Service requests should be standardized and automated as much as possible, with clear policies on what can be fulfilled with limited or no approvals.","c":"ITIL","d":"7.5 Service request management"},{"t":"mc","q":"Which statement about the service desk is correct?","o":["It should be highly technical so it can resolve every incident itself","It needs practical understanding of the wider organization, the business processes and the users","It is always a physical team in a single location","It only handles incidents, not requests"],"a":1,"w":["Agents need empathy and business understanding, not only deep tech skills.","Correct.","Can be virtual, follow-the-sun, or use self-service and chatbots.","Handles incidents and service requests."],"x":"The focus is on support for people and the business, not just technical issues.","c":"ITIL","d":"7.6 Service desk"},{"t":"mc","q":"Which approach does service level management use to make sure targets reflect what customers actually experience?","o":["Only measure system uptime","Engage customers to understand and confirm their needs, and capture business metrics and feedback","Let technical teams set targets they find easy to meet","Avoid measuring to save effort"],"a":1,"w":["Single technical metrics cause the 'watermelon effect'.","Correct.","Targets should be based on business needs.","SLM needs metrics and feedback."],"x":"SLAs should relate to defined outcomes, not just operational metrics.","c":"ITIL","d":"7.7 Service level management"}],"flashcards":[["Incident vs problem management","Incident restores service fast; problem finds and removes the root cause."],["Utility vs warranty","Utility = fit for purpose (what it does). Warranty = fit for use (how well)."],["Known error","A problem that has been analysed but not yet resolved."],["Service (ITIL 4)","Enables value co-creation by facilitating outcomes customers want, without them managing specific costs and risks"],["Output vs outcome","Deliverable of an activity vs result for a stakeholder"],["Utility vs warranty","Fit for purpose (what it does) vs fit for use (how well: availability, capacity, security, continuity)"],["Customer / user / sponsor","Defines requirements / uses the service / authorizes budget"],["Service offering contents","Goods, access to resources, service actions"],["Service relationship management","Joint activities by provider and consumer to ensure continual value co-creation"],["Four dimensions","Organizations and people; information and technology; partners and suppliers; value streams and processes"],["PESTLE","Political, economic, social, technological, legal, environmental"],["SVS components","Guiding principles, governance, service value chain, practices, continual improvement"],["SVS input and output","Opportunity and demand → value"],["Value chain activities","Plan, improve, engage, design and transition, obtain/build, deliver and support"],["The 7 guiding principles","Focus on value; start where you are; progress iteratively with feedback; collaborate and promote visibility; think and work holistically; keep it simple and practical; optimize and automate"],["Continual improvement model (7 steps)","Vision? Where are we now? Where do we want to be? How do we get there? Take action. Did we get there? Keep the momentum going"],["Incident vs problem","Restore service fast vs find and manage the cause"],["Problem management phases","Problem identification, problem control, error control"],["Known error","A problem analyzed but not yet resolved"],["Three change types","Standard (pre-authorized), normal (assessed and authorized), emergency (ASAP)"],["Change authority","Person or group who authorizes a change; decentralized in ITIL 4"],["Purpose of change enablement","Maximize successful changes by ensuring risks are assessed, changes authorized and the schedule managed"],["Service request examples","Password reset, new laptop, access, information, feedback"],["Service desk","Single point of contact; captures demand for incidents and requests"],["SLA vs OLA vs UC","With customer vs between internal teams vs with external supplier"],["Watermelon SLA","Green metrics, red customer experience"],["Priority","Impact × urgency"],["ITIL 4 Foundation exam (verify)","40 multiple choice, 60 minutes, closed book, pass 65% (26/40)"],["ITIL (Version 5)","Launched Feb 2026: digital product and service management; 8-activity Product and Service Lifecycle Model (verify)"]]}</script>
+<script type="application/json" id="module-data">{"module":25,"title":"Amazon Web Services","glossary":[["Amazon Web Services","Amazon's cloud: rent computers and services over the internet.","A public cloud platform offering 200+ on-demand IT services (compute, storage, databases, networking, AI) billed by usage.","AWS"],["Region","A part of the world where AWS has data centers.","A separate geographic area (e.g., us-east-1, eu-west-2) containing multiple, isolated Availability Zones.",""],["Availability Zone","One or more data centers inside a Region.","One or more discrete data centers with redundant power, networking and connectivity in a Region, isolated from failures in other AZs.","AZ"],["Edge location","A small AWS site close to users for fast delivery.","A point of presence used by CloudFront and Route 53 to cache content and answer DNS close to end users.",""],["Amazon EC2","Virtual servers you rent by the second.","Elastic Compute Cloud: resizable virtual machines (instances) in many types and sizes.","Elastic Compute Cloud"],["AWS Lambda","Run code without managing servers.","Serverless compute that runs functions in response to events and bills per request and duration.",""],["Amazon S3","Unlimited file storage in buckets.","Simple Storage Service: object storage with 11 nines of durability and storage classes from Standard to Glacier Deep Archive.","Simple Storage Service"],["Amazon EBS","A virtual hard drive for one EC2 instance.","Elastic Block Store: block storage volumes attached to EC2 instances in one AZ.","Elastic Block Store"],["Amazon EFS","A shared network drive for many servers.","Elastic File System: managed NFS file storage that many instances can mount at once.","Elastic File System"],["Amazon RDS","Managed traditional databases.","Relational Database Service: managed MySQL, PostgreSQL, MariaDB, Oracle, SQL Server and Aurora with automated backups and patching.","Relational Database Service"],["Amazon DynamoDB","A fast, serverless NoSQL database.","Fully managed key-value and document database with single-digit millisecond performance at any scale.",""],["Amazon VPC","Your own private network inside AWS.","Virtual Private Cloud: a logically isolated network with your IP ranges, subnets, route tables and gateways.","Virtual Private Cloud"],["Security group","A firewall around each instance.","A stateful virtual firewall that controls inbound and outbound traffic for an instance (allow rules only).",""],["Network ACL","A firewall for a whole subnet.","A stateless subnet-level filter with numbered allow and deny rules.","NACL"],["IAM","Who can do what in your AWS account.","Identity and Access Management: users, groups, roles and policies that grant permissions; global and free.","Identity and Access Management"],["Root user","The all-powerful account owner login.","The identity created with the account; has full access, should have MFA and should not be used for daily tasks.",""],["IAM role","Temporary permissions something can take on.","An identity with policies that users, services or applications assume to get temporary credentials.",""],["Amazon CloudFront","AWS's content delivery network.","A CDN that caches content at edge locations to reduce latency.",""],["Amazon Route 53","AWS's DNS service.","Highly available DNS with domain registration, health checks and routing policies.",""],["Elastic Load Balancing","Spreads traffic across servers.","Distributes incoming traffic across targets (Application, Network and Gateway Load Balancers).","ELB"],["Auto Scaling","Adds or removes servers automatically.","Adjusts the number of EC2 instances to match demand using policies.",""],["Amazon CloudWatch","Watches metrics and logs.","Monitoring service for metrics, logs, alarms and dashboards.",""],["AWS CloudTrail","Records who did what in the account.","Logs API calls and account activity for governance, auditing and forensics.",""],["AWS Config","Tracks how resources are configured.","Records resource configurations and changes, and evaluates them against rules.",""],["AWS Organizations","Manage many AWS accounts together.","Central management of multiple accounts with consolidated billing and service control policies (SCPs).",""],["AWS Artifact","Where to download AWS compliance reports.","Self-service portal for AWS security and compliance reports (SOC, ISO, PCI) and agreements.",""],["Amazon GuardDuty","AWS threat detection.","Managed threat detection analysing CloudTrail, VPC Flow Logs and DNS logs for malicious activity.",""],["AWS Shield","DDoS protection.","Managed DDoS protection; Standard is automatic and free, Advanced adds response team and cost protection.",""],["AWS WAF","Web application firewall.","Filters HTTP(S) requests to CloudFront, ALB and API Gateway using rules (e.g., SQL injection, XSS).","Web Application Firewall"],["AWS KMS","Manages encryption keys.","Key Management Service: create and control keys used to encrypt data across AWS services.","Key Management Service"],["On-Demand Instances","Pay by the second, no commitment.","EC2 pricing with no long-term commitment; highest per-hour cost, most flexible.",""],["Savings Plans","Commit to spend, get a discount.","Commit to a consistent $/hour of compute for 1 or 3 years for up to ~72% off (EC2 Instance) or ~66% (Compute).",""],["Reserved Instances","Reserve capacity for 1 or 3 years at a discount.","Billing discount for committing to a specific instance configuration for 1 or 3 years.","RI"],["Spot Instances","Cheap spare capacity that can be taken back.","Unused EC2 capacity at up to ~90% off that AWS can reclaim with a 2-minute warning.",""],["AWS Well-Architected Framework","AWS's checklist for good cloud design.","Six pillars: operational excellence, security, reliability, performance efficiency, cost optimization, sustainability.",""],["Total cost of ownership","The full cost of running something over time.","All direct and indirect costs (hardware, power, staff, facilities) used to compare on-premises with cloud.","TCO"]],"quiz":[{"t":"mc","q":"What is an AWS Availability Zone?","o":["One or more isolated data centers within a Region","A country where AWS sells services","A CDN cache location","A single server rack"],"a":0,"w":["Correct.","Regions are geographic areas, not countries.","That's an edge location.","Much bigger than a rack."],"x":"Spread workloads across at least two AZs for high availability.","c":"CLF","d":"3.2 Global infrastructure"},{"t":"mc","q":"Under the shared responsibility model, which is the CUSTOMER's job when using Amazon EC2?","o":["Patching the guest operating system","Physical security of the data center","Maintaining the hypervisor","Replacing failed disks in hosts"],"a":0,"w":["Correct: you manage everything inside the instance.","AWS.","AWS.","AWS."],"x":"AWS = security OF the cloud; customer = security IN the cloud.","c":"CLF","d":"2.1 Shared responsibility model"},{"t":"mc","q":"Which AWS service records API calls for auditing who did what?","o":["AWS CloudTrail","Amazon CloudWatch","AWS Config","Amazon Inspector"],"a":0,"w":["Correct.","Metrics, logs and alarms.","Configuration history and compliance rules.","Vulnerability scanning."],"x":"CloudTrail = who did it; CloudWatch = how it's performing; Config = how it's configured.","c":"CLF","d":"2.2 Security, governance and compliance"},{"t":"mc","q":"A batch job can be interrupted and restarted at any time. Which EC2 pricing option is cheapest?","o":["Spot Instances","On-Demand","Dedicated Hosts","Reserved Instances for 3 years"],"a":0,"w":["Correct: up to ~90% off, can be reclaimed with 2 minutes' notice.","Most expensive per hour.","Most expensive; for licensing or compliance.","Commitment for steady workloads."],"x":"Spot suits fault-tolerant, flexible workloads.","c":"CLF","d":"4.1 Pricing models"},{"t":"mc","q":"What should you do with the AWS account root user?","o":["Enable MFA, lock away the credentials and use IAM identities for daily work","Share it with the whole team","Use it for all daily administration","Delete it"],"a":0,"w":["Correct.","Never share credentials.","Use least privilege instead.","You can't delete the root user."],"x":"Only a few tasks need root, such as changing the support plan or closing the account.","c":"CLF","d":"2.3 Access management"},{"t":"mc","q":"Which storage service is best for storing millions of photos accessed over HTTP?","o":["Amazon S3","Amazon EBS","Instance store","Amazon EFS"],"a":0,"w":["Correct: object storage, virtually unlimited.","Block storage for one instance.","Temporary block storage.","Shared file system; more costly for this."],"x":"S3 storage classes (Standard, Intelligent-Tiering, Glacier) cut costs for less-used data.","c":"CLF","d":"3.6 Storage"},{"t":"ms","q":"Which are pillars of the AWS Well-Architected Framework? (Select all that apply.)","o":["Reliability","Cost optimization","Sustainability","Scalability","Security"],"a":[0,1,2,4],"w":["Correct.","Correct.","Correct (the sixth pillar, added 2021).","Important, but part of performance efficiency and reliability, not a pillar.","Correct."],"x":"The six pillars: operational excellence, security, reliability, performance efficiency, cost optimization, sustainability.","c":"CLF","d":"1.1 Benefits and design principles"},{"t":"mc","q":"Which service lets you run code without provisioning servers and pay only when it runs?","o":["AWS Lambda","Amazon EC2","Amazon Lightsail","AWS Outposts"],"a":0,"w":["Correct.","You manage instances.","Simple VPS bundles.","AWS hardware in your data center."],"x":"Serverless: no servers to manage, automatic scaling, pay per use.","c":"CLF","d":"3.3 Compute"},{"t":"mc","q":"Where do you download AWS's SOC 2 and ISO 27001 reports for your auditors?","o":["AWS Artifact","AWS Trusted Advisor","AWS Marketplace","AWS Health Dashboard"],"a":0,"w":["Correct.","Best-practice checks.","Third-party software.","Service events."],"x":"Artifact also holds agreements such as the BAA for HIPAA.","c":"CLF","d":"2.2 Security, governance and compliance"},{"t":"mc","q":"Which tool estimates the monthly cost of a planned AWS architecture before you build it?","o":["AWS Pricing Calculator","AWS Cost Explorer","AWS Budgets","AWS CloudTrail"],"a":0,"w":["Correct.","Analyses past and current spend.","Alerts when spend crosses a threshold.","Audit log."],"x":"Calculator = before; Cost Explorer = after; Budgets = alerts.","c":"CLF","d":"4.2 Billing and cost management"},{"t":"order","q":"Order these AWS infrastructure terms from largest to smallest.","o":["Region","Availability Zone","Data center","Rack"],"x":"A Region has 3+ AZs; an AZ has one or more data centers.","c":"CLF","d":"3.2 Global infrastructure"},{"t":"mc","sc":"A startup's website must stay up if a whole data center fails, at the lowest reasonable cost.","q":"What is the BEST design?","o":["EC2 instances in two Availability Zones behind a load balancer with Auto Scaling","One large EC2 instance","Two instances in the same AZ","Instances in three different Regions"],"a":0,"w":["Correct: Multi-AZ survives a data center failure.","Single point of failure.","Same AZ shares the failure.","Works but costs more and is more complex than needed."],"x":"Multi-AZ for high availability; multi-Region for disaster recovery or global users.","c":"CLF","d":"1.1 Benefits and design principles"},{"t":"mc","q":"Which support plan is the lowest-cost option that gives 24/7 phone access to Cloud Support Engineers?","o":["Business","Basic","Developer","Enterprise"],"a":0,"w":["Correct (verify current plan names and features).","No technical support cases.","Business-hours email only.","Includes it but costs more."],"x":"Enterprise adds a Technical Account Manager (TAM).","c":"CLF","d":"4.3 Support resources"}],"flashcards":[["Highly available on AWS usually means","Spread across multiple Availability Zones."],["RDS Multi-AZ","A standby database copy in another zone that takes over automatically."],["First cost control to set up","An AWS Budgets alert."],["Region / AZ / edge location","Geographic area / isolated data center(s) in a Region / CDN and DNS point of presence"],["Shared responsibility","AWS: security OF the cloud. You: security IN the cloud."],["EC2 / Lambda / ECS / EKS / Fargate","VMs / serverless functions / containers / Kubernetes / serverless containers"],["S3 / EBS / EFS / Glacier","Objects / block for one instance / shared NFS / archive"],["RDS / Aurora / DynamoDB / Redshift","Managed SQL / AWS high-performance SQL / NoSQL key-value / data warehouse"],["VPC / security group / NACL","Private network / stateful instance firewall / stateless subnet filter"],["CloudTrail / CloudWatch / Config","Who did what / metrics and alarms / configuration history"],["GuardDuty / Inspector / Macie","Threat detection / vulnerability scanning / finds sensitive data in S3"],["Shield / WAF","DDoS protection / web application firewall"],["Pricing options","On-Demand, Savings Plans, Reserved, Spot (up to ~90% off), Dedicated"],["Pricing Calculator / Cost Explorer / Budgets","Estimate before / analyse after / alert on threshold"],["Well-Architected pillars (6)","Operational excellence, security, reliability, performance efficiency, cost optimization, sustainability"],["Root user best practice","MFA on, no access keys, use IAM roles and least privilege"],["AWS Artifact","Download AWS compliance reports (SOC, ISO, PCI)"],["Support plans","Basic, Developer, Business, Enterprise On-Ramp, Enterprise (verify)"],["CLF-C02 format","65 questions · 90 min · 700/1000 · domains 24/30/34/12%"],["AWS foundational certs","Cloud Practitioner (CLF-C02), AI Practitioner (AIF-C01)"],["AWS cert renewal","Every 3 years"]]}</script>
 <!-- module-data:end -->
 </body>
 </html>

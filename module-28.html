@@ -3,33 +3,12 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Module 28 · Checking the System: Information Systems Auditing (CISA) | Datacenter Omnibus</title>
-<meta name="description" content="ISACA CISA: the audit process, IT governance, acquisition and development, operations and resilience, and protection of information assets, with an auditor's mindset, five labs and a 75-question domain-weighted practice exam.">
+<title>Module 28 · Running Azure and Microsoft 365 | Datacenter Omnibus</title>
+<meta name="description" content="Azure Administrator (AZ-104) and Microsoft 365 Administrator (MS-102): Entra ID users and groups, RBAC, Azure Policy, storage accounts and SAS, VMs, availability, VNets, NSGs, Bastion, Azure Monitor and KQL, backup, hybrid identity, PIM, Defender XDR and Purview.">
 <link rel="stylesheet" href="assets/omnibus.css">
 <style>
-  .seg { display: flex; flex-wrap: wrap; gap: 4px; }
-  .seg button.on { background: var(--accent); color: #fff; border-color: var(--accent); }
-  .metric { font-size: 1.5rem; font-weight: 800; line-height: 1.1; }
-  .phase-card { border: 1px solid var(--line); border-radius: 10px; padding: 12px; background: var(--surface); }
-  .phase-card .t { font-weight: 700; color: var(--accent); }
-  .act { display: block; margin: 6px 0; padding: 6px 8px; border-radius: 8px; border: 1px solid transparent; }
-  .act.ok { border-color: var(--good); background: var(--good-soft); }
-  .act.bad { border-color: var(--bad); background: var(--bad-soft); }
-  .act.miss { border-color: var(--warn); background: var(--warn-soft); }
-  .act .fb { display: block; font-size: .85rem; color: var(--ink-2); margin-left: 24px; }
-  .phases { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 8px; }
-  .phases span { border: 1px solid var(--line); border-radius: 999px; padding: 2px 10px; font-size: .85rem; }
-  .phases span.now { border-color: var(--accent); background: var(--accent-soft); font-weight: 700; }
-  .phases span.done { border-color: var(--good); background: var(--good-soft); }
-  .sod td, .sod th { text-align: center; padding: 4px 6px; font-size: .84rem; }
-  .sod td:first-child, .sod th:first-child { text-align: left; }
-  .sod tr.ok td:first-child { box-shadow: inset 4px 0 0 var(--good); }
-  .sod tr.bad td:first-child { box-shadow: inset 4px 0 0 var(--bad); }
-  .sod tr.miss td:first-child { box-shadow: inset 4px 0 0 var(--warn); }
-  .ev { border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; margin: 10px 0; background: var(--surface); }
-  .ev .mock { font-family: var(--mono); font-size: .8rem; background: var(--surface-2); border-radius: 8px; padding: 8px; overflow-x: auto; white-space: pre; margin: 6px 0; }
-  .ev.ok { border-color: var(--good); } .ev.bad { border-color: var(--bad); }
-  .ev .fb { font-size: .9rem; margin-top: 6px; }
+  .chip.ok { border-color: var(--good); background: var(--good-soft); }
+  .chip.bad { border-color: var(--bad); background: var(--bad-soft); }
 </style>
 </head>
 <body data-module="28">
@@ -38,16 +17,16 @@
 <main class="page" id="main">
 
 <section class="intro">
-  <div class="kicker">Part 6 · Service, Governance and Audit · Module 28</div>
-  <h1>Checking the System: Information Systems Auditing</h1>
-  <p class="why"><b>Why this matters.</b> Every control in this Omnibus, from a firewall rule to a backup schedule, only counts if someone can prove it works. IT (Information Technology) auditors give boards, regulators and customers that independent assurance. ISACA (Information Systems Audit and Control Association)'s Certified Information Systems Auditor (CISA) is the leading credential for it and is valued in audit firms, banks, government and any organization under SOX (Sarbanes-Oxley Act), PCI (Payment Card Industry) DSS (Data Security Standard) or ISO (International Organization for Standardization) 27001. This module teaches the auditor's mindset (independence, evidence, risk, reporting) across all five CISA domains and ends with a 75-question practice exam.</p>
+  <div class="kicker">Part 5 · Cloud, Data Center and AI · Module 28</div>
+  <h1>Running Azure and Microsoft 365</h1>
+  <p class="why"><b>Why this matters.</b> Azure Administrator and Microsoft 365 Administrator are both on the top-paying list, and they match some of the most common job titles in IT (Information Technology). This module turns the Azure Fundamentals knowledge from Module 27 into the day-to-day admin skills those exams test.</p>
   <h3>You will be able to</h3>
   <ul class="outcomes">
-    <li>Plan and run a risk-based IS audit under ISACA standards, collect evidence, sample, use CAATs (Computer-Assisted Audit Techniques), report and follow up.</li>
-    <li>Evaluate IT governance, strategy, organizational structure, segregation of duties, risk, vendors and performance.</li>
-    <li>Audit system acquisition and development: business cases, SDLC (System Development Life Cycle), Agile and DevOps controls, testing, changeover and post-implementation review.</li>
-    <li>Audit IT operations and resilience: scheduling, change, configuration, patching, incidents, assets, databases, capacity, BIA (Business Impact Analysis), backup, BCP (Business Continuity Plan) and DRP (Disaster Recovery Plan).</li>
-    <li>Audit protection of information assets: frameworks, privacy, physical controls, IAM (Identity and Access Management), network, data, encryption, cloud and monitoring.</li>
+    <li>Describe the AZ-104 and MS-102 exams and how they renew.</li>
+    <li>Manage Entra ID users and groups, RBAC (Role-Based Access Control) scopes and governance.</li>
+    <li>Secure storage with keys, SAS (Shared Access Signature) tokens, RBAC and network rules.</li>
+    <li>Deploy resilient VMs (Virtual Machine) and configure VNets, NSGs, routing, Bastion, monitoring and backup.</li>
+    <li>Explain hybrid identity options, PIM, Defender XDR (Extended Detection and Response) and Purview controls.</li>
   </ul>
   <nav class="jumpnav" id="jumpnav" aria-label="On this page"></nav>
 </section>
@@ -57,186 +36,135 @@
   <div id="certmap-badges"></div>
 </section>
 
-<section class="lesson" id="exam">
-  <h2>1. The CISA exam and the auditor's mindset</h2>
-  <figure class="fig"><svg id="dom-fig" viewBox="0 0 760 140" width="760" role="img" aria-label="Bar showing CISA domain weights 18, 18, 12, 26 and 26 percent"></svg>
-  <figcaption class="figcap">CISA 2024 job practice domain weights (verify on isaca.org).</figcaption></figure>
-  <div class="tablewrap"><table>
-    <thead><tr><th>Item</th><th>Detail (verify on isaca.org)</th></tr></thead>
-    <tbody>
-      <tr><td>Format</td><td>150 multiple-choice questions, 4 hours, test center or remote proctored</td></tr>
-      <tr><td>Scoring</td><td>Scaled 200–800; 450 or higher passes</td></tr>
-      <tr><td>Experience</td><td>5 years in IS/IT audit, control, assurance or security; some substitutions (e.g., a degree) can waive up to 3 years; apply within 5 years of passing</td></tr>
-      <tr><td>Keeping it</td><td>Annual fee, 20 CPE hours per year and 120 per three-year cycle, ISACA Code of Professional Ethics, IS audit standards</td></tr>
-    </tbody></table></div>
-  <h3 id="mindset">Think like an auditor</h3>
-  <ul>
-    <li><b>Independence</b>: you evaluate and recommend; you don't design, operate or fix the controls you audit.</li>
-    <li><b>Evidence</b>: conclusions must rest on sufficient, reliable, relevant evidence. Evidence you obtain directly from the system beats what someone tells you.</li>
-    <li><b>Risk-based</b>: focus effort where risk to the business is highest.</li>
-    <li><b>Report</b>: the auditor's output is a report to management and the audit committee, with findings and recommendations. Management owns remediation.</li>
-  </ul>
-  <div class="callout trap">Answers where the auditor "fixes the problem", "rolls back the change" or "disables the account." The auditor reports it, with evidence and a recommendation, to the right level of management.</div>
-</section>
-
-<section class="lesson" id="d1">
-  <h2>2. Domain 1: The IS auditing process</h2>
-  <figure class="fig"><svg id="life-fig" viewBox="0 0 760 120" width="760" role="img" aria-label="Audit lifecycle: plan, fieldwork, report, follow up"></svg></figure>
-  <ul>
-    <li><b>Standards and ethics</b>: ISACA IS Audit and Assurance Standards (general, performance, reporting), guidelines, tools and techniques, and the Code of Professional Ethics. Also IIA (Institute of Internal Auditors) standards for internal audit generally.</li>
-    <li><b>Audit charter</b>: approved by the board/audit committee; defines authority, scope, responsibility and reporting line (functionally to the audit committee).</li>
-    <li><b>Risk-based planning</b>: understand the business, assess <b>inherent risk</b>, <b>control risk</b> and <b>detection risk</b> (audit risk = IR × CR × DR), then set scope and objectives.</li>
-    <li><b>Types of audit</b>: compliance, financial, operational, integrated, IS, forensic, specialized (e.g., third-party/SOC), administrative; internal vs external.</li>
-    <li><b>Controls</b>: preventive, detective, corrective (also deterrent, compensating); <b>general</b> (ITGC, Information Technology General Controls: access, change, operations, backup) vs <b>application</b> (input, processing, output).</li>
-    <li><b>Testing</b>: <b>compliance tests</b> check controls operate; <b>substantive tests</b> check the data. Weak controls mean more substantive testing.</li>
-    <li><b>Evidence</b>: inquiry (weakest), observation, inspection, reperformance, analytics, confirmation. Independent and system-generated is strongest.</li>
-    <li><b>Sampling</b>: statistical (random, systematic, stratified; projectable) vs judgmental. <b>Attribute</b> sampling for rates (compliance), <b>variable</b> sampling for amounts (substantive). Higher confidence or lower tolerable error means a larger sample. Try Lab 2.</li>
-    <li><b>CAATs and analytics</b>: generalized audit software, scripts, test data, integrated test facility, embedded audit modules, continuous auditing; test 100% of a population where possible.</li>
-    <li><b>Reporting</b>: findings with criteria, condition, cause, effect and recommendation; management responses and action dates; communicated to the right level.</li>
-    <li><b>Follow-up</b>: verify that agreed actions were completed; escalate if risk is accepted without authority.</li>
-  </ul>
-</section>
-
-<section class="lesson" id="d2">
-  <h2>3. Domain 2: Governance and management of IT</h2>
-  <ul>
-    <li><b>IT governance</b>: strategy aligned with business strategy, steering committees, frameworks (COBIT (Control Objectives for Information and Related Technologies) 2019; see Module 26), value delivery and benefits realization.</li>
-    <li><b>Policies, standards and procedures</b>: approved by senior management, communicated, reviewed regularly.</li>
-    <li><b>Organizational structure</b>: CIO (Chief Information Officer), CISO (Chief Information Security Officer) and audit reporting lines; security independent of operations.</li>
-    <li><b>Segregation of duties</b>: separate <b>authorization</b>, <b>recording</b>, <b>custody</b> and <b>reconciliation</b>; in IT, separate development, testing, production operations and security administration. Where SoD isn't possible, use <b>compensating controls</b> (supervisory review, logging). Try Lab 3.</li>
-    <li><b>Enterprise architecture</b> (TOGAF (The Open Group Architecture Framework), Zachman), <b>IT risk management</b>, <b>maturity models</b>, <b>resource and vendor management</b> (contracts, SLAs (Service Level Agreement), right to audit, exit plans), <b>quality management</b> (ISO 9001) and <b>performance monitoring</b> (balanced scorecard, KPIs (Key Performance Indicator)).</li>
-  </ul>
-</section>
-
-<section class="lesson" id="d3">
-  <h2>4. Domain 3: Acquisition, development and implementation</h2>
-  <ul>
-    <li><b>Project governance</b>: sponsor, steering committee, project manager; scope, time, cost, quality; earned value; stage gates.</li>
-    <li><b>Business case and feasibility</b>: technical, economic (ROI (Return on Investment), NPV (Net Present Value), payback), operational, legal and schedule feasibility.</li>
-    <li><b>SDLC models</b>: waterfall (sequential, heavy documentation), Agile (iterative sprints, backlog, definition of done), DevOps / DevSecOps (CI/CD (Continuous Integration / Continuous Delivery) with automated tests and security gates), prototyping, RAD (Rapid Application Development).</li>
-    <li><b>Development controls</b>: requirements sign-off, secure coding, code review, separate dev/test/prod environments, version control, migration by someone other than the developer (or automated pipeline with approvals).</li>
-    <li><b>Testing</b>: unit → integration → system (functional, performance, security, regression) → UAT (User Acceptance Testing) by business users; test data should not be live sensitive data unless masked.</li>
-    <li><b>Migration and changeover</b>: data conversion with reconciliation (record counts, control totals); parallel, pilot, phased or direct cutover with a fallback plan. Try Lab 4.</li>
-    <li><b>Post-implementation review</b>: benefits vs the business case, lessons learned, usually some months after go-live.</li>
-  </ul>
-</section>
-
-<section class="lesson" id="d4">
-  <h2>5. Domain 4: Operations and business resilience</h2>
-  <div class="tablewrap"><table>
-    <thead><tr><th>Area</th><th>What the auditor checks</th></tr></thead>
-    <tbody>
-      <tr><td>IT operations and job scheduling</td><td>Authorized schedules, exception handling, operator logs, restart procedures</td></tr>
-      <tr><td>Change, configuration, release and patch management</td><td>Changes approved, tested and documented; trace system changes back to tickets to find unauthorized ones; CMDB (Configuration Management Database) accuracy; patch compliance</td></tr>
-      <tr><td>Incident and problem management</td><td>Logging, prioritization, escalation, root cause analysis, recurring incidents</td></tr>
-      <tr><td>IT asset management</td><td>Complete inventory, ownership, lifecycle, licensing, secure disposal</td></tr>
-      <tr><td>Database management</td><td>DBA (Database Administrator) privileges, logging of privileged activity, integrity controls, backup</td></tr>
-      <tr><td>Capacity and performance</td><td>Monitoring, forecasting, thresholds</td></tr>
-      <tr><td>BIA</td><td>Critical processes identified with RTO (Recovery Time Objective), RPO (Recovery Point Objective) and MTD (Maximum Tolerable Downtime) approved by business owners</td></tr>
-      <tr><td>Backup and restore</td><td>Schedules match RPO, offsite/immutable copies, encryption, <b>restore tests</b></td></tr>
-      <tr><td>BCP and DRP</td><td>Plans current, roles assigned, recovery sites (hot, warm, cold, mirrored, reciprocal, cloud), tested regularly, results acted on</td></tr>
-    </tbody></table></div>
-  <div class="callout tip">A backup job's "success" log only proves the job ran. Restore tests prove recovery works. On the exam, the evidence that tests the outcome usually beats the evidence that shows activity.</div>
-</section>
-
-<section class="lesson" id="d5">
-  <h2>6. Domain 5: Protection of information assets</h2>
-  <ul>
-    <li><b>Frameworks</b>: ISO 27001/27002, NIST (National Institute of Standards and Technology) CSF (Cybersecurity Framework), CIS (Center for Internet Security; Module 26). <b>Privacy principles</b>: lawfulness, purpose limitation, data minimization, accuracy, storage limitation, integrity and confidentiality, accountability; privacy by design; DPIAs (Data Protection Impact Assessment).</li>
-    <li><b>Physical and environmental</b>: perimeter, mantraps, badges, CCTV (Closed-Circuit Television), visitor logs; fire suppression, temperature and humidity, water detection, UPS (Uninterruptible Power Supply; Module 23).</li>
-    <li><b>Identity and access management</b>: joiner-mover-leaver, least privilege, role-based access, MFA (Multifactor Authentication), privileged access management, periodic access reviews by owners.</li>
-    <li><b>Network and endpoint</b>: segmentation, firewalls, IDS/IPS (IDS: Intrusion Detection System; IPS: Intrusion Prevention System), VPN (Virtual Private Network), wireless (WPA3-Enterprise), EDR (Endpoint Detection and Response), hardening, MDM (Mobile Device Management).</li>
-    <li><b>Data</b>: classification by owners, DLP (Data Loss Prevention), retention, secure disposal (wipe, degauss, shred, crypto-erase).</li>
-    <li><b>Encryption and PKI (Public Key Infrastructure)</b>: symmetric vs asymmetric, hashing, digital signatures (integrity, authentication, non-repudiation), CA/RA/CRL/OCSP (CA: Certificate Authority; OCSP: Online Certificate Status Protocol), key management.</li>
-    <li><b>Cloud and virtualization</b>: shared responsibility, SOC 2 reports, right to audit, hypervisor hardening, data location.</li>
-    <li><b>Monitoring, incident response and evidence</b>: centralized time-synced logs, SIEM (Security Information and Event Management), IR plans, forensics with chain of custody and hashes.</li>
-  </ul>
-</section>
-
-<section class="lesson" id="audit-walk">
-  <h2>7. An audit from start to finish</h2>
-  <p>Here is how an IT audit of user access management unfolds, so the phases in this module feel concrete.</p>
-  <ol>
-    <li><b>Planning:</b> the auditor reviews the risk assessment. Access management is high-risk because the company recently had a breach involving an ex-employee's account. Scope: the finance system, last 12 months.</li>
-    <li><b>Understanding controls:</b> interviews and documents show three key controls: access is approved by the manager before creation; leavers are disabled within one business day; access is reviewed quarterly.</li>
-    <li><b>Testing design:</b> do these controls, if they work, address the risk? Yes.</li>
-    <li><b>Testing operating effectiveness:</b> the auditor samples 25 new accounts (checking for approval), 25 leavers from HR (Human Resources) records (checking disable dates) and all four quarterly reviews.</li>
-    <li><b>Findings:</b> 3 of 25 leavers were disabled 5 to 12 days late; one quarterly review was never done.</li>
-    <li><b>Reporting:</b> each finding lists the condition (what was found), criteria (what should happen), cause, effect (risk) and a recommendation. Management responds with an action plan and dates.</li>
-    <li><b>Follow-up:</b> months later, the auditor checks whether the actions were completed and work.</li>
-  </ol>
-  <div class="callout trap">Auditors recommend; they don't implement fixes themselves. Doing so would damage their independence, because they would later be auditing their own work.</div>
-</section>
-
-<section class="lesson" id="evidence">
-  <h2>8. What makes good audit evidence?</h2>
-  <p>CISA questions often ask which evidence is the most reliable. Use these rules.</p>
-  <div class="tablewrap"><table><thead><tr><th>More reliable</th><th>Less reliable</th></tr></thead><tbody>
-    <tr><td>Evidence from an independent outside source (bank confirmation)</td><td>Evidence produced by the person being audited</td></tr>
-    <tr><td>Evidence the auditor obtains directly (re-performing a calculation, observing a process)</td><td>Evidence obtained indirectly (being told)</td></tr>
-    <tr><td>System-generated logs with integrity controls</td><td>Spreadsheets someone typed by hand</td></tr>
-    <tr><td>Documents</td><td>Verbal statements in interviews</td></tr>
-    <tr><td>Original documents</td><td>Photocopies or screenshots that could be edited</td></tr>
+<section class="lesson" id="exams">
+  <h2>1. From fundamentals to administrator</h2>
+  <p>Module 27 covered Azure Fundamentals (AZ-900). Two administrator certifications from the top-paying list build directly on it.</p>
+  <div class="tablewrap"><table><thead><tr><th></th><th>Azure Administrator Associate (AZ-104)</th><th>Microsoft 365 Administrator Expert (MS-102)</th></tr></thead><tbody>
+    <tr><td>Job</td><td>Runs Azure subscriptions: identity, storage, VMs, networking, monitoring and backup</td><td>Runs a Microsoft 365 tenant: users, identity, security, compliance</td></tr>
+    <tr><td>Domains (verify)</td><td>Identities and governance 20 to 25%; storage 15 to 20%; compute 20 to 25%; networking 15 to 20%; monitoring and maintenance 10 to 15%</td><td>Tenant 25 to 30%; Entra identity and access 25 to 30%; Defender XDR 30 to 35%; Purview compliance 10 to 15%</td></tr>
+    <tr><td>Prerequisites</td><td>None (AZ-900 recommended)</td><td>Pass MS-102 and hold one of several listed associate certifications to earn the Expert title</td></tr>
+    <tr><td>Format</td><td colspan="2">About 40 to 60 questions including case studies and possibly labs; pass mark 700 out of 1000; renew yearly with a free online assessment</td></tr>
   </tbody></table></div>
-  <p>Evidence should be <b>sufficient</b> (enough of it), <b>appropriate</b> (relevant and reliable) and documented in working papers so another auditor could reach the same conclusion.</p>
-  <div class="callout tip">Interviews are useful for understanding a process, but an auditor should always confirm what they are told with documents, system data or observation.</div>
+  <p class="figcap">Microsoft revises skills outlines often and retires exams (for example AZ-500 moved to SC-500 in 2026). Check Microsoft Learn before booking.</p>
+  <div class="callout tip">Admin exams are hands-on. Use a free Azure account and a Microsoft 365 developer or trial tenant, and do every task in the portal <i>and</i> with the command line at least once.</div>
+</section>
+
+<section class="lesson" id="idgov">
+  <h2>2. AZ-104: identities and governance</h2>
+  <ul>
+    <li><b>Users and groups in Entra ID</b>: security groups and Microsoft 365 groups; <b>assigned</b> or <b>dynamic</b> membership (rules such as department equals Sales). Guest users through B2B.</li>
+    <li><b>Self-service password reset (SSPR)</b> reduces help desk calls; require two methods for admins.</li>
+    <li><b>Entra roles vs Azure roles</b>: Entra roles (Global Administrator, User Administrator) manage the directory; Azure RBAC roles (Owner, Contributor, Reader, User Access Administrator) manage resources. They are separate systems.</li>
+    <li><b>RBAC scope</b>: management group, subscription, resource group or resource. Assignments inherit downward. <b>Custom roles</b> are JSON (JavaScript Object Notation) lists of allowed actions (and NotActions).</li>
+    <li><b>Governance</b>: Azure Policy (deny, audit, modify, deployIfNotExists), initiatives, resource locks, tags, management groups, and cost budgets and alerts (Module 27).</li>
+  </ul>
+  <div class="callout trap"><b>Exam trap.</b> Contributor can create and delete resources but <i>cannot</i> grant access to others. Owner and User Access Administrator can.</div>
+</section>
+
+<section class="lesson" id="storage">
+  <h2>3. AZ-104: storage administration</h2>
+  <ul>
+    <li><b>Storage account types</b>: Standard general-purpose v2 (most uses) and premium accounts for block blobs, file shares or page blobs.</li>
+    <li><b>Redundancy</b>: LRS, ZRS, GRS, GZRS and read-access versions (Module 27). You can change some options after creation.</li>
+    <li><b>Access</b>, from broadest to narrowest:
+      <ul>
+        <li><b>Account access keys</b>: full control; rotate them and avoid sharing.</li>
+        <li><b>Shared access signatures (SAS)</b>: time-limited, permission-limited URLs (Uniform Resource Locator). A <b>stored access policy</b> on a container lets you revoke many SAS tokens at once.</li>
+        <li><b>Entra ID with RBAC</b> (for example Storage Blob Data Reader): the preferred method.</li>
+      </ul></li>
+    <li><b>Network rules</b>: storage firewall (allowed networks and IPs (Internet Protocol)), service endpoints and private endpoints.</li>
+    <li><b>Blob features</b>: access tiers and <b>lifecycle management</b> rules, soft delete, versioning, immutability policies and object replication.</li>
+    <li><b>Azure Files</b> shares over SMB/NFS (SMB: Server Message Block; NFS: Network File System); <b>Azure File Sync</b> caches them on Windows servers. Tools: AzCopy and Storage Explorer.</li>
+  </ul>
+</section>
+
+<section class="lesson" id="compute">
+  <h2>4. AZ-104: compute and networking</h2>
+  <h3>Compute</h3>
+  <ul>
+    <li><b>Availability sets</b> spread VMs across fault domains (racks) and update domains in one data center. <b>Availability zones</b> spread VMs across buildings, giving a higher SLA (Service Level Agreement). <b>Virtual Machine Scale Sets</b> add autoscaling.</li>
+    <li>Deploy repeatably with <b>ARM templates</b> or <b>Bicep</b>; know how to read parameters, variables, resources and outputs.</li>
+    <li>Disks: managed disks (Standard HDD (Hard Disk Drive), Standard SSD (Solid-State Drive), Premium SSD, Ultra), encryption at rest by default, and Azure Disk Encryption for in-guest encryption.</li>
+    <li><b>App Service plans</b> set the size and price tier for web apps; deployment slots allow swap-based releases. <b>Azure Container Instances</b> and <b>Container Apps</b> run containers without managing servers.</li>
+  </ul>
+  <h3>Networking</h3>
+  <ul>
+    <li><b>VNets and subnets</b>, <b>NSGs</b> (rules processed by priority, lowest number first) and <b>application security groups</b> (group VMs by role inside NSG rules).</li>
+    <li><b>VNet peering</b> (non-transitive by default), <b>VPN Gateway</b>, ExpressRoute, and <b>user-defined routes</b> to force traffic through a firewall.</li>
+    <li><b>Azure DNS (Domain Name System)</b> public and <b>private zones</b>; <b>Azure Bastion</b> for browser-based RDP/SSH (RDP: Remote Desktop Protocol; SSH: Secure Shell) without public IPs on VMs.</li>
+    <li><b>Load Balancer</b> (Layer 4) vs <b>Application Gateway</b> (Layer 7, with web application firewall).</li>
+    <li><b>Network Watcher</b>: IP flow verify, next hop, connection troubleshoot and NSG flow logs.</li>
+  </ul>
+</section>
+
+<section class="lesson" id="monitor">
+  <h2>5. AZ-104: monitoring, backup and recovery</h2>
+  <ul>
+    <li><b>Azure Monitor</b> collects <b>metrics</b> (numbers over time) and <b>logs</b> (stored in a <b>Log Analytics workspace</b>, queried with <b>KQL</b>, the Kusto Query Language).</li>
+    <li><b>Alerts</b> fire on metrics, logs or activity; <b>action groups</b> decide who is notified and what automation runs.</li>
+    <li><b>VM Insights</b> and <b>Application Insights</b> give deeper views.</li>
+    <li><b>Azure Backup</b> stores restore points in a <b>Recovery Services vault</b> or Backup vault with policies for frequency and retention; soft delete protects backups from deletion.</li>
+    <li><b>Azure Site Recovery</b> replicates VMs to another region and orchestrates failover (disaster recovery, not backup).</li>
+  </ul>
+  <div class="callout detail">A first KQL query: <code>Heartbeat | where TimeGenerated &gt; ago(1h) | summarize count() by Computer</code> shows which VMs reported in the last hour.</div>
+</section>
+
+<section class="lesson" id="m365id">
+  <h2>6. MS-102: tenant and identity</h2>
+  <h3>Tenant setup</h3>
+  <ul>
+    <li>Add and verify a <b>custom domain</b> with a TXT record, then add MX, CNAME (Canonical Name record; autodiscover) and TXT (SPF) records so mail and clients work.</li>
+    <li>Assign <b>licences</b> directly or by group. Use <b>admin roles</b> with least privilege (for example Exchange Administrator, Helpdesk Administrator) and keep Global Administrators to a handful.</li>
+    <li>Watch <b>Service health</b> and the <b>Message center</b> for incidents and upcoming changes.</li>
+  </ul>
+  <h3>Hybrid identity</h3>
+  <div class="tablewrap"><table><thead><tr><th>Sign-in method</th><th>How it works</th><th>Notes</th></tr></thead><tbody>
+    <tr><td>Password hash sync (PHS)</td><td>A hash of the on-premises password hash is synced to Entra ID</td><td>Simplest and most resilient; enables leaked-credential detection</td></tr>
+    <tr><td>Pass-through authentication (PTA)</td><td>Sign-ins are checked live against on-premises domain controllers by agents</td><td>No password data in the cloud, but depends on on-premises availability</td></tr>
+    <tr><td>Federation (for example AD (Active Directory) FS)</td><td>Sign-ins redirect to an on-premises federation service</td><td>Most complex; Microsoft encourages moving away from it</td></tr>
+  </tbody></table></div>
+  <p>Synchronization uses <b>Entra Connect Sync</b> (a server you install) or the lighter <b>Entra Cloud Sync</b>.</p>
+  <h3>Securing access</h3>
+  <ul>
+    <li><b>MFA (Multifactor Authentication)</b> and <b>Conditional Access</b> (Module 27), with emergency "break-glass" accounts excluded and monitored.</li>
+    <li><b>Privileged Identity Management (PIM)</b>: admins activate roles just in time, for a limited period, with approval and justification.</li>
+    <li><b>Entra ID Protection</b>: risk-based policies on user risk and sign-in risk.</li>
+  </ul>
+</section>
+
+<section class="lesson" id="m365sec">
+  <h2>7. MS-102: Defender XDR and Purview</h2>
+  <h3>Microsoft Defender XDR</h3>
+  <div class="tablewrap"><table><thead><tr><th>Product</th><th>Protects</th></tr></thead><tbody>
+    <tr><td>Defender for Office 365</td><td>Email and collaboration: Safe Links, Safe Attachments, anti-phishing, attack simulation training</td></tr>
+    <tr><td>Defender for Endpoint</td><td>Devices: EDR (Endpoint Detection and Response), attack surface reduction rules, automated investigation</td></tr>
+    <tr><td>Defender for Identity</td><td>On-premises Active Directory attacks such as pass-the-hash</td></tr>
+    <tr><td>Defender for Cloud Apps</td><td>SaaS (Software as a Service) apps: shadow IT discovery, session controls (a CASB (Cloud Access Security Broker))</td></tr>
+  </tbody></table></div>
+  <p>Signals combine into <b>incidents</b> in the Defender portal. <b>Microsoft Secure Score</b> measures posture and suggests improvements.</p>
+  <h3>Microsoft Purview compliance</h3>
+  <ul>
+    <li><b>Sensitivity labels</b> classify and can encrypt or watermark documents and email.</li>
+    <li><b>Data loss prevention (DLP)</b> policies detect sensitive information types (such as card numbers) and block or warn on sharing.</li>
+    <li><b>Retention policies and labels</b> keep or delete content for set periods.</li>
+    <li><b>eDiscovery</b> and <b>audit</b> support legal holds and investigations; <b>insider risk management</b> and <b>communication compliance</b> detect risky behaviour.</li>
+  </ul>
+  <div class="callout trap"><b>Exam trap.</b> Sensitivity labels are about <i>protection</i> (who can open it). Retention labels are about <i>lifecycle</i> (how long to keep it).</div>
 </section>
 
 <section class="lab" id="labs">
   <h2>Interactive labs</h2>
 
-  <div class="lab-card" id="lab-life" data-lab="Audit Lifecycle Walkthrough: plan, fieldwork, reporting and follow-up for a fictional company, choosing actions and evidence and seeing what a real auditor would do.">
-    <h3>Lab 1: Audit Lifecycle Walkthrough</h3>
-    <p class="figcap">Engagement: an audit of <b>user access management</b> for the ERP system at <b>Tamarack Foods</b> (fictional food distributor, 2,400 staff). At each phase, tick every action a good IS auditor would take, then check.</p>
-    <div class="phases" id="lf-phases"></div>
-    <div class="phase-card" id="lf-card"></div>
-    <div class="row"><button type="button" class="primary" id="lf-check">Check this phase</button><button type="button" id="lf-next">Next phase →</button><button type="button" id="lf-restart">Restart</button><b id="lf-score"></b></div>
-    <div class="caption" id="lf-cap" aria-live="polite"></div>
+  <div class="lab-card" id="lab-task" data-lab="Admin Ticket Queue: pick the right Azure or Microsoft 365 setting for each ticket.">
+    <h3>Lab 1: Admin Ticket Queue</h3>
+    <div id="lab-task-host"></div>
+    <div class="caption" id="lab-task-cap" aria-live="polite"></div>
   </div>
 
-  <div class="lab-card" id="lab-samp" data-lab="Sampling Simulator: choose a population and sampling method, draw a sample from fake transactions and see how confidence and error estimates change.">
-    <h3>Lab 2: Sampling Simulator</h3>
-    <p class="figcap">Population: 2,000 fake expense claims. Some lack the required manager approval (a control deviation). You don't know the true rate; your sample estimates it.</p>
-    <div class="controls">
-      <label class="field"><span>Population scenario</span><select id="sp-pop"><option value="0.02">Mostly clean (true rate hidden)</option><option value="0.06" selected>Some problems (true rate hidden)</option><option value="0.12">Weak control (true rate hidden)</option></select></label>
-      <label class="field"><span>Sampling method</span><select id="sp-method"><option value="random">Statistical: simple random</option><option value="systematic">Statistical: systematic (every k-th)</option><option value="judgmental">Judgmental: biggest claims</option><option value="haphazard">Haphazard: first ones in the file</option></select></label>
-      <label class="field"><span>Sample size: <b id="sp-nv">60</b></span><input type="range" id="sp-n" min="10" max="300" step="5" value="60"></label>
-      <label class="field"><span>Confidence level</span><select id="sp-conf"><option value="1.645">90%</option><option value="1.96" selected>95%</option><option value="2.576">99%</option></select></label>
-    </div>
-    <div class="row"><button type="button" class="primary" id="sp-draw">Draw a sample</button><button type="button" id="sp-reveal">Reveal the true rate</button></div>
-    <div class="grid3">
-      <div class="tile"><div class="figcap">Deviations found</div><div class="metric" id="sp-found">–</div></div>
-      <div class="tile"><div class="figcap">Estimated deviation rate</div><div class="metric" id="sp-rate">–</div></div>
-      <div class="tile"><div class="figcap">Upper limit at chosen confidence</div><div class="metric" id="sp-ul">–</div></div>
-    </div>
-    <div class="stage"><svg id="sp-svg" viewBox="0 0 760 210" width="760" role="img" aria-label="Grid of 2,000 transactions with sampled items highlighted"></svg></div>
-    <div class="caption" id="sp-cap" aria-live="polite"></div>
-  </div>
-
-  <div class="lab-card" id="lab-sod" data-lab="Segregation of Duties Checker: a matrix of users and system permissions; spot the conflicts, such as the same person creating vendors and approving payments.">
-    <h3>Lab 3: Segregation of Duties Checker</h3>
-    <p class="figcap">Tamarack Foods ERP permissions. Tick the box in the last column for every user whose permissions create a segregation of duties conflict, then check.</p>
-    <div class="tablewrap"><table class="sod" id="sd-table"></table></div>
-    <div class="row"><button type="button" class="primary" id="sd-check">Check</button><button type="button" id="sd-reset">Reset</button></div>
-    <div class="caption" id="sd-cap" aria-live="polite"></div>
-  </div>
-
-  <div class="lab-card" id="lab-chg" data-lab="Changeover Strategy Picker: compare parallel, phased, pilot and direct cutover on risk, cost and time with a visual, then choose for a scenario.">
-    <h3>Lab 4: Changeover Strategy Picker</h3>
-    <div class="row"><span>Strategy:</span><div class="seg" id="cg-strat"></div></div>
-    <div class="stage"><svg id="cg-svg" viewBox="0 0 760 230" width="760" role="img" aria-label="Timeline of old and new systems with risk, cost and time bars"></svg></div>
-    <div class="row"><span>Scenario:</span><select id="cg-scen" aria-label="Scenario"></select></div>
-    <p id="cg-desc"></p>
-    <div class="row"><span>Your pick:</span><div class="seg" id="cg-pick"></div></div>
-    <div class="caption" id="cg-cap" aria-live="polite"></div>
-  </div>
-
-  <div class="lab-card" id="lab-ctl" data-lab="Control Testing Lab: review mock evidence such as logs, screenshots and change tickets and decide whether a control is designed and operating effectively.">
-    <h3>Lab 5: Control Testing Lab</h3>
-    <p class="figcap">For each control, read the evidence and decide: is the control <b>designed</b> effectively (would it work if followed?) and <b>operating</b> effectively (was it actually followed throughout the period?).</p>
-    <div id="ct-list"></div>
-    <div class="row"><button type="button" class="primary" id="ct-check">Check my conclusions</button><button type="button" id="ct-reset">Reset</button></div>
-    <div class="caption" id="ct-cap" aria-live="polite"></div>
+  <div class="lab-card" id="lab-area" data-lab="Which Admin Area: sort features into identity, storage, compute, networking, monitoring and Microsoft 365 security.">
+    <h3>Lab 2: Which Admin Area?</h3>
+    <div id="lab-area-host"></div>
+    <div class="caption" id="lab-area-cap" aria-live="polite"></div>
   </div>
 </section>
 
@@ -247,37 +175,20 @@
 
 <section class="memory" id="memory">
   <h2>Memory aids</h2>
-  <div class="mnemonic">Domains "<b>A</b>uditors <b>G</b>et <b>A</b>ll <b>O</b>ur <b>P</b>apers": Audit process 18, Governance 18, Acquisition/development 12, Operations and resilience 26, Protection of assets 26.</div>
-  <div class="mnemonic">Auditor's mindset "<b>I-E-R-R</b>": Independent, Evidence-based, Risk-based, Report (don't fix).</div>
-  <div class="mnemonic">Finding elements "<b>C-C-C-E-R</b>": Criteria (what should be), Condition (what is), Cause, Effect, Recommendation.</div>
-  <div class="mnemonic">Sampling: <b>A</b>ttribute = <b>A</b>re controls working (yes/no rate); <b>V</b>ariable = <b>V</b>alue (amounts).</div>
-  <div class="tablewrap"><table><thead><tr><th>Number</th><th>Meaning</th></tr></thead><tbody>
-    <tr><td>18 / 18 / 12 / 26 / 26%</td><td>CISA domain weights (verify)</td></tr>
-    <tr><td>150 · 4 h · 450/800</td><td>Questions · time · passing scaled score (verify)</td></tr>
-    <tr><td>5 years</td><td>Experience (up to 3 can be waived by substitutions)</td></tr>
-    <tr><td>IR × CR × DR</td><td>Audit risk model</td></tr>
-    <tr><td>90 / 95 / 99%</td><td>Common confidence levels (z ≈ 1.645 / 1.96 / 2.576)</td></tr>
-    <tr><td>Parallel → pilot/phased → direct</td><td>Changeover from lowest to highest risk</td></tr>
-  </tbody></table></div>
+  <div class="mnemonic">Storage access, worst to best: <b>Keys &rarr; SAS &rarr; Entra ID + RBAC</b>.</div>
+  <div class="mnemonic">VM resilience: <b>Set = racks in one building; Zone = different buildings</b>.</div>
+  <div class="mnemonic">Hybrid sign-in, simplest to most complex: <b>PHS &rarr; PTA &rarr; Federation</b>.</div>
+  <div class="mnemonic">Labels: <b>Sensitivity = Secure it; Retention = Remember (or forget) it</b>.</div>
   <div class="tablewrap"><table><thead><tr><th>Exam trap</th><th>Why it is wrong</th></tr></thead><tbody>
-    <tr><td>"The auditor should fix the control."</td><td>Report and recommend; management fixes.</td></tr>
-    <tr><td>"Interviewing the manager is enough evidence."</td><td>Inquiry alone is the weakest evidence; corroborate.</td></tr>
-    <tr><td>"Judgmental samples can be projected."</td><td>Only statistical samples support projection with measurable confidence.</td></tr>
-    <tr><td>"The backup log proves recoverability."</td><td>Only restore tests prove it.</td></tr>
-    <tr><td>"A policy proves the control operates."</td><td>A policy shows design; operation needs testing over the period.</td></tr>
-    <tr><td>"Direct cutover is safest because it's quick."</td><td>It's the riskiest: no fallback running.</td></tr>
+    <tr><td>"Contributors can assign roles."</td><td>Only Owner or User Access Administrator can.</td></tr>
+    <tr><td>"Entra roles manage VMs."</td><td>Azure RBAC manages resources; Entra roles manage the directory.</td></tr>
+    <tr><td>"Site Recovery is backup."</td><td>It's replication for DR; use Azure Backup for restore points.</td></tr>
   </tbody></table></div>
 </section>
 
 <section class="quiz" id="quiz">
   <h2>Knowledge check</h2>
   <div id="quiz-area"></div>
-</section>
-
-<section class="quiz" id="readiness">
-  <h2>CISA-style practice exam (75 questions)</h2>
-  <p>Seventy-five questions weighted like the real exam's domains (about 14, 14, 9, 19 and 19 questions), drawn from Modules 26 and 28 plus an extra CISA bank. The real exam has 150 questions in 4 hours; the 120-minute timer keeps the same pace. Aim for 75% or better before booking (ISACA's 450 of 800 scaled pass mark is not a simple percentage).</p>
-  <div id="readiness-area"></div>
 </section>
 
 <section class="flashcards" id="flashcards">
@@ -288,239 +199,26 @@
 <section class="deeper" id="deeper">
   <h2>Go deeper (official sources)</h2>
   <ul>
-    <li><a href="https://www.isaca.org/credentialing/cisa" rel="noopener">ISACA: CISA certification and exam content outline</a></li>
-    <li><a href="https://www.isaca.org/resources/isaca-journal" rel="noopener">ISACA Journal</a></li>
-    <li><a href="https://www.isaca.org/resources/frameworks-standards-and-models" rel="noopener">ISACA: IS audit and assurance standards and frameworks</a></li>
-    <li><a href="https://www.theiia.org/en/standards/" rel="noopener">The IIA: Global Internal Audit Standards</a></li>
-    <li><a href="https://www.aicpa-cima.com/topic/audit-assurance/audit-and-assurance-greater-than-soc-2" rel="noopener">AICPA: SOC 2</a></li>
+    <li><a href="https://learn.microsoft.com/en-us/credentials/certifications/azure-administrator/" rel="noopener">Microsoft Learn: Azure Administrator (AZ-104)</a></li>
+    <li><a href="https://learn.microsoft.com/en-us/credentials/certifications/m365-administrator-expert/" rel="noopener">Microsoft Learn: Microsoft 365 Administrator (MS-102)</a> (verify status)</li>
+    <li><a href="https://learn.microsoft.com/en-us/kusto/query/" rel="noopener">Kusto Query Language (KQL) reference</a></li>
+    <li><a href="https://learn.microsoft.com/en-us/entra/identity/hybrid/" rel="noopener">Microsoft Entra hybrid identity</a></li>
+    <li><a href="https://learn.microsoft.com/en-us/purview/" rel="noopener">Microsoft Purview documentation</a></li>
   </ul>
 </section>
 </main>
 <footer class="foot">Datacenter Omnibus · Original, independent study material. Not affiliated with or endorsed by any certification body, vendor or standards organisation. All trademarks belong to their owners. Exam details change; always verify on the vendor site. <a href="legal.html">Trademarks and copyright</a></footer>
 
+<!-- module-data:start -->
+<script type="application/json" id="module-data">{"module":28,"title":"Running Azure and Microsoft 365","glossary":[["Dynamic group","A group that fills itself.","An Entra ID group whose membership is set by rules on user or device attributes.",""],["Self-service password reset","Users reset their own passwords.","An Entra ID feature letting users reset passwords after verifying with registered methods.","SSPR"],["Shared access signature","A time-limited link to storage.","A signed URI granting limited permissions to Azure Storage resources for a set period.","SAS"],["Stored access policy","A way to revoke many SAS links at once.","A container-level policy that defines SAS permissions and expiry and can be changed or deleted.",""],["Availability set","Spread VMs across racks.","A grouping that distributes VMs across fault and update domains within one data center.",""],["Application security group","Group VMs by role in firewall rules.","A label for network interfaces that can be used as a source or destination in NSG rules.","ASG"],["User-defined route","A custom route that overrides Azure's defaults.","A route table entry that directs subnet traffic to a chosen next hop such as a firewall.","UDR"],["Azure Bastion","Safe RDP/SSH without public IPs.","A managed service providing browser-based RDP and SSH to VMs over TLS.",""],["Log Analytics workspace","Where Azure logs are stored and searched.","An Azure Monitor data store queried with KQL.",""],["Kusto Query Language","The language for searching Azure logs.","A read-only query language used by Azure Monitor, Sentinel and Data Explorer.","KQL"],["Recovery Services vault","Where Azure backups live.","A storage entity that holds backup data and recovery points for Azure Backup and Site Recovery.",""],["Password hash synchronization","Sync password hashes to the cloud.","A hybrid identity method that syncs a hash of on-premises password hashes to Entra ID.","PHS"],["Privileged Identity Management","Admin rights only when needed.","An Entra ID feature providing just-in-time, time-bound and approved privileged role activation.","PIM"],["Sensitivity label","A tag that protects a document.","A Purview label that classifies content and can apply encryption, markings and access restrictions.",""]],"quiz":[{"t":"mc","q":"Which Azure role can create resources but cannot grant access to others?","o":["Contributor","Owner","User Access Administrator","Global Administrator"],"a":0,"x":"Contributor lacks role assignment rights.","c":"AZ104","d":"1"},{"t":"mc","q":"What is the preferred way for applications to access Azure Blob storage?","o":["Sharing the account key","A permanent SAS with no expiry","Entra ID authentication with an RBAC data role","Anonymous public access"],"a":2,"x":"Identity-based access avoids shared secrets.","c":"AZ104","d":"2"},{"t":"mc","q":"How can you revoke many SAS tokens issued for a container at once?","o":["Turn on soft delete","Delete the resource group","Restart the VM","Change or delete the stored access policy they reference"],"a":3,"x":"Ad-hoc SAS tokens can only be revoked by rotating the key.","c":"AZ104","d":"2"},{"t":"mc","q":"Which option protects VMs from a whole data center failure in a region?","o":["Availability zones","Premium disks","Availability sets","A larger VM size"],"a":0,"x":"Sets protect against rack and update failures only.","c":"AZ104","d":"3"},{"t":"mc","q":"NSG rules are processed in which order?","o":["Randomly","Alphabetically","By priority, lowest number first","By creation date"],"a":2,"x":"Processing stops at the first match.","c":"AZ104","d":"4"},{"t":"mc","q":"Which service gives RDP access to VMs without public IP addresses?","o":["VPN Gateway only","Azure DNS","Azure Bastion","Application Gateway"],"a":2,"x":"Browser-based over TLS.","c":"AZ104","d":"4"},{"t":"mc","q":"Which language queries a Log Analytics workspace?","o":["Python","KQL","SQL Server T-SQL only","PowerShell DSC"],"a":1,"x":"Kusto Query Language.","c":"AZ104","d":"5"},{"t":"mc","q":"Which service replicates VMs to another region and orchestrates failover?","o":["Azure Advisor","Azure Site Recovery","Azure Backup","Azure Policy"],"a":1,"x":"Backup creates restore points; Site Recovery handles DR.","c":"AZ104","d":"5"},{"t":"mc","q":"Which hybrid sign-in method keeps working if on-premises domain controllers are offline?","o":["Federation with AD FS","Password hash synchronization","Pass-through authentication","None of them"],"a":1,"x":"Authentication happens in the cloud.","c":"MS102","d":"2"},{"t":"mc","q":"Which feature gives admins time-limited role activation with approval?","o":["Self-service password reset","Privileged Identity Management","Safe Links","Dynamic groups"],"a":1,"x":"Just-in-time privilege.","c":"MS102","d":"2"},{"t":"mc","q":"Which Defender product protects email with Safe Links and Safe Attachments?","o":["Defender for Cloud Apps","Defender for Endpoint","Defender for Office 365","Defender for Identity"],"a":2,"x":"Also runs attack simulation training.","c":"MS102","d":"3"},{"t":"mc","q":"Which Purview feature blocks users from emailing credit card numbers externally?","o":["Retention label","Data loss prevention policy","Secure Score","eDiscovery hold"],"a":1,"x":"DLP detects sensitive information types.","c":"MS102","d":"4"}],"flashcards":[["AZ-104 domains","Identity/governance, storage, compute, networking, monitoring."],["MS-102 domains","Tenant, Entra identity, Defender XDR, Purview."],["Entra roles vs Azure RBAC","Directory management vs resource management."],["Contributor","Can manage resources but can't assign roles."],["SAS","Time- and permission-limited storage URL."],["Stored access policy","Lets you revoke a group of SAS tokens."],["Availability set vs zone","Racks in one data center vs separate buildings."],["NSG processing","Lowest priority number first; first match wins."],["UDR","Custom route, e.g. force traffic through a firewall."],["PHS / PTA / Federation","Hash in cloud / live on-prem check / redirect to AD FS."],["PIM","Just-in-time, approved, time-limited admin roles."],["Sensitivity vs retention labels","Protect content vs keep or delete it on schedule."]]}</script>
+<!-- module-data:end -->
 <script src="data/catalog.js"></script>
 <script src="assets/omnibus.js"></script>
-<script src="data/m26.js"></script>
+<script src="assets/labkit.js"></script>
 <script src="data/m28.js"></script>
-<script src="data/bank-cisa.js"></script>
 <script>
-(function () {
-  var h = OMNI.h, S = OMNI.svg, $ = function (id) { return document.getElementById(id); };
-  var esc = OMNI.esc || function (s) { return String(s).replace(/[&<>"']/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]; }); };
-  function txt(p, x, y, t, a) { var e = S("text", Object.assign({ x: x, y: y, class: "svg-text", "font-size": 12 }, a || {}), p); e.textContent = t; return e; }
-  function rect(p, x, y, w, hh, fill, stroke, extra) { return S("rect", Object.assign({ x: x, y: y, width: w, height: hh, rx: 8, fill: fill, stroke: stroke || "none", "stroke-width": 2 }, extra || {}), p); }
-  function arrow(p, x1, y1, x2, y2) {
-    S("line", { x1: x1, y1: y1, x2: x2, y2: y2, stroke: "var(--ink-2)", "stroke-width": 2 }, p);
-    var a = Math.atan2(y2 - y1, x2 - x1), s = 8;
-    S("polygon", { points: x2 + "," + y2 + " " + (x2 - s * Math.cos(a - .45)) + "," + (y2 - s * Math.sin(a - .45)) + " " + (x2 - s * Math.cos(a + .45)) + "," + (y2 - s * Math.sin(a + .45)), fill: "var(--ink-2)" }, p);
-  }
-  OMNI.readiness({ el: "readiness-area", id: "cisa", modules: [20, 22], banks: ["cisa"], certs: ["CISA"], count: 75, timerMin: 120, weights: { 1: 18, 2: 18, 3: 12, 4: 26, 5: 26 } });
-
-  /* ===== Figures ===== */
-  (function () {
-    var g = $("dom-fig"), D = [["1 Audit process", 18, "var(--gov)"], ["2 Governance", 18, "var(--sec)"], ["3 Acq./dev.", 12, "var(--hw)"], ["4 Operations", 26, "var(--net)"], ["5 Protection", 26, "var(--dc)"]], x = 20;
-    D.forEach(function (d) { var w = d[1] * 7.2; rect(g, x, 30, w - 4, 60, d[2], "none", { opacity: .85, rx: 6 }); txt(g, x + w / 2 - 2, 66, d[1] + "%", { "text-anchor": "middle", "font-weight": 800, "font-size": 16, fill: "#fff" }); txt(g, x + w / 2 - 2, 112, d[0], { "text-anchor": "middle", "font-size": 11.5, "font-weight": 700 }); x += w; });
-    txt(g, 380, 18, "Share of exam questions by domain", { "text-anchor": "middle", "font-size": 11, class: "svg-muted" });
-  })();
-  (function () {
-    var g = $("life-fig"), P = [["Plan", "risk assessment, scope, program"], ["Fieldwork", "test controls, gather evidence"], ["Report", "findings, recommendations, responses"], ["Follow-up", "verify actions were taken"]];
-    P.forEach(function (p, i) { var x = 15 + i * 185; rect(g, x, 20, 160, 64, "var(--surface)", "var(--gov)"); txt(g, x + 80, 46, p[0], { "text-anchor": "middle", "font-weight": 800, "font-size": 14 }); txt(g, x + 80, 66, p[1], { "text-anchor": "middle", "font-size": 10, class: "svg-muted" }); if (i < 3) arrow(g, x + 160, 52, x + 185, 52); });
-    txt(g, 380, 108, "Independence and professional skepticism apply throughout", { "text-anchor": "middle", "font-size": 10.5, class: "svg-muted" });
-  })();
-
-  /* ===== Lab 1: Audit lifecycle ===== */
-  var PH = [
-    { n: "Plan", s: "You've been assigned the ERP access audit. Fieldwork starts in three weeks.", a: [
-      ["Review the audit charter, prior audit reports and the ERP's role in the business", 1, "Context and prior issues shape scope."],
-      ["Assess inherent and control risk to decide scope and focus (e.g., finance and purchasing roles)", 1, "Risk-based planning."],
-      ["Agree objectives, scope and timing with the auditee in an engagement memo", 1, "Sets expectations and access to evidence."],
-      ["Reset weak passwords you notice during planning", 0, "Fixing controls breaks independence; note it as a potential issue."],
-      ["Decide the conclusion now so fieldwork goes faster", 0, "Conclusions must follow evidence."]] },
-    { n: "Fieldwork", s: "You have read-only access to the ERP and its user and role tables.", a: [
-      ["Extract the full user list directly from the ERP and compare it to HR's leaver list", 1, "System-generated evidence obtained by the auditor; full-population analytics."],
-      ["Select a statistical sample of new-user requests and check for documented approval", 1, "Attribute sampling tests the provisioning control."],
-      ["Run an SoD analysis across roles (e.g., create vendor + approve payment)", 1, "Tests a key fraud risk."],
-      ["Accept the IT manager's statement that 'all access is reviewed quarterly'", 0, "Inquiry alone is weak; inspect review evidence."],
-      ["Disable the 14 leaver accounts you found", 0, "Management's job; you report them, with urgency if risk is high."]] },
-    { n: "Report", s: "You found 14 active leaver accounts (2 used after departure), 6 SoD conflicts and missing approvals for 5 of 60 sampled requests.", a: [
-      ["Write each finding with criteria, condition, cause, effect and a recommendation", 1, "Standard finding structure."],
-      ["Discuss draft findings with management and include their responses and action dates", 1, "Fair, accurate and actionable."],
-      ["Escalate the two leaver accounts used after departure immediately as a possible fraud or security incident", 1, "Significant issues need prompt escalation, not just the final report."],
-      ["Remove a finding because the CFO disagrees, even though evidence supports it", 0, "Compromises objectivity; include management's response instead."],
-      ["Send the report only to the IT team", 0, "Report to the appropriate level, including the audit committee."]] },
-    { n: "Follow-up", s: "Six months later, management says all actions are complete.", a: [
-      ["Obtain evidence (new user list, SoD report, sample of approvals) to verify the fixes", 1, "Verify, don't just accept."],
-      ["Report any open items or risk acceptance to the audit committee", 1, "Keeps governance informed."],
-      ["Close the findings based on management's email", 0, "Inquiry without verification."],
-      ["Redesign the provisioning workflow yourself", 0, "Independence."]] }
-  ];
-  var lfI = 0, lfPts = 0, lfDone = {};
-  function lfShow() {
-    var P = $("lf-phases"); P.innerHTML = ""; PH.forEach(function (p, i) { P.appendChild(h("span", { class: i === lfI ? "now" : lfDone[i] ? "done" : "" }, (i + 1) + ". " + p.n)); });
-    var ph = PH[lfI], c = $("lf-card"); c.innerHTML = "";
-    c.appendChild(h("div", { class: "t" }, "Phase " + (lfI + 1) + ": " + ph.n)); c.appendChild(h("p", null, ph.s));
-    OMNI.shuffle(ph.a.map(function (x, i) { return i; })).forEach(function (ai) { var cb = h("input", { type: "checkbox", "data-a": String(ai) }); if (lfDone[lfI]) cb.disabled = true; c.appendChild(h("label", { class: "act" }, [cb, " ", ph.a[ai][0], h("span", { class: "fb" })])); });
-    $("lf-check").disabled = !!lfDone[lfI];
-    OMNI.say("lf-cap", "Tick every action a good IS auditor would take in the " + ph.n.toLowerCase() + " phase.");
-  }
-  $("lf-check").onclick = function () {
-    var ph = PH[lfI], right = 0, total = 0;
-    OMNI.$$("#lf-card .act").forEach(function (l) {
-      var cb = l.querySelector("input"), a = ph.a[+cb.dataset.a], fb = l.querySelector(".fb"); cb.disabled = true; total++;
-      var ok = cb.checked === !!a[1]; if (ok) right++;
-      l.classList.add(a[1] ? (cb.checked ? "ok" : "miss") : (cb.checked ? "bad" : "ok"));
-      fb.textContent = (a[1] ? (cb.checked ? "✓ " : "Missed: ") : (cb.checked ? "✗ " : "✓ Rightly skipped: ")) + a[2];
-    });
-    lfDone[lfI] = 1; lfPts += right; $("lf-check").disabled = true;
-    var tot = PH.reduce(function (s, p, i) { return s + (lfDone[i] ? p.a.length : 0); }, 0);
-    $("lf-score").textContent = "Score: " + lfPts + " / " + tot;
-    OMNI.say("lf-cap", right + " of " + total + " decisions matched what an experienced IS auditor would do. " + ["Planning is risk-based and agreed with the auditee; the auditor doesn't fix anything.", "Fieldwork gathers evidence the auditor obtains directly and can reperform; analytics test the whole population.", "Reports are evidence-based, fair and go to the right level; urgent issues are escalated straight away.", "Follow-up verifies with evidence and keeps the audit committee informed."][lfI] + (Object.keys(lfDone).length === PH.length ? " Engagement complete!" : " Press Next phase."));
-  };
-  $("lf-next").onclick = function () { lfI = Math.min(PH.length - 1, lfI + 1); lfShow(); };
-  $("lf-restart").onclick = function () { lfI = 0; lfPts = 0; lfDone = {}; $("lf-score").textContent = ""; lfShow(); };
-  lfShow();
-
-  /* ===== Lab 2: Sampling ===== */
-  var POP = [], N = 2000, popRate = 0;
-  function rng(seed) { return function () { seed = (seed * 1664525 + 1013904223) % 4294967296; return seed / 4294967296; }; }
-  function buildPop() {
-    popRate = +$("sp-pop").value; var r = rng(Math.round(popRate * 1e6) + 7); POP = [];
-    for (var i = 0; i < N; i++) { var amt = Math.round(20 + Math.pow(r(), 3) * 4800); var dev = r() < popRate * (amt > 2500 ? 0.4 : 1.08); POP.push({ amt: amt, dev: dev }); }
-    // haphazard bias: first 200 entered by a careful team → fewer deviations
-    for (var k = 0; k < 200; k++) if (POP[k].dev && r() < 0.9) POP[k].dev = false;
-  }
-  function trueRate() { return POP.filter(function (x) { return x.dev; }).length / N; }
-  var lastSample = [];
-  function draw() {
-    var n = +$("sp-n").value, m = $("sp-method").value, idx = [];
-    if (m === "random") { idx = OMNI.shuffle(POP.map(function (x, i) { return i; })).slice(0, n); }
-    else if (m === "systematic") { var k = Math.floor(N / n), st = Math.floor(Math.random() * k); for (var i = st; i < N && idx.length < n; i += k) idx.push(i); }
-    else if (m === "judgmental") { idx = POP.map(function (x, i) { return i; }).sort(function (a, b) { return POP[b].amt - POP[a].amt; }).slice(0, n); }
-    else { for (var j = 0; j < n; j++) idx.push(j); }
-    lastSample = idx;
-    var found = idx.filter(function (i) { return POP[i].dev; }).length, p = found / n, z = +$("sp-conf").value;
-    var ul = Math.min(1, p + z * Math.sqrt(Math.max(p * (1 - p), 1 / n / 4) / n) * Math.sqrt((N - n) / (N - 1)));
-    $("sp-found").textContent = found + " of " + n; $("sp-rate").textContent = (100 * p).toFixed(1) + "%";
-    var stat = m === "random" || m === "systematic";
-    $("sp-ul").textContent = stat ? (100 * ul).toFixed(1) + "%" : "n/a";
-    plot();
-    var conf = $("sp-conf").selectedOptions[0].textContent;
-    OMNI.say("sp-cap", "You sampled " + n + " claims using " + $("sp-method").selectedOptions[0].textContent.toLowerCase() + " and found " + found + " without approval (" + (100 * p).toFixed(1) + "%). " + (stat ? "Because the sample is statistical, you can say with " + conf + " confidence that the true deviation rate is no higher than about " + (100 * ul).toFixed(1) + "%. If the tolerable rate is 5%, the control " + (ul <= 0.05 ? "can be relied on." : "cannot be relied on: expand substantive testing or report a finding.") + " Bigger samples or lower confidence narrow the gap between the estimate and the upper limit." : m === "judgmental" ? "Judgmental samples are useful to target risk (big claims), but the result can't be projected to the whole population with measurable confidence. Here big claims are actually checked more carefully, so this sample likely understates the problem." : "Haphazard 'first in the file' selection is biased: these early claims were handled by a careful team, so the sample understates deviations and can't be projected.") + " (Upper limit uses a normal approximation with finite population correction; real audits often use attribute sampling tables.)");
-  }
-  function plot() {
-    var g = $("sp-svg"); g.innerHTML = ""; var cols = 100, cs = 7.4, set = {}; lastSample.forEach(function (i) { set[i] = 1; });
-    var rev = $("sp-svg").dataset.rev === "1";
-    for (var i = 0; i < N; i++) {
-      var x = 10 + (i % cols) * cs, y = 8 + Math.floor(i / cols) * 9.6, s = set[i], d = POP[i].dev;
-      var fill = s ? (d ? "var(--bad)" : "var(--accent)") : (rev && d ? "var(--warn)" : "var(--line)");
-      S("rect", { x: x, y: y, width: 6, height: 7.6, rx: 1, fill: fill, opacity: s || (rev && d) ? 1 : .55 }, g);
-    }
-  }
-  $("sp-n").oninput = function () { $("sp-nv").textContent = $("sp-n").value; };
-  $("sp-pop").onchange = function () { buildPop(); lastSample = []; $("sp-svg").dataset.rev = "0"; ["sp-found", "sp-rate", "sp-ul"].forEach(function (id) { $(id).textContent = "–"; }); plot(); OMNI.say("sp-cap", "New population loaded. Draw a sample."); };
-  $("sp-draw").onclick = draw;
-  $("sp-reveal").onclick = function () { $("sp-svg").dataset.rev = "1"; plot(); OMNI.say("sp-cap", "True deviation rate: " + (100 * trueRate()).toFixed(1) + "% (" + POP.filter(function (x) { return x.dev; }).length + " of 2,000, shown in orange; red = deviations you sampled, purple = clean sampled items). Compare it with your estimate: statistical methods land close on average; judgmental and haphazard methods are biased."); };
-  buildPop(); plot(); OMNI.say("sp-cap", "Choose a method and sample size, then draw a sample. Try the same size with each method and compare.");
-
-  /* ===== Lab 3: SoD ===== */
-  var PERM = ["Create/edit vendors", "Enter invoices", "Approve payments", "Release payment run", "Bank reconciliation", "Manage user access", "Post journal entries", "Approve journal entries"];
-  var USERS = [
-    ["A. Okafor (AP clerk)", [1, 1, 0, 0, 0, 0, 0, 0], 0, "Normal AP clerk duties."],
-    ["B. Lindqvist (AP supervisor)", [1, 0, 1, 0, 0, 0, 0, 0], 1, "Can create a vendor and approve payments to it: classic fake-vendor fraud risk."],
-    ["C. Haddad (Treasury)", [0, 0, 0, 1, 1, 0, 0, 0], 1, "Releases payments and reconciles the bank account, so could hide an improper payment."],
-    ["D. Mbeki (GL accountant)", [0, 0, 0, 0, 0, 0, 1, 0], 0, "Posts entries; approval sits with someone else."],
-    ["E. Novak (Controller)", [0, 0, 0, 0, 0, 0, 0, 1], 0, "Approves entries only."],
-    ["F. Ruiz (IT admin)", [0, 0, 0, 0, 0, 1, 1, 0], 1, "IT security admin who can also post financial entries: could grant themselves more access and hide it."],
-    ["G. Chen (Finance manager)", [0, 0, 1, 0, 0, 0, 0, 1], 0, "Two approval roles in different processes; no incompatible pair (but watch workload)."],
-    ["H. Patel (Accountant)", [0, 0, 0, 0, 0, 0, 1, 1], 1, "Can post and approve their own journal entries."],
-    ["I. Silva (AP clerk)", [0, 1, 1, 0, 0, 0, 0, 0], 1, "Enters invoices and approves payment of them: no independent check."]
-  ];
-  function sdBuild() {
-    var t = $("sd-table"); t.innerHTML = "";
-    t.appendChild(h("tr", null, [h("th", null, "User")].concat(PERM.map(function (p) { return h("th", null, p); })).concat([h("th", null, "Conflict?")])));
-    USERS.forEach(function (u, i) { t.appendChild(h("tr", null, [h("td", null, u[0])].concat(u[1].map(function (v) { return h("td", null, v ? "✔" : ""); })).concat([h("td", null, h("input", { type: "checkbox", "aria-label": "Conflict for " + u[0], "data-u": String(i) }))]))); });
-    OMNI.say("sd-cap", "Incompatible pairs to look for: create vendor + approve payment; enter invoice + approve payment; release payments + reconcile bank; post + approve journal entries; user administration + any financial transaction.");
-  }
-  $("sd-check").onclick = function () {
-    var right = 0, notes = [];
-    OMNI.$$("#sd-table input").forEach(function (cb) {
-      var u = USERS[+cb.dataset.u], tr = cb.closest("tr"), conflict = !!u[2], ok = cb.checked === conflict; if (ok) right++;
-      tr.classList.remove("ok", "bad", "miss"); tr.classList.add(ok ? "ok" : conflict ? "miss" : "bad");
-      if (!ok) notes.push("<b>" + u[0] + "</b>: " + (conflict ? "missed conflict. " : "no conflict. ") + u[3]);
-    });
-    OMNI.say("sd-cap", right + " of " + USERS.length + " users assessed correctly. " + (notes.length ? notes.join(" ") : "All conflicts found: Lindqvist, Haddad, Ruiz, Patel and Silva.") + " An auditor would report these, recommend removing incompatible access or adding compensating controls (independent review of vendor changes and payment runs), and check whether the conflicts were ever exploited.");
-  };
-  $("sd-reset").onclick = sdBuild; sdBuild();
-
-  /* ===== Lab 4: Changeover ===== */
-  var CG = {
-    "Parallel": { risk: 1, cost: 5, time: 4, d: "Old and new systems run side by side; outputs are compared until the new one is trusted. Lowest risk and an easy fallback, but double the work and cost." },
-    "Pilot": { risk: 2, cost: 3, time: 3, d: "The new system goes live at one site or group first. Problems affect only the pilot; lessons improve the full rollout." },
-    "Phased": { risk: 3, cost: 3, time: 5, d: "The new system is introduced module by module (or region by region). Each step is smaller, but the full change takes longest and interfaces between old and new parts must work." },
-    "Direct cutover": { risk: 5, cost: 1, time: 1, d: "Old system off, new system on, at once (big bang). Cheapest and fastest, but highest risk: if it fails there is no running fallback." }
-  };
-  var CGS = [
-    { n: "Core banking ledger replacement", d: "A bank replaces the system that holds every account balance. Errors could misstate customer money and breach regulations.", best: "Parallel", alt: { Pilot: "Better than direct, but balances must be verified across the whole system.", Phased: "Possible for some functions, but the ledger is one integrated system." , "Direct cutover": "Far too risky for customer balances." }, why: "Parallel lets the bank reconcile both ledgers until results match." },
-    { n: "Retail chain point-of-sale upgrade (300 stores)", d: "New POS software for all stores. Each store works independently.", best: "Pilot", alt: { Parallel: "Running two tills in every store isn't practical.", Phased: "Close: rolling out region by region after a pilot is common.", "Direct cutover": "One bug would stop sales in 300 stores at once." }, why: "Pilot in a few stores, fix issues, then roll out." },
-    { n: "ERP with finance, HR and purchasing modules", d: "A company replaces several connected back-office systems over two years.", best: "Phased", alt: { Parallel: "Running two full ERPs for years is too costly.", Pilot: "Possible per site, but the main challenge is modules.", "Direct cutover": "Changing everything at once is very risky for an ERP." }, why: "Finance first, then HR, then purchasing, each with its own go-live." },
-    { n: "Office intranet with a legal deadline", d: "The old intranet's hosting contract ends Friday and can't be extended. The content is simple and low risk.", best: "Direct cutover", alt: { Parallel: "The old system won't exist after Friday.", Pilot: "No time and little benefit.", Phased: "No time." }, why: "Low risk, simple, and the old system disappears anyway: direct cutover with a tested rollback of content is reasonable." }
-  ];
-  var cgSel = "Parallel";
-  Object.keys(CG).forEach(function (k) { var b = h("button", { type: "button" }, k); b.onclick = function () { cgSel = k; cgDraw(); }; $("cg-strat").appendChild(b); var p = h("button", { type: "button" }, k); p.onclick = function () { cgPick(k); }; $("cg-pick").appendChild(p); });
-  CGS.forEach(function (s, i) { $("cg-scen").appendChild(h("option", { value: String(i) }, s.n)); });
-  $("cg-scen").onchange = function () { $("cg-desc").textContent = CGS[+$("cg-scen").value].d; OMNI.$$("#cg-pick button").forEach(function (b) { b.classList.remove("on"); }); OMNI.say("cg-cap", "Pick the strategy you'd recommend for this scenario."); };
-  function cgDraw() {
-    OMNI.$$("#cg-strat button").forEach(function (b) { b.classList.toggle("on", b.textContent === cgSel); });
-    var g = $("cg-svg"); g.innerHTML = ""; var c = CG[cgSel];
-    txt(g, 20, 22, "Timeline", { "font-weight": 700 }); S("line", { x1: 120, y1: 110, x2: 500, y2: 110, stroke: "var(--ink-2)" }, g); txt(g, 120, 126, "start", { "font-size": 10, class: "svg-muted" }); txt(g, 470, 126, "done", { "font-size": 10, class: "svg-muted" });
-    txt(g, 20, 54, "Old system", { "font-size": 11 }); txt(g, 20, 88, "New system", { "font-size": 11 });
-    if (cgSel === "Parallel") { rect(g, 120, 40, 280, 22, "var(--line)", "none", { rx: 4 }); rect(g, 180, 74, 320, 22, "var(--good)", "none", { rx: 4, opacity: .8 }); txt(g, 290, 145, "overlap: both run", { "text-anchor": "middle", "font-size": 10.5, class: "svg-muted" }); S("rect", { x: 180, y: 36, width: 220, height: 64, fill: "none", stroke: "var(--accent)", "stroke-dasharray": "5 4", rx: 6 }, g); }
-    else if (cgSel === "Direct cutover") { rect(g, 120, 40, 180, 22, "var(--line)", "none", { rx: 4 }); rect(g, 300, 74, 200, 22, "var(--good)", "none", { rx: 4, opacity: .8 }); S("line", { x1: 300, y1: 32, x2: 300, y2: 104, stroke: "var(--bad)", "stroke-width": 3 }, g); txt(g, 300, 145, "switch-over day", { "text-anchor": "middle", "font-size": 10.5, fill: "var(--bad)" }); }
-    else if (cgSel === "Pilot") { rect(g, 120, 40, 300, 22, "var(--line)", "none", { rx: 4 }); rect(g, 160, 74, 100, 22, "var(--warn)", "none", { rx: 4, opacity: .8 }); rect(g, 300, 74, 200, 22, "var(--good)", "none", { rx: 4, opacity: .8 }); txt(g, 210, 145, "pilot site", { "text-anchor": "middle", "font-size": 10.5, class: "svg-muted" }); txt(g, 400, 145, "everyone else", { "text-anchor": "middle", "font-size": 10.5, class: "svg-muted" }); }
-    else { [0, 1, 2].forEach(function (k) { rect(g, k === 0 ? 120 : 180 + k * 110, 40, k === 0 ? 170 : 110, 22, "var(--line)", "none", { rx: 4, opacity: 1 - k * .3 }); rect(g, 180 + k * 110, 74, 320 - k * 110, 22, "var(--good)", "none", { rx: 4, opacity: .35 + k * .2 }); txt(g, 225 + k * 110, 145, "module " + (k + 1), { "text-anchor": "middle", "font-size": 10.5, class: "svg-muted" }); }); }
-    [["Risk", c.risk, "var(--bad)"], ["Cost", c.cost, "var(--warn)"], ["Time", c.time, "var(--net)"]].forEach(function (b, i) { var y = 40 + i * 32; txt(g, 540, y + 14, b[0], { "font-size": 11, "font-weight": 700 }); rect(g, 590, y, 150, 18, "var(--surface)", "var(--line)", { rx: 4 }); rect(g, 590, y, b[1] * 30, 18, b[2], "none", { rx: 4, opacity: .85 }); });
-    txt(g, 380, 210, c.d.split(".")[0] + ".", { "text-anchor": "middle", "font-size": 11 });
-    OMNI.say("cg-cap", "<b>" + cgSel + "</b>: " + c.d);
-  }
-  function cgPick(k) {
-    var s = CGS[+$("cg-scen").value]; OMNI.$$("#cg-pick button").forEach(function (b) { b.classList.toggle("on", b.textContent === k); });
-    OMNI.say("cg-cap", (k === s.best ? "<b>Good choice.</b> " + s.why : "<b>" + k + "</b>: " + s.alt[k] + " Best fit: <b>" + s.best + "</b>. " + s.why) + " An auditor checks that the chosen approach matches the risk, that data conversion is reconciled and that a fallback plan exists.");
-  }
-  cgDraw(); $("cg-desc").textContent = CGS[0].d;
-
-  /* ===== Lab 5: Control testing ===== */
-  var CT = [
-    { n: "Change management: all production changes require an approved ticket", ev: "Policy CM-01 (approved 2025): changes need CAB or delegated approval before deployment.\nSample of 25 changes from deployment logs:\n  CHG-1042  approved 03-04  deployed 03-05  ✔\n  CHG-1057  approved 03-19  deployed 03-18  ✖ deployed before approval\n  CHG-1063  no ticket found for deployment 04-02  ✖\n  ... 22 others approved before deployment  ✔", d: 1, o: 0, why: "The policy is well designed, but 2 of 25 sampled changes broke it (one deployed before approval, one with no ticket). The control is not operating effectively: report a finding." },
-    { n: "Terminated users are disabled within 24 hours", ev: "Procedure: HR emails IT on leaving date; IT disables account.\nHR leavers (Q1): 41\nAD accounts disabled within 24 h: 41 of 41\nAD 'lastLogon' after termination: none\nEvidence: auditor's own extract from AD and HR system", d: 1, o: 1, why: "A sensible design, and the auditor's own full-population comparison shows 41 of 41 handled on time with no logins after leaving. Designed and operating effectively." },
-    { n: "Firewall rule review: rules are reviewed every six months", ev: "Screenshot of firewall management console:\n  Rule 1   allow  any -> any  tcp/any   'temp - vendor test 2022'\n  Rule 2   allow  10.1.0.0/16 -> DMZ web tcp/443\n  ...\nNo review procedure document exists.\nIT manager: 'we look at the rules when we have time.'", d: 0, o: 0, why: "There is no defined review procedure (design gap), and an 'any any' rule from 2022 shows reviews aren't happening (operation gap). Neither designed nor operating effectively." },
-    { n: "Daily backup with quarterly restore tests", ev: "Backup policy: nightly full + hourly incremental for ERP (RPO 1 h).\nBackup console: 90 of 90 nights successful.\nRestore test records: Q1 test restored ERP in 3 h (RTO 4 h) ✔; Q2 test restored, verified by finance ✔", d: 1, o: 1, why: "Backups meet the RPO, and restore tests prove recoverability within the RTO. Designed and operating effectively." },
-    { n: "Quarterly user access reviews by system owners", ev: "Procedure UA-02: owner reviews access each quarter and signs.\nQ1 review: signed by owner, 3 removals actioned ✔\nQ2 review: spreadsheet signed by IT administrator, not owner; 0 changes\nQ3 review: not performed", d: 1, o: 0, why: "Designed well, but in the period the review was done by the wrong person once and skipped once. Not operating effectively." }
-  ];
-  function ctBuild() {
-    var L = $("ct-list"); L.innerHTML = "";
-    CT.forEach(function (c, i) {
-      function sel(lbl, key) { return h("label", null, [lbl + " ", h("select", { "data-i": String(i), "data-k": key, "aria-label": lbl + " for " + c.n }, [h("option", { value: "" }, "Choose…"), h("option", { value: "1" }, "Effective"), h("option", { value: "0" }, "Not effective")])]); }
-      L.appendChild(h("div", { class: "ev" }, [h("b", null, (i + 1) + ". " + c.n), h("div", { class: "mock" }, c.ev), h("div", { class: "row" }, [sel("Design:", "d"), sel("Operation:", "o")]), h("div", { class: "fb" })]));
-    });
-    OMNI.say("ct-cap", "Design asks \"would this control work if followed?\" Operation asks \"was it followed every time during the period?\" A control can be well designed yet fail in operation.");
-  }
-  $("ct-check").onclick = function () {
-    var right = 0, done = 0;
-    OMNI.$$("#ct-list .ev").forEach(function (box, i) {
-      var c = CT[i], d = box.querySelector('[data-k="d"]').value, o = box.querySelector('[data-k="o"]').value, fb = box.querySelector(".fb");
-      box.classList.remove("ok", "bad"); fb.textContent = "";
-      if (d === "" || o === "") return; done++;
-      var ok = +d === c.d && +o === c.o; if (ok) right++;
-      box.classList.add(ok ? "ok" : "bad");
-      fb.innerHTML = (ok ? "✓ " : "✗ Design: <b>" + (c.d ? "effective" : "not effective") + "</b>, operation: <b>" + (c.o ? "effective" : "not effective") + "</b>. ") + c.why;
-    });
-    OMNI.say("ct-cap", right + " of " + done + " controls concluded correctly" + (done < CT.length ? " (" + (CT.length - done) + " not answered)" : "") + ". Notice which evidence was strongest: the auditor's own extracts and reperformance beat screenshots supplied by the auditee and verbal statements.");
-  };
-  $("ct-reset").onclick = ctBuild; ctBuild();
-})();
+  OMNI.trainer("lab-task-host", {"label": "tickets", "intro": "Work through the ticket queue. Pick the right fix.", "items": [{"s": "<p>Sales staff should automatically join the Sales group when HR sets their department.</p>", "o": ["A dynamic membership group in Entra ID", "An assigned group updated weekly", "A resource lock", "An NSG"], "a": 0, "x": "Dynamic rules evaluate user attributes."}, {"s": "<p>A contractor needs to upload files to one blob container for 48 hours only.</p>", "o": ["A SAS with write permission and a 48-hour expiry (ideally via a stored access policy)", "Give them the account key", "Make the container public", "Make them Owner of the subscription"], "a": 0, "x": "SAS tokens are scoped and time-limited."}, {"s": "<p>A developer must create VMs in one resource group but must not grant access to anyone.</p>", "o": ["Assign Contributor (or Virtual Machine Contributor) at the resource group scope", "Assign Owner at subscription scope", "Make them Global Administrator", "Assign User Access Administrator"], "a": 0, "x": "Contributor can't manage role assignments."}, {"s": "<p>Admins need RDP to VMs without exposing public IP addresses.</p>", "o": ["Azure Bastion", "Open port 3389 to the internet", "Use Telnet", "Add a public load balancer"], "a": 0, "x": "Bastion provides browser-based RDP/SSH over TLS."}, {"s": "<p>All traffic from a subnet must go through a firewall appliance before reaching the internet.</p>", "o": ["A route table with a user-defined route to the firewall", "VNet peering", "A private DNS zone", "Availability sets"], "a": 0, "x": "UDRs override the default system routes."}, {"s": "<p>You need a VM to fail over to another region during a disaster.</p>", "o": ["Azure Site Recovery", "Azure Backup only", "Resource locks", "Availability sets"], "a": 0, "x": "Site Recovery replicates and orchestrates failover."}, {"s": "<p>Admins should have Global Administrator rights only when needed, with approval.</p>", "o": ["Privileged Identity Management (just-in-time activation)", "Permanent role assignment", "Share one admin account", "Disable MFA for admins"], "a": 0, "x": "PIM reduces standing privilege."}, {"s": "<p>The company wants on-premises passwords to work in Microsoft 365 with the fewest dependencies.</p>", "o": ["Password hash synchronization", "Federation with AD FS", "Pass-through authentication only", "Separate cloud passwords for everyone"], "a": 0, "x": "PHS keeps working if on-premises is down."}, {"s": "<p>Staff keep emailing files containing credit card numbers outside the company.</p>", "o": ["A Purview DLP policy for credit card information", "A retention label", "A dynamic group", "An availability zone"], "a": 0, "x": "DLP detects sensitive information types."}, {"s": "<p>Finance documents must be readable only by the finance team, even if forwarded.</p>", "o": ["A sensitivity label with encryption", "A retention policy", "Service health alerts", "Self-service password reset"], "a": 0, "x": "Encryption travels with the file."}], "cap": "lab-task-cap"});
+  OMNI.sorter("lab-area-host", {"zones": [["id", "Identity and governance"], ["stor", "Storage"], ["comp", "Compute"], ["net", "Networking"], ["mon", "Monitoring and backup"], ["m365", "M365 security and compliance"]], "items": [["Dynamic groups", "id", "Identity."], ["Custom RBAC roles", "id", "Identity and governance."], ["SAS tokens", "stor", "Storage access."], ["Blob lifecycle rules", "stor", "Storage."], ["Availability zones for VMs", "comp", "Compute."], ["Bicep templates", "comp", "Compute deployment."], ["NSGs and ASGs", "net", "Networking."], ["Azure Bastion", "net", "Networking."], ["Log Analytics and KQL", "mon", "Monitoring."], ["Recovery Services vault", "mon", "Backup."], ["Safe Attachments", "m365", "Defender for Office 365."], ["Sensitivity labels", "m365", "Purview."]], "intro": "Drag each feature to its exam area.", "done": "All sorted.", "cap": "lab-area-cap"});
 </script>
-<!-- module-data:start -->
-<script type="application/json" id="module-data">{"module":28,"title":"Checking the System","glossary":[["CISA","ISACA's certification for IT auditors.","Certified Information Systems Auditor: validates the ability to audit, control, monitor and assess IT and business systems; requires 5 years of relevant experience.","Certified Information Systems Auditor"],["Audit charter","The document that authorizes the audit function.","A formal document approved by the board or audit committee defining internal audit's purpose, authority, responsibility and independence.",""],["Independence","Auditors must not audit their own work.","Freedom from conditions that threaten the auditor's objectivity, both in fact and in appearance.",""],["Risk-based audit planning","Audit the riskiest areas first.","Prioritizing audit work based on assessment of inherent risk, control risk and business significance.",""],["Inherent risk","Risk before controls.","The susceptibility to material error assuming no related controls.",""],["Control risk","Risk controls won't catch it.","The risk that a material error will not be prevented or detected by internal controls.",""],["Detection risk","Risk the auditor misses it.","The risk that audit procedures fail to detect a material error.",""],["Audit risk","Risk of a wrong audit conclusion.","Audit risk = inherent risk × control risk × detection risk.",""],["Preventive control","Stops problems before they happen.","A control designed to prevent errors or irregularities (e.g., access control, segregation of duties).",""],["Detective control","Finds problems after they happen.","A control designed to identify errors or irregularities (e.g., log reviews, reconciliations).",""],["Corrective control","Fixes problems after detection.","A control that remedies errors or irregularities (e.g., restore from backup).",""],["General controls","Controls over the whole IT environment.","IT general controls (ITGCs): access, change management, operations, backup; apply across many applications.","ITGC"],["Application controls","Controls inside a specific system.","Input, processing and output controls built into an application (e.g., validation checks, edit checks).",""],["Audit evidence","Proof that supports a conclusion.","Information used by the auditor to support findings; should be sufficient, reliable, relevant and useful.",""],["Statistical sampling","Sampling using probability math.","Selecting a sample using probability so results can be projected to the population with measurable confidence.",""],["Judgmental sampling","Auditor picks the sample.","Non-statistical sampling based on the auditor's judgment; results cannot be statistically projected.",""],["Attribute sampling","Yes/no: does the control work?","Sampling to estimate the rate of occurrence of a characteristic, used for compliance testing.",""],["Variable sampling","How much: estimate a value.","Sampling to estimate a monetary amount or quantity, used for substantive testing.",""],["Compliance testing","Does the control work as designed?","Tests whether controls are operating as intended.",""],["Substantive testing","Are the numbers right?","Tests the integrity of actual processing or balances.",""],["CAAT","Software tools for auditing data.","Computer-assisted audit techniques: generalized audit software, data analytics, embedded audit modules, test data.","Computer-Assisted Audit Techniques"],["Continuous auditing","Automated, near-real-time audit checks.","Techniques that perform audit procedures on an ongoing basis, often with embedded modules or analytics.",""],["Finding","An issue the audit discovered.","A documented condition with criteria, cause, effect and recommendation.",""],["Follow-up","Check that issues were fixed.","Audit activity verifying that management has implemented agreed corrective actions.",""],["Segregation of duties","No one person controls a whole process.","Separating incompatible duties (authorize, record, custody, reconcile) to prevent fraud and error.","SoD"],["Enterprise architecture","Blueprint of business and IT.","A structured description of an organization's business processes, information, applications and technology (e.g., TOGAF, Zachman).","EA"],["SDLC","Steps to build a system.","System development life cycle: feasibility, requirements, design, build, test, implement, post-implementation review.","System Development Life Cycle"],["UAT","Users confirm it meets their needs.","User acceptance testing: final testing by users before go-live.","User Acceptance Testing"],["Parallel changeover","Run old and new systems together.","Implementation where both systems run simultaneously until the new one is proven; lowest risk, highest cost.",""],["Direct cutover","Switch everything at once.","Implementation where the old system is turned off and the new one turned on at once; highest risk.","Big bang"],["Phased changeover","Switch in modules or stages.","Implementation of a new system in parts over time.",""],["Pilot changeover","Try it in one location first.","Implementation at one site or group before full rollout.",""],["Post-implementation review","Did the project deliver what was promised?","Review after go-live comparing results to the business case and lessons learned.","PIR"],["Escrow","Third party holds the source code.","An agreement where software source code is held by a third party and released if the vendor fails.",""],["Job scheduling","Running batch jobs in the right order.","Controlled automation of batch processing with authorization, monitoring and exception handling.",""],["Recovery sites","Places to restore operations.","Hot, warm, cold, mirrored and mobile sites, or cloud DR, chosen by RTO and cost.",""],["Data classification","Labeling data by sensitivity.","Assigning levels (e.g., public, internal, confidential, restricted) to determine handling controls.",""],["DLP","Stop sensitive data leaving.","Data loss prevention tools and processes that detect and block unauthorized data transfer.","Data Loss Prevention"],["Chain of custody","Who held the evidence and when.","Documented, unbroken record of evidence handling to preserve integrity.",""]],"quiz":[{"t":"mc","q":"Which document grants the internal audit function its authority?","o":["Audit charter","Audit plan","Engagement letter","Audit report"],"a":0,"w":["Correct: approved by the board or audit committee.","Lists planned audits.","Used for external engagements.","The output of an audit."],"x":"The charter defines purpose, authority, responsibility and reporting lines.","c":"CISA","d":"1.1 Audit standards and charter"},{"t":"mc","q":"To whom should the head of internal audit report functionally to preserve independence?","o":["The audit committee of the board","The CIO","The CFO only","The IT security manager"],"a":0,"w":["Correct.","Audits IT; conflict.","Possible administrative line, not functional.","Conflict of interest."],"x":"Functional reporting to the audit committee protects independence.","c":"CISA","d":"1.1 Audit standards: independence"},{"t":"mc","q":"An IS auditor is asked to help design controls for a new system and later audit it. What is the MAIN concern?","o":["Loss of independence","Too much documentation","Project delay","Higher audit fees"],"a":0,"w":["Correct: auditing own work.","Not the concern.","Not the concern.","Not the concern."],"x":"Auditors may advise but must not take management responsibility; disclose any impairment.","c":"CISA","d":"1.1 Audit standards: independence"},{"t":"mc","q":"When planning an audit, the IS auditor should FIRST:","o":["Understand the business and assess risk","Select a sample","Write the report","Interview users about complaints"],"a":0,"w":["Correct: risk-based planning.","Later, during fieldwork.","Last.","Part of fieldwork."],"x":"Risk assessment determines scope and focus.","c":"CISA","d":"1.2 Risk-based audit planning"},{"t":"mc","q":"An auditor wants to test whether every purchase order over $10,000 has a second approval. Which sampling method fits BEST?","o":["Attribute sampling","Variable sampling","Stop-or-go sampling only","No sampling; ask the manager"],"a":0,"w":["Correct: yes/no compliance attribute.","For estimating amounts.","A form of attribute sampling for low expected error, but attribute is the general answer.","Inquiry alone is weak evidence."],"x":"Attribute sampling estimates the rate of deviation.","c":"CISA","d":"1.3 Evidence and sampling"},{"t":"ms","q":"Which are examples of detective controls? (Select all that apply.)","o":["Reviewing access logs","Bank reconciliations","Requiring passwords","Restoring from backup"],"a":[0,1],"w":["Correct.","Correct.","Preventive.","Corrective."],"x":"Preventive stops, detective finds, corrective fixes.","c":"CISA","d":"1.2 Controls"},{"t":"mc","q":"Which is the MOST reliable audit evidence?","o":["A system-generated report obtained directly by the auditor","An oral statement from the system owner","A copy of a report emailed by the auditee","The auditor's memory of a meeting"],"a":0,"w":["Correct: independent and objective.","Weakest: inquiry.","Could be altered.","Undocumented."],"x":"Evidence from independent sources and obtained directly is more reliable.","c":"CISA","d":"1.3 Evidence"},{"t":"mc","q":"Which segregation of duties conflict creates the GREATEST risk of fraud?","o":["The same person can create vendors and approve payments","The same person can read reports and print them","Two people share a printer","A developer reads the user manual"],"a":0,"w":["Correct: could pay a fake vendor.","Not a conflict.","Not a conflict.","Not a conflict."],"x":"Separate authorization, recording and custody.","c":"CISA","d":"2.3 Segregation of duties"},{"t":"mc","q":"IT strategy should be aligned PRIMARILY with:","o":["Business strategy","Vendor roadmaps","The latest technology trends","Audit recommendations"],"a":0,"w":["Correct.","Not primary.","Not primary.","Inputs, not the driver."],"x":"Governance ensures IT delivers business value.","c":"CISA","d":"2.1 IT governance and strategy"},{"t":"mc","q":"Which changeover approach has the LOWEST risk but the HIGHEST cost?","o":["Parallel","Direct cutover","Phased","Pilot"],"a":0,"w":["Correct: both systems run.","Highest risk, lowest cost.","Moderate.","Moderate, limited scope."],"x":"Parallel allows comparing outputs before retiring the old system.","c":"CISA","d":"3.3 Implementation and changeover"},{"t":"mc","q":"Who should perform user acceptance testing?","o":["Business users","Developers","The IS auditor","The vendor's sales team"],"a":0,"w":["Correct.","Do unit testing.","Reviews, not tests for management.","Not appropriate."],"x":"UAT confirms the system meets business requirements.","c":"CISA","d":"3.2 Testing"},{"t":"order","q":"Put these testing stages in the usual order.","o":["Unit testing","Integration testing","System testing","User acceptance testing"],"x":"Small parts to the whole, then users accept.","c":"CISA","d":"3.2 Testing"},{"t":"mc","q":"An auditor finds production changes made without approval. What should the auditor do?","o":["Document the finding with evidence and report it with a recommendation","Roll back the changes","Approve the changes retroactively","Ignore it if nothing broke"],"a":0,"w":["Correct: report, don't fix.","Management's job.","Not the auditor's role.","Control failure regardless of outcome."],"x":"Auditors evaluate and report; management remediates.","c":"CISA","d":"4.2 Change management"},{"t":"mc","q":"Which is the BEST evidence that backups can be restored?","o":["Results of periodic restore tests","The backup job success log","The backup policy","Vendor documentation"],"a":0,"w":["Correct.","Shows backup ran, not that restore works.","Design, not operation.","Not evidence of operation."],"x":"Test restores prove recoverability.","c":"CISA","d":"4.4 Backup and recovery"},{"t":"mc","q":"When reviewing user access, the auditor's GREATEST concern would be:","o":["Terminated employees still have active accounts","Users have long passwords","Accounts follow a naming convention","Users change passwords often"],"a":0,"w":["Correct: unauthorized access risk.","Positive.","Positive.","Not a concern."],"x":"Check joiner-mover-leaver processes and periodic access reviews.","c":"CISA","d":"5.2 Identity and access management"}],"flashcards":[["Parts of an audit finding","Condition, criteria, cause, effect, recommendation."],["Why auditors don't implement fixes","It would impair independence."],["Most reliable evidence type","Obtained directly by the auditor or from an independent source."],["CISA domains and weights (verify)","1 Audit process 18% · 2 Governance 18% · 3 Acquisition/dev 12% · 4 Operations and resilience 26% · 5 Protection of assets 26%"],["CISA exam (verify)","150 questions, 4 hours, scaled 200–800, pass 450"],["Think like an auditor","Independence, evidence, risk-based, report (don't fix)"],["Audit charter","Authority, purpose, responsibility; approved by board/audit committee"],["Audit risk","Inherent × control × detection"],["Preventive / detective / corrective","Stop / find / fix"],["ITGC vs application controls","Whole environment (access, change, ops) vs inside one system"],["Evidence qualities","Sufficient, reliable, relevant, useful"],["Most reliable evidence","Obtained directly by auditor from independent/system source"],["Attribute vs variable sampling","Rate of deviation (compliance) vs amount (substantive)"],["Statistical vs judgmental","Projectable with confidence vs auditor's choice"],["Higher confidence or lower tolerable error means…","Larger sample size"],["CAATs","GAS, data analytics, test data, embedded audit modules"],["Finding elements","Criteria, condition, cause, effect, recommendation"],["SoD classic conflict","Create vendor + approve payment"],["Changeover risk order","Parallel (lowest) → pilot/phased → direct cutover (highest)"],["Testing order","Unit → integration → system → UAT"],["PIR","Compare results to business case; lessons learned"],["Backup evidence","Restore test results"],["Recovery sites","Hot (hours), warm (days), cold (weeks)"],["BIA drives","RTO, RPO, recovery priorities"],["Access review concern","Terminated users still active"],["Evidence handling","Chain of custody; work on copies; hash"]]}</script>
-<!-- module-data:end -->
 </body>
 </html>

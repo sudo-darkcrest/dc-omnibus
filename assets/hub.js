@@ -1,4 +1,4 @@
-/* Datacenter Omnibus: study hub tools (Module 30, practice-exams.html, flashcards.html, index.html).
+/* Datacenter Omnibus: study hub tools (Module 38, practice-exams.html, flashcards.html, index.html).
    Needs catalog.js, omnibus.js and the module/bank data files loaded first. */
 (function () {
   "use strict";
@@ -19,10 +19,17 @@
     CYSA: { q: "Up to 85", time: "165 min", pass: "750 / 900", types: "Multiple choice, performance-based", pre: "None; Network+ and Security+ (or equivalent) and about 4 years hands-on recommended", weights: { 1: 33, 2: 30, 3: 20, 4: 17 }, full: 85, min: 165 },
     CCNA: { q: "About 100 (verify)", time: "120 min", pass: "Not published by Cisco", types: "Multiple choice, drag and drop, simulations", pre: "None; about 1 year of networking experience recommended", weights: { 1: 20, 2: 20, 3: 25, 4: 10, 5: 15, 6: 10 }, full: 100, min: 120 },
     AZ900: { q: "About 40 to 60 (verify)", time: "45 min", pass: "700 / 1000", types: "Multiple choice, multiple response, drag and drop", pre: "None", weights: { 1: 28, 2: 37, 3: 35 }, full: 50, min: 45 },
-    PT: { q: "Up to 90", time: "165 min", pass: "750 / 900", types: "Multiple choice, performance-based", pre: "None; Network+ and Security+ (or equivalent) and 3 to 4 years hands-on recommended", weights: { 1: 13, 2: 21, 3: 17, 4: 35, 5: 14 }, full: 90, min: 165 }
+    PT: { q: "Up to 90", time: "165 min", pass: "750 / 900", types: "Multiple choice, performance-based", pre: "None; Network+ and Security+ (or equivalent) and 3 to 4 years hands-on recommended", weights: { 1: 13, 2: 21, 3: 17, 4: 35, 5: 14 }, full: 90, min: 165 },
+    CCNPS: { q: "About 90 to 110 (verify)", time: "120 min", pass: "Not published by Cisco", types: "Multiple choice, drag and drop, simulations", pre: "None; 3 to 5 years of experience recommended", weights: { 1: 25, 2: 20, 3: 15, 4: 15, 5: 10, 6: 15 }, full: 100, min: 120 },
+    CISSP: { q: "100 to 150 (adaptive)", time: "3 hours", pass: "700 / 1000", types: "Multiple choice and advanced innovative items", pre: "5 years in 2 of 8 domains to certify (Associate of ISC2 if you pass first)", weights: { 1: 16, 2: 10, 3: 13, 4: 13, 5: 13, 6: 12, 7: 13, 8: 10 }, full: 125, min: 180 },
+    SAA: { q: "65 (50 scored)", time: "130 min", pass: "720 / 1000 (scaled)", types: "Multiple choice, multiple response", pre: "None; 1 year of hands-on AWS design experience recommended", weights: { 1: 30, 2: 26, 3: 24, 4: 20 }, full: 65, min: 130 },
+    AZ104: { q: "About 40 to 60 (verify)", time: "100 min", pass: "700 / 1000", types: "Multiple choice, case studies, possible labs", pre: "None; 6 months of Azure admin experience recommended", weights: { 1: 22, 2: 17, 3: 22, 4: 17, 5: 12 }, full: 50, min: 100 },
+    ACE: { q: "50 to 60", time: "120 min", pass: "Not published by Google", types: "Multiple choice, multiple select", pre: "None; 6 months of Google Cloud experience recommended", weights: { 1: 23, 2: 30, 3: 27, 4: 20 }, full: 50, min: 120 },
+    CRISC: { q: "150", time: "4 hours", pass: "450 / 800 (scaled)", types: "Multiple choice", pre: "3 years of IT risk and control experience to certify", weights: { 1: 26, 2: 20, 3: 32, 4: 22 }, full: 150, min: 240 },
+    CIPP: { q: "About 90 (verify)", time: "150 min", pass: "300 / 500 (scaled)", types: "Multiple choice", pre: "None", weights: null, full: 90, min: 150 }
   };
-  OMNI.BANK_MODULE = { aws: 21, ai: 24, cysa: 19, aplus: 5, netplus: 13, secplus: 17, dcca: 23, itil: 25, cism: 27, cisa: 28, ccna: 14, az900: 22, pt: 18 };
-  OMNI.EXAM_CERTS = ["A1", "A2", "N", "S", "ITIL", "DCCA", "CISM", "CISA", "CCNA", "CLF", "AZ900", "AIF", "CYSA", "PT"];
+  OMNI.BANK_MODULE = { aws: 25, ai: 30, cysa: 21, aplus: 5, netplus: 13, secplus: 18, dcca: 22, itil: 31, cism: 35, cisa: 36, ccna: 14, az900: 27, pt: 19, ccnps: 15, cissp: 20, saa: 26, az104: 28, ace: 29, crisc: 34, privacy: 33 };
+  OMNI.EXAM_CERTS = ["A1", "A2", "N", "S", "ITIL", "DCCA", "CISM", "CISA", "CCNA", "CLF", "AZ900", "AIF", "CYSA", "PT", "CCNPS", "CISSP", "SAA", "AZ104", "ACE", "CRISC", "CIPP"];
 
   function pool(cert) {
     return OMNI.allQuestions().filter(function (q) { if (q.bank && !q.m) q.m = OMNI.BANK_MODULE[q.bank]; return q.c === cert; });
@@ -123,7 +130,7 @@
         if (w < weeks - 1 || weeks === 1) (plan[w] || []).forEach(function (m) { tasks.push({ id: c + "-m" + m.n, t: "Read Module " + m.n + " (" + m.t + ") and do its labs", href: OMNI.file(m.n) }); tasks.push({ id: c + "-q" + m.n, t: "Module " + m.n + " knowledge check", href: OMNI.file(m.n) + "#quiz" }); });
         if (w > 0) tasks.push({ id: c + "-fc" + w, t: "Flashcard review (15–20 minutes, Leitner boxes)", href: "flashcards.html" });
         if (w >= weeks - 2) tasks.push({ id: c + "-px" + w, t: (w === weeks - 1 ? "Full-length " : "Half-length ") + OMNI.certName(c) + " practice exam, then review weak domains", href: "practice-exams.html" });
-        if (w === weeks - 1) tasks.push({ id: c + "-tips", t: "Read the exam-day tips and confirm your booking, ID and test setup", href: OMNI.file(30) + "#tips" });
+        if (w === weeks - 1) tasks.push({ id: c + "-tips", t: "Read the exam-day tips and confirm your booking, ID and test setup", href: OMNI.file(38) + "#tips" });
         items.push({ w: w + 1, start: start, tasks: tasks });
       }
       OMNI.store.set("hub:plan", { c: c, date: date.value, hrs: hrs.value });
@@ -159,7 +166,7 @@
     if (typeof svg === "string") svg = document.getElementById(svg); if (!svg) return;
     function txt(x, y, t, a) { var e = S("text", Object.assign({ x: x, y: y, class: "svg-text", "font-size": 12, "text-anchor": "middle" }, a || {}), svg); e.textContent = t; return e; }
     function box(x, y, w, t, sub, col, exp) {
-      var a = S("a", { href: OMNI.file({ "A+": 4, "Network+": 9, "Security+": 15, "DCCA": 23, "ITIL 4": 25, "CISM": 27, "CISA": 28, "AWS Cloud Practitioner": 21, "AWS AI Practitioner": 24, "CySA+": 19, "CCNA": 14, "AZ-900": 22, "PenTest+": 18 }[t] || 30) }, svg);
+      var a = S("a", { href: OMNI.file({ "A+": 4, "Network+": 9, "Security+": 16, "DCCA": 22, "ITIL 4": 31, "CISM": 35, "CISA": 36, "AWS Cloud Practitioner": 25, "AWS AI Practitioner": 30, "CySA+": 21, "CCNA": 14, "AZ-900": 27, "PenTest+": 19, "CISSP": 20, "AWS Solutions Architect": 26, "Google Cloud ACE": 29 }[t] || 38) }, svg);
       S("rect", { x: x, y: y, width: w, height: 58, rx: 10, fill: "var(--surface)", stroke: col, "stroke-width": 2.5 }, a);
       var e1 = S("text", { x: x + w / 2, y: y + 24, class: "svg-text", "font-size": 14, "font-weight": 800, "text-anchor": "middle" }, a); e1.textContent = t;
       var e2 = S("text", { x: x + w / 2, y: y + 42, class: "svg-text svg-muted", "font-size": 10, "text-anchor": "middle" }, a); e2.textContent = sub;
@@ -175,12 +182,15 @@
     txt(380, 22, "Click a box to open its module. Arrows show a common order, not a requirement.", { "font-size": 10.5, class: "svg-text svg-muted" });
     txt(380, 280, "ITIL 4 and DCCA can be taken any time (no prerequisites). CISM and CISA can be passed first, but certification needs verified work experience.", { "font-size": 10.5, class: "svg-text svg-muted" });
     txt(380, 312, "Also great next steps (no prerequisites, but build on the core three):", { "font-size": 11, "font-weight": 700, class: "svg-text" });
-    box(40, 325, 210, "AWS Cloud Practitioner", "cloud · Module 21", "var(--dc)");
-    box(275, 325, 210, "AWS AI Practitioner", "AI and ML · Module 24", "var(--gen)");
-    box(510, 325, 210, "CySA+", "SOC analyst · Module 19", "var(--sec)");
+    box(40, 325, 210, "AWS Cloud Practitioner", "cloud · Module 25", "var(--dc)");
+    box(275, 325, 210, "AWS AI Practitioner", "AI and ML · Module 30", "var(--gen)");
+    box(510, 325, 210, "CySA+", "SOC analyst · Module 21", "var(--sec)");
     box(40, 400, 210, "CCNA", "Cisco networking · Module 14", "var(--net)");
-    box(275, 400, 210, "AZ-900", "Microsoft Azure · Module 22", "var(--dc)");
-    box(510, 400, 210, "PenTest+", "ethical hacking · Module 18", "var(--sec)");
+    box(275, 400, 210, "AZ-900", "Microsoft Azure · Module 27", "var(--dc)");
+    box(510, 400, 210, "PenTest+", "ethical hacking · Module 19", "var(--sec)");
+    box(40, 475, 210, "AWS Solutions Architect", "cloud design · Module 26", "var(--dc)");
+    box(275, 475, 210, "Google Cloud ACE", "Google Cloud · Module 29", "var(--dc)");
+    box(510, 475, 210, "CISSP", "senior security · Module 20", "var(--sec)");
   };
 
   /* ---------- Combined flashcard deck ---------- */
