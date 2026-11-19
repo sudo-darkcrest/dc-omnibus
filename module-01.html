@@ -15,7 +15,7 @@
 <section class="intro">
   <div class="kicker">Part 1 · Foundations · Module 01</div>
   <h1>The Big Picture: What Technology Is and How It All Fits Together</h1>
-  <p class="why"><b>Why this matters.</b> Every certification in this guide, from A+ to CISA, tests one slice of a much larger system. People who only memorize slices struggle when a question mixes layers ("the website is slow: is it the server, the network or the browser?"). This module gives you the whole map first, so every later fact has a place to live. It also shows where IT work happens, which jobs exist, which cert fits each job, and how to study so the material actually sticks.</p>
+  <p class="why"><b>Why this matters.</b> Every certification in this guide, from A+ to CISA (Certified Information Systems Auditor), tests one slice of a much larger system. People who only memorize slices struggle when a question mixes layers ("the website is slow: is it the server, the network or the browser?"). This module gives you the whole map first, so every later fact has a place to live. It also shows where IT (Information Technology) work happens, which jobs exist, which cert fits each job, and how to study so the material actually sticks.</p>
   <h3>You will be able to</h3>
   <ul class="outcomes">
     <li>Explain the difference between IT, computer science, information systems, operational technology and consumer tech.</li>
@@ -41,33 +41,33 @@
   <div class="tablewrap"><table>
     <thead><tr><th>Field</th><th>Plain meaning</th><th>What people in it do</th><th>Example task</th></tr></thead>
     <tbody>
-      <tr><td><b>Information technology (IT)</b></td><td>Running and supporting technology for users and organizations.</td><td>Install, configure, secure, support, operate.</td><td>Set up a new employee's laptop, accounts and VPN.</td></tr>
+      <tr><td><b>Information technology (IT)</b></td><td>Running and supporting technology for users and organizations.</td><td>Install, configure, secure, support, operate.</td><td>Set up a new employee's laptop, accounts and VPN (Virtual Private Network).</td></tr>
       <tr><td><b>Computer science (CS)</b></td><td>The science of computation: algorithms, data structures, theory, programming languages.</td><td>Design algorithms and software, research.</td><td>Invent a faster way to sort a billion records.</td></tr>
-      <tr><td><b>Information systems (IS / MIS)</b></td><td>How technology, people and processes combine to serve a business.</td><td>Analyze business needs, choose systems, manage projects.</td><td>Decide whether to buy or build a new HR system.</td></tr>
-      <tr><td><b>Operational technology (OT)</b></td><td>Technology that controls physical machines and processes.</td><td>Run PLCs, SCADA, building management, industrial control systems (ICS).</td><td>Keep a water-treatment plant's pumps and valves under safe control.</td></tr>
+      <tr><td><b>Information systems (IS / MIS)</b></td><td>How technology, people and processes combine to serve a business.</td><td>Analyze business needs, choose systems, manage projects.</td><td>Decide whether to buy or build a new HR (Human Resources) system.</td></tr>
+      <tr><td><b>Operational technology (OT)</b></td><td>Technology that controls physical machines and processes.</td><td>Run PLCs (Programmable Logic Controller), SCADA (Supervisory Control and Data Acquisition), building management, industrial control systems (ICS).</td><td>Keep a water-treatment plant's pumps and valves under safe control.</td></tr>
       <tr><td><b>Consumer tech</b></td><td>Technology bought and used by individuals.</td><td>Use, choose and look after personal devices.</td><td>Pick a phone, set up home Wi-Fi, back up photos.</td></tr>
     </tbody>
   </table></div>
-  <div class="callout detail">The line between IT and OT is blurring ("IT/OT convergence"). Factory machines now sit on IP networks, which brings IT security problems (malware, remote access) into places where a failure can hurt people. Security+ covers ICS/SCADA and embedded systems for this reason, and data center facilities (Module 18) are run by OT systems such as a building management system (BMS).</div>
+  <div class="callout detail">The line between IT and OT is blurring ("IT/OT convergence"). Factory machines now sit on IP (Internet Protocol) networks, which brings IT security problems (malware, remote access) into places where a failure can hurt people. Security+ covers ICS/SCADA and embedded systems for this reason, and data center facilities (Module 18) are run by OT systems such as a building management system (BMS).</div>
 </section>
 
 <section class="lesson" id="stack">
   <h2>2. The layers of modern technology</h2>
-  <p>A <dfn>layer</dfn> is a level of a system that does one job and hides its details from the levels above it. Layers let specialists work on one level without understanding every other level. When you plug in a USB stick, you do not think about electrons; the lower layers handle that for you.</p>
+  <p>A <dfn>layer</dfn> is a level of a system that does one job and hides its details from the levels above it. Layers let specialists work on one level without understanding every other level. When you plug in a USB (Universal Serial Bus) stick, you do not think about electrons; the lower layers handle that for you.</p>
   <div class="callout analogy">A layered cake. You taste the whole cake, but a baker made each layer separately, and each one rests on the one below. If the bottom layer collapses, everything above it falls too. That is why troubleshooting often starts at the bottom ("is it plugged in?").</div>
   <ol>
     <li><b>Physics and electricity</b>: electrons, voltage, current, light and radio waves. Everything digital is ultimately a physical signal.</li>
     <li><b>Electronics and chips</b>: transistors (tiny electrically controlled switches) combine into logic gates, then into processors and memory chips.</li>
-    <li><b>Hardware</b>: the physical computer: CPU, RAM, storage, motherboard, power supply, network card.</li>
-    <li><b>Firmware</b>: low-level software stored on a chip that starts and controls the hardware, such as BIOS/UEFI or a router's firmware.</li>
+    <li><b>Hardware</b>: the physical computer: CPU (Central Processing Unit), RAM (Random Access Memory), storage, motherboard, power supply, network card.</li>
+    <li><b>Firmware</b>: low-level software stored on a chip that starts and controls the hardware, such as BIOS/UEFI (BIOS: Basic Input/Output System; UEFI: Unified Extensible Firmware Interface) or a router's firmware.</li>
     <li><b>Operating system (OS)</b>: the master program (Windows, macOS, Linux, Android, iOS) that manages hardware and runs other programs.</li>
     <li><b>Applications</b>: programs people use: browsers, office suites, games, databases.</li>
     <li><b>Networks</b>: links that let devices exchange data: Ethernet, Wi-Fi, switches, routers.</li>
     <li><b>The internet and cloud</b>: the global network of networks, and rented computing in providers' data centers.</li>
-    <li><b>Data and services</b>: the information itself and the services built on it: email, websites, identity, payments, AI.</li>
+    <li><b>Data and services</b>: the information itself and the services built on it: email, websites, identity, payments, AI (Artificial Intelligence).</li>
     <li><b>People and processes</b>: users, IT staff, policies, service management, governance, audit. Most failures and most security breaches involve this layer.</li>
   </ol>
-  <div class="callout detail">This ten-layer stack is a teaching model for this guide, not a formal standard. The formal layered models you must know for Network+ are the 7-layer OSI model and the 4-layer TCP/IP model (Module 9). They describe only the networking slice of this bigger stack.</div>
+  <div class="callout detail">This ten-layer stack is a teaching model for this guide, not a formal standard. The formal layered models you must know for Network+ are the 7-layer OSI (Open Systems Interconnection) model and the 4-layer TCP/IP (TCP: Transmission Control Protocol) model (Module 9). They describe only the networking slice of this bigger stack.</div>
   <p>Try the stack in <a href="#lab-stack">Lab 1</a> below.</p>
 </section>
 
@@ -77,32 +77,32 @@
   <div class="tablewrap"><table>
     <thead><tr><th>Setting</th><th>Typical size</th><th>Who manages it</th><th>Typical gear</th><th>Typical risks</th></tr></thead>
     <tbody>
-      <tr><td><b>Home</b></td><td>1 to 30 devices</td><td>The household (often nobody, really)</td><td>ISP modem/router combo, Wi-Fi, laptops, phones, smart TV, IoT gadgets</td><td>Weak or reused passwords, unpatched router, phishing, no backups, insecure IoT</td></tr>
-      <tr><td><b>Small office (SOHO / SMB)</b></td><td>5 to 100 users</td><td>One IT person, or an outsourced managed service provider (MSP)</td><td>Business router/firewall, a switch, a few access points, a NAS or cloud file share, printers</td><td>Ransomware, no documented process, single points of failure, shadow IT</td></tr>
-      <tr><td><b>Enterprise</b></td><td>Thousands of users, many sites</td><td>Specialized teams: service desk, network, systems, security, governance, audit</td><td>Directory services, core/distribution/access switching, firewalls, SD-WAN, SIEM, ticketing systems</td><td>Complex attack surface, insider threat, compliance failures, change-related outages</td></tr>
-      <tr><td><b>Data center</b></td><td>Hundreds to tens of thousands of servers</td><td>Facilities team plus IT operations; may be the company's own or colocation</td><td>Racks, servers, storage arrays, UPS, generators, CRAC/CRAH cooling, fiber cabling</td><td>Power or cooling loss, fire, physical intrusion, human error during maintenance</td></tr>
+      <tr><td><b>Home</b></td><td>1 to 30 devices</td><td>The household (often nobody, really)</td><td>ISP (Internet Service Provider) modem/router combo, Wi-Fi, laptops, phones, smart TV, IoT (Internet of Things) gadgets</td><td>Weak or reused passwords, unpatched router, phishing, no backups, insecure IoT</td></tr>
+      <tr><td><b>Small office (SOHO / SMB)</b></td><td>5 to 100 users</td><td>One IT person, or an outsourced managed service provider (MSP)</td><td>Business router/firewall, a switch, a few access points, a NAS (Network Attached Storage) or cloud file share, printers</td><td>Ransomware, no documented process, single points of failure, shadow IT</td></tr>
+      <tr><td><b>Enterprise</b></td><td>Thousands of users, many sites</td><td>Specialized teams: service desk, network, systems, security, governance, audit</td><td>Directory services, core/distribution/access switching, firewalls, SD-WAN (Software-Defined Wide Area Network), SIEM (Security Information and Event Management), ticketing systems</td><td>Complex attack surface, insider threat, compliance failures, change-related outages</td></tr>
+      <tr><td><b>Data center</b></td><td>Hundreds to tens of thousands of servers</td><td>Facilities team plus IT operations; may be the company's own or colocation</td><td>Racks, servers, storage arrays, UPS (Uninterruptible Power Supply), generators, CRAC/CRAH (CRAC: Computer Room Air Conditioner; CRAH: Computer Room Air Handler) cooling, fiber cabling</td><td>Power or cooling loss, fire, physical intrusion, human error during maintenance</td></tr>
       <tr><td><b>Cloud provider (hyperscaler)</b></td><td>Millions of servers in regions worldwide</td><td>The provider runs the facilities and platform; customers manage what the shared responsibility model gives them</td><td>Custom servers, software-defined networking, massive storage systems, accelerators for AI</td><td>Customer misconfiguration, account takeover, regional outages, vendor lock-in</td></tr>
     </tbody>
   </table></div>
-  <div class="callout trap">"The cloud is just someone else's computer" is a half-truth. Physically, yes. But the cloud also adds self-service, elasticity and metered billing (the NIST SP 800-145 essential characteristics), and you still own securing your own data and accounts.</div>
+  <div class="callout trap">"The cloud is just someone else's computer" is a half-truth. Physically, yes. But the cloud also adds self-service, elasticity and metered billing (the NIST (National Institute of Standards and Technology) SP (Special Publication) 800-145 essential characteristics), and you still own securing your own data and accounts.</div>
 </section>
 
 <section class="lesson" id="careers">
   <h2>4. IT jobs and the certs that fit them</h2>
-  <p>A <dfn>certification</dfn> is a credential from a vendor or professional body showing you passed an exam on a defined set of objectives. Some, like CISM and CISA, also require verified work experience before you can hold the title.</p>
+  <p>A <dfn>certification</dfn> is a credential from a vendor or professional body showing you passed an exam on a defined set of objectives. Some, like CISM (Certified Information Security Manager) and CISA, also require verified work experience before you can hold the title.</p>
   <div class="tablewrap"><table>
     <thead><tr><th>Role</th><th>What the job is</th><th>A good cert order</th></tr></thead>
     <tbody>
-      <tr><td>Help desk / service desk</td><td>First contact for users: password resets, how-to questions, logging tickets.</td><td>A+ → ITIL 4 Foundation</td></tr>
-      <tr><td>Desktop support</td><td>Fixes and deploys PCs, laptops, printers and mobile devices.</td><td>A+ → Network+</td></tr>
-      <tr><td>Network administrator</td><td>Runs switches, routers, Wi-Fi, firewalls and VPNs.</td><td>A+ → Network+ → Security+ (then CCNA)</td></tr>
+      <tr><td>Help desk / service desk</td><td>First contact for users: password resets, how-to questions, logging tickets.</td><td>A+ → ITIL (Information Technology Infrastructure Library) 4 Foundation</td></tr>
+      <tr><td>Desktop support</td><td>Fixes and deploys PCs (Personal Computer), laptops, printers and mobile devices.</td><td>A+ → Network+</td></tr>
+      <tr><td>Network administrator</td><td>Runs switches, routers, Wi-Fi, firewalls and VPNs.</td><td>A+ → Network+ → Security+ (then CCNA (Cisco Certified Network Associate))</td></tr>
       <tr><td>Systems administrator</td><td>Runs servers, directories, virtualization and backups.</td><td>A+ → Network+ → Security+ (then Linux+ / Cloud+)</td></tr>
       <tr><td>Cloud engineer</td><td>Builds and automates infrastructure in public clouds.</td><td>Network+ → Security+ → Cloud+ or a provider cert</td></tr>
       <tr><td>Security analyst</td><td>Monitors alerts, investigates incidents, manages vulnerabilities.</td><td>Network+ → Security+ → CySA+</td></tr>
-      <tr><td>Data center technician</td><td>Racks gear, runs cabling, swaps parts, watches power and cooling.</td><td>A+ → Network+ → DCCA (then CDCP)</td></tr>
+      <tr><td>Data center technician</td><td>Racks gear, runs cabling, swaps parts, watches power and cooling.</td><td>A+ → Network+ → DCCA (Data Center Certified Associate; then CDCP (Certified Data Centre Professional))</td></tr>
       <tr><td>IT service manager</td><td>Runs service desk, incident, change and service level processes.</td><td>ITIL 4 Foundation (plus A+ for credibility)</td></tr>
       <tr><td>IT auditor</td><td>Checks that controls are designed and working, and reports to management.</td><td>Security+ → ITIL 4 → CISA</td></tr>
-      <tr><td>Security manager</td><td>Leads the security program, strategy, risk and incident management.</td><td>Security+ → CISM (then CISSP)</td></tr>
+      <tr><td>Security manager</td><td>Leads the security program, strategy, risk and incident management.</td><td>Security+ → CISM (then CISSP (Certified Information Systems Security Professional))</td></tr>
     </tbody>
   </table></div>
   <p>See the order light up in <a href="#lab-career">Lab 3</a>.</p>
@@ -117,14 +117,14 @@
     <li><b>Active recall.</b> Answer before you look. Reading feels productive but testing yourself builds memory far better.</li>
     <li><b>Practice exams.</b> Use them to find weak domains, not to memorize questions. Every question here explains why each option is right or wrong.</li>
     <li><b>Hands-on labs.</b> Each module has interactive labs. Real gear or free virtual machines are even better once you are ready.</li>
-    <li><b>Interleaving.</b> Mix topics in one session (ports, then RAID, then subnetting) instead of doing one topic for hours.</li>
+    <li><b>Interleaving.</b> Mix topics in one session (ports, then RAID (Redundant Array of Independent Disks), then subnetting) instead of doing one topic for hours.</li>
   </ul>
   <h3>Booking an exam (general process)</h3>
   <ol>
     <li>Read the official exam objectives on the vendor site and confirm the current exam code.</li>
-    <li>Create an account with the vendor and its test delivery partner (CompTIA uses Pearson VUE; ISACA uses PSI; PeopleCert runs its own online proctoring and partners).</li>
+    <li>Create an account with the vendor and its test delivery partner (CompTIA uses Pearson VUE; ISACA (Information Systems Audit and Control Association) uses PSI (PSI Services, a test delivery company); PeopleCert runs its own online proctoring and partners).</li>
     <li>Buy a voucher, then pick a test center or an online proctored slot.</li>
-    <li>For online exams: a quiet room, a clean desk, a webcam, ID, and a system check beforehand.</li>
+    <li>For online exams: a quiet room, a clean desk, a webcam, ID (Identification), and a system check beforehand.</li>
     <li>After passing, some certs need continuing education (CEUs/CPEs) or renewal fees to stay active.</li>
   </ol>
   <div class="callout tip">Study a little most days rather than a lot once a week. Twenty focused minutes with flashcards plus one lab beats a three-hour cram.</div>

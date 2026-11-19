@@ -15,14 +15,14 @@
 <section class="intro">
   <div class="kicker">Part 1 · Foundations · Module 02</div>
   <h1>The Language of Tech: Core Terms, Numbers and Units</h1>
-  <p class="why"><b>Why this matters.</b> Half of all exam mistakes are vocabulary mistakes: mixing up bandwidth and throughput, bits and bytes, or MB and MiB. Every later module assumes you can read a hex MAC address, convert a subnet mask to binary and work out how long a download takes. Learn the language once here and the rest of the guide becomes much easier to read.</p>
+  <p class="why"><b>Why this matters.</b> Half of all exam mistakes are vocabulary mistakes: mixing up bandwidth and throughput, bits and bytes, or MB (Megabyte) and MiB. Every later module assumes you can read a hex MAC address, convert a subnet mask to binary and work out how long a download takes. Learn the language once here and the rest of the guide becomes much easier to read.</p>
   <h3>You will be able to</h3>
   <ul class="outcomes">
     <li>Define the core terms used across A+, Network+ and Security+ in plain words and precisely.</li>
     <li>Convert between binary, decimal and hexadecimal by hand.</li>
-    <li>Tell bits from bytes and decimal prefixes (GB) from binary prefixes (GiB), and explain why a "1 TB" drive shows about 931 GiB.</li>
+    <li>Tell bits from bytes and decimal prefixes (GB) from binary prefixes (GiB), and explain why a "1 TB (Terabyte)" drive shows about 931 GiB.</li>
     <li>Calculate download times correctly from a file size and a link speed.</li>
-    <li>Explain ASCII, Unicode and UTF-8, and read the truth tables for the basic logic gates.</li>
+    <li>Explain ASCII (American Standard Code for Information Interchange), Unicode and UTF-8 (Unicode Transformation Format 8-bit), and read the truth tables for the basic logic gates.</li>
   </ul>
   <nav class="jumpnav" id="jumpnav" aria-label="On this page"></nav>
 </section>
@@ -38,25 +38,25 @@
   <div class="tablewrap"><table>
     <thead><tr><th>Term</th><th>Plain meaning</th><th>Precise meaning</th></tr></thead>
     <tbody>
-      <tr><td><b>Hardware</b></td><td>The parts you can touch.</td><td>Physical components of a computing system (CPU, memory, storage, circuits, cables).</td></tr>
-      <tr><td><b>Software</b></td><td>Instructions that tell hardware what to do.</td><td>Programs and data that run on hardware; includes system software (OS, drivers) and applications.</td></tr>
-      <tr><td><b>Firmware</b></td><td>Software that lives on a chip inside a device.</td><td>Low-level code in non-volatile memory (flash/ROM) that initializes and controls hardware; BIOS/UEFI is the best-known example.</td></tr>
+      <tr><td><b>Hardware</b></td><td>The parts you can touch.</td><td>Physical components of a computing system (CPU (Central Processing Unit), memory, storage, circuits, cables).</td></tr>
+      <tr><td><b>Software</b></td><td>Instructions that tell hardware what to do.</td><td>Programs and data that run on hardware; includes system software (OS (Operating System), drivers) and applications.</td></tr>
+      <tr><td><b>Firmware</b></td><td>Software that lives on a chip inside a device.</td><td>Low-level code in non-volatile memory (flash/ROM) that initializes and controls hardware; BIOS/UEFI (BIOS: Basic Input/Output System; UEFI: Unified Extensible Firmware Interface) is the best-known example.</td></tr>
       <tr><td><b>Data vs information</b></td><td>Data is raw facts; information is data that means something.</td><td>Data: unprocessed values ("72, 75, 71"). Information: data given context ("average temperature this week: 72.7 °F").</td></tr>
       <tr><td><b>IPOS</b></td><td>Every computer takes something in, works on it, gives something out and keeps some of it.</td><td>The Input → Process → Output → Storage model of computing.</td></tr>
       <tr><td><b>Client / server</b></td><td>The client asks, the server answers.</td><td>A client requests a service; a server provides it. One machine can be both. The roles are about software, not the box.</td></tr>
-      <tr><td><b>Host / node</b></td><td>Any device on a network.</td><td>A host is a device with an IP address that sends or receives traffic; a node is any connection point (including switches and routers).</td></tr>
-      <tr><td><b>Protocol</b></td><td>A set of rules for talking.</td><td>A formal specification for message format, order and actions between communicating parties (for example TCP, HTTP, DHCP).</td></tr>
+      <tr><td><b>Host / node</b></td><td>Any device on a network.</td><td>A host is a device with an IP (Internet Protocol) address that sends or receives traffic; a node is any connection point (including switches and routers).</td></tr>
+      <tr><td><b>Protocol</b></td><td>A set of rules for talking.</td><td>A formal specification for message format, order and actions between communicating parties (for example TCP (Transmission Control Protocol), HTTP (HyperText Transfer Protocol), DHCP (Dynamic Host Configuration Protocol)).</td></tr>
       <tr><td><b>Interface</b></td><td>The point where two things meet.</td><td>A hardware port, a network connection (eth0) or a software boundary (API) through which components interact.</td></tr>
       <tr><td><b>Bandwidth</b></td><td>How wide the pipe is.</td><td>The maximum rate a link can carry, in bits per second (bps). In radio and analog contexts, also the width of a frequency range in Hz.</td></tr>
       <tr><td><b>Throughput</b></td><td>How much water actually flows.</td><td>The actual achieved data rate, always ≤ bandwidth, reduced by overhead, congestion, errors and retransmissions. <i>Goodput</i> is the useful application data only.</td></tr>
       <tr><td><b>Latency</b></td><td>How long one drop takes to get through.</td><td>The delay for data to travel from source to destination, in milliseconds. Round-trip time (RTT) is there and back.</td></tr>
       <tr><td><b>Analog vs digital</b></td><td>Smooth vs stepped.</td><td>Analog signals vary continuously; digital signals use discrete values (usually two: 0 and 1).</td></tr>
       <tr><td><b>Signal / encoding</b></td><td>How information is carried and written down.</td><td>A signal is a physical quantity varied to carry information. Encoding maps data to symbols (for example UTF-8 maps characters to bytes; line coding maps bits to voltage levels).</td></tr>
-      <tr><td><b>File / file system</b></td><td>A named container of data, and the filing cabinet that organizes them.</td><td>A file is a named sequence of bytes; a file system (NTFS, ext4, APFS) defines how files, folders and metadata are stored on a volume.</td></tr>
+      <tr><td><b>File / file system</b></td><td>A named container of data, and the filing cabinet that organizes them.</td><td>A file is a named sequence of bytes; a file system (NTFS (New Technology File System), ext4, APFS (Apple File System)) defines how files, folders and metadata are stored on a volume.</td></tr>
       <tr><td><b>Driver</b></td><td>A translator between the OS and a device.</td><td>Software that lets the operating system control a specific hardware device through a standard interface.</td></tr>
       <tr><td><b>Kernel</b></td><td>The core of the operating system.</td><td>The privileged part of the OS that manages CPU scheduling, memory, devices and system calls.</td></tr>
       <tr><td><b>Virtualization</b></td><td>Pretend computers inside a real one.</td><td>Abstracting hardware so multiple virtual machines share one physical host, managed by a hypervisor.</td></tr>
-      <tr><td><b>Cloud</b></td><td>Renting computing over the internet.</td><td>On-demand, self-service, elastic, metered computing resources accessed over a network (NIST SP 800-145).</td></tr>
+      <tr><td><b>Cloud</b></td><td>Renting computing over the internet.</td><td>On-demand, self-service, elastic, metered computing resources accessed over a network (NIST (National Institute of Standards and Technology) SP (Special Publication) 800-145).</td></tr>
     </tbody>
   </table></div>
   <div class="callout analogy">A highway. <b>Bandwidth</b> is the number of lanes. <b>Throughput</b> is how many cars actually pass per hour (traffic jams reduce it). <b>Latency</b> is how long one car takes to drive from end to end. Adding lanes does not make one car arrive faster.</div>
@@ -72,8 +72,8 @@
     <tbody>
       <tr><td>Binary</td><td>2</td><td>0 1</td><td>Inside hardware, subnet masks, permissions</td><td><code>11001000</code></td></tr>
       <tr><td>Octal</td><td>8</td><td>0 to 7</td><td>Linux permissions (chmod 755)</td><td><code>310</code></td></tr>
-      <tr><td>Decimal</td><td>10</td><td>0 to 9</td><td>Everyday numbers, IPv4 dotted decimal</td><td><code>200</code></td></tr>
-      <tr><td>Hexadecimal</td><td>16</td><td>0 to 9, A to F</td><td>MAC addresses, IPv6, memory addresses, colors (#C80000)</td><td><code>C8</code> (written 0xC8)</td></tr>
+      <tr><td>Decimal</td><td>10</td><td>0 to 9</td><td>Everyday numbers, IPv4 (Internet Protocol version 4) dotted decimal</td><td><code>200</code></td></tr>
+      <tr><td>Hexadecimal</td><td>16</td><td>0 to 9, A to F</td><td>MAC addresses, IPv6 (Internet Protocol version 6), memory addresses, colors (#C80000)</td><td><code>C8</code> (written 0xC8)</td></tr>
     </tbody>
   </table></div>
   <h3 id="place-values">Place values</h3>
@@ -96,7 +96,7 @@
   <h2>3. Units: bits, bytes and prefixes</h2>
   <p>Lowercase <b>b</b> means bit. Uppercase <b>B</b> means byte. 1 B = 8 b. Data rates are usually quoted in bits per second (Mbps, Gbps); file and storage sizes in bytes (MB, GB).</p>
   <h3 id="prefixes">Decimal vs binary prefixes</h3>
-  <p>The International System of Units (SI) prefixes kilo, mega, giga and tera mean powers of 10. Because memory comes in powers of 2, the IEC (IEC 80000-13) defined separate binary prefixes: kibi, mebi, gibi, tebi.</p>
+  <p>The International System of Units (SI) prefixes kilo, mega, giga and tera mean powers of 10. Because memory comes in powers of 2, the IEC (International Electrotechnical Commission; IEC 80000-13) defined separate binary prefixes: kibi, mebi, gibi, tebi.</p>
   <div class="tablewrap"><table>
     <thead><tr><th>Decimal (SI)</th><th>Value</th><th>Binary (IEC)</th><th>Value</th><th>Difference</th></tr></thead>
     <tbody>
@@ -107,7 +107,7 @@
       <tr><td>petabyte PB</td><td>10<sup>15</sup></td><td>pebibyte PiB</td><td>2<sup>50</sup></td><td>12.6%</td></tr>
     </tbody>
   </table></div>
-  <div class="callout detail">A drive maker sells "1 TB" = 1,000,000,000,000 bytes. Windows divides by 2<sup>30</sup> but labels the result "GB", so it shows 10<sup>12</sup> ÷ 1,073,741,824 ≈ <b>931 GB</b> (really 931 GiB). Nothing is missing. macOS has used decimal units since 10.6, so it shows 1 TB. RAM is always sold in binary sizes (a 16 GB stick is 16 GiB).</div>
+  <div class="callout detail">A drive maker sells "1 TB" = 1,000,000,000,000 bytes. Windows divides by 2<sup>30</sup> but labels the result "GB", so it shows 10<sup>12</sup> ÷ 1,073,741,824 ≈ <b>931 GB</b> (really 931 GiB). Nothing is missing. macOS has used decimal units since 10.6, so it shows 1 TB. RAM (Random Access Memory) is always sold in binary sizes (a 16 GB stick is 16 GiB).</div>
   <h3 id="download-math">Download time math</h3>
   <p>Time = size in bits ÷ rate in bits per second. A 1 GB file on a 100 Mbps link: 1 GB = 8,000,000,000 bits; ÷ 100,000,000 bps = <b>80 seconds</b> at best, more in practice because of protocol overhead (often 5 to 10%).</p>
   <div class="callout trap">Forgetting the factor of 8. "100 Mbps should download 100 MB per second" is wrong: 100 Mbps is about 12.5 MB/s.</div>
@@ -116,7 +116,7 @@
     <thead><tr><th>Unit</th><th>Measures</th><th>Plain meaning</th><th>Example</th></tr></thead>
     <tbody>
       <tr><td>Hertz (Hz)</td><td>Frequency, cycles per second</td><td>How many times something repeats each second.</td><td>3.5 GHz CPU clock; 2.4 GHz Wi-Fi; 60 Hz mains in North America (50 Hz in much of the world)</td></tr>
-      <tr><td>Volt (V)</td><td>Electrical potential difference</td><td>Electrical "pressure".</td><td>12 V, 5 V and 3.3 V PSU rails; 120 V or 230 V mains</td></tr>
+      <tr><td>Volt (V)</td><td>Electrical potential difference</td><td>Electrical "pressure".</td><td>12 V, 5 V and 3.3 V PSU (Power Supply Unit) rails; 120 V or 230 V mains</td></tr>
       <tr><td>Ampere (A)</td><td>Current</td><td>How much charge flows per second.</td><td>A 15 A household circuit</td></tr>
       <tr><td>Watt (W)</td><td>Power = V × A</td><td>How fast energy is used.</td><td>A 750 W power supply; 12 V × 10 A = 120 W</td></tr>
       <tr><td>Ohm (Ω)</td><td>Resistance, V = I × R</td><td>How much something resists current.</td><td>75 Ω coax cable impedance; 100 Ω twisted pair</td></tr>
@@ -131,7 +131,7 @@
   <ul>
     <li><b>ASCII</b> (American Standard Code for Information Interchange, 1963): 7 bits, 128 characters. "A" = 65 = 0x41, "a" = 97 = 0x61, "0" = 48 = 0x30, space = 32. Upper and lower case differ by exactly 32 (one bit).</li>
     <li><b>Unicode</b>: one universal list of over 150,000 characters across scripts and emoji. Each character has a <i>code point</i> written U+XXXX (for example U+00E9 é, U+1F600 😀). Unicode is the list; encodings decide how code points become bytes.</li>
-    <li><b>UTF-8</b>: a variable-length encoding of Unicode using 1 to 4 bytes per character. The first 128 code points are identical to ASCII and use one byte, so old ASCII text is valid UTF-8. It is the default on the web (well over 95% of pages). Defined in RFC 3629.</li>
+    <li><b>UTF-8</b>: a variable-length encoding of Unicode using 1 to 4 bytes per character. The first 128 code points are identical to ASCII and use one byte, so old ASCII text is valid UTF-8. It is the default on the web (well over 95% of pages). Defined in RFC (Request for Comments) 3629.</li>
     <li><b>UTF-16</b>: 2 or 4 bytes per character; used inside Windows and Java.</li>
   </ul>
 </section>
@@ -151,10 +151,10 @@
   <ul>
     <li><b>NOT</b> flips one input: 0 → 1, 1 → 0.</li>
     <li><b>AND</b>: output 1 only if all inputs are 1. <b>OR</b>: 1 if any input is 1.</li>
-    <li><b>NAND / NOR</b>: AND / OR followed by NOT. NAND alone can build every other gate ("universal gate"); NAND flash memory is named after it.</li>
-    <li><b>XOR</b> (exclusive OR): 1 if the inputs differ. XOR is used in parity (RAID 5, Module 5) and in many ciphers (Module 14).</li>
+    <li><b>NAND (Not-AND) / NOR (Not-OR)</b>: AND / OR followed by NOT. NAND alone can build every other gate ("universal gate"); NAND flash memory is named after it.</li>
+    <li><b>XOR</b> (exclusive OR): 1 if the inputs differ. XOR is used in parity (RAID (Redundant Array of Independent Disks) 5, Module 5) and in many ciphers (Module 14).</li>
   </ul>
-  <div class="callout detail">Subnet masks work by AND: IP address AND mask = network address (Module 10). A <b>half adder</b> adds two bits: Sum = A XOR B, Carry = A AND B. Chain adders together and you can add any numbers: that is the start of an ALU (Module 4).</div>
+  <div class="callout detail">Subnet masks work by AND: IP address AND mask = network address (Module 10). A <b>half adder</b> adds two bits: Sum = A XOR B, Carry = A AND B. Chain adders together and you can add any numbers: that is the start of an ALU (Arithmetic Logic Unit; Module 4).</div>
 </section>
 
 <section class="lesson" id="acronyms">

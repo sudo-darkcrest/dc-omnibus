@@ -28,15 +28,15 @@
 <section class="intro">
   <div class="kicker">Part 3 · Networking, Fiber and Wireless · Module 11</div>
   <h1>Light and Copper: Cabling, Fiber Optics, Wavelengths and WDM</h1>
-  <p class="why"><b>Why this matters.</b> Every bit in a data center travels over copper or glass. Most "network problems" in a new build are really dirty connectors, wrong fiber types, polarity flips or loss budgets that don't close. Network+ tests cables, connectors and tools; DCCA and real data center work go deeper into fiber, optics and wavelength division multiplexing (WDM), which is how one strand of glass carries terabits.</p>
+  <p class="why"><b>Why this matters.</b> Every bit in a data center travels over copper or glass. Most "network problems" in a new build are really dirty connectors, wrong fiber types, polarity flips or loss budgets that don't close. Network+ tests cables, connectors and tools; DCCA (Data Center Certified Associate) and real data center work go deeper into fiber, optics and wavelength division multiplexing (WDM), which is how one strand of glass carries terabits.</p>
   <h3>You will be able to</h3>
   <ul class="outcomes">
-    <li>Use c = f × λ, decibels and dBm, and explain attenuation, noise, crosstalk and SNR.</li>
-    <li>Choose copper categories, wire T568A/T568B, and size PoE.</li>
-    <li>Explain total internal reflection, single-mode vs multimode, OM/OS grades, connectors and polish types.</li>
+    <li>Use c = f × λ, decibels and dBm, and explain attenuation, noise, crosstalk and SNR (Signal-to-Noise Ratio).</li>
+    <li>Choose copper categories, wire T568A/T568B, and size PoE (Power over Ethernet).</li>
+    <li>Explain total internal reflection, single-mode vs multimode, OM/OS (OM: Optical Multimode; OS: Optical Single-mode) grades, connectors and polish types.</li>
     <li>Map the 850/1310/1550 nm windows and the O, E, S, C, L, U bands, and explain loss vs dispersion.</li>
-    <li>Decode transceiver names (SFP28, QSFP-DD, SR, LR, ER, ZR, BiDi) and compute a link loss budget.</li>
-    <li>Compare SWDM, CWDM and DWDM, and pick the right test tool for copper and fiber.</li>
+    <li>Decode transceiver names (SFP28 (Small Form-factor Pluggable), QSFP-DD (Quad Small Form-factor Pluggable Double Density), SR (Short Reach), LR (Long Reach), ER (Extended Reach), ZR (Z-Reach, about 80 to 120 km), BiDi) and compute a link loss budget.</li>
+    <li>Compare SWDM (Short Wavelength Division Multiplexing), CWDM (Coarse Wavelength Division Multiplexing) and DWDM (Dense Wavelength Division Multiplexing), and pick the right test tool for copper and fiber.</li>
   </ul>
   <nav class="jumpnav" id="jumpnav" aria-label="On this page"></nav>
 </section>
@@ -66,11 +66,11 @@
     <thead><tr><th>Term</th><th>Meaning</th></tr></thead>
     <tbody>
       <tr><td><b>Attenuation</b></td><td>Signal getting weaker over distance (measured in dB, or dB/km for fiber, dB/100 m for copper).</td></tr>
-      <tr><td><b>Noise</b></td><td>Unwanted energy added to the signal: EMI from motors and fluorescent ballasts, thermal noise in electronics.</td></tr>
-      <tr><td><b>Crosstalk</b></td><td>One pair's signal leaking into another. NEXT (near-end), FEXT (far-end), and alien crosstalk (between neighboring cables). Pair twists reduce it.</td></tr>
+      <tr><td><b>Noise</b></td><td>Unwanted energy added to the signal: EMI (Electromagnetic Interference) from motors and fluorescent ballasts, thermal noise in electronics.</td></tr>
+      <tr><td><b>Crosstalk</b></td><td>One pair's signal leaking into another. NEXT (Near-End Crosstalk; near-end), FEXT (Far-End Crosstalk; far-end), and alien crosstalk (between neighboring cables). Pair twists reduce it.</td></tr>
       <tr><td><b>SNR</b></td><td>Signal-to-noise ratio in dB. Higher is better; each modulation needs a minimum SNR.</td></tr>
       <tr><td><b>Bandwidth vs data rate</b></td><td>Bandwidth is the range of frequencies a channel passes (MHz). Data rate is bits per second. Smarter coding gets more bps from the same MHz.</td></tr>
-      <tr><td><b>Line coding</b></td><td>How bits become symbols: NRZ (2 levels, 1 bit/symbol), PAM4 (4 levels, 2 bits/symbol), plus block codes like 64b/66b that add sync and balance.</td></tr>
+      <tr><td><b>Line coding</b></td><td>How bits become symbols: NRZ (Non-Return-to-Zero) (2 levels, 1 bit/symbol), PAM4 (4-level Pulse Amplitude Modulation) (4 levels, 2 bits/symbol), plus block codes like 64b/66b that add sync and balance.</td></tr>
     </tbody>
   </table></div>
   <h3>Decibels without fear</h3>
@@ -95,8 +95,8 @@
     <tbody>
       <tr><td><b>Cat 5e</b></td><td>100 MHz</td><td>1 Gbps (2.5G possible)</td><td>100 m</td><td>Minimum for new 1G installs</td></tr>
       <tr><td><b>Cat 6</b></td><td>250 MHz</td><td>1 Gbps; 10 Gbps to ~55 m</td><td>100 m (1G)</td><td>Thicker, often with a spline</td></tr>
-      <tr><td><b>Cat 6A</b></td><td>500 MHz</td><td>10 Gbps</td><td>100 m</td><td>Best choice for Wi-Fi 6/7 APs and PoE++</td></tr>
-      <tr><td><b>Cat 7</b></td><td>600 MHz</td><td>10 Gbps</td><td>100 m</td><td>ISO/IEC Class F, shielded; not a TIA category</td></tr>
+      <tr><td><b>Cat 6A</b></td><td>500 MHz</td><td>10 Gbps</td><td>100 m</td><td>Best choice for Wi-Fi 6/7 APs (Access Point) and PoE++</td></tr>
+      <tr><td><b>Cat 7</b></td><td>600 MHz</td><td>10 Gbps</td><td>100 m</td><td>ISO/IEC (ISO: International Organization for Standardization; IEC: International Electrotechnical Commission) Class F, shielded; not a TIA (Telecommunications Industry Association) category</td></tr>
       <tr><td><b>Cat 8</b></td><td>2000 MHz</td><td>25/40 Gbps</td><td>30 m</td><td>Data center top-of-rack runs only</td></tr>
     </tbody>
   </table></div>
@@ -104,7 +104,7 @@
     <li><b>UTP</b> (unshielded twisted pair) is standard. <b>STP/FTP/S-FTP</b> (shielded/foiled) resists EMI near motors and machinery but must be grounded properly.</li>
     <li>The 100 m channel = 90 m permanent link + up to 10 m of patch cords.</li>
     <li><b>Plenum</b> (CMP) jacket is required in air-handling spaces (low smoke, fire-retardant); <b>riser</b> (CMR) for vertical runs between floors; general-purpose (CM/PVC) elsewhere.</li>
-    <li><b>Coax</b>: RG-6 (thicker, cable TV and cable internet, 75 Ω, F-connector), RG-59 (older, shorter runs like analog CCTV). <b>Twinax/DAC</b> (direct attach copper): cheap 10G to 400G links up to about 3 to 7 m between switches and servers in the same rack.</li>
+    <li><b>Coax</b>: RG-6 (Radio Guide; thicker, cable TV and cable internet, 75 Ω, F-connector), RG-59 (older, shorter runs like analog CCTV (Closed-Circuit Television)). <b>Twinax/DAC</b> (direct attach copper): cheap 10G to 400G links up to about 3 to 7 m between switches and servers in the same rack.</li>
   </ul>
   <h3>Pinouts</h3>
   <div class="tablewrap"><table>
@@ -114,7 +114,7 @@
       <tr><td><b>T568B</b></td><td>W/Orange</td><td>Orange</td><td>W/Green</td><td>Blue</td><td>W/Blue</td><td>Green</td><td>W/Brown</td><td>Brown</td></tr>
     </tbody>
   </table></div>
-  <p><b>Straight-through</b>: same standard on both ends (PC to switch). <b>Crossover</b>: T568A on one end, T568B on the other (old switch-to-switch links). Modern ports use <b>Auto-MDI-X</b> so either works. A <b>rollover</b> (console) cable reverses all 8 pins.</p>
+  <p><b>Straight-through</b>: same standard on both ends (PC (Personal Computer) to switch). <b>Crossover</b>: T568A on one end, T568B on the other (old switch-to-switch links). Modern ports use <b>Auto-MDI-X</b> so either works. A <b>rollover</b> (console) cable reverses all 8 pins.</p>
   <h3>Power over Ethernet</h3>
   <div class="tablewrap"><table>
     <thead><tr><th>Standard</th><th>Name</th><th>Power at switch (PSE)</th><th>Power at device (PD)</th><th>Pairs used</th></tr></thead>
@@ -139,7 +139,7 @@
     </svg>
     <figcaption>Light stays in the core by <b>total internal reflection</b>: the core has a slightly higher refractive index than the cladding, so rays that hit the boundary at more than the <b>critical angle</b> bounce back in.</figcaption>
   </figure>
-  <p>The <dfn>numerical aperture</dfn> (NA = √(n<sub>core</sub>² − n<sub>clad</sub>²)) sets the cone of light a fiber accepts. Multimode fiber has a large core and higher NA (easy to couple cheap LEDs/VCSELs); single-mode has a tiny core that carries only one mode of light.</p>
+  <p>The <dfn>numerical aperture</dfn> (NA = √(n<sub>core</sub>² − n<sub>clad</sub>²)) sets the cone of light a fiber accepts. Multimode fiber has a large core and higher NA (easy to couple cheap LEDs/VCSELs (VCSEL: Vertical-Cavity Surface-Emitting Laser; LED: Light-Emitting Diode)); single-mode has a tiny core that carries only one mode of light.</p>
   <div class="tablewrap"><table>
     <thead><tr><th>Type</th><th>Core / cladding</th><th>Jacket color (TIA-598)</th><th>Light source / window</th><th>10GBASE-SR reach</th><th>Notes</th></tr></thead>
     <tbody>
@@ -148,23 +148,23 @@
       <tr><td><b>OM3</b></td><td>50 / 125 µm</td><td>Aqua</td><td>VCSEL laser, 850</td><td>300 m</td><td>Laser-optimized</td></tr>
       <tr><td><b>OM4</b></td><td>50 / 125 µm</td><td>Aqua (sometimes violet)</td><td>VCSEL, 850</td><td>400 m</td><td>Data center standard</td></tr>
       <tr><td><b>OM5</b></td><td>50 / 125 µm</td><td>Lime green</td><td>850 to 953 nm (wideband)</td><td>400 m</td><td>Made for SWDM</td></tr>
-      <tr><td><b>OS1 / OS2</b></td><td>~9 / 125 µm</td><td>Yellow</td><td>Laser, 1310/1550</td><td>n/a (uses LR/ER optics, km)</td><td>OS2 is low-water-peak (G.652.D), for long/outside runs</td></tr>
+      <tr><td><b>OS1 (Optical Single-mode 1) / OS2 (Optical Single-mode 2)</b></td><td>~9 / 125 µm</td><td>Yellow</td><td>Laser, 1310/1550</td><td>n/a (uses LR/ER optics, km)</td><td>OS2 is low-water-peak (G.652.D), for long/outside runs</td></tr>
     </tbody>
   </table></div>
   <h3>Connectors and polish</h3>
   <div class="tablewrap"><table>
     <thead><tr><th>Connector</th><th>Look and latch</th><th>Where you'll see it</th></tr></thead>
     <tbody>
-      <tr><td><b>LC</b></td><td>Small form factor, 1.25 mm ferrule, push-and-latch, usually duplex</td><td>SFP/SFP+ optics, patch panels: the most common today</td></tr>
-      <tr><td><b>SC</b></td><td>Square, push-pull, 2.5 mm ferrule</td><td>Older panels, PON/FTTH (often green SC/APC)</td></tr>
-      <tr><td><b>ST</b></td><td>Round, bayonet twist-lock</td><td>Legacy multimode campus links</td></tr>
-      <tr><td><b>FC</b></td><td>Round, threaded screw-on</td><td>Test equipment, older telecom</td></tr>
-      <tr><td><b>MPO/MTP</b></td><td>Rectangular, 8, 12, 16 or 24 fibers in one ferrule</td><td>Parallel optics (40G-SR4, 100G-SR4, 400G-DR4), high-density trunks</td></tr>
+      <tr><td><b>LC (Lucent Connector)</b></td><td>Small form factor, 1.25 mm ferrule, push-and-latch, usually duplex</td><td>SFP/SFP+ optics, patch panels: the most common today</td></tr>
+      <tr><td><b>SC (Subscriber Connector)</b></td><td>Square, push-pull, 2.5 mm ferrule</td><td>Older panels, PON/FTTH (PON: Passive Optical Network; FTTH: Fiber To The Home; often green SC/APC)</td></tr>
+      <tr><td><b>ST (Straight Tip connector)</b></td><td>Round, bayonet twist-lock</td><td>Legacy multimode campus links</td></tr>
+      <tr><td><b>FC (Ferrule Connector)</b></td><td>Round, threaded screw-on</td><td>Test equipment, older telecom</td></tr>
+      <tr><td><b>MPO/MTP (Multi-fiber Push-On)</b></td><td>Rectangular, 8, 12, 16 or 24 fibers in one ferrule</td><td>Parallel optics (40G-SR4, 100G-SR4, 400G-DR4), high-density trunks</td></tr>
     </tbody>
   </table></div>
   <ul>
     <li><b>UPC</b> (ultra physical contact): flat-domed end face, <b>blue</b> connector body (single-mode), return loss ≥ 50 dB.</li>
-    <li><b>APC</b> (angled physical contact): 8° angled end face, <b>green</b> body, return loss ≥ 60 dB; used for PON/FTTH and RF video. <b>Never mate APC to UPC</b>: the gap causes high loss and can damage end faces.</li>
+    <li><b>APC</b> (angled physical contact): 8° angled end face, <b>green</b> body, return loss ≥ 60 dB; used for PON/FTTH and RF (Radio Frequency) video. <b>Never mate APC to UPC</b>: the gap causes high loss and can damage end faces.</li>
     <li><b>Simplex</b> = one fiber; <b>duplex</b> = two (transmit and receive). <b>BiDi</b> optics send both directions over one fiber using two wavelengths.</li>
     <li><b>Polarity</b>: transmit on one end must land on receive at the other (A-to-B). TIA-568 defines MPO polarity Methods A, B and C. Polarity flips are a top cause of "light but no link".</li>
   </ul>
@@ -176,15 +176,15 @@
   <div class="tablewrap"><table>
     <thead><tr><th>Band</th><th>Name</th><th>Range (nm)</th><th>Typical use</th></tr></thead>
     <tbody>
-      <tr><td><b>O</b></td><td>Original</td><td>1260 to 1360</td><td>1310 nm LR optics, 100G-LR4/CWDM4, PON upstream</td></tr>
+      <tr><td><b>O</b></td><td>Original</td><td>1260 to 1360</td><td>1310 nm LR optics, 100G-LR4/CWDM4 (CWDM4: 4-lane Coarse Wavelength Division Multiplexing optics), PON upstream</td></tr>
       <tr><td><b>E</b></td><td>Extended</td><td>1360 to 1460</td><td>CWDM on low-water-peak fiber</td></tr>
-      <tr><td><b>S</b></td><td>Short</td><td>1460 to 1530</td><td>GPON downstream (1490), CWDM</td></tr>
-      <tr><td><b>C</b></td><td>Conventional</td><td>1530 to 1565</td><td>DWDM, EDFA amplifiers, coherent optics</td></tr>
-      <tr><td><b>L</b></td><td>Long</td><td>1565 to 1625</td><td>DWDM capacity expansion, XGS-PON downstream (1577)</td></tr>
-      <tr><td><b>U</b></td><td>Ultra-long</td><td>1625 to 1675</td><td>OTDR monitoring of live fiber</td></tr>
+      <tr><td><b>S</b></td><td>Short</td><td>1460 to 1530</td><td>GPON (Gigabit Passive Optical Network) downstream (1490), CWDM</td></tr>
+      <tr><td><b>C</b></td><td>Conventional</td><td>1530 to 1565</td><td>DWDM, EDFA (Erbium-Doped Fiber Amplifier) amplifiers, coherent optics</td></tr>
+      <tr><td><b>L</b></td><td>Long</td><td>1565 to 1625</td><td>DWDM capacity expansion, XGS-PON (10-Gigabit Symmetric Passive Optical Network) downstream (1577)</td></tr>
+      <tr><td><b>U</b></td><td>Ultra-long</td><td>1625 to 1675</td><td>OTDR (Optical Time-Domain Reflectometer) monitoring of live fiber</td></tr>
     </tbody>
   </table></div>
-  <div class="callout analogy">Think of the bands as lanes on a highway painted by the ITU. CWDM uses wide lanes across many bands; DWDM packs dozens of narrow lanes into the C and L bands where amplifiers can boost every car at once.</div>
+  <div class="callout analogy">Think of the bands as lanes on a highway painted by the ITU (International Telecommunication Union). CWDM uses wide lanes across many bands; DWDM packs dozens of narrow lanes into the C and L bands where amplifiers can boost every car at once.</div>
 </section>
 
 <section class="lesson" id="loss">
@@ -203,7 +203,7 @@
       <li><b>Polarization mode dispersion</b> (PMD): matters at 10G+ over long links.</li>
       <li>Too much dispersion smears bits together even when power is fine.</li></ul></div>
   </div>
-  <p><b>Link loss budget</b>: total loss = (length × dB/km) + (connector pairs × loss) + (splices × loss) + safety margin. It must be less than the transceiver's <b>power budget</b> (minimum transmit power − receiver sensitivity) or the IEEE maximum channel insertion loss.</p>
+  <p><b>Link loss budget</b>: total loss = (length × dB/km) + (connector pairs × loss) + (splices × loss) + safety margin. It must be less than the transceiver's <b>power budget</b> (minimum transmit power − receiver sensitivity) or the IEEE (Institute of Electrical and Electronics Engineers) maximum channel insertion loss.</p>
 </section>
 
 <section class="lesson" id="optics">
@@ -214,10 +214,10 @@
       <tr><td><b>SFP</b></td><td>1 × 1G</td><td>1 Gbps</td></tr>
       <tr><td><b>SFP+</b></td><td>1 × 10G</td><td>10 Gbps</td></tr>
       <tr><td><b>SFP28</b></td><td>1 × 25G</td><td>25 Gbps</td></tr>
-      <tr><td><b>QSFP+</b></td><td>4 × 10G</td><td>40 Gbps (or 4 × 10G breakout)</td></tr>
+      <tr><td><b>QSFP (Quad Small Form-factor Pluggable)+</b></td><td>4 × 10G</td><td>40 Gbps (or 4 × 10G breakout)</td></tr>
       <tr><td><b>QSFP28</b></td><td>4 × 25G</td><td>100 Gbps</td></tr>
       <tr><td><b>QSFP56 / QSFP-DD</b></td><td>4 × 50G / 8 × 50G or 8 × 100G</td><td>200 / 400 / 800 Gbps</td></tr>
-      <tr><td><b>OSFP</b></td><td>8 lanes, larger, better cooling</td><td>400 / 800 Gbps and beyond</td></tr>
+      <tr><td><b>OSFP (Octal Small Form-factor Pluggable)</b></td><td>8 lanes, larger, better cooling</td><td>400 / 800 Gbps and beyond</td></tr>
     </tbody>
   </table></div>
   <div class="tablewrap"><table>
@@ -236,18 +236,18 @@
 
 <section class="lesson" id="wdm">
   <h2>7. Multiplexing: TDM, FDM and WDM</h2>
-  <p><dfn>Multiplexing</dfn> sends several signals over one medium. <b>TDM</b> (time division) gives each signal a time slot (T1/E1, SONET). <b>FDM</b> (frequency division) gives each a frequency (cable TV, radio). <b>WDM</b> (wavelength division) is FDM for light: each channel is a different color, combined by a <b>mux</b> and separated by a <b>demux</b>, which are passive prisms or filters.</p>
+  <p><dfn>Multiplexing</dfn> sends several signals over one medium. <b>TDM (Time-Division Multiplexing)</b> (time division) gives each signal a time slot (T1/E1, SONET (Synchronous Optical Network)). <b>FDM (Frequency-Division Multiplexing)</b> (frequency division) gives each a frequency (cable TV, radio). <b>WDM</b> (wavelength division) is FDM for light: each channel is a different color, combined by a <b>mux</b> and separated by a <b>demux</b>, which are passive prisms or filters.</p>
   <div class="tablewrap"><table>
     <thead><tr><th>&nbsp;</th><th>SWDM</th><th>CWDM</th><th>DWDM</th></tr></thead>
     <tbody>
       <tr><td><b>Full name</b></td><td>Short Wavelength Division Multiplexing</td><td>Coarse WDM</td><td>Dense WDM</td></tr>
-      <tr><td><b>Standard</b></td><td>SWDM MSA (industry group)</td><td>ITU-T G.694.2</td><td>ITU-T G.694.1</td></tr>
+      <tr><td><b>Standard</b></td><td>SWDM MSA (Multi-Source Agreement; industry group)</td><td>ITU-T G.694.2</td><td>ITU-T G.694.1</td></tr>
       <tr><td><b>Fiber</b></td><td>Multimode (best on OM5)</td><td>Single-mode</td><td>Single-mode</td></tr>
       <tr><td><b>Wavelengths</b></td><td>~850, 880, 910, 940 nm</td><td>1271 to 1611 nm</td><td>C-band (~1530 to 1565), L-band</td></tr>
       <tr><td><b>Spacing</b></td><td>~30 nm</td><td>20 nm</td><td>100 GHz (~0.8 nm), 50 GHz (~0.4 nm), or flex grid in 12.5 GHz slices</td></tr>
       <tr><td><b>Channels</b></td><td>4</td><td>Up to 18</td><td>40 to 96+ per band</td></tr>
       <tr><td><b>Distance</b></td><td>~100 to 400 m</td><td>Up to ~80 km, no amplification</td><td>Hundreds to thousands of km with EDFA amplifiers</td></tr>
-      <tr><td><b>Cost</b></td><td>Low</td><td>Low (uncooled lasers, wide filters)</td><td>High (temperature-stabilized lasers, amplifiers, ROADMs)</td></tr>
+      <tr><td><b>Cost</b></td><td>Low</td><td>Low (uncooled lasers, wide filters)</td><td>High (temperature-stabilized lasers, amplifiers, ROADMs (Reconfigurable Optical Add-Drop Multiplexer))</td></tr>
       <tr><td><b>Typical use</b></td><td>40G/100G-SWDM4 on existing duplex multimode</td><td>Metro access, enterprise campus, 100G-CWDM4</td><td>Long-haul, metro core, data center interconnect, subsea</td></tr>
     </tbody>
   </table></div>
@@ -267,13 +267,13 @@
       <tr><td><b>Cable certifier</b></td><td>Copper/fiber</td><td>Proves a link meets a category (NEXT, return loss, insertion loss) and produces a report for warranties.</td></tr>
       <tr><td><b>TDR</b></td><td>Copper</td><td>Time-domain reflectometer: sends a pulse and times the reflection to find the distance to a fault.</td></tr>
       <tr><td><b>OTDR</b></td><td>Fiber</td><td>Optical TDR: graphs loss along the fiber, locating splices, connectors, bends and breaks from one end.</td></tr>
-      <tr><td><b>Optical power meter + light source</b></td><td>Fiber</td><td>OLTS (Tier 1) insertion loss test end to end, compared with the loss budget. A meter alone reads a live transceiver's power in dBm.</td></tr>
+      <tr><td><b>Optical power meter + light source</b></td><td>Fiber</td><td>OLTS (Optical Loss Test Set; Tier 1) insertion loss test end to end, compared with the loss budget. A meter alone reads a live transceiver's power in dBm.</td></tr>
       <tr><td><b>Visual fault locator</b></td><td>Fiber</td><td>Bright red (650 nm) laser that glows at breaks, tight bends and bad connectors; also traces polarity.</td></tr>
       <tr><td><b>Fiber inspection scope</b></td><td>Fiber</td><td>Magnifies the end face to find dirt and scratches (IEC 61300-3-35 pass/fail). <b>Inspect before you connect.</b></td></tr>
       <tr><td><b>Cleaning tools</b></td><td>Fiber</td><td>One-click cleaners, lint-free wipes and solvent. Clean, then inspect again.</td></tr>
       <tr><td><b>Toner and probe</b></td><td>Copper</td><td>Puts a tone on a cable so you can find it in a bundle or at the patch panel.</td></tr>
       <tr><td><b>Punch-down tool</b></td><td>Copper</td><td>Seats wires into 110/66/Krone blocks and keystone jacks.</td></tr>
-      <tr><td><b>Crimper</b></td><td>Copper</td><td>Attaches RJ45 plugs to cable.</td></tr>
+      <tr><td><b>Crimper</b></td><td>Copper</td><td>Attaches RJ45 (Registered Jack 45) plugs to cable.</td></tr>
       <tr><td><b>Loopback plug</b></td><td>Both</td><td>Loops transmit to receive to test a port or optic.</td></tr>
     </tbody>
   </table></div>

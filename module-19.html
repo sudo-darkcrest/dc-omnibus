@@ -49,24 +49,24 @@
 <section class="intro">
   <div class="kicker">Part 5 · Service, Governance and Audit · Module 19</div>
   <h1>Running IT as a Service: ITIL 4</h1>
-  <div class="callout" style="border-left-color:var(--warn);background:var(--warn-soft)" id="itil5"><b>Version note (November 2026).</b> PeopleCert launched <b>ITIL (Version 5)</b> and its new ITIL Foundation (Version 5) exam in <b>February 2026</b>. ITIL 4 Foundation is still offered alongside it during a transition period; PeopleCert has said the two run in parallel for at least 12 months, and some training providers quote an ITIL 4 sunset at the end of 2027 (verify on peoplecert.org before you book). What changed in Version 5, according to published summaries (verify):
+  <div class="callout" style="border-left-color:var(--warn);background:var(--warn-soft)" id="itil5"><b>Version note (November 2026).</b> PeopleCert launched <b>ITIL (Information Technology Infrastructure Library; Version 5)</b> and its new ITIL Foundation (Version 5) exam in <b>February 2026</b>. ITIL 4 Foundation is still offered alongside it during a transition period; PeopleCert has said the two run in parallel for at least 12 months, and some training providers quote an ITIL 4 sunset at the end of 2027 (verify on peoplecert.org before you book). What changed in Version 5, according to published summaries (verify):
     <ul>
-      <li>ITIL is reframed from "IT service management" to <b>digital product and service management</b>.</li>
+      <li>ITIL is reframed from "IT (Information Technology) service management" to <b>digital product and service management</b>.</li>
       <li>The six-activity <b>service value chain</b> is replaced by an eight-activity <b>Product and Service Lifecycle Model</b>: Discover, Design, Build, Transition, Deliver, Support, Operate, Evolve.</li>
       <li>The <b>seven guiding principles</b> and the <b>four dimensions</b> are kept, and all 34 practices remain (practice groups are reorganized).</li>
-      <li>New guidance on <b>AI</b> (governance, ethics, risk), experience (user, customer, employee) and observability.</li>
+      <li>New guidance on <b>AI (Artificial Intelligence)</b> (governance, ethics, risk), experience (user, customer, employee) and observability.</li>
       <li>Foundation exam format looks the same: 40 multiple-choice questions, 60 minutes, 65% to pass. ITIL 5 certificates carry a three-year renewal; existing ITIL 4 Foundation holders do not need to retake, and an optional short "Foundation Bridge" exam exists.</li>
     </ul>
     This module teaches the <b>ITIL 4 Foundation</b> syllabus, because most of it (concepts, principles, dimensions, practices) carries straight into Version 5. Where Version 5 differs, the lessons say so.</div>
-  <p class="why"><b>Why this matters.</b> Technology only creates value when people can rely on it. ITIL is the most widely used framework for running IT as a set of services: taking requests, fixing outages, finding root causes, making safe changes and improving over time. Service desks, operations teams, data centers and cloud providers all use its language, and many job ads ask for ITIL 4 Foundation. It also links directly to Security+ change management and incident response, and to CISA's IT operations domain.</p>
+  <p class="why"><b>Why this matters.</b> Technology only creates value when people can rely on it. ITIL is the most widely used framework for running IT as a set of services: taking requests, fixing outages, finding root causes, making safe changes and improving over time. Service desks, operations teams, data centers and cloud providers all use its language, and many job ads ask for ITIL 4 Foundation. It also links directly to Security+ change management and incident response, and to CISA (Certified Information Systems Auditor)'s IT operations domain.</p>
   <h3>You will be able to</h3>
   <ul class="outcomes">
     <li>Define service, product, service offering, value, outcomes, costs, risks, utility and warranty, and the roles of customer, user and sponsor.</li>
-    <li>Explain the four dimensions of service management and the PESTLE factors that affect them.</li>
+    <li>Explain the four dimensions of service management and the PESTLE (Political, Economic, Social, Technological, Legal, Environmental) factors that affect them.</li>
     <li>Describe the service value system and the six activities of the service value chain, and combine them into value streams.</li>
     <li>Apply the seven guiding principles to real situations.</li>
     <li>Recall the purpose of 15 ITIL practices and explain the seven practices examined in detail.</li>
-    <li>Relate ITIL to DevOps, Agile, Lean and ISO/IEC 20000, and know what changed in ITIL (Version 5).</li>
+    <li>Relate ITIL to DevOps, Agile, Lean and ISO/IEC (ISO: International Organization for Standardization; IEC: International Electrotechnical Commission) 20000, and know what changed in ITIL (Version 5).</li>
   </ul>
   <nav class="jumpnav" id="jumpnav" aria-label="On this page"></nav>
 </section>
@@ -96,7 +96,7 @@
   <div class="tablewrap"><table>
     <thead><tr><th>Role</th><th>Does what</th><th>Example (payroll service)</th></tr></thead>
     <tbody>
-      <tr><td><b>Customer</b></td><td>Defines requirements and takes responsibility for outcomes</td><td>HR manager</td></tr>
+      <tr><td><b>Customer</b></td><td>Defines requirements and takes responsibility for outcomes</td><td>HR (Human Resources) manager</td></tr>
       <tr><td><b>User</b></td><td>Uses the service</td><td>Payroll clerks</td></tr>
       <tr><td><b>Sponsor</b></td><td>Authorizes budget</td><td>Finance director</td></tr>
     </tbody></table></div>
@@ -220,7 +220,7 @@
   <ul>
     <li>A <b>change</b> is adding, modifying or removing anything that could directly or indirectly affect services.</li>
     <li><b>Standard</b>: low risk, pre-authorized, well understood, often a service request. <b>Normal</b>: scheduled, assessed and authorized by the right <b>change authority</b>. <b>Emergency</b>: implemented as soon as possible (e.g., a critical patch), possibly with a separate authority and less documentation, but still assessed.</li>
-    <li>ITIL 4 <b>decentralizes</b> change authority: a <b>CAB</b> is just one option; peer review in a DevOps pipeline can authorize low-risk changes. The <b>change schedule</b> helps plan, communicate and avoid conflicts.</li>
+    <li>ITIL 4 <b>decentralizes</b> change authority: a <b>CAB (Change Advisory Board)</b> is just one option; peer review in a DevOps pipeline can authorize low-risk changes. The <b>change schedule</b> helps plan, communicate and avoid conflicts.</li>
   </ul>
   <h3 id="request">Service request management</h3>
   <ul>
@@ -234,9 +234,9 @@
   </ul>
   <h3 id="slm">Service level management</h3>
   <ul>
-    <li>Sets business-based targets and makes sure delivery is measured against them. An <b>SLA</b> should relate to a defined service, describe outcomes (not just operational metrics) and be written in clear language.</li>
+    <li>Sets business-based targets and makes sure delivery is measured against them. An <b>SLA (Service Level Agreement)</b> should relate to a defined service, describe outcomes (not just operational metrics) and be written in clear language.</li>
     <li>Beware the <b>watermelon SLA</b>: green metrics, red customers. Gather customer engagement, feedback, surveys and business metrics.</li>
-    <li>Related terms: <b>OLA</b> (between internal teams) and <b>UC</b> (underpinning contract with an external supplier). These come from earlier ITIL versions and are still common at work.</li>
+    <li>Related terms: <b>OLA (Operational Level Agreement)</b> (between internal teams) and <b>UC</b> (underpinning contract with an external supplier). These come from earlier ITIL versions and are still common at work.</li>
   </ul>
   <div class="callout trap">"Incident management finds the root cause." No: incident management restores service; problem management finds and manages causes. A help desk that "fixes it by rebooting" closes the incident; the problem stays open until the cause is known.</div>
 </section>

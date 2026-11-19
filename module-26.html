@@ -53,7 +53,7 @@
     <tr><td>1956</td><td>The term "artificial intelligence" is coined at the Dartmouth workshop</td></tr>
     <tr><td>1970s–90s</td><td>"AI winters": funding dries up when early promises aren't met; expert systems rise and fall</td></tr>
     <tr><td>1997</td><td>IBM Deep Blue beats chess champion Garry Kasparov</td></tr>
-    <tr><td>2012</td><td>AlexNet wins an image-recognition contest using deep neural networks trained on GPUs, starting the deep learning boom</td></tr>
+    <tr><td>2012</td><td>AlexNet wins an image-recognition contest using deep neural networks trained on GPUs (Graphics Processing Unit), starting the deep learning boom</td></tr>
     <tr><td>2016</td><td>DeepMind's AlphaGo beats Go champion Lee Sedol</td></tr>
     <tr><td>2017</td><td>Google researchers publish "Attention Is All You Need", introducing the <b>transformer</b></td></tr>
     <tr><td>2022</td><td>ChatGPT launches and reaches 100 million users in about two months; generative AI goes mainstream</td></tr>
@@ -96,18 +96,18 @@
     <tr><td><b>Pre-training</b></td><td>Months on thousands of GPUs predicting the next token across a huge text collection. Produces a "base model" that can continue text but isn't a good assistant yet.</td></tr>
     <tr><td><b>Fine-tuning and alignment</b></td><td>Further training on example conversations, plus feedback from people or AI (RLHF and similar), to follow instructions, be helpful and refuse harmful requests.</td></tr>
     <tr><td><b>Inference</b></td><td>Running the finished model for each user request. Cheaper per request than training, but it happens billions of times a day.</td></tr>
-    <tr><td><b>Retrieval (RAG) and tools</b></td><td>At answer time the system can search documents or the web, run code or call APIs, and put the results in the prompt so answers are current and grounded.</td></tr>
+    <tr><td><b>Retrieval (RAG) and tools</b></td><td>At answer time the system can search documents or the web, run code or call APIs (Application Programming Interface), and put the results in the prompt so answers are current and grounded.</td></tr>
   </tbody></table></div>
   <div class="callout analogy">An LLM is like an extremely well-read improviser. It has absorbed the patterns of millions of books and conversations and can continue almost any text convincingly. But improvisers don't check a reference book mid-sentence. Unless it's given sources, it says what <i>sounds</i> right, which is usually but not always what <i>is</i> right.</div>
 </section>
 
 <section class="lesson" id="hardware">
   <h2>4. The machines behind AI</h2>
-  <p>AI is maths: trillions of multiplications. <b>GPUs</b> (and accelerators such as Google TPUs, AWS Trainium and Inferentia) do thousands of these in parallel, using very fast stacked memory called <b>HBM</b>. Training a frontier model can use tens of thousands of GPUs linked by very fast networks for months.</p>
+  <p>AI is maths: trillions of multiplications. <b>GPUs</b> (and accelerators such as Google TPUs, AWS (Amazon Web Services) Trainium and Inferentia) do thousands of these in parallel, using very fast stacked memory called <b>HBM (High Bandwidth Memory)</b>. Training a frontier model can use tens of thousands of GPUs linked by very fast networks for months.</p>
   <div class="grid3">
     <div class="tile"><h4>Power</h4><p>An AI rack can draw 40 to 130+ kW, compared with 5 to 10 kW for a typical server rack. New AI campuses are planned at hundreds of megawatts to gigawatts (verify current figures).</p></div>
     <div class="tile"><h4>Cooling</h4><p>Air can't remove that much heat, so direct-to-chip liquid cooling and rear-door heat exchangers are becoming standard (Module 18).</p></div>
-    <div class="tile"><h4>On your device</h4><p>Smaller models run on phones and laptops using an <b>NPU</b> (Module 4), which keeps data private and works offline.</p></div>
+    <div class="tile"><h4>On your device</h4><p>Smaller models run on phones and laptops using an <b>NPU (Neural Processing Unit)</b> (Module 4), which keeps data private and works offline.</p></div>
   </div>
 </section>
 
@@ -127,13 +127,13 @@
   <h2>6. Risks, security and rules</h2>
   <div class="tablewrap"><table><thead><tr><th>Risk</th><th>Example</th><th>Mitigation</th></tr></thead><tbody>
     <tr><td>Hallucination</td><td>Invented legal cases in a court filing</td><td>RAG with citations, human review, low temperature for facts</td></tr>
-    <tr><td>Bias and unfairness</td><td>A CV screener favouring one group because past hires did</td><td>Diverse data, fairness testing, human oversight</td></tr>
+    <tr><td>Bias and unfairness</td><td>A CV (Curriculum Vitae, a résumé) screener favouring one group because past hires did</td><td>Diverse data, fairness testing, human oversight</td></tr>
     <tr><td>Prompt injection</td><td>Hidden text in an email tells an AI assistant to forward your inbox</td><td>Treat inputs as untrusted, least-privilege tools, human approval for actions</td></tr>
     <tr><td>Data leakage and privacy</td><td>Staff paste customer data into a public chatbot</td><td>Approved enterprise tools, data loss prevention, clear policy</td></tr>
     <tr><td>Data poisoning and model theft</td><td>Attackers tamper with training data or copy a model through its API</td><td>Supply-chain controls, access control, rate limits, monitoring</td></tr>
     <tr><td>Deepfakes and AI-powered fraud</td><td>A cloned voice of the CFO asks for an urgent wire transfer</td><td>Call-back verification, out-of-band approval, awareness training</td></tr>
   </tbody></table></div>
-  <p><b>Frameworks and laws:</b> the <b>OWASP Top 10 for LLM Applications</b> lists the main technical risks; the <b>NIST AI Risk Management Framework</b> (Govern, Map, Measure, Manage) guides organisations; <b>ISO/IEC 42001</b> is a certifiable AI management system; and the <b>EU AI Act</b> sorts AI into unacceptable (banned, e.g., social scoring), high-risk (e.g., hiring, credit, critical infrastructure), limited-risk (transparency duties, e.g., chatbots must say they're AI) and minimal-risk uses, with obligations phased in from 2025 to 2027 (verify dates).</p>
+  <p><b>Frameworks and laws:</b> the <b>OWASP (Open Worldwide Application Security Project) Top 10 for LLM Applications</b> lists the main technical risks; the <b>NIST (National Institute of Standards and Technology) AI Risk Management Framework</b> (Govern, Map, Measure, Manage) guides organisations; <b>ISO/IEC (ISO: International Organization for Standardization; IEC: International Electrotechnical Commission) 42001</b> is a certifiable AI management system; and the <b>EU (European Union) AI Act</b> sorts AI into unacceptable (banned, e.g., social scoring), high-risk (e.g., hiring, credit, critical infrastructure), limited-risk (transparency duties, e.g., chatbots must say they're AI) and minimal-risk uses, with obligations phased in from 2025 to 2027 (verify dates).</p>
 </section>
 
 <section class="lesson" id="future">
@@ -144,8 +144,8 @@
     <tr><td>Work</td><td>Faster writing, coding, support and analysis; some tasks automated</td><td>Many jobs change shape rather than vanish; new roles in AI operations, governance and security; disruption for some roles</td></tr>
     <tr><td>Science and health</td><td>Protein structure prediction (AlphaFold, 2024 Nobel Prize in Chemistry), drug discovery, medical imaging support</td><td>Faster research cycles; AI as a lab partner</td></tr>
     <tr><td>Infrastructure</td><td>Record data center construction, power and cooling constraints, interest in nuclear and new energy supply</td><td>Energy becomes the main limit on AI growth; more efficient chips and models</td></tr>
-    <tr><td>Everyday tech</td><td>Assistants built into phones, PCs, cars and home devices</td><td>Natural conversation becomes a normal way to use computers</td></tr>
-    <tr><td>Rules</td><td>EU AI Act, national AI safety institutes, company AI policies</td><td>More regulation, audits and AI certifications (good news for GRC careers, Modules 20–22)</td></tr>
+    <tr><td>Everyday tech</td><td>Assistants built into phones, PCs (Personal Computer), cars and home devices</td><td>Natural conversation becomes a normal way to use computers</td></tr>
+    <tr><td>Rules</td><td>EU AI Act, national AI safety institutes, company AI policies</td><td>More regulation, audits and AI certifications (good news for GRC (Governance, Risk and Compliance) careers, Modules 20–22)</td></tr>
     <tr><td>General AI</td><td>Experts disagree on whether and when "artificial general intelligence" (human-level across most tasks) will arrive</td><td>Views range from "within years" to "decades" to "not with current methods"; safety research tries to stay ahead</td></tr>
   </tbody></table></div>
   <div class="callout detail">A useful habit: when you read an AI prediction, ask "what evidence is this based on, and who benefits if I believe it?" The same critical thinking you use for phishing emails (Module 15) works for hype.</div>
@@ -159,7 +159,7 @@
     <tr><td>AWS Machine Learning Engineer – Associate (MLA-C01)</td><td>AWS</td><td>Associate. Building, deploying and monitoring ML models with SageMaker AI.</td></tr>
     <tr><td>Microsoft Azure AI Fundamentals (AI-900) and Azure AI Engineer (AI-102)</td><td>Microsoft</td><td>Fundamentals and associate on Azure (Microsoft updates these often; verify which are current).</td></tr>
     <tr><td>Google Cloud Generative AI Leader</td><td>Google Cloud</td><td>Foundational, business-focused generative AI.</td></tr>
-    <tr><td>ISACA AAIA (Advanced in AI Audit) and AAISM (Advanced in AI Security Management)</td><td>ISACA</td><td>Advanced add-ons for CISA and CISM holders (Modules 21–22).</td></tr>
+    <tr><td>ISACA (Information Systems Audit and Control Association) AAIA (Advanced in AI Audit) and AAISM (Advanced in Artificial Intelligence Security Management; Advanced in AI Security Management)</td><td>ISACA</td><td>Advanced add-ons for CISA (Certified Information Systems Auditor) and CISM (Certified Information Security Manager) holders (Modules 21–22).</td></tr>
     <tr><td>ISO/IEC 42001 Lead Implementer / Lead Auditor</td><td>Various certification bodies</td><td>Building or auditing an AI management system.</td></tr>
     <tr><td>CompTIA SecAI+ (verify name and status)</td><td>CompTIA</td><td>Securing AI systems and using AI in security operations.</td></tr>
   </tbody></table></div>

@@ -29,10 +29,10 @@
   <p class="why"><b>Why this matters.</b> Wi-Fi is how most users connect, and it is the most common source of "the network is slow". Running a network also means monitoring it, planning for failure and fixing problems methodically. Network+ Domains 2, 3 and 5 meet here, with overlap into A+ (wireless, tools) and Security+ (wireless attacks). The module ends with a 60-question Network+ readiness exam covering Modules 9 to 13.</p>
   <h3>You will be able to</h3>
   <ul class="outcomes">
-    <li>Explain RF basics: channels, width, interference, RSSI, SNR, antennas, MIMO, beamforming and OFDMA.</li>
-    <li>Compare Wi-Fi 4 to Wi-Fi 7, plan non-overlapping channels and choose WPA2/WPA3 Personal or Enterprise.</li>
-    <li>Describe cellular (4G/5G, private cellular), Bluetooth, NFC, RFID and satellite.</li>
-    <li>Use monitoring data and metrics (latency, jitter, loss, uptime), and DR terms (RPO, RTO, MTTR, MTBF).</li>
+    <li>Explain RF (Radio Frequency) basics: channels, width, interference, RSSI (Received Signal Strength Indicator), SNR (Signal-to-Noise Ratio), antennas, MIMO (Multiple-Input Multiple-Output), beamforming and OFDMA (Orthogonal Frequency-Division Multiple Access).</li>
+    <li>Compare Wi-Fi 4 to Wi-Fi 7, plan non-overlapping channels and choose WPA2/WPA3 (WPA2: Wi-Fi Protected Access 2; WPA3: Wi-Fi Protected Access 3) Personal or Enterprise.</li>
+    <li>Describe cellular (4G/5G, private cellular), Bluetooth, NFC (Near Field Communication), RFID (Radio Frequency Identification) and satellite.</li>
+    <li>Use monitoring data and metrics (latency, jitter, loss, uptime), and DR (Disaster Recovery) terms (RPO (Recovery Point Objective), RTO (Recovery Time Objective), MTTR (Mean Time To Repair), MTBF (Mean Time Between Failures)).</li>
     <li>Pick the right command or tool and follow the troubleshooting method to a fix.</li>
   </ul>
   <nav class="jumpnav" id="jumpnav" aria-label="On this page"></nav>
@@ -50,12 +50,12 @@
     <thead><tr><th>Term</th><th>Meaning</th></tr></thead>
     <tbody>
       <tr><td><b>Channel / channel width</b></td><td>A slice of spectrum. Wider channels (20, 40, 80, 160, 320 MHz) carry more data but leave fewer non-overlapping channels.</td></tr>
-      <tr><td><b>Interference</b></td><td><b>Co-channel</b>: APs on the same channel take turns (contention). <b>Adjacent-channel</b>: partially overlapping channels corrupt each other (worse). Non-Wi-Fi sources: microwaves, Bluetooth, cordless phones (2.4 GHz).</td></tr>
+      <tr><td><b>Interference</b></td><td><b>Co-channel</b>: APs (Access Point) on the same channel take turns (contention). <b>Adjacent-channel</b>: partially overlapping channels corrupt each other (worse). Non-Wi-Fi sources: microwaves, Bluetooth, cordless phones (2.4 GHz).</td></tr>
       <tr><td><b>Reflection, refraction, absorption, scattering</b></td><td>Metal reflects; water, people and concrete absorb; signal weakens with distance (free-space path loss).</td></tr>
       <tr><td><b>RSSI</b></td><td>Received signal strength, in dBm. −30 excellent, −67 good for voice and video, −70 OK for data, −80 unusable.</td></tr>
       <tr><td><b>SNR</b></td><td>Signal minus noise floor (dB). 25 dB+ is good; below 15 dB is poor.</td></tr>
       <tr><td><b>Antennas</b></td><td><b>Omnidirectional</b> radiates in all horizontal directions (ceiling APs). <b>Directional</b> (Yagi, patch, parabolic) focuses energy for long hallways or point-to-point bridges. Gain is measured in dBi.</td></tr>
-      <tr><td><b>MIMO / MU-MIMO</b></td><td>Multiple antennas send several spatial streams at once; MU-MIMO serves several clients simultaneously.</td></tr>
+      <tr><td><b>MIMO / MU-MIMO (Multi-User Multiple-Input Multiple-Output)</b></td><td>Multiple antennas send several spatial streams at once; MU-MIMO serves several clients simultaneously.</td></tr>
       <tr><td><b>Beamforming</b></td><td>Steers signal toward a client for a stronger link.</td></tr>
       <tr><td><b>OFDMA</b></td><td>Wi-Fi 6+ splits a channel into resource units so many clients transmit in one burst (great for dense areas).</td></tr>
     </tbody>
@@ -67,12 +67,12 @@
   <div class="tablewrap"><table>
     <thead><tr><th>Standard</th><th>Name</th><th>Bands</th><th>Max theoretical rate</th><th>Key features</th></tr></thead>
     <tbody>
-      <tr><td>802.11b</td><td>—</td><td>2.4 GHz</td><td>11 Mbps</td><td>DSSS, legacy</td></tr>
-      <tr><td>802.11a</td><td>—</td><td>5 GHz</td><td>54 Mbps</td><td>OFDM</td></tr>
+      <tr><td>802.11b</td><td>—</td><td>2.4 GHz</td><td>11 Mbps</td><td>DSSS (Direct-Sequence Spread Spectrum), legacy</td></tr>
+      <tr><td>802.11a</td><td>—</td><td>5 GHz</td><td>54 Mbps</td><td>OFDM (Orthogonal Frequency-Division Multiplexing)</td></tr>
       <tr><td>802.11g</td><td>—</td><td>2.4 GHz</td><td>54 Mbps</td><td>OFDM on 2.4</td></tr>
       <tr><td>802.11n</td><td>Wi-Fi 4</td><td>2.4 / 5 GHz</td><td>600 Mbps</td><td>MIMO, 40 MHz channels</td></tr>
       <tr><td>802.11ac</td><td>Wi-Fi 5</td><td>5 GHz</td><td>~6.9 Gbps</td><td>80/160 MHz, MU-MIMO (downlink), 256-QAM</td></tr>
-      <tr><td>802.11ax</td><td>Wi-Fi 6 / 6E</td><td>2.4 / 5 (+ 6 GHz for 6E)</td><td>~9.6 Gbps</td><td>OFDMA, uplink MU-MIMO, 1024-QAM, target wake time, BSS coloring</td></tr>
+      <tr><td>802.11ax</td><td>Wi-Fi 6 / 6E</td><td>2.4 / 5 (+ 6 GHz for 6E)</td><td>~9.6 Gbps</td><td>OFDMA, uplink MU-MIMO, 1024-QAM, target wake time, BSS (Basic Service Set) coloring</td></tr>
       <tr><td>802.11be</td><td>Wi-Fi 7</td><td>2.4 / 5 / 6 GHz</td><td>~46 Gbps</td><td>320 MHz channels, multi-link operation (MLO), 4096-QAM</td></tr>
     </tbody>
   </table></div>
@@ -80,7 +80,7 @@
     <svg viewBox="0 0 700 150" width="700" role="img" aria-label="2.4 GHz channels 1 to 11 showing that only 1, 6 and 11 do not overlap">
       <g id="ch24"></g>
     </svg>
-    <figcaption>In the 2.4 GHz band, channels are 5 MHz apart but each is about 20 to 22 MHz wide, so only <b>1, 6 and 11</b> don't overlap (in North America). 5 GHz has many more 20 MHz channels (some require DFS radar detection), and 6 GHz adds up to 59 more (Wi-Fi 6E/7).</figcaption>
+    <figcaption>In the 2.4 GHz band, channels are 5 MHz apart but each is about 20 to 22 MHz wide, so only <b>1, 6 and 11</b> don't overlap (in North America). 5 GHz has many more 20 MHz channels (some require DFS (Dynamic Frequency Selection) radar detection), and 6 GHz adds up to 59 more (Wi-Fi 6E/7).</figcaption>
   </figure>
 </section>
 
@@ -89,22 +89,22 @@
   <div class="tablewrap"><table>
     <thead><tr><th>Protocol</th><th>Encryption</th><th>Status</th></tr></thead>
     <tbody>
-      <tr><td><b>WEP</b></td><td>RC4 with weak IVs</td><td>Broken: cracked in minutes. Never use.</td></tr>
-      <tr><td><b>WPA</b></td><td>TKIP (RC4-based)</td><td>Deprecated.</td></tr>
-      <tr><td><b>WPA2</b></td><td>AES-CCMP</td><td>Still common. <b>Personal (PSK)</b> uses a shared passphrase; <b>Enterprise</b> uses 802.1X with a RADIUS server and per-user credentials or certificates (EAP-TLS, PEAP).</td></tr>
-      <tr><td><b>WPA3</b></td><td>AES (GCMP-256 in 192-bit Enterprise)</td><td>Current. Personal uses <b>SAE</b> (Simultaneous Authentication of Equals), which resists offline passphrase guessing and gives forward secrecy. Enhanced Open (OWE) encrypts open networks.</td></tr>
+      <tr><td><b>WEP (Wired Equivalent Privacy)</b></td><td>RC4 with weak IVs (Initialization Vector)</td><td>Broken: cracked in minutes. Never use.</td></tr>
+      <tr><td><b>WPA (Wi-Fi Protected Access)</b></td><td>TKIP (Temporal Key Integrity Protocol; RC4-based)</td><td>Deprecated.</td></tr>
+      <tr><td><b>WPA2</b></td><td>AES-CCMP</td><td>Still common. <b>Personal (PSK)</b> uses a shared passphrase; <b>Enterprise</b> uses 802.1X with a RADIUS (Remote Authentication Dial-In User Service) server and per-user credentials or certificates (EAP-TLS, PEAP (Protected Extensible Authentication Protocol)).</td></tr>
+      <tr><td><b>WPA3</b></td><td>AES (Advanced Encryption Standard; GCMP-256 (Galois/Counter Mode Protocol) in 192-bit Enterprise)</td><td>Current. Personal uses <b>SAE</b> (Simultaneous Authentication of Equals), which resists offline passphrase guessing and gives forward secrecy. Enhanced Open (OWE) encrypts open networks.</td></tr>
     </tbody>
   </table></div>
   <ul>
     <li><b>Captive portal</b>: a web page users must accept or log into before access (hotels, guests).</li>
-    <li><b>Rogue AP</b>: an unauthorized AP plugged into the network. <b>Evil twin</b>: an attacker's AP mimicking a real SSID to capture logins. Defend with WIDS/WIPS, 802.1X, certificate validation and user training.</li>
-    <li>Disable WPS, change default admin credentials, use separate guest SSIDs/VLANs, and keep AP firmware patched. Hiding the SSID and MAC filtering are weak controls, not security.</li>
+    <li><b>Rogue AP</b>: an unauthorized AP plugged into the network. <b>Evil twin</b>: an attacker's AP mimicking a real SSID (Service Set Identifier) to capture logins. Defend with WIDS/WIPS (WIDS: Wireless Intrusion Detection System; WIPS: Wireless Intrusion Prevention System), 802.1X, certificate validation and user training.</li>
+    <li>Disable WPS (Wi-Fi Protected Setup), change default admin credentials, use separate guest SSIDs/VLANs (VLAN: Virtual Local Area Network), and keep AP firmware patched. Hiding the SSID and MAC (Media Access Control) filtering are weak controls, not security.</li>
   </ul>
 </section>
 
 <section class="lesson" id="survey">
   <h2>4. Site surveys, placement and roaming</h2>
-  <p>A <dfn>site survey</dfn> measures RF coverage and interference before (predictive) and after (validation) deployment. The output is a <b>heat map</b> of signal strength. Good design: plan for capacity, not just coverage; overlap cells by about 15 to 20% at −67 dBm so clients roam smoothly; use 1/6/11 on 2.4 GHz; lower transmit power in dense areas; mount APs on ceilings away from metal. <b>Roaming</b> is a client moving between APs on the same SSID; 802.11r (fast transition), 802.11k (neighbor reports) and 802.11v (BSS transition) make it faster. A <b>wireless LAN controller</b> centrally manages AP channels, power and roaming.</p>
+  <p>A <dfn>site survey</dfn> measures RF coverage and interference before (predictive) and after (validation) deployment. The output is a <b>heat map</b> of signal strength. Good design: plan for capacity, not just coverage; overlap cells by about 15 to 20% at −67 dBm so clients roam smoothly; use 1/6/11 on 2.4 GHz; lower transmit power in dense areas; mount APs on ceilings away from metal. <b>Roaming</b> is a client moving between APs on the same SSID; 802.11r (fast transition), 802.11k (neighbor reports) and 802.11v (BSS transition) make it faster. A <b>wireless LAN (Local Area Network) controller</b> centrally manages AP channels, power and roaming.</p>
 </section>
 
 <section class="lesson" id="cellular">
@@ -112,13 +112,13 @@
   <div class="tablewrap"><table>
     <thead><tr><th>Technology</th><th>Range</th><th>Use</th></tr></thead>
     <tbody>
-      <tr><td><b>4G LTE</b></td><td>Kilometers</td><td>Mobile broadband; WAN backup for branches.</td></tr>
-      <tr><td><b>5G</b></td><td>Low-band (wide) to mmWave (short, very fast)</td><td>Higher speeds, lower latency, massive IoT; network slicing.</td></tr>
-      <tr><td><b>Private cellular</b> (private LTE/5G, CBRS in the US)</td><td>Campus</td><td>Factories, ports, warehouses needing controlled, reliable wireless.</td></tr>
-      <tr><td><b>Bluetooth</b> (incl. BLE)</td><td>~10 m (up to ~100 m)</td><td>Peripherals, audio, beacons; 2.4 GHz PAN.</td></tr>
+      <tr><td><b>4G LTE (Long-Term Evolution)</b></td><td>Kilometers</td><td>Mobile broadband; WAN (Wide Area Network) backup for branches.</td></tr>
+      <tr><td><b>5G</b></td><td>Low-band (wide) to mmWave (short, very fast)</td><td>Higher speeds, lower latency, massive IoT (Internet of Things); network slicing.</td></tr>
+      <tr><td><b>Private cellular</b> (private LTE/5G, CBRS (Citizens Broadband Radio Service) in the US)</td><td>Campus</td><td>Factories, ports, warehouses needing controlled, reliable wireless.</td></tr>
+      <tr><td><b>Bluetooth</b> (incl. BLE (Bluetooth Low Energy))</td><td>~10 m (up to ~100 m)</td><td>Peripherals, audio, beacons; 2.4 GHz PAN (Personal Area Network).</td></tr>
       <tr><td><b>NFC</b></td><td>~4 cm</td><td>Tap-to-pay, badges, pairing.</td></tr>
       <tr><td><b>RFID</b></td><td>cm to tens of m</td><td>Asset and inventory tags, access cards.</td></tr>
-      <tr><td><b>Satellite</b></td><td>Global</td><td>Remote sites. GEO has ~600 ms round-trip latency; LEO constellations ~25 to 60 ms.</td></tr>
+      <tr><td><b>Satellite</b></td><td>Global</td><td>Remote sites. GEO (Geostationary Earth Orbit) has ~600 ms round-trip latency; LEO (Low Earth Orbit) constellations ~25 to 60 ms.</td></tr>
     </tbody>
   </table></div>
 </section>
@@ -127,18 +127,18 @@
   <h2>6. Network operations: monitoring, availability and recovery</h2>
   <div class="grid2">
     <div class="tile"><h4>Monitoring sources</h4><ul>
-      <li><b>SNMP</b> polls and traps for interface counters, CPU, temperature.</li>
+      <li><b>SNMP (Simple Network Management Protocol)</b> polls and traps for interface counters, CPU (Central Processing Unit), temperature.</li>
       <li><b>Syslog</b> events from every device into a central server.</li>
-      <li><b>SIEM</b> correlates logs for security events and alerts.</li>
+      <li><b>SIEM (Security Information and Event Management)</b> correlates logs for security events and alerts.</li>
       <li><b>Flow data</b> (NetFlow/IPFIX/sFlow) for top talkers and anomalies.</li>
-      <li><b>Packet capture</b> for deep troubleshooting; <b>API</b>/streaming telemetry on modern gear.</li></ul></div>
+      <li><b>Packet capture</b> for deep troubleshooting; <b>API (Application Programming Interface)</b>/streaming telemetry on modern gear.</li></ul></div>
     <div class="tile"><h4>Performance metrics</h4><ul>
       <li><b>Bandwidth</b> (capacity) vs <b>throughput</b> (actual) vs <b>goodput</b> (useful data).</li>
       <li><b>Latency</b>: delay, usually round-trip in ms.</li>
       <li><b>Jitter</b>: variation in latency.</li>
       <li><b>Packet loss</b>: % of packets that never arrive.</li>
       <li><b>Uptime / availability</b>: 99.9% ≈ 8.8 h downtime per year; 99.99% ≈ 53 min; 99.999% ≈ 5.3 min.</li>
-      <li><b>Interface errors</b>: CRC errors (cabling), runts/giants, discards (congestion).</li></ul></div>
+      <li><b>Interface errors</b>: CRC (Cyclic Redundancy Check) errors (cabling), runts/giants, discards (congestion).</li></ul></div>
   </div>
   <div class="tablewrap"><table>
     <thead><tr><th>Term</th><th>Meaning</th><th>Example</th></tr></thead>
@@ -149,7 +149,7 @@
       <tr><td><b>MTBF</b></td><td>Mean Time Between Failures (repairable items)</td><td>Power supply MTBF 100,000 h</td></tr>
     </tbody>
   </table></div>
-  <p><b>High availability</b>: redundancy at every layer (dual power supplies, NIC teaming, LACP, redundant switches and routers with FHRP, multiple ISPs). <b>Active-active</b> uses both paths at once; <b>active-passive</b> keeps one on standby. DR sites: <b>hot</b> (running, minutes), <b>warm</b> (hardware ready, hours to days), <b>cold</b> (space and power only, days to weeks). Test DR plans with tabletop exercises and failover tests.</p>
+  <p><b>High availability</b>: redundancy at every layer (dual power supplies, NIC (Network Interface Card) teaming, LACP (Link Aggregation Control Protocol), redundant switches and routers with FHRP (First Hop Redundancy Protocol), multiple ISPs (Internet Service Provider)). <b>Active-active</b> uses both paths at once; <b>active-passive</b> keeps one on standby. DR sites: <b>hot</b> (running, minutes), <b>warm</b> (hardware ready, hours to days), <b>cold</b> (space and power only, days to weeks). Test DR plans with tabletop exercises and failover tests.</p>
   <div class="tablewrap"><table>
     <thead><tr><th>Document</th><th>Purpose</th></tr></thead>
     <tbody>
@@ -157,7 +157,7 @@
       <tr><td><b>SLA</b></td><td>Service Level Agreement: measurable commitments (uptime, response time) and remedies.</td></tr>
       <tr><td><b>MOU</b></td><td>Memorandum of Understanding: a less formal agreement of intent between parties.</td></tr>
       <tr><td><b>NDA</b></td><td>Non-Disclosure Agreement: protects confidential information.</td></tr>
-      <tr><td>Also</td><td>Change management records (Module 8), incident response plan, BYOD policy, password policy, data retention, playbooks.</td></tr>
+      <tr><td>Also</td><td>Change management records (Module 8), incident response plan, BYOD (Bring Your Own Device) policy, password policy, data retention, playbooks.</td></tr>
     </tbody>
   </table></div>
 </section>
@@ -166,7 +166,7 @@
   <h2>7. Network troubleshooting method and tools</h2>
   <ol>
     <li>Identify the problem (gather information, question users, identify symptoms, determine what changed, duplicate the problem, approach multiple problems individually).</li>
-    <li>Establish a theory of probable cause (question the obvious; consider top-to-bottom or bottom-to-top OSI, or divide and conquer).</li>
+    <li>Establish a theory of probable cause (question the obvious; consider top-to-bottom or bottom-to-top OSI (Open Systems Interconnection), or divide and conquer).</li>
     <li>Test the theory to determine the cause (if not confirmed, establish a new theory or escalate).</li>
     <li>Establish a plan of action to resolve the problem and identify potential effects.</li>
     <li>Implement the solution or escalate as necessary.</li>
@@ -176,29 +176,29 @@
   <div class="tablewrap"><table>
     <thead><tr><th>Command / tool</th><th>Use</th></tr></thead>
     <tbody>
-      <tr><td><code>ping</code></td><td>Reachability and round-trip time (ICMP echo).</td></tr>
-      <tr><td><code>traceroute</code> / <code>tracert</code></td><td>Each hop on the path (TTL expiry). <code>pathping</code> (Windows) combines ping and tracert with per-hop loss.</td></tr>
-      <tr><td><code>nslookup</code> / <code>dig</code></td><td>Query DNS records directly.</td></tr>
-      <tr><td><code>ipconfig</code> / <code>ip addr</code> (<code>ifconfig</code> legacy)</td><td>Show IP settings; <code>ipconfig /release /renew /flushdns</code>.</td></tr>
-      <tr><td><code>arp -a</code> / <code>ip neigh</code></td><td>View the ARP cache (IP to MAC).</td></tr>
+      <tr><td><code>ping</code></td><td>Reachability and round-trip time (ICMP (Internet Control Message Protocol) echo).</td></tr>
+      <tr><td><code>traceroute</code> / <code>tracert</code></td><td>Each hop on the path (TTL (Time To Live) expiry). <code>pathping</code> (Windows) combines ping and tracert with per-hop loss.</td></tr>
+      <tr><td><code>nslookup</code> / <code>dig</code></td><td>Query DNS (Domain Name System) records directly.</td></tr>
+      <tr><td><code>ipconfig</code> / <code>ip addr</code> (<code>ifconfig</code> legacy)</td><td>Show IP (Internet Protocol) settings; <code>ipconfig /release /renew /flushdns</code>.</td></tr>
+      <tr><td><code>arp -a</code> / <code>ip neigh</code></td><td>View the ARP (Address Resolution Protocol) cache (IP to MAC).</td></tr>
       <tr><td><code>netstat</code> / <code>ss</code></td><td>Open connections and listening ports.</td></tr>
       <tr><td><code>route print</code> / <code>ip route</code>, <code>show ip route</code></td><td>View routing tables.</td></tr>
       <tr><td><code>nmap</code></td><td>Discover hosts and open ports (only on networks you're authorized to scan).</td></tr>
       <tr><td><code>tcpdump</code> / <b>Wireshark</b></td><td>Capture and decode packets.</td></tr>
       <tr><td><code>iperf</code></td><td>Measure throughput between two endpoints.</td></tr>
       <tr><td>Speed tester, Wi-Fi analyzer, spectrum analyzer</td><td>Internet speed; SSIDs/channels/RSSI; non-Wi-Fi RF interference.</td></tr>
-      <tr><td><code>show interface</code>, <code>show mac address-table</code>, <code>show vlan</code>, LLDP/CDP neighbors</td><td>Switch and router state, errors and neighbors.</td></tr>
+      <tr><td><code>show interface</code>, <code>show mac address-table</code>, <code>show vlan</code>, LLDP/CDP (LLDP: Link Layer Discovery Protocol; CDP: Cisco Discovery Protocol) neighbors</td><td>Switch and router state, errors and neighbors.</td></tr>
     </tbody>
   </table></div>
   <div class="tablewrap"><table>
     <thead><tr><th>Symptom</th><th>Common causes</th></tr></thead>
     <tbody>
-      <tr><td>169.254.x.x address</td><td>DHCP unreachable, scope exhausted, missing DHCP relay, wrong VLAN</td></tr>
+      <tr><td>169.254.x.x address</td><td>DHCP (Dynamic Host Configuration Protocol) unreachable, scope exhausted, missing DHCP relay, wrong VLAN</td></tr>
       <tr><td>Can ping IPs but not names</td><td>DNS server wrong or down</td></tr>
-      <tr><td>Slow link, CRC/late collisions</td><td>Duplex mismatch, bad cable, EMI</td></tr>
-      <tr><td>Network-wide slowdown, high CPU, flapping MACs</td><td>Switching loop / broadcast storm (STP disabled)</td></tr>
+      <tr><td>Slow link, CRC/late collisions</td><td>Duplex mismatch, bad cable, EMI (Electromagnetic Interference)</td></tr>
+      <tr><td>Network-wide slowdown, high CPU, flapping MACs</td><td>Switching loop / broadcast storm (STP (Spanning Tree Protocol) disabled)</td></tr>
       <tr><td>Intermittent Wi-Fi</td><td>Interference, co-channel overlap, low RSSI, roaming issues, too few APs for client density</td></tr>
-      <tr><td>Large transfers hang, small ones work</td><td>MTU/fragmentation over tunnels</td></tr>
+      <tr><td>Large transfers hang, small ones work</td><td>MTU/fragmentation (MTU: Maximum Transmission Unit) over tunnels</td></tr>
       <tr><td>Duplicate IP warnings</td><td>Static IP inside DHCP scope, rogue DHCP server</td></tr>
       <tr><td>Works after reboot, fails later</td><td>Lease/ARP cache issues, memory leak, overheating</td></tr>
     </tbody>

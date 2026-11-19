@@ -31,11 +31,11 @@
   <p class="why"><b>Why this matters.</b> Every networking job, from help desk to data center engineer, uses the layer models as a shared language: "it's a Layer 1 problem" tells a colleague to check the cable, not the firewall. Network+ Domain 1 (Networking Concepts) starts here, and ports and protocols appear on A+, Network+ and Security+ alike.</p>
   <h3>You will be able to</h3>
   <ul class="outcomes">
-    <li>Name network types (LAN, WAN, MAN, PAN, WLAN, SAN, CAN) and topologies, including spine-leaf.</li>
-    <li>List the 7 OSI layers and 4 TCP/IP layers with their PDUs, protocols and devices.</li>
-    <li>Explain encapsulation and the difference between MAC addresses, IP addresses and ports.</li>
-    <li>Describe the TCP handshake, sequence numbers, windowing and teardown, and when UDP is better.</li>
-    <li>Explain Ethernet frames, MTU, jumbo frames, ARP and unicast/multicast/broadcast/anycast.</li>
+    <li>Name network types (LAN (Local Area Network), WAN (Wide Area Network), MAN (Metropolitan Area Network), PAN (Personal Area Network), WLAN (Wireless Local Area Network), SAN (Storage Area Network), CAN (Campus Area Network)) and topologies, including spine-leaf.</li>
+    <li>List the 7 OSI (Open Systems Interconnection) layers and 4 TCP/IP (TCP: Transmission Control Protocol; IP: Internet Protocol) layers with their PDUs (Power Distribution Unit), protocols and devices.</li>
+    <li>Explain encapsulation and the difference between MAC (Media Access Control) addresses, IP addresses and ports.</li>
+    <li>Describe the TCP handshake, sequence numbers, windowing and teardown, and when UDP (User Datagram Protocol) is better.</li>
+    <li>Explain Ethernet frames, MTU (Maximum Transmission Unit), jumbo frames, ARP (Address Resolution Protocol) and unicast/multicast/broadcast/anycast.</li>
     <li>Recall the Network+ port list from memory.</li>
   </ul>
   <nav class="jumpnav" id="jumpnav" aria-label="On this page"></nav>
@@ -58,7 +58,7 @@
       <tr><td><b>WLAN</b></td><td>Wireless LAN</td><td>A LAN over Wi-Fi</td><td>Home or office Wi-Fi</td></tr>
       <tr><td><b>CAN</b></td><td>Campus Area Network</td><td>Several buildings on one site</td><td>University or hospital campus</td></tr>
       <tr><td><b>MAN</b></td><td>Metropolitan Area Network</td><td>A city</td><td>City fiber ring linking government offices</td></tr>
-      <tr><td><b>WAN</b></td><td>Wide Area Network</td><td>Cities, countries, the world</td><td>The internet; MPLS or SD-WAN between branches</td></tr>
+      <tr><td><b>WAN</b></td><td>Wide Area Network</td><td>Cities, countries, the world</td><td>The internet; MPLS (Multiprotocol Label Switching) or SD-WAN (Software-Defined Wide Area Network) between branches</td></tr>
       <tr><td><b>SAN</b></td><td>Storage Area Network</td><td>Dedicated network for block storage</td><td>Fibre Channel or iSCSI to a storage array</td></tr>
     </tbody>
   </table></div>
@@ -104,7 +104,7 @@
       <tr><td>Star / hub-and-spoke</td><td>Everything connects to a central switch or hub site</td><td>Easy to manage; one cable fault affects one device</td><td>The center is a single point of failure</td></tr>
       <tr><td>Mesh (full or partial)</td><td>Devices connect to many others</td><td>Redundant paths</td><td>Many links; full mesh scales badly</td></tr>
       <tr><td>Bus</td><td>One shared cable (old coax Ethernet)</td><td>Cheap</td><td>One break takes down all; collisions</td></tr>
-      <tr><td>Ring</td><td>Each device connects to two neighbors</td><td>Predictable; dual rings self-heal (SONET, metro fiber)</td><td>A single ring breaks at one fault</td></tr>
+      <tr><td>Ring</td><td>Each device connects to two neighbors</td><td>Predictable; dual rings self-heal (SONET (Synchronous Optical Network), metro fiber)</td><td>A single ring breaks at one fault</td></tr>
       <tr><td>Spine-leaf</td><td>Two tiers, every leaf to every spine</td><td>Predictable low latency for east-west traffic; scale by adding spines/leaves</td><td>Many cables and optics</td></tr>
       <tr><td>Point-to-point</td><td>One link between two sites</td><td>Simple, private</td><td>No redundancy</td></tr>
       <tr><td>Hybrid</td><td>A mix of the above</td><td>Fits real needs</td><td>More complex to document</td></tr>
@@ -115,7 +115,7 @@
 
 <section class="lesson" id="models">
   <h2>2. The OSI and TCP/IP models side by side</h2>
-  <p>The <dfn>OSI model</dfn> (Open Systems Interconnection, ISO/IEC 7498-1) splits networking into 7 layers so each layer has one job and talks only to the layers above and below it. The <dfn>TCP/IP model</dfn> (from the IETF RFCs, mainly RFC 1122) is what the internet actually runs, with 4 layers.</p>
+  <p>The <dfn>OSI model</dfn> (Open Systems Interconnection, ISO/IEC (ISO: International Organization for Standardization; IEC: International Electrotechnical Commission) 7498-1) splits networking into 7 layers so each layer has one job and talks only to the layers above and below it. The <dfn>TCP/IP model</dfn> (from the IETF (Internet Engineering Task Force) RFCs (Request for Comments), mainly RFC 1122) is what the internet actually runs, with 4 layers.</p>
   <figure class="figure">
     <svg viewBox="0 0 700 380" width="700" role="img" aria-label="OSI seven layers mapped to the four TCP/IP layers with PDU names">
       <g font-size="14" class="svg-text">
@@ -141,12 +141,12 @@
   <div class="tablewrap"><table class="layer-tbl">
     <thead><tr><th>#</th><th>OSI layer</th><th>Job</th><th>Protocols / standards</th><th>Devices</th><th>PDU</th></tr></thead>
     <tbody>
-      <tr><td>7</td><td>Application</td><td>Network services to applications</td><td>HTTP/S, DNS, DHCP, SMTP, IMAP, POP3, FTP, SSH, SNMP, LDAP, NTP, SIP</td><td>Proxies, load balancers (L7), next-gen firewalls</td><td>Data</td></tr>
-      <tr><td>6</td><td>Presentation</td><td>Format, encryption, compression</td><td>TLS/SSL (often placed here), JPEG, ASCII/UTF-8, MIME</td><td>(software)</td><td>Data</td></tr>
-      <tr><td>5</td><td>Session</td><td>Open, manage and close sessions</td><td>RPC, NetBIOS session, SMB session setup, SOCKS</td><td>(software)</td><td>Data</td></tr>
+      <tr><td>7</td><td>Application</td><td>Network services to applications</td><td>HTTP/S (HTTP: HyperText Transfer Protocol), DNS (Domain Name System), DHCP (Dynamic Host Configuration Protocol), SMTP (Simple Mail Transfer Protocol), IMAP (Internet Message Access Protocol), POP3 (Post Office Protocol version 3), FTP (File Transfer Protocol), SSH (Secure Shell), SNMP (Simple Network Management Protocol), LDAP (Lightweight Directory Access Protocol), NTP (Network Time Protocol), SIP (Session Initiation Protocol)</td><td>Proxies, load balancers (L7), next-gen firewalls</td><td>Data</td></tr>
+      <tr><td>6</td><td>Presentation</td><td>Format, encryption, compression</td><td>TLS/SSL (TLS: Transport Layer Security; SSL: Secure Sockets Layer; often placed here), JPEG (Joint Photographic Experts Group), ASCII/UTF-8 (ASCII: American Standard Code for Information Interchange), MIME (Multipurpose Internet Mail Extensions)</td><td>(software)</td><td>Data</td></tr>
+      <tr><td>5</td><td>Session</td><td>Open, manage and close sessions</td><td>RPC (Remote Procedure Call), NetBIOS session, SMB (Server Message Block) session setup, SOCKS (Socket Secure proxy protocol)</td><td>(software)</td><td>Data</td></tr>
       <tr><td>4</td><td>Transport</td><td>End-to-end delivery, ports, reliability</td><td>TCP, UDP, QUIC (over UDP)</td><td>Firewalls (stateful), L4 load balancers</td><td>Segment / datagram</td></tr>
-      <tr><td>3</td><td>Network</td><td>Logical addressing and routing</td><td>IPv4, IPv6, ICMP, IPsec, OSPF, BGP (BGP rides on TCP but is a routing protocol)</td><td>Routers, Layer 3 switches</td><td>Packet</td></tr>
-      <tr><td>2</td><td>Data Link</td><td>Local delivery by MAC address, framing, error detection</td><td>Ethernet (802.3), Wi-Fi MAC (802.11), 802.1Q VLANs, ARP (L2/L3 boundary), STP, PPP</td><td>Switches, bridges, wireless APs, NICs</td><td>Frame</td></tr>
+      <tr><td>3</td><td>Network</td><td>Logical addressing and routing</td><td>IPv4 (Internet Protocol version 4), IPv6 (Internet Protocol version 6), ICMP (Internet Control Message Protocol), IPsec (Internet Protocol Security), OSPF (Open Shortest Path First), BGP (Border Gateway Protocol; BGP rides on TCP but is a routing protocol)</td><td>Routers, Layer 3 switches</td><td>Packet</td></tr>
+      <tr><td>2</td><td>Data Link</td><td>Local delivery by MAC address, framing, error detection</td><td>Ethernet (802.3), Wi-Fi MAC (802.11), 802.1Q VLANs (Virtual Local Area Network), ARP (L2/L3 boundary), STP (Spanning Tree Protocol), PPP (Point-to-Point Protocol)</td><td>Switches, bridges, wireless APs (Access Point), NICs (Network Interface Card)</td><td>Frame</td></tr>
       <tr><td>1</td><td>Physical</td><td>Signals on the medium</td><td>Copper, fiber, radio; connectors; 1000BASE-T, 10GBASE-SR</td><td>Cables, hubs, repeaters, media converters, transceivers</td><td>Bits</td></tr>
     </tbody>
   </table></div>
@@ -158,17 +158,17 @@
   <p>As data goes down the stack, each layer adds its own header (and Ethernet also adds a trailer). This is <dfn>encapsulation</dfn>. The receiver strips them in reverse: <dfn>decapsulation</dfn>. Each layer reads only its own header.</p>
   <div class="enc" aria-label="Encapsulated Ethernet frame">
     <div class="eth" tabindex="0">Ethernet header<br><small>dst MAC, src MAC, type</small></div>
-    <div class="ip" tabindex="0">IP header<br><small>src IP, dst IP, TTL</small></div>
+    <div class="ip" tabindex="0">IP header<br><small>src IP, dst IP, TTL (Time To Live)</small></div>
     <div class="tcp" tabindex="0">TCP header<br><small>ports, seq, ack</small></div>
     <div class="app" tabindex="0">Application data<br><small>e.g., HTTP GET</small></div>
-    <div class="fcs" tabindex="0">FCS<br><small>trailer</small></div>
+    <div class="fcs" tabindex="0">FCS (Frame Check Sequence)<br><small>trailer</small></div>
   </div>
   <div class="tablewrap"><table>
     <thead><tr><th>Address</th><th>Layer</th><th>Looks like</th><th>Scope</th><th>Changes hop to hop?</th></tr></thead>
     <tbody>
-      <tr><td><b>MAC address</b></td><td>2</td><td><code>3C:22:FB:9A:10:7E</code> (48 bits; first 24 = OUI vendor ID)</td><td>Local link only</td><td><b>Yes</b>: rewritten by every router</td></tr>
-      <tr><td><b>IP address</b></td><td>3</td><td><code>192.168.1.20</code> or <code>2001:db8::20</code></td><td>End to end</td><td>No (except when NAT rewrites it)</td></tr>
-      <tr><td><b>Port</b></td><td>4</td><td><code>443</code> (16 bits: 0 to 65535)</td><td>Identifies the application on the host</td><td>No (except PAT)</td></tr>
+      <tr><td><b>MAC address</b></td><td>2</td><td><code>3C:22:FB:9A:10:7E</code> (48 bits; first 24 = OUI (Organizationally Unique Identifier) vendor ID (Identification))</td><td>Local link only</td><td><b>Yes</b>: rewritten by every router</td></tr>
+      <tr><td><b>IP address</b></td><td>3</td><td><code>192.168.1.20</code> or <code>2001:db8::20</code></td><td>End to end</td><td>No (except when NAT (Network Address Translation) rewrites it)</td></tr>
+      <tr><td><b>Port</b></td><td>4</td><td><code>443</code> (16 bits: 0 to 65535)</td><td>Identifies the application on the host</td><td>No (except PAT (Port Address Translation))</td></tr>
     </tbody>
   </table></div>
   <div class="callout analogy">IP address = the building's street address. Port = the apartment number. MAC address = the name of the next mail carrier the letter is handed to; it changes at every sorting office.</div>
@@ -181,7 +181,7 @@
     <div class="tile"><h4>TCP (Transmission Control Protocol, RFC 9293)</h4>
       <ul><li>Connection-oriented: three-way handshake first.</li><li>Reliable: sequence numbers, acknowledgments, retransmission.</li><li>Ordered delivery; flow control with a sliding <b>window</b>; congestion control.</li><li>20-byte minimum header.</li><li>Used by web, email, file transfer, SSH, databases.</li></ul></div>
     <div class="tile"><h4>UDP (User Datagram Protocol, RFC 768)</h4>
-      <ul><li>Connectionless: just send.</li><li>No acknowledgments or retransmission (the app may add its own).</li><li>No ordering; very low overhead.</li><li>8-byte header.</li><li>Used by DNS queries, DHCP, TFTP, SNMP, syslog, NTP, VoIP/video, gaming, QUIC (HTTP/3).</li></ul></div>
+      <ul><li>Connectionless: just send.</li><li>No acknowledgments or retransmission (the app may add its own).</li><li>No ordering; very low overhead.</li><li>8-byte header.</li><li>Used by DNS queries, DHCP, TFTP (Trivial File Transfer Protocol), SNMP, syslog, NTP, VoIP/video, gaming, QUIC (HTTP/3).</li></ul></div>
   </div>
   <figure class="figure">
     <svg viewBox="0 0 520 290" width="520" role="img" aria-label="TCP three-way handshake and four-way teardown">
@@ -196,10 +196,10 @@
         <text x="260" y="186" text-anchor="middle">FIN</text><text x="260" y="215" text-anchor="middle">ACK</text><text x="260" y="244" text-anchor="middle">FIN</text><text x="260" y="268" text-anchor="middle">ACK</text>
       </g>
     </svg>
-    <figcaption>Handshake: SYN, SYN-ACK, ACK. Each side picks a random initial sequence number; the ACK number is "the next byte I expect". Graceful close uses FIN/ACK in each direction; RST aborts a connection immediately.</figcaption>
+    <figcaption>Handshake: SYN (Synchronize flag), SYN-ACK, ACK. Each side picks a random initial sequence number; the ACK number is "the next byte I expect". Graceful close uses FIN/ACK (FIN: Finish flag) in each direction; RST (Reset flag) aborts a connection immediately.</figcaption>
   </figure>
   <p><b>Windowing:</b> the receiver advertises how many bytes it can accept before the sender must wait for an ACK. A larger window keeps a long, fast link full. If an ACK doesn't come back before the retransmission timer expires (or three duplicate ACKs arrive), TCP resends the missing segment and slows down.</p>
-  <div class="callout tip">TCP flags to remember: <b>SYN</b> (start), <b>ACK</b> (acknowledge), <b>FIN</b> (finish), <b>RST</b> (reset), <b>PSH</b> (push now), <b>URG</b> (urgent).</div>
+  <div class="callout tip">TCP flags to remember: <b>SYN</b> (start), <b>ACK</b> (acknowledge), <b>FIN</b> (finish), <b>RST</b> (reset), <b>PSH (Push flag)</b> (push now), <b>URG</b> (urgent).</div>
 </section>
 
 <section class="lesson" id="ethernet">
@@ -207,16 +207,16 @@
   <div class="tablewrap"><table>
     <thead><tr><th>Field</th><th>Size</th><th>Purpose</th></tr></thead>
     <tbody>
-      <tr><td>Preamble + SFD</td><td>8 bytes</td><td>Clock sync and "frame starts now" (handled by the NIC)</td></tr>
+      <tr><td>Preamble + SFD (Start Frame Delimiter)</td><td>8 bytes</td><td>Clock sync and "frame starts now" (handled by the NIC)</td></tr>
       <tr><td>Destination MAC</td><td>6 bytes</td><td>Who should receive the frame</td></tr>
       <tr><td>Source MAC</td><td>6 bytes</td><td>Who sent it (switches learn from this)</td></tr>
-      <tr><td>802.1Q tag (optional)</td><td>4 bytes</td><td>VLAN ID (12 bits) and priority (3 bits PCP)</td></tr>
+      <tr><td>802.1Q tag (optional)</td><td>4 bytes</td><td>VLAN ID (12 bits) and priority (3 bits PCP (Priority Code Point))</td></tr>
       <tr><td>EtherType</td><td>2 bytes</td><td>What's inside: 0x0800 IPv4, 0x86DD IPv6, 0x0806 ARP</td></tr>
       <tr><td>Payload</td><td>46 to 1500 bytes</td><td>The packet (this maximum is the <b>MTU</b>)</td></tr>
-      <tr><td>FCS</td><td>4 bytes</td><td>CRC-32 error check; bad frames are dropped</td></tr>
+      <tr><td>FCS</td><td>4 bytes</td><td>CRC-32 (Cyclic Redundancy Check) error check; bad frames are dropped</td></tr>
     </tbody>
   </table></div>
-  <p>The standard Ethernet <dfn>MTU</dfn> (maximum transmission unit) is <b>1500 bytes</b>. <dfn>Jumbo frames</dfn> raise it to about <b>9000 bytes</b> to cut overhead for storage (iSCSI, NFS) and vMotion traffic, but every device on the path must agree, or packets are fragmented or dropped. Tunnels (VPN, VXLAN) add headers and reduce the usable MTU, a classic cause of "small pages load, big ones hang".</p>
+  <p>The standard Ethernet <dfn>MTU</dfn> (maximum transmission unit) is <b>1500 bytes</b>. <dfn>Jumbo frames</dfn> raise it to about <b>9000 bytes</b> to cut overhead for storage (iSCSI, NFS (Network File System)) and vMotion traffic, but every device on the path must agree, or packets are fragmented or dropped. Tunnels (VPN (Virtual Private Network), VXLAN (Virtual Extensible Local Area Network)) add headers and reduce the usable MTU, a classic cause of "small pages load, big ones hang".</p>
   <h3>ARP</h3>
   <p><dfn>ARP</dfn> (Address Resolution Protocol, RFC 826) finds the MAC address for an IPv4 address on the local network: the host broadcasts "Who has 192.168.1.1? Tell 192.168.1.20", and the owner replies by unicast. Results are cached (<code>arp -a</code>). For a remote destination, the host ARPs for its <b>default gateway</b>, not the far host. IPv6 replaces ARP with <b>Neighbor Discovery</b> (ICMPv6).</p>
   <div class="tablewrap"><table>
@@ -224,8 +224,8 @@
     <tbody>
       <tr><td><b>Unicast</b></td><td>One specific host</td><td>Loading a web page</td></tr>
       <tr><td><b>Broadcast</b></td><td>All hosts on the local segment (IPv4 only)</td><td>ARP request, DHCP Discover; MAC FF:FF:FF:FF:FF:FF</td></tr>
-      <tr><td><b>Multicast</b></td><td>Hosts that joined a group</td><td>IPTV, OSPF hellos (224.0.0.5), IPv6 ff02::1</td></tr>
-      <tr><td><b>Anycast</b></td><td>The nearest of several hosts sharing one address</td><td>Public DNS resolvers, root DNS servers, CDNs</td></tr>
+      <tr><td><b>Multicast</b></td><td>Hosts that joined a group</td><td>IPTV (Internet Protocol Television), OSPF hellos (224.0.0.5), IPv6 ff02::1</td></tr>
+      <tr><td><b>Anycast</b></td><td>The nearest of several hosts sharing one address</td><td>Public DNS resolvers, root DNS servers, CDNs (Content Delivery Network)</td></tr>
     </tbody>
   </table></div>
   <div class="callout trap">IPv6 has <b>no broadcast</b>; it uses multicast instead.</div>
@@ -238,7 +238,7 @@
     <thead><tr><th>Port(s)</th><th>Protocol</th><th>Transport</th><th>What it does</th></tr></thead>
     <tbody id="port-table"></tbody>
   </table></div>
-  <div class="callout detail">Secure versions to pair up: Telnet 23 → SSH 22; HTTP 80 → HTTPS 443; LDAP 389 → LDAPS 636; IMAP 143 → IMAPS 993; POP3 110 → POP3S 995; SMTP 25 → SMTP submission with STARTTLS 587 (or implicit TLS 465); SIP 5060 → SIP-TLS 5061; FTP 20/21 → SFTP (over SSH, 22) or FTPS (990).</div>
+  <div class="callout detail">Secure versions to pair up: Telnet 23 → SSH 22; HTTP 80 → HTTPS (HyperText Transfer Protocol Secure) 443; LDAP 389 → LDAPS (Lightweight Directory Access Protocol Secure) 636; IMAP 143 → IMAPS (Internet Message Access Protocol Secure) 993; POP3 110 → POP3S (Post Office Protocol 3 Secure) 995; SMTP 25 → SMTP submission with STARTTLS 587 (or implicit TLS 465); SIP 5060 → SIP-TLS 5061; FTP 20/21 → SFTP (Secure Shell File Transfer Protocol; over SSH, 22) or FTPS (File Transfer Protocol Secure) (990).</div>
 </section>
 
 <section class="lab" id="labs">

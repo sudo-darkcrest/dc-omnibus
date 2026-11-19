@@ -38,14 +38,14 @@
 <section class="intro">
   <div class="kicker">Part 5 · Service, Governance and Audit · Module 21</div>
   <h1>Leading Security: Information Security Management</h1>
-  <p class="why"><b>Why this matters.</b> At some point a security career moves from fixing problems to deciding which problems matter, getting the money to solve them and leading the response when things go wrong. ISACA's Certified Information Security Manager (CISM) tests that management view. Its questions reward the answer a sensible manager would give: aligned with the business, backed by senior management, following governance and risk, not the most technical fix. This module teaches that mindset and ends with a 75-question CISM-style practice exam.</p>
+  <p class="why"><b>Why this matters.</b> At some point a security career moves from fixing problems to deciding which problems matter, getting the money to solve them and leading the response when things go wrong. ISACA (Information Systems Audit and Control Association)'s Certified Information Security Manager (CISM) tests that management view. Its questions reward the answer a sensible manager would give: aligned with the business, backed by senior management, following governance and risk, not the most technical fix. This module teaches that mindset and ends with a 75-question CISM-style practice exam.</p>
   <h3>You will be able to</h3>
   <ul class="outcomes">
     <li>Describe the four CISM domains and their exam weights.</li>
     <li>Build a security strategy aligned to business goals, with a business case and roadmap.</li>
     <li>Run risk assessment and treatment from a manager's point of view, including ownership, reporting and emerging risks.</li>
     <li>Develop and run a security program: resources, frameworks, policies, awareness, metrics and vendors.</li>
-    <li>Prepare for and manage incidents: IR plans, BIA, BCP, DRP, testing, escalation, communication, forensics and lessons learned.</li>
+    <li>Prepare for and manage incidents: IR (Incident Response) plans, BIA (Business Impact Analysis), BCP (Business Continuity Plan), DRP (Disaster Recovery Plan), testing, escalation, communication, forensics and lessons learned.</li>
     <li>Answer "best / first / most" questions the way ISACA expects.</li>
   </ul>
   <nav class="jumpnav" id="jumpnav" aria-label="On this page"></nav>
@@ -96,31 +96,31 @@
   <h2>3. Domain 1: Information security governance</h2>
   <h3 id="d1-culture">Culture, structures and roles</h3>
   <ul>
-    <li><b>Board</b>: sets risk appetite, oversees. <b>Senior management</b>: approves strategy, policy and resources. <b>Steering committee</b>: aligns priorities across departments. <b>CISO / information security manager</b>: develops and runs the program, advises. <b>Data owners</b>: classify and accept risk for their data. <b>Custodians</b>: implement controls. <b>Users</b>: follow policy.</li>
-    <li>The CISO should report high enough to be heard and independent of IT operations where possible, to avoid conflicts of interest.</li>
+    <li><b>Board</b>: sets risk appetite, oversees. <b>Senior management</b>: approves strategy, policy and resources. <b>Steering committee</b>: aligns priorities across departments. <b>CISO (Chief Information Security Officer) / information security manager</b>: develops and runs the program, advises. <b>Data owners</b>: classify and accept risk for their data. <b>Custodians</b>: implement controls. <b>Users</b>: follow policy.</li>
+    <li>The CISO should report high enough to be heard and independent of IT (Information Technology) operations where possible, to avoid conflicts of interest.</li>
     <li>A healthy security culture is one where people report mistakes and suspicious activity without fear.</li>
   </ul>
   <h3 id="d1-legal">Legal, regulatory and contractual requirements</h3>
-  <p>Identify obligations with legal counsel (privacy laws, breach notification, sector rules such as HIPAA or PCI DSS, contracts), map them to controls and monitor changes. Where requirements overlap, build one control set that satisfies many ("comply once, report many").</p>
+  <p>Identify obligations with legal counsel (privacy laws, breach notification, sector rules such as HIPAA (Health Insurance Portability and Accountability Act) or PCI (Payment Card Industry) DSS (Data Security Standard), contracts), map them to controls and monitor changes. Where requirements overlap, build one control set that satisfies many ("comply once, report many").</p>
   <h3 id="d1-strategy">Strategy, business cases and roadmaps</h3>
   <figure class="fig"><svg id="strat-fig" viewBox="0 0 760 130" width="760" role="img" aria-label="Strategy flow from business objectives to roadmap"></svg></figure>
   <ul>
-    <li><b>Desired state</b> can be described with frameworks (COBIT capability levels, NIST CSF target profiles, ISO 27001 controls) and with business attributes ("customers trust us with payment data").</li>
+    <li><b>Desired state</b> can be described with frameworks (COBIT (Control Objectives for Information and Related Technologies) capability levels, NIST (National Institute of Standards and Technology) CSF (Cybersecurity Framework) target profiles, ISO (International Organization for Standardization) 27001 controls) and with business attributes ("customers trust us with payment data").</li>
     <li><b>Business case</b>: problem, options, costs, benefits (risk reduction, compliance, enablement), risks of doing nothing, alignment with objectives.</li>
     <li><b>Roadmap</b>: phased initiatives prioritized by risk, dependencies, quick wins and budget cycles.</li>
-    <li>Governance frameworks used: COBIT 2019, ISO/IEC 27001/27002, NIST CSF 2.0 (see Module 20).</li>
+    <li>Governance frameworks used: COBIT 2019, ISO/IEC (IEC: International Electrotechnical Commission) 27001/27002, NIST CSF 2.0 (see Module 20).</li>
   </ul>
 </section>
 
 <section class="lesson" id="d2">
   <h2>4. Domain 2: Information security risk management</h2>
   <ul>
-    <li><b>Risk assessment</b>: identify assets and their value (set by the owner), threats, vulnerabilities, likelihood and impact; analyse qualitatively or quantitatively (SLE, ALE; Module 20).</li>
-    <li><b>Threat and vulnerability management</b>: threat intelligence, vulnerability scanning, prioritization by business impact, not just CVSS.</li>
+    <li><b>Risk assessment</b>: identify assets and their value (set by the owner), threats, vulnerabilities, likelihood and impact; analyse qualitatively or quantitatively (SLE (Single Loss Expectancy), ALE (Annualized Loss Expectancy); Module 20).</li>
+    <li><b>Threat and vulnerability management</b>: threat intelligence, vulnerability scanning, prioritization by business impact, not just CVSS (Common Vulnerability Scoring System).</li>
     <li><b>Risk treatment and ownership</b>: the <b>risk owner</b> (a business manager) chooses to mitigate, transfer, avoid or accept within appetite. The security manager advises, facilitates and reports.</li>
     <li><b>Control selection</b>: proportionate to risk, cost-effective, aligned with frameworks; use <b>compensating controls</b> and documented exceptions when the standard control isn't possible.</li>
-    <li><b>Monitoring and reporting</b>: risk register, KRIs, trend reporting to management; reassess when the business, technology or threats change.</li>
-    <li><b>Emerging risks</b>: AI misuse and data leakage, supply chain attacks, quantum threats to cryptography, new regulations. Assess and govern before buying tools.</li>
+    <li><b>Monitoring and reporting</b>: risk register, KRIs (Key Risk Indicator), trend reporting to management; reassess when the business, technology or threats change.</li>
+    <li><b>Emerging risks</b>: AI (Artificial Intelligence) misuse and data leakage, supply chain attacks, quantum threats to cryptography, new regulations. Assess and govern before buying tools.</li>
   </ul>
   <div class="callout detail">ISACA's view: risk management is a continuous cycle, and the information security manager's main job is making sure risk owners have the information to make good decisions.</div>
 </section>
@@ -132,13 +132,13 @@
     <thead><tr><th>Area</th><th>What a manager does</th></tr></thead>
     <tbody>
       <tr><td><b>Resources and budget</b></td><td>Prioritize by risk; justify with business cases; balance people, process and technology; use outsourcing (MSSP) while keeping accountability</td></tr>
-      <tr><td><b>Frameworks</b></td><td>Choose and tailor a control framework (ISO 27001, NIST CSF, CIS); map requirements to it</td></tr>
+      <tr><td><b>Frameworks</b></td><td>Choose and tailor a control framework (ISO 27001, NIST CSF, CIS (Center for Internet Security)); map requirements to it</td></tr>
       <tr><td><b>Policies and standards</b></td><td>Policy approved by senior management; standards, procedures, guidelines and baselines below it; review regularly; manage exceptions</td></tr>
       <tr><td><b>Awareness and training</b></td><td>Baseline awareness for all, role-based training for high-risk roles; measure behavior (phishing reports, incidents caused by people)</td></tr>
       <tr><td><b>Metrics</b></td><td>Strategic (board), management and operational levels; tie to objectives; avoid vanity metrics</td></tr>
       <tr><td><b>Third parties</b></td><td>Risk-tiered due diligence, contract clauses (security requirements, right to audit, breach notification), monitoring, offboarding</td></tr>
       <tr><td><b>Alignment with IT</b></td><td>Security in project lifecycles, change management, architecture reviews and procurement</td></tr>
-      <tr><td><b>Security architecture</b></td><td>Enterprise security architecture traceable to business requirements (e.g., SABSA), defense in depth, zero trust principles</td></tr>
+      <tr><td><b>Security architecture</b></td><td>Enterprise security architecture traceable to business requirements (e.g., SABSA (Sherwood Applied Business Security Architecture)), defense in depth, zero trust principles</td></tr>
     </tbody></table></div>
 </section>
 
@@ -146,16 +146,16 @@
   <h2>6. Domain 4: Incident management</h2>
   <h3 id="d4-ready">Readiness</h3>
   <ul>
-    <li><b>Incident response plan (IRP)</b>: scope, definitions, severity classes, roles (incident manager, technical leads, legal, HR, communications), escalation criteria, contact lists, playbooks, evidence handling; approved by senior management.</li>
-    <li><b>BIA</b>: identifies critical processes and how impact grows over time; sets <b>RTO</b>, <b>RPO</b> and <b>MTD</b>.</li>
+    <li><b>Incident response plan (IRP)</b>: scope, definitions, severity classes, roles (incident manager, technical leads, legal, HR (Human Resources), communications), escalation criteria, contact lists, playbooks, evidence handling; approved by senior management.</li>
+    <li><b>BIA</b>: identifies critical processes and how impact grows over time; sets <b>RTO (Recovery Time Objective)</b>, <b>RPO (Recovery Point Objective)</b> and <b>MTD (Maximum Tolerable Downtime)</b>.</li>
     <li><b>BCP</b> keeps the business running (people, sites, manual workarounds); <b>DRP</b> restores IT (sites, backups, replication).</li>
-    <li><b>Recovery sites</b>: hot (ready in hours), warm (days), cold (space and power, weeks), mirrored/active-active, cloud DR.</li>
+    <li><b>Recovery sites</b>: hot (ready in hours), warm (days), cold (space and power, weeks), mirrored/active-active, cloud DR (Disaster Recovery).</li>
     <li><b>Testing</b>: checklist review → tabletop → walkthrough → simulation → parallel → full interruption (risk and realism increase).</li>
   </ul>
   <figure class="fig"><svg id="bia-fig" viewBox="0 0 760 150" width="760" role="img" aria-label="Timeline showing RPO before the disruption and RTO and MTD after it"></svg></figure>
   <h3 id="d4-ops">Operations</h3>
   <figure class="fig"><svg id="ir-fig" viewBox="0 0 760 120" width="760" role="img" aria-label="Incident response lifecycle"></svg>
-  <figcaption class="figcap">Incident response lifecycle based on NIST SP 800-61. Revision 3 (2025) maps incident response to the CSF 2.0 functions; the classic phases are still widely used (verify).</figcaption></figure>
+  <figcaption class="figcap">Incident response lifecycle based on NIST SP (Special Publication) 800-61. Revision 3 (2025) maps incident response to the CSF 2.0 functions; the classic phases are still widely used (verify).</figcaption></figure>
   <ul>
     <li><b>Classify and escalate</b> using predefined severity criteria based on business impact.</li>
     <li><b>Communicate</b> through defined channels: internal stakeholders, executives, a single spokesperson for the media, customers and regulators as required by law and contract (legal counsel decides notification).</li>

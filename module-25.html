@@ -23,14 +23,14 @@
 <main class="page" id="main">
 
 <section class="intro">
-  <div class="kicker">Part 7 · Cloud, AI and Cyber Careers · Module 25</div>
+  <div class="kicker">Part 7 · Cloud, AI (Artificial Intelligence) and Cyber Careers · Module 25</div>
   <h1>Amazon Web Services: AWS Cloud, Core Services and Certifications</h1>
-  <p class="why"><b>Why this matters.</b> AWS is the largest public cloud. Many of the data centers in Module 18 exist to run clouds like it, and many IT jobs now expect you to know its basic building blocks. Module 17 explained cloud in general; this module makes it concrete with AWS's own services, pricing and certifications, starting with the beginner-friendly <b>AWS Certified Cloud Practitioner</b>.</p>
+  <p class="why"><b>Why this matters.</b> AWS is the largest public cloud. Many of the data centers in Module 18 exist to run clouds like it, and many IT (Information Technology) jobs now expect you to know its basic building blocks. Module 17 explained cloud in general; this module makes it concrete with AWS's own services, pricing and certifications, starting with the beginner-friendly <b>AWS Certified Cloud Practitioner</b>.</p>
   <h3>You will be able to</h3>
   <ul class="outcomes">
     <li>Explain Regions, Availability Zones and edge locations, and design for high availability.</li>
     <li>Match common needs to core AWS services (compute, storage, databases, networking, security, monitoring).</li>
-    <li>Split security duties between AWS and the customer, and apply IAM best practices.</li>
+    <li>Split security duties between AWS and the customer, and apply IAM (Identity and Access Management) best practices.</li>
     <li>Choose the cheapest pricing option for a workload and name AWS's cost tools and support plans.</li>
     <li>Plan an AWS certification path and know the Cloud Practitioner exam format.</li>
   </ul>
@@ -44,10 +44,10 @@
 
 <section class="lesson" id="infra">
   <h2>1. What AWS is and where it lives</h2>
-  <p>Amazon Web Services launched in 2006 with S3 storage and EC2 virtual servers. Today it offers more than 200 services that you rent by the second, hour or request, instead of buying hardware. You click (or call an API) and minutes later you have servers, databases or AI models running in Amazon's data centers.</p>
+  <p>Amazon Web Services launched in 2006 with S3 storage and EC2 (Elastic Compute Cloud) virtual servers. Today it offers more than 200 services that you rent by the second, hour or request, instead of buying hardware. You click (or call an API (Application Programming Interface)) and minutes later you have servers, databases or AI models running in Amazon's data centers.</p>
   <div class="callout analogy">AWS is like a utility company for computing. You don't build a power station to switch on a light; you plug in and pay for what you use. AWS does the same for servers, storage and networks.</div>
   <figure class="fig"><svg id="geo-fig" viewBox="0 0 760 250" width="760" role="img" aria-label="An AWS Region contains three or more Availability Zones, each with one or more data centers, linked by low-latency fiber. Edge locations sit near users outside the Region."></svg>
-    <figcaption>A Region holds three or more Availability Zones (AZs) a few kilometres to tens of kilometres apart, joined by fast private fiber. Edge locations sit close to users to cache content (CloudFront) and answer DNS (Route 53).</figcaption></figure>
+    <figcaption>A Region holds three or more Availability Zones (AZs) a few kilometres to tens of kilometres apart, joined by fast private fiber. Edge locations sit close to users to cache content (CloudFront) and answer DNS (Domain Name System; Route 53).</figcaption></figure>
   <div class="tablewrap"><table><thead><tr><th>Term</th><th>Plain meaning</th><th>Why it matters</th></tr></thead><tbody>
     <tr><td><b>Region</b></td><td>A geographic area, e.g., us-east-1 (N. Virginia), eu-west-2 (London)</td><td>Pick for latency to users, data residency laws, price and which services are offered</td></tr>
     <tr><td><b>Availability Zone</b></td><td>One or more data centers with their own power and cooling</td><td>Run in 2+ AZs so one failure doesn't take you down (high availability)</td></tr>
@@ -63,16 +63,16 @@
   <div class="tablewrap"><table><thead><tr><th>Category</th><th>Service</th><th>What it does</th></tr></thead><tbody>
     <tr><td rowspan="3"><b>Compute</b></td><td>EC2</td><td>Virtual servers ("instances") you size and manage</td></tr>
     <tr><td>Lambda</td><td>Runs your code on events; no servers to manage (serverless)</td></tr>
-    <tr><td>ECS, EKS, Fargate</td><td>Containers (Module 17): AWS's own orchestrator, managed Kubernetes, serverless containers</td></tr>
+    <tr><td>ECS (Elastic Container Service), EKS (Elastic Kubernetes Service), Fargate</td><td>Containers (Module 17): AWS's own orchestrator, managed Kubernetes, serverless containers</td></tr>
     <tr><td rowspan="3"><b>Storage</b></td><td>S3</td><td>Object storage in "buckets"; 11 nines (99.999999999%) durability</td></tr>
-    <tr><td>EBS / EFS</td><td>A virtual disk for one instance / a shared NFS file system</td></tr>
+    <tr><td>EBS (Elastic Block Store) / EFS (Encrypting File System)</td><td>A virtual disk for one instance / a shared NFS file system</td></tr>
     <tr><td>S3 Glacier, Storage Gateway, Snow Family</td><td>Cheap archive / link on-premises storage to AWS / ship data on physical devices</td></tr>
-    <tr><td rowspan="2"><b>Databases</b></td><td>RDS, Aurora</td><td>Managed relational (SQL) databases; AWS patches and backs them up</td></tr>
+    <tr><td rowspan="2"><b>Databases</b></td><td>RDS (Relational Database Service), Aurora</td><td>Managed relational (SQL) databases; AWS patches and backs them up</td></tr>
     <tr><td>DynamoDB, Redshift, ElastiCache</td><td>Serverless NoSQL / data warehouse / in-memory cache</td></tr>
-    <tr><td rowspan="2"><b>Networking</b></td><td>VPC</td><td>Your private network: subnets, route tables, internet and NAT gateways</td></tr>
-    <tr><td>Route 53, CloudFront, ELB, Direct Connect</td><td>DNS / CDN / load balancers / private fiber link to your data center</td></tr>
-    <tr><td rowspan="2"><b>Security</b></td><td>IAM, KMS, Secrets Manager</td><td>Who can do what / encryption keys / store passwords and API keys</td></tr>
-    <tr><td>Shield, WAF, GuardDuty, Inspector, Macie, Security Hub</td><td>DDoS / web firewall / threat detection / vulnerability scans / find sensitive data / one dashboard</td></tr>
+    <tr><td rowspan="2"><b>Networking</b></td><td>VPC (Virtual Private Cloud)</td><td>Your private network: subnets, route tables, internet and NAT (Network Address Translation) gateways</td></tr>
+    <tr><td>Route 53, CloudFront, ELB (Elastic Load Balancing), Direct Connect</td><td>DNS / CDN / load balancers / private fiber link to your data center</td></tr>
+    <tr><td rowspan="2"><b>Security</b></td><td>IAM, KMS (Key Management Service), Secrets Manager</td><td>Who can do what / encryption keys / store passwords and API keys</td></tr>
+    <tr><td>Shield, WAF (Web Application Firewall), GuardDuty, Inspector, Macie, Security Hub</td><td>DDoS / web firewall / threat detection / vulnerability scans / find sensitive data / one dashboard</td></tr>
     <tr><td rowspan="2"><b>Management</b></td><td>CloudWatch, CloudTrail, Config</td><td>Metrics and alarms / audit log of API calls / configuration history and rules</td></tr>
     <tr><td>Organizations, Control Tower, Trusted Advisor</td><td>Many accounts and policies / multi-account setup / best-practice checks</td></tr>
     <tr><td><b>AI</b></td><td>Bedrock, SageMaker AI, Rekognition, Comprehend, Transcribe, Q</td><td>Foundation models by API / build and train models / images / text / speech / AI assistant (see Module 26)</td></tr>
@@ -84,11 +84,11 @@
   <h2>3. Security: shared responsibility and IAM</h2>
   <p>AWS secures the <b>cloud itself</b>: buildings, hardware, the hypervisor and its global network. You secure <b>what you put in the cloud</b>: your data, who can log in, operating system patches on EC2, firewall rules and encryption settings. The more managed the service, the more AWS does (see the Shared Responsibility Slider in Module 17).</p>
   <div class="grid3">
-    <div class="tile"><h4>Lock the root user</h4><p>Turn on MFA, create no access keys for it, and use it only for the handful of tasks that need it.</p></div>
+    <div class="tile"><h4>Lock the root user</h4><p>Turn on MFA (Multifactor Authentication), create no access keys for it, and use it only for the handful of tasks that need it.</p></div>
     <div class="tile"><h4>Least privilege</h4><p>Give each user, group or role only the permissions it needs. Use <b>IAM roles</b> for applications instead of storing keys in code.</p></div>
     <div class="tile"><h4>Watch everything</h4><p>Turn on CloudTrail in every Region, use GuardDuty for threats and Security Hub for one view of findings.</p></div>
   </div>
-  <div class="callout detail">IAM policies are JSON documents that allow or deny actions (e.g., <code>s3:GetObject</code>) on resources. An explicit <b>deny always wins</b>. Service control policies (SCPs) in AWS Organizations set the maximum permissions for whole accounts.</div>
+  <div class="callout detail">IAM policies are JSON (JavaScript Object Notation) documents that allow or deny actions (e.g., <code>s3:GetObject</code>) on resources. An explicit <b>deny always wins</b>. Service control policies (SCPs) in AWS Organizations set the maximum permissions for whole accounts.</div>
 </section>
 
 <section class="lesson" id="pricing">
@@ -134,7 +134,7 @@
     <tr><td>Data Engineer – Associate</td><td>DEA-C01</td><td>Data pipelines and analytics</td></tr>
     <tr><td>Machine Learning Engineer – Associate</td><td>MLA-C01</td><td>Building and running ML models with SageMaker AI</td></tr>
     <tr><td rowspan="3"><b>Professional</b> (~$300)</td><td>Solutions Architect – Professional</td><td>SAP-C02</td><td>Complex, multi-account enterprise designs</td></tr>
-    <tr><td>DevOps Engineer – Professional</td><td>DOP-C02</td><td>CI/CD, automation and operations at scale</td></tr>
+    <tr><td>DevOps Engineer – Professional</td><td>DOP-C02</td><td>CI/CD (Continuous Integration / Continuous Delivery), automation and operations at scale</td></tr>
     <tr><td>Generative AI Developer – Professional (verify)</td><td>AIP-C01 (verify)</td><td>Building production generative AI applications</td></tr>
     <tr><td rowspan="2"><b>Specialty</b> (~$300)</td><td>Security – Specialty</td><td>SCS-C02/C03 (verify)</td><td>Cloud security engineering (pairs well with Module 27)</td></tr>
     <tr><td>Advanced Networking – Specialty</td><td>ANS-C01</td><td>Hybrid and complex AWS networking</td></tr>

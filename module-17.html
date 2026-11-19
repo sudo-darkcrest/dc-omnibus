@@ -28,11 +28,11 @@
   <p class="why"><b>Why this matters.</b> Almost every workload today runs on a hypervisor, in a container, in someone's cloud, or all three, and every one of them stores data somewhere. These ideas show up in A+ (virtualization and cloud), Network+ (cloud networking), Security+ (architecture models and shared responsibility) and data center work (storage, density, power for virtualized hosts). This module connects them so you can tell which layer you own and which one you rent.</p>
   <h3>You will be able to</h3>
   <ul class="outcomes">
-    <li>Explain Type 1 vs Type 2 hypervisors, overcommit, live migration and HA clusters.</li>
-    <li>Compare containers and VMs, and describe Kubernetes, serverless, microservices, IaC and CI/CD.</li>
+    <li>Explain Type 1 vs Type 2 hypervisors, overcommit, live migration and HA (High Availability) clusters.</li>
+    <li>Compare containers and VMs (Virtual Machine), and describe Kubernetes, serverless, microservices, IaC and CI/CD (Continuous Integration / Continuous Delivery).</li>
     <li>Choose cloud service and deployment models and say who secures what under shared responsibility.</li>
-    <li>Design basic cloud networks with VPCs, subnets, security groups, NACLs and gateways.</li>
-    <li>Pick DAS, NAS or SAN and block, file or object storage, and reason about replication and RPO.</li>
+    <li>Design basic cloud networks with VPCs (Virtual Private Cloud), subnets, security groups, NACLs (Network Access Control List) and gateways.</li>
+    <li>Pick DAS (Direct-Attached Storage), NAS (Network Attached Storage) or SAN (Storage Area Network) and block, file or object storage, and reason about replication and RPO (Recovery Point Objective).</li>
   </ul>
   <nav class="jumpnav" id="jumpnav" aria-label="On this page"></nav>
 </section>
@@ -45,14 +45,14 @@
 <section class="lesson" id="virt">
   <h2>1. Virtualization in depth</h2>
   <div class="grid2">
-    <div class="tile"><h4>Type 1 (bare metal)</h4><p>The hypervisor runs directly on hardware: VMware ESXi, Microsoft Hyper-V, KVM, Xen. Used in data centers and clouds. Less overhead, stronger isolation.</p></div>
-    <div class="tile"><h4>Type 2 (hosted)</h4><p>Runs as an app on a normal OS: VirtualBox, VMware Workstation, Parallels. Good for labs and desktops.</p></div>
+    <div class="tile"><h4>Type 1 (bare metal)</h4><p>The hypervisor runs directly on hardware: VMware ESXi, Microsoft Hyper-V, KVM (Keyboard, Video, Mouse), Xen. Used in data centers and clouds. Less overhead, stronger isolation.</p></div>
+    <div class="tile"><h4>Type 2 (hosted)</h4><p>Runs as an app on a normal OS (Operating System): VirtualBox, VMware Workstation, Parallels. Good for labs and desktops.</p></div>
   </div>
   <ul>
-    <li><b>vCPU</b>: a virtual processor scheduled onto physical cores/threads. <b>Overcommit</b> means assigning more vCPUs (or RAM) than physically exist, betting not all VMs peak at once. A common starting vCPU:pCPU ratio is about 3:1 to 4:1 for general workloads; databases get less. Too much overcommit shows up as CPU ready time and memory ballooning/swapping.</li>
+    <li><b>vCPU (Virtual Central Processing Unit)</b>: a virtual processor scheduled onto physical cores/threads. <b>Overcommit</b> means assigning more vCPUs (or RAM (Random Access Memory)) than physically exist, betting not all VMs peak at once. A common starting vCPU:pCPU ratio is about 3:1 to 4:1 for general workloads; databases get less. Too much overcommit shows up as CPU (Central Processing Unit) ready time and memory ballooning/swapping.</li>
     <li><b>Live migration</b> (vMotion, Hyper-V Live Migration) moves a running VM between hosts with no downtime, needing shared or replicated storage and fast networking.</li>
-    <li><b>HA cluster</b>: if a host fails, its VMs restart on surviving hosts (a short outage). <b>Fault tolerance</b> runs a shadow copy in lockstep for zero downtime. <b>DRS</b>-style balancing moves VMs to even out load.</li>
-    <li><b>Virtual switches</b> connect VMs to each other and to physical uplinks, supporting VLAN tagging, NIC teaming and port groups. Distributed virtual switches span many hosts.</li>
+    <li><b>HA cluster</b>: if a host fails, its VMs restart on surviving hosts (a short outage). <b>Fault tolerance</b> runs a shadow copy in lockstep for zero downtime. <b>DRS (Distributed Resource Scheduler)</b>-style balancing moves VMs to even out load.</li>
+    <li><b>Virtual switches</b> connect VMs to each other and to physical uplinks, supporting VLAN (Virtual Local Area Network) tagging, NIC (Network Interface Card) teaming and port groups. Distributed virtual switches span many hosts.</li>
     <li><b>Snapshots</b> capture a VM's state for quick rollback; they are not backups (they depend on the base disk and slow things down if kept long).</li>
     <li>Security: <b>VM escape</b>, VM sprawl (unmanaged VMs) and resource reuse are the risks; patch hypervisors and keep an inventory.</li>
   </ul>
@@ -69,11 +69,11 @@
       <tr><td><b>Kubernetes</b></td><td>Orchestrator that schedules containers across a cluster, restarts failures, scales and rolls out updates</td></tr>
       <tr><td>Pod</td><td>Smallest Kubernetes unit: one or more containers sharing network and storage</td></tr>
       <tr><td>Node</td><td>A worker machine (VM or physical) that runs pods; the control plane manages nodes</td></tr>
-      <tr><td>Service</td><td>A stable network name/IP that load-balances to a changing set of pods</td></tr>
+      <tr><td>Service</td><td>A stable network name/IP (IP: Internet Protocol) that load-balances to a changing set of pods</td></tr>
       <tr><td>Deployment</td><td>Declares how many replicas of a pod should run and handles rolling updates</td></tr>
-      <tr><td><b>Microservices</b></td><td>An app split into small independent services communicating over APIs, each deployable on its own (vs a monolith)</td></tr>
+      <tr><td><b>Microservices</b></td><td>An app split into small independent services communicating over APIs (Application Programming Interface), each deployable on its own (vs a monolith)</td></tr>
       <tr><td><b>Serverless / FaaS</b></td><td>Code runs as functions triggered by events; the provider manages servers and scaling; you pay per execution</td></tr>
-      <tr><td><b>Infrastructure as code</b></td><td>Infrastructure defined in files: <b>Terraform</b> (declarative provisioning), <b>Ansible</b> (configuration management, agentless over SSH), CloudFormation, Bicep</td></tr>
+      <tr><td><b>Infrastructure as code</b></td><td>Infrastructure defined in files: <b>Terraform</b> (declarative provisioning), <b>Ansible</b> (configuration management, agentless over SSH (Secure Shell)), CloudFormation, Bicep</td></tr>
       <tr><td><b>CI/CD</b></td><td>Continuous integration (build and test every change) and continuous delivery/deployment (automatically release it)</td></tr>
     </tbody></table></div>
   <div class="callout trap">"Containers are as isolated as VMs." No: containers share the host kernel, so a kernel exploit can affect all of them. High-security multi-tenant workloads often run containers inside VMs.</div>
@@ -81,12 +81,12 @@
 
 <section class="lesson" id="cloudmodels">
   <h2>3. Cloud models and shared responsibility</h2>
-  <p>NIST SP 800-145 defines cloud by five characteristics: <b>on-demand self-service</b>, <b>broad network access</b>, <b>resource pooling</b> (multitenancy), <b>rapid elasticity</b> and <b>measured service</b>.</p>
+  <p>NIST (National Institute of Standards and Technology) SP (Special Publication) 800-145 defines cloud by five characteristics: <b>on-demand self-service</b>, <b>broad network access</b>, <b>resource pooling</b> (multitenancy), <b>rapid elasticity</b> and <b>measured service</b>.</p>
   <div class="grid2">
     <div class="tile"><h4>Service models</h4><ul>
-      <li><b>IaaS</b>: rent VMs, storage and networks; you manage OS and up (e.g., EC2, Azure VMs).</li>
-      <li><b>PaaS</b>: a managed platform; you deploy code and data (e.g., App Service, managed databases).</li>
-      <li><b>SaaS</b>: finished software (e.g., Microsoft 365, Salesforce).</li>
+      <li><b>IaaS (Infrastructure as a Service)</b>: rent VMs, storage and networks; you manage OS and up (e.g., EC2 (Elastic Compute Cloud), Azure VMs).</li>
+      <li><b>PaaS (Platform as a Service)</b>: a managed platform; you deploy code and data (e.g., App Service, managed databases).</li>
+      <li><b>SaaS (Software as a Service)</b>: finished software (e.g., Microsoft 365, Salesforce).</li>
       <li><b>FaaS</b>: serverless functions (e.g., Lambda, Azure Functions).</li>
     </ul></div>
     <div class="tile"><h4>Deployment models</h4><ul>
@@ -111,7 +111,7 @@
     <svg viewBox="0 0 740 250" width="740" role="img" aria-label="A VPC with public and private subnets in two availability zones, an internet gateway, a NAT gateway, and a VPN or direct connection to on-premises">
       <g id="vpc-fig"></g>
     </svg>
-    <figcaption>A typical VPC: public subnets hold load balancers and NAT; private subnets hold app servers and databases; on-premises connects through VPN or a dedicated link.</figcaption>
+    <figcaption>A typical VPC: public subnets hold load balancers and NAT; private subnets hold app servers and databases; on-premises connects through VPN (Virtual Private Network) or a dedicated link.</figcaption>
   </figure>
   <div class="tablewrap"><table>
     <thead><tr><th>Component</th><th>Meaning</th></tr></thead>
@@ -119,12 +119,12 @@
       <tr><td><b>VPC / VNet</b></td><td>Your private, isolated network in the cloud with your chosen IP range (e.g., 10.20.0.0/16)</td></tr>
       <tr><td><b>Subnets</b></td><td>Public (route to an internet gateway) or private (no direct inbound internet)</td></tr>
       <tr><td><b>Security group</b></td><td><b>Stateful</b>, attached to instances/NICs, <b>allow rules only</b>; return traffic automatically allowed</td></tr>
-      <tr><td><b>Network ACL</b></td><td><b>Stateless</b>, attached to subnets, allow <b>and</b> deny rules, evaluated in number order; return traffic needs its own rule</td></tr>
+      <tr><td><b>Network ACL (Access Control List)</b></td><td><b>Stateless</b>, attached to subnets, allow <b>and</b> deny rules, evaluated in number order; return traffic needs its own rule</td></tr>
       <tr><td><b>Internet gateway</b></td><td>Lets public subnets reach and be reached from the internet</td></tr>
       <tr><td><b>NAT gateway</b></td><td>Lets private instances start outbound connections (updates) without being reachable inbound</td></tr>
       <tr><td><b>VPN / Direct Connect / ExpressRoute</b></td><td>Encrypted tunnel over the internet vs a private dedicated circuit to the provider (predictable latency, no internet path)</td></tr>
       <tr><td><b>Peering / transit gateway</b></td><td>Connecting VPCs together</td></tr>
-      <tr><td><b>CDN</b></td><td>Caches content at edge locations close to users: faster delivery and DDoS absorption</td></tr>
+      <tr><td><b>CDN (Content Delivery Network)</b></td><td>Caches content at edge locations close to users: faster delivery and DDoS absorption</td></tr>
       <tr><td><b>NFV</b></td><td>Network functions virtualization: firewalls, routers and load balancers as software</td></tr>
     </tbody></table></div>
 </section>
@@ -132,12 +132,12 @@
 <section class="lesson" id="cloudsec">
   <h2>5. Cloud security</h2>
   <ul>
-    <li><b>IAM</b>: least-privilege roles and policies, MFA for all humans, no long-lived access keys where avoidable, separate accounts/subscriptions for environments.</li>
-    <li><b>CASB</b> (cloud access security broker): visibility and policy enforcement between users and SaaS apps (shadow IT discovery, DLP, access control).</li>
+    <li><b>IAM (Identity and Access Management)</b>: least-privilege roles and policies, MFA for all humans, no long-lived access keys where avoidable, separate accounts/subscriptions for environments.</li>
+    <li><b>CASB</b> (cloud access security broker): visibility and policy enforcement between users and SaaS apps (shadow IT (Information Technology) discovery, DLP (Data Loss Prevention), access control).</li>
     <li><b>CSPM</b> (cloud security posture management): continuously scans cloud configurations for misconfigurations against benchmarks.</li>
     <li><b>Misconfiguration</b> is the top cloud risk: public storage buckets, open security groups (0.0.0.0/0 on SSH/RDP), overly permissive IAM, disabled logging, unencrypted snapshots.</li>
     <li><b>Encryption and key management</b>: encryption at rest and in transit; provider-managed keys vs customer-managed keys (KMS) vs bring/hold your own key (HSM).</li>
-    <li><b>Logging</b>: enable control-plane audit logs (who changed what) and flow logs; send them to a SIEM.</li>
+    <li><b>Logging</b>: enable control-plane audit logs (who changed what) and flow logs; send them to a SIEM (Security Information and Event Management).</li>
   </ul>
 </section>
 
@@ -147,29 +147,29 @@
     <thead><tr><th></th><th>DAS</th><th>NAS</th><th>SAN</th></tr></thead>
     <tbody>
       <tr><td>What</td><td>Disks attached directly to one server</td><td>A file server appliance on the network</td><td>A dedicated network giving servers block-level disks</td></tr>
-      <tr><td>Access</td><td>Block (SATA, SAS, NVMe)</td><td><b>File</b> (SMB/CIFS, NFS) over Ethernet</td><td><b>Block</b> over Fibre Channel, iSCSI, FCoE, NVMe-oF</td></tr>
+      <tr><td>Access</td><td>Block (SATA (Serial Advanced Technology Attachment), SAS (Serial Attached Small Computer System Interface), NVMe (Non-Volatile Memory Express))</td><td><b>File</b> (SMB/CIFS (CIFS: Common Internet File System), NFS (Network File System)) over Ethernet</td><td><b>Block</b> over Fibre Channel, iSCSI, FCoE (Fibre Channel over Ethernet), NVMe-oF (Non-Volatile Memory Express over Fabrics)</td></tr>
       <tr><td>Shared?</td><td>No</td><td>Yes, many clients</td><td>Yes, many servers (cluster file systems)</td></tr>
       <tr><td>Typical use</td><td>Boot drives, local scratch</td><td>Department shares, home folders</td><td>Databases, VM datastores</td></tr>
     </tbody></table></div>
   <div class="grid3">
-    <div class="tile"><h4>Block</h4><p>Raw volumes the OS formats; lowest latency; databases and VM disks. Cloud: EBS, Azure Managed Disks.</p></div>
-    <div class="tile"><h4>File</h4><p>Hierarchical folders over SMB/NFS; shared access with permissions. Cloud: EFS, Azure Files.</p></div>
-    <div class="tile"><h4>Object</h4><p>Flat namespace of objects with metadata, accessed by HTTP API; massive scale, cheap; backups, media, data lakes, static websites. Cloud: S3, Azure Blob.</p></div>
+    <div class="tile"><h4>Block</h4><p>Raw volumes the OS formats; lowest latency; databases and VM disks. Cloud: EBS (Elastic Block Store), Azure Managed Disks.</p></div>
+    <div class="tile"><h4>File</h4><p>Hierarchical folders over SMB/NFS; shared access with permissions. Cloud: EFS (Encrypting File System), Azure Files.</p></div>
+    <div class="tile"><h4>Object</h4><p>Flat namespace of objects with metadata, accessed by HTTP (HyperText Transfer Protocol) API; massive scale, cheap; backups, media, data lakes, static websites. Cloud: S3, Azure Blob.</p></div>
   </div>
   <div class="tablewrap"><table>
     <thead><tr><th>Protocol / feature</th><th>Key facts</th></tr></thead>
     <tbody>
-      <tr><td><b>Fibre Channel</b></td><td>Dedicated lossless SAN fabric, 8/16/32/64 Gb FC, WWNs, zoning and LUN masking</td></tr>
-      <tr><td><b>iSCSI</b></td><td>SCSI commands over TCP/IP (port 3260): initiators and targets on regular Ethernet</td></tr>
+      <tr><td><b>Fibre Channel</b></td><td>Dedicated lossless SAN fabric, 8/16/32/64 Gb FC, WWNs (World Wide Name), zoning and LUN (Logical Unit Number) masking</td></tr>
+      <tr><td><b>iSCSI</b></td><td>SCSI (Small Computer System Interface) commands over TCP/IP (TCP: Transmission Control Protocol; port 3260): initiators and targets on regular Ethernet</td></tr>
       <tr><td><b>FCoE</b></td><td>FC frames inside Ethernet, needs lossless Data Center Bridging (DCB)</td></tr>
-      <tr><td><b>NVMe-oF</b></td><td>NVMe over fabrics (RDMA, FC, TCP): very low latency flash access across the network</td></tr>
+      <tr><td><b>NVMe-oF</b></td><td>NVMe over fabrics (RDMA (Remote Direct Memory Access), FC, TCP): very low latency flash access across the network</td></tr>
       <tr><td><b>Thin vs thick provisioning</b></td><td>Thin allocates space as data is written (watch for overcommit running out); thick reserves it all up front</td></tr>
-      <tr><td><b>Deduplication / compression</b></td><td>Store identical blocks once / shrink data; great for VDI and backups</td></tr>
+      <tr><td><b>Deduplication / compression</b></td><td>Store identical blocks once / shrink data; great for VDI (Virtual Desktop Infrastructure) and backups</td></tr>
       <tr><td><b>Snapshots</b></td><td>Point-in-time copies (often copy-on-write); fast, but on the same array, so not a backup by themselves</td></tr>
       <tr><td><b>Synchronous replication</b></td><td>Write acknowledged only after both sites have it: RPO = 0, but adds round-trip latency; practical over short distances (roughly under 100 km)</td></tr>
       <tr><td><b>Asynchronous replication</b></td><td>Write acknowledged locally and copied later: no latency penalty, any distance, but RPO &gt; 0</td></tr>
       <tr><td><b>Tiering</b></td><td>Hot data on fast flash, cold data on cheaper disk or object/archive tiers, moved automatically</td></tr>
-      <tr><td>RAID reminder</td><td>0 striping (no protection), 1 mirroring, 5 single parity, 6 double parity, 10 mirrored stripes (Module 6)</td></tr>
+      <tr><td>RAID (Redundant Array of Independent Disks) reminder</td><td>0 striping (no protection), 1 mirroring, 5 single parity, 6 double parity, 10 mirrored stripes (Module 6)</td></tr>
     </tbody></table></div>
 </section>
 

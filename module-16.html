@@ -44,14 +44,14 @@
 <section class="intro">
   <div class="kicker">Part 4 · Security, Cloud and the Data Center · Module 16</div>
   <h1>Defending the Organization: Security Architecture, Operations and Response</h1>
-  <p class="why"><b>Why this matters.</b> Module 15 named the attacks; this module is the defender's job: designing networks that contain damage, hardening systems, watching logs, responding when something goes wrong and managing risk so leadership can make decisions. Security+ Domains 3, 4 and 5 together are about two thirds of the exam, and the same ideas reappear in CISM and CISA. The module ends with a 90-question Security+ readiness exam covering Modules 14 to 16.</p>
+  <p class="why"><b>Why this matters.</b> Module 15 named the attacks; this module is the defender's job: designing networks that contain damage, hardening systems, watching logs, responding when something goes wrong and managing risk so leadership can make decisions. Security+ Domains 3, 4 and 5 together are about two thirds of the exam, and the same ideas reappear in CISM (Certified Information Security Manager) and CISA (Certified Information Systems Auditor). The module ends with a 90-question Security+ readiness exam covering Modules 14 to 16.</p>
   <h3>You will be able to</h3>
   <ul class="outcomes">
-    <li>Design segmented networks with DMZs, firewalls, IDS/IPS, NAC, jump servers and SASE.</li>
-    <li>Harden endpoints, mobile devices, wireless and applications with baselines and EDR.</li>
-    <li>Use logs, SIEM, SOAR and threat intelligence to detect and investigate attacks.</li>
-    <li>Run the NIST SP 800-61 incident response lifecycle and preserve digital evidence properly.</li>
-    <li>Plan continuity (BIA, RTO, RPO, sites, backups) and manage risk with registers, matrices and treatments.</li>
+    <li>Design segmented networks with DMZs (Demilitarized Zone), firewalls, IDS/IPS (IDS: Intrusion Detection System; IPS: Intrusion Prevention System), NAC (Network Access Control), jump servers and SASE (Secure Access Service Edge).</li>
+    <li>Harden endpoints, mobile devices, wireless and applications with baselines and EDR (Endpoint Detection and Response).</li>
+    <li>Use logs, SIEM (Security Information and Event Management), SOAR (Security Orchestration, Automation and Response) and threat intelligence to detect and investigate attacks.</li>
+    <li>Run the NIST (National Institute of Standards and Technology) SP (Special Publication) 800-61 incident response lifecycle and preserve digital evidence properly.</li>
+    <li>Plan continuity (BIA (Business Impact Analysis), RTO (Recovery Time Objective), RPO (Recovery Point Objective), sites, backups) and manage risk with registers, matrices and treatments.</li>
   </ul>
   <nav class="jumpnav" id="jumpnav" aria-label="On this page"></nav>
 </section>
@@ -72,25 +72,25 @@
   <div class="tablewrap"><table>
     <thead><tr><th>Component</th><th>What it does</th><th>Exam clue</th></tr></thead>
     <tbody>
-      <tr><td><b>Segmentation</b> / VLANs</td><td>Splits the network into zones so a breach in one doesn't reach all</td><td>"Limit lateral movement"</td></tr>
+      <tr><td><b>Segmentation</b> / VLANs (Virtual Local Area Network)</td><td>Splits the network into zones so a breach in one doesn't reach all</td><td>"Limit lateral movement"</td></tr>
       <tr><td><b>Screened subnet (DMZ)</b></td><td>Zone between internet and internal network for public-facing servers</td><td>"Web server must be reachable from the internet"</td></tr>
-      <tr><td><b>Microsegmentation</b></td><td>Per-workload policies, often software-defined, even inside one subnet</td><td>"East-west traffic between VMs"</td></tr>
-      <tr><td><b>Stateless firewall</b> (packet filter)</td><td>Checks each packet against ACLs, no memory of connections</td><td>Router ACLs</td></tr>
+      <tr><td><b>Microsegmentation</b></td><td>Per-workload policies, often software-defined, even inside one subnet</td><td>"East-west traffic between VMs (Virtual Machine)"</td></tr>
+      <tr><td><b>Stateless firewall</b> (packet filter)</td><td>Checks each packet against ACLs (Access Control List), no memory of connections</td><td>Router ACLs</td></tr>
       <tr><td><b>Stateful firewall</b></td><td>Tracks connections; return traffic allowed automatically</td><td>"Session table"</td></tr>
-      <tr><td><b>NGFW</b></td><td>Application awareness, user identity, IPS, TLS inspection (Layer 7)</td><td>"Block a specific app regardless of port"</td></tr>
-      <tr><td><b>WAF</b></td><td>Inspects HTTP for injection, XSS and other web attacks</td><td>"Protect a web app from SQL injection"</td></tr>
+      <tr><td><b>NGFW (Next-Generation Firewall)</b></td><td>Application awareness, user identity, IPS, TLS (Transport Layer Security) inspection (Layer 7)</td><td>"Block a specific app regardless of port"</td></tr>
+      <tr><td><b>WAF</b></td><td>Inspects HTTP (HyperText Transfer Protocol) for injection, XSS (Cross-Site Scripting) and other web attacks</td><td>"Protect a web app from SQL (Structured Query Language) injection"</td></tr>
       <tr><td><b>IDS / IPS</b></td><td>Detects (IDS, passive, alerts) or blocks inline (IPS) using signatures or anomalies</td><td>IDS = alert only; IPS = inline, can drop</td></tr>
       <tr><td><b>Proxy</b> (forward / reverse)</td><td>Forward: users' web requests out, with filtering. Reverse: in front of servers, load balancing/TLS offload</td><td>"Content filtering for users" vs "hide web servers"</td></tr>
-      <tr><td><b>NAC</b> + <b>802.1X</b></td><td>Checks identity and device posture before granting network access (supplicant, authenticator, RADIUS server)</td><td>"Only compliant devices can connect"</td></tr>
+      <tr><td><b>NAC</b> + <b>802.1X</b></td><td>Checks identity and device posture before granting network access (supplicant, authenticator, RADIUS (Remote Authentication Dial-In User Service) server)</td><td>"Only compliant devices can connect"</td></tr>
       <tr><td><b>Jump server</b> (bastion)</td><td>Hardened, monitored host that admins pass through to reach sensitive systems</td><td>"Single controlled path for admin access"</td></tr>
-      <tr><td><b>VPN</b></td><td>Encrypted tunnel: remote access (client) or site-to-site; IPsec or TLS; full vs split tunnel</td><td>"Remote staff need internal access"</td></tr>
-      <tr><td><b>SD-WAN</b> / <b>SASE</b></td><td>SD-WAN: software-controlled WAN over multiple links. SASE: SD-WAN plus cloud security (SWG, CASB, ZTNA, FWaaS)</td><td>"Security delivered from the cloud near users"</td></tr>
+      <tr><td><b>VPN (Virtual Private Network)</b></td><td>Encrypted tunnel: remote access (client) or site-to-site; IPsec (Internet Protocol Security) or TLS; full vs split tunnel</td><td>"Remote staff need internal access"</td></tr>
+      <tr><td><b>SD-WAN (Software-Defined Wide Area Network)</b> / <b>SASE</b></td><td>SD-WAN: software-controlled WAN (Wide Area Network) over multiple links. SASE: SD-WAN plus cloud security (SWG (Secure Web Gateway), CASB (Cloud Access Security Broker), ZTNA (Zero Trust Network Access), FWaaS)</td><td>"Security delivered from the cloud near users"</td></tr>
     </tbody></table></div>
   <h3>Device placement and failure modes</h3>
   <ul>
-    <li><b>Inline vs tap/monitor</b>: inline devices (IPS) can block but add a point of failure; taps/SPAN ports (IDS) only watch.</li>
+    <li><b>Inline vs tap/monitor</b>: inline devices (IPS) can block but add a point of failure; taps/SPAN (SPAN: Switched Port Analyzer) ports (IDS) only watch.</li>
     <li><b>Fail-open</b> keeps traffic flowing if the device fails (availability); <b>fail-closed</b> blocks everything (security).</li>
-    <li><b>Specialized systems</b>: ICS/SCADA (industrial control), IoT, embedded and RTOS devices often can't be patched; isolate them on separate segments and monitor.</li>
+    <li><b>Specialized systems</b>: ICS/SCADA (ICS: Industrial Control System; SCADA: Supervisory Control and Data Acquisition; industrial control), IoT (Internet of Things), embedded and RTOS (Real-Time Operating System) devices often can't be patched; isolate them on separate segments and monitor.</li>
     <li><b>Resilience</b>: high availability (clustering, load balancing), redundancy (power, links), multi-cloud, geographic dispersion.</li>
   </ul>
 </section>
@@ -99,16 +99,16 @@
   <h2>2. Hardening endpoints, mobile, wireless and apps</h2>
   <div class="grid2">
     <div class="tile"><h4>Systems</h4><ul>
-      <li><b>Secure baselines</b>: establish, deploy, maintain. Sources: CIS Benchmarks, vendor guides, DISA STIGs.</li>
+      <li><b>Secure baselines</b>: establish, deploy, maintain. Sources: CIS (Center for Internet Security) Benchmarks, vendor guides, DISA (Defense Information Systems Agency) STIGs (Security Technical Implementation Guide).</li>
       <li>Disable unused services and ports; change default passwords; remove bloatware.</li>
-      <li><b>EDR</b> (endpoint detection and response) watches behavior and can isolate a host; <b>XDR</b> correlates across endpoint, network, email and cloud.</li>
-      <li>Host-based firewall, HIPS, full-disk encryption, application <b>allow lists</b> (only approved software runs).</li>
+      <li><b>EDR</b> (endpoint detection and response) watches behavior and can isolate a host; <b>XDR (Extended Detection and Response)</b> correlates across endpoint, network, email and cloud.</li>
+      <li>Host-based firewall, HIPS (Host-based Intrusion Prevention System), full-disk encryption, application <b>allow lists</b> (only approved software runs).</li>
       <li>Patch management with testing and rollback.</li>
     </ul></div>
     <div class="tile"><h4>Mobile and wireless</h4><ul>
-      <li><b>MDM</b>: enforce PINs, encryption, remote wipe, app control, containerization.</li>
-      <li>Deployment models: <b>BYOD</b> (bring your own), <b>COPE</b> (corporate-owned, personally enabled), <b>CYOD</b> (choose your own from a list), corporate-owned only.</li>
-      <li>Wireless: WPA3, 802.1X/RADIUS for enterprise, site surveys and heat maps, WIPS.</li>
+      <li><b>MDM (Mobile Device Management)</b>: enforce PINs (Personal Identification Number), encryption, remote wipe, app control, containerization.</li>
+      <li>Deployment models: <b>BYOD (Bring Your Own Device)</b> (bring your own), <b>COPE</b> (corporate-owned, personally enabled), <b>CYOD (Choose Your Own Device)</b> (choose your own from a list), corporate-owned only.</li>
+      <li>Wireless: WPA3 (Wi-Fi Protected Access 3), 802.1X/RADIUS for enterprise, site surveys and heat maps, WIPS (Wireless Intrusion Prevention System).</li>
     </ul></div>
     <div class="tile"><h4>Applications</h4><ul>
       <li>Secure coding: <b>input validation</b> (server-side), output encoding, secure cookies, error handling.</li>
@@ -116,7 +116,7 @@
     </ul></div>
     <div class="tile"><h4>Data protection</h4><ul>
       <li><b>Classification</b>: e.g., public, internal/private, confidential/sensitive, restricted/critical (government: unclassified, confidential, secret, top secret).</li>
-      <li><b>DLP</b> watches data at rest, in transit and in use to block unauthorized transfers.</li>
+      <li><b>DLP (Data Loss Prevention)</b> watches data at rest, in transit and in use to block unauthorized transfers.</li>
       <li>Methods: encryption, hashing, masking, tokenization, obfuscation, segmentation, permission restrictions.</li>
       <li><b>Data sovereignty</b>: data is subject to the laws of the country where it is stored. <b>Residency</b>: requirements for where data must physically remain.</li>
     </ul></div>
@@ -128,16 +128,16 @@
   <div class="tablewrap"><table>
     <thead><tr><th>Tool / practice</th><th>Purpose</th></tr></thead>
     <tbody>
-      <tr><td><b>Log sources</b></td><td>Firewall, OS (Windows Event Logs, syslog), application, IPS/IDS, network flow (NetFlow), metadata, vulnerability scans, packet captures</td></tr>
+      <tr><td><b>Log sources</b></td><td>Firewall, OS (Operating System; Windows Event Logs, syslog), application, IPS/IDS, network flow (NetFlow), metadata, vulnerability scans, packet captures</td></tr>
       <tr><td><b>SIEM</b></td><td>Collects, normalizes and correlates logs from many sources, alerts on rules, supports investigations and compliance reporting</td></tr>
-      <tr><td><b>SOAR</b></td><td>Automates responses with playbooks (e.g., auto-isolate host, block IP, open ticket)</td></tr>
+      <tr><td><b>SOAR</b></td><td>Automates responses with playbooks (e.g., auto-isolate host, block IP (Internet Protocol), open ticket)</td></tr>
       <tr><td><b>Alert tuning</b></td><td>Reduce false positives so analysts don't get alert fatigue, without creating false negatives</td></tr>
-      <tr><td><b>Threat intelligence</b></td><td>OSINT, ISACs, vendor feeds, STIX/TAXII for sharing IoCs</td></tr>
+      <tr><td><b>Threat intelligence</b></td><td>OSINT (Open-Source Intelligence), ISACs (Information Sharing and Analysis Center), vendor feeds, STIX/TAXII (STIX: Structured Threat Information Expression; TAXII: Trusted Automated Exchange of Intelligence Information) for sharing IoCs (Indicator of Compromise)</td></tr>
       <tr><td><b>Threat hunting</b></td><td>Proactively searching for attackers that evaded alerts, based on a hypothesis</td></tr>
       <tr><td><b>Asset inventory</b></td><td>You can't protect what you don't know you have: ownership, classification, monitoring, disposal</td></tr>
       <tr><td><b>Automation and scripting</b></td><td>User provisioning, guardrails, ticketing, escalation; benefits: speed, consistency; risks: complexity, single point of failure, technical debt</td></tr>
-      <tr><td><b>Email security</b></td><td><b>SPF</b> (which servers may send for a domain), <b>DKIM</b> (cryptographic signature on mail), <b>DMARC</b> (policy: none/quarantine/reject, plus reports); secure email gateway</td></tr>
-      <tr><td><b>DNS filtering</b></td><td>Blocks lookups of malicious or unwanted domains</td></tr>
+      <tr><td><b>Email security</b></td><td><b>SPF</b> (which servers may send for a domain), <b>DKIM (DomainKeys Identified Mail)</b> (cryptographic signature on mail), <b>DMARC (Domain-based Message Authentication, Reporting and Conformance)</b> (policy: none/quarantine/reject, plus reports); secure email gateway</td></tr>
+      <tr><td><b>DNS (Domain Name System) filtering</b></td><td>Blocks lookups of malicious or unwanted domains</td></tr>
     </tbody></table></div>
   <div class="callout detail">SPF says <i>who</i> may send, DKIM proves the message <i>wasn't changed</i> and came from the domain's key, and DMARC tells receivers <i>what to do</i> when SPF/DKIM checks fail (and requires alignment with the visible From domain).</div>
 </section>
@@ -148,7 +148,7 @@
     <svg viewBox="0 0 740 170" width="740" role="img" aria-label="NIST SP 800-61 incident response lifecycle: preparation, detection and analysis, containment eradication and recovery, post-incident activity, with a loop back">
       <g id="ir-fig"></g>
     </svg>
-    <figcaption>NIST SP 800-61 lifecycle. Containment, eradication and recovery often loop as you learn more. (Rev. 3, 2025, reorganizes this around the NIST CSF 2.0 functions; exams still use these phases. Verify for your exam version.)</figcaption>
+    <figcaption>NIST SP 800-61 lifecycle. Containment, eradication and recovery often loop as you learn more. (Rev. 3, 2025, reorganizes this around the NIST CSF (Cybersecurity Framework) 2.0 functions; exams still use these phases. Verify for your exam version.)</figcaption>
   </figure>
   <ul>
     <li><b>Preparation</b>: IR plan, team and contacts, tools, playbooks, training and <b>tabletop exercises</b> (discussion-based walkthroughs) and simulations.</li>
@@ -159,8 +159,8 @@
   <h3>Digital forensics</h3>
   <div class="grid2">
     <div class="tile"><h4>Order of volatility (collect most volatile first)</h4><ol>
-      <li>CPU registers and cache</li><li>Routing table, ARP cache, process table, kernel stats, RAM</li><li>Temporary file systems / swap</li><li>Disk</li><li>Remote logging and monitoring data</li><li>Physical configuration, network topology</li><li>Archival media (backups)</li>
-    </ol><p class="figcap">From RFC 3227.</p></div>
+      <li>CPU (Central Processing Unit) registers and cache</li><li>Routing table, ARP (Address Resolution Protocol) cache, process table, kernel stats, RAM (Random Access Memory)</li><li>Temporary file systems / swap</li><li>Disk</li><li>Remote logging and monitoring data</li><li>Physical configuration, network topology</li><li>Archival media (backups)</li>
+    </ol><p class="figcap">From RFC (Request for Comments) 3227.</p></div>
     <div class="tile"><h4>Preserve the evidence</h4><ul>
       <li><b>Chain of custody</b>: documented record of who handled the evidence, when and why.</li>
       <li><b>Legal hold</b>: instruction to preserve relevant data; overrides normal deletion.</li>
@@ -194,10 +194,10 @@
   <div class="grid2">
     <div class="tile"><h4>Document hierarchy</h4><ul>
       <li><b>Policy</b>: high-level management intent ("all data must be classified"). Mandatory.</li>
-      <li><b>Standard</b>: specific mandatory requirements ("AES-256 for data at rest").</li>
+      <li><b>Standard</b>: specific mandatory requirements ("AES-256 (Advanced Encryption Standard) for data at rest").</li>
       <li><b>Procedure</b>: step-by-step instructions.</li>
       <li><b>Guideline</b>: recommended, optional advice.</li>
-    </ul><p>Common policies: AUP, information security, BC/DR, incident response, SDLC, change management.</p></div>
+    </ul><p>Common policies: AUP (Acceptable Use Policy), information security, BC/DR, incident response, SDLC (System Development Life Cycle), change management.</p></div>
     <div class="tile"><h4>Risk management</h4><ul>
       <li><b>Risk = likelihood × impact</b>. Qualitative (high/medium/low) or quantitative: <b>SLE</b> = asset value × exposure factor; <b>ARO</b> = yearly occurrences; <b>ALE</b> = SLE × ARO.</li>
       <li><b>Risk register</b>: list of risks, owners, scores, treatments, status.</li>
@@ -207,11 +207,11 @@
     </ul></div>
     <div class="tile"><h4>Third parties and compliance</h4><ul>
       <li>Vendor assessment: right-to-audit clauses, questionnaires, independent assessments, supply chain analysis, monitoring.</li>
-      <li>Agreements: SLA, MOA/MOU, MSA, SOW, NDA, BPA.</li>
+      <li>Agreements: SLA (Service Level Agreement), MOA/MOU (MOA: Memorandum of Agreement; MOU: Memorandum of Understanding), MSA (Master Service Agreement), SOW (Statement of Work), NDA (Non-Disclosure Agreement), BPA (Blanket Purchase Agreement).</li>
       <li>Compliance: reporting, consequences (fines, sanctions, loss of licence), attestation, audits (internal and external).</li>
     </ul></div>
     <div class="tile"><h4>Privacy and people</h4><ul>
-      <li>Privacy law in general terms: GDPR (EU) defines <b>data subjects</b>, <b>controllers</b> (decide purpose) and <b>processors</b> (process on the controller's behalf), and the right to be forgotten. Many other national and state laws exist (verify which apply to you).</li>
+      <li>Privacy law in general terms: GDPR (General Data Protection Regulation; EU (European Union)) defines <b>data subjects</b>, <b>controllers</b> (decide purpose) and <b>processors</b> (process on the controller's behalf), and the right to be forgotten. Many other national and state laws exist (verify which apply to you).</li>
       <li>Security awareness training: phishing campaigns, anomalous behavior recognition, reporting, measuring results.</li>
     </ul></div>
   </div>
@@ -231,7 +231,7 @@
 
   <div class="lab-card" id="lab-seg" data-lab="Network Segmentation Designer: place servers into DMZ, internal and management zones, then run simulated attacks and see how far each gets.">
     <h3>Lab 2: Network Segmentation Designer</h3>
-    <p class="figcap">Drag each system into a zone (or tap a system, then tap a zone). The firewall policy is fixed: <b>internet → DMZ</b> on public ports only; <b>DMZ → internal</b> only for the web app's database queries; <b>internal users → management</b> only through the jump server with MFA. Then launch an attack.</p>
+    <p class="figcap">Drag each system into a zone (or tap a system, then tap a zone). The firewall policy is fixed: <b>internet → DMZ</b> on public ports only; <b>DMZ → internal</b> only for the web app's database queries; <b>internal users → management</b> only through the jump server with MFA (Multifactor Authentication). Then launch an attack.</p>
     <div class="dropzone" id="sg-bank"><span class="zone-title">Unplaced systems</span></div>
     <div class="zones4">
       <div class="dropzone" data-zone="dmz"><span class="zone-title">Screened subnet (DMZ)</span></div>
