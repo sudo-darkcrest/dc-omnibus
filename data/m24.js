@@ -9,7 +9,10 @@ OMNI.register({
     { c: "ITIL", o: "ITIL 4 Foundation: all 7 syllabus areas, Module 19 and the ITIL bank (ITIL Version 5 Foundation launched Feb 2026, verify which you book)" },
     { c: "DCCA", o: "EPI DCCA: Module 18 and the DCCA bank (verify syllabus with EPI)" },
     { c: "CISM", o: "CISM 2022 job practice: all 4 domains, Modules 16, 20, 21 and the CISM bank" },
-    { c: "CISA", o: "CISA 2024 job practice: all 5 domains, Modules 20, 22 and the CISA bank" }
+    { c: "CISA", o: "CISA 2024 job practice: all 5 domains, Modules 20, 22 and the CISA bank" },
+    { c: "CLF", o: "AWS CLF-C02: all 4 domains, Modules 17, 25 and the AWS bank" },
+    { c: "AIF", o: "AWS AIF-C01: all 5 domains, Module 26 and the AI bank" },
+    { c: "CYSA", o: "CompTIA CS0-003: all 4 domains, Modules 15, 16, 27 and the CySA+ bank" }
   ],
   glossary: [
     ["Exam objectives", "The official list of what an exam can ask.", "A vendor-published document listing the domains, objectives and sub-topics an exam covers; the best checklist for study.", ""],

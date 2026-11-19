@@ -117,7 +117,7 @@
 
   <div class="lab-card" id="lab-roadmap" data-lab="Certification Roadmap: a clickable map of a common certification order from A+ to CISM and CISA.">
     <h3>Lab 3: Certification Roadmap</h3>
-    <div class="stage"><svg id="road-svg" viewBox="0 0 760 290" width="760" role="group" aria-label="Certification roadmap. Each box links to its module."></svg></div>
+    <div class="stage"><svg id="road-svg" viewBox="0 0 760 395" width="760" role="group" aria-label="Certification roadmap. Each box links to its module."></svg></div>
     <div class="caption" id="road-cap" aria-live="polite"></div>
   </div>
 
@@ -181,11 +181,12 @@
     <li><a href="https://www.peoplecert.org/browse-certifications/it-governance-and-service-management/ITIL-1" rel="noopener">PeopleCert ITIL certifications</a></li>
     <li><a href="https://www.epi-ap.com/" rel="noopener">EPI (DCCA)</a></li>
     <li><a href="https://www.isaca.org/credentialing/cism" rel="noopener">ISACA CISM</a> · <a href="https://www.isaca.org/credentialing/cisa" rel="noopener">ISACA CISA</a> · <a href="https://www.isaca.org/credentialing/exam-candidate-guide" rel="noopener">ISACA exam candidate guide</a></li>
+    <li><a href="https://aws.amazon.com/certification/" rel="noopener">AWS certifications</a> · <a href="https://www.comptia.org/en-us/certifications/cybersecurity-analyst/" rel="noopener">CompTIA CySA+</a></li>
     <li><a href="https://home.pearsonvue.com/" rel="noopener">Pearson VUE (test centers and OnVUE online testing)</a></li>
   </ul>
 </section>
 </main>
-<footer class="foot">Datacenter Omnibus · Original study material. Not affiliated with or endorsed by CompTIA, PeopleCert, AXELOS, EPI, ISACA or any test provider.</footer>
+<footer class="foot">Datacenter Omnibus · Original study material. Not affiliated with or endorsed by CompTIA, PeopleCert, AXELOS, EPI, ISACA, AWS or any test provider.</footer>
 
 <script src="data/catalog.js"></script>
 <script src="assets/omnibus.js"></script>
@@ -213,6 +214,9 @@
 <script src="data/m22.js"></script>
 <script src="data/m23.js"></script>
 <script src="data/m24.js"></script>
+<script src="data/m25.js"></script>
+<script src="data/m26.js"></script>
+<script src="data/m27.js"></script>
 <script src="data/bank-aplus.js"></script>
 <script src="data/bank-netplus.js"></script>
 <script src="data/bank-secplus.js"></script>
@@ -220,6 +224,9 @@
 <script src="data/bank-itil.js"></script>
 <script src="data/bank-cism.js"></script>
 <script src="data/bank-cisa.js"></script>
+<script src="data/bank-aws.js"></script>
+<script src="data/bank-ai.js"></script>
+<script src="data/bank-cysa.js"></script>
 <script src="assets/hub.js"></script>
 <script>
 (function () {
@@ -277,7 +284,7 @@
   });
 
   OMNI.roadmap("road-svg");
-  OMNI.say("road-cap", "A common path is A+ → Network+ → Security+, then branch: DCCA for data center operations, ITIL 4 for service management, CISM for security management, CISA for audit. Click a box to open its module.");
+  OMNI.say("road-cap", "A common path is A+ → Network+ → Security+, then branch: DCCA for data center operations, ITIL 4 for service management, CISM for security management, CISA for audit. AWS Cloud Practitioner, AWS AI Practitioner and CySA+ are strong extra steps for cloud, AI and SOC careers. Click a box to open its module.");
 
   OMNI.examEngine("exam-host");
   OMNI.say("exam-cap", "Pick a cert and length, then press <b>Start exam</b>. When you submit, the report scores each domain and links weak domains back to their modules. Results are kept in this browser so you can watch your trend.");

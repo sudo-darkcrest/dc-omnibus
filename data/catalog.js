@@ -6,7 +6,8 @@ OMNI.parts = [
   { n: 3, name: "Networking and Fiber" },
   { n: 4, name: "Security, Cloud and Data Center" },
   { n: 5, name: "Service, Governance and Audit" },
-  { n: 6, name: "Standards and Study Tools" }
+  { n: 6, name: "Standards and Study Tools" },
+  { n: 7, name: "Cloud, AI and Cyber Careers" }
 ];
 /* cat: hw (blue), net (green), sec (red), gov (purple), dc (orange), gen (gray) */
 OMNI.catalog = [
@@ -24,16 +25,19 @@ OMNI.catalog = [
   { n: 12, part: 3, cat: "net", title: "Switches, Routers and Services", sub: "Switching, routing and the services that run networks", certs: ["N"] },
   { n: 13, part: 3, cat: "net", title: "Wireless, Cellular and Operations", sub: "Radio, Wi-Fi and keeping networks healthy", certs: ["N", "A1", "S"] },
   { n: 14, part: 4, cat: "sec", title: "Security Foundations and Cryptography", sub: "Principles, identity and crypto", certs: ["S"] },
-  { n: 15, part: 4, cat: "sec", title: "Know the Enemy", sub: "Threats, attacks and vulnerabilities", certs: ["S"] },
-  { n: 16, part: 4, cat: "sec", title: "Defending the Organization", sub: "Architecture, operations and incident response", certs: ["S"] },
-  { n: 17, part: 4, cat: "hw",  title: "Cloud, Containers and Storage", sub: "Virtualization, cloud models and storage", certs: ["N", "S", "A1", "DCCA"] },
+  { n: 15, part: 4, cat: "sec", title: "Know the Enemy", sub: "Threats, attacks and vulnerabilities", certs: ["S", "CYSA"] },
+  { n: 16, part: 4, cat: "sec", title: "Defending the Organization", sub: "Architecture, operations and incident response", certs: ["S", "CYSA"] },
+  { n: 17, part: 4, cat: "hw",  title: "Cloud, Containers and Storage", sub: "Virtualization, cloud models and storage", certs: ["N", "S", "A1", "DCCA", "CLF"] },
   { n: 18, part: 4, cat: "dc",  title: "The Data Center", sub: "Power, cooling, space, cabling and safety", certs: ["DCCA", "N", "S"] },
   { n: 19, part: 5, cat: "gov", title: "Running IT as a Service", sub: "ITIL 4 Foundation", certs: ["ITIL"] },
   { n: 20, part: 5, cat: "gov", title: "Frameworks That Run the Enterprise", sub: "Governance, risk and compliance", certs: ["S", "CISM", "CISA"] },
   { n: 21, part: 5, cat: "gov", title: "Leading Security", sub: "Information security management (CISM)", certs: ["CISM"] },
   { n: 22, part: 5, cat: "gov", title: "Checking the System", sub: "Information systems auditing (CISA)", certs: ["CISA"] },
   { n: 23, part: 6, cat: "gen", title: "Who Sets the Rules", sub: "Technology standards and standards bodies", certs: ["GEN", "N", "DCCA"] },
-  { n: 24, part: 6, cat: "gen", title: "Study Hub", sub: "Plans, crosswalk and practice exams", certs: ["A1", "A2", "N", "S", "ITIL", "DCCA", "CISM", "CISA"] }
+  { n: 24, part: 6, cat: "gen", title: "Study Hub", sub: "Plans, crosswalk and practice exams", certs: ["A1", "A2", "N", "S", "ITIL", "DCCA", "CISM", "CISA", "CLF", "AIF", "CYSA"] },
+  { n: 25, part: 7, cat: "dc",  title: "Amazon Web Services", sub: "AWS cloud, core services, pricing and AWS certifications", certs: ["CLF"] },
+  { n: 26, part: 7, cat: "gen", title: "Artificial Intelligence", sub: "How AI works, what it can and can't do, and where it might lead", certs: ["AIF", "GEN"] },
+  { n: 27, part: 7, cat: "sec", title: "Cyber Security Careers", sub: "SOC work, attack frameworks and the security certification landscape", certs: ["CYSA", "S"] }
 ];
 /* Certs, exam codes and domains used for tagging and domain scoring.
    Exam codes and weights as published at time of writing (Nov 2026). Always verify on the vendor site. */
@@ -54,8 +58,14 @@ OMNI.certs = {
           domains: { "1": "Information Security Governance", "2": "Information Security Risk Management", "3": "Information Security Program", "4": "Incident Management" } },
   CISA: { name: "CISA", code: "CISA 2024 JP", vendor: "ISACA", url: "https://www.isaca.org/credentialing/cisa",
           domains: { "1": "Information System Auditing Process", "2": "Governance and Management of IT", "3": "IS Acquisition, Development and Implementation", "4": "IS Operations and Business Resilience", "5": "Protection of Information Assets" } },
+  CLF:  { name: "AWS Cloud Practitioner", code: "CLF-C02", vendor: "AWS", url: "https://aws.amazon.com/certification/certified-cloud-practitioner/",
+          domains: { "1": "Cloud Concepts", "2": "Security and Compliance", "3": "Cloud Technology and Services", "4": "Billing, Pricing, and Support" } },
+  AIF:  { name: "AWS AI Practitioner", code: "AIF-C01", vendor: "AWS", url: "https://aws.amazon.com/certification/certified-ai-practitioner/",
+          domains: { "1": "Fundamentals of AI and ML", "2": "Fundamentals of Generative AI", "3": "Applications of Foundation Models", "4": "Guidelines for Responsible AI", "5": "Security, Compliance, and Governance for AI Solutions" } },
+  CYSA: { name: "CySA+", code: "CS0-003", vendor: "CompTIA", url: "https://www.comptia.org/en-us/certifications/cybersecurity-analyst/",
+          domains: { "1": "Security Operations", "2": "Vulnerability Management", "3": "Incident Response and Management", "4": "Reporting and Communication" } },
   GEN:  { name: "General", code: "All certs", vendor: "", url: "", domains: { "0": "General knowledge" } }
 };
-OMNI.certOrder = ["A1", "A2", "N", "S", "ITIL", "DCCA", "CISM", "CISA", "GEN"];
+OMNI.certOrder = ["A1", "A2", "N", "S", "ITIL", "DCCA", "CISM", "CISA", "CLF", "AIF", "CYSA", "GEN"];
 OMNI.pad = function (n) { return (n < 10 ? "0" : "") + n; };
 OMNI.file = function (n) { return "module-" + OMNI.pad(n) + ".html"; };
