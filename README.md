@@ -1,6 +1,6 @@
 # Datacenter Omnibus
 
-An interactive study site for IT, networking, data centers, security, service management and audit. It has 30 modules with diagrams, interactive labs, quizzes and flashcards, and covers:
+An interactive study site for IT, networking, data centers, security, service management and audit. It has 38 modules with diagrams, interactive labs, quizzes and flashcards, and covers:
 
 - CompTIA A+ (220-1201 / 220-1202)
 - CompTIA Network+ (N10-009)
@@ -12,7 +12,13 @@ An interactive study site for IT, networking, data centers, security, service ma
 - CompTIA CySA+ (CS0-003)
 - CompTIA PenTest+ (PT0-003), concepts and ethics
 - Cisco CCNA (200-301)
-- Microsoft Azure Fundamentals (AZ-900)
+- Microsoft Azure Fundamentals (AZ-900), Azure Administrator (AZ-104), Microsoft 365 Administrator (MS-102)
+- Cisco CCNP Security (SCOR 350-701) and the CCIE track
+- ISC2 CISSP and CCSP
+- AWS Solutions Architect Associate, Developer Associate, Security Specialty
+- Google Associate Cloud Engineer and Professional Cloud Architect
+- Nutanix NCP-MCI (virtualization and hyperconverged infrastructure)
+- ISACA CRISC, CGEIT and CDPSE; IAPP CIPP and CIPM (privacy)
 - AWS Certified Cloud Practitioner (CLF-C02)
 - AWS Certified AI Practitioner (AIF-C01)
 
@@ -30,8 +36,8 @@ That's it. You don't need a server, a build step or an internet connection. Ever
 | Page | What it does |
 |---|---|
 | `index.html` | Home page: search everything, module cards by part, cert filter, your progress |
-| `module-01.html` … `module-29.html` | The 29 learning modules. Each has lessons, labs, key terms, memory aids, a quiz, flashcards and official links |
-| `module-30.html` | Study Hub: cert crosswalk, study plan generator, roadmap, practice exams, combined flashcards, exam-day tips |
+| `module-01.html` … `module-37.html` | The 37 learning modules. Each has lessons, labs, key terms, memory aids, a quiz, flashcards and official links |
+| `module-38.html` | Study Hub: cert crosswalk, study plan generator, roadmap, practice exams, combined flashcards, exam-day tips |
 | `glossary.html` | Every key term from every module, with a cert filter and A–Z jump |
 | `practice-exams.html` | Timed practice exams for every cert, scored by domain |
 | `flashcards.html` | One Leitner flashcard deck with every module's cards |
@@ -43,11 +49,11 @@ Folder layout:
 assets/omnibus.css   shared styles (light and dark mode, phone layout)
 assets/omnibus.js    shared engine: quiz, flashcards, glossary, labs helpers, progress
 assets/hub.js        study hub tools: exam engine, crosswalk, study plan, roadmap
-assets/labkit.js     reusable sorter and scenario-trainer labs (Modules 14, 18, 19, 21, 22 and 24)
+assets/labkit.js     reusable sorter and scenario-trainer labs (used by most modules added after the first release)
 assets/pcsim.js      whole-computer simulator (Module 4, Lab 5)
 data/catalog.js      list of modules, parts and certs (every page loads this first)
 data/mNN.js          one file per module: cert map, glossary, quiz, flashcards
-data/bank-*.js       extra practice exam questions (A+, Network+, Security+, DCCA, ITIL, CISM, CISA, AWS, AI, CySA+, CCNA, AZ-900, PenTest+)
+data/bank-*.js       extra practice exam questions (A+, Network+, Security+, DCCA, ITIL, CISM, CISA, AWS, AI, CySA+, CCNA, AZ-900, PenTest+, CCNP Security, CISSP, AWS SAA, AZ-104, Google ACE, CRISC, privacy)
 data/search-index.js generated list of headings and labs (made by tools/build.js)
 tools/build.js       optional helper, see below
 tools/acronyms.js    spells out acronyms on first use (see below)
@@ -78,13 +84,13 @@ It's a plain static site, so any static host works. Pick one.
 
 ## Add or change a module
 
-1. **Write the data.** Copy an existing `data/mNN.js` (for example `data/m29.js`) to the new number. Fill in `certmap`, `glossary` (each term is `[term, plain meaning, exact definition, expansion]`), `quiz` and `flashcards`.
+1. **Write the data.** Copy an existing `data/mNN.js` (for example `data/m37.js`) to the new number. Fill in `certmap`, `glossary` (each term is `[term, plain meaning, exact definition, expansion]`), `quiz` and `flashcards`.
    - Quiz questions look like `{ t: "mc", q: "...", o: [options], a: 1, w: [why each option], x: "explanation", c: "N", d: "2.3 Objective" }`.
    - `t` can be `mc` (one answer), `ms` (select all, `a` is a list) or `order` (list `o` in the correct order). Add `sc: "..."` for a scenario.
    - `c` is the cert key (`A1`, `A2`, `N`, `S`, `ITIL`, `DCCA`, `CISM`, `CISA` or `GEN`). The first number of `d` is the exam domain.
 2. **Write the page.** Copy an existing `module-NN.html`, change `data-module="NN"` on `<body>`, the text and the labs, and load `data/mNN.js`. Wrap each lab in `<div class="lab-card" id="lab-..." data-lab="short description"><h3>Lab title</h3> ... </div>` so it appears on the Labs page.
 3. **Add it to the catalog.** Add a line to `OMNI.catalog` in `data/catalog.js` with its number, part, color category, title, subtitle and certs.
-4. **Load it on the hub pages.** Add `<script src="data/mNN.js"></script>` to `index.html`, `module-30.html`, `glossary.html`, `practice-exams.html`, `flashcards.html` and `labs.html`.
+4. **Load it on the hub pages.** Add `<script src="data/mNN.js"></script>` to `index.html`, `module-38.html`, `glossary.html`, `practice-exams.html`, `flashcards.html` and `labs.html`.
 5. **Run the build helper** (needs Node.js):
 
    ```

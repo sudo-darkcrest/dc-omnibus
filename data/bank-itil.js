@@ -1,4 +1,4 @@
-/* Extra ITIL 4 Foundation-style questions (multiple choice only) used by the Module 25 practice exam and the Study Hub.
+/* Extra ITIL 4 Foundation-style questions (multiple choice only) used by the Module 31 practice exam and the Study Hub.
    Domains follow this site's grouping of the PeopleCert ITIL 4 Foundation syllabus; verify the current syllabus on peoplecert.org. */
 OMNI.registerBank("itil", [
   /* 1 Key concepts */

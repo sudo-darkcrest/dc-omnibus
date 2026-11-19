@@ -1,0 +1,212 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Module 33 · Data Privacy | Datacenter Omnibus</title>
+<meta name="description" content="Data privacy for CIPP, CIPM and CDPSE: personal data, FIPPs, privacy by design, GDPR principles, lawful bases, rights, DPIAs, 72-hour breach notification and transfers, US sector laws and state laws, running a privacy program, and privacy engineering techniques such as pseudonymisation and anonymisation.">
+<link rel="stylesheet" href="assets/omnibus.css">
+<style>
+  .chip.ok { border-color: var(--good); background: var(--good-soft); }
+  .chip.bad { border-color: var(--bad); background: var(--bad-soft); }
+</style>
+</head>
+<body data-module="33">
+<a class="skip" href="#main">Skip to content</a>
+<div id="topbar"></div>
+<main class="page" id="main">
+
+<section class="intro">
+  <div class="kicker">Part 6 · Service, Governance and Audit · Module 33</div>
+  <h1>Data Privacy</h1>
+  <p class="why"><b>Why this matters.</b> Privacy laws now cover most people on Earth, and organisations need people who understand both the law and the technology. Three privacy certifications appear on the top-paying list. This module explains what privacy is, how the major laws work, how a privacy program runs, and how engineers build privacy into systems.</p>
+  <h3>You will be able to</h3>
+  <ul class="outcomes">
+    <li>Compare the CIPP, CIPM and CDPSE certifications.</li>
+    <li>Explain personal data, sensitive data, FIPPs and privacy by design.</li>
+    <li>Describe GDPR (General Data Protection Regulation) principles, lawful bases, rights, breach rules and transfer mechanisms.</li>
+    <li>Summarize US sector and state privacy laws and other major regimes.</li>
+    <li>Outline a privacy program and choose privacy engineering techniques such as minimisation, pseudonymisation and anonymisation.</li>
+  </ul>
+  <nav class="jumpnav" id="jumpnav" aria-label="On this page"></nav>
+</section>
+
+<section class="certmap" id="certmap">
+  <h2>Cert map</h2>
+  <div id="certmap-badges"></div>
+</section>
+
+<section class="lesson" id="intro">
+  <h2>1. Privacy as a career and the three certifications</h2>
+  <p>Security protects data from attackers. <b>Privacy</b> is about whether an organisation should collect, use and share personal data at all, and on what terms. Privacy laws now cover most of the world's population, and three privacy certifications are on the top-paying list.</p>
+  <div class="tablewrap"><table><thead><tr><th>Certification</th><th>From</th><th>Focus</th><th>Format (verify)</th></tr></thead><tbody>
+    <tr><td><b>CIPP</b> (Certified Information Privacy Professional)</td><td>IAPP</td><td>Privacy <b>law</b> for a region: CIPP/E (Europe), CIPP/US, CIPP/C (Canada), CIPP/A (Asia)</td><td>About 90 questions, 2.5 hours; no experience requirement</td></tr>
+    <tr><td><b>CIPM</b> (Certified Information Privacy Manager)</td><td>IAPP</td><td>Running a privacy <b>program</b></td><td>About 90 questions, 2.5 hours</td></tr>
+    <tr><td><b>CDPSE</b> (Certified Data Privacy Solutions Engineer)</td><td>ISACA (Information Systems Audit and Control Association)</td><td>Privacy <b>engineering</b>: building privacy into systems</td><td>120 questions, 3.5 hours; several years of relevant experience to certify</td></tr>
+  </tbody></table></div>
+  <p>IAPP (the International Association of Privacy Professionals) also offers CIPT (technology). IAPP certifications need 20 continuing education credits every two years.</p>
+  <p class="figcap">Laws and exam outlines change frequently. This module is a study guide, not legal advice.</p>
+</section>
+
+<section class="lesson" id="concepts">
+  <h2>2. Core privacy concepts</h2>
+  <ul>
+    <li><b>Personal data / PII</b> (personally identifiable information): any information about an identified or identifiable person: name, email, IP (Internet Protocol) address, location, device IDs.</li>
+    <li><b>Sensitive (special category) data</b>: health, biometrics, genetics, religion, sexual orientation, political opinions and similar. Stricter rules apply.</li>
+    <li><b>Fair Information Practice Principles (FIPPs)</b> and the <b>OECD Privacy Guidelines</b>: collection limitation, data quality, purpose specification, use limitation, security safeguards, openness, individual participation and accountability. Most modern laws build on them.</li>
+    <li><b>Privacy by design</b> (Ann Cavoukian's seven principles): proactive not reactive; privacy as the default; embedded into design; full functionality (positive-sum); end-to-end security; visibility and transparency; respect for user privacy.</li>
+    <li><b>Notice and choice</b>: tell people what you do and give real choices. <b>Consent</b> must be informed and, under many laws, freely given and as easy to withdraw as to give.</li>
+  </ul>
+  <div class="callout analogy"><b>Analogy.</b> Security is the lock on the filing cabinet. Privacy asks whether that file should exist, who may read it, for what purpose, and when it must be shredded.</div>
+</section>
+
+<section class="lesson" id="gdpr">
+  <h2>3. Europe: the GDPR (CIPP/E)</h2>
+  <p>The EU (European Union)'s <b>General Data Protection Regulation</b> (GDPR, applied since May 2018) is the most influential privacy law. It applies to organisations in the EU and to those outside it that offer goods or services to, or monitor, people in the EU. The UK has its own almost identical UK GDPR.</p>
+  <h3>Principles (Article 5)</h3>
+  <p>Lawfulness, fairness and transparency; purpose limitation; data minimisation; accuracy; storage limitation; integrity and confidentiality; and <b>accountability</b> (you must be able to prove compliance).</p>
+  <h3>Six lawful bases (Article 6)</h3>
+  <p>Consent; contract; legal obligation; vital interests; public task; and legitimate interests (balanced against the person's rights).</p>
+  <h3>Individuals' rights</h3>
+  <p>To be informed; access; rectification; erasure ("right to be forgotten"); restriction; data portability; objection; and rights around automated decision-making. Organisations normally respond within one month.</p>
+  <h3>Obligations</h3>
+  <ul>
+    <li><b>Controller</b> decides purposes and means; <b>processor</b> acts on instructions under a written contract.</li>
+    <li><b>Data protection officer (DPO)</b> required for public bodies and large-scale monitoring or sensitive processing.</li>
+    <li><b>DPIA</b> (data protection impact assessment) for high-risk processing.</li>
+    <li><b>Records of processing activities</b>.</li>
+    <li><b>Breach notification</b> to the supervisory authority within <b>72 hours</b> of becoming aware, and to individuals when risk is high.</li>
+    <li><b>International transfers</b> need an adequacy decision (such as the EU-US Data Privacy Framework for certified US companies), standard contractual clauses or binding corporate rules.</li>
+    <li>Fines up to <b>€20 million or 4% of global annual turnover</b>, whichever is higher.</li>
+  </ul>
+</section>
+
+<section class="lesson" id="us">
+  <h2>4. The United States and the rest of the world (CIPP/US)</h2>
+  <p>The US has no single federal privacy law. Instead it has <b>sector laws</b>, a federal regulator, and fast-growing state laws.</p>
+  <div class="tablewrap"><table><thead><tr><th>Law</th><th>Covers</th></tr></thead><tbody>
+    <tr><td>HIPAA (Health Insurance Portability and Accountability Act)</td><td>Health information held by providers, insurers and their business associates</td></tr>
+    <tr><td>GLBA (Gramm-Leach-Bliley Act)</td><td>Financial institutions' customer data</td></tr>
+    <tr><td>COPPA</td><td>Online data from children under 13</td></tr>
+    <tr><td>FERPA</td><td>Student education records</td></tr>
+    <tr><td>FCRA</td><td>Consumer credit reports</td></tr>
+    <tr><td>FTC Act Section 5</td><td>The Federal Trade Commission acts against unfair or deceptive practices, including broken privacy promises</td></tr>
+    <tr><td>State laws</td><td>California's CCPA (California Consumer Privacy Act) as amended by the CPRA (California Privacy Rights Act), and comprehensive laws in many other states; plus breach notification laws in every state</td></tr>
+  </tbody></table></div>
+  <p>Elsewhere: Canada's <b>PIPEDA (Personal Information Protection and Electronic Documents Act)</b>, Brazil's <b>LGPD (Lei Geral de Proteção de Dados, Brazil's data protection law)</b>, China's <b>PIPL</b>, India's <b>Digital Personal Data Protection Act</b> (2023) and many more. Most share GDPR-like principles but differ in details such as consent, data localisation and penalties.</p>
+  <div class="callout trap"><b>Exam trap.</b> HIPAA doesn't cover all health data, only data held by covered entities and their business associates. A fitness app selling direct to consumers is usually outside HIPAA (though the FTC and state laws may apply).</div>
+</section>
+
+<section class="lesson" id="program">
+  <h2>5. Running a privacy program (CIPM)</h2>
+  <ol>
+    <li><b>Vision and governance</b>: executive sponsor, privacy office, DPO or chief privacy officer, and a framework (for example the NIST (National Institute of Standards and Technology) Privacy Framework or ISO/IEC (ISO: International Organization for Standardization; IEC: International Electrotechnical Commission) 27701).</li>
+    <li><b>Know your data</b>: a <b>data inventory and data map</b> showing what personal data you hold, where, why, who accesses it, and where it flows (including vendors and other countries).</li>
+    <li><b>Policies</b>: privacy notice, internal privacy policy, retention schedule, acceptable use.</li>
+    <li><b>Assess</b>: <b>PIAs/DPIAs</b> for new projects, vendor assessments and gap analyses against laws.</li>
+    <li><b>Protect</b>: work with security on controls; privacy by design in the development life cycle.</li>
+    <li><b>Train</b> staff by role.</li>
+    <li><b>Respond</b>: handle data subject requests on time; run a breach response plan with legal, security and communications.</li>
+    <li><b>Sustain</b>: metrics (request volumes and times, PIA completion, training rates), audits and continuous improvement.</li>
+  </ol>
+  <div class="callout tip">The data inventory is the foundation. You can't answer an access request, assess a breach or prove compliance without knowing where personal data lives.</div>
+</section>
+
+<section class="lesson" id="eng">
+  <h2>6. Privacy engineering (CDPSE)</h2>
+  <div class="tablewrap"><table><thead><tr><th>Technique</th><th>What it does</th><th>Still personal data?</th></tr></thead><tbody>
+    <tr><td>Data minimisation</td><td>Collect and keep only what the purpose needs</td><td>N/A: less data to protect</td></tr>
+    <tr><td>Pseudonymisation</td><td>Replace identifiers with codes; the key is kept separately</td><td>Yes, because it can be re-identified with the key</td></tr>
+    <tr><td>Anonymisation</td><td>Irreversibly remove the ability to identify anyone</td><td>No, if truly irreversible (hard to achieve)</td></tr>
+    <tr><td>Tokenisation</td><td>Swap a value (such as a card number) for a meaningless token</td><td>Depends who holds the vault</td></tr>
+    <tr><td>Encryption</td><td>Makes data unreadable without the key</td><td>Yes, but a breach of encrypted data may not need notification</td></tr>
+    <tr><td>Aggregation, k-anonymity, differential privacy</td><td>Share statistics while limiting what can be learned about any one person</td><td>Designed to prevent identification</td></tr>
+  </tbody></table></div>
+  <ul>
+    <li><b>Data lifecycle</b> (CDPSE domain 3): collection, use, storage, sharing, retention and secure deletion. Automate deletion when retention ends.</li>
+    <li><b>Consent and preference management</b> systems record what each person agreed to.</li>
+    <li><b>Privacy architecture</b> (domain 2): access controls, logging, segregation of environments (no real personal data in testing), secure APIs (Application Programming Interface) and privacy-enhancing technologies.</li>
+    <li><b>AI (Artificial Intelligence) and privacy</b>: training data, purpose limits, transparency about automated decisions, and new laws such as the EU AI Act (Module 30).</li>
+  </ul>
+</section>
+
+<section class="lesson" id="path">
+  <h2>7. Getting into privacy</h2>
+  <ul>
+    <li>People arrive from law, compliance, security and IT (Information Technology). Technical people with privacy knowledge are especially scarce.</li>
+    <li>A common route: CIPP for your region (law), then CIPM (program) or CDPSE/CIPT (technology).</li>
+    <li>Pair it with security knowledge (Modules 16 to 18 and 20) and governance (Modules 32 and 34 to 36).</li>
+    <li>Follow your regulator's guidance (for example the European Data Protection Board, the UK Information Commissioner's Office or the US FTC); they publish practical examples.</li>
+  </ul>
+</section>
+
+<section class="lab" id="labs">
+  <h2>Interactive labs</h2>
+
+  <div class="lab-card" id="lab-base" data-lab="Which Lawful Basis: pick the GDPR lawful basis that fits each processing example.">
+    <h3>Lab 1: Which Lawful Basis?</h3>
+    <div id="lab-base-host"></div>
+    <div class="caption" id="lab-base-cap" aria-live="polite"></div>
+  </div>
+
+  <div class="lab-card" id="lab-law" data-lab="Privacy Map: sort privacy rules and practices into GDPR, US law, privacy program and privacy engineering.">
+    <h3>Lab 2: Privacy Map</h3>
+    <div id="lab-law-host"></div>
+    <div class="caption" id="lab-law-cap" aria-live="polite"></div>
+  </div>
+</section>
+
+<section class="glossary" id="glossary">
+  <h2>Key terms</h2>
+  <div id="glossary-list"></div>
+</section>
+
+<section class="memory" id="memory">
+  <h2>Memory aids</h2>
+  <div class="mnemonic">GDPR lawful bases: <b>"CCLVPL"</b>: Consent, Contract, Legal obligation, Vital interests, Public task, Legitimate interests.</div>
+  <div class="mnemonic">GDPR numbers: <b>72 hours</b> to notify the regulator; <b>1 month</b> to answer requests; <b>4% or €20 million</b> maximum fine.</div>
+  <div class="mnemonic">Pseudonymised = <b>still personal</b> (key exists). Anonymised = <b>not personal</b> (no way back).</div>
+  <div class="tablewrap"><table><thead><tr><th>Trap</th><th>Why it is wrong</th></tr></thead><tbody>
+    <tr><td>"Consent is always the best lawful basis."</td><td>Often another basis fits better; consent can be withdrawn.</td></tr>
+    <tr><td>"HIPAA covers all health data."</td><td>Only covered entities and business associates.</td></tr>
+    <tr><td>"Hashed emails are anonymous."</td><td>They can often be re-identified; treat as pseudonymous.</td></tr>
+  </tbody></table></div>
+</section>
+
+<section class="quiz" id="quiz">
+  <h2>Knowledge check</h2>
+  <div id="quiz-area"></div>
+</section>
+
+<section class="flashcards" id="flashcards">
+  <h2>Flashcards</h2>
+  <div id="deck-area"></div>
+</section>
+
+<section class="deeper" id="deeper">
+  <h2>Go deeper (official sources)</h2>
+  <ul>
+    <li><a href="https://iapp.org/certify/" rel="noopener">IAPP certifications (CIPP, CIPM, CIPT)</a></li>
+    <li><a href="https://www.isaca.org/credentialing/cdpse" rel="noopener">ISACA CDPSE</a></li>
+    <li><a href="https://eur-lex.europa.eu/eli/reg/2016/679/oj" rel="noopener">GDPR official text (EUR-Lex)</a></li>
+    <li><a href="https://www.edpb.europa.eu/" rel="noopener">European Data Protection Board</a></li>
+    <li><a href="https://www.nist.gov/privacy-framework" rel="noopener">NIST Privacy Framework</a></li>
+    <li><a href="https://www.ftc.gov/business-guidance/privacy-security" rel="noopener">US FTC privacy and security guidance</a></li>
+  </ul>
+</section>
+</main>
+<footer class="foot">Datacenter Omnibus · Original, independent study material. Not affiliated with or endorsed by any certification body, vendor or standards organisation. All trademarks belong to their owners. Exam details change; always verify on the vendor site. <a href="legal.html">Trademarks and copyright</a></footer>
+
+<!-- module-data:start -->
+<script type="application/json" id="module-data">{"module":33,"title":"Data Privacy","glossary":[["Personal data","Information about an identifiable person.","Any information relating to an identified or identifiable natural person.","PII"],["Special category data","Extra-sensitive personal data.","Data such as health, biometrics, genetics, religion or sexual orientation that receives stricter protection.",""],["Privacy by design","Build privacy in from the start.","An approach embedding privacy into systems and processes by default, based on seven foundational principles.",""],["Lawful basis","The legal reason for processing.","One of six GDPR grounds that make processing personal data lawful.",""],["Data controller","Decides why and how data is used.","The organisation that determines the purposes and means of processing personal data.",""],["Data processor","Processes data for someone else.","An organisation that processes personal data on behalf of a controller.",""],["DPIA","A risk check for high-risk processing.","Data protection impact assessment: a documented assessment of privacy risks and mitigations.","data protection impact assessment"],["Data protection officer","The organisation's privacy watchdog.","An independent role required by GDPR in certain organisations to advise on and monitor compliance.","DPO"],["Standard contractual clauses","Template contracts for data transfers.","European Commission-approved clauses that provide safeguards for transferring personal data outside the EEA.","SCCs"],["Pseudonymisation","Swap names for codes, keep the key separate.","Processing so data can't be attributed to a person without separately held additional information.",""],["Anonymisation","Make data impossible to link to anyone.","Irreversibly removing the ability to identify individuals, taking data outside privacy law.",""],["Data inventory","A list of all the personal data you hold.","A record of personal data assets, their location, purpose, owners and flows.",""],["Data subject request","A person asking about their data.","A request by an individual to exercise privacy rights such as access or erasure.","DSR"],["Differential privacy","Add noise to protect individuals in statistics.","A mathematical technique that limits what can be learned about any individual from aggregate results.",""]],"quiz":[{"t":"mc","q":"Which certification focuses on privacy law for a specific region?","o":["CIPM","CISSP","CIPP","CDPSE"],"a":2,"x":"CIPP/E, CIPP/US and others.","c":"CIPP","d":"2"},{"t":"mc","q":"Under GDPR, how quickly must a reportable breach be notified to the supervisory authority?","o":["Within 30 days","Only if the press finds out","Within 72 hours of becoming aware","Within 1 year"],"a":2,"x":"Individuals too when risk is high.","c":"CIPP","d":"3"},{"t":"mc","q":"Which is NOT one of the six GDPR lawful bases?","o":["Legal obligation","Legitimate interests","Commercial convenience","Contract"],"a":2,"x":"The six: consent, contract, legal obligation, vital interests, public task, legitimate interests.","c":"CIPP","d":"2"},{"t":"mc","q":"Who decides the purposes and means of processing personal data?","o":["The controller","The data subject","The processor","The regulator"],"a":0,"x":"Processors act on instructions.","c":"CIPP","d":"1"},{"t":"mc","q":"Which US law protects online data of children under 13?","o":["FERPA","HIPAA","GLBA","COPPA"],"a":3,"x":"Children's Online Privacy Protection Act.","c":"CIPP","d":"2"},{"t":"mc","q":"Which mechanism allows transfers of personal data from the EU when no adequacy decision exists?","o":["Standard contractual clauses","An NDA","A privacy notice only","Encryption alone"],"a":0,"x":"Binding corporate rules are another option.","c":"CIPP","d":"3"},{"t":"mc","q":"What is the foundation of a privacy program?","o":["A marketing campaign","A new firewall","A data inventory and data map","A larger IT budget"],"a":2,"x":"You can't protect what you don't know you have.","c":"CIPM","d":"1"},{"t":"mc","q":"When is a DPIA required under GDPR?","o":["Only after a breach","Never","When processing is likely to result in high risk to individuals","For every email"],"a":2,"x":"For example large-scale monitoring or sensitive data.","c":"CIPM","d":"2"},{"t":"mc","q":"Pseudonymised data is best described as what?","o":["Still personal data, because it can be re-identified with the key","Encrypted data","Not covered by any law","Fully anonymous"],"a":0,"x":"Keep the key separate and protected.","c":"CDPSE","d":"3"},{"t":"mc","q":"Which principle means collecting only what the purpose needs?","o":["Data minimisation","Portability","Accuracy","Accountability"],"a":0,"x":"Less data means less risk.","c":"CDPSE","d":"1"},{"t":"mc","q":"Which privacy-by-design principle says privacy should be on without the user doing anything?","o":["Positive-sum","End-to-end security","Privacy as the default setting","Visibility and transparency"],"a":2,"x":"Defaults matter because most people never change them.","c":"CDPSE","d":"2"},{"t":"ms","q":"Which TWO are rights under the GDPR? (Choose two.)","o":["Right to data portability","Right to free products","Right to erasure","Right to see other customers' data"],"a":[0,2],"x":"Also access, rectification, restriction, objection and more.","c":"CIPP","d":"3"}],"flashcards":[["CIPP / CIPM / CDPSE","Law / program management / engineering."],["Personal data","Any info about an identified or identifiable person."],["Privacy by design","Seven principles: proactive, default, embedded, positive-sum, end-to-end, visible, user-centric."],["GDPR principles","Lawfulness, purpose limitation, minimisation, accuracy, storage limitation, security, accountability."],["Six lawful bases","Consent, contract, legal obligation, vital interests, public task, legitimate interests."],["GDPR breach timing","Regulator within 72 hours; individuals if high risk."],["Controller vs processor","Decides purposes vs acts on instructions."],["Transfer tools","Adequacy, SCCs, BCRs (and the EU-US Data Privacy Framework)."],["US sector laws","HIPAA, GLBA, COPPA, FERPA, FCRA; FTC Section 5; state laws."],["DPIA","Assessment for high-risk processing."],["Pseudonymised vs anonymised","Re-identifiable with a key vs irreversibly not."],["Data inventory","Where personal data is, why, who, and where it flows."]]}</script>
+<!-- module-data:end -->
+<script src="data/catalog.js"></script>
+<script src="assets/omnibus.js"></script>
+<script src="assets/labkit.js"></script>
+<script src="data/m33.js"></script>
+<script>
+  OMNI.trainer("lab-base-host", {"label": "examples", "intro": "Pick the GDPR lawful basis for each example.", "items": [{"s": "<p>An online shop processes a customer's address to deliver the order they bought.</p>", "o": ["Contract", "Consent", "Vital interests", "Public task"], "a": 0, "x": "Processing necessary to perform a contract with the person."}, {"s": "<p>An employer sends salary data to the tax authority because the law requires it.</p>", "o": ["Legal obligation", "Legitimate interests", "Consent", "Contract"], "a": 0, "x": "Required by law."}, {"s": "<p>A newsletter is sent only to people who ticked an unticked opt-in box.</p>", "o": ["Consent", "Legal obligation", "Public task", "Vital interests"], "a": 0, "x": "Freely given, specific, informed and unambiguous."}, {"s": "<p>Paramedics access an unconscious patient's medical history.</p>", "o": ["Vital interests", "Contract", "Legitimate interests", "Consent"], "a": 0, "x": "Protecting someone's life."}, {"s": "<p>A company keeps server logs with IP addresses for fraud prevention, after a balancing test.</p>", "o": ["Legitimate interests", "Vital interests", "Public task", "Consent"], "a": 0, "x": "Must balance against the individual's rights."}, {"s": "<p>A public library processes members' data to run its statutory service.</p>", "o": ["Public task", "Consent", "Contract only", "Vital interests"], "a": 0, "x": "Official authority or task in the public interest."}], "cap": "lab-base-cap"});
+  OMNI.sorter("lab-law-host", {"zones": [["eu", "GDPR (CIPP/E)"], ["us", "US law (CIPP/US)"], ["prog", "Privacy program (CIPM)"], ["eng", "Privacy engineering (CDPSE)"]], "items": [["72-hour breach notification", "eu", "GDPR."], ["Right to data portability", "eu", "GDPR."], ["Standard contractual clauses", "eu", "GDPR transfers."], ["Children under 13 online", "us", "COPPA."], ["Health data of covered entities", "us", "HIPAA."], ["Financial institutions' customer data", "us", "GLBA."], ["Data inventory and data map", "prog", "CIPM program foundation."], ["Privacy metrics for the board", "prog", "CIPM sustain."], ["Pseudonymisation", "eng", "CDPSE technique."], ["Automated deletion at retention end", "eng", "CDPSE lifecycle."]], "intro": "Drag each item to the right area.", "done": "All sorted.", "cap": "lab-law-cap"});
+</script>
+</body>
+</html>

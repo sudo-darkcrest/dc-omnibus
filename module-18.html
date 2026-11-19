@@ -3,12 +3,37 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Module 18 · Hacking: White Hats, Black Hats and the Myths | Datacenter Omnibus</title>
-<meta name="description" content="What hacking really is: white, black and grey hats, red and blue teams, how attacks unfold, ethical hacking and penetration testing, hacking laws, famous cases and common myths.">
+<title>Module 18 · Defending the Organization: Security Architecture, Operations and Response | Datacenter Omnibus</title>
+<meta name="description" content="Secure architecture, hardening, data protection, security operations, SIEM, incident response, forensics, business continuity and risk management, with five labs and a 90-question Security+ readiness exam.">
 <link rel="stylesheet" href="assets/omnibus.css">
 <style>
-  .chip.ok { border-color: var(--good); background: var(--good-soft); }
-  .chip.bad { border-color: var(--bad); background: var(--bad-soft); }
+  .fw-table td, .fw-table th { padding: 4px 6px; font-size: .86rem; }
+  .fw-table select, .fw-table input { font-size: .86rem; padding: 3px 4px; max-width: 9.5em; }
+  .fw-table tr.hit td { background: var(--warn-soft); }
+  .fw-table tr.implicit td { color: var(--ink-2); font-style: italic; }
+  .fw-table .mini { padding: 2px 6px; font-size: .8rem; }
+  .tests td, .tests th { font-size: .86rem; padding: 4px 6px; }
+  .zones4 { display: grid; grid-template-columns: repeat(3, 1fr); gap: 8px; }
+  @media (max-width: 700px) { .zones4 { grid-template-columns: 1fr; } }
+  .zones4 .dropzone { min-height: 150px; }
+  .chip.hot { background: var(--bad-soft); border-color: var(--bad); }
+  .chip.safe { background: var(--good-soft); border-color: var(--good); }
+  .logbox { font-family: var(--mono); font-size: .78rem; background: #0b1220; color: #cbd5e1; border-radius: 8px; padding: 8px; height: 300px; overflow-y: auto; white-space: pre; overflow-x: auto; }
+  .logbox .fail { color: #fca5a5; } .logbox .ok { color: #86efac; } .logbox .warn { color: #fcd34d; }
+  .phasebar { display: flex; flex-wrap: wrap; gap: 4px; margin: 8px 0; }
+  .phasebar span { flex: 1 1 120px; text-align: center; font-size: .8rem; padding: 5px; border-radius: 6px; background: var(--surface-2); border: 1px solid var(--line); }
+  .phasebar span.on { background: var(--accent); color: #fff; border-color: var(--accent); font-weight: 700; }
+  .ir-opts { display: flex; flex-direction: column; gap: 6px; margin: 8px 0; }
+  .ir-opts button { text-align: left; }
+  .timerbar { height: 6px; background: var(--surface-2); border-radius: 3px; overflow: hidden; }
+  .timerbar i { display: block; height: 100%; background: var(--warn); width: 100%; }
+  .riskgrid { display: grid; grid-template-columns: 2.2em repeat(5, 1fr); gap: 3px; max-width: 520px; }
+  .riskgrid .cell { aspect-ratio: 1.4; border: 0; border-radius: 6px; font-size: .74rem; padding: 2px; display: flex; flex-wrap: wrap; align-content: center; justify-content: center; gap: 2px; color: #111; }
+  .riskgrid .rlab { font-size: .72rem; display: flex; align-items: center; justify-content: center; color: var(--ink-2); }
+  .rk { display: inline-block; min-width: 1.5em; padding: 1px 4px; border-radius: 4px; background: #111; color: #fff; font-weight: 700; font-size: .72rem; }
+  .rk.res { background: #fff; color: #111; border: 2px solid #111; }
+  .risklist { display: flex; flex-wrap: wrap; gap: 6px; }
+  .risklist button.on { background: var(--accent); color: #fff; border-color: var(--accent); }
 </style>
 </head>
 <body data-module="18">
@@ -18,15 +43,15 @@
 
 <section class="intro">
   <div class="kicker">Part 4 · Security and Cyber Careers · Module 18</div>
-  <h1>Hacking: White Hats, Black Hats and the Myths</h1>
-  <p class="why"><b>Why this matters.</b> Hacking is the most misunderstood word in technology. Every defender needs to understand how attackers think, and every organisation needs ethical hackers to find weaknesses first. This module explains what hacking really is, who does it, how ethical hacking and penetration testing work, what the law says, and which popular beliefs are myths. It follows the style of CompTIA PenTest+ and EC-Council CEH (Certified Ethical Hacker) study material: concepts, ethics and law rather than attack instructions.</p>
+  <h1>Defending the Organization: Security Architecture, Operations and Response</h1>
+  <p class="why"><b>Why this matters.</b> Module 17 named the attacks; this module is the defender's job: designing networks that contain damage, hardening systems, watching logs, responding when something goes wrong and managing risk so leadership can make decisions. Security+ Domains 3, 4 and 5 together are about two thirds of the exam, and the same ideas reappear in CISM (Certified Information Security Manager) and CISA (Certified Information Systems Auditor). The module ends with a 90-question Security+ readiness exam covering Module 16 to 16.</p>
   <h3>You will be able to</h3>
   <ul class="outcomes">
-    <li>Explain the difference between white, black and grey hats, and red, blue and purple teams.</li>
-    <li>Describe the stages of a typical attack and the defences that break each one.</li>
-    <li>Outline the phases, types and paperwork of a professional penetration test.</li>
-    <li>Explain why authorisation is the legal line, and how coordinated vulnerability disclosure works.</li>
-    <li>Separate common hacking myths from reality and plan a legal path into ethical hacking.</li>
+    <li>Design segmented networks with DMZs (Demilitarized Zone), firewalls, IDS/IPS (IDS: Intrusion Detection System; IPS: Intrusion Prevention System), NAC (Network Access Control), jump servers and SASE (Secure Access Service Edge).</li>
+    <li>Harden endpoints, mobile devices, wireless and applications with baselines and EDR (Endpoint Detection and Response).</li>
+    <li>Use logs, SIEM (Security Information and Event Management), SOAR (Security Orchestration, Automation and Response) and threat intelligence to detect and investigate attacks.</li>
+    <li>Run the NIST (National Institute of Standards and Technology) SP (Special Publication) 800-61 incident response lifecycle and preserve digital evidence properly.</li>
+    <li>Plan continuity (BIA (Business Impact Analysis), RTO (Recovery Time Objective), RPO (Recovery Point Objective), sites, backups) and manage risk with registers, matrices and treatments.</li>
   </ul>
   <nav class="jumpnav" id="jumpnav" aria-label="On this page"></nav>
 </section>
@@ -36,162 +61,251 @@
   <div id="certmap-badges"></div>
 </section>
 
-<section class="lesson" id="meaning">
-  <h2>1. What "hacking" really means</h2>
-  <p>In films, a hacker is a lone genius in a hoodie typing furiously until a screen says "ACCESS GRANTED". Real hacking is slower, more methodical and usually done by teams. The word itself did not start out meaning crime.</p>
+<section class="lesson" id="arch">
+  <h2>1. Secure architecture</h2>
+  <figure class="figure">
+    <svg viewBox="0 0 740 250" width="740" role="img" aria-label="Segmented network: internet, edge firewall, screened subnet with web and mail, internal firewall, internal servers and users, and a management zone reachable through a jump server">
+      <g id="arch-fig"></g>
+    </svg>
+    <figcaption>A typical segmented design: public services live in the screened subnet (DMZ); internal systems sit behind a second firewall; admin access goes through a jump server.</figcaption>
+  </figure>
+  <div class="tablewrap"><table>
+    <thead><tr><th>Component</th><th>What it does</th><th>Exam clue</th></tr></thead>
+    <tbody>
+      <tr><td><b>Segmentation</b> / VLANs (Virtual Local Area Network)</td><td>Splits the network into zones so a breach in one doesn't reach all</td><td>"Limit lateral movement"</td></tr>
+      <tr><td><b>Screened subnet (DMZ)</b></td><td>Zone between internet and internal network for public-facing servers</td><td>"Web server must be reachable from the internet"</td></tr>
+      <tr><td><b>Microsegmentation</b></td><td>Per-workload policies, often software-defined, even inside one subnet</td><td>"East-west traffic between VMs (Virtual Machine)"</td></tr>
+      <tr><td><b>Stateless firewall</b> (packet filter)</td><td>Checks each packet against ACLs (Access Control List), no memory of connections</td><td>Router ACLs</td></tr>
+      <tr><td><b>Stateful firewall</b></td><td>Tracks connections; return traffic allowed automatically</td><td>"Session table"</td></tr>
+      <tr><td><b>NGFW (Next-Generation Firewall)</b></td><td>Application awareness, user identity, IPS, TLS (Transport Layer Security) inspection (Layer 7)</td><td>"Block a specific app regardless of port"</td></tr>
+      <tr><td><b>WAF</b></td><td>Inspects HTTP (HyperText Transfer Protocol) for injection, XSS (Cross-Site Scripting) and other web attacks</td><td>"Protect a web app from SQL (Structured Query Language) injection"</td></tr>
+      <tr><td><b>IDS / IPS</b></td><td>Detects (IDS, passive, alerts) or blocks inline (IPS) using signatures or anomalies</td><td>IDS = alert only; IPS = inline, can drop</td></tr>
+      <tr><td><b>Proxy</b> (forward / reverse)</td><td>Forward: users' web requests out, with filtering. Reverse: in front of servers, load balancing/TLS offload</td><td>"Content filtering for users" vs "hide web servers"</td></tr>
+      <tr><td><b>NAC</b> + <b>802.1X</b></td><td>Checks identity and device posture before granting network access (supplicant, authenticator, RADIUS (Remote Authentication Dial-In User Service) server)</td><td>"Only compliant devices can connect"</td></tr>
+      <tr><td><b>Jump server</b> (bastion)</td><td>Hardened, monitored host that admins pass through to reach sensitive systems</td><td>"Single controlled path for admin access"</td></tr>
+      <tr><td><b>VPN (Virtual Private Network)</b></td><td>Encrypted tunnel: remote access (client) or site-to-site; IPsec (Internet Protocol Security) or TLS; full vs split tunnel</td><td>"Remote staff need internal access"</td></tr>
+      <tr><td><b>SD-WAN (Software-Defined Wide Area Network)</b> / <b>SASE</b></td><td>SD-WAN: software-controlled WAN (Wide Area Network) over multiple links. SASE: SD-WAN plus cloud security (SWG (Secure Web Gateway), CASB (Cloud Access Security Broker), ZTNA (Zero Trust Network Access), FWaaS)</td><td>"Security delivered from the cloud near users"</td></tr>
+    </tbody></table></div>
+  <h3>Device placement and failure modes</h3>
   <ul>
-    <li><b>1950s to 1960s:</b> at MIT (Massachusetts Institute of Technology), members of a model railway club and early computer users called a clever, playful solution to a technical problem a "hack". A <b>hacker</b> was someone who loved understanding how systems really work.</li>
-    <li><b>1970s to 1980s:</b> "phone phreaks" explored the telephone network, and personal computers and modems spread. The media started using "hacker" for people who broke into systems.</li>
-    <li><b>Today:</b> the word has both meanings. Security professionals often say <b>attacker</b> or <b>threat actor</b> for criminals, and <b>ethical hacker</b> or <b>penetration tester</b> for people paid to find weaknesses before criminals do.</li>
+    <li><b>Inline vs tap/monitor</b>: inline devices (IPS) can block but add a point of failure; taps/SPAN (SPAN: Switched Port Analyzer) ports (IDS) only watch.</li>
+    <li><b>Fail-open</b> keeps traffic flowing if the device fails (availability); <b>fail-closed</b> blocks everything (security).</li>
+    <li><b>Specialized systems</b>: ICS/SCADA (ICS: Industrial Control System; SCADA: Supervisory Control and Data Acquisition; industrial control), IoT (Internet of Things), embedded and RTOS (Real-Time Operating System) devices often can't be patched; isolate them on separate segments and monitor.</li>
+    <li><b>Resilience</b>: high availability (clustering, load balancing), redundancy (power, links), multi-cloud, geographic dispersion.</li>
   </ul>
-  <p>The skills are the same on both sides: understanding networks, operating systems, applications and people well enough to see where they break. What separates a professional from a criminal is <b>permission, intent and what happens to the findings</b>.</p>
-  <div class="callout analogy">A locksmith and a burglar both understand locks. The locksmith works with the owner's permission, explains the weakness and fixes it. The burglar uses the same knowledge to steal. Society needs locksmiths precisely because burglars exist.</div>
 </section>
 
-<section class="lesson" id="hats">
-  <h2>2. White, black, grey and the rest of the hats</h2>
-  <p>The "hat" names come from old Western films where heroes wore white hats and villains wore black ones. They describe intent and authorisation, not skill.</p>
-  <div class="tablewrap"><table><thead><tr><th>Label</th><th>Who they are</th><th>Legal?</th></tr></thead><tbody>
-    <tr><td><b>White hat</b></td><td>Ethical hackers and penetration testers who test systems with written permission and report findings to the owner</td><td>Yes, within the agreed scope</td></tr>
-    <tr><td><b>Black hat</b></td><td>Criminals who break in for money, data, disruption or revenge</td><td>No</td></tr>
-    <tr><td><b>Grey hat</b></td><td>People who probe systems without permission but claim good intentions, sometimes reporting the flaw or asking for a "reward"</td><td>Usually no: good intentions don't make unauthorised access legal</td></tr>
-    <tr><td><b>Red team</b></td><td>An authorised group that imitates real attackers to test an organisation's detection and response</td><td>Yes, with authorisation</td></tr>
-    <tr><td><b>Blue team</b></td><td>Defenders: the SOC (Security Operations Center), incident responders and engineers (Modules 17 and 19)</td><td>Yes</td></tr>
-    <tr><td><b>Purple team</b></td><td>Red and blue working together so every attack technique tested becomes a better detection</td><td>Yes</td></tr>
-    <tr><td><b>Bug bounty hunter</b></td><td>Independent researchers who test programs that publicly invite testing, under published rules, for rewards</td><td>Yes, if they follow the program's rules</td></tr>
-    <tr><td><b>Hacktivist</b></td><td>Attackers motivated by political or social causes</td><td>No</td></tr>
-    <tr><td><b>Script kiddie</b></td><td>Unskilled attackers using tools made by others</td><td>No</td></tr>
-    <tr><td><b>Nation-state actor</b></td><td>Government-backed groups doing espionage or sabotage, often called APTs (advanced persistent threats)</td><td>Illegal under the target country's laws</td></tr>
-    <tr><td><b>Insider</b></td><td>Employees or contractors who misuse their access, on purpose or by accident</td><td>Misuse is not</td></tr>
-  </tbody></table></div>
-  <div class="callout trap">Exam and real-world rule: the only thing that makes hacking "white hat" is <b>prior written authorisation from someone who has the right to give it</b>. A good motive after the fact does not count.</div>
+<section class="lesson" id="hardening">
+  <h2>2. Hardening endpoints, mobile, wireless and apps</h2>
+  <div class="grid2">
+    <div class="tile"><h4>Systems</h4><ul>
+      <li><b>Secure baselines</b>: establish, deploy, maintain. Sources: CIS (Center for Internet Security) Benchmarks, vendor guides, DISA (Defense Information Systems Agency) STIGs (Security Technical Implementation Guide).</li>
+      <li>Disable unused services and ports; change default passwords; remove bloatware.</li>
+      <li><b>EDR</b> (endpoint detection and response) watches behavior and can isolate a host; <b>XDR (Extended Detection and Response)</b> correlates across endpoint, network, email and cloud.</li>
+      <li>Host-based firewall, HIPS (Host-based Intrusion Prevention System), full-disk encryption, application <b>allow lists</b> (only approved software runs).</li>
+      <li>Patch management with testing and rollback.</li>
+    </ul></div>
+    <div class="tile"><h4>Mobile and wireless</h4><ul>
+      <li><b>MDM (Mobile Device Management)</b>: enforce PINs (Personal Identification Number), encryption, remote wipe, app control, containerization.</li>
+      <li>Deployment models: <b>BYOD (Bring Your Own Device)</b> (bring your own), <b>COPE</b> (corporate-owned, personally enabled), <b>CYOD (Choose Your Own Device)</b> (choose your own from a list), corporate-owned only.</li>
+      <li>Wireless: WPA3 (Wi-Fi Protected Access 3), 802.1X/RADIUS for enterprise, site surveys and heat maps, WIPS (Wireless Intrusion Prevention System).</li>
+    </ul></div>
+    <div class="tile"><h4>Applications</h4><ul>
+      <li>Secure coding: <b>input validation</b> (server-side), output encoding, secure cookies, error handling.</li>
+      <li>Static (SAST) and dynamic (DAST) analysis, sandboxing, code signing.</li>
+    </ul></div>
+    <div class="tile"><h4>Data protection</h4><ul>
+      <li><b>Classification</b>: e.g., public, internal/private, confidential/sensitive, restricted/critical (government: unclassified, confidential, secret, top secret).</li>
+      <li><b>DLP (Data Loss Prevention)</b> watches data at rest, in transit and in use to block unauthorized transfers.</li>
+      <li>Methods: encryption, hashing, masking, tokenization, obfuscation, segmentation, permission restrictions.</li>
+      <li><b>Data sovereignty</b>: data is subject to the laws of the country where it is stored. <b>Residency</b>: requirements for where data must physically remain.</li>
+    </ul></div>
+  </div>
 </section>
 
-<section class="lesson" id="lifecycle">
-  <h2>3. How attacks unfold: the attacker's lifecycle</h2>
-  <p>Defenders study how attacks progress so they can break the chain early. Two models are used everywhere: the Lockheed Martin <b>Cyber Kill Chain</b> and <b>MITRE ATT&amp;CK</b>, which catalogues real-world tactics and techniques (Module 19). In plain terms, most intrusions move through these stages.</p>
-  <div class="tablewrap"><table><thead><tr><th>Stage</th><th>What the attacker is trying to do</th><th>What defenders do about it</th></tr></thead><tbody>
-    <tr><td>Reconnaissance</td><td>Learn about the target: staff names, email formats, internet-facing systems, leaked passwords</td><td>Reduce public exposure; monitor for leaked credentials; train staff</td></tr>
-    <tr><td>Initial access</td><td>Get a first foothold, most often through phishing, stolen passwords or an unpatched internet-facing system</td><td>Phishing-resistant MFA (Multifactor Authentication), patching, email filtering</td></tr>
-    <tr><td>Execution and persistence</td><td>Run their code and make sure it survives a reboot</td><td>EDR (Endpoint Detection and Response), application allow-listing, hardening</td></tr>
-    <tr><td>Privilege escalation</td><td>Turn a normal user's access into administrator access</td><td>Least privilege, patching, separate admin accounts</td></tr>
-    <tr><td>Lateral movement</td><td>Move from the first machine to more valuable ones</td><td>Network segmentation, monitoring of admin logins</td></tr>
-    <tr><td>Collection and exfiltration</td><td>Find and steal valuable data</td><td>Data loss prevention, egress monitoring, encryption</td></tr>
-    <tr><td>Impact</td><td>Encrypt (ransomware), destroy or disrupt</td><td>Offline backups, incident response plans</td></tr>
-  </tbody></table></div>
-  <p>Notice that most of the defences are not exotic. Reports from national cyber agencies repeatedly find that the majority of successful attacks begin with the basics: weak or stolen passwords, no MFA, unpatched systems and people tricked by phishing.</p>
-  <div class="callout tip">If you remember one thing: attackers only need one way in, but they need many steps to reach their goal. Every stage is a chance for defenders to detect and stop them.</div>
+<section class="lesson" id="secops">
+  <h2>3. Security operations</h2>
+  <div class="tablewrap"><table>
+    <thead><tr><th>Tool / practice</th><th>Purpose</th></tr></thead>
+    <tbody>
+      <tr><td><b>Log sources</b></td><td>Firewall, OS (Operating System; Windows Event Logs, syslog), application, IPS/IDS, network flow (NetFlow), metadata, vulnerability scans, packet captures</td></tr>
+      <tr><td><b>SIEM</b></td><td>Collects, normalizes and correlates logs from many sources, alerts on rules, supports investigations and compliance reporting</td></tr>
+      <tr><td><b>SOAR</b></td><td>Automates responses with playbooks (e.g., auto-isolate host, block IP (Internet Protocol), open ticket)</td></tr>
+      <tr><td><b>Alert tuning</b></td><td>Reduce false positives so analysts don't get alert fatigue, without creating false negatives</td></tr>
+      <tr><td><b>Threat intelligence</b></td><td>OSINT (Open-Source Intelligence), ISACs (Information Sharing and Analysis Center), vendor feeds, STIX/TAXII (STIX: Structured Threat Information Expression; TAXII: Trusted Automated Exchange of Intelligence Information) for sharing IoCs (Indicator of Compromise)</td></tr>
+      <tr><td><b>Threat hunting</b></td><td>Proactively searching for attackers that evaded alerts, based on a hypothesis</td></tr>
+      <tr><td><b>Asset inventory</b></td><td>You can't protect what you don't know you have: ownership, classification, monitoring, disposal</td></tr>
+      <tr><td><b>Automation and scripting</b></td><td>User provisioning, guardrails, ticketing, escalation; benefits: speed, consistency; risks: complexity, single point of failure, technical debt</td></tr>
+      <tr><td><b>Email security</b></td><td><b>SPF</b> (which servers may send for a domain), <b>DKIM (DomainKeys Identified Mail)</b> (cryptographic signature on mail), <b>DMARC (Domain-based Message Authentication, Reporting and Conformance)</b> (policy: none/quarantine/reject, plus reports); secure email gateway</td></tr>
+      <tr><td><b>DNS (Domain Name System) filtering</b></td><td>Blocks lookups of malicious or unwanted domains</td></tr>
+    </tbody></table></div>
+  <div class="callout detail">SPF says <i>who</i> may send, DKIM proves the message <i>wasn't changed</i> and came from the domain's key, and DMARC tells receivers <i>what to do</i> when SPF/DKIM checks fail (and requires alignment with the visible From domain).</div>
 </section>
 
-<section class="lesson" id="pentest">
-  <h2>4. Ethical hacking and penetration testing</h2>
-  <p>A <b>penetration test</b> (pen test) is an authorised, simulated attack to find and prove weaknesses so they can be fixed. A <b>vulnerability scan</b> is an automated check for known weaknesses. A pen tester goes further, using judgement to chain weaknesses together and show real business impact, while staying inside agreed limits.</p>
-  <h3>The phases of a professional test</h3>
-  <ol>
-    <li><b>Planning and scoping (engagement management):</b> agree goals, which systems are in and out of scope, dates and times, who to call in an emergency, and how sensitive data will be handled. Sign the contract and <b>rules of engagement</b>. The written authorisation is sometimes nicknamed the "get out of jail free letter".</li>
-    <li><b>Reconnaissance and enumeration:</b> gather information about in-scope systems, both passively (public sources) and actively (scanning).</li>
-    <li><b>Vulnerability discovery and analysis:</b> identify weaknesses and rule out false positives.</li>
-    <li><b>Exploitation:</b> carefully prove that selected weaknesses are real, avoiding damage and stopping where the rules say to.</li>
-    <li><b>Post-exploitation:</b> show what an attacker could reach from there (for example, sensitive data or admin rights), then clean up anything the test left behind.</li>
-    <li><b>Reporting:</b> the most valuable part. An executive summary of risk in business terms, plus technical findings with evidence, severity ratings and clear remediation steps.</li>
-    <li><b>Retest:</b> after fixes, confirm the weaknesses are closed.</li>
-  </ol>
-  <h3>Types of tests</h3>
-  <div class="tablewrap"><table><thead><tr><th>Type</th><th>Meaning</th></tr></thead><tbody>
-    <tr><td>Black box (unknown environment)</td><td>Testers start with little or no information, like an outside attacker</td></tr>
-    <tr><td>Grey box (partially known)</td><td>Some information, such as a normal user account</td></tr>
-    <tr><td>White box (known environment)</td><td>Full information: diagrams, source code, credentials. Finds the most in the time available</td></tr>
-    <tr><td>By target</td><td>Network (external and internal), web application, mobile, cloud, wireless, social engineering, physical</td></tr>
-  </tbody></table></div>
-  <p>Common methodologies include NIST (National Institute of Standards and Technology) SP (Special Publication) 800-115, the Penetration Testing Execution Standard (PTES), the OWASP (Open Worldwide Application Security Project) Web Security Testing Guide and OSSTMM. Payment card rules (PCI (Payment Card Industry) DSS (Data Security Standard)) require regular penetration tests for in-scope environments, and many regulators and customers expect them.</p>
-  <div class="callout trap">If something outside the scope looks vulnerable during a test, the professional move is to stop and tell the client, not to "just take a quick look". Testing outside scope can be illegal even during a paid engagement.</div>
-</section>
-
-<section class="lesson" id="law">
-  <h2>5. Hacking and the law</h2>
-  <p>Almost every country has laws against accessing computers without permission. The details differ, but the core idea is the same: <b>authorisation is everything</b>.</p>
-  <div class="tablewrap"><table><thead><tr><th>Law</th><th>Where</th><th>Key point</th></tr></thead><tbody>
-    <tr><td>Computer Fraud and Abuse Act (CFAA), 1986</td><td>United States</td><td>Makes it a crime to access a computer "without authorization" or to "exceed authorized access". A 2021 Supreme Court case (Van Buren v. United States) narrowed what "exceeds authorized access" means.</td></tr>
-    <tr><td>Computer Misuse Act 1990</td><td>United Kingdom</td><td>Offences for unauthorised access, access with intent to commit further crimes, and impairing a computer's operation.</td></tr>
-    <tr><td>Directive 2013/40/EU</td><td>European Union</td><td>Requires member states to criminalise illegal access, system and data interference, and illegal interception.</td></tr>
-    <tr><td>Budapest Convention on Cybercrime (2001)</td><td>International treaty</td><td>Harmonises cybercrime laws and cooperation between dozens of countries.</td></tr>
-    <tr><td>Privacy and data laws</td><td>Many (GDPR (General Data Protection Regulation), HIPAA (Health Insurance Portability and Accountability Act) and others)</td><td>Testers who see personal data must protect it; the organisation may have breach-notification duties (Module 26).</td></tr>
-  </tbody></table></div>
-  <h3>Good-faith security research and disclosure</h3>
+<section class="lesson" id="ir">
+  <h2>4. Incident response and forensics</h2>
+  <figure class="figure">
+    <svg viewBox="0 0 740 170" width="740" role="img" aria-label="NIST SP 800-61 incident response lifecycle: preparation, detection and analysis, containment eradication and recovery, post-incident activity, with a loop back">
+      <g id="ir-fig"></g>
+    </svg>
+    <figcaption>NIST SP 800-61 lifecycle. Containment, eradication and recovery often loop as you learn more. (Rev. 3, 2025, reorganizes this around the NIST CSF (Cybersecurity Framework) 2.0 functions; exams still use these phases. Verify for your exam version.)</figcaption>
+  </figure>
   <ul>
-    <li>In 2022 the US Department of Justice announced it would not charge good-faith security research under the CFAA, but it still defines good faith narrowly and it does not protect against lawsuits or other laws.</li>
-    <li><b>Coordinated vulnerability disclosure</b> means reporting a flaw privately to the owner and giving them time to fix it before publishing. Standards such as ISO/IEC (ISO: International Organization for Standardization; IEC: International Electrotechnical Commission) 29147 describe how organisations should receive reports.</li>
-    <li>Many organisations publish a <b>vulnerability disclosure policy</b> or a <b>security.txt</b> file saying how to report issues, and some run <b>bug bounty</b> programs with "safe harbour" terms for researchers who follow the rules.</li>
+    <li><b>Preparation</b>: IR plan, team and contacts, tools, playbooks, training and <b>tabletop exercises</b> (discussion-based walkthroughs) and simulations.</li>
+    <li><b>Detection and analysis</b>: alerts, triage, scoping, deciding it's an incident, documenting everything.</li>
+    <li><b>Containment</b>: stop spread (isolate hosts, disable accounts, block IPs), short-term then long-term. <b>Eradication</b>: remove malware and the root cause. <b>Recovery</b>: restore, monitor, return to normal.</li>
+    <li><b>Post-incident activity / lessons learned</b>: what happened, what worked, what to change; update plans. Also <b>root cause analysis</b>.</li>
   </ul>
-  <div class="callout trap">This is general information, not legal advice. Laws vary by country and change. Before testing anything you don't own, get written permission from someone with the authority to give it, and keep it.</div>
+  <h3>Digital forensics</h3>
+  <div class="grid2">
+    <div class="tile"><h4>Order of volatility (collect most volatile first)</h4><ol>
+      <li>CPU (Central Processing Unit) registers and cache</li><li>Routing table, ARP (Address Resolution Protocol) cache, process table, kernel stats, RAM (Random Access Memory)</li><li>Temporary file systems / swap</li><li>Disk</li><li>Remote logging and monitoring data</li><li>Physical configuration, network topology</li><li>Archival media (backups)</li>
+    </ol><p class="figcap">From RFC (Request for Comments) 3227.</p></div>
+    <div class="tile"><h4>Preserve the evidence</h4><ul>
+      <li><b>Chain of custody</b>: documented record of who handled the evidence, when and why.</li>
+      <li><b>Legal hold</b>: instruction to preserve relevant data; overrides normal deletion.</li>
+      <li><b>Acquisition</b>: forensic images with write blockers; verify with hashes.</li>
+      <li><b>E-discovery</b>: finding and producing electronic information for legal proceedings.</li>
+      <li>Reporting, preservation and non-repudiation of findings.</li>
+    </ul></div>
+  </div>
 </section>
 
-<section class="lesson" id="myths">
-  <h2>6. Myths and reality</h2>
-  <div class="tablewrap"><table><thead><tr><th>Myth</th><th>Reality</th></tr></thead><tbody>
-    <tr><td>"Hackers can break into anything in seconds."</td><td>Real intrusions take days, weeks or months of patient work. Most succeed through simple failures: reused passwords, no MFA, unpatched systems.</td></tr>
-    <tr><td>"Hacking is mostly clever code."</td><td>A large share of breaches involve the human element: phishing, social engineering, mistakes and misuse.</td></tr>
-    <tr><td>"I'm not important enough to be hacked."</td><td>Most attacks are automated and opportunistic. Bots scan the whole internet for weak spots and don't care who you are.</td></tr>
-    <tr><td>"Macs, phones and Linux can't be hacked."</td><td>Every system has vulnerabilities. Some are targeted less often, which is not the same as being safe.</td></tr>
-    <tr><td>"Antivirus or a firewall makes me secure."</td><td>They help, but security is layered: updates, MFA, backups, least privilege and awareness all matter.</td></tr>
-    <tr><td>"Incognito mode or a VPN (Virtual Private Network) makes me anonymous."</td><td>Incognito only stops your own device saving history. A VPN moves trust to the VPN provider; it doesn't make you invisible.</td></tr>
-    <tr><td>"Hackers are hooded loners."</td><td>Criminal groups run like businesses, with developers, affiliates, negotiators and help desks. Ethical hackers are ordinary professionals with jobs, contracts and reports.</td></tr>
-    <tr><td>"Ethical hacking is just breaking in."</td><td>Most of a pen tester's time goes into planning, careful testing, documentation and writing a clear report.</td></tr>
-    <tr><td>"If I find a flaw, I can prove it by exploiting it."</td><td>Without permission that is a crime in most countries. Report it through the organisation's disclosure process instead.</td></tr>
-    <tr><td>"The dark web is where all hacking happens."</td><td>Some criminal markets live there, but most attacks are run from ordinary rented servers and stolen cloud accounts.</td></tr>
-  </tbody></table></div>
+<section class="lesson" id="bcdr">
+  <h2>5. Business continuity and disaster recovery</h2>
+  <div class="tablewrap"><table>
+    <thead><tr><th>Term</th><th>Meaning</th></tr></thead>
+    <tbody>
+      <tr><td><b>BIA</b> (business impact analysis)</td><td>Identifies critical processes, their dependencies and the impact of losing them; drives RTO and RPO</td></tr>
+      <tr><td><b>RTO</b></td><td>Recovery time objective: maximum acceptable time to restore the service</td></tr>
+      <tr><td><b>RPO</b></td><td>Recovery point objective: maximum acceptable data loss, measured in time (drives backup frequency)</td></tr>
+      <tr><td><b>MTTR / MTBF</b></td><td>Mean time to repair / mean time between failures</td></tr>
+      <tr><td><b>Hot site</b></td><td>Fully equipped, data near-current; minutes to hours; most expensive</td></tr>
+      <tr><td><b>Warm site</b></td><td>Hardware ready, data needs restoring; hours to days</td></tr>
+      <tr><td><b>Cold site</b></td><td>Space and power only; days to weeks; cheapest</td></tr>
+      <tr><td>Backups</td><td>Full, incremental (since last backup, clears archive bit), differential (since last full); snapshots, replication, journaling; onsite vs offsite; encryption; the <b>3-2-1 rule</b> (3 copies, 2 media, 1 offsite)</td></tr>
+      <tr><td>Testing</td><td>Tabletop exercises, failover tests, simulations, parallel processing</td></tr>
+    </tbody></table></div>
+  <div class="callout analogy">RPO looks <b>backward</b> (how much work can we lose?), RTO looks <b>forward</b> (how long until we're running again?).</div>
 </section>
 
-<section class="lesson" id="cases">
-  <h2>7. Famous cases and what they teach</h2>
-  <div class="tablewrap"><table><thead><tr><th>Case</th><th>What happened</th><th>Lesson</th></tr></thead><tbody>
-    <tr><td>Morris worm (1988)</td><td>A graduate student's experiment spread far faster than intended and slowed a large share of the early internet. He became the first person convicted under the CFAA.</td><td>Connected systems fail together; intent doesn't undo harm.</td></tr>
-    <tr><td>Kevin Mitnick (1990s)</td><td>One of the most-wanted hackers of his era, famous mainly for social engineering. After prison he became a security consultant and author.</td><td>People are often the easiest way in.</td></tr>
-    <tr><td>WannaCry (2017)</td><td>Ransomware spread worldwide through an unpatched Windows flaw, hitting hospitals and factories. A researcher slowed it by registering a "kill switch" domain.</td><td>Patching matters; one researcher can make a difference.</td></tr>
-    <tr><td>SolarWinds (2020)</td><td>Attackers inserted malicious code into a trusted software update used by thousands of organisations, including government agencies.</td><td>Supply chain attacks bypass perimeter defences.</td></tr>
-    <tr><td>Colonial Pipeline (2021)</td><td>Ransomware led a major US fuel pipeline to shut down operations for several days. Public reporting tied the entry to a VPN account password with no MFA.</td><td>MFA on remote access is essential.</td></tr>
-    <tr><td>MOVEit (2023)</td><td>A criminal group exploited a previously unknown flaw in a file-transfer product to steal data from many organisations at once.</td><td>Internet-facing software needs rapid patching and monitoring.</td></tr>
-  </tbody></table></div>
-  <div class="callout tip">Notice the pattern: almost every case is a known category (phishing, unpatched software, missing MFA, trusted software abused). Learning the basics in Modules 15 to 17 really does stop most attacks.</div>
+<section class="lesson" id="governance">
+  <h2>6. Governance and risk at Security+ depth</h2>
+  <div class="grid2">
+    <div class="tile"><h4>Document hierarchy</h4><ul>
+      <li><b>Policy</b>: high-level management intent ("all data must be classified"). Mandatory.</li>
+      <li><b>Standard</b>: specific mandatory requirements ("AES-256 (Advanced Encryption Standard) for data at rest").</li>
+      <li><b>Procedure</b>: step-by-step instructions.</li>
+      <li><b>Guideline</b>: recommended, optional advice.</li>
+    </ul><p>Common policies: AUP (Acceptable Use Policy), information security, BC/DR, incident response, SDLC (System Development Life Cycle), change management.</p></div>
+    <div class="tile"><h4>Risk management</h4><ul>
+      <li><b>Risk = likelihood × impact</b>. Qualitative (high/medium/low) or quantitative: <b>SLE</b> = asset value × exposure factor; <b>ARO</b> = yearly occurrences; <b>ALE</b> = SLE × ARO.</li>
+      <li><b>Risk register</b>: list of risks, owners, scores, treatments, status.</li>
+      <li><b>Appetite</b> (how much risk the organization is willing to pursue) vs <b>tolerance</b> (acceptable variation) vs <b>threshold</b>.</li>
+      <li>Treatments: <b>accept</b>, <b>avoid</b> (stop the activity), <b>transfer</b> (insurance, outsourcing), <b>mitigate</b> (controls). Exemptions and exceptions are formal acceptance.</li>
+      <li><b>Inherent</b> risk (before controls) vs <b>residual</b> risk (after).</li>
+    </ul></div>
+    <div class="tile"><h4>Third parties and compliance</h4><ul>
+      <li>Vendor assessment: right-to-audit clauses, questionnaires, independent assessments, supply chain analysis, monitoring.</li>
+      <li>Agreements: SLA (Service Level Agreement), MOA/MOU (MOA: Memorandum of Agreement; MOU: Memorandum of Understanding), MSA (Master Service Agreement), SOW (Statement of Work), NDA (Non-Disclosure Agreement), BPA (Blanket Purchase Agreement).</li>
+      <li>Compliance: reporting, consequences (fines, sanctions, loss of licence), attestation, audits (internal and external).</li>
+    </ul></div>
+    <div class="tile"><h4>Privacy and people</h4><ul>
+      <li>Privacy law in general terms: GDPR (General Data Protection Regulation; EU (European Union)) defines <b>data subjects</b>, <b>controllers</b> (decide purpose) and <b>processors</b> (process on the controller's behalf), and the right to be forgotten. Many other national and state laws exist (verify which apply to you).</li>
+      <li>Security awareness training: phishing campaigns, anomalous behavior recognition, reporting, measuring results.</li>
+    </ul></div>
+  </div>
 </section>
 
-<section class="lesson" id="become">
-  <h2>8. Becoming an ethical hacker</h2>
-  <p>Offensive security is a popular goal, but it builds on everything else. Testers who don't understand networks, operating systems and how organisations work produce weak reports.</p>
-  <ol>
-    <li><b>Foundations first:</b> A+, Network+ and Security+ level knowledge (Modules 4 to 17), plus comfort with Linux, Windows and basic scripting.</li>
-    <li><b>Learn defence too:</b> knowing how attacks are detected (Modules 17 and 19) makes you a better tester and a better report writer.</li>
-    <li><b>Practise legally:</b> build a home lab with intentionally vulnerable virtual machines, use capture-the-flag events and training platforms that grant permission, and join bug bounty programs only after reading their rules carefully.</li>
-    <li><b>Certifications:</b></li>
-  </ol>
-  <div class="tablewrap"><table><thead><tr><th>Certification</th><th>Body</th><th>Style</th></tr></thead><tbody>
-    <tr><td>PenTest+ (PT0-003)</td><td>CompTIA</td><td>Vendor-neutral, multiple choice and performance-based; good first offensive cert</td></tr>
-    <tr><td>CEH (Certified Ethical Hacker)</td><td>EC-Council</td><td>Broad knowledge exam, well known to HR (Human Resources) and government; an optional practical exam exists</td></tr>
-    <tr><td>OSCP (OffSec Certified Professional)</td><td>OffSec</td><td>Hands-on exam compromising lab machines and writing a report; highly respected</td></tr>
-    <tr><td>GPEN, GWAPT</td><td>GIAC (Global Information Assurance Certification)</td><td>Penetration testing and web app testing, tied to SANS (SysAdmin, Audit, Network and Security Institute) training</td></tr>
+<section class="lesson" id="ir-tabletop">
+  <h2>7. An incident response exercise you can run</h2>
+  <p>Plans that are never practised fail when they are needed. A <b>tabletop exercise</b> is a discussion where the team walks through a made-up incident. Here is a short scenario you can use.</p>
+  <div class="tablewrap"><table><thead><tr><th>Time</th><th>New information ("inject")</th><th>Questions for the team</th></tr></thead><tbody>
+    <tr><td>09:00</td><td>The help desk gets three calls: files on a shared drive have strange extensions and won't open</td><td>Who is told first? Is this an incident? Who declares it?</td></tr>
+    <tr><td>09:20</td><td>EDR shows the same suspicious program on 12 machines</td><td>Do we isolate the machines? Who has authority to cut network access?</td></tr>
+    <tr><td>10:00</td><td>A ransom note appears; payroll runs tomorrow</td><td>Which systems are restored first? Are backups clean? Do we involve legal counsel, insurers and law enforcement?</td></tr>
+    <tr><td>11:30</td><td>A journalist calls asking about a breach</td><td>Who speaks for the company? What do we tell staff and customers?</td></tr>
+    <tr><td>Day 3</td><td>Systems are restored</td><td>What evidence did we keep? What notification deadlines apply? What do we change?</td></tr>
   </tbody></table></div>
-  <div class="callout trap">Never practise on your employer's, school's or anyone else's systems without written permission, even if you think it is harmless. People have lost jobs and faced prosecution for "just checking".</div>
+  <p>Afterwards, write down the gaps you found (missing phone numbers, unclear authority, untested backups) and fix them. That is the "lessons learned" step that closes the incident response lifecycle.</p>
+  <div class="callout tip">Keep a printed copy of the incident plan and contact list. During a ransomware attack, the shared drive holding the plan may be encrypted too.</div>
+</section>
+
+<section class="lesson" id="hardening-checklist">
+  <h2>8. A practical hardening checklist</h2>
+  <p>Hardening means reducing the ways a system can be attacked. This checklist applies to almost any server, laptop or network device.</p>
+  <ul>
+    <li><b>Patch</b> the OS, firmware and apps on a regular schedule; patch known-exploited vulnerabilities urgently.</li>
+    <li><b>Remove</b> unused software, services, accounts and open ports.</li>
+    <li><b>Change defaults:</b> passwords, admin usernames, SNMP (Simple Network Management Protocol) community strings.</li>
+    <li><b>Enforce MFA</b> for all admin access and remote access.</li>
+    <li><b>Least privilege:</b> users are not local administrators; admins use separate admin accounts.</li>
+    <li><b>Encrypt</b> disks and use secure protocols (SSH (Secure Shell) not Telnet, HTTPS not HTTP, SFTP (Secure Shell File Transfer Protocol) not FTP (File Transfer Protocol)).</li>
+    <li><b>Turn on logging</b> and send logs to a central system.</li>
+    <li><b>Use a baseline</b> (such as CIS Benchmarks or vendor guides) and check for drift automatically.</li>
+    <li><b>Back up</b> configurations and data, and test restores.</li>
+  </ul>
+  <div class="callout analogy">Hardening is like securing a house: lock the doors you use, brick up the ones you don't, take the spare key out from under the mat, and install an alarm.</div>
 </section>
 
 <section class="lab" id="labs">
   <h2>Interactive labs</h2>
 
-  <div class="lab-card" id="lab-hats" data-lab="White, Grey or Black? Decide whether each scenario is ethical hacking, grey-hat activity or crime, and see why.">
-    <h3>Lab 1: White, Grey or Black?</h3>
-    <div id="lab-hats-host"></div>
-    <div class="caption" id="lab-hats-cap" aria-live="polite"></div>
+  <div class="lab-card" id="lab-fw" data-lab="Firewall Rule Builder: write ordered allow and deny rules for a small network, send test packets and see which rule matches first, with the implicit deny shown.">
+    <h3>Lab 1: Firewall Rule Builder</h3>
+    <p class="figcap">Network: web server <code>10.0.1.10</code> in the DMZ (<code>10.0.1.0/24</code>), database <code>10.0.2.20</code> and users in the internal network (<code>10.0.2.0/24</code>), admin jump server <code>10.0.9.5</code>. Rules are checked <b>top to bottom; the first match wins</b>. Anything that matches nothing hits the <b>implicit deny</b>. The starting rules have mistakes: make every test pass.</p>
+    <div class="tablewrap"><table class="fw-table" id="fw-rules"></table></div>
+    <div class="row"><button type="button" id="fw-add">+ Add rule</button><button type="button" class="primary" id="fw-run">Run all tests</button><button type="button" id="fw-reset">Reset to starting rules</button><button type="button" id="fw-sol">Show a solution</button></div>
+    <div class="tablewrap"><table class="tests" id="fw-tests"></table></div>
+    <div class="caption" id="fw-cap" aria-live="polite"></div>
   </div>
 
-  <div class="lab-card" id="lab-myth" data-lab="Myth or Fact? Sort common beliefs about hacking into myths and facts.">
-    <h3>Lab 2: Myth or Fact?</h3>
-    <div id="lab-myth-host"></div>
-    <div class="caption" id="lab-myth-cap" aria-live="polite"></div>
+  <div class="lab-card" id="lab-seg" data-lab="Network Segmentation Designer: place servers into DMZ, internal and management zones, then run simulated attacks and see how far each gets.">
+    <h3>Lab 2: Network Segmentation Designer</h3>
+    <p class="figcap">Drag each system into a zone (or tap a system, then tap a zone). The firewall policy is fixed: <b>internet → DMZ</b> on public ports only; <b>DMZ → internal</b> only for the web app's database queries; <b>internal users → management</b> only through the jump server with MFA (Multifactor Authentication). Then launch an attack.</p>
+    <div class="dropzone" id="sg-bank"><span class="zone-title">Unplaced systems</span></div>
+    <div class="zones4">
+      <div class="dropzone" data-zone="dmz"><span class="zone-title">Screened subnet (DMZ)</span></div>
+      <div class="dropzone" data-zone="int"><span class="zone-title">Internal (servers and users)</span></div>
+      <div class="dropzone" data-zone="mgmt"><span class="zone-title">Management / restricted</span></div>
+    </div>
+    <div class="row"><span>Attack:</span><button type="button" data-atk="scan">Internet scan for exposed services</button><button type="button" data-atk="web">Public web server exploited</button><button type="button" data-atk="phish">Employee laptop phished</button><button type="button" id="sg-reset">Reset</button></div>
+    <div class="caption" id="sg-cap" aria-live="polite"></div>
   </div>
 
-  <div class="lab-card" id="lab-phase" data-lab="Pen Test Phases: put penetration testing activities into planning, reconnaissance, vulnerability analysis, exploitation and reporting.">
-    <h3>Lab 3: Pen Test Phases</h3>
-    <div id="lab-phase-host"></div>
-    <div class="caption" id="lab-phase-cap" aria-live="polite"></div>
+  <div class="lab-card" id="lab-siem" data-lab="SIEM Log Hunt: a stream of fake logs; filter and correlate events to find a brute-force attack followed by a successful login and what the attacker did next.">
+    <h3>Lab 3: SIEM Log Hunt</h3>
+    <p class="figcap">A morning of (fake) logs from the VPN, servers, firewall and proxy streams in. Filter, aggregate and answer the three questions. All IP addresses are from documentation ranges.</p>
+    <div class="row"><button type="button" class="primary" id="sm-play">Pause</button><label>Filter <input type="text" id="sm-filter" placeholder="e.g. FAIL or 198.51" style="width:12em"></label><label>Source <select id="sm-src"><option value="">All</option><option>vpn</option><option>dc01</option><option>fw</option><option>proxy</option><option>web01</option></select></label><button type="button" id="sm-agg">Top failed-login sources</button></div>
+    <div class="logbox" id="sm-log" tabindex="0" aria-label="Log stream"></div>
+    <div class="controls">
+      <label class="field"><span>1. Attacker's IP address</span><input type="text" id="sm-a1"></label>
+      <label class="field"><span>2. Account they got into</span><input type="text" id="sm-a2"></label>
+      <label class="field"><span>3. What did they do next? (one keyword)</span><input type="text" id="sm-a3" placeholder="e.g. what action"></label>
+    </div>
+    <div class="row"><button type="button" id="sm-check">Check answers</button><b id="sm-score"></b></div>
+    <div class="caption" id="sm-cap" aria-live="polite"></div>
+  </div>
+
+  <div class="lab-card" id="lab-ir" data-lab="Incident Response Simulator: a ransomware tabletop exercise with optional timed decisions mapped to the NIST SP 800-61 phases.">
+    <h3>Lab 4: Incident Response Simulator (ransomware tabletop)</h3>
+    <div class="row"><label><input type="checkbox" id="ir-timed"> Timed decisions (40 seconds each)</label><button type="button" id="ir-restart">Restart</button></div>
+    <div class="phasebar" id="ir-phases"></div>
+    <div class="timerbar" aria-hidden="true"><i id="ir-bar"></i></div>
+    <div id="ir-box"></div>
+    <div class="caption" id="ir-cap" aria-live="polite"></div>
+  </div>
+
+  <div class="lab-card" id="lab-risk" data-lab="Risk Matrix: plot risks by likelihood and impact on a heat map, pick a treatment and watch residual risk and the risk register update.">
+    <h3>Lab 5: Risk Matrix and Register</h3>
+    <p class="figcap">Pick a risk, click the grid to set its <b>inherent</b> likelihood (rows) and impact (columns), then choose a treatment. Black tags = inherent risk, white tags = residual risk. Risk appetite: scores above <b>12</b> must be treated.</p>
+    <div class="risklist" id="rk-list" role="group" aria-label="Risks"></div>
+    <div class="grid2">
+      <div><div class="riskgrid" id="rk-grid"></div><p class="figcap">Rows: likelihood 5 (almost certain) to 1 (rare). Columns: impact 1 (negligible) to 5 (severe).</p></div>
+      <div class="tile"><h4 id="rk-name">Choose a risk</h4><p id="rk-desc" class="figcap"></p><div class="seg" id="rk-treat"></div><p id="rk-hint" class="figcap"></p></div>
+    </div>
+    <div class="tablewrap"><table id="rk-table"></table></div>
+    <div class="caption" id="rk-cap" aria-live="polite"></div>
   </div>
 </section>
 
@@ -202,20 +316,36 @@
 
 <section class="memory" id="memory">
   <h2>Memory aids</h2>
-  <div class="mnemonic"><b>Permission, Scope, Report</b>: the three things that make hacking ethical.</div>
-  <div class="mnemonic">Hat colour = <b>intent and authorisation</b>, not skill.</div>
-  <div class="mnemonic">Pen test phases: <b>"Please Read Very Every Report"</b>: Plan, Recon, Vulnerabilities, Exploit, Report.</div>
+  <div class="mnemonic">NIST IR lifecycle: "<b>P</b>lease <b>D</b>on't <b>C</b>all <b>E</b>very <b>R</b>esponder <b>L</b>ate": Preparation, Detection/analysis, Containment, Eradication, Recovery, Lessons learned.</div>
+  <div class="mnemonic">Policy → Standard → Procedure are <b>must</b>; a <b>G</b>uideline is just <b>G</b>ood advice.</div>
+  <div class="mnemonic">Risk treatments "<b>ATAM</b>": Accept, Transfer, Avoid, Mitigate. Insurance = Transfer.</div>
+  <div class="mnemonic">Sites: <b>Hot</b> = ready to cook now, <b>Warm</b> = oven preheated, ingredients in the fridge, <b>Cold</b> = an empty kitchen.</div>
+  <div class="tablewrap"><table><thead><tr><th>Formula / number</th><th>Meaning</th></tr></thead><tbody>
+    <tr><td>SLE = AV × EF</td><td>Single loss expectancy = asset value × exposure factor</td></tr>
+    <tr><td>ALE = SLE × ARO</td><td>Annualized loss expectancy</td></tr>
+    <tr><td>3-2-1</td><td>Three copies, two media types, one offsite</td></tr>
+    <tr><td>802.1X roles</td><td>Supplicant (client), authenticator (switch/AP), authentication server (RADIUS)</td></tr>
+    <tr><td>DMARC p=</td><td>none / quarantine / reject</td></tr>
+    <tr><td>Security+ weights</td><td>D1 12%, D2 22%, D3 18%, D4 28%, D5 20% (SY0-701; verify the current version)</td></tr>
+  </tbody></table></div>
   <div class="tablewrap"><table><thead><tr><th>Exam trap</th><th>Why it is wrong</th></tr></thead><tbody>
-    <tr><td>"A grey hat is legal because they reported the flaw."</td><td>Unauthorised access is still unauthorised.</td></tr>
-    <tr><td>"A vulnerability scan is a penetration test."</td><td>A scan finds known weaknesses automatically; a pen test proves impact with human judgement.</td></tr>
-    <tr><td>"The tester can expand scope if they find something interesting."</td><td>Only the client can change scope, in writing.</td></tr>
-    <tr><td>"White box means the test is easy."</td><td>It means testers get full information, so they find more in the time available.</td></tr>
+    <tr><td>"An IDS blocks attacks."</td><td>An IDS alerts; an IPS sits inline and blocks.</td></tr>
+    <tr><td>"Wipe the infected server first."</td><td>Contain and collect volatile evidence first; wiping destroys it.</td></tr>
+    <tr><td>"RPO is how long recovery takes."</td><td>That's RTO. RPO is how much data (time) you can lose.</td></tr>
+    <tr><td>"Buying insurance mitigates risk."</td><td>Insurance <b>transfers</b> financial risk.</td></tr>
+    <tr><td>"Firewall rules are evaluated best-match."</td><td>Most firewalls use <b>first match</b>, top to bottom, then implicit deny.</td></tr>
   </tbody></table></div>
 </section>
 
 <section class="quiz" id="quiz">
   <h2>Knowledge check</h2>
   <div id="quiz-area"></div>
+</section>
+
+<section class="quiz" id="readiness">
+  <h2>Security+ readiness exam (90 questions, Modules 16 to 18)</h2>
+  <p>Questions come from the Security+ tagged items in Modules 16 to 18 plus an extra Security+ bank, weighted and scored by the five SY0-701 domains: General Security Concepts (12%), Threats, Vulnerabilities and Mitigations (22%), Security Architecture (18%), Security Operations (28%) and Security Program Management and Oversight (20%). The real exam has up to 90 questions (including performance-based) in 90 minutes, with a passing score of 750 on a 100 to 900 scale. CompTIA updates exams roughly every three years, so verify the current version before you book.</p>
+  <div id="readiness-area"></div>
 </section>
 
 <section class="flashcards" id="flashcards">
@@ -226,29 +356,281 @@
 <section class="deeper" id="deeper">
   <h2>Go deeper (official sources)</h2>
   <ul>
-    <li><a href="https://www.comptia.org/en-us/certifications/pentest/" rel="noopener">CompTIA PenTest+</a> (exam objectives)</li>
-    <li><a href="https://www.eccouncil.org/train-certify/certified-ethical-hacker-ceh/" rel="noopener">EC-Council CEH</a></li>
-    <li><a href="https://csrc.nist.gov/pubs/sp/800/115/final" rel="noopener">NIST SP 800-115: Technical Guide to Information Security Testing</a></li>
-    <li><a href="https://owasp.org/www-project-web-security-testing-guide/" rel="noopener">OWASP Web Security Testing Guide</a></li>
-    <li><a href="https://attack.mitre.org/" rel="noopener">MITRE ATT&CK</a></li>
-    <li><a href="https://www.iso.org/standard/72311.html" rel="noopener">ISO/IEC 29147 vulnerability disclosure</a></li>
-    <li><a href="https://securitytxt.org/" rel="noopener">security.txt</a> (how to publish a disclosure contact)</li>
+    <li><a href="https://www.comptia.org/en-us/certifications/security/" rel="noopener">CompTIA Security+ exam objectives</a></li>
+    <li><a href="https://csrc.nist.gov/pubs/sp/800/61/r3/final" rel="noopener">NIST SP 800-61 Rev. 3: Incident Response Recommendations</a></li>
+    <li><a href="https://www.rfc-editor.org/rfc/rfc3227" rel="noopener">RFC 3227: Guidelines for Evidence Collection and Archiving</a></li>
+    <li><a href="https://csrc.nist.gov/pubs/sp/800/34/r1/upd1/final" rel="noopener">NIST SP 800-34: Contingency Planning Guide</a></li>
+    <li><a href="https://csrc.nist.gov/pubs/sp/800/30/r1/final" rel="noopener">NIST SP 800-30: Guide for Conducting Risk Assessments</a></li>
+    <li><a href="https://www.cisecurity.org/cis-benchmarks" rel="noopener">CIS Benchmarks</a></li>
+    <li><a href="https://www.rfc-editor.org/rfc/rfc7489" rel="noopener">RFC 7489: DMARC</a></li>
   </ul>
 </section>
 </main>
 <footer class="foot">Datacenter Omnibus · Original, independent study material. Not affiliated with or endorsed by any certification body, vendor or standards organisation. All trademarks belong to their owners. Exam details change; always verify on the vendor site. <a href="legal.html">Trademarks and copyright</a></footer>
 
-<!-- module-data:start -->
-<script type="application/json" id="module-data">{"module":18,"title":"Hacking: White Hats, Black Hats and the Myths","glossary":[["Ethical hacker","Someone paid to find weaknesses before criminals do.","A security professional who tests systems with the owner's written authorisation and reports findings so they can be fixed.",""],["White hat","A good-guy hacker with permission.","An ethical hacker working with authorisation within an agreed scope.",""],["Black hat","A criminal hacker.","An attacker who accesses systems without authorisation for profit, disruption or other malicious goals.",""],["Grey hat","Hacks without permission but claims good intentions.","A person who probes systems without authorisation, often disclosing flaws afterwards; usually still illegal.",""],["Red team","The pretend attackers.","An authorised team that emulates real adversaries to test an organisation's detection and response.",""],["Blue team","The defenders.","The staff who defend systems: monitoring, incident response and hardening.",""],["Purple team","Attackers and defenders working together.","Collaboration where red-team techniques are used to directly improve blue-team detections.",""],["Penetration test","An authorised fake attack to find weaknesses.","A scoped, authorised simulated attack that identifies, exploits and reports vulnerabilities with remediation advice.","pen test"],["Rules of engagement","The written rules for a test.","A document defining scope, timing, methods, communication and limits for a security test.","RoE"],["Scope","What you're allowed to test.","The systems, locations, methods and dates that a test is authorised to cover.",""],["Bug bounty","Rewards for reporting flaws.","A program that invites researchers to find and report vulnerabilities under published rules in exchange for rewards.",""],["Coordinated vulnerability disclosure","Tell the owner privately first.","Reporting a vulnerability to the vendor and allowing time for a fix before public disclosure (see ISO/IEC 29147).","CVD"],["Black box test","Testing with no inside information.","A test where testers start with little or no knowledge of the target (unknown environment).",""],["White box test","Testing with full inside information.","A test where testers receive full details such as diagrams, code and credentials (known environment).",""],["Script kiddie","An unskilled attacker using others' tools.","A low-skill attacker who relies on tools and exploits written by others.",""],["Hacktivist","A hacker with a political cause.","An attacker motivated by political, social or ideological goals.",""]],"quiz":[{"t":"mc","q":"What makes a hacking activity 'white hat'?","o":["Using only free tools","Reporting the flaw after finding it","Prior written authorisation within an agreed scope","Not causing any damage"],"a":2,"w":["Tools are irrelevant.","Reporting afterwards doesn't create permission.","Correct.","Lack of damage doesn't make unauthorised access legal."],"x":"Authorisation from someone with the right to give it is the line between ethical hacking and crime.","c":"PT","d":"1.1"},{"t":"mc","q":"Which team works with defenders so each tested attack technique becomes a better detection?","o":["Blue team","White team","Red team","Purple team"],"a":3,"w":["Blue defends.","White teams referee exercises.","Red emulates attackers.","Correct."],"x":"Purple teaming combines red and blue for faster improvement.","c":"S","d":"5.5"},{"t":"mc","q":"A tester receives network diagrams, source code and admin credentials before starting. What type of test is this?","o":["White box (known environment)","Black box (unknown environment)","Vulnerability scan","Grey box"],"a":0,"w":["Correct.","Black box starts with nothing.","A scan is automated, not a test type by knowledge.","Grey box gets partial information."],"x":"Known-environment tests find the most in the time available.","c":"S","d":"5.5"},{"t":"order","q":"Put the phases of a professional penetration test in order.","o":["Planning and scoping","Reconnaissance and enumeration","Vulnerability discovery and analysis","Exploitation","Reporting"],"x":"Planning and paperwork come first; the report is the deliverable.","c":"PT","d":"1.1"},{"t":"mc","q":"During an authorised test you discover a system that is not listed in the scope. What should you do?","o":["Ignore the rules of engagement","Stop and notify the client contact","Test it but leave it out of the report","Test it quickly and include it"],"a":1,"w":["Never.","Correct.","Hiding work is unethical.","Out-of-scope testing may be illegal."],"x":"Only the client can change scope, in writing.","c":"PT","d":"1.2"},{"t":"mc","q":"Which document defines what testers may do, when, and who to contact in an emergency?","o":["Acceptable use policy","Privacy notice","Service level agreement","Rules of engagement"],"a":3,"w":["AUP covers staff use of systems.","Not related.","SLA covers service targets.","Correct."],"x":"Rules of engagement plus a contract and statement of work form the legal basis of a test.","c":"PT","d":"1.1"},{"t":"mc","q":"What is the main difference between a vulnerability scan and a penetration test?","o":["A scan is always illegal","There is no difference","A pen test uses human judgement to prove real impact","A pen test never finds new issues"],"a":2,"w":["Authorised scans are legal.","They differ significantly.","Correct.","Pen tests often find chained issues scans miss."],"x":"Scans are automated and broad; pen tests are targeted and prove exploitability.","c":"S","d":"4.3"},{"t":"mc","q":"Which US law makes it a crime to access a computer without authorisation?","o":["GDPR","SOX","HIPAA","Computer Fraud and Abuse Act (CFAA)"],"a":3,"w":["EU data protection.","Financial reporting.","Health data privacy.","Correct."],"x":"The UK equivalent is the Computer Misuse Act 1990.","c":"PT","d":"1.1"},{"t":"mc","q":"A researcher finds a flaw in a vendor's product. What is the responsible next step?","o":["Report it privately to the vendor and allow time for a fix","Publish exploit code immediately","Sell it to the highest bidder","Use it to prove the point on customers' systems"],"a":0,"w":["Correct: coordinated disclosure.","Endangers users.","Unethical and possibly illegal.","Illegal."],"x":"Coordinated vulnerability disclosure is described in ISO/IEC 29147.","c":"S","d":"4.3"},{"t":"mc","q":"Which is the MOST common way attackers first get into organisations, according to many national agency reports?","o":["Phishing, stolen passwords and unpatched internet-facing systems","Breaking encryption","Physical break-ins","Zero-day exploits in every attack"],"a":0,"w":["Correct.","Rarely needed.","Uncommon compared with remote methods.","Zero-days are relatively rare."],"x":"Basics like MFA and patching stop a large share of attacks.","c":"CYSA","d":"1.4"},{"t":"ms","q":"Which statements are MYTHS? (Select all that apply.)","o":["Small businesses are too small to be attacked","Good intentions make unauthorised hacking legal","MFA blocks many password attacks","A VPN makes you fully anonymous"],"a":[0,1,3],"w":["Myth.","Myth.","This one is a fact.","Myth."],"x":"Automation means everyone is a target, and authorisation, not intent, is what matters legally.","c":"S","d":"2.1"},{"t":"mc","q":"What is the most important deliverable of a penetration test for the client?","o":["Screenshots of hacked screens","A list of passwords found","The tools the tester used","A clear report with risk ratings and remediation steps"],"a":3,"w":["Evidence supports the report but isn't the deliverable.","Passwords must be handled securely, not delivered as a trophy.","Not the point.","Correct."],"x":"The report turns findings into fixes; an executive summary explains business risk.","c":"PT","d":"1.3"}],"flashcards":[["White vs black vs grey hat","Authorised and ethical / criminal / unauthorised but claims good intent (usually still illegal)."],["Red, blue, purple teams","Emulated attackers / defenders / both working together."],["What makes hacking ethical","Prior written authorisation, staying in scope, reporting to the owner."],["Rules of engagement","Document defining scope, timing, methods, contacts and limits for a test."],["Black, grey, white box","No information / partial / full information."],["Pen test phases","Planning, recon, vulnerability analysis, exploitation, reporting (then retest)."],["Scan vs pen test","Automated known-issue check vs human-led proof of real impact."],["CFAA","US Computer Fraud and Abuse Act (1986): unauthorised access is a crime."],["Computer Misuse Act","UK law (1990) against unauthorised access and impairment."],["Coordinated vulnerability disclosure","Report privately, give time to fix, then publish."],["security.txt","A file on a website telling researchers how to report vulnerabilities."],["Bug bounty","Program inviting researchers to test under published rules for rewards."],["Most common initial access","Phishing, stolen passwords, unpatched internet-facing systems."],["Out-of-scope finding during a test","Stop and tell the client."],["Entry offensive certs","PenTest+, CEH; then OSCP or GPEN."]]}</script>
-<!-- module-data:end -->
 <script src="data/catalog.js"></script>
 <script src="assets/omnibus.js"></script>
-<script src="assets/labkit.js"></script>
+<script src="data/m16.js"></script>
+<script src="data/m17.js"></script>
 <script src="data/m18.js"></script>
+<script src="data/bank-secplus.js"></script>
 <script>
-  OMNI.trainer("lab-hats-host", {"label": "scenarios", "intro": "Read each scenario and decide who is acting. Focus on permission and scope, not how clever the hack is.", "items": [{"s": "<p>A company hires a consultancy, signs a contract listing which servers can be tested and when, and receives a report of weaknesses.</p>", "o": ["White hat (authorised penetration test)", "Grey hat", "Black hat"], "a": 0, "x": "Written authorisation from the owner, a defined scope and a report to the owner make this ethical hacking."}, {"s": "<p>Someone notices a shop's website leaks customer orders, downloads 500 records to 'prove it', then emails the shop asking for a reward.</p>", "o": ["Grey hat at best, and likely illegal", "White hat", "Blue team"], "a": 0, "x": "No permission, data accessed and a demand for money. Good intentions don't make unauthorised access legal, and asking for payment can look like extortion."}, {"s": "<p>A group sends phishing emails to steal staff passwords, then encrypts the company's servers and demands payment.</p>", "o": ["Black hat (criminal)", "Red team", "Grey hat"], "a": 0, "x": "Unauthorised access for profit and harm: classic criminal ransomware."}, {"s": "<p>A researcher finds a flaw while testing a program that publicly invites testing, follows its published rules, and reports it through the platform.</p>", "o": ["Bug bounty hunter acting ethically", "Black hat", "Hacktivist"], "a": 0, "x": "The program's published rules provide the permission. Following them is what keeps it legal and ethical."}, {"s": "<p>A bank's own security team, with the CISO's approval, quietly imitates a real attacker group for three weeks to see if the SOC notices.</p>", "o": ["Red team exercise", "Insider threat", "Black hat"], "a": 0, "x": "Authorised adversary simulation that tests detection and response is red teaming."}, {"s": "<p>An employee about to leave copies the customer database to a USB drive to take to a competitor.</p>", "o": ["Malicious insider", "White hat", "Purple team"], "a": 0, "x": "Insiders misuse legitimate access. Data loss prevention and leaver processes (Module 15) help stop this."}, {"s": "<p>During an authorised test of a company's web servers, a tester spots an interesting database server belonging to a different company on the same network.</p>", "o": ["Stop and tell the client; it is out of scope", "Test it quickly since it's nearby", "Test it but leave it out of the report"], "a": 0, "x": "Anything outside the written scope is off limits. Testing it could be a crime even during a paid engagement."}, {"s": "<p>Attackers deface a government website with political slogans to protest a new law.</p>", "o": ["Hacktivist (black hat activity)", "White hat", "Bug bounty"], "a": 0, "x": "A political motive doesn't make unauthorised access or defacement legal."}], "cap": "lab-hats-cap"});
-  OMNI.sorter("lab-myth-host", {"zones": [["myth", "Myth"], ["fact", "Fact"]], "items": [["Most attacks are automated and opportunistic", "fact", "Bots scan the whole internet for weak spots."], ["Small businesses are too small to be targeted", "myth", "Automated attacks hit everyone; smaller firms often have weaker defences."], ["Many breaches involve the human element", "fact", "Phishing, mistakes and misuse feature in a large share of breaches."], ["A VPN makes you completely anonymous", "myth", "It shifts trust to the VPN provider and hides traffic from your local network only."], ["Reporting a flaw is legal, so exploiting it to prove it is too", "myth", "Unauthorised exploitation is illegal in most countries; report through the disclosure process."], ["MFA blocks most password-based attacks", "fact", "Stolen passwords alone stop working; phishing-resistant MFA is strongest."], ["Macs can't get malware", "myth", "Every platform has vulnerabilities and malware."], ["Pen testers spend much of their time on planning and reports", "fact", "The report is the product the client pays for."], ["Good intentions make unauthorised hacking legal", "myth", "Authorisation, not intent, is what the law looks at."], ["Patching known vulnerabilities stops many real attacks", "fact", "Many breaches exploit flaws that had patches available."]], "intro": "Sort each statement into Myth or Fact, then press Check.", "done": "All sorted correctly. Notice how many myths are about attackers being magical, and how many facts are about the basics.", "cap": "lab-myth-cap"});
-  OMNI.sorter("lab-phase-host", {"zones": [["plan", "Planning and scoping"], ["recon", "Recon and enumeration"], ["vuln", "Vulnerability analysis"], ["exploit", "Exploitation and post-exploitation"], ["report", "Reporting and retest"]], "items": [["Agree which IP ranges and apps are in scope", "plan", "Scoping happens before any testing."], ["Sign the rules of engagement and emergency contacts", "plan", "Written authorisation comes first."], ["Search public sources for staff email formats", "recon", "Passive reconnaissance."], ["Scan in-scope hosts to see which services are running", "recon", "Active enumeration."], ["Confirm a scanner finding is real, not a false positive", "vuln", "Analysis of discovered weaknesses."], ["Rate each weakness by severity and business impact", "vuln", "Analysis feeds the report."], ["Carefully prove a weakness gives access, within the rules", "exploit", "Controlled exploitation."], ["Show what data an attacker could reach, then remove test files", "exploit", "Post-exploitation and clean-up."], ["Write an executive summary in business language", "report", "Reporting."], ["Retest after the client applies fixes", "report", "Remediation verification closes the loop."]], "intro": "Place each activity in the phase of a professional penetration test where it belongs.", "done": "Every activity is in the right phase. Notice that planning and reporting bracket all the technical work.", "cap": "lab-phase-cap"});
+(function () {
+  var h = OMNI.h, S = OMNI.svg, $ = function (id) { return document.getElementById(id); };
+  var esc = OMNI.esc || function (s) { return String(s).replace(/[&<>"']/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]; }); };
+  function txt(p, x, y, t, a) { var e = S("text", Object.assign({ x: x, y: y, class: "svg-text", "font-size": 12 }, a || {}), p); e.textContent = t; return e; }
+  function line(p, x1, y1, x2, y2, col, w, dash) { return S("line", { x1: x1, y1: y1, x2: x2, y2: y2, stroke: col || "var(--ink-2)", "stroke-width": w || 2, "stroke-dasharray": dash || "" }, p); }
+  OMNI.readiness({ el: "readiness-area", id: "secplus", modules: [14, 15, 16], banks: ["secplus"], certs: ["S"], count: 90, timerMin: 90, weights: { "1": 12, "2": 22, "3": 18, "4": 28, "5": 20 } });
+
+  /* ===== Figures ===== */
+  (function () {
+    var g = $("arch-fig");
+    function box(x, y, w, hh, t, col, sub) { S("rect", { x: x, y: y, width: w, height: hh, rx: 8, fill: "var(--surface)", stroke: col, "stroke-width": 2 }, g); txt(g, x + w / 2, y + (sub ? 20 : hh / 2 + 4), t, { "text-anchor": "middle", "font-weight": 700 }); if (sub) txt(g, x + w / 2, y + 38, sub, { "text-anchor": "middle", "font-size": 11, class: "svg-muted" }); }
+    box(10, 100, 90, 44, "Internet", "var(--ink-2)");
+    box(130, 95, 70, 54, "Edge FW", "var(--bad)");
+    S("rect", { x: 230, y: 20, width: 170, height: 90, rx: 10, fill: "var(--warn-soft)", stroke: "var(--warn)", "stroke-dasharray": "5 4" }, g);
+    txt(g, 315, 38, "Screened subnet (DMZ)", { "text-anchor": "middle", "font-size": 11, "font-weight": 700 });
+    box(242, 50, 70, 46, "Web", "var(--warn)"); box(320, 50, 70, 46, "Mail GW", "var(--warn)");
+    box(430, 95, 70, 54, "Internal FW", "var(--bad)");
+    S("rect", { x: 530, y: 20, width: 200, height: 120, rx: 10, fill: "var(--net-soft)", stroke: "var(--net)", "stroke-dasharray": "5 4" }, g);
+    txt(g, 630, 38, "Internal", { "text-anchor": "middle", "font-size": 11, "font-weight": 700 });
+    box(542, 50, 80, 40, "Database", "var(--net)"); box(632, 50, 86, 40, "File server", "var(--net)"); box(542, 96, 176, 34, "User VLANs", "var(--net)");
+    S("rect", { x: 530, y: 160, width: 200, height: 80, rx: 10, fill: "var(--good-soft)", stroke: "var(--good)", "stroke-dasharray": "5 4" }, g);
+    txt(g, 630, 178, "Management", { "text-anchor": "middle", "font-size": 11, "font-weight": 700 });
+    box(542, 188, 80, 40, "Jump srv", "var(--good)"); box(632, 188, 86, 40, "DC / backup", "var(--good)");
+    line(g, 100, 122, 130, 122); line(g, 200, 110, 242, 80); line(g, 200, 122, 430, 122); line(g, 390, 80, 430, 110); line(g, 500, 115, 542, 70); line(g, 500, 125, 542, 113); line(g, 500, 140, 542, 208, "var(--good)", 2, "4 3");
+    txt(g, 150, 230, "Admins reach management only via the jump server (MFA, logged).", { "font-size": 11, class: "svg-muted" });
+  })();
+  (function () {
+    var g = $("ir-fig"), P = ["Preparation", "Detection & Analysis", "Containment, Eradication & Recovery", "Post-Incident Activity"], xs = [20, 200, 380, 580], ws = [160, 160, 180, 145];
+    P.forEach(function (p, i) {
+      S("rect", { x: xs[i], y: 40, width: ws[i], height: 60, rx: 10, fill: "var(--surface)", stroke: ["var(--good)", "var(--warn)", "var(--bad)", "var(--net)"][i], "stroke-width": 2 }, g);
+      var words = p.split(" "), half = Math.ceil(words.length / 2), two = p.length > 20;
+      txt(g, xs[i] + ws[i] / 2, two ? 66 : 74, two ? words.slice(0, half).join(" ") : p, { "text-anchor": "middle", "font-weight": 700, "font-size": 12 });
+      if (two) txt(g, xs[i] + ws[i] / 2, 84, words.slice(half).join(" "), { "text-anchor": "middle", "font-weight": 700, "font-size": 12 });
+      if (i < 3) { line(g, xs[i] + ws[i], 70, xs[i + 1] - 6, 70); S("polygon", { points: (xs[i + 1] - 4) + ",70 " + (xs[i + 1] - 12) + ",65 " + (xs[i + 1] - 12) + ",75", fill: "var(--ink-2)" }, g); }
+    });
+    S("path", { d: "M 470 100 C 470 140, 300 140, 290 104", fill: "none", stroke: "var(--ink-2)", "stroke-width": 2, "stroke-dasharray": "5 4" }, g);
+    txt(g, 380, 150, "new information → re-analyze", { "text-anchor": "middle", "font-size": 11, class: "svg-muted" });
+    S("path", { d: "M 652 40 C 652 0, 100 0, 100 36", fill: "none", stroke: "var(--ink-2)", "stroke-width": 2, "stroke-dasharray": "5 4" }, g);
+    txt(g, 380, 14, "lessons learned improve preparation", { "text-anchor": "middle", "font-size": 11, class: "svg-muted" });
+  })();
+
+  /* ===== Lab 1: Firewall ===== */
+  function ip2n(ip) { var p = String(ip).trim().split("."); if (p.length !== 4 || p.some(function (x) { return !/^\d{1,3}$/.test(x) || +x > 255; })) return null; return ((+p[0] << 24) >>> 0) + (+p[1] << 16) + (+p[2] << 8) + (+p[3]); }
+  function inNet(ip, spec) { spec = String(spec).trim().toLowerCase(); if (spec === "any" || spec === "") return true; var parts = spec.split("/"), base = ip2n(parts[0]); if (base === null) return false; var bits = parts.length > 1 ? +parts[1] : 32; if (!(bits >= 0 && bits <= 32)) return false; var mask = bits === 0 ? 0 : (0xFFFFFFFF << (32 - bits)) >>> 0; return ((ip2n(ip) & mask) >>> 0) === ((base & mask) >>> 0); }
+  var START = [
+    { act: "allow", src: "any", dst: "10.0.1.10", proto: "tcp", port: "443" },
+    { act: "allow", src: "any", dst: "any", proto: "tcp", port: "22" },
+    { act: "allow", src: "any", dst: "10.0.2.20", proto: "tcp", port: "3306" },
+    { act: "deny", src: "10.0.2.0/24", dst: "any", proto: "any", port: "any" },
+    { act: "allow", src: "10.0.2.0/24", dst: "any", proto: "tcp", port: "443" }
+  ];
+  var SOL = [
+    { act: "allow", src: "any", dst: "10.0.1.10", proto: "tcp", port: "443" },
+    { act: "allow", src: "10.0.1.10", dst: "10.0.2.20", proto: "tcp", port: "3306" },
+    { act: "allow", src: "10.0.9.5", dst: "10.0.1.0/24", proto: "tcp", port: "22" },
+    { act: "allow", src: "10.0.2.0/24", dst: "any", proto: "tcp", port: "443" },
+    { act: "allow", src: "10.0.2.0/24", dst: "any", proto: "udp", port: "53" }
+  ];
+  var TESTS = [
+    { d: "Customer browses the website", src: "203.0.113.50", dst: "10.0.1.10", proto: "tcp", port: 443, want: "allow" },
+    { d: "Internet host tries SSH to the web server", src: "198.51.100.9", dst: "10.0.1.10", proto: "tcp", port: 22, want: "deny" },
+    { d: "Internet host tries to reach the database directly", src: "198.51.100.9", dst: "10.0.2.20", proto: "tcp", port: 3306, want: "deny" },
+    { d: "Web server queries the database", src: "10.0.1.10", dst: "10.0.2.20", proto: "tcp", port: 3306, want: "allow" },
+    { d: "Jump server SSH to the web server", src: "10.0.9.5", dst: "10.0.1.10", proto: "tcp", port: 22, want: "allow" },
+    { d: "Employee browses an HTTPS site", src: "10.0.2.41", dst: "93.184.216.34", proto: "tcp", port: 443, want: "allow" },
+    { d: "Employee laptop DNS lookup", src: "10.0.2.41", dst: "8.8.8.8", proto: "udp", port: 53, want: "allow" },
+    { d: "Internet host tries RDP to an employee laptop", src: "198.51.100.9", dst: "10.0.2.41", proto: "tcp", port: 3389, want: "deny" },
+    { d: "Compromised web server tries SSH into the internal network", src: "10.0.1.10", dst: "10.0.2.41", proto: "tcp", port: 22, want: "deny" }
+  ];
+  var rules = [];
+  function fwMatch(pk) { for (var i = 0; i < rules.length; i++) { var r = rules[i]; if (!inNet(pk.src, r.src) || !inNet(pk.dst, r.dst)) continue; if (r.proto !== "any" && r.proto !== pk.proto) continue; if (String(r.port).trim() !== "any" && String(r.port).trim() !== "" && +r.port !== pk.port) continue; return { i: i, act: r.act }; } return { i: -1, act: "deny" }; }
+  function fwRules(hit) {
+    var T = $("fw-rules"); T.innerHTML = "";
+    T.appendChild(h("tr", null, ["#", "Action", "Source", "Destination", "Protocol", "Port", ""].map(function (x) { return h("th", null, x); })));
+    rules.forEach(function (r, i) {
+      function sel(k, opts) { var s = h("select", { "aria-label": k + " for rule " + (i + 1) }); opts.forEach(function (o) { var op = h("option", { value: o }, o); if (r[k] === o) op.selected = true; s.appendChild(op); }); s.onchange = function () { r[k] = s.value; fwClear(); }; return s; }
+      function inp(k) { var e = h("input", { type: "text", value: r[k], "aria-label": k + " for rule " + (i + 1), size: 11 }); e.oninput = function () { r[k] = e.value; fwClear(); }; return e; }
+      function mini(t, f, lab) { var b = h("button", { type: "button", class: "mini", "aria-label": lab }, t); b.onclick = f; return b; }
+      T.appendChild(h("tr", { class: hit === i ? "hit" : "" }, [h("td", null, String(i + 1)), h("td", null, sel("act", ["allow", "deny"])), h("td", null, inp("src")), h("td", null, inp("dst")), h("td", null, sel("proto", ["tcp", "udp", "icmp", "any"])), h("td", null, inp("port")),
+        h("td", null, [mini("↑", function () { if (i) { rules.splice(i - 1, 0, rules.splice(i, 1)[0]); fwRules(); fwClear(); } }, "Move rule up"), mini("↓", function () { if (i < rules.length - 1) { rules.splice(i + 1, 0, rules.splice(i, 1)[0]); fwRules(); fwClear(); } }, "Move rule down"), mini("✕", function () { rules.splice(i, 1); fwRules(); fwClear(); }, "Delete rule")])]));
+    });
+    T.appendChild(h("tr", { class: "implicit" + (hit === -1 ? " hit" : "") }, [h("td", null, "∞"), h("td", null, "deny"), h("td", null, "any"), h("td", null, "any"), h("td", null, "any"), h("td", null, "any"), h("td", null, "implicit deny")]));
+  }
+  function fwTests(results) {
+    var T = $("fw-tests"); T.innerHTML = "";
+    T.appendChild(h("tr", null, ["Test packet", "From → to", "Wanted", "Result", ""].map(function (x) { return h("th", null, x); })));
+    TESTS.forEach(function (t, k) {
+      var r = results && results[k], b = h("button", { type: "button", class: "mini" }, "Send");
+      b.onclick = function () { var m = fwMatch(t); fwRules(m.i); OMNI.say("fw-cap", "<b>" + esc(t.d) + "</b>: " + t.src + " → " + t.dst + " " + t.proto.toUpperCase() + "/" + t.port + ". " + (m.i < 0 ? "No rule matched, so the <b>implicit deny</b> dropped it." : "Rule " + (m.i + 1) + " matched first, so it was <b>" + m.act + "ed</b>; rules below it were never checked.") + (m.act === t.want ? " <span class='pill-ok'>As intended</span>" : " <span class='pill-no'>Should be " + t.want + "</span>")); };
+      T.appendChild(h("tr", null, [h("td", null, t.d), h("td", null, h("code", null, t.src + " → " + t.dst + " " + t.proto + "/" + t.port)), h("td", null, t.want), h("td", null, r ? h("span", { class: r.ok ? "pill-ok" : "pill-no" }, r.act + (r.i < 0 ? " (implicit)" : " (rule " + (r.i + 1) + ")")) : "–"), h("td", null, b)]));
+    });
+  }
+  function fwClear() { fwTests(null); fwRules(); }
+  function fwRun() {
+    var res = TESTS.map(function (t) { var m = fwMatch(t); return { act: m.act, i: m.i, ok: m.act === t.want }; }), ok = res.filter(function (r) { return r.ok; }).length;
+    fwTests(res); fwRules();
+    var tips = [];
+    if (res[1].act === "allow" || res[8].act === "allow") tips.push("An 'allow any → any TCP 22' rule lets the whole internet (and a compromised web server) try SSH. Limit SSH to the jump server as the source.");
+    if (res[2].act === "allow") tips.push("The database should only accept 3306 from the web server, never from 'any'.");
+    if (res[5].act === "deny" || res[6].act === "deny") tips.push("A broad deny placed above a specific allow shadows it: the first match wins. Move the deny down or delete it (the implicit deny already blocks everything else). Don't forget DNS on UDP 53.");
+    if (res[3].act === "deny") tips.push("The web server needs a rule to reach the database on TCP 3306.");
+    if (res[4].act === "deny") tips.push("Admins need SSH from the jump server (10.0.9.5) to the DMZ.");
+    OMNI.say("fw-cap", (ok === TESTS.length ? "<span class='pill-ok'>All " + ok + " tests pass</span> Least privilege achieved: each allow is as narrow as possible and everything else falls to the implicit deny." : ok + " of " + TESTS.length + " tests pass. " + tips.join(" ")));
+  }
+  $("fw-add").onclick = function () { rules.push({ act: "allow", src: "any", dst: "any", proto: "tcp", port: "80" }); fwClear(); };
+  $("fw-run").onclick = fwRun;
+  $("fw-reset").onclick = function () { rules = START.map(function (r) { return Object.assign({}, r); }); fwClear(); OMNI.say("fw-cap", "Starting rules restored. Press Run all tests."); };
+  $("fw-sol").onclick = function () { rules = SOL.map(function (r) { return Object.assign({}, r); }); fwRun(); };
+  rules = START.map(function (r) { return Object.assign({}, r); }); fwClear(); OMNI.say("fw-cap", "Press <b>Run all tests</b> to see which packets the starting rules handle wrongly, or <b>Send</b> one packet at a time.");
+
+  /* ===== Lab 2: Segmentation ===== */
+  var SYS = [
+    { id: "web", n: "Public web server", z: "dmz" }, { id: "mail", n: "Email gateway", z: "dmz" }, { id: "dns", n: "Public DNS server", z: "dmz" },
+    { id: "db", n: "Customer database", z: "int" }, { id: "file", n: "File server", z: "int" }, { id: "hr", n: "HR application", z: "int" },
+    { id: "dc", n: "Domain controller", z: "mgmt" }, { id: "bak", n: "Backup server", z: "mgmt" }, { id: "swm", n: "Switch management", z: "mgmt" }, { id: "jump", n: "Jump server", z: "mgmt" }
+  ];
+  var sg;
+  function sgInit() { var b = $("sg-bank"); b.innerHTML = "<span class='zone-title'>Unplaced systems</span>"; OMNI.$$("#lab-seg .zones4 .dropzone").forEach(function (z) { OMNI.$$(".chip", z).forEach(function (c) { c.remove(); }); }); OMNI.shuffle(SYS.slice()).forEach(function (s) { b.appendChild(h("div", { class: "chip", "data-id": s.id }, s.n)); }); if (sg) sg.refresh(); OMNI.say("sg-cap", "Place all ten systems, then launch an attack."); }
+  sg = OMNI.dnd($("lab-seg"), function () { OMNI.$$("#lab-seg .chip").forEach(function (c) { c.classList.remove("hot", "safe"); }); });
+  function zoneOf(id) { var c = document.querySelector('#lab-seg .chip[data-id="' + id + '"]'), z = c && c.closest(".dropzone"); return z && z.dataset.zone ? z.dataset.zone : null; }
+  OMNI.$$("#lab-seg [data-atk]").forEach(function (b) {
+    b.onclick = function () {
+      var un = SYS.filter(function (s) { return !zoneOf(s.id); });
+      if (un.length) { OMNI.say("sg-cap", "Place every system first (" + un.length + " left)."); return; }
+      var a = b.dataset.atk, hot = {}, msg = [];
+      SYS.forEach(function (s) {
+        var z = zoneOf(s.id);
+        if (a === "scan") { if (z === "dmz") hot[s.id] = true; }
+        if (a === "web") { if (z === zoneOf("web")) hot[s.id] = true; if (zoneOf("web") === "dmz" && s.id === "db" && z === "int") hot[s.id] = true; }
+        if (a === "phish") { if (z === "int") hot[s.id] = true; }
+      });
+      if (a === "web" && zoneOf("web") !== "dmz") hot.web = true;
+      OMNI.$$("#lab-seg .chip").forEach(function (c) { c.classList.toggle("hot", !!hot[c.dataset.id]); c.classList.toggle("safe", !hot[c.dataset.id]); });
+      var exposedBad = SYS.filter(function (s) { return hot[s.id] && s.z !== "dmz" && !(a === "web" && s.id === "db") && !(a === "phish" && s.z === "int"); });
+      if (a === "scan") msg.push("Everything in the DMZ is reachable from the internet on its public ports, which is expected for the web, mail and DNS servers.");
+      if (a === "web") msg.push(zoneOf("web") === "dmz" ? "The attacker controls the web server and anything sharing the DMZ. The only path inward is the database port, so protect the database with least-privilege accounts and monitoring." : "The web server isn't in the DMZ, so compromising it puts the attacker straight into the " + (zoneOf("web") === "int" ? "internal" : "management") + " zone with everything there.");
+      if (a === "phish") msg.push("A phished laptop sits in the internal zone, so internal servers are reachable. Management systems stay safe because they're only reachable through the jump server with MFA.");
+      if (exposedBad.length) msg.push("<span class='pill-no'>Too exposed:</span> " + exposedBad.map(function (s) { return esc(s.n) + " (belongs in " + { dmz: "the DMZ", int: "internal", mgmt: "management" }[s.z] + ")"; }).join(", ") + ".");
+      var right = SYS.filter(function (s) { return zoneOf(s.id) === s.z; }).length;
+      msg.push("Placement score: " + right + " / " + SYS.length + (right === SYS.length ? " <span class='pill-ok'>Textbook design</span>" : "") + ". Red = reachable by the attacker, green = protected.");
+      OMNI.say("sg-cap", msg.join(" "));
+    };
+  });
+  $("sg-reset").onclick = sgInit; sgInit();
+
+  /* ===== Lab 3: SIEM ===== */
+  var LOG = [], shown = 0, smTimer = null;
+  (function gen() {
+    var t = 6 * 3600 + 58 * 60, users = ["mlopez", "pshah", "jkim", "tnguyen", "aokafor", "rbrown"], ipsGood = ["203.0.113.21", "203.0.113.47", "203.0.113.88", "203.0.113.102"], atk = "198.51.100.77", rnd = (function () { var s = 7; return function () { s = (s * 16807) % 2147483647; return s / 2147483647; }; })();
+    function ts(x) { var hh = Math.floor(x / 3600), mm = Math.floor(x % 3600 / 60), ss = x % 60; return "2026-11-17T" + [hh, mm, ss].map(function (v) { return String(v).padStart(2, "0"); }).join(":"); }
+    function add(src, msg, cls) { LOG.push({ t: ts(t), src: src, msg: msg, cls: cls || "" }); }
+    for (var i = 0; i < 30; i++) { t += 3 + Math.floor(rnd() * 20); var r = rnd(); if (r < .35) add("vpn", "auth SUCCESS user=" + users[i % 6] + " src=" + ipsGood[i % 4] + " mfa=ok", "ok"); else if (r < .55) add("proxy", "ALLOW user=" + users[i % 6] + " GET https://intranet.halcyondata.com/ 200"); else if (r < .7) add("fw", "ALLOW tcp 203.0.113." + (20 + i) + ":5" + (1000 + i) + " -> 10.0.1.10:443"); else if (r < .85) add("web01", "GET /products 200 " + (800 + Math.floor(rnd() * 900)) + "ms"); else add("vpn", "auth FAIL user=" + users[(i + 2) % 6] + " src=" + ipsGood[(i + 1) % 4] + " reason=bad_password", "fail"); }
+    var names = ["admin", "administrator", "root", "test", "backup", "svc_backup", "guest", "user", "scanner", "svc_backup"];
+    for (var j = 0; j < 42; j++) { t += 2 + Math.floor(rnd() * 3); add("vpn", "auth FAIL user=" + names[j % names.length] + " src=" + atk + " reason=" + (/^(test|guest|user|scanner|root)$/.test(names[j % names.length]) ? "unknown_user" : "bad_password"), "fail"); if (j % 9 === 4) { t += 2; add("vpn", "auth SUCCESS user=" + users[j % 6] + " src=" + ipsGood[j % 4] + " mfa=ok", "ok"); } if (j % 11 === 6) add("fw", "DENY tcp 198.51.100.200:4431 -> 10.0.1.10:22", "warn"); }
+    t += 3; add("vpn", "auth SUCCESS user=svc_backup src=" + atk + " mfa=not_enrolled", "ok");
+    t += 41; add("dc01", "4624 logon success account=svc_backup workstation=VPN-POOL-12 type=3", "ok");
+    t += 22; add("dc01", "4720 user account CREATED new=helpdesk_temp by=svc_backup", "warn");
+    t += 9; add("dc01", "4732 member ADDED group=Administrators member=helpdesk_temp by=svc_backup", "warn");
+    for (var k = 0; k < 10; k++) { t += 4 + Math.floor(rnd() * 15); add(k % 2 ? "proxy" : "web01", k % 2 ? "ALLOW user=" + users[k % 6] + " GET https://mail.halcyondata.com/ 200" : "GET /cart 200 " + (500 + k * 40) + "ms"); }
+    t += 30; add("fw", "ALLOW tcp 10.0.2.33:51544 -> 192.0.2.250:443 bytes_out=4.2GB", "warn");
+    for (var m = 0; m < 12; m++) { t += 5 + Math.floor(rnd() * 20); add(["vpn", "proxy", "web01", "fw"][m % 4], ["auth SUCCESS user=" + users[m % 6] + " src=" + ipsGood[m % 4] + " mfa=ok", "ALLOW user=" + users[m % 6] + " GET https://docs.halcyondata.com/ 200", "GET /checkout 200 " + (900 + m * 10) + "ms", "ALLOW tcp 203.0.113." + (60 + m) + ":50" + (100 + m) + " -> 10.0.1.10:443"][m % 4], m % 4 === 0 ? "ok" : ""); }
+  })();
+  function smRender() {
+    var f = $("sm-filter").value.toLowerCase(), s = $("sm-src").value, box = $("sm-log"), html = "";
+    LOG.slice(0, shown).forEach(function (l) { var lineTxt = l.t + "  " + l.src.padEnd(5) + "  " + l.msg; if (s && l.src !== s) return; if (f && lineTxt.toLowerCase().indexOf(f) < 0) return; html += "<span class='" + l.cls + "'>" + esc(lineTxt) + "</span>\n"; });
+    var atBottom = box.scrollHeight - box.scrollTop - box.clientHeight < 30; box.innerHTML = html || "<span>(no lines match the filter)</span>"; if (atBottom || smTimer) box.scrollTop = box.scrollHeight;
+  }
+  function smTick() { shown = Math.min(LOG.length, shown + 3); smRender(); if (shown >= LOG.length) { smStop(); $("sm-play").textContent = "Replay"; OMNI.say("sm-cap", "All " + LOG.length + " lines have arrived. Now hunt: try filtering on <code>FAIL</code>, then use <b>Top failed-login sources</b>."); } }
+  function smStop() { clearInterval(smTimer); smTimer = null; }
+  $("sm-play").onclick = function () { if (smTimer) { smStop(); this.textContent = "Resume"; return; } if (shown >= LOG.length) shown = 0; this.textContent = "Pause"; smTimer = setInterval(smTick, OMNI.reduced ? 60 : 180); };
+  $("sm-filter").oninput = smRender; $("sm-src").onchange = smRender;
+  $("sm-agg").onclick = function () { var c = {}; LOG.slice(0, shown).forEach(function (l) { var m = / FAIL .*src=([\d.]+)/.exec(l.msg); if (m) c[m[1]] = (c[m[1]] || 0) + 1; }); var top = Object.keys(c).sort(function (a, b) { return c[b] - c[a]; }); OMNI.say("sm-cap", top.length ? "Failed logins by source (like a SIEM 'count by src' query): " + top.map(function (k) { return "<code>" + k + "</code> × " + c[k]; }).join(", ") + ". One address with dozens of failures across many usernames is a brute-force or spraying pattern. Next: did that address ever succeed?" : "No failures in the lines received so far. Let the stream run longer."); };
+  $("sm-check").onclick = function () {
+    var a1 = $("sm-a1").value.trim() === "198.51.100.77", a2 = /^svc_backup$/i.test($("sm-a2").value.trim()), a3 = /creat|account|user|admin|group|privilege|escalat|exfil|upload|transfer/i.test($("sm-a3").value);
+    var n = [a1, a2, a3].filter(Boolean).length; $("sm-score").textContent = n + " / 3";
+    OMNI.say("sm-cap", (n === 3 ? "<span class='pill-ok'>Case solved</span> " : "") + [a1 ? "✓ IP 198.51.100.77" : "✗ Q1: filter on FAIL and look for one source hitting many usernames.", a2 ? "✓ svc_backup" : "✗ Q2: filter on 198.51.100.77 and find the SUCCESS line.", a3 ? "✓ Next steps" : "✗ Q3: filter on svc_backup or dc01 to see what the account did right after logging in."].join(" · ") + (n === 3 ? " The full story: 42 failures from one IP, a success on a service account that had <b>no MFA enrolled</b>, a new account added to Administrators (privilege escalation and persistence), then a 4.2 GB upload to an unknown external address (exfiltration). Fixes: MFA for every VPN account, lockout/alerting on failure bursts, a SIEM correlation rule 'N failures then success from the same source', and alerts on admin-group changes." : ""));
+  };
+  shown = 0; smTimer = setInterval(smTick, OMNI.reduced ? 60 : 180); OMNI.say("sm-cap", "Logs are streaming in. Pause any time; filters apply to everything received so far.");
+
+  /* ===== Lab 4: IR ===== */
+  var PH = ["Preparation", "Detection & Analysis", "Containment", "Eradication", "Recovery", "Post-Incident"];
+  var IR = [
+    { p: 1, s: "Monday 6:12 AM. The help desk reports that files on the finance share have been renamed with a .lock extension. EDR shows alerts on three servers.", o: [["Validate the alerts, declare an incident, activate the IR plan and start an incident log", 1, "Correct. Confirm it's real, declare it so the plan and team kick in, and document every action with timestamps from the start."], ["Reboot all the servers to stop the encryption", 0, "Rebooting destroys volatile evidence (memory, running processes) and may not stop anything. Analyze first."], ["Wait an hour to see whether it spreads", 0, "Ransomware moves fast; delay lets it encrypt more and reach backups."]] },
+    { p: 2, s: "Analysis shows ransomware spreading over SMB from a server that a service account logged into via VPN overnight.", o: [["Network-isolate the affected hosts with EDR and disable the compromised account", 1, "Correct. Isolation stops spread while keeping machines powered on for evidence; disabling the account cuts the attacker's access."], ["Pull the plug on the entire data center", 0, "This stops everything, including evidence in memory and business services that weren't affected. Targeted isolation is better."], ["Change the Wi-Fi password", 0, "Unrelated to how the attacker got in (VPN) or how it spreads (SMB)."]] },
+    { p: 2, s: "Legal says this may end up in court or an insurance claim. One infected server is still running.", o: [["Capture memory and a disk image first, hash them and start a chain-of-custody form", 1, "Correct. Follow the order of volatility (memory before disk), verify images with hashes, and document who handled what."], ["Reimage it right away so it's clean", 0, "Reimaging destroys the evidence you'll need to find the root cause and support legal action."], ["Copy a few suspicious files to a USB stick", 0, "Ad hoc copying changes metadata and breaks the chain of custody."]] },
+    { p: 2, s: "A ransom note demands 40 BTC within 72 hours and threatens to publish stolen data.", o: [["Escalate to leadership, legal, insurer and law enforcement per the plan; don't negotiate alone", 1, "Correct. Paying is a business and legal decision (some payments may be sanctioned), and stolen data may trigger breach-notification laws. Follow the communication plan."], ["Pay quickly to make it go away", 0, "No guarantee of a working key or deletion of stolen data, possible legal issues, and it funds further attacks."], ["Reply to the attacker from your work email to ask for a discount", 0, "Uncoordinated contact can make things worse and leaks information."]] },
+    { p: 3, s: "Investigators find the attacker guessed the password of a VPN service account with no MFA, created a backdoor admin account and added a scheduled task.", o: [["Remove the backdoor account and persistence, reset credentials, and enforce MFA on the VPN", 1, "Correct. Eradication removes the attacker and the root cause; otherwise they walk right back in after recovery."], ["Restore the servers and move on", 0, "Without removing persistence and fixing the entry point, the attacker returns."], ["Rename the service account", 0, "Cosmetic; the backdoor and missing MFA remain."]] },
+    { p: 4, s: "Time to restore. The online backup server was also encrypted, but last night's offline immutable copy is intact.", o: [["Restore from the offline backup in BIA priority order and monitor closely", 1, "Correct. Restore the most critical services first (per the BIA and RTOs), scan restored data, and watch for re-infection."], ["Restore everything at once from whatever backup is newest", 0, "The newest online backup may be encrypted or infected, and restoring everything at once overwhelms validation."], ["Rebuild from scratch without backups", 0, "Unnecessary data loss when a clean backup exists."]] },
+    { p: 5, s: "Two weeks later, services are back to normal.", o: [["Hold a lessons-learned review, update playbooks and track the fixes", 1, "Correct. What happened, what worked, what didn't, and what changes (MFA everywhere, failure-burst alerts, backup testing). Then feed it back into Preparation."], ["Discipline the employee whose account was attacked", 0, "It was a service account with a weak control; blame culture discourages reporting."], ["Close the ticket; it's over", 0, "Skipping lessons learned means the same attack works again."]] }
+  ];
+  var irI = 0, irScore = 0, irT = null, irLeft = 0;
+  function irPhases(p) { var b = $("ir-phases"); b.innerHTML = ""; PH.forEach(function (n, i) { b.appendChild(h("span", { class: i === p ? "on" : "" }, n)); }); }
+  function irStopTimer() { clearInterval(irT); irT = null; $("ir-bar").style.width = "0%"; }
+  function irShow() {
+    irStopTimer(); var B = $("ir-box"); B.innerHTML = "";
+    if (irI >= IR.length) {
+      irPhases(0);
+      B.appendChild(h("div", { class: "callout", style: "border-left-color:" + (irScore >= 6 ? "var(--good)" : "var(--warn)") }, [h("b", null, "Exercise complete: " + irScore + " / " + IR.length + " best decisions. "), "Notice how the loop ends back at Preparation: the improvements from lessons learned (MFA on every remote account, tested offline backups, a ransomware playbook) are what make the next incident smaller."]));
+      var rb = h("button", { type: "button", class: "primary" }, "Run it again"); rb.onclick = irRestart; B.appendChild(h("div", { class: "row" }, rb)); return;
+    }
+    var st = IR[irI]; irPhases(st.p);
+    B.appendChild(h("h4", null, "Decision " + (irI + 1) + " of " + IR.length + " · NIST phase: " + PH[st.p]));
+    B.appendChild(h("p", null, st.s));
+    var opts = h("div", { class: "ir-opts" });
+    OMNI.shuffle(st.o.slice()).forEach(function (o) { var b = h("button", { type: "button" }, o[0]); b.onclick = function () { irPick(o); }; opts.appendChild(b); });
+    B.appendChild(opts);
+    if ($("ir-timed").checked) { irLeft = 40; $("ir-bar").style.width = "100%"; irT = setInterval(function () { irLeft--; $("ir-bar").style.width = (irLeft / 40 * 100) + "%"; if (irLeft <= 0) { irStopTimer(); OMNI.say("ir-cap", "<span class='pill-warn'>Time's up</span> No decision was made, and the ransomware kept spreading. In a real incident, a rehearsed playbook is what lets you decide quickly. Best answer here: <b>" + esc(st.o[0][0]) + "</b>."); irI++; irShow(); } }, 1000); }
+  }
+  function irPick(o) { irStopTimer(); if (o[1]) irScore++; var best = IR[irI].o.find(function (x) { return x[1]; }); OMNI.say("ir-cap", (o[1] ? "<span class='pill-ok'>Good call</span> " : "<span class='pill-no'>Risky call</span> ") + o[2] + (o[1] ? "" : " Better: <b>" + esc(best[0]) + "</b>.")); irI++; irShow(); }
+  function irRestart() { irI = 0; irScore = 0; irShow(); OMNI.say("ir-cap", "Preparation already happened (or didn't!). The incident starts at Detection and Analysis. Make each decision as the incident commander."); }
+  $("ir-restart").onclick = irRestart; irRestart();
+
+  /* ===== Lab 5: Risk ===== */
+  var RISKS = [
+    { n: "Ransomware on file servers", d: "Phishing is common; an outage would halt finance and operations.", L: 4, I: 5, hint: "Mitigate: EDR, MFA, segmentation and offline backups lower both likelihood and impact." },
+    { n: "Data center utility power outage", d: "Several short outages a year; UPS and generator exist.", L: 3, I: 4, hint: "Mitigate (UPS, generator, tested failover); a colocation or DR site can also transfer part of it." },
+    { n: "Laptop theft", d: "A few laptops are lost each year; disks are encrypted.", L: 4, I: 2, hint: "Already low impact thanks to encryption, likely within appetite: accept and keep monitoring." },
+    { n: "Third-party payroll provider breach", d: "The vendor holds employee bank details.", L: 2, I: 4, hint: "Transfer through contract terms and cyber insurance; also assess the vendor (mitigate)." },
+    { n: "Legacy customer FTP service", d: "Unencrypted, rarely used, can't be patched.", L: 4, I: 4, hint: "Avoid: retire the service and move customers to a secure portal." },
+    { n: "DDoS on customer portal", d: "Competitor sector has seen attacks recently.", L: 3, I: 3, hint: "Mitigate with a DDoS protection service or CDN (or transfer to the provider via SLA)." }
+  ];
+  var TREAT = { accept: "Accept", mitigate: "Mitigate", transfer: "Transfer", avoid: "Avoid" };
+  var rkSel = 0, rk = RISKS.map(function () { return { L: 0, I: 0, t: null }; });
+  function resid(r) { if (!r.L) return null; if (r.t === "avoid") return { L: 0, I: 0 }; if (r.t === "mitigate") return { L: Math.max(1, r.L - 2), I: Math.max(1, r.I - 1) }; if (r.t === "transfer") return { L: r.L, I: Math.max(1, r.I - 2) }; return { L: r.L, I: r.I }; }
+  function color(s) { return s >= 15 ? "#f87171" : s >= 10 ? "#fb923c" : s >= 5 ? "#fde047" : "#86efac"; }
+  function rkRender() {
+    var L = $("rk-list"); L.innerHTML = "";
+    RISKS.forEach(function (r, i) { var b = h("button", { type: "button", class: i === rkSel ? "on" : "" }, "R" + (i + 1) + " " + r.n); b.onclick = function () { rkSel = i; rkRender(); }; L.appendChild(b); });
+    var G = $("rk-grid"); G.innerHTML = "";
+    for (var l = 5; l >= 1; l--) {
+      G.appendChild(h("div", { class: "rlab" }, "L" + l));
+      for (var im = 1; im <= 5; im++) {
+        (function (l, im) {
+          var c = h("button", { type: "button", class: "cell", style: "background:" + color(l * im), "aria-label": "Likelihood " + l + ", impact " + im + ", score " + (l * im) });
+          rk.forEach(function (r, i) { if (r.L === l && r.I === im) c.appendChild(h("span", { class: "rk" }, "R" + (i + 1))); var rs = resid(r); if (r.t && rs && rs.L === l && rs.I === im) c.appendChild(h("span", { class: "rk res" }, "R" + (i + 1))); });
+          c.onclick = function () { rk[rkSel].L = l; rk[rkSel].I = im; rkRender(); var s = l * im; OMNI.say("rk-cap", "R" + (rkSel + 1) + " inherent risk = likelihood " + l + " × impact " + im + " = <b>" + s + "</b>. " + (s > 12 ? "That's above the appetite of 12, so it must be treated." : "That's within appetite; accepting it is reasonable if leadership agrees.") + " Suggested values for this scenario: L" + RISKS[rkSel].L + " × I" + RISKS[rkSel].I + "."); };
+          G.appendChild(c);
+        })(l, im);
+      }
+    }
+    G.appendChild(h("div")); [1, 2, 3, 4, 5].forEach(function (i) { G.appendChild(h("div", { class: "rlab" }, "I" + i)); });
+    var r = RISKS[rkSel], st = rk[rkSel];
+    $("rk-name").textContent = "R" + (rkSel + 1) + ": " + r.n; $("rk-desc").textContent = r.d;
+    var T = $("rk-treat"); T.innerHTML = "";
+    Object.keys(TREAT).forEach(function (k) { var b = h("button", { type: "button", class: st.t === k ? "on" : "" }, TREAT[k]); b.onclick = function () { if (!st.L) { OMNI.say("rk-cap", "Plot the inherent risk on the grid first."); return; } st.t = k; rkRender(); var rs = resid(st), s = rs.L * rs.I; OMNI.say("rk-cap", "<b>" + TREAT[k] + "</b>: " + { accept: "no change; the owner formally accepts the risk (document it in the register).", mitigate: "controls reduce likelihood (and some impact).", transfer: "insurance or a contract shifts the financial impact; likelihood is unchanged and you still own the reputational risk.", avoid: "stop the activity entirely, so the risk disappears (along with any benefit)." }[k] + " Residual score: <b>" + s + "</b>" + (s > 12 ? " <span class='pill-no'>still above appetite</span>" : " <span class='pill-ok'>within appetite</span>") + ". Hint for this scenario: " + RISKS[rkSel].hint); }; T.appendChild(b); });
+    var sb = h("button", { type: "button" }, "Use suggested values"); sb.onclick = function () { st.L = r.L; st.I = r.I; rkRender(); }; T.appendChild(sb);
+    $("rk-hint").textContent = "Residual risk is estimated: mitigate −2 likelihood and −1 impact; transfer −2 impact; avoid removes it; accept leaves it unchanged.";
+    var tb = $("rk-table"); tb.innerHTML = "";
+    tb.appendChild(h("tr", null, ["ID", "Risk", "L", "I", "Inherent", "Treatment", "Residual", "Status"].map(function (x) { return h("th", null, x); })));
+    RISKS.forEach(function (x, i) { var s = rk[i], rs = resid(s), inh = s.L ? s.L * s.I : null, res = s.t && rs ? rs.L * rs.I : null; tb.appendChild(h("tr", null, [h("td", null, "R" + (i + 1)), h("td", null, x.n), h("td", null, s.L ? String(s.L) : "–"), h("td", null, s.I ? String(s.I) : "–"), h("td", null, inh === null ? "–" : String(inh)), h("td", null, s.t ? TREAT[s.t] : "–"), h("td", null, res === null ? "–" : String(res)), h("td", null, inh === null ? "Not assessed" : h("span", { class: (res === null ? inh : res) > 12 ? "pill-no" : "pill-ok" }, (res === null ? inh : res) > 12 ? "Above appetite" : (res === null ? "Within appetite (untreated)" : "Within appetite")))])); });
+  }
+  rkRender(); OMNI.say("rk-cap", "Choose a risk, click a cell to set its likelihood and impact, then choose a treatment. Tip: <b>Use suggested values</b> fills in a reasonable starting point.");
+})();
 </script>
+<!-- module-data:start -->
+<script type="application/json" id="module-data">{"module":18,"title":"Defending the Organization","glossary":[["Screened subnet (DMZ)","A buffer zone for public servers.","A network segment between the internet and the internal network hosting externally accessible services.","Demilitarized zone"],["Microsegmentation","Tiny security zones around each workload.","Granular, often software-defined policies controlling east-west traffic between individual workloads.",""],["Stateful firewall","A firewall that remembers connections.","A firewall that tracks connection state and automatically permits return traffic for established sessions.",""],["NGFW","A firewall that understands apps and users.","Next-generation firewall: adds application awareness, user identity, IPS and TLS inspection.","Next-Generation Firewall"],["WAF","A firewall for web apps.","Web application firewall: inspects HTTP traffic to block attacks such as SQL injection and XSS.","Web Application Firewall"],["IDS / IPS","Alarm vs alarm-plus-bouncer.","Intrusion detection system (passive, alerts) / intrusion prevention system (inline, can block).","Intrusion Detection / Prevention System"],["Implicit deny","Anything not allowed is blocked.","The default final rule in an ACL or firewall that denies all traffic not matched by an earlier rule.",""],["Jump server","The one guarded door for admins.","A hardened, monitored host used as the controlled entry point to administer sensitive systems.","Bastion host"],["NAC","Checks devices before letting them on.","Network access control: enforces identity and device posture policies before granting network access.","Network Access Control"],["802.1X","Port-based network login.","IEEE standard for port-based access control using a supplicant, authenticator and authentication server (RADIUS) with EAP.",""],["SASE","Network security delivered from the cloud.","Secure Access Service Edge: converges SD-WAN with cloud-delivered security (SWG, CASB, ZTNA, FWaaS).","Secure Access Service Edge"],["SD-WAN","Smart, software-run WAN links.","Software-defined WAN: centrally managed routing across multiple transport links.","Software-Defined Wide Area Network"],["Fail-open / fail-closed","On failure: let traffic through vs block it.","Behavior of a security device when it fails: prioritize availability (open) or security (closed).",""],["Secure baseline","The approved secure starting configuration.","A documented standard configuration (e.g., from CIS Benchmarks) deployed and maintained across systems.",""],["EDR / XDR","Smart endpoint protection / across everything.","Endpoint detection and response monitors endpoint behavior and responds; extended detection and response correlates across endpoint, network, email and cloud.",""],["Application allow list","Only approved programs can run.","A control that permits execution only of explicitly approved applications.",""],["MDM","Central control of mobile devices.","Mobile device management: enforces policies, encryption, app control and remote wipe on mobile devices.","Mobile Device Management"],["BYOD / COPE / CYOD","Who owns the phone.","Bring your own device / corporate-owned, personally enabled / choose your own device (from an approved list).",""],["DLP","Stops sensitive data leaving.","Data loss prevention: detects and blocks unauthorized movement of sensitive data.","Data Loss Prevention"],["Data sovereignty","Data follows the laws where it's stored.","The principle that data is subject to the laws of the country in which it is located.",""],["SIEM","Central log collection and correlation.","Security information and event management: aggregates, normalizes and correlates logs to detect and investigate incidents.","Security Information and Event Management"],["SOAR","Automated security playbooks.","Security orchestration, automation and response: automates response actions across tools.","Security Orchestration, Automation and Response"],["Threat hunting","Actively looking for hidden attackers.","Proactive, hypothesis-driven searching for threats that evaded existing detections.",""],["SPF / DKIM / DMARC","Email sender checks.","SPF lists authorized sending servers; DKIM signs messages; DMARC sets policy for failures and requires alignment.","Sender Policy Framework / DomainKeys Identified Mail / Domain-based Message Authentication, Reporting and Conformance"],["Incident response plan","The playbook for when things go wrong.","Documented roles, procedures and communications for handling security incidents.",""],["Tabletop exercise","Talking through a pretend incident.","A discussion-based exercise where participants walk through their responses to a scenario.",""],["Order of volatility","Grab the most fragile evidence first.","The sequence for collecting evidence from most to least volatile (registers/cache, RAM, swap, disk, logs, archives).",""],["Chain of custody","Paper trail for evidence.","Documentation of every person who handled evidence, when and for what purpose.",""],["Legal hold","Don't delete anything relevant.","A directive to preserve information relevant to litigation or investigation, overriding retention schedules.",""],["BIA","What hurts most if it stops.","Business impact analysis: identifies critical functions, dependencies and impacts to set recovery priorities.","Business Impact Analysis"],["RTO / RPO","How fast back / how much data lost.","Recovery time objective (maximum downtime) / recovery point objective (maximum data loss measured in time).",""],["Hot / warm / cold site","Ready now / partly ready / empty.","Alternate processing sites with decreasing readiness and cost.",""],["Policy / standard / procedure / guideline","Why / what exactly / how / advice.","Hierarchy of governance documents; the first three are mandatory, guidelines are recommendations.",""],["Risk register","The list of known risks.","A record of identified risks, owners, ratings, treatments and status.",""],["Risk appetite / tolerance","How much risk we want / can bear.","The amount of risk an organization is willing to pursue (appetite) and the acceptable deviation (tolerance).",""],["ALE","Expected yearly loss from a risk.","Annualized loss expectancy = single loss expectancy × annualized rate of occurrence.","Annualized Loss Expectancy"],["Inherent / residual risk","Before / after controls.","Risk level before any controls are applied / the risk remaining after treatment.",""],["Risk transfer","Shifting the cost to someone else.","Moving the financial impact of a risk to another party, e.g., insurance or contracts.",""],["Data controller / processor","Decides why / processes on their behalf.","Under GDPR, the controller determines the purposes of processing; the processor processes personal data for the controller.",""]],"quiz":[{"t":"mc","q":"A company needs its public web server reachable from the internet while protecting internal systems if the server is compromised. Where should it go?","o":["Internal network","Screened subnet (DMZ)","Management VLAN","Guest Wi-Fi"],"a":1,"w":["A compromise would expose internal systems.","Correct.","Management is for admin systems.","Not for servers."],"x":"Two firewalls (or a three-legged firewall) separate the DMZ from internal zones.","c":"S","d":"3.2 Secure enterprise infrastructure"},{"t":"mc","q":"Which device sits inline and can drop malicious traffic in real time?","o":["IDS","IPS","SIEM","Network tap"],"a":1,"w":["Passive; alerts only.","Correct.","Correlates logs.","Copies traffic for monitoring."],"x":"IPS = inline; IDS = out-of-band monitoring.","c":"S","d":"3.2 Secure enterprise infrastructure"},{"t":"mc","q":"A firewall has 'deny any any' as rule 1 and 'allow any to web server TCP 443' as rule 2. What happens to HTTPS traffic to the web server?","o":["Allowed because rule 2 is more specific","Denied because the first matching rule wins","Allowed because of implicit allow","Logged but not acted on"],"a":1,"w":["Firewalls generally use first match, not best match.","Correct.","Firewalls use implicit deny.","Rule 1 denies it."],"x":"Order rules from most specific to most general.","c":"S","d":"4.5 Enterprise security capabilities"},{"t":"mc","q":"Only company-managed laptops with current patches should be able to join the wired network. Which control fits?","o":["NAC with 802.1X and posture checking","WAF","DLP","SPF"],"a":0,"w":["Correct.","Protects web applications.","Stops data leaving.","Email sender validation."],"x":"802.1X: supplicant, authenticator (switch), RADIUS server.","c":"S","d":"4.5 Enterprise security capabilities"},{"t":"mc","q":"Employees may use their own phones for work email, with company data kept in a managed container. Which model is this?","o":["COPE","CYOD","BYOD","Corporate-owned only"],"a":2,"w":["Company owns the device.","Employee picks from approved company-owned devices.","Correct.","No personal use."],"x":"MDM containerization separates work and personal data.","c":"S","d":"4.1 Security techniques for computing resources"},{"t":"mc","q":"Which email record lets a domain tell receivers to reject messages that fail authentication checks?","o":["SPF","DKIM","DMARC","MX"],"a":2,"w":["Lists authorized senders.","Signs messages.","Correct: p=reject.","Routes mail."],"x":"DMARC policies: none, quarantine, reject.","c":"S","d":"4.5 Enterprise security capabilities"},{"t":"mc","q":"Which tool automatically isolates a host and opens a ticket when a specific alert fires?","o":["SIEM","SOAR","NetFlow","Vulnerability scanner"],"a":1,"w":["Correlates and alerts, but SOAR automates the response.","Correct.","Flow data.","Finds vulnerabilities."],"x":"SOAR playbooks reduce response time and analyst workload.","c":"S","d":"4.4 Alerting and monitoring"},{"t":"order","q":"Put the NIST SP 800-61 incident response phases in order.","o":["Preparation","Detection and analysis","Containment, eradication and recovery","Post-incident activity"],"x":"Lessons learned feed back into preparation.","c":"S","d":"4.8 Incident response"},{"t":"mc","q":"When collecting evidence from a running compromised server, what should be captured first?","o":["Hard drive image","RAM contents","Backup tapes","Printed logs"],"a":1,"w":["Less volatile than memory.","Correct: most volatile after CPU registers/cache.","Least volatile.","Not a collection priority."],"x":"Order of volatility (RFC 3227).","c":"S","d":"4.8 Incident response"},{"t":"mc","q":"Which document records each person who handled a forensic image, when and why?","o":["Legal hold","Chain of custody","Rules of engagement","SLA"],"a":1,"w":["Orders data to be preserved.","Correct.","Pen test permissions.","Service levels."],"x":"Breaks in custody can make evidence inadmissible.","c":"S","d":"4.8 Incident response"},{"t":"mc","q":"The business can tolerate losing at most 4 hours of data. Which metric is that?","o":["RTO","RPO","MTBF","MTTR"],"a":1,"w":["Time to restore.","Correct.","Reliability.","Repair time."],"x":"RPO drives backup frequency: at least every 4 hours here.","c":"S","d":"3.4 Resilience and recovery"},{"t":"mc","q":"Which alternate site has hardware in place but needs data restored before use?","o":["Hot site","Warm site","Cold site","Mobile site"],"a":1,"w":["Fully ready with current data.","Correct.","Space and power only.","A trailer-based option."],"x":"Cost and readiness rise from cold to warm to hot.","c":"S","d":"3.4 Resilience and recovery"},{"t":"mc","q":"A company buys cyber insurance to cover breach costs. Which risk treatment is this?","o":["Accept","Avoid","Transfer","Mitigate"],"a":2,"w":["No action taken.","Stopping the activity.","Correct.","Reducing likelihood or impact with controls."],"x":"Insurance transfers financial impact, not reputational damage.","c":"S","d":"5.2 Risk management"},{"t":"mc","q":"A server worth $200,000 would lose 25% of its value in a flood expected once every 10 years. What is the ALE?","o":["$50,000","$5,000","$20,000","$500"],"a":1,"w":["That's the SLE.","Correct: SLE $50,000 × ARO 0.1.","Wrong calculation.","Off by a factor of 10."],"x":"SLE = AV × EF; ALE = SLE × ARO.","c":"S","d":"5.2 Risk management"},{"t":"mc","q":"Which document gives mandatory step-by-step instructions?","o":["Policy","Guideline","Procedure","Standard"],"a":2,"w":["High-level intent.","Optional advice.","Correct.","Specific mandatory requirements, not steps."],"x":"Policy (why) → standard (what) → procedure (how); guidelines are optional.","c":"S","d":"5.1 Security governance"}],"flashcards":[["Tabletop exercise","A discussion-based walk-through of a pretend incident."],["Why keep a printed incident plan","Digital copies may be unavailable during an attack."],["Secure replacements for Telnet, HTTP, FTP","SSH, HTTPS, SFTP."],["DMZ purpose","Host public services, isolated from internal"],["IDS vs IPS","Alerts (passive) vs blocks (inline)"],["Stateless vs stateful","Per-packet ACL vs tracks sessions"],["NGFW adds","App awareness, user identity, IPS, TLS inspection"],["WAF protects","Web apps (SQLi, XSS)"],["Firewall rule order","First match wins, then implicit deny"],["802.1X roles","Supplicant, authenticator, RADIUS server"],["Jump server","Hardened single path for admin access"],["SASE","SD-WAN + cloud security (SWG, CASB, ZTNA, FWaaS)"],["Fail-open vs fail-closed","Availability vs security on failure"],["BYOD / COPE / CYOD","Personal / corporate-owned personal use / choose from list"],["SPF / DKIM / DMARC","Who may send / signature / policy on failure"],["SIEM vs SOAR","Correlate and alert vs automate response"],["NIST IR phases","Prep, Detect/analyze, Contain/eradicate/recover, Post-incident"],["First evidence to capture","Most volatile: cache/registers, then RAM"],["Chain of custody","Who handled evidence, when, why"],["Legal hold","Preserve relevant data, override deletion"],["RTO vs RPO","Max downtime vs max data loss"],["Hot / warm / cold","Ready now / restore data / empty space"],["3-2-1 backups","3 copies, 2 media, 1 offsite"],["Incremental vs differential","Since last backup vs since last full"],["SLE / ALE","AV × EF / SLE × ARO"],["Risk treatments","Accept, avoid, transfer, mitigate"],["Insurance is","Risk transfer"],["Policy vs guideline","Mandatory vs optional"],["Data sovereignty","Data subject to laws where stored"],["GDPR controller vs processor","Decides purpose vs processes for controller"]]}</script>
+<!-- module-data:end -->
 </body>
 </html>

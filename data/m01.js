@@ -69,7 +69,7 @@ OMNI.register({
       x: "Security+ lists shadow IT as a threat actor/vector because it bypasses security controls.", c: "S", d: "2.1" },
     { t: "ms", q: "Which of these are part of the 'people and processes' layer? (Select all that apply.)", o: ["Change management", "Security awareness training", "Fiber optic cable", "IT audit"], a: [0, 1, 3],
       w: ["Correct: a process (ITIL change enablement).", "Correct: aimed at people.", "Fiber is physical media, near the bottom of the stack.", "Correct: audit checks that processes and controls work."],
-      x: "Modules 25 to 28 focus on this layer.", c: "GEN", d: "0" }
+      x: "Modules 31, 32, 35 and 36 focus on this layer.", c: "GEN", d: "0" }
   ],
   flashcards: [
     ["Split-half troubleshooting", "Ask questions that rule out a big chunk of causes at once (for example: does it work for a colleague?)."],
