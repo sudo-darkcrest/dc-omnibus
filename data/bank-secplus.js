@@ -1,4 +1,4 @@
-/* Extra Security+ (SY0-701) questions used only by the Security+ readiness exam (Module 16) and the Study Hub. */
+/* Extra Security+ (SY0-701) questions used only by the Security+ readiness exam (Module 17) and the Study Hub. */
 OMNI.registerBank("secplus", [
   /* Domain 1: General security concepts */
   { t: "mc", q: "A sign reading 'This area is monitored by CCTV' is which control type?", o: ["Detective", "Deterrent", "Corrective", "Compensating"], a: 1, w: ["The camera itself is detective; the sign discourages.", "Correct.", "Fixes after an incident.", "Substitute control."], x: "Deterrent controls discourage an attacker from trying.", c: "S", d: "1.1 Security controls" },

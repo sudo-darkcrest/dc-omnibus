@@ -152,7 +152,7 @@
     <li><b>NOT</b> flips one input: 0 → 1, 1 → 0.</li>
     <li><b>AND</b>: output 1 only if all inputs are 1. <b>OR</b>: 1 if any input is 1.</li>
     <li><b>NAND (Not-AND) / NOR (Not-OR)</b>: AND / OR followed by NOT. NAND alone can build every other gate ("universal gate"); NAND flash memory is named after it.</li>
-    <li><b>XOR</b> (exclusive OR): 1 if the inputs differ. XOR is used in parity (RAID (Redundant Array of Independent Disks) 5, Module 5) and in many ciphers (Module 14).</li>
+    <li><b>XOR</b> (exclusive OR): 1 if the inputs differ. XOR is used in parity (RAID (Redundant Array of Independent Disks) 5, Module 5) and in many ciphers (Module 15).</li>
   </ul>
   <div class="callout detail">Subnet masks work by AND: IP address AND mask = network address (Module 10). A <b>half adder</b> adds two bits: Sum = A XOR B, Carry = A AND B. Chain adders together and you can add any numbers: that is the start of an ALU (Arithmetic Logic Unit; Module 4).</div>
 </section>
@@ -178,7 +178,7 @@
   <p>The maker counts 2 × 10<sup>12</sup> bytes. Windows divides by 2<sup>40</sup> (1,099,511,627,776) but still labels it "TB".</p>
   <ul><li>2,000,000,000,000 ÷ 1,099,511,627,776 ≈ 1.82 TiB, which Windows shows as about 1.81 TB after formatting overhead.</li></ul>
   <h3>3. How much power does this rack draw?</h3>
-  <p>Power (watts) = volts × amps. A server drawing 2.5 A at 208 V uses 520 W. Ten of them use 5,200 W, or 5.2 kW. Over a year that is 5.2 kW × 8,760 hours = 45,552 kWh. At $0.12 per kWh, about $5,466 a year, before cooling (Module 20).</p>
+  <p>Power (watts) = volts × amps. A server drawing 2.5 A at 208 V uses 520 W. Ten of them use 5,200 W, or 5.2 kW. Over a year that is 5.2 kW × 8,760 hours = 45,552 kWh. At $0.12 per kWh, about $5,466 a year, before cooling (Module 23).</p>
   <h3>4. Converting a number between bases</h3>
   <p>Hexadecimal <code>0xC8</code>: C = 12, so 12 × 16 + 8 = 200 in decimal. In binary, each hex digit is four bits: C = 1100, 8 = 1000, so 0xC8 = 1100 1000. This is exactly how MAC addresses and IPv6 addresses are written (Modules 9 and 10).</p>
   <div class="callout trap">The most common exam mistake is mixing bits and bytes. Network speeds use small <b>b</b> (bits per second). File sizes use capital <b>B</b> (bytes). One byte is eight bits.</div>

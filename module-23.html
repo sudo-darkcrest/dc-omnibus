@@ -3,32 +3,27 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Module 23 · Frameworks That Run the Enterprise: Governance, Risk and Compliance | Datacenter Omnibus</title>
-<meta name="description" content="Governance vs management, RACI, COBIT 2019, ISO 27001/27002, ISO 31000, ISO 22301, NIST CSF 2.0, SP 800-53, RMF, CIS Controls, SOC 2, PCI DSS, HIPAA, SOX, GDPR, the policy hierarchy, quantitative and qualitative risk, KRIs and maturity models, with five labs.">
+<title>Module 23 · The Data Center: Power, Cooling, Space, Cabling and Safety | Datacenter Omnibus</title>
+<meta name="description" content="Data center types and standards (TIA-942, EN 50600, Uptime Tiers, ASHRAE, NFPA), power chains, UPS and redundancy, cooling and containment, racks and structured cabling, fire suppression, physical security and operations, with six labs and a 50-question DCCA-style readiness quiz.">
 <link rel="stylesheet" href="assets/omnibus.css">
 <style>
   .seg { display: flex; flex-wrap: wrap; gap: 4px; }
   .seg button.on { background: var(--accent); color: #fff; border-color: var(--accent); }
-  .fwgroups { display: grid; grid-template-columns: repeat(5, 1fr); gap: 8px; }
-  @media (max-width: 700px) { .fwgroups { grid-template-columns: 1fr 1fr; } }
-  .fwgroup { border: 1px solid var(--line); border-radius: 10px; padding: 8px; background: var(--surface); }
-  .fwgroup h4 { margin: 0 0 6px; font-size: .9rem; }
-  .fwgroup button { display: block; width: 100%; margin: 4px 0; text-align: left; font-size: .85rem; }
-  .fwgroup button.on { background: var(--accent); color: #fff; border-color: var(--accent); }
-  .info { border: 1px solid var(--line); border-radius: 10px; padding: 12px; background: var(--surface); margin-top: 8px; }
-  .info h4 { margin: 0 0 6px; }
-  .metric { font-size: 1.5rem; font-weight: 800; line-height: 1.1; }
-  .raci td, .raci th { padding: 4px 6px; font-size: .86rem; }
-  .raci select { font-size: .86rem; padding: 2px 4px; }
-  .raci tr.flag td:first-child { box-shadow: inset 4px 0 0 var(--bad); }
-  .raci .note { font-size: .8rem; color: var(--bad); }
-  .csf-rows label { display: grid; grid-template-columns: 9em 1fr 3em 1fr 3em; gap: 6px; align-items: center; font-size: .88rem; margin: 4px 0; }
-  @media (max-width: 700px) { .csf-rows label { grid-template-columns: 6.5em 1fr 2.2em 1fr 2.2em; } }
-  .map-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
-  @media (max-width: 700px) { .map-grid { grid-template-columns: 1fr 1fr; } }
-  .map-grid .dropzone { min-height: 86px; }
-  .chip.ok { border-color: var(--good); background: var(--good-soft); }
-  .chip.bad { border-color: var(--bad); background: var(--bad-soft); }
+  .metric { font-size: 1.6rem; font-weight: 800; line-height: 1.1; }
+  .tools button.on { background: var(--accent); color: #fff; border-color: var(--accent); }
+  .ups-table input, .ups-table select { width: 6.5em; font-size: .86rem; padding: 3px 4px; }
+  .ups-table input.nm { width: 9em; }
+  .ups-table td, .ups-table th { padding: 4px 6px; font-size: .86rem; }
+  .tiercards { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+  @media (max-width: 700px) { .tiercards { grid-template-columns: 1fr 1fr; } }
+  .tiercard { border: 2px solid var(--line); border-radius: 10px; padding: 10px; background: var(--surface); text-align: left; font: inherit; color: inherit; }
+  .tiercard.on { border-color: var(--accent); background: var(--accent-soft); }
+  .tiercard h4 { margin: 0 0 6px; }
+  .tiercard div { font-size: .86rem; margin: 2px 0; }
+  .rooms { display: flex; flex-wrap: wrap; gap: 6px; }
+  .rooms button.on { background: var(--accent); color: #fff; border-color: var(--accent); }
+  .fsres { border: 1px solid var(--line); border-radius: 10px; padding: 12px; background: var(--surface); margin-top: 8px; }
+  .pwfails label { margin-right: 10px; white-space: nowrap; }
 </style>
 </head>
 <body data-module="23">
@@ -37,16 +32,16 @@
 <main class="page" id="main">
 
 <section class="intro">
-  <div class="kicker">Part 6 · Service, Governance and Audit · Module 23</div>
-  <h1>Frameworks That Run the Enterprise: Governance, Risk and Compliance</h1>
-  <p class="why"><b>Why this matters.</b> Firewalls and patches only work when someone decides what to protect, how much risk is acceptable, who is accountable and how to prove it to regulators and customers. That is governance, risk and compliance (GRC). This module is the bridge from technical security to the management view of CISM (Certified Information Security Manager; Module 24) and the assurance view of CISA (Certified Information Systems Auditor; Module 25), and it covers all of Security+ domain 5.</p>
+  <div class="kicker">Part 5 · Cloud, Data Center and AI · Module 23</div>
+  <h1>The Data Center: Power, Cooling, Space, Cabling and Safety</h1>
+  <p class="why"><b>Why this matters.</b> Every server, switch and cloud region lives in a building that has to deliver clean power, remove heat, organize thousands of cables, stop fires and keep people out, all without ever going down. This is the core of the EPI (Enterprise Products Integration) Data Center Certified Associate (DCCA) and the foundation for CDCP (Certified Data Centre Professional) and CDCS (Certified Data Centre Specialist), and it adds physical context to Network+ (cabling, power) and Security+ (physical security, resilience). The module ends with a 50-question DCCA-style readiness quiz.</p>
   <h3>You will be able to</h3>
   <ul class="outcomes">
-    <li>Separate governance from management and assign roles with a RACI (Responsible, Accountable, Consulted, Informed) chart.</li>
-    <li>Explain what COBIT (Control Objectives for Information and Related Technologies), ISO (International Organization for Standardization) 27001/27002, ISO 31000/27005, ISO 22301, ISO 20000, NIST (National Institute of Standards and Technology) CSF (Cybersecurity Framework) 2.0, SP (Special Publication) 800-53, the RMF (Risk Management Framework), CIS (Center for Internet Security) Controls, SOC (System and Organization Controls) 2, PCI (Payment Card Industry) DSS (Data Security Standard), HIPAA (Health Insurance Portability and Accountability Act), SOX (Sarbanes-Oxley Act) and GDPR (General Data Protection Regulation) are each for.</li>
-    <li>Place documents in the policy hierarchy: policies, standards, procedures, guidelines and baselines.</li>
-    <li>Run qualitative and quantitative risk analysis (SLE (Single Loss Expectancy), ARO (Annualized Rate of Occurrence), ALE (Annualized Loss Expectancy)) and decide whether a control is worth its cost.</li>
-    <li>Use risk appetite, tolerance, capacity, KRIs (Key Risk Indicator), KPIs (Key Performance Indicator), KGIs (Key Goal Indicator), risk registers and maturity models to report to leadership.</li>
+    <li>Describe data center types and the main standards: TIA-942 (Telecommunications Industry Association), EN 50600 / ISO/IEC (IEC: International Electrotechnical Commission) 22237, Uptime Tiers, BICSI (Building Industry Consulting Service International) 002, ASHRAE (American Society of Heating, Refrigerating and Air-Conditioning Engineers) TC 9.9 and NFPA (National Fire Protection Association) 75/76.</li>
+    <li>Trace a power chain from utility to rack, size a UPS (Uninterruptible Power Supply) and explain N, N+1, 2N and 2N+1.</li>
+    <li>Explain cooling, hot and cold aisles, containment, ASHRAE ranges and liquid cooling for high-density racks.</li>
+    <li>Plan racks, structured cabling spaces, labeling, grounding and bonding.</li>
+    <li>Choose fire detection and suppression, apply physical security, and run safe, measured operations (DCIM (Data Center Infrastructure Management), PUE (Power Usage Effectiveness), WUE (Water Usage Effectiveness), LOTO (Lockout/Tagout)).</li>
   </ul>
   <nav class="jumpnav" id="jumpnav" aria-label="On this page"></nav>
 </section>
@@ -56,203 +51,290 @@
   <div id="certmap-badges"></div>
 </section>
 
-<section class="lesson" id="governance">
-  <h2>1. Governance vs management</h2>
-  <figure class="fig"><svg id="gov-fig" viewBox="0 0 760 262" width="760" role="img" aria-label="Governance layers from board to operational teams"></svg>
-  <figcaption class="figcap">Governance sets direction and checks results; management plans and runs the work within that direction.</figcaption></figure>
+<section class="lesson" id="types">
+  <h2>1. Data center types and standards</h2>
   <div class="tablewrap"><table>
-    <thead><tr><th></th><th>Governance</th><th>Management</th></tr></thead>
+    <thead><tr><th>Type</th><th>Description</th></tr></thead>
     <tbody>
-      <tr><td><b>Question</b></td><td>Are we doing the right things?</td><td>Are we doing things right?</td></tr>
-      <tr><td><b>Who</b></td><td>Board of directors, executive leadership</td><td>CIO (Chief Information Officer), CISO (Chief Information Security Officer), managers and teams</td></tr>
-      <tr><td><b>Activities (COBIT)</b></td><td><b>E</b>valuate, <b>D</b>irect, <b>M</b>onitor</td><td><b>P</b>lan, <b>B</b>uild, <b>R</b>un, <b>M</b>onitor</td></tr>
-      <tr><td><b>Outputs</b></td><td>Strategy, risk appetite, policies, oversight</td><td>Programs, projects, controls, operations, metrics</td></tr>
+      <tr><td><b>Enterprise</b></td><td>Owned and operated by one organization for its own IT (Information Technology)</td></tr>
+      <tr><td><b>Colocation</b> (colo)</td><td>A provider rents space, power, cooling and connectivity; customers bring their own equipment (cages, cabinets, suites); interconnection in the meet-me room</td></tr>
+      <tr><td><b>Hyperscale</b></td><td>Massive facilities (often tens to hundreds of MW (Megawatt)) run by cloud and internet companies with highly standardized designs</td></tr>
+      <tr><td><b>Edge</b></td><td>Small sites close to users or devices for low latency (cell towers, factories, retail)</td></tr>
+      <tr><td><b>Modular / containerized</b></td><td>Prefabricated modules or shipping containers with built-in power and cooling; fast to deploy</td></tr>
     </tbody></table></div>
+  <div class="tablewrap"><table>
+    <thead><tr><th>Standard / body</th><th>What it covers</th></tr></thead>
+    <tbody>
+      <tr><td><b>ANSI/TIA-942 (ANSI: American National Standards Institute)</b></td><td>Telecommunications infrastructure for data centers: spaces (ER (Entrance Room), MDA (Main Distribution Area), HDA (Horizontal Distribution Area), ZDA (Zone Distribution Area), EDA (Equipment Distribution Area)), cabling, and Rated-1 to Rated-4 levels for architecture, electrical, mechanical and telecom (current edition TIA-942-C, verify)</td></tr>
+      <tr><td><b>EN 50600 / ISO/IEC 22237</b></td><td>European and international data center facility series: availability classes 1 to 4, protection classes, energy efficiency KPIs (Key Performance Indicator)</td></tr>
+      <tr><td><b>Uptime Institute Tier Standard</b></td><td>Tier I to IV topology classification and certification (design, constructed facility, operational sustainability)</td></tr>
+      <tr><td><b>BICSI 002</b></td><td>Data center design and implementation best practices, availability Classes F0 to F4</td></tr>
+      <tr><td><b>ASHRAE TC 9.9</b></td><td>Thermal guidelines: recommended and allowable inlet temperature and humidity for IT equipment classes (A1 to A4, H1)</td></tr>
+      <tr><td><b>NFPA 75 / 76</b></td><td>Fire protection of IT equipment / telecommunications facilities (US); NFPA 2001 covers clean agent systems; NFPA 70 (NEC) Article 645 and NFPA 70E cover electrical installation and safety</td></tr>
+    </tbody></table></div>
+  <div class="callout tip">EPI's DCCA is an entry-level, vendor-neutral data center certification. CDCP (Certified Data Centre Professional) and CDCS (Certified Data Centre Specialist) build on it. This module follows the published DCCA topic areas as closely as public information allows; check EPI's current syllabus before booking.</div>
+</section>
+
+<section class="lesson" id="site">
+  <h2>2. Site selection and building</h2>
   <ul>
-    <li><b>Board of directors</b>: accountable to shareholders; approves strategy and risk appetite; often uses an audit committee and a risk committee.</li>
-    <li><b>Executive management</b> (CEO, CFO, CIO, CISO): turns direction into plans and reports back.</li>
-    <li><b>Steering committee</b>: senior cross-functional group that prioritizes and funds programs (an IT (Information Technology) or security steering committee).</li>
-    <li><b>Data roles</b>: <b>owner</b> (accountable business manager, classifies data), <b>custodian/steward</b> (implements controls day to day), <b>controller</b> and <b>processor</b> (privacy law roles: who decides why and how data is processed vs who processes on their behalf).</li>
+    <li><b>Location risks</b>: flood plains, seismic zones, hurricanes, wildfire, flight paths, nearby hazards (chemical plants, rail lines), crime, political stability. <b>Benefits</b>: access to multiple power grids and fiber carriers, water availability, climate (free cooling hours), tax and land costs, skilled staff.</li>
+    <li><b>Floor loading</b>: a loaded rack can weigh 1,000 to 1,500 kg; floors are rated in kN/m² (or lb/ft²), and point loads matter for raised-floor pedestals. Check the route from the loading dock too.</li>
+    <li><b>Raised floor vs slab</b>: raised floors (commonly 600 × 600 mm / 24 × 24 in tiles) create an underfloor plenum for cold air and cables; slab floors with overhead cabling and ducted or in-row cooling are common in newer high-density builds.</li>
+    <li><b>Room layout</b>: white space (IT), grey space (power and cooling plant), loading dock, staging/burn-in, storage, NOC (Network Operations Center), offices.</li>
+    <li><b>Entrance room / MMR</b>: where carrier circuits enter (ideally two diverse entrances); the <b>meet-me room</b> is where carriers and customers cross-connect in a colo.</li>
+    <li><b>Security zones</b>: concentric layers from site perimeter → building → data hall → cage → cabinet (Section 7).</li>
   </ul>
-  <h3 id="raci">RACI charts</h3>
-  <div class="tablewrap"><table>
-    <thead><tr><th>Letter</th><th>Meaning</th><th>Rule</th></tr></thead>
-    <tbody>
-      <tr><td><b>R</b>esponsible</td><td>Does the work</td><td>At least one per task</td></tr>
-      <tr><td><b>A</b>ccountable</td><td>Owns the outcome, signs off, "the buck stops here"</td><td><b>Exactly one</b> per task</td></tr>
-      <tr><td><b>C</b>onsulted</td><td>Gives input before or during (two-way)</td><td>Keep the list short</td></tr>
-      <tr><td><b>I</b>nformed</td><td>Kept up to date (one-way)</td><td>Any number</td></tr>
-    </tbody></table></div>
 </section>
 
-<section class="lesson" id="frameworks">
-  <h2>2. Frameworks, standards and laws</h2>
-  <p>Frameworks answer different questions. Explore them in Lab 1.</p>
+<section class="lesson" id="power">
+  <h2>3. Power</h2>
+  <figure class="figure">
+    <svg viewBox="0 0 740 200" width="740" role="img" aria-label="Power chain one-line: utility and generator feed an automatic transfer switch, then UPS, then PDU, then rack">
+      <g id="pw-fig"></g>
+    </svg>
+    <figcaption>The basic power chain. Lab 2 lets you fail each part under N, N+1 and 2N designs.</figcaption>
+  </figure>
   <div class="tablewrap"><table>
-    <thead><tr><th>Name</th><th>Purpose</th><th>Certifiable?</th></tr></thead>
+    <thead><tr><th>Component</th><th>Role</th></tr></thead>
     <tbody>
-      <tr><td><b>COBIT 2019</b> (ISACA)</td><td>Governance and management of enterprise IT: 40 objectives in five domains (EDM, APO, BAI, DSS, MEA), design factors, capability levels</td><td>People only (COBIT Foundation); organizations are assessed, not certified</td></tr>
-      <tr><td><b>ISO/IEC (IEC: International Electrotechnical Commission) 27001:2022</b></td><td>Requirements for an ISMS (Information Security Management System; clauses 4–10, PDCA (Plan-Do-Check-Act)) plus Annex A: 93 controls in four themes (organizational 37, people 8, physical 14, technological 34)</td><td>Yes, organizations</td></tr>
-      <tr><td><b>ISO/IEC 27002:2022</b></td><td>Implementation guidance for the same 93 controls</td><td>No</td></tr>
-      <tr><td><b>ISO 31000 / ISO/IEC 27005</b></td><td>General risk management principles / information security risk management</td><td>No</td></tr>
-      <tr><td><b>ISO 22301</b></td><td>Business continuity management system (BCMS)</td><td>Yes</td></tr>
-      <tr><td><b>ISO/IEC 20000-1</b></td><td>Service management system (aligned with ITIL (Information Technology Infrastructure Library), Module 22)</td><td>Yes</td></tr>
-      <tr><td><b>NIST CSF 2.0</b> (2024)</td><td>Common language of cybersecurity outcomes: six functions (Govern, Identify, Protect, Detect, Respond, Recover), categories, current and target profiles, tiers 1–4</td><td>No (voluntary)</td></tr>
-      <tr><td><b>NIST SP 800-53 Rev. 5</b></td><td>Catalogue of security and privacy controls in 20 families (AC (Access Control), AU (Audit and Accountability), CM (Configuration Management), IR (Incident Response)…); mandatory for US federal systems</td><td>No (FedRAMP uses it)</td></tr>
-      <tr><td><b>NIST SP 800-37 (RMF)</b></td><td>Prepare, Categorize, Select, Implement, Assess, Authorize, Monitor</td><td>Systems receive an authorization to operate (ATO)</td></tr>
-      <tr><td><b>CIS Controls v8.1</b></td><td>18 prioritized technical safeguards with Implementation Groups IG1 (basic hygiene) to IG3</td><td>No</td></tr>
-      <tr><td><b>SOC 2</b> (AICPA)</td><td>CPA (Certified Public Accountant) attestation report on a service organization's controls against the Trust Services Criteria; Type I (design, point in time) or Type II (operating effectiveness over 6–12 months)</td><td>A report, not a certificate</td></tr>
-      <tr><td><b>PCI DSS v4.0.1</b></td><td>Contractual standard for anyone storing, processing or transmitting payment card data; 12 requirements</td><td>Validated by a QSA (Qualified Security Assessor) or self-assessment (SAQ)</td></tr>
-      <tr><td><b>HIPAA</b> (US law)</td><td>Privacy, Security and Breach Notification Rules for protected health information (PHI)</td><td>No; regulators enforce</td></tr>
-      <tr><td><b>SOX</b> (US law)</td><td>Section 404: management and auditor assessment of internal control over financial reporting; IT general controls (access, change, operations)</td><td>No; external auditors attest</td></tr>
-      <tr><td><b>GDPR</b> (EU (European Union) law)</td><td>Personal data protection: lawful basis, data subject rights, DPIAs (Data Protection Impact Assessment), DPOs (Data Protection Officer), 72-hour breach notice, fines up to €20M or 4% of global turnover. Similar laws: UK GDPR, CCPA/CPRA (CCPA: California Consumer Privacy Act; CPRA: California Privacy Rights Act; California), LGPD (Lei Geral de Proteção de Dados, Brazil's data protection law; Brazil), PIPEDA (Personal Information Protection and Electronic Documents Act; Canada)</td><td>No; supervisory authorities enforce</td></tr>
+      <tr><td>Utility feeds and <b>transformers</b></td><td>Medium voltage from the grid stepped down to low voltage (e.g., 480 V or 400 V); dual feeds from different substations improve resilience</td></tr>
+      <tr><td><b>Switchgear</b></td><td>Breakers and switching that distribute and protect circuits</td></tr>
+      <tr><td><b>ATS</b> (automatic transfer switch)</td><td>Switches from utility to generator when the utility fails (and back), within seconds</td></tr>
+      <tr><td><b>STS</b> (static transfer switch)</td><td>Solid-state switch between two UPS sources in about a quarter cycle (~4 ms) so single-corded equipment survives a source failure</td></tr>
+      <tr><td><b>Generator</b></td><td>Usually diesel; starts and takes load in roughly 10 to 15 seconds; on-site fuel often 24 to 72 hours with refuelling contracts (Uptime requires at least 12 hours for Tier ratings, verify)</td></tr>
+      <tr><td><b>UPS</b></td><td>Battery-backed bridge during the gap and conditioner of power quality</td></tr>
+      <tr><td><b>PDU / RPP</b></td><td>Floor power distribution units (with transformers) and remote power panels feeding racks</td></tr>
+      <tr><td><b>Rack PDU</b></td><td>The "power strip" in the cabinet: basic, metered, monitored or switched (per-outlet control)</td></tr>
     </tbody></table></div>
-  <div class="callout trap">"NIST CSF certification." There isn't one. ISO 27001 certifies an organization's ISMS; NIST CSF is a voluntary framework you align with or assess against.</div>
-</section>
-
-<section class="lesson" id="policy">
-  <h2>3. The policy hierarchy</h2>
-  <figure class="fig"><svg id="pol-fig" viewBox="0 0 760 240" width="760" role="img" aria-label="Pyramid of policy, standards, procedures with guidelines and baselines beside it"></svg></figure>
-  <div class="tablewrap"><table>
-    <thead><tr><th>Document</th><th>Mandatory?</th><th>Example</th></tr></thead>
-    <tbody>
-      <tr><td><b>Policy</b></td><td>Yes; high level, approved by senior management, rarely changes</td><td>"All remote access to company systems must be strongly authenticated."</td></tr>
-      <tr><td><b>Standard</b></td><td>Yes; specific, measurable</td><td>"Remote access requires phishing-resistant MFA (Multifactor Authentication; FIDO2 (Fast Identity Online 2))."</td></tr>
-      <tr><td><b>Baseline</b></td><td>Yes; minimum configuration for a system type</td><td>"Windows 11 laptops follow the CIS Level 1 benchmark."</td></tr>
-      <tr><td><b>Procedure</b></td><td>Yes; step by step</td><td>"How to enroll a security key: 1. Open the portal…"</td></tr>
-      <tr><td><b>Guideline</b></td><td>No; recommended</td><td>"Consider a password manager for personal accounts."</td></tr>
-    </tbody></table></div>
-</section>
-
-<section class="lesson" id="risk">
-  <h2>4. Risk management in depth</h2>
-  <p><b>Risk</b> = the chance that a <b>threat</b> exploits a <b>vulnerability</b> in an <b>asset</b>, causing <b>impact</b>. Risk is usually expressed as <b>likelihood × impact</b>.</p>
-  <div class="grid2">
-    <div class="tile"><h4>Qualitative analysis</h4><p>Ratings such as low/medium/high or 1–5 scales for likelihood and impact, plotted on a heat map. Fast and easy to communicate, but subjective.</p></div>
-    <div class="tile"><h4>Quantitative analysis</h4><p>Money and numbers: <b>SLE = AV (Asset Value) × EF (Exposure Factor)</b>, <b>ALE = SLE × ARO</b>. Supports cost-benefit decisions, but needs reliable data.</p></div>
+  <div class="grid3">
+    <div class="tile"><h4>Standby / offline UPS</h4><p>Load runs on utility; switches to battery on failure (a few ms). Cheap, for desktops.</p></div>
+    <div class="tile"><h4>Line-interactive</h4><p>Adds voltage regulation (autotransformer) without going to battery; small server rooms.</p></div>
+    <div class="tile"><h4>Online double-conversion</h4><p>AC (Alternating Current)→DC (Direct Current)→AC all the time, so zero transfer time and clean output. The data center standard (VFI (Voltage and Frequency Independent) in IEC 62040-3). Has a static bypass if the inverter fails.</p></div>
   </div>
-  <figure class="fig"><svg id="ale-fig" viewBox="0 0 760 120" width="760" role="img" aria-label="Formula chain from asset value to ALE"></svg></figure>
-  <div class="callout detail">A control is worth it when <b>(ALE before − ALE after) − annual cost of the control &gt; 0</b>. Annual cost includes licences, staff time and maintenance. Try it in Lab 2.</div>
   <div class="tablewrap"><table>
-    <thead><tr><th>Term</th><th>Meaning</th></tr></thead>
+    <thead><tr><th>Batteries</th><th>VRLA (valve-regulated lead-acid)</th><th>Lithium-ion</th></tr></thead>
     <tbody>
-      <tr><td><b>Risk appetite</b></td><td>Broad amount and type of risk the organization is willing to pursue (set by the board): "We have a low appetite for regulatory risk."</td></tr>
-      <tr><td><b>Risk tolerance</b></td><td>Acceptable variation for a specific objective: "No more than 4 hours of downtime per quarter for the store."</td></tr>
-      <tr><td><b>Risk capacity</b></td><td>The maximum loss the organization could absorb before failing</td></tr>
-      <tr><td><b>Inherent / residual risk</b></td><td>Before controls / after controls. Residual must sit within appetite or be formally accepted</td></tr>
-      <tr><td><b>Treatment</b></td><td>Mitigate (reduce), transfer/share (insurance, outsourcing), avoid (stop the activity), accept (document and monitor)</td></tr>
-      <tr><td><b>Risk register</b></td><td>The list of risks: ID (Identification), description, owner, likelihood, impact, inherent and residual rating, treatment, due date, status</td></tr>
-      <tr><td><b>Risk owner</b></td><td>The business manager accountable for the risk and authorized to decide treatment</td></tr>
-      <tr><td><b>KRI / KPI / KGI</b></td><td>Key risk indicator (leading warning, e.g., % of servers unpatched > 30 days) / key performance indicator (how well a process runs, e.g., mean time to patch) / key goal indicator (lagging: was the goal reached, e.g., zero critical audit findings)</td></tr>
+      <tr><td>Life</td><td>About 3 to 5 years in practice</td><td>About 10 to 15 years</td></tr>
+      <tr><td>Size and weight</td><td>Heavy, large</td><td>Roughly a third of the weight and space</td></tr>
+      <tr><td>Temperature</td><td>Sensitive; life halves for every ~8 to 10 °C above 25 °C</td><td>More tolerant</td></tr>
+      <tr><td>Notes</td><td>Lower upfront cost, well understood</td><td>Needs a battery management system (BMS); thermal runaway risk drives fire design</td></tr>
     </tbody></table></div>
-  <h3 id="thirdparty">Third-party and supply chain risk</h3>
-  <p>Lifecycle: <b>due diligence</b> (questionnaires, SOC 2 reports, ISO certificates, financial health) → <b>contract</b> (security requirements, right to audit, breach notification time, SLAs (Service Level Agreement), data return and deletion) → <b>onboarding</b> → <b>ongoing monitoring</b> (reassessments, security ratings) → <b>offboarding</b> (revoke access, confirm data destruction). Agreements you may see: MSA (Master Service Agreement), SOW (Statement of Work), SLA, NDA (Non-Disclosure Agreement), MOU/MOA (MOU: Memorandum of Understanding; MOA: Memorandum of Agreement), BPA (Blanket Purchase Agreement). Software supply chain controls include SBOMs (Software Bill of Materials) and vendor patch commitments.</p>
+  <h3>Redundancy notation</h3>
+  <div class="tablewrap"><table>
+    <thead><tr><th>Notation</th><th>Meaning</th><th>Survives</th></tr></thead>
+    <tbody>
+      <tr><td><b>N</b></td><td>Exactly enough capacity for the load</td><td>Nothing: any failure or maintenance drops load</td></tr>
+      <tr><td><b>N+1</b></td><td>One extra component (e.g., 4 UPS modules where 3 are needed)</td><td>One component failure (but usually a single path)</td></tr>
+      <tr><td><b>2N</b></td><td>Two completely independent systems, each able to carry the whole load</td><td>Failure of an entire path</td></tr>
+      <tr><td><b>2N+1</b> / 2(N+1)</td><td>Two independent systems, each with its own spare</td><td>A path failure plus a component failure in the other</td></tr>
+    </tbody></table></div>
+  <h3>Power math</h3>
+  <ul>
+    <li><b>Watts = Volts × Amps</b> (for DC or unity power factor). Single-phase AC: <b>W = V × A × PF</b>. Three-phase: <b>W = √3 × V<sub>line-line</sub> × A × PF</b> (√3 ≈ 1.732).</li>
+    <li><b>VA (Volt-Amperes)</b> is apparent power; <b>W</b> is real power; <b>power factor</b> = W ÷ VA (modern IT power supplies ≈ 0.95 to 0.99). A UPS has <i>both</i> a kVA and a kW rating; don't exceed either.</li>
+    <li>Circuits are commonly loaded to no more than <b>80%</b> of breaker rating for continuous loads (NEC practice).</li>
+    <li><b>PUE</b> = total facility power ÷ IT power (ideal 1.0). <b>DCiE</b> = IT ÷ total × 100%. A PUE of 1.5 = DCiE 67%.</li>
+    <li>Heat: every watt of IT load becomes a watt of heat. 1 kW ≈ 3,412 BTU/h (BTU: British Thermal Unit); 1 ton of cooling = 12,000 BTU/h ≈ 3.5 kW.</li>
+  </ul>
 </section>
 
-<section class="lesson" id="metrics">
-  <h2>5. Metrics, reporting and maturity</h2>
+<section class="lesson" id="cooling">
+  <h2>4. Cooling and airflow</h2>
+  <figure class="figure">
+    <svg viewBox="0 0 740 230" width="740" role="img" aria-label="Hot aisle and cold aisle layout: cold air rises through perforated tiles into the cold aisle, racks pull it through front to back, hot exhaust goes into the hot aisle and returns to the CRAH">
+      <g id="aisle-fig"></g>
+    </svg>
+    <figcaption>Hot aisle / cold aisle: racks face front-to-front across cold aisles and back-to-back across hot aisles, so exhaust never blows into an intake.</figcaption>
+  </figure>
+  <div class="tablewrap"><table>
+    <thead><tr><th>Item</th><th>Key facts</th></tr></thead>
+    <tbody>
+      <tr><td><b>CRAC</b> vs <b>CRAH</b></td><td>Computer room air conditioner (own compressor, DX (Direct Expansion) refrigerant) vs computer room air handler (fans and a chilled-water coil fed by a chiller plant)</td></tr>
+      <tr><td><b>Chillers</b> and cooling towers</td><td>Produce chilled water centrally; towers reject heat by evaporation (uses water)</td></tr>
+      <tr><td><b>Economizers</b> (free cooling)</td><td>Use cool outside air (airside) or cool water/air through heat exchangers (waterside) instead of compressors when the weather allows</td></tr>
+      <tr><td><b>Containment</b></td><td><b>Cold aisle containment</b> (CAC) encloses the cold aisle with doors and a roof; <b>hot aisle containment</b> (HAC) encloses the hot aisle and ducts it back to cooling. Both stop mixing and allow higher supply temperatures</td></tr>
+      <tr><td><b>Blanking panels</b> and brush grommets</td><td>Fill empty U spaces and cable openings so hot exhaust can't recirculate to the front</td></tr>
+      <tr><td><b>ASHRAE recommended inlet</b></td><td><b>18 to 27 °C</b> (64.4 to 80.6 °F) for most IT equipment; humidity by dew point (about −9 to 15 °C) and a maximum relative humidity (60 to 70% depending on edition). Allowable ranges are wider (A1: 15 to 32 °C). Verify the current edition</td></tr>
+      <tr><td><b>Liquid cooling</b></td><td><b>Rear-door heat exchangers</b> (water coil on the rack door), <b>direct-to-chip</b> (cold plates on CPUs/GPUs (GPU: Graphics Processing Unit; CPU: Central Processing Unit)), <b>immersion</b> (servers in dielectric fluid, single- or two-phase)</td></tr>
+    </tbody></table></div>
+  <div class="callout detail">Why AI (Artificial Intelligence) racks need liquid: a traditional rack draws about 5 to 10 kW; GPU training racks can draw 40 to over 100 kW. Air simply can't carry that much heat through a cabinet (you'd need hurricane-level airflow), while water carries roughly 3,500 times more heat per unit volume than air.</div>
+</section>
+
+<section class="lesson" id="racks">
+  <h2>5. Racks and cabling</h2>
   <ul>
-    <li>Report to the <b>board</b> in business terms: risk trends against appetite, top risks and owners, compliance status, major incidents and their business impact, investment versus risk reduction.</li>
-    <li>Report to <b>operations</b> in technical terms: patch latency, vulnerability counts, alert volumes, MTTD (Mean Time To Detect) and MTTR (Mean Time To Repair).</li>
-    <li>Good metrics are <b>SMART</b>: specific, measurable, achievable, relevant, time-bound.</li>
+    <li><b>Rack unit</b>: 1U = <b>1.75 in (44.45 mm)</b>. A common full rack is <b>42U</b> (about 2 m tall); 45U, 47U and 48U are common in data centers. Standard mounting width is <b>19 in</b>.</li>
+    <li>Rack types: 2-post (telecom), 4-post open frame, enclosed cabinets (with locking doors, side panels, perforated front/back doors). Typical cabinet sizes 600 or 800 mm wide, 1,000 to 1,200 mm deep.</li>
+    <li><b>Cable management</b>: vertical and horizontal managers, correct bend radius, separate power and data, no cables blocking airflow.</li>
+    <li><b>Overhead vs underfloor trays</b>: overhead ladder/basket trays keep the plenum clear and are easier to trace; underfloor needs care to avoid blocking airflow.</li>
   </ul>
   <div class="tablewrap"><table>
-    <thead><tr><th>CMMI-style level</th><th>Description</th></tr></thead>
+    <thead><tr><th>TIA-942 space</th><th>Role</th></tr></thead>
     <tbody>
-      <tr><td>0 Incomplete / non-existent</td><td>Not performed (used by COBIT's capability scale)</td></tr>
-      <tr><td>1 Initial</td><td>Ad hoc, depends on heroes</td></tr>
-      <tr><td>2 Managed</td><td>Planned and tracked, but per project or team</td></tr>
-      <tr><td>3 Defined</td><td>Documented and standardized across the organization</td></tr>
-      <tr><td>4 Quantitatively managed</td><td>Measured and controlled with metrics</td></tr>
-      <tr><td>5 Optimizing</td><td>Continuous improvement driven by measurement</td></tr>
+      <tr><td><b>ER</b> Entrance room</td><td>Carrier demarcation and entrance facilities</td></tr>
+      <tr><td><b>MDA</b> Main distribution area</td><td>Core routers and switches, main cross-connect; the "heart"</td></tr>
+      <tr><td><b>IDA</b> Intermediate distribution area</td><td>Optional intermediate cross-connect in large sites</td></tr>
+      <tr><td><b>HDA</b> Horizontal distribution area</td><td>Horizontal cross-connect and access/aggregation switches for a zone (e.g., end-of-row)</td></tr>
+      <tr><td><b>ZDA</b> Zone distribution area</td><td>Optional consolidation point between HDA and equipment</td></tr>
+      <tr><td><b>EDA</b> Equipment distribution area</td><td>The racks and cabinets with servers and storage</td></tr>
+      <tr><td><b>TR</b> Telecommunications room</td><td>Serves areas outside the computer room (offices, NOC)</td></tr>
+    </tbody></table></div>
+  <ul>
+    <li><b>Fiber trunks and MPO/MTP (Multi-fiber Push-On)</b>: pre-terminated multi-fiber trunks (12 or 24 fibers, now 16 for 400G/800G) with cassettes; polarity methods A, B and C (Module 11).</li>
+    <li>Top-of-rack (ToR) switches vs end-of-row (EoR) / middle-of-row (MoR) designs.</li>
+    <li><b>Labeling</b> (TIA-606): unique, consistent identifiers on both ends of every cable, port and panel; keep records in DCIM.</li>
+    <li><b>Grounding and bonding</b> (TIA-607): a telecommunications bonding backbone, rack bonding conductors and a common bonding network so all metal is at the same potential; protects people and equipment.</li>
+  </ul>
+</section>
+
+<section class="lesson" id="fire">
+  <h2>6. Fire detection and suppression</h2>
+  <div class="grid2">
+    <div class="tile"><h4>Fire triangle (tetrahedron)</h4><p>Heat + fuel + oxygen (+ chemical chain reaction). Remove any one and the fire goes out: water cools, inert gas removes oxygen, chemical agents interrupt the reaction.</p></div>
+    <div class="tile"><h4>Fire classes (US / NFPA)</h4><ul><li><b>A</b>: ordinary combustibles (paper, plastic)</li><li><b>B</b>: flammable liquids and gases</li><li><b>C</b>: energized electrical equipment</li><li><b>D</b>: combustible metals</li><li><b>K</b>: cooking oils</li></ul><p class="figcap">European classes differ (C = gases, F = cooking oils, electrical is not a separate class). Verify for your region.</p></div>
+  </div>
+  <div class="tablewrap"><table>
+    <thead><tr><th>System</th><th>How it works</th><th>Data center notes</th></tr></thead>
+    <tbody>
+      <tr><td><b>VESDA (Very Early Smoke Detection Apparatus) / aspirating smoke detection</b></td><td>Pipes continuously sample air to a very sensitive laser detector</td><td>Detects smoldering cable insulation minutes before visible smoke; multiple alarm levels (alert, action, fire)</td></tr>
+      <tr><td>Spot smoke / heat detectors</td><td>Point detectors on ceilings and under floors</td><td>Often cross-zoned to trigger suppression only when two detectors agree</td></tr>
+      <tr><td><b>Wet pipe sprinkler</b></td><td>Pipes always full of water; heads open individually by heat</td><td>Simple and reliable but risk of leaks over IT; common in offices</td></tr>
+      <tr><td><b>Dry pipe sprinkler</b></td><td>Pipes hold pressurized air; water enters when a head opens</td><td>For freezing areas (loading docks, unheated spaces)</td></tr>
+      <tr><td><b>Pre-action sprinkler</b></td><td>Pipes dry until detection opens the valve; a head must also fuse (double interlock needs both)</td><td>The usual choice over IT equipment: no water unless two things go wrong</td></tr>
+      <tr><td><b>Clean agents</b></td><td>Gaseous suppression that leaves no residue: <b>FM-200 (HFC-227ea)</b> and <b>Novec 1230 (FK-5-1-12)</b> remove heat; <b>inert gases</b> (IG-541 Inergen, IG-55, IG-01) lower oxygen below combustion level but stay breathable for a short time</td><td>Needs a sealed room (door fan integrity test), pre-discharge alarms and abort switches. HFCs (Hydrofluorocarbon) are being phased down; FK-5-1-12 supply is changing (3M exited in 2025). Halon is banned for new systems</td></tr>
+      <tr><td>Water mist</td><td>Fine droplets cool and displace oxygen with little water</td><td>An option for some rooms, including lithium-ion battery areas</td></tr>
+      <tr><td><b>EPO</b> (emergency power off)</td><td>A button that cuts power to the room's IT and HVAC (Heating, Ventilation and Air Conditioning)</td><td>Required by some codes (NEC 645) for life safety; protect with covers to prevent accidental presses</td></tr>
     </tbody></table></div>
 </section>
 
-<section class="lesson" id="framework-pick">
-  <h2>6. Which framework does this company need?</h2>
-  <p>Frameworks are easier to remember when you match them to situations. Try these before reading the answers.</p>
-  <div class="tablewrap"><table><thead><tr><th>Situation</th><th>Best fit</th><th>Why</th></tr></thead><tbody>
-    <tr><td>A UK software firm wants a certificate to show customers its security is managed properly</td><td>ISO/IEC 27001</td><td>Internationally certifiable information security management system</td></tr>
-    <tr><td>A US cloud start-up sells to other businesses who ask for an independent report on its controls</td><td>SOC 2 Type II</td><td>Auditor's report on controls operating over a period</td></tr>
-    <tr><td>An online shop takes credit cards</td><td>PCI DSS</td><td>Required by the card brands for anyone storing, processing or transmitting card data</td></tr>
-    <tr><td>A US hospital</td><td>HIPAA</td><td>US law protecting health information</td></tr>
-    <tr><td>A company with EU customers' personal data</td><td>GDPR</td><td>EU law applying wherever the data subjects are in the EU</td></tr>
-    <tr><td>A small business wants a free, plain-language starting point</td><td>NIST CSF 2.0 or CIS Controls IG1</td><td>Voluntary, prioritised and widely used</td></tr>
-    <tr><td>A board wants to govern all of IT, not just security</td><td>COBIT</td><td>Governance and management of enterprise IT</td></tr>
-    <tr><td>A US publicly traded company's financial reporting systems</td><td>SOX</td><td>US law requiring controls over financial reporting</td></tr>
-  </tbody></table></div>
-  <div class="callout tip">Laws and contracts are mandatory (GDPR, HIPAA, SOX, PCI DSS through contracts). Frameworks and standards are usually voluntary unless a customer or regulator requires them.</div>
+<section class="lesson" id="physsec">
+  <h2>7. Physical security</h2>
+  <p>Defense in depth, from the outside in: <b>perimeter</b> (fences, bollards, gates, lighting, guard posts, vehicle barriers) → <b>building</b> (single staffed entrance, reception, visitor logs and escorts) → <b>data hall</b> (badges plus biometrics, <b>mantraps</b>/access control vestibules that admit one person at a time and prevent tailgating) → <b>cage</b> → <b>cabinet</b> (locks, combination or electronic locks with audit). Throughout: <b>CCTV (Closed-Circuit Television)</b> with recorded retention, intrusion alarms, guards, and regular access reviews.</p>
+  <div class="callout trap">"A badge reader alone stops tailgating." No: tailgating defeats badge-only doors. Mantraps, turnstiles, guards and a culture of challenging strangers do.</div>
 </section>
 
-<section class="lesson" id="risk-worked">
-  <h2>7. Worked example: a risk register entry</h2>
-  <p>A risk register turns worries into decisions. Here is one entry worked through from start to finish.</p>
+<section class="lesson" id="ops">
+  <h2>8. Operations, safety and sustainability</h2>
+  <div class="grid2">
+    <div class="tile"><h4>Monitoring</h4><ul>
+      <li><b>DCIM</b> (data center infrastructure management): assets, space, power and network capacity, connectivity records.</li>
+      <li><b>BMS</b> (building management system): HVAC, chillers, generators, alarms.</li>
+      <li>Environmental sensors: temperature at rack inlets (top, middle, bottom), humidity, leak detection cables, door sensors.</li>
+    </ul></div>
+    <div class="tile"><h4>Maintenance and change</h4><ul>
+      <li><b>Preventive</b> (scheduled), <b>predictive</b> (condition-based: thermal imaging, vibration, battery impedance), corrective (repair after failure).</li>
+      <li>Change management with method of procedure (MOP) and emergency operating procedures (EOP); <b>concurrent maintainability</b> lets you maintain without shutting down IT.</li>
+      <li>Documentation: as-built drawings, single-line diagrams, labeling, runbooks; SLAs (Service Level Agreement) with customers and vendors.</li>
+    </ul></div>
+    <div class="tile"><h4>Health and safety</h4><ul>
+      <li><b>Lockout/tagout (LOTO)</b>: isolate and lock energy sources before working; only the person who applied the lock removes it.</li>
+      <li><b>Arc flash</b>: explosive energy from electrical faults; follow NFPA 70E boundaries and PPE (Personal Protective Equipment), work de-energized whenever possible.</li>
+      <li>Safe lifting (team lifts, server lifts), raised-floor tile safety (never leave holes open), hearing protection near generators, clean agent discharge procedures.</li>
+    </ul></div>
+    <div class="tile"><h4>Sustainability</h4><ul>
+      <li><b>PUE</b> (energy), <b>WUE</b> (water usage effectiveness: liters of water per kWh of IT energy), <b>CUE (Carbon Usage Effectiveness)</b> (carbon), renewable energy factor.</li>
+      <li>Renewables via power purchase agreements, higher supply temperatures, free cooling, <b>heat reuse</b> (district heating), efficient UPS modes.</li>
+    </ul></div>
+  </div>
+</section>
+
+<section class="lesson" id="power-math">
+  <h2>9. Worked example: sizing power and cooling for a row</h2>
+  <p>Data center questions often combine power, redundancy and cooling. Let's size a small row of eight racks.</p>
+  <ol>
+    <li><b>IT load:</b> each rack is planned at 8 kW. 8 racks × 8 kW = 64 kW of IT load.</li>
+    <li><b>Redundant power:</b> with 2N design, two completely separate power paths (A and B) each must carry the full 64 kW. Each rack gets one PDU from A and one from B, and each PDU must be loaded under 50% in normal operation so it can carry everything if the other side fails.</li>
+    <li><b>UPS sizing:</b> each side needs a UPS that can carry 64 kW plus growth. With a 25% growth margin, about 80 kW per side.</li>
+    <li><b>Cooling:</b> almost every watt of IT power becomes heat. 64 kW ≈ 64 × 3,412 BTU/hr ≈ 218,000 BTU/hr, or about 18 tons of cooling (1 ton = 12,000 BTU/hr). With N+1 cooling, if the room needs three cooling units of 25 kW, install four.</li>
+    <li><b>Efficiency:</b> if the whole facility draws 96 kW to support the 64 kW IT load, PUE = 96 ÷ 64 = 1.5.</li>
+  </ol>
+  <div class="callout trap">On a 2N system, if both PDUs in a rack are 60% loaded, the rack is <b>not</b> safe: losing one side would put 120% load on the other and trip its breaker. Keep each side under 50% (many sites use 40% for margin).</div>
+</section>
+
+<section class="lesson" id="ops-change">
+  <h2>10. Working safely in a live data center</h2>
+  <p>Data centers run around the clock, so most work happens while equipment is live. Discipline prevents outages and injuries.</p>
   <ul>
-    <li><b>Risk:</b> Ransomware encrypts the file server and its backups.</li>
-    <li><b>Asset value:</b> the file server and the business it supports are valued at $400,000.</li>
-    <li><b>Exposure factor:</b> an attack would destroy or disrupt about 50% of that value. Single loss expectancy = $400,000 × 0.5 = $200,000.</li>
-    <li><b>Likelihood:</b> estimated once every four years. Annualised rate of occurrence = 0.25.</li>
-    <li><b>Annualised loss expectancy</b> = $200,000 × 0.25 = $50,000 per year.</li>
-    <li><b>Treatment options:</b> immutable offline backups and EDR (Endpoint Detection and Response) costing $15,000 a year would cut the likelihood to once every 20 years (0.05), giving a new ALE of $10,000.</li>
-    <li><b>Decision:</b> spending $15,000 to reduce expected losses by $40,000 a year is worth it. The risk owner accepts the remaining risk and signs off.</li>
+    <li><b>Method of procedure (MOP):</b> a written, step-by-step plan for every change, including how to roll back. It is reviewed and approved before work starts.</li>
+    <li><b>Change windows:</b> risky work is scheduled for low-traffic hours, with the customer notified.</li>
+    <li><b>Two-person rule:</b> one person performs each step while a second reads it out and checks.</li>
+    <li><b>Label and trace:</b> confirm the cable, breaker or server by its label and record before touching it. "Wrong cable unplugged" causes many outages.</li>
+    <li><b>Electrical safety:</b> follow lockout/tagout when working on de-energised equipment, and wear the right protective equipment for arc-flash risk.</li>
+    <li><b>Housekeeping:</b> no cardboard on the data hall floor, blanking panels in empty rack spaces, floor tiles replaced immediately.</li>
+    <li><b>Escort and log:</b> visitors are escorted, and every entry is logged.</li>
   </ul>
-  <div class="callout trap">The four treatment options are: <b>mitigate</b> (reduce), <b>transfer</b> (insurance, outsourcing), <b>avoid</b> (stop the activity) and <b>accept</b>. Ignoring a risk is not acceptance; acceptance is a documented decision by the risk owner.</div>
+  <div class="callout analogy">Working in a live data center is like doing surgery while the patient runs a marathon. You plan every cut in advance, have a colleague check each step, and know exactly how to undo it.</div>
 </section>
 
 <section class="lab" id="labs">
   <h2>Interactive labs</h2>
 
-  <div class="lab-card" id="lab-fw" data-lab="Framework Navigator: frameworks grouped by purpose; click one for its scope, who uses it, whether it is certifiable and related exams.">
-    <h3>Lab 1: Framework Navigator</h3>
-    <div class="fwgroups" id="fw-groups"></div>
-    <div class="info" id="fw-info">Choose a framework.</div>
-    <div class="caption" id="fw-cap" aria-live="polite"></div>
+  <div class="lab-card" id="lab-floor" data-lab="Data Center Floor Planner: place racks, CRAH units, perforated tiles and containment on a grid; a live heat map shows hot spots that blanking panels and containment improve.">
+    <h3>Lab 1: Data Center Floor Planner</h3>
+    <p class="figcap">Pick a tool and click grid squares. Racks show an arrow for the direction their <b>front (intake)</b> faces. Colors show estimated air temperature; each rack shows its inlet temperature (ASHRAE recommended: 18 to 27 °C).</p>
+    <div class="row tools" id="fl-tools" role="group" aria-label="Tools"></div>
+    <div class="row"><label><input type="checkbox" id="fl-blank"> Blanking panels installed</label><label><input type="checkbox" id="fl-cont"> Aisle containment</label><button type="button" id="fl-bad">Load messy layout</button><button type="button" id="fl-good">Load hot/cold aisle layout</button><button type="button" id="fl-clear">Clear</button></div>
+    <div class="stage"><svg id="fl-svg" viewBox="0 0 600 400" width="600" role="img" aria-label="Data center floor grid with heat map"></svg></div>
+    <div class="caption" id="fl-cap" aria-live="polite"></div>
   </div>
 
-  <div class="lab-card" id="lab-ale" data-lab="ALE Calculator: enter asset value, exposure factor and ARO to get SLE and ALE, then test whether a control's yearly cost is justified.">
-    <h3>Lab 2: ALE Calculator</h3>
-    <div class="row"><span>Example:</span><div class="seg" id="al-ex"></div></div>
+  <div class="lab-card" id="lab-pwr" data-lab="Power Chain Simulator: an animated one-line diagram from utility through ATS, UPS and PDU to the rack with a generator; fail components and see what stays up under N, N+1 and 2N.">
+    <h3>Lab 2: Power Chain Simulator</h3>
+    <div class="row"><span>Design:</span><div class="seg" id="pc-design"></div></div>
+    <div class="row pwfails" id="pc-fails" role="group" aria-label="Fail components"></div>
+    <div class="stage"><svg id="pc-svg" viewBox="0 0 760 300" width="760" role="img" aria-label="Power one-line diagram"></svg></div>
+    <div class="caption" id="pc-cap" aria-live="polite"></div>
+  </div>
+
+  <div class="lab-card" id="lab-ups" data-lab="UPS Runtime and Load Calculator: enter rack loads in W or VA with power factor and battery capacity; get load percentage, runtime and overload warnings.">
+    <h3>Lab 3: UPS Runtime and Load Calculator</h3>
+    <div class="tablewrap"><table class="ups-table" id="up-loads"></table></div>
+    <div class="row"><button type="button" id="up-add">+ Add load</button></div>
     <div class="controls">
-      <label class="field"><span>Asset value, AV ($)</span><input type="number" id="al-av" value="500000" min="0" step="1000"></label>
-      <label class="field"><span>Exposure factor, EF (%)</span><input type="number" id="al-ef" value="30" min="0" max="100"></label>
-      <label class="field"><span>ARO (times per year)</span><input type="number" id="al-aro" value="0.5" min="0" step="0.05"></label>
-      <label class="field"><span>Control: yearly cost ($)</span><input type="number" id="al-cost" value="25000" min="0" step="500"></label>
-      <label class="field"><span>ARO with control</span><input type="number" id="al-aro2" value="0.1" min="0" step="0.05"></label>
-      <label class="field"><span>EF with control (%)</span><input type="number" id="al-ef2" value="30" min="0" max="100"></label>
+      <label class="field"><span>UPS rating (kVA)</span><input type="number" id="up-kva" value="20" min="1" step="1"></label>
+      <label class="field"><span>UPS rating (kW)</span><input type="number" id="up-kw" value="18" min="1" step="1"></label>
+      <label class="field"><span>Battery usable energy (Wh)</span><input type="number" id="up-wh" value="9600" min="100" step="100"></label>
+      <label class="field"><span>Inverter efficiency (%)</span><input type="number" id="up-eff" value="94" min="80" max="99"></label>
     </div>
     <div class="grid3">
-      <div class="tile"><div class="figcap">SLE (AV × EF)</div><div class="metric" id="al-sle"></div></div>
-      <div class="tile"><div class="figcap">ALE before → after</div><div class="metric" id="al-ale"></div></div>
-      <div class="tile"><div class="figcap">Net value of control per year</div><div class="metric" id="al-net"></div></div>
+      <div class="tile"><div class="figcap">Total real power</div><div class="metric" id="up-w"></div><div class="figcap" id="up-va"></div></div>
+      <div class="tile"><div class="figcap">UPS load</div><div class="metric" id="up-pct"></div><div class="figcap" id="up-pct2"></div></div>
+      <div class="tile"><div class="figcap">Estimated runtime</div><div class="metric" id="up-rt"></div></div>
     </div>
-    <div class="stage"><svg id="al-svg" viewBox="0 0 760 150" width="760" role="img" aria-label="Bar chart of yearly loss before and after the control plus control cost"></svg></div>
-    <div class="caption" id="al-cap" aria-live="polite"></div>
+    <div class="caption" id="up-cap" aria-live="polite"></div>
   </div>
 
-  <div class="lab-card" id="lab-raci" data-lab="RACI Builder: assign R, A, C and I for tasks and roles; the page flags two Accountables, no Responsible and other mistakes.">
-    <h3>Lab 3: RACI Builder</h3>
-    <p class="figcap">The chart starts with some deliberate mistakes. Fix them by choosing a letter in each cell. "A/R" means the role is both Accountable and Responsible.</p>
-    <div class="tablewrap"><table class="raci" id="rc-table"></table></div>
-    <div class="row"><button type="button" id="rc-reset">Reset to the faulty chart</button><button type="button" id="rc-model">Show a model chart</button></div>
-    <div class="caption" id="rc-cap" aria-live="polite"></div>
+  <div class="lab-card" id="lab-pue" data-lab="PUE Calculator: enter IT power and facility overheads, see PUE and DCiE, compare to typical values and estimate overhead cost.">
+    <h3>Lab 4: PUE Calculator</h3>
+    <div class="controls">
+      <label class="field"><span>IT equipment load (kW)</span><input type="number" id="pu-it" value="1000" min="1"></label>
+      <label class="field"><span>Cooling (kW)</span><input type="number" id="pu-cool" value="380" min="0"></label>
+      <label class="field"><span>UPS and distribution losses (kW)</span><input type="number" id="pu-loss" value="90" min="0"></label>
+      <label class="field"><span>Lighting, offices, other (kW)</span><input type="number" id="pu-oth" value="30" min="0"></label>
+      <label class="field"><span>Electricity price ($ per kWh)</span><input type="number" id="pu-price" value="0.12" min="0" step="0.01"></label>
+    </div>
+    <div class="grid3">
+      <div class="tile"><div class="figcap">PUE</div><div class="metric" id="pu-pue"></div></div>
+      <div class="tile"><div class="figcap">DCiE</div><div class="metric" id="pu-dcie"></div></div>
+      <div class="tile"><div class="figcap">Yearly overhead energy cost</div><div class="metric" id="pu-cost"></div></div>
+    </div>
+    <div class="stage"><svg id="pu-svg" viewBox="0 0 760 120" width="760" role="img" aria-label="PUE scale comparing your value to typical values"></svg></div>
+    <div class="caption" id="pu-cap" aria-live="polite"></div>
   </div>
 
-  <div class="lab-card" id="lab-csf" data-lab="NIST CSF 2.0 Self-Assessment: rate a fictional company on the six functions and compare current and target profiles on a radar chart.">
-    <h3>Lab 4: NIST CSF 2.0 Self-Assessment</h3>
-    <p class="figcap">Fictional company: <b>Bramblewood Clinics</b>, 12 outpatient clinics with patient records in a SaaS (Software as a Service) system. Rate each function from 1 (partial) to 4 (adaptive), loosely based on CSF tiers, for the current state and the target.</p>
-    <div class="csf-rows" id="cs-rows"></div>
-    <div class="stage"><svg id="cs-svg" viewBox="0 0 760 340" width="760" role="img" aria-label="Radar chart of current and target CSF profile"></svg></div>
-    <div class="caption" id="cs-cap" aria-live="polite"></div>
+  <div class="lab-card" id="lab-tier" data-lab="Uptime Tier Comparison: pick Tier I to IV to compare redundancy, concurrent maintainability, fault tolerance and annual downtime, and convert any availability percentage to minutes per year.">
+    <h3>Lab 5: Uptime Tier Comparison</h3>
+    <div class="tiercards" id="ti-cards"></div>
+    <div class="row"><label>Convert any availability: <input type="number" id="ti-av" value="99.99" step="0.001" min="90" max="100" style="width:8em"> %</label><b id="ti-out"></b></div>
+    <div class="caption" id="ti-cap" aria-live="polite"></div>
   </div>
 
-  <div class="lab-card" id="lab-map" data-lab="Control Mapper: drag controls such as MFA for remote access to where they appear in ISO 27001 Annex A, NIST CSF 2.0 and CIS Controls.">
-    <h3>Lab 5: Control Mapper</h3>
-    <div class="row"><span>Map to:</span><div class="seg" id="mp-fw"></div></div>
-    <p class="figcap">Drag each control (or click it, then click a box) onto the matching category in the chosen framework. References are to ISO/IEC 27001:2022, NIST CSF 2.0 and CIS Controls v8.1 (verify against the current editions).</p>
-    <div class="dropzone" id="mp-bank" aria-label="Controls to map"><span class="zone-title">Controls</span></div>
-    <div class="map-grid" id="mp-zones" style="margin-top:8px"></div>
-    <div class="row"><button type="button" class="primary" id="mp-check">Check</button><button type="button" id="mp-reset">Reset</button></div>
-    <div class="caption" id="mp-cap" aria-live="polite"></div>
+  <div class="lab-card" id="lab-fs" data-lab="Fire Suppression Picker: choose a room type and see which detection and suppression systems fit and why.">
+    <h3>Lab 6: Fire Suppression Picker</h3>
+    <div class="rooms" id="fs-rooms"></div>
+    <div class="fsres" id="fs-res">Choose a room.</div>
+    <div class="caption" id="fs-cap" aria-live="polite"></div>
   </div>
 </section>
 
@@ -263,35 +345,38 @@
 
 <section class="memory" id="memory">
   <h2>Memory aids</h2>
-  <div class="mnemonic">CSF 2.0: "<b>G</b>ood <b>I</b>deas <b>P</b>revent <b>D</b>isasters, <b>R</b>eally <b>R</b>eally": Govern, Identify, Protect, Detect, Respond, Recover.</div>
-  <div class="mnemonic">RMF: "<b>P</b>eople <b>C</b>an't <b>S</b>top <b>I</b>nternet <b>A</b>ttacks <b>A</b>ll <b>M</b>onth": Prepare, Categorize, Select, Implement, Assess, Authorize, Monitor.</div>
-  <div class="mnemonic">Policy hierarchy: "<b>P</b>lease <b>S</b>tand <b>P</b>roperly" = Policy, Standard, Procedure (Guidelines are Gentle suggestions; Baselines are the Bare minimum).</div>
-  <div class="mnemonic">Risk treatment "<b>MATA</b>": Mitigate, Avoid, Transfer, Accept.</div>
+  <div class="mnemonic">Power chain "<b>U</b>nder <b>A</b>ll <b>U</b>s, <b>P</b>ower <b>R</b>uns": Utility → ATS → UPS → PDU → Rack (generator joins at the ATS).</div>
+  <div class="mnemonic">Tiers: <b>I</b> = basic, <b>II</b> = spare parts (redundant components), <b>III</b> = maintain without shutdown (concurrently maintainable), <b>IV</b> = survive any single fault (fault tolerant).</div>
+  <div class="mnemonic">Cold aisle = <b>C</b>ustomers' <b>C</b>ool side, the fronts. Hot aisle = backs, where the exhaust goes. Fronts face fronts, backs face backs.</div>
+  <div class="mnemonic">Sprinklers: <b>Wet</b> = water waiting, <b>Dry</b> = air waiting (for freezing), <b>Pre-action</b> = waits for a detector first.</div>
   <div class="tablewrap"><table><thead><tr><th>Number</th><th>Meaning</th></tr></thead><tbody>
-    <tr><td>SLE = AV × EF</td><td>Cost of one event</td></tr>
-    <tr><td>ALE = SLE × ARO</td><td>Expected yearly loss; ARO 0.1 = once in 10 years</td></tr>
-    <tr><td>93 / 4</td><td>ISO 27001:2022 Annex A controls / themes</td></tr>
-    <tr><td>6</td><td>NIST CSF 2.0 functions (Govern added in 2024)</td></tr>
-    <tr><td>7</td><td>RMF steps</td></tr>
-    <tr><td>18 / 3</td><td>CIS Controls / Implementation Groups</td></tr>
-    <tr><td>40 / 5</td><td>COBIT 2019 objectives / domains</td></tr>
-    <tr><td>72 hours</td><td>GDPR breach notification to the supervisory authority</td></tr>
-    <tr><td>4% / €20M</td><td>GDPR maximum fine (whichever is higher)</td></tr>
-    <tr><td>12</td><td>PCI DSS principal requirements</td></tr>
+    <tr><td>1U = 1.75 in (44.45 mm)</td><td>Rack unit; 42U ≈ 2 m; 19 in mounting width</td></tr>
+    <tr><td>18–27 °C</td><td>ASHRAE recommended inlet (64.4–80.6 °F)</td></tr>
+    <tr><td>99.671 / 99.741 / 99.982 / 99.995%</td><td>Commonly cited Tier I–IV availability (≈ 28.8 h / 22 h / 1.6 h / 26 min per year; verify)</td></tr>
+    <tr><td>PUE = total ÷ IT</td><td>DCiE = IT ÷ total × 100%</td></tr>
+    <tr><td>W = V × A × PF</td><td>Three-phase: × √3 (1.732)</td></tr>
+    <tr><td>1 kW ≈ 3,412 BTU/h</td><td>1 ton cooling = 12,000 BTU/h ≈ 3.5 kW</td></tr>
+    <tr><td>~10–15 s</td><td>Generator start and transfer; UPS bridges the gap</td></tr>
+    <tr><td>80%</td><td>Continuous load limit on a breaker/circuit</td></tr>
   </tbody></table></div>
   <div class="tablewrap"><table><thead><tr><th>Exam trap</th><th>Why it is wrong</th></tr></thead><tbody>
-    <tr><td>"Transferring risk transfers accountability."</td><td>Insurance or outsourcing shares the financial impact; the organization stays accountable.</td></tr>
-    <tr><td>"The CISO owns all security risks."</td><td>Business managers own risks; the CISO advises and reports.</td></tr>
-    <tr><td>"SOC 2 Type I proves controls work."</td><td>Type I covers design at a point in time; Type II tests operation over a period.</td></tr>
-    <tr><td>"ISO 27002 is the certifiable one."</td><td>27001 is certifiable; 27002 is guidance.</td></tr>
-    <tr><td>"Two Accountables share the load."</td><td>Exactly one Accountable per task.</td></tr>
-    <tr><td>"Guidelines are mandatory."</td><td>Guidelines are recommendations.</td></tr>
+    <tr><td>"N+1 means two independent power paths."</td><td>N+1 is one spare component; independent paths are 2N.</td></tr>
+    <tr><td>"VA and watts are the same."</td><td>W = VA × power factor; check both UPS ratings.</td></tr>
+    <tr><td>"Colder is always better."</td><td>Overcooling wastes energy; ASHRAE recommends 18–27 °C inlet.</td></tr>
+    <tr><td>"Tier IV is required by law."</td><td>Tiers are a voluntary classification chosen to match business needs.</td></tr>
+    <tr><td>"FM-200 removes oxygen."</td><td>FM-200 and FK-5-1-12 mainly absorb heat; inert gases reduce oxygen.</td></tr>
   </tbody></table></div>
 </section>
 
 <section class="quiz" id="quiz">
   <h2>Knowledge check</h2>
   <div id="quiz-area"></div>
+</section>
+
+<section class="quiz" id="readiness">
+  <h2>DCCA-style readiness quiz (50 questions)</h2>
+  <p>Questions come from the data center items across the Omnibus (Modules 1, 3, 11 and 23) plus an extra DCCA bank, scored by topic area: standards and site, power, cooling, cabling and racks, fire safety, physical security, and operations and safety. These topic areas are this site's own grouping based on public DCCA information; EPI's official exam format (number of questions, time, pass mark) may differ, so check with EPI or your training provider.</p>
+  <div id="readiness-area"></div>
 </section>
 
 <section class="flashcards" id="flashcards">
@@ -302,15 +387,13 @@
 <section class="deeper" id="deeper">
   <h2>Go deeper (official sources)</h2>
   <ul>
-    <li><a href="https://www.isaca.org/resources/cobit" rel="noopener">ISACA: COBIT</a></li>
-    <li><a href="https://www.iso.org/standard/27001" rel="noopener">ISO/IEC 27001 Information security management systems</a></li>
-    <li><a href="https://www.nist.gov/cyberframework" rel="noopener">NIST Cybersecurity Framework 2.0</a></li>
-    <li><a href="https://csrc.nist.gov/projects/risk-management" rel="noopener">NIST Risk Management Framework and SP 800-53</a></li>
-    <li><a href="https://www.cisecurity.org/controls" rel="noopener">CIS Critical Security Controls</a></li>
-    <li><a href="https://www.aicpa-cima.com/topic/audit-assurance/audit-and-assurance-greater-than-soc-2" rel="noopener">AICPA: SOC 2</a></li>
-    <li><a href="https://www.pcisecuritystandards.org/" rel="noopener">PCI Security Standards Council</a></li>
-    <li><a href="https://www.hhs.gov/hipaa/index.html" rel="noopener">HHS: HIPAA</a></li>
-    <li><a href="https://commission.europa.eu/law/law-topic/data-protection_en" rel="noopener">European Commission: data protection (GDPR)</a></li>
+    <li><a href="https://www.epi-ap.com/" rel="noopener">EPI: Data Center Certified Associate (DCCA), CDCP and CDCS</a></li>
+    <li><a href="https://tiaonline.org/products-and-services/tia942certification/" rel="noopener">TIA-942 data center standard</a></li>
+    <li><a href="https://uptimeinstitute.com/tiers" rel="noopener">Uptime Institute Tier Classification System</a></li>
+    <li><a href="https://www.ashrae.org/technical-resources/bookstore/datacom-series" rel="noopener">ASHRAE Datacom Series (TC 9.9 thermal guidelines)</a></li>
+    <li><a href="https://www.nfpa.org/codes-and-standards/nfpa-75-standard-development/75" rel="noopener">NFPA 75: Fire Protection of IT Equipment</a></li>
+    <li><a href="https://www.bicsi.org/standards" rel="noopener">BICSI standards (BICSI 002)</a></li>
+    <li><a href="https://www.thegreengrid.org/" rel="noopener">The Green Grid (PUE, WUE, CUE)</a></li>
   </ul>
 </section>
 </main>
@@ -318,210 +401,233 @@
 
 <script src="data/catalog.js"></script>
 <script src="assets/omnibus.js"></script>
+<script src="data/m01.js"></script>
+<script src="data/m03.js"></script>
+<script src="data/m11.js"></script>
 <script src="data/m23.js"></script>
+<script src="data/bank-dcca.js"></script>
 <script>
 (function () {
   var h = OMNI.h, S = OMNI.svg, $ = function (id) { return document.getElementById(id); };
-  var esc = OMNI.esc || function (s) { return String(s).replace(/[&<>"']/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]; }); };
   function txt(p, x, y, t, a) { var e = S("text", Object.assign({ x: x, y: y, class: "svg-text", "font-size": 12 }, a || {}), p); e.textContent = t; return e; }
-  function rect(p, x, y, w, hh, fill, stroke, extra) { return S("rect", Object.assign({ x: x, y: y, width: w, height: hh, rx: 8, fill: fill, stroke: stroke || "none", "stroke-width": 2 }, extra || {}), p); }
-  function arrow(p, x1, y1, x2, y2) {
-    S("line", { x1: x1, y1: y1, x2: x2, y2: y2, stroke: "var(--ink-2)", "stroke-width": 2 }, p);
-    var a = Math.atan2(y2 - y1, x2 - x1), s = 8;
-    S("polygon", { points: x2 + "," + y2 + " " + (x2 - s * Math.cos(a - .45)) + "," + (y2 - s * Math.sin(a - .45)) + " " + (x2 - s * Math.cos(a + .45)) + "," + (y2 - s * Math.sin(a + .45)), fill: "var(--ink-2)" }, p);
-  }
-  function money(v) { return (v < 0 ? "−$" : "$") + Math.round(Math.abs(v)).toLocaleString(); }
+  function rect(p, x, y, w, hh, fill, stroke, extra) { return S("rect", Object.assign({ x: x, y: y, width: w, height: hh, rx: 6, fill: fill, stroke: stroke || "none", "stroke-width": 2 }, extra || {}), p); }
+  function ln(p, x1, y1, x2, y2, col, w, dash) { return S("line", { x1: x1, y1: y1, x2: x2, y2: y2, stroke: col || "var(--ink-2)", "stroke-width": w || 2, "stroke-dasharray": dash || "" }, p); }
+  OMNI.readiness({ el: "readiness-area", id: "dcca", modules: [1, 3, 11, 18], banks: ["dcca"], certs: ["DCCA"], count: 50, timerMin: 60 });
 
   /* ===== Figures ===== */
   (function () {
-    var g = $("gov-fig"), L = [["Board of directors", "approves strategy and risk appetite", "var(--gov)"], ["Executive management and steering committee", "CEO, CFO, CIO, CISO: set priorities, fund programs, report up", "var(--sec)"], ["Managers and control owners", "turn policy into standards, procedures and controls", "var(--net)"], ["Teams and staff", "run controls day to day and report metrics", "var(--dc)"]];
-    L.forEach(function (l, i) {
-      var w = 360 + i * 95, x = 380 - w / 2, y = 15 + i * 58;
-      rect(g, x, y, w, 48, "var(--surface)", l[2]);
-      txt(g, 380, y + 21, l[0], { "text-anchor": "middle", "font-weight": 700 });
-      txt(g, 380, y + 38, l[1], { "text-anchor": "middle", "font-size": 10.5, class: "svg-muted" });
-    });
-    arrow(g, 45, 30, 45, 235); txt(g, 20, 135, "Direction", { "font-size": 11, transform: "rotate(-90 20 135)", "text-anchor": "middle", class: "svg-muted" });
-    arrow(g, 715, 235, 715, 30); txt(g, 745, 135, "Reporting", { "font-size": 11, transform: "rotate(90 745 135)", "text-anchor": "middle", class: "svg-muted" });
-    txt(g, 62, 18, "Governance", { "font-weight": 700, fill: "var(--gov)", "font-size": 11 }); txt(g, 62, 254, "Management", { "font-weight": 700, fill: "var(--dc)", "font-size": 11 });
+    var g = $("pw-fig"), boxes = [["Utility", 20, 40], ["Generator", 20, 130], ["ATS", 170, 85], ["UPS", 300, 85], ["PDU", 430, 85], ["Rack PDU", 560, 85]];
+    boxes.forEach(function (b) { rect(g, b[1], b[2], 110, 44, "var(--surface)", "var(--dc)"); txt(g, b[1] + 55, b[2] + 27, b[0], { "text-anchor": "middle", "font-weight": 700 }); });
+    ln(g, 130, 62, 170, 100); ln(g, 130, 152, 170, 114); ln(g, 280, 107, 300, 107); ln(g, 410, 107, 430, 107); ln(g, 540, 107, 560, 107); ln(g, 670, 107, 700, 107);
+    rect(g, 700, 70, 30, 74, "var(--surface-2)", "var(--ink-2)"); txt(g, 715, 165, "IT", { "text-anchor": "middle", "font-size": 11 });
+    txt(g, 355, 150, "batteries bridge", { "text-anchor": "middle", "font-size": 10, class: "svg-muted" }); txt(g, 355, 163, "the ~10 s gap", { "text-anchor": "middle", "font-size": 10, class: "svg-muted" });
+    txt(g, 225, 150, "switches in seconds", { "text-anchor": "middle", "font-size": 10, class: "svg-muted" });
   })();
   (function () {
-    var g = $("pol-fig");
-    var P = [["Policy", "why and what (management intent)", 20, 120], ["Standards", "specific mandatory rules", 80, 220], ["Procedures", "step-by-step how", 150, 320]];
-    P.forEach(function (p, i) {
-      var y = p[2] + i * 0, top = 20 + i * 70, wTop = 80 + i * 150, wBot = 230 + i * 150;
-      S("polygon", { points: (300 - wTop / 2) + "," + top + " " + (300 + wTop / 2) + "," + top + " " + (300 + wBot / 2) + "," + (top + 65) + " " + (300 - wBot / 2) + "," + (top + 65), fill: ["var(--gov-soft)", "var(--sec-soft)", "var(--net-soft)"][i], stroke: ["var(--gov)", "var(--sec)", "var(--net)"][i], "stroke-width": 2 }, g);
-      txt(g, 300, top + 32, p[0], { "text-anchor": "middle", "font-weight": 800 });
-      txt(g, 300, top + 50, p[1], { "text-anchor": "middle", "font-size": 10.5, class: "svg-muted" });
-    });
-    rect(g, 560, 30, 180, 70, "var(--surface)", "var(--good)", { "stroke-dasharray": "6 4" }); txt(g, 650, 58, "Guidelines", { "text-anchor": "middle", "font-weight": 700 }); txt(g, 650, 78, "optional advice", { "text-anchor": "middle", "font-size": 10.5, class: "svg-muted" });
-    rect(g, 560, 125, 180, 70, "var(--surface)", "var(--warn)"); txt(g, 650, 153, "Baselines", { "text-anchor": "middle", "font-weight": 700 }); txt(g, 650, 173, "mandatory minimum config", { "text-anchor": "middle", "font-size": 10.5, class: "svg-muted" });
-    S("line", { x1: 480, y1: 120, x2: 560, y2: 65, stroke: "var(--ink-2)", "stroke-dasharray": "4 4" }, g); S("line", { x1: 480, y1: 150, x2: 560, y2: 160, stroke: "var(--ink-2)", "stroke-dasharray": "4 4" }, g);
-    txt(g, 300, 236, "More general and stable at the top; more specific and changeable at the bottom", { "text-anchor": "middle", "font-size": 10.5, class: "svg-muted" });
-  })();
-  (function () {
-    var g = $("ale-fig"), B = [["AV", "asset value"], ["× EF", "% lost per event"], ["= SLE", "loss per event"], ["× ARO", "events per year"], ["= ALE", "loss per year"]];
-    B.forEach(function (b, i) { var x = 15 + i * 150; rect(g, x, 25, 125, 64, i === 4 ? "var(--accent-soft)" : "var(--surface)", i % 2 ? "var(--ink-2)" : "var(--gov)"); txt(g, x + 62, 52, b[0], { "text-anchor": "middle", "font-weight": 800, "font-size": 16 }); txt(g, x + 62, 74, b[1], { "text-anchor": "middle", "font-size": 10.5, class: "svg-muted" }); });
+    var g = $("aisle-fig");
+    rect(g, 10, 180, 720, 40, "var(--net-soft)", "var(--net)"); txt(g, 370, 205, "Raised-floor plenum: cold supply air from the CRAH", { "text-anchor": "middle", "font-size": 11 });
+    rect(g, 10, 20, 70, 160, "var(--surface)", "var(--net)"); txt(g, 45, 100, "CRAH", { "text-anchor": "middle", "font-weight": 700 });
+    var racks = [150, 300, 450, 600];
+    racks.forEach(function (x, i) { rect(g, x, 60, 60, 120, "var(--surface-2)", "var(--ink-2)"); txt(g, x + 30, 52, "Rack", { "text-anchor": "middle", "font-size": 11 }); txt(g, x + (i % 2 ? 54 : 6), 125, "front", { "text-anchor": i % 2 ? "end" : "start", "font-size": 9, class: "svg-muted" }); });
+    [[210, 300, "COLD AISLE", "var(--net)"], [510, 600, "COLD AISLE", "var(--net)"], [360, 450, "HOT AISLE", "var(--bad)"]].forEach(function (a) { txt(g, (a[0] + a[1]) / 2, 40, a[2], { "text-anchor": "middle", "font-size": 10, "font-weight": 800, fill: a[3] }); });
+    [[255, true], [555, true]].forEach(function (a) { for (var k = -1; k <= 1; k++) { ln(g, a[0] + k * 20, 178, a[0] + k * 20, 120, "var(--net)", 2); S("polygon", { points: (a[0] + k * 20) + ",112 " + (a[0] + k * 20 - 5) + ",122 " + (a[0] + k * 20 + 5) + ",122", fill: "var(--net)" }, g); } txt(g, a[0], 176, "perforated tiles", { "text-anchor": "middle", "font-size": 9, class: "svg-muted" }); });
+    ln(g, 230, 100, 300, 100, "var(--net)", 2); ln(g, 360, 100, 360, 100);
+    for (var k = 0; k < 3; k++) { ln(g, 395 + k * 10, 120, 395 + k * 10, 70, "var(--bad)", 2); S("polygon", { points: (395 + k * 10) + ",62 " + (390 + k * 10) + ",72 " + (400 + k * 10) + ",72", fill: "var(--bad)" }, g); }
+    S("path", { d: "M 405 58 C 405 8, 60 8, 60 18", fill: "none", stroke: "var(--bad)", "stroke-width": 2, "stroke-dasharray": "6 4" }, g); txt(g, 230, 14, "hot return air to CRAH", { "text-anchor": "middle", "font-size": 10, fill: "var(--bad)" });
   })();
 
-  /* ===== Lab 1: Framework navigator ===== */
-  var FW = [
-    { g: "Governance", n: "COBIT 2019", s: "Governance and management of enterprise IT: 40 objectives across EDM, APO, BAI, DSS and MEA; goals cascade from stakeholder needs to IT goals; capability levels 0–5.", u: "IT governance teams, auditors, boards; common in banks and large enterprises.", c: "Organizations are assessed, not certified. People: COBIT Foundation and Design and Implementation.", x: "CISA (domain 2), CISM (domain 1), CGEIT" },
-    { g: "Governance", n: "ISO/IEC 38500", s: "Principles for the board-level governance of IT: responsibility, strategy, acquisition, performance, conformance, human behaviour; evaluate–direct–monitor model.", u: "Boards and executives.", c: "Not normally certified.", x: "CISA, CGEIT (background)" },
-    { g: "Governance", n: "NIST CSF 2.0", s: "Six functions (Govern, Identify, Protect, Detect, Respond, Recover), 22 categories, profiles and tiers. A common language for outcomes, not a list of mandatory controls.", u: "Any organization, any size or sector; widely used in the US and beyond.", c: "No certification; you align with or assess against it.", x: "Security+ 5.1, CISM, CISA" },
-    { g: "Risk", n: "ISO 31000", s: "Principles, framework and process for managing any kind of risk: establish context, identify, analyse, evaluate, treat, monitor, communicate.", u: "Enterprise risk management teams.", c: "Guidance; not certifiable.", x: "CISM domain 2, CRISC" },
-    { g: "Risk", n: "ISO/IEC 27005", s: "Information security risk management guidance supporting the ISO 27001 risk assessment and treatment requirements.", u: "ISMS teams.", c: "Guidance; not certifiable.", x: "CISM domain 2" },
-    { g: "Risk", n: "NIST RMF (SP 800-37)", s: "Prepare, Categorize (FIPS 199), Select (SP 800-53 controls), Implement, Assess (SP 800-53A), Authorize (ATO by an authorizing official), Monitor.", u: "US federal agencies and contractors; FedRAMP for cloud.", c: "Systems get an authorization to operate, not a certificate.", x: "Security+ 5.x, CISM, CISSP, CGRC" },
-    { g: "Controls", n: "ISO/IEC 27001 and 27002", s: "27001: ISMS requirements (clauses 4–10, PDCA) plus 93 Annex A controls; a Statement of Applicability records chosen controls. 27002: implementation guidance for those controls.", u: "Organizations worldwide wanting a recognized security certification.", c: "27001 is certifiable by accredited bodies (3-year cycle with surveillance audits); 27002 is guidance.", x: "Security+ 5.1, CISM, CISA" },
-    { g: "Controls", n: "NIST SP 800-53", s: "Rev. 5 control catalogue: 20 families (e.g., AC access control, AU audit, CM configuration, IR incident response, SC system and communications protection), with low/moderate/high baselines (SP 800-53B).", u: "US federal systems; often borrowed by others.", c: "Not certifiable; FedRAMP authorizations are built on it.", x: "CISA, CISM, CISSP" },
-    { g: "Controls", n: "CIS Controls v8.1", s: "18 prioritized controls (inventory of assets and software, data protection, secure configuration, access, vulnerability management, logging…), split into Implementation Groups IG1 (essential hygiene), IG2, IG3.", u: "Small to large organizations wanting a practical starting point.", c: "Not certifiable.", x: "Security+, CySA+" },
-    { g: "Compliance", n: "SOC 2", s: "AICPA attestation by a CPA firm on controls relevant to the Trust Services Criteria (security, availability, processing integrity, confidentiality, privacy). Type I = design at a date; Type II = operating effectiveness over a period. SOC 1 covers financial reporting controls; SOC 3 is a public summary.", u: "SaaS and service providers proving security to customers.", c: "A report, not a certification.", x: "CISA domain 2 and 5, Security+ 5.3" },
-    { g: "Compliance", n: "PCI DSS v4.0.1", s: "12 requirements protecting cardholder data (network security controls, secure configurations, protect stored data, encryption in transit, malware, secure software, access, authentication, physical, logging, testing, policy).", u: "Merchants and service providers handling payment cards.", c: "Contractual. Validated by a Qualified Security Assessor (Report on Compliance) or a Self-Assessment Questionnaire.", x: "Security+ 5.4, CISA" },
-    { g: "Compliance", n: "HIPAA", s: "US law. Privacy Rule, Security Rule (administrative, physical and technical safeguards for electronic PHI) and Breach Notification Rule; business associate agreements (BAAs) with vendors.", u: "US healthcare providers, insurers, clearinghouses and their business associates.", c: "No certification; HHS Office for Civil Rights enforces.", x: "Security+ 5.4, CISM, CISA" },
-    { g: "Compliance", n: "SOX", s: "US Sarbanes-Oxley Act (2002). Section 302: executives certify financial reports; Section 404: internal control over financial reporting, including IT general controls (access, change management, operations).", u: "US public companies and their auditors.", c: "No certification; external auditors attest.", x: "CISA, Security+ 5.4" },
-    { g: "Compliance", n: "GDPR", s: "EU regulation (2018) on personal data: principles (lawfulness, purpose limitation, minimization, accuracy, storage limitation, integrity and confidentiality, accountability), data subject rights, DPIAs, DPOs, 72-hour breach notice, fines up to €20M or 4%.", u: "Anyone processing personal data of people in the EU.", c: "No general certification; supervisory authorities enforce.", x: "Security+ 5.4, CISM, CISA" },
-    { g: "Continuity and service", n: "ISO 22301", s: "Business continuity management system: BIA, risk assessment, continuity strategies, plans, exercises and improvement.", u: "Organizations needing resilience assurance (finance, utilities, data centers).", c: "Certifiable.", x: "CISM domain 4, CISA domain 4, DCCA background" },
-    { g: "Continuity and service", n: "ISO/IEC 20000-1", s: "Service management system requirements, closely aligned with ITIL practices (Module 22).", u: "IT service providers and internal IT.", c: "Certifiable.", x: "ITIL, CISA domain 4" },
-    { g: "Continuity and service", n: "NIST SP 800-34", s: "Contingency planning guide for federal information systems: BIA, preventive controls, recovery strategies, plan testing.", u: "US federal and many private organizations.", c: "Guidance.", x: "CISM domain 4, CISA domain 4" }
+  /* ===== Lab 1: Floor planner ===== */
+  var GW = 12, GH = 8, CS = 50, grid = [], flTool = "rackS";
+  var TOOLS = [["rackS", "Rack, front faces down ↓"], ["rackN", "Rack, front faces up ↑"], ["crah", "CRAH unit"], ["perf", "Perforated tile"], ["erase", "Eraser"]];
+  TOOLS.forEach(function (t) { var b = h("button", { type: "button", class: t[0] === flTool ? "on" : "" }, t[1]); b.onclick = function () { flTool = t[0]; OMNI.$$("#fl-tools button").forEach(function (x) { x.classList.toggle("on", x === b); }); }; $("fl-tools").appendChild(b); });
+  function flBlank() { grid = []; for (var y = 0; y < GH; y++) { grid.push([]); for (var x = 0; x < GW; x++) grid[y].push(""); } }
+  function flLoad(kind) {
+    flBlank(); grid[0][0] = grid[GH - 1][0] = "crah"; grid[0][GW - 1] = grid[GH - 1][GW - 1] = "crah";
+    if (kind === "bad") { for (var x = 2; x < 10; x++) { grid[2][x] = "rackS"; grid[5][x] = "rackS"; } [3, 6, 9].forEach(function (x) { grid[1][x] = "perf"; }); }
+    else if (kind === "good") { for (var x2 = 2; x2 < 10; x2++) { grid[2][x2] = "rackS"; grid[4][x2] = "rackN"; grid[3][x2] = "perf"; } for (var x3 = 2; x3 < 10; x3++) { grid[6][x3] = "rackS"; } for (var x4 = 2; x4 < 10; x4 += 2) grid[7][x4] = "perf"; for (var x5 = 3; x5 < 10; x5 += 2) grid[7][x5] = "perf"; }
+  }
+  function exhaustOf(x, y, t) { return t === "rackS" ? [x, y - 1] : [x, y + 1]; }
+  function frontOf(x, y, t) { return t === "rackS" ? [x, y + 1] : [x, y - 1]; }
+  function field() {
+    var cont = $("fl-cont").checked, blank = $("fl-blank").checked, racks = [], perfs = [], crahs = [];
+    for (var y = 0; y < GH; y++) for (var x = 0; x < GW; x++) { var c = grid[y][x]; if (c === "rackS" || c === "rackN") racks.push([x, y, c]); else if (c === "perf") perfs.push([x, y]); else if (c === "crah") crahs.push([x, y]); }
+    var T = [];
+    for (var yy = 0; yy < GH; yy++) { T.push([]); for (var xx = 0; xx < GW; xx++) {
+      var t = 26 + (crahs.length ? 0 : 12);
+      racks.forEach(function (r) { var e = exhaustOf(r[0], r[1], r[2]), d = Math.hypot(e[0] - xx, e[1] - yy); t += 10 * Math.exp(-d / 1.1) * (cont ? 0.35 : 1); });
+      perfs.forEach(function (p) { var d = Math.hypot(p[0] - xx, p[1] - yy); t -= 5.5 * Math.exp(-d / 0.9); });
+      crahs.forEach(function (c) { var d = Math.hypot(c[0] - xx, c[1] - yy); t -= 2.5 * Math.exp(-d / 3); });
+      T[yy].push(Math.max(15, Math.min(45, t)));
+    } }
+    var inlets = racks.map(function (r) { var f = frontOf(r[0], r[1], r[2]), base = (f[1] >= 0 && f[1] < GH) ? T[f[1]][f[0]] : 30; return { x: r[0], y: r[1], t: r[2], inlet: base + (blank ? 0 : 2.5) - (cont ? 1.5 : 0) }; });
+    return { T: T, inlets: inlets, crahs: crahs.length, perfs: perfs.length };
+  }
+  function tcol(t) { var k = Math.max(0, Math.min(1, (t - 16) / 20)); var r = Math.round(60 + 195 * k), g = Math.round(130 + 60 * (1 - Math.abs(k - .5) * 2) - 40 * k), b = Math.round(240 - 210 * k); return "rgb(" + r + "," + g + "," + b + ")"; }
+  function flDraw() {
+    var s = $("fl-svg"); s.innerHTML = ""; var F = field();
+    for (var y = 0; y < GH; y++) for (var x = 0; x < GW; x++) {
+      var c = grid[y][x], cell = S("rect", { x: x * CS, y: y * CS, width: CS, height: CS, fill: tcol(F.T[y][x]), opacity: .55, stroke: "rgba(0,0,0,.08)" }, s);
+      (function (x, y) { cell.addEventListener("click", function () { flApply(x, y); }); })(x, y);
+      if (c === "perf") { var pr = S("rect", { x: x * CS + 6, y: y * CS + 6, width: CS - 12, height: CS - 12, fill: "none", stroke: "#1e3a8a", "stroke-width": 2, "stroke-dasharray": "3 3", "pointer-events": "none" }, s); }
+      if (c === "crah") { S("rect", { x: x * CS + 3, y: y * CS + 3, width: CS - 6, height: CS - 6, rx: 6, fill: "#1e40af", "pointer-events": "none" }, s); txt(s, x * CS + 25, y * CS + 30, "CRAH", { "text-anchor": "middle", "font-size": 10, fill: "#fff", "font-weight": 700, "pointer-events": "none" }); }
+    }
+    F.inlets.forEach(function (r) {
+      var hot = r.inlet > 27, x = r.x * CS, y = r.y * CS;
+      S("rect", { x: x + 4, y: y + 4, width: CS - 8, height: CS - 8, rx: 4, fill: "#1f2937", stroke: hot ? "#ef4444" : "#22c55e", "stroke-width": 3, "pointer-events": "none" }, s);
+      txt(s, x + 25, y + (r.t === "rackS" ? 44 : 16), r.t === "rackS" ? "▼" : "▲", { "text-anchor": "middle", "font-size": 10, fill: "#93c5fd", "pointer-events": "none" });
+      txt(s, x + 25, y + 30, r.inlet.toFixed(0) + "°", { "text-anchor": "middle", "font-size": 12, fill: hot ? "#fca5a5" : "#bbf7d0", "font-weight": 800, "pointer-events": "none" });
+    });
+    var hot = F.inlets.filter(function (r) { return r.inlet > 27; }).length, n = F.inlets.length, worst = n ? Math.max.apply(null, F.inlets.map(function (r) { return r.inlet; })) : 0;
+    var tips = [];
+    if (!F.crahs) tips.push("There's no cooling unit at all.");
+    var bad = F.inlets.filter(function (r) { var f = frontOf(r.x, r.y, r.t), other = F.inlets.find(function (o) { var e = exhaustOf(o.x, o.y, o.t); return Math.abs(e[0] - f[0]) <= 0 && Math.abs(e[1] - f[1]) <= 1 && o !== r; }); return !!other; }).length;
+    if (bad) tips.push(bad + " rack(s) are breathing another row's hot exhaust: make rows face front-to-front across a cold aisle.");
+    if (n && F.perfs < n / 3) tips.push("Add perforated tiles in front of the racks (the cold aisle).");
+    if (!$("fl-blank").checked && n) tips.push("Install blanking panels to stop hot air recirculating inside racks.");
+    if (!$("fl-cont").checked && n) tips.push("Containment would stop hot and cold air mixing.");
+    OMNI.say("fl-cap", n ? (hot ? "<span class='pill-no'>" + hot + " of " + n + " racks above 27 °C inlet</span> (worst " + worst.toFixed(0) + " °C). " : "<span class='pill-ok'>All " + n + " racks within the ASHRAE recommended range</span> (worst " + worst.toFixed(0) + " °C). ") + tips.join(" ") + " This is a teaching model, not a CFD simulation." : "Place some racks.");
+  }
+  function flApply(x, y) { grid[y][x] = flTool === "erase" ? "" : flTool; flDraw(); }
+  $("fl-blank").onchange = $("fl-cont").onchange = flDraw;
+  $("fl-bad").onclick = function () { flLoad("bad"); flDraw(); }; $("fl-good").onclick = function () { flLoad("good"); flDraw(); }; $("fl-clear").onclick = function () { flBlank(); flDraw(); };
+  flLoad("bad"); flDraw();
+
+  /* ===== Lab 2: Power chain ===== */
+  var pcD = "N", pcF = {};
+  var DES = { "N": "N (no redundancy)", "N1": "N+1 (spare UPS module)", "2N": "2N (two independent paths)" };
+  var PARTS = { "N": ["U1", "G1", "UPS1", "PDUA"], "N1": ["U1", "G1", "UPS1", "UPS2", "PDUA"], "2N": ["U1", "G1", "UPS1", "PDUA", "U2", "G2", "UPS2", "PDUB"] };
+  var NAMES = { U1: "Utility A", G1: "Generator A", UPS1: "UPS 1", UPS2: "UPS 2", PDUA: "PDU A", U2: "Utility B", G2: "Generator B", PDUB: "PDU B" };
+  Object.keys(DES).forEach(function (k) { var b = h("button", { type: "button", class: k === pcD ? "on" : "" }, DES[k]); b.onclick = function () { pcD = k; pcF = {}; OMNI.$$("#pc-design button").forEach(function (x) { x.classList.toggle("on", x === b); }); pcFails(); pcDraw(); }; $("pc-design").appendChild(b); });
+  function pcFails() { var f = $("pc-fails"); f.innerHTML = "<span>Fail:</span>"; PARTS[pcD].forEach(function (p) { var c = h("input", { type: "checkbox" }); c.checked = !!pcF[p]; c.onchange = function () { pcF[p] = c.checked; pcDraw(); }; f.appendChild(h("label", null, [c, " " + NAMES[p]])); }); }
+  var RANK = { ok: 3, bypass: 2, battery: 1, dead: 0 }, COL = { ok: "var(--good)", bypass: "var(--warn)", battery: "var(--warn)", dead: "var(--line)" };
+  function path(u, g, upsList, pdu, needUps) {
+    var src = !pcF[u] ? "utility" : !pcF[g] ? "gen" : "none";
+    var upsUp = upsList.filter(function (x) { return !pcF[x]; }).length >= needUps;
+    var out = upsUp ? (src !== "none" ? "ok" : "battery") : (src !== "none" ? "bypass" : "dead");
+    return { src: src, ups: out, pdu: pcF[pdu] ? "dead" : out };
+  }
+  function pcDraw() {
+    var s = $("pc-svg"), res = []; s.innerHTML = "";
+    function node(x, y, label, state, w) { w = w || 92; rect(s, x, y, w, 40, "var(--surface)", state === "failed" ? "var(--bad)" : COL[state] || "var(--line)"); txt(s, x + w / 2, y + 18, label, { "text-anchor": "middle", "font-weight": 700, "font-size": 11 }); txt(s, x + w / 2, y + 32, state === "failed" ? "FAILED" : { ok: "energized", bypass: "bypass", battery: "battery", dead: "no power" }[state], { "text-anchor": "middle", "font-size": 9, fill: state === "failed" ? "var(--bad)" : "var(--ink-2)" }); }
+    function wire(x1, y1, x2, y2, st) { ln(s, x1, y1, x2, y2, COL[st], st === "dead" ? 2 : 4, st === "battery" || st === "bypass" ? "7 4" : ""); }
+    function drawPath(y0, u, g, upsList, pdu, need, label) {
+      var p = path(u, g, upsList, pdu, need), srcSt = p.src !== "none" ? "ok" : "dead";
+      node(10, y0, NAMES[u], pcF[u] ? "failed" : "ok"); node(10, y0 + 56, NAMES[g], pcF[g] ? "failed" : (pcF[u] ? "ok" : "ok"));
+      txt(s, 56, y0 + 112, pcF[u] && !pcF[g] ? "running" : pcF[g] ? "" : "standby", { "text-anchor": "middle", "font-size": 9, class: "svg-muted" });
+      wire(102, y0 + 20, 140, y0 + 40, pcF[u] ? "dead" : "ok"); wire(102, y0 + 76, 140, y0 + 48, pcF[u] && !pcF[g] ? "ok" : "dead");
+      node(140, y0 + 24, "ATS", srcSt, 70);
+      var uy = upsList.length > 1 ? [y0 - 6, y0 + 54] : [y0 + 24];
+      upsList.forEach(function (uu, k) { wire(210, y0 + 44, 260, uy[k] + 20, srcSt); node(260, uy[k], NAMES[uu], pcF[uu] ? "failed" : p.ups === "bypass" ? "dead" : p.ups); wire(352, uy[k] + 20, 400, y0 + 44, pcF[uu] ? "dead" : p.ups === "bypass" ? "dead" : p.ups); });
+      if (p.ups === "bypass") { S("path", { d: "M 210 " + (y0 + 30) + " C 260 " + (y0 - 30) + ", 350 " + (y0 - 30) + ", 400 " + (y0 + 30), fill: "none", stroke: COL.bypass, "stroke-width": 3, "stroke-dasharray": "7 4" }, s); txt(s, 305, y0 - 18 + (upsList.length > 1 ? -8 : 0), "static bypass (raw power)", { "text-anchor": "middle", "font-size": 9, fill: "var(--warn)" }); }
+      node(400, y0 + 24, NAMES[pdu], pcF[pdu] ? "failed" : p.pdu, 80);
+      wire(480, y0 + 44, 600, 150, p.pdu);
+      txt(s, 540, y0 + (y0 < 100 ? 66 : 30), label, { "text-anchor": "middle", "font-size": 10, class: "svg-muted" });
+      return p;
+    }
+    var rack;
+    if (pcD === "2N") { var a = drawPath(10, "U1", "G1", ["UPS1"], "PDUA", 1, "A cord"), b = drawPath(170, "U2", "G2", ["UPS2"], "PDUB", 1, "B cord"); rack = RANK[a.pdu] >= RANK[b.pdu] ? a.pdu : b.pdu; res = [a, b]; }
+    else { var p1 = drawPath(90, "U1", "G1", pcD === "N1" ? ["UPS1", "UPS2"] : ["UPS1"], "PDUA", 1, "single path"); rack = p1.pdu; res = [p1]; }
+    rect(s, 600, 105, 140, 90, "var(--surface)", COL[rack] === "var(--line)" ? "var(--bad)" : COL[rack]); txt(s, 670, 135, "Rack (IT load)", { "text-anchor": "middle", "font-weight": 800 }); txt(s, 670, 158, pcD === "2N" ? "dual-corded A + B" : "single-corded", { "text-anchor": "middle", "font-size": 10 });
+    txt(s, 670, 180, { ok: "✓ UP", bypass: "UP, unprotected", battery: "UP on battery", dead: "✗ DOWN" }[rack], { "text-anchor": "middle", "font-weight": 800, fill: rack === "dead" ? "var(--bad)" : rack === "ok" ? "var(--good)" : "var(--warn)" });
+    var msg = [];
+    res.forEach(function (p, i) {
+      var pre = res.length > 1 ? (i ? "Path B: " : "Path A: ") : "";
+      if (p.src === "gen") msg.push(pre + "utility lost; the UPS carried the load for the ~10 s while the generator started, and the ATS moved the load to the generator.");
+      if (p.src === "none") msg.push(pre + "no utility and no generator; the UPS is on batteries, typically 5 to 15 minutes at full load. Fix it fast or shut down gracefully.");
+      if (p.ups === "bypass") msg.push(pre + "the UPS failed, so it transferred the load to <b>static bypass</b>: raw utility/generator power with no battery protection. The next blip drops the load.");
+      if (pcD === "N1" && (pcF.UPS1 ^ pcF.UPS2)) msg.push("One UPS module failed, but N+1 has a spare, so the remaining module carries the full load. Maintain or replace it with no outage.");
+      if (pcF[pcD === "2N" ? (i ? "PDUB" : "PDUA") : "PDUA"]) msg.push(pre + "the PDU failed, so everything downstream on this path lost power.");
+    });
+    if (pcD === "2N" && rack !== "dead" && res.some(function (p) { return p.pdu === "dead"; })) msg.push("<b>2N saved the day</b>: the dual-corded rack kept running on the other path. Each path must be able to carry the entire load (keep each side under 50% in normal operation).");
+    if (rack === "dead" && pcD !== "2N") msg.push("A single path means a single point of failure. 2N with dual-corded equipment removes it.");
+    OMNI.say("pc-cap", (msg.length ? msg.join(" ") : "All systems normal: utility power flows through the ATS, the online UPS conditions it, and the PDU feeds the rack.") + "");
+  }
+  pcFails(); pcDraw();
+
+  /* ===== Lab 3: UPS calculator ===== */
+  var LOADS = [{ n: "Rack A servers", v: 6200, u: "W", pf: .95 }, { n: "Rack B storage", v: 4800, u: "VA", pf: .9 }, { n: "Network rack", v: 2200, u: "W", pf: .95 }];
+  function upTable() {
+    var T = $("up-loads"); T.innerHTML = "";
+    T.appendChild(h("tr", null, ["Load", "Value", "Unit", "Power factor", "Watts", "VA", ""].map(function (x) { return h("th", null, x); })));
+    LOADS.forEach(function (l, i) {
+      var nm = h("input", { type: "text", class: "nm", value: l.n, "aria-label": "Load name" }); nm.oninput = function () { l.n = nm.value; };
+      var v = h("input", { type: "number", value: l.v, min: 0, "aria-label": "Load value" }); v.oninput = function () { l.v = +v.value || 0; upCalc(); };
+      var u = h("select", { "aria-label": "Unit" }, [h("option", { value: "W" }, "W"), h("option", { value: "VA" }, "VA")]); u.value = l.u; u.onchange = function () { l.u = u.value; upCalc(); };
+      var pf = h("input", { type: "number", value: l.pf, min: .5, max: 1, step: .01, "aria-label": "Power factor" }); pf.oninput = function () { l.pf = +pf.value || 1; upCalc(); };
+      var del = h("button", { type: "button", "aria-label": "Remove load" }, "✕"); del.onclick = function () { LOADS.splice(i, 1); upTable(); };
+      T.appendChild(h("tr", null, [h("td", null, nm), h("td", null, v), h("td", null, u), h("td", null, pf), h("td", { class: "w" }, ""), h("td", { class: "va" }, ""), h("td", null, del)]));
+    });
+    upCalc();
+  }
+  function upCalc() {
+    var W = 0, VA = 0, rows = OMNI.$$("#up-loads tr").slice(1);
+    LOADS.forEach(function (l, i) { var w = l.u === "W" ? l.v : l.v * l.pf, va = l.u === "VA" ? l.v : l.v / l.pf; W += w; VA += va; if (rows[i]) { rows[i].querySelector(".w").textContent = Math.round(w).toLocaleString(); rows[i].querySelector(".va").textContent = Math.round(va).toLocaleString(); } });
+    var kva = +$("up-kva").value * 1000, kw = +$("up-kw").value * 1000, wh = +$("up-wh").value, eff = +$("up-eff").value / 100;
+    var pW = W / kw * 100, pVA = VA / kva * 100, pct = Math.max(pW, pVA);
+    var rt = W > 0 ? wh * eff / W * 60 * (1 - 0.15 * Math.min(1, W / kw)) : 0;
+    $("up-w").textContent = (W / 1000).toFixed(2) + " kW"; $("up-va").textContent = (VA / 1000).toFixed(2) + " kVA apparent";
+    $("up-pct").textContent = pct.toFixed(0) + "%"; $("up-pct2").textContent = pW.toFixed(0) + "% of kW rating · " + pVA.toFixed(0) + "% of kVA rating";
+    $("up-rt").textContent = pct > 100 ? "—" : rt >= 60 ? (rt / 60).toFixed(1) + " h" : rt.toFixed(0) + " min";
+    var limit = pW >= pVA ? "kW (real power)" : "kVA (apparent power)";
+    OMNI.say("up-cap", (pct > 100 ? "<span class='pill-no'>Overloaded</span> The load exceeds the UPS " + limit + " rating; it will go to bypass or shut down. Add capacity or move load. " : pct > 80 ? "<span class='pill-warn'>Above 80%</span> Works, but leaves little headroom for growth or for N+1/2N failover. " : "<span class='pill-ok'>Within rating</span> ") + "Watts = VA × power factor, so a " + Math.round(VA).toLocaleString() + " VA load at these power factors draws " + Math.round(W).toLocaleString() + " W. The tighter limit here is the " + limit + " rating. Runtime ≈ battery Wh × inverter efficiency ÷ load W, reduced a little at high load because batteries deliver less energy when discharged fast (Peukert effect). Real runtime also falls as batteries age, so size for end-of-life capacity.");
+  }
+  $("up-add").onclick = function () { LOADS.push({ n: "New load", v: 1000, u: "W", pf: .95 }); upTable(); };
+  ["up-kva", "up-kw", "up-wh", "up-eff"].forEach(function (id) { $(id).oninput = upCalc; });
+  upTable();
+
+  /* ===== Lab 4: PUE ===== */
+  function puCalc() {
+    var it = +$("pu-it").value || 0, cool = +$("pu-cool").value || 0, loss = +$("pu-loss").value || 0, oth = +$("pu-oth").value || 0, price = +$("pu-price").value || 0;
+    var tot = it + cool + loss + oth, pue = it ? tot / it : 0, dcie = tot ? it / tot * 100 : 0, cost = (tot - it) * 8760 * price;
+    $("pu-pue").textContent = pue.toFixed(2); $("pu-dcie").textContent = dcie.toFixed(0) + "%"; $("pu-cost").textContent = "$" + Math.round(cost).toLocaleString();
+    var s = $("pu-svg"); s.innerHTML = ""; var X = function (v) { return 40 + (Math.min(3, Math.max(1, v)) - 1) / 2 * 680; };
+    var grd = S("defs", {}, s), lg = S("linearGradient", { id: "pug" }, grd); [["0%", "#22c55e"], ["40%", "#facc15"], ["100%", "#ef4444"]].forEach(function (st) { S("stop", { offset: st[0], "stop-color": st[1] }, lg); });
+    S("rect", { x: 40, y: 50, width: 680, height: 16, rx: 8, fill: "url(#pug)" }, s);
+    [[1.0, "1.0 ideal"], [1.1, "1.1 hyperscale"], [1.56, "≈1.56 industry average"], [2.0, "2.0"], [2.5, "2.5 legacy"], [3.0, "3.0"]].forEach(function (m, i) { var x = X(m[0]); ln(s, x, 66, x, 74); txt(s, x, 88 + (i % 2) * 14, m[1], { "text-anchor": i === 0 ? "start" : i === 5 ? "end" : "middle", "font-size": 10, class: "svg-muted" }); });
+    var xv = X(pue); S("polygon", { points: xv + ",46 " + (xv - 7) + ",34 " + (xv + 7) + ",34", fill: "var(--ink)" }, s); txt(s, xv, 28, "You: " + pue.toFixed(2), { "text-anchor": "middle", "font-weight": 800 });
+    var big = [["cooling", cool], ["UPS and distribution losses", loss], ["other", oth]].sort(function (a, b) { return b[1] - a[1]; })[0];
+    OMNI.say("pu-cap", "PUE = total facility power ÷ IT power = " + tot.toLocaleString() + " ÷ " + it.toLocaleString() + " = " + pue.toFixed(2) + ". DCiE is the inverse: " + dcie.toFixed(0) + "% of the power reaches IT. For every 1 kW of IT you spend " + (pue - 1).toFixed(2) + " kW on overhead, which costs about $" + Math.round(cost).toLocaleString() + " a year at $" + price + "/kWh. Your biggest overhead is " + big[0] + ". " + (pue > 1.6 ? "Ideas: hot or cold aisle containment, raise supply air temperature within ASHRAE ranges, economizers, variable-speed fans and efficient UPS modes." : pue > 1.3 ? "That's around or better than the industry average (Uptime Institute surveys report an average near 1.5 to 1.6)." : "Excellent: that's hyperscale territory.") + " PUE is properly measured as annual <b>energy</b>, not a single power snapshot.");
+  }
+  ["pu-it", "pu-cool", "pu-loss", "pu-oth", "pu-price"].forEach(function (id) { $(id).oninput = puCalc; }); puCalc();
+
+  /* ===== Lab 5: Tiers ===== */
+  var TIERS = [
+    { n: "Tier I", s: "Basic capacity", r: "N", p: "1 path", cm: "No", ft: "No", a: 99.671, d: "Single path, no redundant components. Planned maintenance requires a shutdown. Suits small businesses with tolerance for downtime." },
+    { n: "Tier II", s: "Redundant capacity components", r: "N+1 components", p: "1 path", cm: "No", ft: "No", a: 99.741, d: "Spare UPS modules, chillers and generators, but still one distribution path, so path maintenance or failure takes the site down." },
+    { n: "Tier III", s: "Concurrently maintainable", r: "N+1", p: "2 paths (1 active)", cm: "Yes", ft: "No", a: 99.982, d: "Every component and path can be taken out for planned maintenance without shutting down IT (dual-corded equipment). An unplanned failure can still cause an outage." },
+    { n: "Tier IV", s: "Fault tolerant", r: "2N or 2(N+1)", p: "2 active paths", cm: "Yes", ft: "Yes", a: 99.995, d: "Survives any single unplanned failure without impact, with compartmentalization and continuous cooling. Highest cost." }
   ];
-  var FWG = ["Governance", "Risk", "Controls", "Compliance", "Continuity and service"], fwSeen = {};
-  FWG.forEach(function (gname) {
-    var box = h("div", { class: "fwgroup" }, h("h4", null, gname));
-    FW.forEach(function (f, i) { if (f.g !== gname) return; var b = h("button", { type: "button", "data-i": String(i) }, f.n); b.onclick = function () { fwShow(i); }; box.appendChild(b); });
-    $("fw-groups").appendChild(box);
-  });
-  function fwShow(i) {
-    var f = FW[i]; fwSeen[i] = 1;
-    OMNI.$$("#fw-groups button").forEach(function (b) { b.classList.toggle("on", +b.dataset.i === i); });
-    $("fw-info").innerHTML = "<h4>" + f.n + " <small>(" + f.g + ")</small></h4><p><b>Scope:</b> " + f.s + "</p><p><b>Who uses it:</b> " + f.u + "</p><p><b>Certification:</b> " + f.c + "</p><p><b>Related exams:</b> " + f.x + "</p>";
-    OMNI.say("fw-cap", "You opened <b>" + f.n + "</b>, a " + f.g.toLowerCase() + " framework. " + ({ Governance: "Governance frameworks help leaders set direction and check results.", Risk: "Risk frameworks describe how to find, rate and treat risk.", Controls: "Control frameworks list the safeguards themselves.", Compliance: "Compliance items are laws, contracts or attestations you must satisfy and prove.", "Continuity and service": "These keep services running and recover them after disruption." })[f.g] + " Explored " + Object.keys(fwSeen).length + " of " + FW.length + ".");
+  var tiSel = 2;
+  function fmtMin(m) { return m >= 120 ? (m / 60).toFixed(1) + " hours" : m >= 1 ? m.toFixed(1) + " minutes" : (m * 60).toFixed(0) + " seconds"; }
+  function tiDraw() {
+    var C = $("ti-cards"); C.innerHTML = "";
+    TIERS.forEach(function (t, i) {
+      var mins = (1 - t.a / 100) * 525600;
+      var b = h("button", { type: "button", class: "tiercard" + (i === tiSel ? " on" : "") }, [h("h4", null, t.n), h("div", null, h("b", null, t.s)), h("div", null, "Redundancy: " + t.r), h("div", null, "Distribution: " + t.p), h("div", null, "Concurrently maintainable: " + t.cm), h("div", null, "Fault tolerant: " + t.ft), h("div", null, "Availability: " + t.a + "%"), h("div", null, "Downtime: ≈ " + fmtMin(mins) + "/yr")]);
+      b.onclick = function () { tiSel = i; tiDraw(); }; C.appendChild(b);
+    });
+    var t = TIERS[tiSel]; OMNI.say("ti-cap", "<b>" + t.n + "</b>: " + t.d + " The availability percentages (99.671 / 99.741 / 99.982 / 99.995) are the figures widely quoted for each Tier; Uptime Institute's current Tier Standard defines Tiers by topology and no longer specifies these numbers, so treat them as exam folklore and verify.");
   }
-  OMNI.say("fw-cap", "Frameworks are grouped by the question they answer. Pick one to see its scope.");
+  function tiConv() { var a = +$("ti-av").value, m = (1 - a / 100) * 525600; $("ti-out").textContent = a >= 0 && a <= 100 ? "= " + fmtMin(m) + " per year · " + fmtMin(m / 12) + " per month · " + fmtMin(m / 52.14) + " per week" : ""; }
+  $("ti-av").oninput = tiConv; tiDraw(); tiConv();
 
-  /* ===== Lab 2: ALE ===== */
-  var ALX = [
-    { n: "Laptop theft", v: [2000, 100, 12, 6000, 12, 15], note: "A fleet averages 12 stolen laptops a year (ARO 12). Full-disk encryption doesn't stop theft, but it cuts the loss from a data breach to just the hardware, so here it lowers EF instead of ARO." },
-    { n: "Ransomware", v: [500000, 30, 0.5, 25000, 0.1, 30], note: "EDR plus immutable backups make a successful attack much less likely." },
-    { n: "Data center flood", v: [2000000, 40, 0.02, 60000, 0.005, 40], note: "Floods are rare (once in 50 years), so the ALE is small and an expensive flood barrier may not pay off; insurance (transfer) may be better." }
+  /* ===== Lab 6: Fire suppression ===== */
+  var ROOMS = [
+    { n: "Main data hall (white space)", det: "VESDA / aspirating smoke detection with alert, action and fire thresholds, plus cross-zoned spot detectors under the floor and above the ceiling", sup: "Pre-action sprinklers (often double interlock) as the code-required base, plus a clean agent system (FK-5-1-12, HFC-227ea or inert gas) where the room can be sealed", why: "Early warning lets staff find a smoldering component before it becomes a fire. Pre-action keeps water out of the pipes unless a fire is confirmed. Clean agents put out an electrical fire without residue or water damage.", tip: "Clean agent rooms need a door fan integrity test so the gas concentration holds long enough." },
+    { n: "UPS battery room (lithium-ion)", det: "Smoke and heat detection plus off-gas (electrolyte vapor) detection that warns of thermal runaway early; BMS alarms", sup: "Sprinklers or water mist for cooling, per manufacturer and code testing (UL 9540A); ventilation and spacing between cabinets", why: "Lithium-ion thermal runaway produces its own heat and flammable gas, so gas agents alone may not stop re-ignition; sustained cooling is key.", tip: "VRLA rooms need hydrogen ventilation instead; lithium-ion needs off-gas detection and fire testing data." },
+    { n: "Generator room / fuel storage", det: "Heat detectors and flame detectors (smoke detectors give false alarms from exhaust)", sup: "Wet or pre-action sprinklers, or foam for fuel areas; fuel containment and spill bunds", why: "Diesel is a Class B (flammable liquid) hazard; heat and flame detection suit the dirty environment.", tip: "Keep fuel quality testing and polishing in the maintenance plan too." },
+    { n: "Electrical switchgear room", det: "Aspirating or spot smoke detection; thermal imaging during maintenance", sup: "Pre-action sprinklers or clean agent; avoid wet pipes over live gear", why: "Energized electrical equipment is a Class C hazard in the US: use non-conductive agents and de-energize when possible.", tip: "Arc flash labels and NFPA 70E PPE apply here." },
+    { n: "Network operations center (offices)", det: "Standard spot smoke detectors", sup: "Wet pipe sprinklers plus Class A/C or CO₂ portable extinguishers", why: "Normal office fire risk with people present; simple wet systems are reliable and cheap.", tip: "Portable extinguishers should match the hazards: CO₂ or clean agent for electronics." },
+    { n: "Unheated loading dock", det: "Heat detectors", sup: "Dry pipe sprinklers", why: "Water in pipes would freeze, so pipes hold pressurized air until a head opens.", tip: "Dry systems discharge more slowly than wet systems." },
+    { n: "Tape and media vault", det: "VESDA or spot smoke detection", sup: "Clean agent, plus pre-action sprinklers as code requires; fire-rated walls and doors", why: "Media is irreplaceable and water-sensitive; a sealed vault suits a clean agent.", tip: "Off-site copies are still the real protection for backups." },
+    { n: "Small edge / telecom closet", det: "Spot smoke detector tied to remote monitoring", sup: "Building sprinklers, or a self-contained cabinet-level suppression unit for critical racks", why: "Unstaffed rooms need remote alarms; a full gas system may be too costly for one or two racks.", tip: "Environmental sensors (temperature, humidity, water) belong here too." }
   ];
-  ALX.forEach(function (e, i) { var b = h("button", { type: "button" }, e.n); b.onclick = function () { ["al-av", "al-ef", "al-aro", "al-cost", "al-aro2", "al-ef2"].forEach(function (id, k) { $(id).value = e.v[k]; }); OMNI.$$("#al-ex button").forEach(function (x, k) { x.classList.toggle("on", k === i); }); alNote = e.note; alCalc(); }; $("al-ex").appendChild(b); });
-  var alNote = "";
-  function alCalc() {
-    var av = +$("al-av").value || 0, ef = (+$("al-ef").value || 0) / 100, aro = +$("al-aro").value || 0, cost = +$("al-cost").value || 0, aro2 = +$("al-aro2").value || 0, ef2 = (+$("al-ef2").value || 0) / 100;
-    var sle = av * ef, ale = sle * aro, ale2 = av * ef2 * aro2, net = ale - ale2 - cost;
-    $("al-sle").textContent = money(sle); $("al-ale").textContent = money(ale) + " → " + money(ale2); $("al-net").textContent = money(net);
-    $("al-net").style.color = net >= 0 ? "var(--good)" : "var(--bad)";
-    var g = $("al-svg"); g.innerHTML = "";
-    var mx = Math.max(ale, ale2 + cost, 1), sc = 520 / mx;
-    [["Yearly loss without control", ale, 0, "var(--bad)"], ["With control: loss + control cost", ale2, cost, "var(--good)"]].forEach(function (r, i) {
-      var y = 20 + i * 60; txt(g, 10, y + 22, r[0], { "font-size": 11 });
-      rect(g, 220, y, Math.max(2, r[1] * sc), 34, r[3], "none", { rx: 4, opacity: .8 });
-      if (r[2]) rect(g, 220 + r[1] * sc, y, Math.max(2, r[2] * sc), 34, "var(--warn)", "none", { rx: 4, opacity: .8 });
-      txt(g, 226 + (r[1] + r[2]) * sc, y + 22, money(r[1] + r[2]), { "font-size": 11, "font-weight": 700 });
-    });
-    txt(g, 220, 142, "Orange = control cost", { "font-size": 10, class: "svg-muted" });
-    OMNI.say("al-cap", "SLE = " + money(av) + " × " + Math.round(ef * 100) + "% = " + money(sle) + ". ALE = " + money(sle) + " × " + aro + " = <b>" + money(ale) + "</b> per year. With the control the ALE becomes " + money(ale2) + ", a reduction of " + money(ale - ale2) + ". After paying " + money(cost) + " a year for the control, the net value is <b>" + money(net) + "</b>: " + (net >= 0 ? "the control is worth it on cost alone." : "the control costs more than the loss it prevents, so consider a cheaper control, transferring or accepting the risk (unless a law or contract requires the control).") + (alNote ? " " + alNote : ""));
-  }
-  ["al-av", "al-ef", "al-aro", "al-cost", "al-aro2", "al-ef2"].forEach(function (id) { $(id).oninput = function () { alNote = ""; OMNI.$$("#al-ex button").forEach(function (x) { x.classList.remove("on"); }); alCalc(); }; });
-  $("al-ex").children[1].click();
-
-  /* ===== Lab 3: RACI ===== */
-  var ROLES = ["CISO", "IT ops manager", "Sysadmin", "Data owner (HR)", "Internal audit"];
-  var TASKS = ["Approve the access control policy", "Grant access to the HR system", "Review HR system access quarterly", "Patch servers monthly", "Audit access controls annually"];
-  var FAULTY = [["A", "C", "", "A", "I"], ["", "A", "", "C", ""], ["C", "", "R", "A/R", ""], ["I", "A", "R", "", "C"], ["I", "I", "", "I", "C"]];
-  var MODEL = [["A/R", "C", "", "C", "I"], ["I", "A", "R", "C", ""], ["I", "C", "R", "A", "I"], ["I", "A", "R", "I", ""], ["I", "C", "", "C", "A/R"]];
-  var rc;
-  function rcBuild(src) {
-    rc = src.map(function (r) { return r.slice(); });
-    var t = $("rc-table"); t.innerHTML = "";
-    t.appendChild(h("tr", null, [h("th", null, "Task")].concat(ROLES.map(function (r) { return h("th", null, r); })).concat([h("th", null, "Check")])));
-    TASKS.forEach(function (task, i) {
-      var tr = h("tr", null, [h("td", null, task)]);
-      ROLES.forEach(function (r, j) {
-        var sel = h("select", { "aria-label": task + ": " + r }, ["", "R", "A", "A/R", "C", "I"].map(function (v) { return h("option", { value: v }, v || "–"); }));
-        sel.value = rc[i][j]; sel.onchange = function () { rc[i][j] = sel.value; rcCheck(); };
-        tr.appendChild(h("td", null, sel));
-      });
-      tr.appendChild(h("td", { class: "note" }));
-      t.appendChild(tr);
-    });
-    rcCheck();
-  }
-  function rcCheck() {
-    var rows = OMNI.$$("#rc-table tr").slice(1), bad = 0, msgs = [];
-    TASKS.forEach(function (task, i) {
-      var r = rc[i], a = r.filter(function (v) { return v.indexOf("A") >= 0; }).length, resp = r.filter(function (v) { return v.indexOf("R") >= 0; }).length, c = r.filter(function (v) { return v === "C"; }).length, n = [];
-      if (a === 0) n.push("no Accountable"); if (a > 1) n.push(a + " Accountables"); if (resp === 0) n.push("no Responsible"); if (c > 3) n.push("too many Consulted");
-      if (i === 4 && (r[4].indexOf("A") < 0 && r[4].indexOf("R") < 0)) n.push("audit should be done by internal audit (independence)");
-      if (i === 4 && (r[2].indexOf("R") >= 0 || r[1].indexOf("R") >= 0)) n.push("IT shouldn't audit its own work");
-      if (i === 2 && r[3].indexOf("A") < 0) n.push("the data owner should be accountable for access reviews");
-      rows[i].classList.toggle("flag", n.length > 0); rows[i].lastChild.textContent = n.length ? "⚠ " + n.join("; ") : "✓"; rows[i].lastChild.style.color = n.length ? "var(--bad)" : "var(--good)";
-      if (n.length) { bad++; msgs.push("<b>" + task + "</b>: " + n.join("; ")); }
-    });
-    OMNI.say("rc-cap", bad ? bad + " task(s) need fixing. " + msgs.join(". ") + ". Rules: exactly one A, at least one R, keep C short. Accountability for data access sits with the data owner; audit must be independent of the work it checks." : "Every task has exactly one Accountable and at least one Responsible, the data owner is accountable for access reviews and audit is independent. That is a valid RACI chart.");
-  }
-  $("rc-reset").onclick = function () { rcBuild(FAULTY); };
-  $("rc-model").onclick = function () { rcBuild(MODEL); };
-  rcBuild(FAULTY);
-
-  /* ===== Lab 4: CSF radar ===== */
-  var FN = [["Govern", "GV", 1, 3, "Strategy, roles, policy, oversight and supply chain risk"], ["Identify", "ID", 2, 3, "Assets, risk assessment, improvement"], ["Protect", "PR", 2, 3, "Identity and access, awareness, data security, platform security"], ["Detect", "DE", 1, 3, "Continuous monitoring, adverse event analysis"], ["Respond", "RS", 1, 3, "Incident management, analysis, reporting, mitigation"], ["Recover", "RC", 2, 3, "Recovery plan execution and communication"]];
-  var cs = FN.map(function (f) { return [f[2], f[3]]; });
-  FN.forEach(function (f, i) {
-    var a = h("input", { type: "range", min: 1, max: 4, step: 1, value: f[2], "aria-label": f[0] + " current" }), av = h("b", null, String(f[2]));
-    var b = h("input", { type: "range", min: 1, max: 4, step: 1, value: f[3], "aria-label": f[0] + " target" }), bv = h("b", null, String(f[3]));
-    a.oninput = function () { cs[i][0] = +a.value; av.textContent = a.value; csDraw(); };
-    b.oninput = function () { cs[i][1] = +b.value; bv.textContent = b.value; csDraw(); };
-    $("cs-rows").appendChild(h("label", { title: f[4] }, [h("span", null, f[0] + " (" + f[1] + ")"), a, av, b, bv]));
-  });
-  $("cs-rows").insertBefore(h("div", { class: "figcap" }, "Function · current (1–4) · target (1–4)"), $("cs-rows").firstChild);
-  function csDraw() {
-    var g = $("cs-svg"); g.innerHTML = ""; var cx = 260, cy = 170, R = 130;
-    function pt(i, v) { var a = -Math.PI / 2 + i * Math.PI / 3; return [cx + Math.cos(a) * R * v / 4, cy + Math.sin(a) * R * v / 4]; }
-    for (var lv = 1; lv <= 4; lv++) S("polygon", { points: FN.map(function (f, i) { return pt(i, lv).join(","); }).join(" "), fill: "none", stroke: "var(--line)" }, g);
-    FN.forEach(function (f, i) { var p = pt(i, 4), q = pt(i, 4.6); S("line", { x1: cx, y1: cy, x2: p[0], y2: p[1], stroke: "var(--line)" }, g); txt(g, q[0], q[1] + 4, f[0], { "text-anchor": "middle", "font-weight": 700, "font-size": 12 }); });
-    S("polygon", { points: FN.map(function (f, i) { return pt(i, cs[i][1]).join(","); }).join(" "), fill: "var(--good-soft)", stroke: "var(--good)", "stroke-width": 2, "stroke-dasharray": "6 4", "fill-opacity": .5 }, g);
-    S("polygon", { points: FN.map(function (f, i) { return pt(i, cs[i][0]).join(","); }).join(" "), fill: "var(--accent-soft)", stroke: "var(--accent)", "stroke-width": 2.5, "fill-opacity": .7 }, g);
-    rect(g, 470, 40, 16, 12, "var(--accent-soft)", "var(--accent)", { rx: 2 }); txt(g, 494, 51, "Current profile");
-    rect(g, 470, 62, 16, 12, "var(--good-soft)", "var(--good)", { rx: 2, "stroke-dasharray": "4 2" }); txt(g, 494, 73, "Target profile");
-    var gaps = FN.map(function (f, i) { return { n: f[0], d: f[4], g: cs[i][1] - cs[i][0] }; }).filter(function (x) { return x.g > 0; }).sort(function (a, b) { return b.g - a.g; });
-    gaps.slice(0, 5).forEach(function (x, k) { txt(g, 470, 110 + k * 22, x.n + ": gap " + x.g, { "font-size": 12, "font-weight": k === 0 ? 700 : 400 }); });
-    if (!gaps.length) txt(g, 470, 110, "No gaps: target met", { "font-size": 12, "font-weight": 700 });
-    var top = gaps[0];
-    OMNI.say("cs-cap", gaps.length ? "Bramblewood's biggest gap is <b>" + top.n + "</b> (" + top.d + "), " + top.g + " level(s) below target. " + (top.n === "Govern" ? "CSF 2.0 puts Govern at the centre: without clear roles, risk appetite and policy, the other functions drift. Start there." : top.n === "Detect" || top.n === "Respond" ? "A clinic chain with weak detection and response may not notice ransomware until patient care stops; consider managed detection and response and an incident plan with tabletop exercises." : "Prioritize the largest gaps that protect patient data and care, within budget.") + " Profiles turn a framework into a roadmap: current → target → action plan." : "Current profile meets or exceeds the target on every function. Check whether the target is ambitious enough for a healthcare provider.");
-  }
-  csDraw();
-
-  /* ===== Lab 5: Control mapper ===== */
-  var CTRL = ["MFA for remote access", "Encrypted, tested offline backups", "Monthly vulnerability scanning", "Centralized log monitoring and alerting", "Phishing awareness training", "Incident response plan and tabletop exercises", "Hardware and software asset inventory", "Security clauses in supplier contracts"];
-  var MAPS = {
-    "ISO 27001 Annex A": ["A.8.5 Secure authentication", "A.8.13 Information backup", "A.8.8 Management of technical vulnerabilities", "A.8.16 Monitoring activities", "A.6.3 Information security awareness, education and training", "A.5.24 Incident management planning and preparation", "A.5.9 Inventory of information and other associated assets", "A.5.20 Addressing information security within supplier agreements"],
-    "NIST CSF 2.0": ["PR.AA Identity management, authentication and access control", "PR.DS Data security", "ID.RA Risk assessment", "DE.CM Continuous monitoring", "PR.AT Awareness and training", "RS.MA Incident management", "ID.AM Asset management", "GV.SC Cybersecurity supply chain risk management"],
-    "CIS Controls v8.1": ["6 Access Control Management", "11 Data Recovery", "7 Continuous Vulnerability Management", "8 Audit Log Management", "14 Security Awareness and Skills Training", "17 Incident Response Management", "1 Inventory and Control of Enterprise Assets", "15 Service Provider Management"]
-  };
-  var mpFw = "ISO 27001 Annex A", mpDnd;
-  Object.keys(MAPS).forEach(function (k) { var b = h("button", { type: "button" }, k); b.onclick = function () { mpFw = k; mpReset(); }; $("mp-fw").appendChild(b); });
-  function mpReset() {
-    OMNI.$$("#mp-fw button").forEach(function (b) { b.classList.toggle("on", b.textContent === mpFw); });
-    var bank = $("mp-bank"); bank.innerHTML = '<span class="zone-title">Controls</span>';
-    OMNI.shuffle(CTRL.map(function (c, i) { return i; })).forEach(function (i) { bank.appendChild(h("span", { class: "chip", "data-id": String(i) }, CTRL[i])); });
-    var Z = $("mp-zones"); Z.innerHTML = "";
-    OMNI.shuffle(CTRL.map(function (c, i) { return i; })).forEach(function (i) { Z.appendChild(h("div", { class: "dropzone", "data-z": String(i) }, h("span", { class: "zone-title" }, MAPS[mpFw][i]))); });
-    if (mpDnd) mpDnd.refresh();
-    OMNI.say("mp-cap", "Map the eight controls to " + mpFw + ". One control per box.");
-  }
-  mpReset();
-  mpDnd = OMNI.dnd($("lab-map"), function (c, z) { if (z.dataset.z !== undefined) OMNI.$$(".chip", z).forEach(function (o) { if (o !== c) $("mp-bank").appendChild(o); }); OMNI.$$("#lab-map .chip").forEach(function (o) { o.classList.remove("ok", "bad"); }); });
-  $("mp-reset").onclick = mpReset;
-  $("mp-check").onclick = function () {
-    var right = 0, placed = 0, notes = [];
-    OMNI.$$("#mp-zones .dropzone").forEach(function (z) { var c = z.querySelector(".chip"); if (!c) return; placed++; var ok = c.dataset.id === z.dataset.z; c.classList.toggle("ok", ok); c.classList.toggle("bad", !ok); if (ok) right++; else notes.push("<b>" + esc(CTRL[+c.dataset.id]) + "</b> → " + esc(MAPS[mpFw][+c.dataset.id])); });
-    OMNI.say("mp-cap", right + " of " + placed + " placed controls are correct" + (placed < 8 ? " (" + (8 - placed) + " left)" : "") + ". " + (notes.length ? "Correct homes: " + notes.join("; ") + "." : placed === 8 ? "All mapped! Now switch frameworks: the same control appears in each, which is why organizations map once and comply many times (a \"common control framework\")." : ""));
-  };
+  ROOMS.forEach(function (r, i) { var b = h("button", { type: "button" }, r.n); b.onclick = function () { OMNI.$$("#fs-rooms button").forEach(function (x, k) { x.classList.toggle("on", k === i); }); $("fs-res").innerHTML = "<h4>" + r.n + "</h4><p><b>Detection:</b> " + r.det + "</p><p><b>Suppression:</b> " + r.sup + "</p><p><b>Why:</b> " + r.why + "</p>"; OMNI.say("fs-cap", r.tip + " Local codes and the authority having jurisdiction (AHJ) always decide the final design."); }; $("fs-rooms").appendChild(b); });
+  OMNI.say("fs-cap", "Pick a room type to see a typical detection and suppression design.");
 })();
 </script>
 <!-- module-data:start -->
-<script type="application/json" id="module-data">{"module":23,"title":"Frameworks That Run the Enterprise","glossary":[["Governance","Setting direction and checking it's followed.","The system by which an enterprise is directed and controlled; in COBIT, governance evaluates stakeholder needs, sets direction and monitors performance (EDM).",""],["Management","Running things day to day to reach the goals.","Planning, building, running and monitoring activities aligned with the direction set by the governance body (COBIT: PBRM).",""],["Steering committee","Senior group that prioritizes IT and security work.","A cross-functional executive committee that oversees programs, priorities and investment decisions.",""],["RACI","Who does it, who owns it, who's asked, who's told.","A responsibility assignment matrix: Responsible, Accountable (exactly one), Consulted, Informed.","Responsible, Accountable, Consulted, Informed"],["COBIT 2019","ISACA's framework for governing enterprise IT.","ISACA framework separating governance and management, with 40 governance and management objectives, design factors and capability levels.","Control Objectives for Information and Related Technologies"],["ISO/IEC 27001","The certifiable security management standard.","International standard specifying requirements for an information security management system (ISMS); the 2022 edition has 93 Annex A controls in 4 themes.",""],["ISO/IEC 27002","The guidance book for the 27001 controls.","Code of practice giving implementation guidance for information security controls (the same 93 controls as 27001 Annex A).",""],["ISMS","A managed system for running security.","Information security management system: policies, processes and controls managed with a Plan-Do-Check-Act cycle.","Information Security Management System"],["Statement of Applicability","List of which Annex A controls apply and why.","ISO 27001 document recording which controls are included or excluded and the justification.","SoA"],["ISO 31000","General risk management guidance.","International standard providing principles and guidelines for managing any type of risk.",""],["ISO/IEC 27005","Security risk management guidance.","Guidance on information security risk management supporting ISO 27001.",""],["ISO 22301","Business continuity standard.","Requirements for a business continuity management system (BCMS).",""],["NIST CSF 2.0","A common map of security outcomes.","NIST Cybersecurity Framework 2.0 (2024) with six functions: Govern, Identify, Protect, Detect, Respond, Recover; uses profiles and tiers.","Cybersecurity Framework"],["NIST SP 800-53","The big US catalogue of security controls.","Security and privacy controls for information systems and organizations, grouped into 20 families (Rev. 5).",""],["NIST RMF","Seven steps to authorize and monitor systems.","Risk Management Framework (SP 800-37): Prepare, Categorize, Select, Implement, Assess, Authorize, Monitor.","Risk Management Framework"],["CIS Controls","Prioritized practical security to-do list.","Center for Internet Security Critical Security Controls v8.1: 18 controls with Implementation Groups IG1–IG3.",""],["SOC 2","Audit report on a service provider's controls.","AICPA attestation on controls relevant to the Trust Services Criteria: security, availability, processing integrity, confidentiality, privacy. Type I = design at a point in time; Type II = operating effectiveness over a period.","System and Organization Controls 2"],["PCI DSS","Rules for protecting card data.","Payment Card Industry Data Security Standard (v4.0.1), a contractual requirement for entities that store, process or transmit cardholder data.",""],["HIPAA","US health data protection law.","Health Insurance Portability and Accountability Act; Privacy and Security Rules protect PHI.",""],["SOX","US law on financial reporting controls.","Sarbanes-Oxley Act; Section 404 requires management assessment of internal control over financial reporting.","Sarbanes-Oxley"],["GDPR","EU privacy law.","General Data Protection Regulation: lawful basis, data subject rights, breach notification within 72 hours, fines up to 4% of global turnover.",""],["Policy","High-level rule from management.","A mandatory high-level statement of management intent and direction.",""],["Standard","Specific mandatory requirement.","A mandatory, specific requirement (e.g., minimum password length) supporting a policy.",""],["Procedure","Step-by-step instructions.","Mandatory detailed steps to perform a task.",""],["Guideline","Recommended, not required.","Discretionary advice and best practice.",""],["Baseline","Minimum security configuration.","A mandatory minimum configuration or security level for a system type.",""],["Asset value","What the asset is worth.","The monetary value of an asset (AV), including replacement and business value.","AV"],["Exposure factor","Percentage lost in one incident.","The proportion of asset value lost if a threat occurs (EF).","EF"],["SLE","Cost of one incident.","Single loss expectancy = AV × EF.","Single Loss Expectancy"],["ARO","How often per year.","Annualized rate of occurrence: expected number of occurrences per year.","Annualized Rate of Occurrence"],["ALE","Expected loss per year.","Annualized loss expectancy = SLE × ARO.","Annualized Loss Expectancy"],["Risk appetite","How much risk we're willing to pursue.","The amount and type of risk an organization is willing to accept in pursuit of objectives.",""],["Risk tolerance","Acceptable variation around the appetite.","The acceptable deviation from risk appetite for a specific objective or risk.",""],["Risk capacity","The most risk we could survive.","The maximum amount of risk an organization can absorb before failing.",""],["Inherent vs residual risk","Before controls vs after controls.","Inherent risk exists before controls; residual risk remains after controls are applied.",""],["Risk treatment","Mitigate, transfer, avoid or accept.","The selection of options to modify risk: mitigate (reduce), transfer (share), avoid, accept.",""],["KRI","Early warning metric for risk.","Key risk indicator: a metric signaling rising risk exposure.","Key Risk Indicator"],["KPI","How well a process performs.","Key performance indicator: measures how well a process achieves its goal.","Key Performance Indicator"],["KGI","Did we reach the goal?","Key goal indicator: measures whether a business or IT goal was achieved (lagging).","Key Goal Indicator"],["Risk register","The list of risks and who owns them.","A record of identified risks with likelihood, impact, owner, treatment and status.",""],["Risk owner","Person accountable for a risk.","The person with accountability and authority to manage a risk, usually a business manager.",""],["Maturity model","Levels from chaotic to optimized.","A scale (e.g., CMMI 0/1–5: initial, managed, defined, quantitatively managed, optimizing) for assessing process capability.",""],["Third-party risk","Risk from vendors and partners.","Risk arising from suppliers, service providers and supply chains, managed through due diligence, contracts, right to audit and monitoring.","TPRM"]],"quiz":[{"t":"mc","q":"Who is ultimately accountable for information security governance in an organization?","o":["The CISO","The board of directors and senior management","The IT operations manager","External auditors"],"a":1,"w":["The CISO leads the program but governance accountability sits higher.","Correct.","Too low.","Auditors provide assurance, not governance."],"x":"Governance is directed and controlled from the top; management executes.","c":"CISM","d":"1.1 Governance: roles"},{"t":"mc","q":"In COBIT 2019, which activities belong to governance rather than management?","o":["Evaluate, direct and monitor","Plan, build, run and monitor","Detect, respond and recover","Prepare, categorize and select"],"a":0,"w":["Correct: EDM.","That's management (APO, BAI, DSS, MEA).","NIST CSF functions.","NIST RMF steps."],"x":"COBIT separates the governance domain (EDM) from four management domains.","c":"CISA","d":"2.1 IT governance frameworks"},{"t":"ms","q":"Which of these are mistakes in a RACI chart? (Select all that apply.)","o":["A task with two Accountable roles","A task with no Responsible role","A task with several Informed roles","A task with one Accountable who is also Responsible"],"a":[0,1],"w":["Correct: exactly one A per task.","Correct: someone must do the work.","Fine: many people can be informed.","Allowed: the same role can be A and R."],"x":"One Accountable per task; at least one Responsible.","c":"CISM","d":"1.2 Governance: structures and responsibilities"},{"t":"order","q":"Put the policy hierarchy in order from most general to most specific.","o":["Policy","Standard","Procedure"],"w":["","",""],"x":"Policy (intent) → standard (specific mandatory rules) → procedure (steps). Guidelines are optional advice; baselines are minimum configurations.","c":"S","d":"5.1 Governance documents"},{"t":"mc","q":"Which document is discretionary rather than mandatory?","o":["Policy","Standard","Guideline","Baseline"],"a":2,"w":["Mandatory.","Mandatory.","Correct.","Mandatory minimum."],"x":"Guidelines recommend; the others require.","c":"S","d":"5.1 Governance documents"},{"t":"mc","sc":"A server worth $200,000 sits in a flood zone. A flood would destroy 40% of its value. Floods are expected once every 10 years.","q":"What is the ALE?","o":["$80,000","$8,000","$20,000","$800"],"a":1,"w":["That's the SLE.","Correct: SLE $80,000 × ARO 0.1.","AV × ARO, ignoring EF.","Off by a factor of 10."],"x":"SLE = AV × EF = $200,000 × 0.4 = $80,000. ALE = SLE × ARO = $80,000 × 0.1 = $8,000. A control costing more than $8,000 a year to address only this risk is hard to justify.","c":"S","d":"5.2 Risk analysis: SLE, ALE, ARO"},{"t":"mc","q":"What is the main difference between risk appetite and risk tolerance?","o":["Appetite is the broad amount of risk the organization will pursue; tolerance is the acceptable variation for specific objectives","They are identical","Tolerance is set by auditors","Appetite applies only to IT"],"a":0,"w":["Correct.","Related but different.","Set by management.","Organization-wide."],"x":"Capacity is the maximum the organization could absorb.","c":"CISM","d":"2.1 Risk: appetite and tolerance"},{"t":"mc","q":"Who should own a risk in the risk register?","o":["A business manager with authority and accountability for the affected asset or process","The security analyst who found it","The external auditor","The help desk"],"a":0,"w":["Correct.","Identifies, doesn't own.","Independent; can't own.","No authority."],"x":"Risk owners decide treatment within appetite.","c":"CISM","d":"2.3 Risk: ownership and treatment"},{"t":"mc","q":"Which metric gives early warning that risk exposure is increasing?","o":["KGI","KRI","KPI","SLA"],"a":1,"w":["Lagging: was the goal met?","Correct: key risk indicator.","Process performance.","Service target."],"x":"Example KRI: percentage of critical systems missing patches for 30+ days.","c":"CISM","d":"2.4 Risk: monitoring and reporting"},{"t":"mc","q":"An organization buys cyber insurance for ransomware losses. Which risk treatment is this?","o":["Mitigate","Transfer","Avoid","Accept"],"a":1,"w":["Reduces likelihood or impact.","Correct: shares the financial impact.","Stops the activity.","Takes no action."],"x":"Accountability for the risk is not transferred, only some financial impact.","c":"S","d":"5.2 Risk management strategies"},{"t":"mc","q":"Which framework is certifiable for an organization's information security management system?","o":["NIST CSF 2.0","ISO/IEC 27001","CIS Controls","ISO/IEC 27002"],"a":1,"w":["Voluntary framework; no certification.","Correct.","Prioritized controls; no certification.","Guidance only."],"x":"Accredited certification bodies audit organizations against 27001.","c":"CISA","d":"2.2 Standards and frameworks"},{"t":"mc","q":"Which function was added in NIST CSF 2.0?","o":["Identify","Govern","Recover","Detect"],"a":1,"w":["Existed in 1.1.","Correct.","Existed in 1.1.","Existed in 1.1."],"x":"Govern covers strategy, roles, policy, oversight and supply chain risk management.","c":"S","d":"5.1 Governance frameworks"},{"t":"mc","q":"A cloud provider gives you a SOC 2 Type II report. What does it tell you?","o":["Whether controls were suitably designed and operated effectively over a period","Only that controls were designed at a single point in time","That the provider is PCI DSS compliant","That the provider has no vulnerabilities"],"a":0,"w":["Correct.","That's Type I.","Different standard.","No report proves that."],"x":"Review the scope, exceptions and complementary user entity controls (CUECs).","c":"CISA","d":"2.6 Vendor management"},{"t":"mc","sc":"A company is choosing a new payroll SaaS provider that will process employee bank details.","q":"What should the security manager do FIRST?","o":["Perform due diligence on the provider's security and compliance","Sign the contract quickly to save money","Run a penetration test against the provider without permission","Disable MFA to simplify integration"],"a":0,"w":["Correct: questionnaires, SOC 2 reports, certifications, contract terms (right to audit, breach notice).","Due diligence comes before signing.","Illegal without authorization.","Weakens security."],"x":"Third-party risk management: due diligence → contract → onboarding → monitoring → offboarding.","c":"CISM","d":"2.5 Third-party risk"},{"t":"mc","q":"In a CMMI-style maturity model, which level describes processes that are documented and standardized across the organization?","o":["Initial","Managed","Defined","Optimizing"],"a":2,"w":["Ad hoc and chaotic.","Planned and tracked at project level.","Correct.","Continuous improvement based on measurement."],"x":"1 initial, 2 managed, 3 defined, 4 quantitatively managed, 5 optimizing.","c":"CISA","d":"2.4 Maturity models"}],"flashcards":[["ALE formula","ALE = SLE × ARO (and SLE = asset value × exposure factor)."],["Four risk treatments","Mitigate, transfer, avoid, accept."],["Certifiable security management standard","ISO/IEC 27001."],["Governance vs management","Direct and control (EDM) vs plan, build, run, monitor (PBRM)"],["RACI rules","Exactly one Accountable; at least one Responsible"],["COBIT 2019","ISACA governance framework: 40 objectives, EDM + APO/BAI/DSS/MEA"],["ISO/IEC 27001:2022","Certifiable ISMS; 93 Annex A controls in 4 themes"],["Annex A themes","Organizational (37), people (8), physical (14), technological (34)"],["ISO 27002","Guidance for the controls"],["ISO 31000 / 27005","General risk / information security risk"],["ISO 22301 / ISO 20000","Business continuity / service management"],["NIST CSF 2.0 functions","Govern, Identify, Protect, Detect, Respond, Recover"],["NIST RMF steps","Prepare, Categorize, Select, Implement, Assess, Authorize, Monitor"],["NIST SP 800-53","Control catalogue, 20 families"],["CIS Controls v8.1","18 controls, IG1–IG3"],["SOC 2 Type I vs II","Design at a point in time vs operating effectiveness over a period"],["Trust Services Criteria","Security, availability, processing integrity, confidentiality, privacy"],["PCI DSS / HIPAA / SOX / GDPR","Card data / US health data / financial reporting controls / EU personal data"],["Policy hierarchy","Policy → standard → procedure; guidelines optional; baselines minimum configs"],["SLE","AV × EF"],["ALE","SLE × ARO"],["Control worth it?","ALE before − ALE after − annual control cost > 0"],["Appetite / tolerance / capacity","Willing to pursue / acceptable variation / max survivable"],["Four risk treatments","Mitigate, transfer, avoid, accept"],["KRI / KPI / KGI","Risk warning / process performance / goal achieved"],["Inherent vs residual","Before controls vs after controls"],["CMMI levels","Initial, managed, defined, quantitatively managed, optimizing"],["GDPR breach notice","72 hours to the supervisory authority"]]}</script>
+<script type="application/json" id="module-data">{"module":23,"title":"The Data Center","glossary":[["Colocation","Renting space in someone else's data center.","A facility where a provider supplies space, power, cooling and connectivity for customers' own equipment.","Colo"],["Hyperscale","Giant cloud-scale data centers.","Very large, standardized facilities operated by cloud and internet companies.",""],["Edge data center","Small site close to users.","A small facility located near users or devices to reduce latency.",""],["TIA-942","The data center telecom standard.","ANSI/TIA standard for data center telecommunications infrastructure, spaces, cabling and rating levels.",""],["EN 50600 / ISO/IEC 22237","European/international data center standard.","Standards series for data center facilities and infrastructures, defining availability and protection classes.",""],["Uptime Tier","Data center reliability level I to IV.","Uptime Institute topology classification: I basic, II redundant components, III concurrently maintainable, IV fault tolerant.",""],["Concurrently maintainable","Maintain anything without shutting down.","Every capacity component and distribution path can be removed for planned maintenance without impacting IT.",""],["Fault tolerant","Survives any single failure.","Able to sustain any single unplanned failure without impact to the critical load.",""],["Meet-me room","Where carriers connect to customers.","A room in a colocation facility where carriers and customers interconnect via cross-connects.","MMR"],["ATS","Switches to the generator automatically.","Automatic transfer switch: transfers load between utility and generator sources.","Automatic Transfer Switch"],["STS","Very fast electronic source switch.","Static transfer switch: solid-state switching between two sources in milliseconds for single-corded loads.","Static Transfer Switch"],["UPS","Battery backup and power cleaner.","Uninterruptible power supply bridging power interruptions and conditioning power quality.","Uninterruptible Power Supply"],["Online double-conversion","UPS that always runs through its inverter.","UPS topology converting AC to DC and back continuously, giving zero transfer time.","VFI"],["Static bypass","UPS passes raw power if it fails.","An internal path that transfers the load to unconditioned input power if the UPS inverter fails or is overloaded.",""],["VRLA","Sealed lead-acid battery.","Valve-regulated lead-acid battery, common in UPS systems, typically 3–5 year service life.","Valve-Regulated Lead-Acid"],["PDU","Distributes power to racks.","Power distribution unit: floor-standing units with breakers (and transformers) or rack-mounted outlet strips.","Power Distribution Unit"],["N / N+1 / 2N","Just enough / one spare / two complete systems.","Redundancy notation for capacity components and systems.",""],["Power factor","Ratio of real to apparent power.","PF = W ÷ VA; determines real power delivered for a given apparent power.","PF"],["Three-phase power","Three AC waves offset for efficiency.","AC power with three conductors 120° apart; P = √3 × V × I × PF.",""],["PUE","Total power ÷ IT power.","Power Usage Effectiveness: total facility energy divided by IT equipment energy (ideal 1.0).","Power Usage Effectiveness"],["DCiE","IT power as a percentage of total.","Data Center infrastructure Efficiency = IT ÷ total × 100%, the inverse of PUE.","Data Center infrastructure Efficiency"],["WUE","Water used per unit of IT energy.","Water Usage Effectiveness: annual site water use (liters) ÷ IT energy (kWh).","Water Usage Effectiveness"],["CRAC / CRAH","Room air conditioner / air handler.","Computer room air conditioner (DX compressor) vs computer room air handler (chilled-water coil).",""],["Economizer","Free cooling with outside conditions.","A system using cool outdoor air or water to cool the facility without running compressors.",""],["Hot aisle / cold aisle","Fronts face fronts, backs face backs.","Rack layout where intakes face a shared cold aisle and exhausts face a shared hot aisle.",""],["Containment","Walls that stop hot and cold air mixing.","Physical enclosure of hot or cold aisles to separate supply and return air.","HAC / CAC"],["Blanking panel","Cover for empty rack spaces.","A panel filling unused rack units to prevent hot exhaust recirculating to the front.",""],["ASHRAE recommended range","18 to 27 °C inlet.","ASHRAE TC 9.9 recommended IT inlet temperature range of 18–27 °C with humidity limits.",""],["Direct-to-chip cooling","Liquid cold plates on processors.","Liquid cooling using cold plates attached to CPUs/GPUs to remove heat at the source.",""],["Immersion cooling","Servers sunk in special fluid.","Cooling servers by submerging them in dielectric fluid (single- or two-phase).",""],["Rack unit","1.75 inches of rack height.","1U = 1.75 in (44.45 mm) of vertical mounting space in a 19-inch rack.","U / RU"],["MDA / HDA / EDA","Core / zone / rack areas.","TIA-942 main, horizontal and equipment distribution areas.",""],["Bonding","Connecting metal to the same ground potential.","Joining metallic parts to form a continuous conductive path to the grounding system (TIA-607).",""],["VESDA","Ultra-early smoke detection.","Very Early Smoke Detection Apparatus: an aspirating system sampling air through pipes to a laser detector.",""],["Pre-action sprinkler","Dry pipes until a detector trips.","Sprinkler system whose pipes fill only after detection; a head must also open to discharge.",""],["Clean agent","Gas that puts out fire without residue.","Electrically non-conductive gaseous suppression (e.g., HFC-227ea, FK-5-1-12, inert gases).",""],["EPO","Big red emergency power-off button.","Emergency power off: shuts down power to IT equipment and HVAC in a room for life safety.","Emergency Power Off"],["Mantrap","Two-door booth that admits one person.","An access control vestibule with interlocked doors preventing tailgating.","Access control vestibule"],["DCIM","Software to manage data center infrastructure.","Data center infrastructure management: tracks assets, space, power, cooling and connectivity.",""],["BMS","Building control system.","Building management system monitoring and controlling mechanical and electrical plant.",""],["LOTO","Lock and tag energy sources before work.","Lockout/tagout: procedure isolating hazardous energy before maintenance.","Lockout/Tagout"],["Arc flash","Explosive electrical fault energy.","A dangerous release of energy from an electrical arc; governed by NFPA 70E.",""]],"quiz":[{"t":"mc","q":"Which Uptime Institute Tier is defined as concurrently maintainable?","o":["Tier I","Tier II","Tier III","Tier IV"],"a":2,"w":["Basic.","Redundant components, one path.","Correct.","Fault tolerant (also maintainable)."],"x":"Tier III: any component can be maintained without shutting IT down.","c":"DCCA","d":"1.x Standards and site: Uptime Tiers (verify syllabus)"},{"t":"mc","q":"A facility has two completely independent UPS systems, each able to carry the full load. Which notation is this?","o":["N","N+1","2N","N+2"],"a":2,"w":["No redundancy.","One spare component.","Correct.","Two spare components, not separate systems."],"x":"2N needs dual-corded equipment (or STS) to benefit.","c":"DCCA","d":"2.x Power: redundancy (verify syllabus)"},{"t":"mc","q":"Which UPS topology gives zero transfer time by converting power continuously?","o":["Standby/offline","Line-interactive","Online double-conversion","Ferroresonant standby"],"a":2,"w":["Switches on failure.","Regulates voltage but still switches to battery.","Correct.","Older niche design."],"x":"Online UPS is standard in data centers.","c":"DCCA","d":"2.x Power: UPS (verify syllabus)"},{"t":"mc","q":"A server draws 900 VA with a power factor of 0.9. What is its real power?","o":["810 W","900 W","1,000 W","990 W"],"a":0,"w":["Correct: 900 × 0.9.","That's apparent power.","Divided instead of multiplied.","Wrong arithmetic."],"x":"W = VA × PF.","c":"DCCA","d":"2.x Power: calculations (verify syllabus)"},{"t":"mc","q":"Total facility power is 1,500 kW and IT load is 1,000 kW. What is the PUE?","o":["0.67","1.5","2.5","500"],"a":1,"w":["That's DCiE as a fraction.","Correct.","Added instead of divided.","That's the overhead in kW."],"x":"DCiE = 67%.","c":"DCCA","d":"2.x Power: efficiency metrics (verify syllabus)"},{"t":"mc","q":"What is the ASHRAE TC 9.9 recommended inlet temperature range for most IT equipment?","o":["10–15 °C","18–27 °C","27–35 °C","5–45 °C"],"a":1,"w":["Too cold; wastes energy.","Correct.","Upper allowable territory.","Not a recommended range."],"x":"Allowable ranges are wider (e.g., A1 15–32 °C).","c":"DCCA","d":"3.x Cooling: ASHRAE ranges (verify syllabus)"},{"t":"mc","q":"Racks are installed so the back of one row faces the front of the next. What is the main problem?","o":["Hot exhaust is drawn into the next row's intakes","Cables are too long","The floor will be overloaded","It violates TIA-606 labeling"],"a":0,"w":["Correct: use hot/cold aisles.","Not the main problem.","Unrelated.","Labeling standard, unrelated."],"x":"Fronts face fronts (cold aisle), backs face backs (hot aisle).","c":"DCCA","d":"3.x Cooling: airflow management (verify syllabus)"},{"t":"mc","q":"What is the purpose of blanking panels?","o":["Prevent hot air recirculating through empty rack spaces","Ground the rack","Hide cable clutter for aesthetics","Increase floor loading capacity"],"a":0,"w":["Correct.","Bonding does that.","Not the purpose.","Unrelated."],"x":"Cheap and one of the most effective airflow fixes.","c":"DCCA","d":"3.x Cooling: airflow management (verify syllabus)"},{"t":"mc","q":"A GPU cluster needs about 80 kW per rack. Which cooling approach is most suitable?","o":["More perforated tiles","Direct-to-chip liquid cooling","Lower the room set point to 15 °C","Open the data hall windows"],"a":1,"w":["Air can't carry that much heat per rack.","Correct (or immersion).","Wastes energy and still insufficient.","Uncontrolled and unsafe."],"x":"Air cooling tops out around 20–30 kW per rack in practice.","c":"DCCA","d":"3.x Cooling: liquid cooling (verify syllabus)"},{"t":"mc","q":"How tall is one rack unit (1U)?","o":["1.5 in","1.75 in","2 in","19 in"],"a":1,"w":["Too short.","Correct: 44.45 mm.","Too tall.","That's the mounting width."],"x":"A 42U rack has 73.5 in of mounting space.","c":"DCCA","d":"4.x Cabling and racks (verify syllabus)"},{"t":"mc","q":"In TIA-942, where are the core routers and the main cross-connect located?","o":["EDA","HDA","MDA","ZDA"],"a":2,"w":["Equipment racks.","Horizontal cross-connect for a zone.","Correct.","Optional consolidation point."],"x":"ER → MDA → HDA → (ZDA) → EDA.","c":"DCCA","d":"4.x Cabling and racks: TIA-942 spaces (verify syllabus)"},{"t":"mc","q":"Which sprinkler type keeps pipes dry until a detection system opens the valve?","o":["Wet pipe","Dry pipe","Pre-action","Deluge only"],"a":2,"w":["Always full.","Air-filled, but opens when a head fuses, no detection needed.","Correct.","All heads open at once; for high hazards."],"x":"Pre-action is the common choice over IT equipment.","c":"DCCA","d":"5.x Fire safety (verify syllabus)"},{"t":"mc","q":"Which detection system samples air through pipes to give very early warning of smoldering fires?","o":["Heat detector","VESDA / aspirating smoke detection","Flame detector","Manual call point"],"a":1,"w":["Responds later, to heat.","Correct.","Sees flames, not early smoke.","Manual."],"x":"Multiple thresholds: alert, action, fire.","c":"DCCA","d":"5.x Fire safety (verify syllabus)"},{"t":"mc","q":"Which physical control prevents tailgating into the data hall?","o":["Mantrap (access control vestibule)","CCTV","Visitor log","Bollards"],"a":0,"w":["Correct.","Detects and records, doesn't prevent.","Records visitors.","Stops vehicles."],"x":"Combine with badges plus biometrics.","c":"S","d":"1.2 Physical security"},{"t":"mc","q":"Before an electrician works on a PDU, which procedure ensures it can't be re-energized?","o":["Lockout/tagout","Change freeze","Hot swap","EPO test"],"a":0,"w":["Correct.","Stops changes, not energy.","Replacing parts live.","Tests the shutdown button."],"x":"Only the person who applied a lock removes it.","c":"DCCA","d":"7.x Operations and safety (verify syllabus)"}],"flashcards":[["2N PDU loading rule","Keep each side under 50% so one side can carry the whole load."],["1 kW of IT load in BTU/hr","About 3,412 BTU/hr."],["Method of procedure (MOP)","A written, approved step-by-step change plan with rollback."],["Data center types","Enterprise, colocation, hyperscale, edge, modular"],["TIA-942","DC telecom infrastructure, Rated-1 to 4"],["EN 50600 / ISO/IEC 22237","EU/international DC facility standard"],["Tier I / II / III / IV","Basic / redundant parts / concurrently maintainable / fault tolerant"],["Tier availability (cited)","99.671 / 99.741 / 99.982 / 99.995%"],["Power chain","Utility → ATS (+generator) → UPS → PDU → rack PDU"],["ATS vs STS","Utility/generator in seconds vs two sources in ~4 ms"],["UPS types","Standby, line-interactive, online double-conversion"],["Static bypass","UPS fails → raw input power, unprotected"],["VRLA vs Li-ion life","3–5 years vs 10–15 years"],["N+1 vs 2N","One spare component vs two full systems"],["W, VA, PF","W = VA × PF"],["Three-phase power","√3 × V × A × PF"],["PUE / DCiE","Total ÷ IT / IT ÷ total × 100%"],["WUE","Liters of water ÷ IT kWh"],["1 kW in BTU/h","≈ 3,412"],["CRAC vs CRAH","Compressor (DX) vs chilled-water coil"],["ASHRAE recommended inlet","18–27 °C"],["Hot/cold aisle","Fronts face fronts; backs face backs"],["Liquid cooling types","Rear-door HX, direct-to-chip, immersion"],["1U","1.75 in / 44.45 mm"],["TIA-942 spaces","ER, MDA, IDA, HDA, ZDA, EDA, TR"],["Labeling / bonding standards","TIA-606 / TIA-607"],["Fire classes (US)","A ordinary, B liquids, C electrical, D metals, K cooking"],["Pre-action","Detection opens valve first"],["Clean agents","HFC-227ea (FM-200), FK-5-1-12 (Novec 1230), inert gases"],["Mantrap","Interlocked doors stop tailgating"],["DCIM vs BMS","IT infrastructure assets vs building plant"],["LOTO","Isolate, lock and tag energy before work"]]}</script>
 <!-- module-data:end -->
 </body>
 </html>

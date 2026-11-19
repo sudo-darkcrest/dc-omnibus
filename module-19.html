@@ -3,18 +3,22 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Module 19 · Amazon Web Services: AWS Cloud, Core Services and Certifications | Datacenter Omnibus</title>
-<meta name="description" content="Amazon Web Services explained: Regions and Availability Zones, core services, the shared responsibility model, IAM, pricing and support, the Well-Architected Framework, and the AWS certification path from Cloud Practitioner to Professional.">
+<title>Module 19 · Cyber Security Careers: SOC Work, Attack Frameworks and Certifications | Datacenter Omnibus</title>
+<meta name="description" content="Cyber security careers explained: SOC analyst, incident responder, threat hunter, pentester, cloud security and GRC roles; the Cyber Kill Chain and MITRE ATT&CK; SOC tools and metrics; vulnerability prioritisation; and the security certification landscape from ISC2 CC and Security+ to CySA+, PenTest+, OSCP, CISSP and beyond.">
 <link rel="stylesheet" href="assets/omnibus.css">
 <style>
   .chip.ok { border-color: var(--good); background: var(--good-soft); }
   .chip.bad { border-color: var(--bad); background: var(--bad-soft); }
-  .az-cell { cursor: pointer; }
-  .az-cell:focus { outline: 3px solid var(--accent); }
-  .bars .bar { display: grid; grid-template-columns: 170px 1fr 90px; gap: 8px; align-items: center; margin: 6px 0; font-size: .92rem; }
-  .bars .bar i { display: block; height: 18px; border-radius: 4px; background: var(--accent); }
-  .bars .bar.best i { background: var(--good); }
-  @media (max-width: 700px) { .bars .bar { grid-template-columns: 1fr; gap: 2px; } }
+  .path-steps { list-style: none; padding: 0; margin: 10px 0; counter-reset: s; }
+  .path-steps li { counter-increment: s; border: 1px solid var(--line); border-left: 5px solid var(--sec); border-radius: 8px; padding: 8px 12px 8px 44px; margin: 6px 0; position: relative; background: var(--surface); }
+  .path-steps li::before { content: counter(s); position: absolute; left: 12px; top: 8px; font-weight: 800; color: var(--sec); font-size: 1.1rem; }
+  .rank-list { list-style: none; padding: 0; }
+  .rank-list li { display: grid; grid-template-columns: 30px 1fr auto; gap: 8px; align-items: center; border: 1px solid var(--line); border-radius: 8px; padding: 8px 10px; margin: 6px 0; background: var(--surface); }
+  .rank-list li.ok { border-color: var(--good); background: var(--good-soft); }
+  .rank-list li.bad { border-color: var(--bad); background: var(--bad-soft); }
+  .rank-list .pos { font-weight: 800; font-size: 1.1rem; text-align: center; }
+  .rank-list .meta { font-size: .85rem; color: var(--ink-2); }
+  .rank-list button { padding: 2px 9px; }
 </style>
 </head>
 <body data-module="19">
@@ -23,16 +27,16 @@
 <main class="page" id="main">
 
 <section class="intro">
-  <div class="kicker">Part 5 · Cloud, Data Center and AI (Artificial Intelligence) · Module 19</div>
-  <h1>Amazon Web Services: AWS Cloud, Core Services and Certifications</h1>
-  <p class="why"><b>Why this matters.</b> AWS is the largest public cloud. Many of the data centers in Module 20 exist to run clouds like it, and many IT (Information Technology) jobs now expect you to know its basic building blocks. Module 18 explained cloud in general; this module makes it concrete with AWS's own services, pricing and certifications, starting with the beginner-friendly <b>AWS Certified Cloud Practitioner</b>.</p>
+  <div class="kicker">Part 4 · Security and Cyber Careers · Module 19</div>
+  <h1>Cyber Security Careers: SOC Work, Attack Frameworks and Certifications</h1>
+  <p class="why"><b>Why this matters.</b> Modules 15 to 17 taught the security concepts behind Security+. This module shows what people actually do with them: watching for attacks in a security operations center, hunting intruders, testing defences, fixing vulnerabilities and managing risk. It explains the frameworks professionals use every day and lays out the certification paths, so you can choose a direction and know which exam to take next.</p>
   <h3>You will be able to</h3>
   <ul class="outcomes">
-    <li>Explain Regions, Availability Zones and edge locations, and design for high availability.</li>
-    <li>Match common needs to core AWS services (compute, storage, databases, networking, security, monitoring).</li>
-    <li>Split security duties between AWS and the customer, and apply IAM (Identity and Access Management) best practices.</li>
-    <li>Choose the cheapest pricing option for a workload and name AWS's cost tools and support plans.</li>
-    <li>Plan an AWS certification path and know the Cloud Practitioner exam format.</li>
+    <li>Describe the main cyber security roles and how people move between them.</li>
+    <li>Explain an attack using the Cyber Kill Chain and MITRE ATT&amp;CK.</li>
+    <li>Triage security alerts and describe SOC tools (SIEM (Security Information and Event Management), SOAR (Security Orchestration, Automation and Response), EDR (Endpoint Detection and Response)) and metrics.</li>
+    <li>Prioritise vulnerabilities using CVSS (Common Vulnerability Scoring System), exploitation data, exposure and asset value.</li>
+    <li>Choose a certification path, including CySA+, PenTest+, OSCP (OffSec Certified Professional) and CISSP (Certified Information Systems Security Professional), and practise skills legally.</li>
   </ul>
   <nav class="jumpnav" id="jumpnav" aria-label="On this page"></nav>
 </section>
@@ -42,171 +46,166 @@
   <div id="certmap-badges"></div>
 </section>
 
-<section class="lesson" id="infra">
-  <h2>1. What AWS is and where it lives</h2>
-  <p>Amazon Web Services launched in 2006 with S3 storage and EC2 (Elastic Compute Cloud) virtual servers. Today it offers more than 200 services that you rent by the second, hour or request, instead of buying hardware. You click (or call an API (Application Programming Interface)) and minutes later you have servers, databases or AI models running in Amazon's data centers.</p>
-  <div class="callout analogy">AWS is like a utility company for computing. You don't build a power station to switch on a light; you plug in and pay for what you use. AWS does the same for servers, storage and networks.</div>
-  <figure class="fig"><svg id="geo-fig" viewBox="0 0 760 250" width="760" role="img" aria-label="An AWS Region contains three or more Availability Zones, each with one or more data centers, linked by low-latency fiber. Edge locations sit near users outside the Region."></svg>
-    <figcaption>A Region holds three or more Availability Zones (AZs) a few kilometres to tens of kilometres apart, joined by fast private fiber. Edge locations sit close to users to cache content (CloudFront) and answer DNS (Domain Name System; Route 53).</figcaption></figure>
-  <div class="tablewrap"><table><thead><tr><th>Term</th><th>Plain meaning</th><th>Why it matters</th></tr></thead><tbody>
-    <tr><td><b>Region</b></td><td>A geographic area, e.g., us-east-1 (N. Virginia), eu-west-2 (London)</td><td>Pick for latency to users, data residency laws, price and which services are offered</td></tr>
-    <tr><td><b>Availability Zone</b></td><td>One or more data centers with their own power and cooling</td><td>Run in 2+ AZs so one failure doesn't take you down (high availability)</td></tr>
-    <tr><td><b>Edge location</b></td><td>A small site near users</td><td>Faster websites and DNS; also used by Shield for DDoS protection</td></tr>
-    <tr><td><b>Local Zone / Wavelength / Outposts</b></td><td>AWS closer to a city, inside 5G networks, or in your own building</td><td>Very low latency or on-premises requirements</td></tr>
+<section class="lesson" id="roles">
+  <h2>1. Cyber security jobs</h2>
+  <p>Cyber security isn't one job. It's a family of roles that defend, attack (with permission), investigate, engineer and govern. Most people start in IT (Information Technology) support, networking or a SOC and move toward a specialty.</p>
+  <figure class="fig"><svg id="career-fig" viewBox="0 0 760 250" width="760" role="img" aria-label="Career ladder: IT support, help desk or networking leads to SOC analyst, which branches to incident responder, threat hunter, penetration tester, security engineer, cloud security and GRC, all leading toward security architect, manager and CISO."></svg></figure>
+  <div class="tablewrap"><table><thead><tr><th>Role</th><th>What they do all day</th><th>Typical certs</th></tr></thead><tbody>
+    <tr><td><b>SOC analyst</b> (Tier 1–3)</td><td>Watch dashboards, triage alerts, investigate suspicious activity, escalate and respond</td><td>Security+, CySA+, BTL1, GIAC (Global Information Assurance Certification) GCIA (Global Information Assurance Certification Certified Intrusion Analyst)</td></tr>
+    <tr><td><b>Incident responder / forensics</b></td><td>Lead response to breaches, collect evidence, find root cause</td><td>CySA+, GIAC GCIH (Global Information Assurance Certification Certified Incident Handler) / GCFA (Global Information Assurance Certification Certified Forensic Analyst), CISM (Certified Information Security Manager; management)</td></tr>
+    <tr><td><b>Threat hunter / intel analyst</b></td><td>Search for hidden attackers, track threat groups and their methods</td><td>CySA+, GIAC GCTI (Global Information Assurance Certification Cyber Threat Intelligence)</td></tr>
+    <tr><td><b>Penetration tester / red team</b></td><td>Attack systems with written permission to prove where defences fail, then write reports</td><td>PenTest+, OSCP, CEH (Certified Ethical Hacker), GIAC GPEN</td></tr>
+    <tr><td><b>Security engineer</b></td><td>Build and run firewalls, EDR, identity systems, SIEM and automation</td><td>Security+, CySA+, vendor certs, CISSP</td></tr>
+    <tr><td><b>Cloud security engineer</b></td><td>Secure AWS (Amazon Web Services), Azure or Google Cloud accounts, identities and workloads</td><td>AWS Security Specialty, CCSP (Certified Cloud Security Professional), AZ-500 (Module 21)</td></tr>
+    <tr><td><b>GRC (Governance, Risk and Compliance) analyst / auditor</b></td><td>Policies, risk assessments, compliance, audits (Modules 26–28)</td><td>CISA (Certified Information Systems Auditor), CISM, ISO (International Organization for Standardization) 27001 Lead Auditor, CRISC (Certified in Risk and Information Systems Control)</td></tr>
+    <tr><td><b>Security architect / manager / CISO (Chief Information Security Officer)</b></td><td>Design security across the organisation, lead teams, report to executives</td><td>CISSP, CISM, SecurityX</td></tr>
   </tbody></table></div>
-  <div class="callout trap">"Multi-AZ" and "multi-Region" are not the same. Multi-AZ protects against a data center failure (high availability). Multi-Region protects against a whole Region failing or serves users worldwide (disaster recovery and latency), at higher cost and complexity.</div>
+  <div class="callout tip">Employers value <b>proof you can do the work</b> as much as certificates: a home lab write-up, CTF (Capture The Flag) results, a GitHub with scripts or detection rules, or a blog explaining how you investigated something.</div>
 </section>
 
-<section class="lesson" id="services">
-  <h2>2. Core services you should know</h2>
-  <p>Don't try to learn all 200+. The Cloud Practitioner exam and most jobs focus on these:</p>
-  <div class="tablewrap"><table><thead><tr><th>Category</th><th>Service</th><th>What it does</th></tr></thead><tbody>
-    <tr><td rowspan="3"><b>Compute</b></td><td>EC2</td><td>Virtual servers ("instances") you size and manage</td></tr>
-    <tr><td>Lambda</td><td>Runs your code on events; no servers to manage (serverless)</td></tr>
-    <tr><td>ECS (Elastic Container Service), EKS (Elastic Kubernetes Service), Fargate</td><td>Containers (Module 18): AWS's own orchestrator, managed Kubernetes, serverless containers</td></tr>
-    <tr><td rowspan="3"><b>Storage</b></td><td>S3</td><td>Object storage in "buckets"; 11 nines (99.999999999%) durability</td></tr>
-    <tr><td>EBS (Elastic Block Store) / EFS (Encrypting File System)</td><td>A virtual disk for one instance / a shared NFS file system</td></tr>
-    <tr><td>S3 Glacier, Storage Gateway, Snow Family</td><td>Cheap archive / link on-premises storage to AWS / ship data on physical devices</td></tr>
-    <tr><td rowspan="2"><b>Databases</b></td><td>RDS (Relational Database Service), Aurora</td><td>Managed relational (SQL) databases; AWS patches and backs them up</td></tr>
-    <tr><td>DynamoDB, Redshift, ElastiCache</td><td>Serverless NoSQL / data warehouse / in-memory cache</td></tr>
-    <tr><td rowspan="2"><b>Networking</b></td><td>VPC (Virtual Private Cloud)</td><td>Your private network: subnets, route tables, internet and NAT (Network Address Translation) gateways</td></tr>
-    <tr><td>Route 53, CloudFront, ELB (Elastic Load Balancing), Direct Connect</td><td>DNS / CDN / load balancers / private fiber link to your data center</td></tr>
-    <tr><td rowspan="2"><b>Security</b></td><td>IAM, KMS (Key Management Service), Secrets Manager</td><td>Who can do what / encryption keys / store passwords and API keys</td></tr>
-    <tr><td>Shield, WAF (Web Application Firewall), GuardDuty, Inspector, Macie, Security Hub</td><td>DDoS / web firewall / threat detection / vulnerability scans / find sensitive data / one dashboard</td></tr>
-    <tr><td rowspan="2"><b>Management</b></td><td>CloudWatch, CloudTrail, Config</td><td>Metrics and alarms / audit log of API calls / configuration history and rules</td></tr>
-    <tr><td>Organizations, Control Tower, Trusted Advisor</td><td>Many accounts and policies / multi-account setup / best-practice checks</td></tr>
-    <tr><td><b>AI</b></td><td>Bedrock, SageMaker AI, Rekognition, Comprehend, Transcribe, Q</td><td>Foundation models by API / build and train models / images / text / speech / AI assistant (see Module 21)</td></tr>
+<section class="lesson" id="attacks">
+  <h2>2. How attacks unfold</h2>
+  <p>Defenders use models to break an attack into stages. Each stage is a chance to detect and stop it, and the earlier the better.</p>
+  <figure class="fig"><svg id="kc-fig" viewBox="0 0 760 150" width="760" role="img" aria-label="Cyber Kill Chain: reconnaissance, weaponization, delivery, exploitation, installation, command and control, actions on objectives."></svg>
+    <figcaption>The Lockheed Martin Cyber Kill Chain (2011). Break any link and the attack fails.</figcaption></figure>
+  <p><b>MITRE ATT&amp;CK</b> goes further. It's a free, constantly updated catalogue of what real attackers do, organised as <b>tactics</b> (the attacker's goal at each step) containing <b>techniques</b> (how they do it, e.g., T1566 Phishing, T1059 Command and Scripting Interpreter). The Enterprise matrix has 14 tactics:</p>
+  <div class="tablewrap"><table><thead><tr><th>Tactic</th><th>Attacker's goal</th><th>Example technique</th></tr></thead><tbody>
+    <tr><td>Reconnaissance</td><td>Gather information for planning</td><td>Search victim-owned websites, scan for open ports</td></tr>
+    <tr><td>Resource Development</td><td>Get infrastructure and tools</td><td>Register look-alike domains</td></tr>
+    <tr><td>Initial Access</td><td>Get into the network</td><td>Phishing, exploiting a public-facing application</td></tr>
+    <tr><td>Execution</td><td>Run malicious code</td><td>PowerShell, user opening a malicious file</td></tr>
+    <tr><td>Persistence</td><td>Stay in after reboots</td><td>Scheduled task, new account, registry run key</td></tr>
+    <tr><td>Privilege Escalation</td><td>Get higher permissions</td><td>Exploit a vulnerable driver, abuse misconfigured sudo</td></tr>
+    <tr><td>Defense Evasion</td><td>Avoid being detected</td><td>Disable security tools, clear logs</td></tr>
+    <tr><td>Credential Access</td><td>Steal passwords and tokens</td><td>Credential dumping (e.g., from LSASS (Local Security Authority Subsystem Service)), brute force</td></tr>
+    <tr><td>Discovery</td><td>Learn the environment</td><td>List domain users and network shares</td></tr>
+    <tr><td>Lateral Movement</td><td>Move to other systems</td><td>Remote Desktop, pass-the-hash</td></tr>
+    <tr><td>Collection</td><td>Gather the target data</td><td>Archive files, capture screenshots</td></tr>
+    <tr><td>Command and Control</td><td>Talk to compromised systems</td><td>HTTPS (HyperText Transfer Protocol Secure) beaconing, DNS (Domain Name System) tunnelling</td></tr>
+    <tr><td>Exfiltration</td><td>Steal the data</td><td>Upload to cloud storage</td></tr>
+    <tr><td>Impact</td><td>Disrupt or destroy</td><td>Ransomware encryption, wiping data</td></tr>
   </tbody></table></div>
-  <div class="callout tip">A quick way to remember the monitoring trio: <b>CloudTrail</b> = who did it (trail of footprints), <b>CloudWatch</b> = how is it doing (watching gauges), <b>Config</b> = how is it set up (configuration).</div>
+  <div class="callout detail">The <b>Diamond Model</b> describes each intrusion event by four linked points: <b>adversary</b>, <b>capability</b> (malware, exploits), <b>infrastructure</b> (IPs (Internet Protocol), domains) and <b>victim</b>. Finding one point helps you pivot to the others.</div>
 </section>
 
-<section class="lesson" id="security">
-  <h2>3. Security: shared responsibility and IAM</h2>
-  <p>AWS secures the <b>cloud itself</b>: buildings, hardware, the hypervisor and its global network. You secure <b>what you put in the cloud</b>: your data, who can log in, operating system patches on EC2, firewall rules and encryption settings. The more managed the service, the more AWS does (see the Shared Responsibility Slider in Module 18).</p>
+<section class="lesson" id="soc">
+  <h2>3. Inside a security operations center</h2>
+  <figure class="fig"><svg id="soc-fig" viewBox="0 0 760 170" width="760" role="img" aria-label="SOC workflow: log sources feed a SIEM, which raises alerts; analysts triage, investigate and respond, with SOAR automating steps and lessons learned tuning detections."></svg></figure>
   <div class="grid3">
-    <div class="tile"><h4>Lock the root user</h4><p>Turn on MFA (Multifactor Authentication), create no access keys for it, and use it only for the handful of tasks that need it.</p></div>
-    <div class="tile"><h4>Least privilege</h4><p>Give each user, group or role only the permissions it needs. Use <b>IAM roles</b> for applications instead of storing keys in code.</p></div>
-    <div class="tile"><h4>Watch everything</h4><p>Turn on CloudTrail in every Region, use GuardDuty for threats and Security Hub for one view of findings.</p></div>
+    <div class="tile"><h4>Tools</h4><p><b>SIEM</b> collects and correlates logs. <b>EDR/XDR (XDR: Extended Detection and Response)</b> watches endpoints and more. <b>SOAR</b> automates playbooks. Threat intelligence feeds add context. Ticketing tracks every case.</p></div>
+    <div class="tile"><h4>Alert outcomes</h4><p><b>True positive</b>: a real attack, so respond. <b>False positive</b>: a false alarm, so close it and tune the rule. <b>False negative</b>: missed entirely, the worst case, found by threat hunting or after damage.</p></div>
+    <div class="tile"><h4>Metrics</h4><p><b>MTTD</b> (mean time to detect), <b>MTTR</b> (mean time to respond or recover), alert volume, false positive rate, and dwell time (how long attackers stayed undetected).</p></div>
   </div>
-  <div class="callout detail">IAM policies are JSON (JavaScript Object Notation) documents that allow or deny actions (e.g., <code>s3:GetObject</code>) on resources. An explicit <b>deny always wins</b>. Service control policies (SCPs) in AWS Organizations set the maximum permissions for whole accounts.</div>
+  <p>Incident response follows the NIST (National Institute of Standards and Technology) phases from Module 17: <b>preparation</b>; <b>detection and analysis</b>; <b>containment, eradication and recovery</b>; and <b>post-incident activity</b> (lessons learned). NIST SP (Special Publication) 800-61 Rev. 3 (2025) now aligns these with the CSF (Cybersecurity Framework) 2.0 functions (verify).</p>
 </section>
 
-<section class="lesson" id="pricing">
-  <h2>4. Pricing, cost tools and support</h2>
-  <p>Cloud turns big up-front purchases (CapEx) into pay-as-you-go running costs (OpEx). You pay mainly for <b>compute time, storage used and data transferred out</b> of AWS. Data coming <i>in</i> is generally free.</p>
-  <div class="tablewrap"><table><thead><tr><th>EC2 option</th><th>Discount vs On-Demand (approx., verify)</th><th>Best for</th></tr></thead><tbody>
-    <tr><td>On-Demand</td><td>None</td><td>Short, unpredictable workloads; testing</td></tr>
-    <tr><td>Savings Plans (1 or 3 years)</td><td>Up to ~66% (Compute) or ~72% (EC2 Instance)</td><td>Steady use; flexible across instance types (Compute plan also covers Lambda and Fargate)</td></tr>
-    <tr><td>Reserved Instances (1 or 3 years)</td><td>Up to ~72%</td><td>Steady use of a specific instance type; also used for RDS</td></tr>
-    <tr><td>Spot Instances</td><td>Up to ~90%</td><td>Jobs that can be interrupted (2-minute warning)</td></tr>
-    <tr><td>Dedicated Hosts / Instances</td><td>Costs more</td><td>Licensing that's tied to physical servers, or compliance</td></tr>
+<section class="lesson" id="vuln">
+  <h2>4. Vulnerability management</h2>
+  <p>Every organisation has more vulnerabilities than time to fix them, so the skill is <b>prioritising</b>. The cycle: <b>discover</b> assets, <b>scan</b> (authenticated scans see more), <b>prioritise</b>, <b>remediate</b> (patch, reconfigure, or apply a compensating control), <b>verify</b> with a rescan, and <b>report</b>.</p>
+  <div class="tablewrap"><table><thead><tr><th>Signal</th><th>What it tells you</th></tr></thead><tbody>
+    <tr><td><b>CVE (Common Vulnerabilities and Exposures)</b></td><td>The unique ID (Identification) of the flaw, e.g., CVE-2021-44228 (Log4Shell)</td></tr>
+    <tr><td><b>CVSS</b> (0–10)</td><td>Technical severity: attack vector, complexity, privileges needed, user interaction, impact. 9.0+ critical, 7.0–8.9 high</td></tr>
+    <tr><td><b>CISA KEV (Known Exploited Vulnerabilities)</b></td><td>Attackers are exploiting it right now. Treat as urgent</td></tr>
+    <tr><td><b>EPSS (Exploit Prediction Scoring System)</b> (0–100%)</td><td>Probability it will be exploited in the next 30 days</td></tr>
+    <tr><td><b>Exposure and asset value</b></td><td>Is it internet-facing? Does the system hold crown-jewel data or run critical services?</td></tr>
   </tbody></table></div>
-  <div class="grid3">
-    <div class="tile"><h4>Before you build</h4><p><b>AWS Pricing Calculator</b> estimates monthly cost.</p></div>
-    <div class="tile"><h4>While it runs</h4><p><b>Cost Explorer</b> shows what you spent; <b>Budgets</b> alerts you; <b>Cost and Usage Report</b> has every line item; cost allocation <b>tags</b> split costs by team.</p></div>
-    <div class="tile"><h4>Free Tier</h4><p>Some services are always free up to limits, others for 12 months or as short trials. Free Tier terms changed in 2025, so verify current details.</p></div>
-  </div>
-  <p><b>Support plans</b> (verify current names and prices): <b>Basic</b> (free, billing and account help, no technical cases), <b>Developer</b> (business-hours email), <b>Business</b> (24/7 phone and chat, full Trusted Advisor checks), <b>Enterprise On-Ramp</b> and <b>Enterprise</b> (a Technical Account Manager, fastest response for critical issues).</p>
-</section>
-
-<section class="lesson" id="wellarch">
-  <h2>5. Designing well: the Well-Architected Framework</h2>
-  <div class="tablewrap"><table><thead><tr><th>Pillar</th><th>Ask yourself</th></tr></thead><tbody>
-    <tr><td>Operational excellence</td><td>Can we deploy, monitor and improve safely? (infrastructure as code, small changes)</td></tr>
-    <tr><td>Security</td><td>Least privilege, encryption, traceability, protect data in transit and at rest</td></tr>
-    <tr><td>Reliability</td><td>Does it recover from failure? (Multi-AZ, backups, Auto Scaling)</td></tr>
-    <tr><td>Performance efficiency</td><td>Right resource types, serverless where it fits, go global in minutes</td></tr>
-    <tr><td>Cost optimization</td><td>Pay only for what you need; right-size; use the right pricing model</td></tr>
-    <tr><td>Sustainability</td><td>Minimise energy and resources used (added in 2021)</td></tr>
-  </tbody></table></div>
-  <p>The <b>AWS Cloud Adoption Framework (CAF)</b> helps whole organizations move to the cloud through six perspectives: Business, People, Governance, Platform, Security and Operations. Migration strategies are often called the "7 Rs": retire, retain, rehost (lift and shift), relocate, repurchase, replatform and refactor.</p>
+  <div class="callout trap">"Highest CVSS first" is a classic exam and real-world mistake. A CVSS 7.5 on an internet-facing server that attackers are actively exploiting beats a CVSS 9.8 on an isolated lab machine.</div>
 </section>
 
 <section class="lesson" id="certs">
-  <h2>6. AWS certifications</h2>
-  <p>AWS certifications are valid for <b>3 years</b>. Exams are taken at Pearson VUE test centers or online. Levels and current exams (verify codes and prices on the AWS site, as AWS renames and replaces exams regularly):</p>
-  <div class="tablewrap"><table><thead><tr><th>Level</th><th>Certification</th><th>Code</th><th>For</th></tr></thead><tbody>
-    <tr><td rowspan="2"><b>Foundational</b> (~$100)</td><td>Cloud Practitioner</td><td>CLF-C02</td><td>Anyone: cloud concepts, core services, security, billing</td></tr>
-    <tr><td>AI Practitioner</td><td>AIF-C01</td><td>Anyone: AI, machine learning and generative AI on AWS (Module 21)</td></tr>
-    <tr><td rowspan="5"><b>Associate</b> (~$150)</td><td>Solutions Architect – Associate</td><td>SAA-C03</td><td>Designing resilient, secure, cost-effective systems (the most popular AWS cert)</td></tr>
-    <tr><td>Developer – Associate</td><td>DVA-C02</td><td>Building and deploying applications on AWS</td></tr>
-    <tr><td>CloudOps Engineer – Associate (formerly SysOps Administrator)</td><td>SOA-C03 (verify)</td><td>Running, monitoring and automating AWS operations</td></tr>
-    <tr><td>Data Engineer – Associate</td><td>DEA-C01</td><td>Data pipelines and analytics</td></tr>
-    <tr><td>Machine Learning Engineer – Associate</td><td>MLA-C01</td><td>Building and running ML models with SageMaker AI</td></tr>
-    <tr><td rowspan="3"><b>Professional</b> (~$300)</td><td>Solutions Architect – Professional</td><td>SAP-C02</td><td>Complex, multi-account enterprise designs</td></tr>
-    <tr><td>DevOps Engineer – Professional</td><td>DOP-C02</td><td>CI/CD (Continuous Integration / Continuous Delivery), automation and operations at scale</td></tr>
-    <tr><td>Generative AI Developer – Professional (verify)</td><td>AIP-C01 (verify)</td><td>Building production generative AI applications</td></tr>
-    <tr><td rowspan="2"><b>Specialty</b> (~$300)</td><td>Security – Specialty</td><td>SCS-C02/C03 (verify)</td><td>Cloud security engineering (pairs well with Module 17)</td></tr>
-    <tr><td>Advanced Networking – Specialty</td><td>ANS-C01</td><td>Hybrid and complex AWS networking</td></tr>
+  <h2>5. The security certification landscape</h2>
+  <p>There's no single right order, but this ladder works for most people (verify exam codes and requirements, which change):</p>
+  <div class="tablewrap"><table><thead><tr><th>Level</th><th>Certification</th><th>Vendor</th><th>Notes</th></tr></thead><tbody>
+    <tr><td rowspan="3"><b>Entry</b></td><td>Certified in Cybersecurity (CC)</td><td>ISC2 (International Information System Security Certification Consortium)</td><td>Beginner-friendly; free training and exam offers have run (verify)</td></tr>
+    <tr><td>Security+ (SY0-701)</td><td>CompTIA</td><td>The standard first security cert; DoD 8140 approved (Modules 15–17)</td></tr>
+    <tr><td>Google Cybersecurity Certificate</td><td>Google / Coursera</td><td>Online course certificate, good for absolute beginners</td></tr>
+    <tr><td rowspan="5"><b>Intermediate: defence</b></td><td>CySA+ (CS0-003)</td><td>CompTIA</td><td>SOC analyst skills: operations, vulnerability management, IR, reporting. Up to 85 questions, 165 min, 750/900. Practise in the Study Hub</td></tr>
+    <tr><td>Blue Team Level 1 (BTL1)</td><td>Security Blue Team</td><td>Practical, lab-based SOC exam</td></tr>
+    <tr><td>GIAC GSEC (Global Information Assurance Certification Security Essentials), GCIH, GCIA</td><td>GIAC (SANS)</td><td>Highly respected; expensive if bought with SANS training</td></tr>
+    <tr><td>SSCP (Systems Security Certified Practitioner)</td><td>ISC2</td><td>Hands-on security administration; 1 year experience</td></tr>
+    <tr><td>Microsoft SC-200</td><td>Microsoft</td><td>Security operations analyst on Microsoft Sentinel and Defender</td></tr>
+    <tr><td rowspan="3"><b>Intermediate: offence</b></td><td>PenTest+ (PT0-003)</td><td>CompTIA</td><td>Planning, scanning, attacks, reporting</td></tr>
+    <tr><td>OSCP (PEN-200)</td><td>OffSec</td><td>Hard, practical exam hacking machines in a lab; highly valued for pentest jobs</td></tr>
+    <tr><td>CEH</td><td>EC-Council</td><td>Well known to HR (Human Resources) and government; mostly knowledge-based (practical version available)</td></tr>
+    <tr><td rowspan="5"><b>Advanced</b></td><td>CISSP</td><td>ISC2</td><td>Broad 8-domain management and architecture cert; 5 years' experience</td></tr>
+    <tr><td>CISM / CISA</td><td>ISACA (Information Systems Audit and Control Association)</td><td>Security management / IT audit (Modules 27 and 28)</td></tr>
+    <tr><td>SecurityX (formerly CASP (CompTIA Advanced Security Practitioner)+, CAS-005)</td><td>CompTIA</td><td>Advanced hands-on security architecture and engineering</td></tr>
+    <tr><td>CCSP</td><td>ISC2</td><td>Cloud security; 5 years' experience</td></tr>
+    <tr><td>AWS Security – Specialty</td><td>AWS</td><td>Securing AWS (Module 21)</td></tr>
   </tbody></table></div>
-  <div class="callout tip"><b>Cloud Practitioner exam:</b> 65 questions (50 scored, 15 unscored), 90 minutes, pass mark 700 out of 1000, multiple choice and multiple response. No prerequisites. Try the Practice Exam Engine in the <a href="module-27.html#lab-exam">Study Hub</a> or the <a href="practice-exams.html">Practice exams page</a> (choose "AWS Cloud Practitioner").</div>
+  <div class="callout detail">US Department of Defense jobs list qualifying certifications by work role under <b>DoD 8140</b>, which replaced the older 8570 baseline. Security+, CySA+, CISSP and others appear on it (verify the current list for a specific role).</div>
 </section>
 
-<section class="lesson" id="first-app">
-  <h2>7. Your first architecture on AWS</h2>
-  <p>Here is a classic beginner design that appears in many AWS (Amazon Web Services) exam questions: a highly available web application.</p>
-  <ol>
-    <li><b>Network:</b> one VPC (Virtual Private Cloud) spread across two Availability Zones. Each zone has a public subnet (for the load balancer) and a private subnet (for servers and the database).</li>
-    <li><b>Entry point:</b> Route 53 DNS points the domain to an Application Load Balancer in the public subnets. CloudFront can cache images and pages close to users.</li>
-    <li><b>Compute:</b> an Auto Scaling group runs EC2 instances in both private subnets. It adds instances when CPU (Central Processing Unit) is high and replaces any that fail health checks.</li>
-    <li><b>Database:</b> Amazon RDS with Multi-AZ, so a standby copy in the second zone takes over automatically if the primary fails.</li>
-    <li><b>Files:</b> user uploads go to an S3 bucket, with public access blocked.</li>
-    <li><b>Security:</b> security groups allow only the load balancer to talk to the servers, and only the servers to talk to the database. IAM roles give servers permissions without stored passwords.</li>
-    <li><b>Operations:</b> CloudWatch watches metrics and alarms; CloudTrail records every API call for audit.</li>
-  </ol>
-  <p>If one whole Availability Zone fails, the load balancer sends traffic to the healthy zone, Auto Scaling launches replacement servers there, and RDS fails over. Users notice a brief blip at most.</p>
-  <div class="callout tip">Exam pattern: "highly available" means multiple Availability Zones. "Disaster recovery from a regional outage" means multiple Regions.</div>
+<section class="lesson" id="start">
+  <h2>6. Getting started the right way</h2>
+  <div class="grid3">
+    <div class="tile"><h4>Build a home lab</h4><p>A spare PC (Personal Computer) or free virtualisation (Module 8) with a few VMs (Virtual Machine): a Windows machine, a Linux server, a firewall VM and a free SIEM. Attack your own machines, then find the evidence in the logs.</p></div>
+    <div class="tile"><h4>Practise legally</h4><p>Use CTF competitions and training platforms built for practice, plus deliberately vulnerable VMs. Only ever test systems you own or have <b>written permission</b> to test.</p></div>
+    <div class="tile"><h4>Show your work</h4><p>Write up what you did and learned. Contribute detection rules or scripts. Join local security meetups and conferences (BSides events are cheap and friendly).</p></div>
+  </div>
+  <div class="callout trap">Good intentions are not a legal defence. Scanning or logging into systems without permission is a crime in most countries, under laws such as the US Computer Fraud and Abuse Act and the UK Computer Misuse Act, even if you only wanted to help.</div>
 </section>
 
-<section class="lesson" id="cost-control">
-  <h2>8. Keeping an AWS bill under control</h2>
-  <p>Cloud bills surprise people because nothing stops a forgotten resource from running. These habits prevent most shocks.</p>
+<section class="lesson" id="soc-day">
+  <h2>7. A day on a SOC shift</h2>
+  <p>What does an entry-level security analyst actually do all day? Here is a typical shift in a security operations center.</p>
+  <div class="tablewrap"><table><thead><tr><th>Time</th><th>Activity</th></tr></thead><tbody>
+    <tr><td>08:00</td><td><b>Shift handover.</b> The night team explains open cases: a suspicious login still being investigated and a noisy alert rule.</td></tr>
+    <tr><td>08:30</td><td><b>Alert queue.</b> Review new SIEM alerts. Most are benign: a user travelling, an admin running a scheduled script.</td></tr>
+    <tr><td>10:15</td><td><b>Real finding.</b> A laptop contacts a domain registered two days ago. EDR shows a macro-enabled document launched PowerShell. The analyst isolates the laptop and escalates to tier 2.</td></tr>
+    <tr><td>11:30</td><td><b>Tuning.</b> Adjusts the noisy rule so it ignores a known backup server, cutting false positives without hiding real threats.</td></tr>
+    <tr><td>13:00</td><td><b>Threat intel.</b> Reads a new advisory about an exploited VPN (Virtual Private Network) flaw and searches logs for its indicators.</td></tr>
+    <tr><td>14:30</td><td><b>Phishing reports.</b> Users reported five emails. Two are real phishing; the analyst blocks the sender and removes copies from mailboxes.</td></tr>
+    <tr><td>16:00</td><td><b>Documentation.</b> Writes up each case: what happened, evidence, actions, and whether a rule or process should change.</td></tr>
+  </tbody></table></div>
+  <div class="callout tip">The skills that make analysts stand out are curiosity, careful notes, and clear writing for people who are not technical. Practise by writing short reports on each lab you complete.</div>
+</section>
+
+<section class="lesson" id="portfolio">
+  <h2>8. Building a portfolio that gets interviews</h2>
+  <p>Security hiring managers like evidence. A small portfolio shows what certifications can't.</p>
   <ul>
-    <li><b>Set a budget alarm on day one</b> with AWS Budgets, so you get an email at, say, 50%, 80% and 100% of your monthly limit.</li>
-    <li><b>Tag everything</b> with an owner and project, so Cost Explorer can show who spends what.</li>
-    <li><b>Turn off what isn't used:</b> development servers at night and weekends, unattached storage volumes, old snapshots, idle load balancers.</li>
-    <li><b>Right-size:</b> if a server's CPU never goes above 10%, pick a smaller instance type.</li>
-    <li><b>Commit for steady workloads:</b> Savings Plans or Reserved Instances for always-on servers can cut costs significantly.</li>
-    <li><b>Use Spot for flexible work:</b> batch jobs that can be interrupted run far cheaper.</li>
-    <li><b>Mind data transfer:</b> data coming in is usually free, but data going out to the internet and between Regions costs money.</li>
+    <li><b>Home lab write-ups:</b> set up a free SIEM, send it logs from a Windows and a Linux virtual machine, simulate a failed-login attack and show how you detected it.</li>
+    <li><b>Detection rules:</b> publish a few simple detection rules with an explanation of what they catch and what false positives to expect.</li>
+    <li><b>Capture-the-flag results:</b> beginner-friendly CTFs and training platforms provide legal, safe practice environments.</li>
+    <li><b>Scripts:</b> a short Python or PowerShell script that parses logs or checks for weak settings.</li>
+    <li><b>A short blog or notes</b> explaining something you learned in plain language.</li>
   </ul>
-  <div class="callout trap">The AWS Free Tier has limits and time windows. A lab left running after those limits can produce a real bill, so delete lab resources when you finish.</div>
+  <div class="callout trap">Only practise attack techniques on systems you own or platforms built for it. Scanning or attacking systems without written permission is illegal in most countries, even "just to test".</div>
 </section>
 
 <section class="lab" id="labs">
   <h2>Interactive labs</h2>
 
-  <div class="lab-card" id="lab-az" data-lab="Survive the Outage: place EC2 instances across AWS Availability Zones and Regions, then fail an AZ or a whole Region to see if your site stays up and what it costs.">
-    <h3>Lab 1: Survive the Outage</h3>
-    <p class="figcap">Click AZ boxes to add or remove a web server (about $70/month each, example price). Then press a failure button and see whether your site stays online.</p>
-    <div class="stage"><svg id="az-svg" viewBox="0 0 760 230" width="760" role="group" aria-label="Two AWS Regions with three Availability Zones each. Each AZ is a button that toggles a server."></svg></div>
-    <div class="row"><button type="button" id="az-fail1">Fail us-east-1a</button><button type="button" id="az-fail2">Fail all of us-east-1</button><button type="button" id="az-heal">Restore everything</button><button type="button" id="az-reset">Clear servers</button></div>
-    <div class="caption" id="az-cap" aria-live="polite"></div>
+  <div class="lab-card" id="lab-path" data-lab="Cert Path Finder: choose the cyber security role you want and your experience, and get an ordered certification and skills path with links to the right modules.">
+    <h3>Lab 1: Cert Path Finder</h3>
+    <div class="row"><label>I want to become <select id="cp-role">
+      <option value="soc">SOC analyst</option><option value="ir">Incident responder</option><option value="pt">Penetration tester</option><option value="cloud">Cloud security engineer</option><option value="grc">GRC analyst or IT auditor</option><option value="lead">Security manager or CISO</option></select></label>
+      <label>My experience <select id="cp-exp"><option value="0">New to IT</option><option value="1">1–3 years in IT</option><option value="3">3–5 years in IT or security</option><option value="5">5+ years in security</option></select></label></div>
+    <ol class="path-steps" id="cp-out"></ol>
+    <div class="caption" id="cp-cap" aria-live="polite"></div>
   </div>
 
-  <div class="lab-card" id="lab-svc" data-lab="AWS Service Sorter: sort AWS services into compute, storage, database, networking, security and management.">
-    <h3>Lab 2: AWS Service Sorter</h3>
-    <div id="svc-host"></div>
-    <div class="caption" id="svc-cap" aria-live="polite"></div>
+  <div class="lab-card" id="lab-triage" data-lab="SOC Alert Triage: work through real-looking SIEM alerts and decide whether each is a false positive, needs investigation, or is an incident to escalate now.">
+    <h3>Lab 2: SOC Alert Triage</h3>
+    <p class="figcap">You're a Tier 1 analyst at a fictional company, Harrow Logistics. For each alert, decide what to do.</p>
+    <div id="tr-host"></div>
+    <div class="caption" id="tr-cap" aria-live="polite"></div>
   </div>
 
-  <div class="lab-card" id="lab-price" data-lab="EC2 Pricing Picker: set hours per day and whether a job can be interrupted, and compare On-Demand, Savings Plan, Reserved and Spot costs.">
-    <h3>Lab 3: EC2 Pricing Picker</h3>
-    <div class="row">
-      <label>Instance <select id="pr-type"><option value="0.0416">t3.medium (~$0.042/h)</option><option value="0.096" selected>m5.large (~$0.096/h)</option><option value="0.34">c5.2xlarge (~$0.34/h)</option><option value="3.06">p3.2xlarge GPU (~$3.06/h)</option></select></label>
-      <label>Hours per day <input type="range" id="pr-hours" min="1" max="24" value="24"> <b id="pr-hv">24</b></label>
-      <label><input type="checkbox" id="pr-int"> Can be interrupted</label>
-      <label><input type="checkbox" id="pr-steady" checked> Needed for 1+ years</label>
-    </div>
-    <div class="bars" id="pr-bars"></div>
-    <p class="figcap">Example us-east-1 Linux prices and typical discounts for teaching only. Real prices vary by Region and change; use the AWS Pricing Calculator.</p>
-    <div class="caption" id="pr-cap" aria-live="polite"></div>
+  <div class="lab-card" id="lab-attack" data-lab="ATT&CK Mapper: sort the steps of a ransomware intrusion into MITRE ATT&CK tactics.">
+    <h3>Lab 3: ATT&amp;CK Mapper</h3>
+    <p class="figcap">These events come from a (fictional) ransomware investigation. Map each one to its MITRE ATT&amp;CK tactic.</p>
+    <div id="at-host"></div>
+    <div class="caption" id="at-cap" aria-live="polite"></div>
   </div>
 
-  <div class="lab-card" id="lab-shared" data-lab="Who Secures It? Sort security tasks into AWS's job or the customer's job under the shared responsibility model.">
-    <h3>Lab 4: Who Secures It?</h3>
-    <div id="sh-host"></div>
-    <div class="caption" id="sh-cap" aria-live="polite"></div>
+  <div class="lab-card" id="lab-patch" data-lab="Patch Priority Ranker: rank five vulnerabilities using CVSS, CISA KEV, exposure and asset criticality, then compare with an expert ranking.">
+    <h3>Lab 4: Patch Priority Ranker</h3>
+    <p class="figcap">Use the ▲ ▼ buttons to put these vulnerabilities in the order you would fix them (1 = first), then press Check.</p>
+    <ol class="rank-list" id="pp-list"></ol>
+    <div class="row"><button type="button" class="primary" id="pp-check">Check my order</button><button type="button" id="pp-shuffle">Shuffle</button></div>
+    <div class="caption" id="pp-cap" aria-live="polite"></div>
   </div>
 </section>
 
@@ -217,24 +216,23 @@
 
 <section class="memory" id="memory">
   <h2>Memory aids</h2>
-  <div class="mnemonic"><b>Trail, Watch, Config</b>: Trail = who did it, Watch = how it's doing, Config = how it's set up.</div>
-  <div class="mnemonic">Spot = "spare seats on a plane": very cheap, but you can be bumped.</div>
-  <div class="mnemonic">Well-Architected pillars: <b>"O, Snap! Really Pretty Cheap Stuff"</b>: Operational excellence, Security, Reliability, Performance efficiency, Cost optimization, Sustainability.</div>
+  <div class="mnemonic">Kill Chain: <b>"Real Wizards Deliver Exploits, Install Cauldrons, Act"</b>: Recon, Weaponize, Deliver, Exploit, Install, C2, Actions on objectives.</div>
+  <div class="mnemonic"><b>Patch the "KEE" first</b>: Known exploited, Exposed to the internet, Essential (critical) asset.</div>
+  <div class="mnemonic"><b>False negative = the fire nobody saw.</b> It's the worst SOC outcome.</div>
   <div class="tablewrap"><table><thead><tr><th>Number</th><th>Meaning</th></tr></thead><tbody>
-    <tr><td>3+</td><td>Availability Zones per Region (most Regions)</td></tr>
-    <tr><td>11 nines</td><td>S3 durability (99.999999999%)</td></tr>
-    <tr><td>~90%</td><td>Maximum Spot discount</td></tr>
-    <tr><td>2 minutes</td><td>Spot interruption warning</td></tr>
-    <tr><td>1 or 3 years</td><td>Savings Plan and Reserved Instance terms</td></tr>
-    <tr><td>65 · 90 min · 700</td><td>Cloud Practitioner questions, time, pass mark</td></tr>
-    <tr><td>3 years</td><td>AWS certification validity</td></tr>
+    <tr><td>7</td><td>Cyber Kill Chain stages</td></tr>
+    <tr><td>14</td><td>MITRE ATT&amp;CK Enterprise tactics</td></tr>
+    <tr><td>4</td><td>Diamond Model points; NIST IR phases</td></tr>
+    <tr><td>9.0–10.0 / 7.0–8.9</td><td>CVSS critical / high</td></tr>
+    <tr><td>85 · 165 min · 750</td><td>CySA+ CS0-003 max questions, time, pass</td></tr>
+    <tr><td>5 years</td><td>Experience to certify CISSP, CISM, CISA, CCSP</td></tr>
   </tbody></table></div>
   <div class="tablewrap"><table><thead><tr><th>Exam trap</th><th>Why it is wrong</th></tr></thead><tbody>
-    <tr><td>"AWS patches my EC2 operating system."</td><td>On EC2 you patch the OS. AWS patches the OS only on managed services such as RDS.</td></tr>
-    <tr><td>"CloudWatch shows who deleted the bucket."</td><td>That's CloudTrail. CloudWatch is metrics, logs and alarms.</td></tr>
-    <tr><td>"Use Spot for the production database."</td><td>Spot can be reclaimed at any time. Use On-Demand, Reserved or Savings Plans for steady, critical work.</td></tr>
-    <tr><td>"Security groups can deny traffic."</td><td>Security groups only allow; NACLs can allow and deny.</td></tr>
-    <tr><td>"IAM is per Region."</td><td>IAM is global.</td></tr>
+    <tr><td>"Patch the highest CVSS first, always."</td><td>Exploitation (KEV/EPSS), exposure and asset value matter more.</td></tr>
+    <tr><td>"A false positive is the worst outcome."</td><td>Annoying, but a false negative (missed attack) is worse.</td></tr>
+    <tr><td>"Wipe the infected machine immediately."</td><td>Contain first and preserve evidence; wiping destroys forensic data.</td></tr>
+    <tr><td>"A pentest without permission is fine if you report it."</td><td>Without written authorisation it's illegal.</td></tr>
+    <tr><td>"SIEM and SOAR are the same."</td><td>SIEM detects and correlates; SOAR automates the response.</td></tr>
   </tbody></table></div>
 </section>
 
@@ -251,12 +249,12 @@
 <section class="deeper" id="deeper">
   <h2>Go deeper (official sources)</h2>
   <ul>
-    <li><a href="https://aws.amazon.com/certification/certified-cloud-practitioner/" rel="noopener">AWS Certified Cloud Practitioner</a> (exam guide and sample questions)</li>
-    <li><a href="https://aws.amazon.com/certification/" rel="noopener">All AWS certifications</a> · <a href="https://skillbuilder.aws/" rel="noopener">AWS Skill Builder (free courses)</a></li>
-    <li><a href="https://aws.amazon.com/about-aws/global-infrastructure/" rel="noopener">AWS global infrastructure</a></li>
-    <li><a href="https://aws.amazon.com/compliance/shared-responsibility-model/" rel="noopener">AWS shared responsibility model</a></li>
-    <li><a href="https://aws.amazon.com/architecture/well-architected/" rel="noopener">AWS Well-Architected Framework</a></li>
-    <li><a href="https://calculator.aws/" rel="noopener">AWS Pricing Calculator</a> · <a href="https://aws.amazon.com/free/" rel="noopener">AWS Free Tier</a> · <a href="https://aws.amazon.com/premiumsupport/plans/" rel="noopener">AWS Support plans</a></li>
+    <li><a href="https://www.comptia.org/en-us/certifications/cybersecurity-analyst/" rel="noopener">CompTIA CySA+</a> · <a href="https://www.comptia.org/en-us/certifications/pentest/" rel="noopener">CompTIA PenTest+</a> · <a href="https://www.comptia.org/en-us/certifications/securityx/" rel="noopener">CompTIA SecurityX</a></li>
+    <li><a href="https://www.isc2.org/certifications" rel="noopener">ISC2 certifications (CC, SSCP, CISSP, CCSP)</a></li>
+    <li><a href="https://www.offsec.com/courses/pen-200/" rel="noopener">OffSec PEN-200 / OSCP</a> · <a href="https://www.giac.org/" rel="noopener">GIAC certifications</a> · <a href="https://www.eccouncil.org/" rel="noopener">EC-Council (CEH)</a></li>
+    <li><a href="https://attack.mitre.org/" rel="noopener">MITRE ATT&amp;CK</a> · <a href="https://www.lockheedmartin.com/en-us/capabilities/cyber/cyber-kill-chain.html" rel="noopener">Lockheed Martin Cyber Kill Chain</a></li>
+    <li><a href="https://www.cisa.gov/known-exploited-vulnerabilities-catalog" rel="noopener">CISA Known Exploited Vulnerabilities catalog</a> · <a href="https://www.first.org/cvss/" rel="noopener">FIRST CVSS</a> · <a href="https://www.first.org/epss/" rel="noopener">FIRST EPSS</a> · <a href="https://www.cve.org/" rel="noopener">CVE program</a></li>
+    <li><a href="https://csrc.nist.gov/pubs/sp/800/61/r3/final" rel="noopener">NIST SP 800-61 Rev. 3 incident response</a> · <a href="https://niccs.cisa.gov/workforce-development/nice-framework" rel="noopener">NICE Workforce Framework (cyber work roles)</a></li>
   </ul>
 </section>
 </main>
@@ -268,119 +266,134 @@
 <script src="data/m19.js"></script>
 <script>
 (function () {
-  var $ = function (id) { return document.getElementById(id); }, S = OMNI.svg;
+  var $ = function (id) { return document.getElementById(id); }, S = OMNI.svg, h = OMNI.h;
   function txt(g, x, y, s, a) { var e = S("text", Object.assign({ x: x, y: y, class: "svg-text", "font-size": 12 }, a || {}), g); e.textContent = s; return e; }
+  function box(g, x, y, w, hh, t, sub, col) { S("rect", { x: x, y: y, width: w, height: hh, rx: 9, fill: "var(--surface)", stroke: col, "stroke-width": 2.2 }, g); txt(g, x + w / 2, y + (sub ? hh / 2 - 2 : hh / 2 + 4), t, { "text-anchor": "middle", "font-weight": 700, "font-size": 11.5 }); if (sub) txt(g, x + w / 2, y + hh / 2 + 13, sub, { "text-anchor": "middle", "font-size": 9.5, class: "svg-text svg-muted" }); }
+  function arrow(g, x1, y1, x2, y2) { S("line", { x1: x1, y1: y1, x2: x2, y2: y2, stroke: "var(--ink-2)", "stroke-width": 1.8 }, g); var a = Math.atan2(y2 - y1, x2 - x1), s = 7; S("polygon", { points: x2 + "," + y2 + " " + (x2 - s * Math.cos(a - .45)) + "," + (y2 - s * Math.sin(a - .45)) + " " + (x2 - s * Math.cos(a + .45)) + "," + (y2 - s * Math.sin(a + .45)), fill: "var(--ink-2)" }, g); }
 
-  /* geography figure */
+  /* career ladder */
   (function () {
-    var g = $("geo-fig");
-    S("rect", { x: 150, y: 20, width: 460, height: 200, rx: 14, fill: "var(--surface-2)", stroke: "var(--dc)", "stroke-width": 2.5, "stroke-dasharray": "6 4" }, g);
-    txt(g, 380, 42, "Region (e.g., eu-west-2, London)", { "text-anchor": "middle", "font-weight": 800 });
-    [[175, "AZ a"], [325, "AZ b"], [475, "AZ c"]].forEach(function (a) {
-      S("rect", { x: a[0], y: 60, width: 115, height: 120, rx: 10, fill: "var(--surface)", stroke: "var(--dc)", "stroke-width": 2 }, g);
-      txt(g, a[0] + 57, 80, a[1], { "text-anchor": "middle", "font-weight": 700 });
-      [0, 1].forEach(function (k) { S("rect", { x: a[0] + 15 + k * 46, y: 95, width: 38, height: 50, rx: 4, fill: "var(--surface-2)", stroke: "var(--line)" }, g); txt(g, a[0] + 34 + k * 46, 124, "DC", { "text-anchor": "middle", "font-size": 10, class: "svg-text svg-muted" }); });
-      txt(g, a[0] + 57, 168, "own power + cooling", { "text-anchor": "middle", "font-size": 9.5, class: "svg-text svg-muted" });
-    });
-    [[290, 325], [440, 475]].forEach(function (l) { S("line", { x1: l[0], y1: 120, x2: l[1], y2: 120, stroke: "var(--net)", "stroke-width": 3 }, g); });
-    txt(g, 380, 205, "AZs linked by redundant, low-latency private fiber", { "text-anchor": "middle", "font-size": 10.5, class: "svg-text svg-muted" });
-    [[60, 80], [60, 170], [700, 80], [700, 170]].forEach(function (p) { S("circle", { cx: p[0], cy: p[1], r: 14, fill: "var(--surface)", stroke: "var(--net)", "stroke-width": 2 }, g); txt(g, p[0], p[1] + 4, "E", { "text-anchor": "middle", "font-weight": 800, "font-size": 11 }); });
-    txt(g, 60, 125, "edge", { "text-anchor": "middle", "font-size": 10, class: "svg-text svg-muted" }); txt(g, 60, 138, "locations", { "text-anchor": "middle", "font-size": 10, class: "svg-text svg-muted" });
-    txt(g, 700, 125, "edge", { "text-anchor": "middle", "font-size": 10, class: "svg-text svg-muted" }); txt(g, 700, 138, "locations", { "text-anchor": "middle", "font-size": 10, class: "svg-text svg-muted" });
+    var g = $("career-fig");
+    box(g, 20, 100, 130, 50, "IT support / help desk", "or networking", "var(--hw)");
+    box(g, 195, 100, 120, 50, "SOC analyst", "Tier 1 → 2 → 3", "var(--sec)");
+    arrow(g, 150, 125, 195, 125);
+    var B = [["Incident responder", 10], ["Threat hunter", 50], ["Pentester / red team", 90], ["Security engineer", 130], ["Cloud security", 170], ["GRC / auditor", 210]];
+    B.forEach(function (b) { box(g, 375, b[1], 150, 32, b[0], "", "var(--sec)"); arrow(g, 315, 125, 375, b[1] + 16); arrow(g, 525, b[1] + 16, 590, 125); });
+    box(g, 590, 95, 155, 60, "Architect / manager", "→ CISO", "var(--gov)");
   })();
 
-  /* Lab 1: survive the outage */
+  /* kill chain */
   (function () {
-    var g = $("az-svg"), AZ = [["us-east-1", "a"], ["us-east-1", "b"], ["us-east-1", "c"], ["eu-west-2", "a"], ["eu-west-2", "b"], ["eu-west-2", "c"]];
-    var on = {}, failed = {}, cells = [];
-    [["us-east-1 (N. Virginia)", 20], ["eu-west-2 (London)", 395]].forEach(function (r) {
-      S("rect", { x: r[1], y: 10, width: 345, height: 170, rx: 12, fill: "var(--surface-2)", stroke: "var(--dc)", "stroke-width": 2, "stroke-dasharray": "6 4" }, g);
-      txt(g, r[1] + 172, 30, r[0], { "text-anchor": "middle", "font-weight": 800 });
-    });
-    AZ.forEach(function (a, i) {
-      var x = (i < 3 ? 35 : 410) + (i % 3) * 110;
-      var grp = S("g", { class: "az-cell", tabindex: "0", role: "button", "aria-label": a[0] + a[1] + ": toggle server" }, g);
-      var r = S("rect", { x: x, y: 45, width: 95, height: 120, rx: 8, fill: "var(--surface)", stroke: "var(--line)", "stroke-width": 2 }, grp);
-      txt(grp, x + 47, 65, a[0].slice(-1) === "1" ? "AZ " + a[1] : "AZ " + a[1], { "text-anchor": "middle", "font-weight": 700 });
-      var srv = txt(grp, x + 47, 110, "", { "text-anchor": "middle", "font-size": 26 });
-      var st = txt(grp, x + 47, 150, "click to add", { "text-anchor": "middle", "font-size": 10, class: "svg-text svg-muted" });
-      function toggle() { if (failed[i]) return; on[i] = !on[i]; draw(); judge(); }
-      grp.addEventListener("click", toggle); grp.addEventListener("keydown", function (e) { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); toggle(); } });
-      cells.push({ r: r, srv: srv, st: st });
-    });
-    var lb = txt(g, 380, 210, "", { "text-anchor": "middle", "font-weight": 700 });
+    var g = $("kc-fig"), K = [["Recon", "research the target"], ["Weaponize", "build the exploit"], ["Deliver", "email, web, USB"], ["Exploit", "trigger the flaw"], ["Install", "malware, backdoor"], ["C2", "remote control"], ["Actions", "steal, encrypt"]];
+    K.forEach(function (k, i) { var x = 8 + i * 107; box(g, x, 40, 95, 60, (i + 1) + ". " + k[0], k[1], i < 3 ? "var(--warn)" : "var(--sec)"); if (i < 6) arrow(g, x + 95, 70, x + 107, 70); });
+    txt(g, 160, 125, "← before the breach: block early", { "text-anchor": "middle", "font-size": 10.5, class: "svg-text svg-muted" });
+    txt(g, 560, 125, "after the breach: detect and contain fast →", { "text-anchor": "middle", "font-size": 10.5, class: "svg-text svg-muted" });
+  })();
+
+  /* SOC workflow */
+  (function () {
+    var g = $("soc-fig");
+    box(g, 10, 50, 110, 60, "Log sources", "endpoints, cloud", "var(--net)");
+    box(g, 160, 50, 100, 60, "SIEM", "correlate, alert", "var(--sec)");
+    box(g, 300, 50, 100, 60, "Triage", "Tier 1", "var(--sec)");
+    box(g, 440, 50, 110, 60, "Investigate", "Tier 2 / 3", "var(--sec)");
+    box(g, 590, 50, 160, 60, "Respond", "contain, eradicate, recover", "var(--good)");
+    arrow(g, 120, 80, 160, 80); arrow(g, 260, 80, 300, 80); arrow(g, 400, 80, 440, 80); arrow(g, 550, 80, 590, 80);
+    box(g, 300, 130, 250, 32, "SOAR automates enrichment and actions", "", "var(--gov)");
+    S("path", { d: "M 670 50 C 670 22, 210 22, 210 48", fill: "none", stroke: "var(--accent)", "stroke-width": 1.8, "stroke-dasharray": "5 4" }, g);
+    txt(g, 440, 14, "lessons learned → tune detections, close false positives", { "text-anchor": "middle", "font-size": 10.5 });
+  })();
+
+  /* Lab 1: cert path finder */
+  (function () {
+    var BASE = { 0: [["CompTIA A+ or equivalent IT support experience", "Modules 4–8"], ["CompTIA Network+", "Modules 9–13"]], 1: [["CompTIA Network+ (if you don't have strong networking yet)", "Modules 9–13"]], 3: [], 5: [] };
+    var ROLE = {
+      soc: { name: "SOC analyst", steps: [["Security+ (or ISC2 CC first if you're brand new)", "Modules 15–17"], ["Build a home lab with a free SIEM; write up 3 investigations", "this module, section 6"], ["CySA+ (and/or Blue Team Level 1)", "this module + Study Hub CySA+ exam"], ["Later: GIAC GCIH / GCIA, then CISSP for senior roles", ""]] },
+      ir: { name: "Incident responder", steps: [["Security+", "Modules 15–17"], ["CySA+", "this module"], ["Learn Windows and Linux forensics and memory analysis in your lab", "Module 6"], ["GIAC GCIH, then GCFA", ""], ["CISM if you move into leading IR teams", "Module 27"]] },
+      pt: { name: "Penetration tester", steps: [["Security+", "Modules 15–17"], ["Learn Linux, scripting (Python, Bash) and web basics; do CTFs", "Modules 6 and 16"], ["PenTest+ or eJPT as a first offensive cert", ""], ["OSCP (the big one for pentest jobs)", ""], ["Later: specialise (web, cloud, red team, OSEP)", ""]] },
+      cloud: { name: "Cloud security engineer", steps: [["Security+", "Modules 15–17"], ["AWS Cloud Practitioner, then Solutions Architect – Associate", "Modules 20 and 21"], ["AWS Security – Specialty (or AZ-500 for Azure)", "Module 21"], ["CCSP once you have 5 years' experience", ""]] },
+      grc: { name: "GRC analyst or IT auditor", steps: [["Security+ or ISC2 CC", "Modules 15–17"], ["ITIL 4 Foundation and an ISO 27001 Foundation course", "Modules 25 and 26"], ["CISA for audit, or CRISC for risk", "Modules 26 and 28"], ["CISM or ISO 27001 Lead Auditor as you grow", "Module 27"]] },
+      lead: { name: "Security manager or CISO", steps: [["Security+ and hands-on experience in a security team", "Modules 15–17"], ["CISSP (needs 5 years' experience)", ""], ["CISM for security management", "Module 27"], ["Learn risk, budgets and board reporting; consider an MBA or ISACA CGEIT later", "Module 26"]] }
+    };
     function draw() {
-      cells.forEach(function (c, i) {
-        c.r.setAttribute("fill", failed[i] ? "var(--bad-soft)" : "var(--surface)");
-        c.r.setAttribute("stroke", failed[i] ? "var(--bad)" : on[i] ? "var(--good)" : "var(--line)");
-        c.srv.textContent = on[i] ? (failed[i] ? "✖" : "🖥") : "";
-        c.st.textContent = failed[i] ? "FAILED" : on[i] ? "server running" : "click to add";
-      });
+      var r = ROLE[$("cp-role").value], e = +$("cp-exp").value, steps = (BASE[e] || []).concat(r.steps);
+      if (e >= 3) steps = steps.filter(function (s) { return !/^Security\+ \(or ISC2|^Security\+ or ISC2/.test(s[0]); });
+      if (e >= 5) steps = steps.filter(function (s, i) { return i > 0 || /CISSP|CISM|OSCP|Specialty|CISA/.test(s[0]); });
+      $("cp-out").innerHTML = steps.map(function (s) { return "<li><b>" + s[0] + "</b>" + (s[1] ? "<br><span class='figcap'>Study: " + s[1] + "</span>" : "") + "</li>"; }).join("");
+      OMNI.say("cp-cap", "This is a common path to <b>" + r.name + "</b> for someone " + $("cp-exp").selectedOptions[0].text.toLowerCase() + ". " + (e === 0 ? "Starting in IT support or a help desk gives you the foundations every security job builds on. " : "") + "Certifications open doors, but pair each one with hands-on practice you can show an employer. Paths overlap: many people move between these roles over a career.");
     }
-    function count() { var n = 0, up = 0, azs = {}, regions = {}; AZ.forEach(function (a, i) { if (on[i]) { n++; if (!failed[i]) { up++; azs[i] = 1; regions[a[0]] = 1; } } }); return { n: n, up: up, azs: Object.keys(azs).length, regions: Object.keys(regions).length }; }
-    function judge(event) {
-      var c = count(), cost = c.n * 70, alive = c.up > 0;
-      lb.textContent = c.n ? (alive ? "Site ONLINE · " : "Site DOWN · ") + c.up + " of " + c.n + " servers up · ~$" + cost + "/month" : "No servers yet";
-      lb.setAttribute("fill", c.n ? (alive ? "var(--good)" : "var(--bad)") : "var(--ink-2)");
-      var msg;
-      if (!c.n) msg = "Click AZ boxes to place web servers. A load balancer (not drawn) spreads users across every running server.";
-      else if (event && !alive) msg = "Your site went <b>down</b>. Every server was in the failed area. " + (event === "region" ? "To survive a whole Region failing you need servers in a <b>second Region</b>, with DNS (Route 53) failover between them." : "Put servers in at least <b>two Availability Zones</b> so one data center failing doesn't stop you.");
-      else if (event) msg = "Your site <b>stayed up</b> on " + c.up + " server(s). " + (event === "region" ? "Multi-Region costs more and is more complex, but protects against a whole Region outage (disaster recovery)." : "This is high availability: losing one AZ only removed some capacity. Auto Scaling would replace the lost servers in the healthy AZs.");
-      else if (c.azs === 1) msg = "All your servers are in <b>one AZ</b>. That's cheap (~$" + cost + "/month) but a single data center problem takes you offline. Try a failure button.";
-      else if (c.regions === 1) msg = "You're <b>Multi-AZ</b> in one Region (~$" + cost + "/month). That survives an AZ failure, which is what most production sites aim for. Try failing the whole Region too.";
-      else msg = "You're <b>multi-Region</b> (~$" + cost + "/month). That survives even a Region outage, but you also pay for data copies and more complex operations. Most sites only need Multi-AZ.";
-      OMNI.say("az-cap", msg);
-    }
-    $("az-fail1").onclick = function () { failed[0] = 1; draw(); judge("az"); };
-    $("az-fail2").onclick = function () { failed[0] = failed[1] = failed[2] = 1; draw(); judge("region"); };
-    $("az-heal").onclick = function () { failed = {}; draw(); judge(); };
-    $("az-reset").onclick = function () { failed = {}; on = {}; draw(); judge(); };
-    draw(); judge();
+    $("cp-role").onchange = draw; $("cp-exp").onchange = draw; draw();
   })();
 
-  /* Lab 2: service sorter */
-  OMNI.sorter("svc-host", { cap: "svc-cap",
-    zones: [["c", "Compute"], ["s", "Storage"], ["d", "Database"], ["n", "Networking and delivery"], ["x", "Security and identity"], ["m", "Management and monitoring"]],
-    items: [["EC2", "c", "virtual servers."], ["Lambda", "c", "serverless functions."], ["Fargate", "c", "serverless containers."], ["S3", "s", "object storage."], ["EBS", "s", "block volumes for EC2."], ["EFS", "s", "shared file storage."], ["RDS", "d", "managed relational databases."], ["DynamoDB", "d", "NoSQL database."], ["Aurora", "d", "AWS-built relational database."], ["VPC", "n", "your private network."], ["CloudFront", "n", "content delivery network."], ["Route 53", "n", "DNS."], ["IAM", "x", "users, roles and permissions."], ["GuardDuty", "x", "threat detection."], ["KMS", "x", "encryption keys."], ["CloudWatch", "m", "metrics, logs and alarms."], ["CloudTrail", "m", "audit log of API calls (also used heavily for security)."], ["Trusted Advisor", "m", "best-practice checks."]],
-    intro: "Each card is an AWS service. Put it in the category it belongs to, then press Check.",
-    done: "All correct! You can now place the core AWS services in their families, which is a big part of Domain 3 on the Cloud Practitioner exam."
+  /* Lab 2: SOC alert triage */
+  OMNI.trainer("tr-host", { cap: "tr-cap", label: "alerts",
+    intro: "Read each alert like a SIEM ticket. Choose: close as a false positive, investigate further, or escalate as an incident now.",
+    items: [
+      { s: "<h4>⚠ Impossible travel</h4><p>User <b>m.osei</b> signed in from Manchester at 09:02 and from Lagos at 09:20. Both logins passed MFA. HR records show m.osei is on approved leave in Lagos and used a VPN exit in Manchester for the first login.</p>", o: ["Close as false positive and note the VPN cause", "Escalate as a confirmed account compromise", "Disable every account in the company"], a: 0, x: "The VPN explains the 'impossible' travel and MFA passed. Close it, document why, and suggest tuning the rule to recognise the company VPN ranges." },
+      { s: "<h4>⚠ Ransomware behaviour</h4><p>EDR on file server <b>HL-FS02</b>: 4,800 files renamed to <code>.lockd</code> in 3 minutes by <code>svchost32.exe</code> (unsigned, running from a user temp folder). A ransom note file appeared in several shares.</p>", o: ["Escalate immediately and isolate the server", "Wait an hour to see if it stops", "Close: file renames are normal"], a: 0, x: "Mass renaming plus a ransom note is a true positive. Isolate the host (EDR network containment), escalate to incident response, and preserve evidence. Minutes matter." },
+      { s: "<h4>⚠ Brute force</h4><p>2,100 failed logins to the VPN portal in 10 minutes for 600 different usernames from one IP. <b>No successful logins</b>. The IP is on a threat-intel list of password-spraying sources.</p>", o: ["Investigate: block the IP, check for any later success, confirm MFA coverage", "Close: nothing succeeded, so it doesn't matter", "Escalate as a major breach"], a: 0, x: "It's malicious (a password spray) but not yet a breach. Block the source, confirm no account later succeeded, check MFA is enforced on the VPN, and watch for the same pattern from new IPs." },
+      { s: "<h4>⚠ Malware detected and quarantined</h4><p>Antivirus on laptop <b>HL-LT-117</b> quarantined <code>invoice_8812.xlsm</code> from the Downloads folder. The file was <b>never opened</b>. No other alerts from the host.</p>", o: ["Investigate briefly: confirm quarantine, find the source email and remove copies from other inboxes", "Escalate as a full incident and reimage the laptop", "Ignore it completely"], a: 0, x: "The control worked, but the email may have reached others. Confirm quarantine, trace the phishing email, purge it from other mailboxes and block the sender: a quick investigation, not a major incident." },
+      { s: "<h4>⚠ Data upload</h4><p>DLP alert: user <b>j.kerr</b> uploaded 14 GB to a personal cloud storage site at 23:40. j.kerr resigned yesterday and leaves on Friday. Files include folders named <i>Customer_Contracts</i>.</p>", o: ["Escalate now: possible insider data theft", "Close: employees upload files all the time", "Email j.kerr and ask politely"], a: 0, x: "Volume, timing, a departing employee and sensitive files make this high-risk. Escalate to IR, HR and legal per policy. Don't tip off the user before the investigation team decides on next steps." },
+      { s: "<h4>⚠ New admin account</h4><p>A new Domain Admin account <b>svc_backup2</b> was created at 03:14 by the account <b>helpdesk-07</b>. There's no change ticket, and helpdesk staff aren't allowed to create admin accounts.</p>", o: ["Escalate now: likely privilege escalation and persistence", "Close: probably a backup job", "Wait for the weekly report"], a: 0, x: "An unauthorised privileged account at 3 a.m. with no change ticket matches ATT&CK Persistence and Privilege Escalation. Escalate, disable the new account per playbook, and investigate how helpdesk-07 got those rights." },
+      { s: "<h4>⚠ Port scan</h4><p>IDS: an internal host <b>10.20.5.44</b> scanned ports 1–1024 across the server subnet. The asset inventory shows 10.20.5.44 is the vulnerability scanner, and today is the scheduled scan window.</p>", o: ["Close as expected activity and tune the rule for the scanner", "Escalate as lateral movement", "Shut down the scanner permanently"], a: 0, x: "Authorised scanning is expected. Close it, document why, and add an exception for the scanner during its scan window (but keep alerting if it scans outside the window)." },
+      { s: "<h4>⚠ Beaconing</h4><p>Workstation <b>HL-WS-221</b> connects to <code>cdn-update-check[.]top</code> every 60 seconds, ±2 seconds, sending small identical HTTPS requests. The domain was registered 4 days ago.</p>", o: ["Investigate and escalate: likely command-and-control beaconing", "Close: it's probably a software update", "Block all HTTPS traffic company-wide"], a: 0, x: "Very regular intervals to a newly registered, odd domain is a classic C2 sign. Isolate or closely monitor the host, block the domain, and look for the same domain on other machines." }
+    ]
   });
 
-  /* Lab 3: pricing picker */
+  /* Lab 3: ATT&CK mapper */
+  OMNI.sorter("at-host", { cap: "at-cap",
+    zones: [["ia", "Initial Access"], ["ex", "Execution"], ["pe", "Persistence"], ["ca", "Credential Access"], ["lm", "Lateral Movement"], ["im", "Impact"]],
+    items: [
+      ["Employee opens a phishing email attachment", "ia", "phishing is how the attacker first got in (T1566)."],
+      ["Attacker logs in to an exposed RDP server with a bought password", "ia", "using valid accounts on an external service is an Initial Access technique."],
+      ["Macro launches a PowerShell script", "ex", "running scripts is Command and Scripting Interpreter (T1059)."],
+      ["Malware runs from a scheduled task every hour", "pe", "scheduled tasks are used to keep access after reboots (T1053)."],
+      ["A new hidden local admin account is created", "pe", "creating accounts keeps access (T1136)."],
+      ["Passwords are dumped from LSASS memory", "ca", "OS credential dumping (T1003)."],
+      ["Attacker tries common passwords against all users", "ca", "password spraying is brute force (T1110)."],
+      ["Attacker uses stolen admin credentials to RDP into the file server", "lm", "moving to other systems with remote services (T1021)."],
+      ["Files on shared drives are encrypted and a ransom note left", "im", "Data Encrypted for Impact (T1486)."],
+      ["Backups and shadow copies are deleted", "im", "Inhibit System Recovery (T1490) to make ransomware worse."]
+    ],
+    intro: "Each card is one step from a ransomware attack. Put it under the ATT&CK tactic (the attacker's goal) it serves.",
+    done: "All correct! Mapping events to ATT&CK lets a SOC see where in the attack it detected the intruder, and which tactics it has no detections for yet."
+  });
+
+  /* Lab 4: patch priority */
   (function () {
-    var DISC = [["On-Demand", 0, false, false], ["Savings Plan (1 yr)", 0.28, true, false], ["Reserved Instance (3 yr)", 0.6, true, false], ["Spot", 0.7, false, true]];
-    function draw() {
-      var rate = +$("pr-type").value, hrs = +$("pr-hours").value, intr = $("pr-int").checked, steady = $("pr-steady").checked; $("pr-hv").textContent = hrs;
-      var rows = DISC.map(function (d) {
-        var ok = (!d[2] || steady) && (!d[3] || intr);
-        var cost = d[2] ? rate * (1 - d[1]) * 24 * 30 : rate * (1 - d[1]) * hrs * 30; // commitments are billed every hour
-        return { n: d[0], cost: cost, ok: ok, commit: d[2], spot: d[3] };
+    var V = [
+      { n: "VPN appliance remote code execution", cvss: 9.8, kev: true, net: true, crit: true },
+      { n: "Web server path traversal", cvss: 7.5, kev: true, net: true, crit: false },
+      { n: "Lab test server OpenSSL flaw", cvss: 9.1, kev: false, net: false, crit: false },
+      { n: "HR database privilege escalation", cvss: 7.8, kev: false, net: false, crit: true },
+      { n: "Intranet wiki cross-site scripting", cvss: 5.4, kev: false, net: false, crit: false }
+    ];
+    V.forEach(function (v) { v.score = v.cvss + (v.kev ? 6 : 0) + (v.net ? 3 : 0) + (v.crit ? 2 : 0); });
+    var ideal = V.slice().sort(function (a, b) { return b.score - a.score; });
+    var order = OMNI.shuffle(V);
+    function draw(marks) {
+      $("pp-list").innerHTML = "";
+      order.forEach(function (v, i) {
+        var li = h("li", { class: marks ? (ideal[i] === v ? "ok" : "bad") : "" }, [
+          h("span", { class: "pos" }, String(i + 1)),
+          h("div", null, [h("b", null, v.n), h("div", { class: "meta" }, "CVSS " + v.cvss + " · " + (v.kev ? "in CISA KEV (actively exploited)" : "not in KEV") + " · " + (v.net ? "internet-facing" : "internal only") + " · " + (v.crit ? "critical asset" : "low-value asset"))]),
+          h("span", null, [h("button", { type: "button", "aria-label": "Move up", disabled: i === 0, onclick: function () { var t = order[i - 1]; order[i - 1] = v; order[i] = t; draw(); } }, "▲"), " ", h("button", { type: "button", "aria-label": "Move down", disabled: i === order.length - 1, onclick: function () { var t = order[i + 1]; order[i + 1] = v; order[i] = t; draw(); } }, "▼")])
+        ]);
+        $("pp-list").appendChild(li);
       });
-      var valid = rows.filter(function (r) { return r.ok; }), best = valid.reduce(function (a, b) { return b.cost < a.cost ? b : a; }), max = Math.max.apply(null, rows.map(function (r) { return r.cost; }));
-      $("pr-bars").innerHTML = rows.map(function (r) {
-        return "<div class='bar" + (r === best ? " best" : "") + "' style='opacity:" + (r.ok ? 1 : .45) + "'><span>" + r.n + (r === best ? " ✓" : "") + "</span><i style='width:" + Math.max(2, 100 * r.cost / max) + "%'></i><b>$" + r.cost.toFixed(0) + "/mo</b></div>";
-      }).join("");
-      var od = rows[0].cost, msg = "For " + hrs + " h/day the cheapest suitable option is <b>" + best.n + "</b> at about <b>$" + best.cost.toFixed(0) + "/month</b>" + (best !== rows[0] ? " (saving ~$" + (od - best.cost).toFixed(0) + " vs On-Demand)" : "") + ". ";
-      if (hrs < 12 && steady) msg += "Notice that Savings Plans and Reserved Instances bill for every hour you committed, even when the server is off, so for part-time use On-Demand (or Spot) can win. ";
-      if (!intr) msg += "Spot is greyed out because your job can't be interrupted. ";
-      if (!steady) msg += "Commitments are greyed out because you don't need the server for a year or more. ";
-      OMNI.say("pr-cap", msg);
     }
-    ["pr-type", "pr-hours", "pr-int", "pr-steady"].forEach(function (id) { $(id).addEventListener("input", draw); $(id).addEventListener("change", draw); });
+    $("pp-check").onclick = function () {
+      var right = order.filter(function (v, i) { return ideal[i] === v; }).length; draw(true);
+      OMNI.say("pp-cap", right === V.length ? "Perfect order! You weighed <b>active exploitation</b> and <b>internet exposure</b> above raw CVSS. The VPN flaw is exploited, exposed and critical; the web server flaw is exploited and exposed; the HR database is critical but internal; the lab OpenSSL flaw scores high but is isolated; the wiki XSS is low on every measure." : right + " of " + V.length + " in the expert position (green). Expert order: " + ideal.map(function (v, i) { return (i + 1) + ". " + v.n; }).join("; ") + ". The key idea: actively exploited (KEV) and internet-facing flaws come before higher CVSS scores on isolated systems.");
+    };
+    $("pp-shuffle").onclick = function () { order = OMNI.shuffle(V); draw(); OMNI.say("pp-cap", "Shuffled. Rank them again: think about who can reach each system and whether attackers are already using the flaw."); };
     draw();
+    OMNI.say("pp-cap", "Five vulnerabilities, limited time. Rank them by real-world risk, not just the CVSS number.");
   })();
-
-  /* Lab 4: shared responsibility */
-  OMNI.sorter("sh-host", { cap: "sh-cap",
-    zones: [["aws", "AWS's job (security OF the cloud)"], ["you", "Customer's job (security IN the cloud)"]],
-    items: [["Guards and cameras at data centers", "aws", "physical security is AWS's."], ["Replacing failed hardware", "aws", "AWS owns the hardware."], ["Patching the hypervisor", "aws", "the virtualization layer is AWS's."], ["Patching the OS on an EC2 instance", "you", "you control the guest OS on EC2."], ["Patching the database engine on RDS", "aws", "RDS is managed, so AWS patches the engine (you choose the maintenance window)."], ["Choosing who can access an S3 bucket", "you", "access settings and bucket policies are yours."], ["Encrypting your data at rest", "you", "you choose to enable encryption and manage key access (AWS provides the tools)."], ["Security group rules", "you", "firewall rules are your configuration."], ["Global network between Regions", "aws", "AWS runs the backbone."], ["MFA for your IAM users", "you", "identity settings are yours."]],
-    intro: "Decide whose job each task is. Remember: the more managed the service, the more AWS does.",
-    done: "All correct! The rule of thumb: AWS secures the physical world and the services it manages; you secure your data, identities and anything you configure."
-  });
 })();
 </script>
 <!-- module-data:start -->
-<script type="application/json" id="module-data">{"module":19,"title":"Amazon Web Services","glossary":[["Amazon Web Services","Amazon's cloud: rent computers and services over the internet.","A public cloud platform offering 200+ on-demand IT services (compute, storage, databases, networking, AI) billed by usage.","AWS"],["Region","A part of the world where AWS has data centers.","A separate geographic area (e.g., us-east-1, eu-west-2) containing multiple, isolated Availability Zones.",""],["Availability Zone","One or more data centers inside a Region.","One or more discrete data centers with redundant power, networking and connectivity in a Region, isolated from failures in other AZs.","AZ"],["Edge location","A small AWS site close to users for fast delivery.","A point of presence used by CloudFront and Route 53 to cache content and answer DNS close to end users.",""],["Amazon EC2","Virtual servers you rent by the second.","Elastic Compute Cloud: resizable virtual machines (instances) in many types and sizes.","Elastic Compute Cloud"],["AWS Lambda","Run code without managing servers.","Serverless compute that runs functions in response to events and bills per request and duration.",""],["Amazon S3","Unlimited file storage in buckets.","Simple Storage Service: object storage with 11 nines of durability and storage classes from Standard to Glacier Deep Archive.","Simple Storage Service"],["Amazon EBS","A virtual hard drive for one EC2 instance.","Elastic Block Store: block storage volumes attached to EC2 instances in one AZ.","Elastic Block Store"],["Amazon EFS","A shared network drive for many servers.","Elastic File System: managed NFS file storage that many instances can mount at once.","Elastic File System"],["Amazon RDS","Managed traditional databases.","Relational Database Service: managed MySQL, PostgreSQL, MariaDB, Oracle, SQL Server and Aurora with automated backups and patching.","Relational Database Service"],["Amazon DynamoDB","A fast, serverless NoSQL database.","Fully managed key-value and document database with single-digit millisecond performance at any scale.",""],["Amazon VPC","Your own private network inside AWS.","Virtual Private Cloud: a logically isolated network with your IP ranges, subnets, route tables and gateways.","Virtual Private Cloud"],["Security group","A firewall around each instance.","A stateful virtual firewall that controls inbound and outbound traffic for an instance (allow rules only).",""],["Network ACL","A firewall for a whole subnet.","A stateless subnet-level filter with numbered allow and deny rules.","NACL"],["IAM","Who can do what in your AWS account.","Identity and Access Management: users, groups, roles and policies that grant permissions; global and free.","Identity and Access Management"],["Root user","The all-powerful account owner login.","The identity created with the account; has full access, should have MFA and should not be used for daily tasks.",""],["IAM role","Temporary permissions something can take on.","An identity with policies that users, services or applications assume to get temporary credentials.",""],["Amazon CloudFront","AWS's content delivery network.","A CDN that caches content at edge locations to reduce latency.",""],["Amazon Route 53","AWS's DNS service.","Highly available DNS with domain registration, health checks and routing policies.",""],["Elastic Load Balancing","Spreads traffic across servers.","Distributes incoming traffic across targets (Application, Network and Gateway Load Balancers).","ELB"],["Auto Scaling","Adds or removes servers automatically.","Adjusts the number of EC2 instances to match demand using policies.",""],["Amazon CloudWatch","Watches metrics and logs.","Monitoring service for metrics, logs, alarms and dashboards.",""],["AWS CloudTrail","Records who did what in the account.","Logs API calls and account activity for governance, auditing and forensics.",""],["AWS Config","Tracks how resources are configured.","Records resource configurations and changes, and evaluates them against rules.",""],["AWS Organizations","Manage many AWS accounts together.","Central management of multiple accounts with consolidated billing and service control policies (SCPs).",""],["AWS Artifact","Where to download AWS compliance reports.","Self-service portal for AWS security and compliance reports (SOC, ISO, PCI) and agreements.",""],["Amazon GuardDuty","AWS threat detection.","Managed threat detection analysing CloudTrail, VPC Flow Logs and DNS logs for malicious activity.",""],["AWS Shield","DDoS protection.","Managed DDoS protection; Standard is automatic and free, Advanced adds response team and cost protection.",""],["AWS WAF","Web application firewall.","Filters HTTP(S) requests to CloudFront, ALB and API Gateway using rules (e.g., SQL injection, XSS).","Web Application Firewall"],["AWS KMS","Manages encryption keys.","Key Management Service: create and control keys used to encrypt data across AWS services.","Key Management Service"],["On-Demand Instances","Pay by the second, no commitment.","EC2 pricing with no long-term commitment; highest per-hour cost, most flexible.",""],["Savings Plans","Commit to spend, get a discount.","Commit to a consistent $/hour of compute for 1 or 3 years for up to ~72% off (EC2 Instance) or ~66% (Compute).",""],["Reserved Instances","Reserve capacity for 1 or 3 years at a discount.","Billing discount for committing to a specific instance configuration for 1 or 3 years.","RI"],["Spot Instances","Cheap spare capacity that can be taken back.","Unused EC2 capacity at up to ~90% off that AWS can reclaim with a 2-minute warning.",""],["AWS Well-Architected Framework","AWS's checklist for good cloud design.","Six pillars: operational excellence, security, reliability, performance efficiency, cost optimization, sustainability.",""],["Total cost of ownership","The full cost of running something over time.","All direct and indirect costs (hardware, power, staff, facilities) used to compare on-premises with cloud.","TCO"]],"quiz":[{"t":"mc","q":"What is an AWS Availability Zone?","o":["One or more isolated data centers within a Region","A country where AWS sells services","A CDN cache location","A single server rack"],"a":0,"w":["Correct.","Regions are geographic areas, not countries.","That's an edge location.","Much bigger than a rack."],"x":"Spread workloads across at least two AZs for high availability.","c":"CLF","d":"3.2 Global infrastructure"},{"t":"mc","q":"Under the shared responsibility model, which is the CUSTOMER's job when using Amazon EC2?","o":["Patching the guest operating system","Physical security of the data center","Maintaining the hypervisor","Replacing failed disks in hosts"],"a":0,"w":["Correct: you manage everything inside the instance.","AWS.","AWS.","AWS."],"x":"AWS = security OF the cloud; customer = security IN the cloud.","c":"CLF","d":"2.1 Shared responsibility model"},{"t":"mc","q":"Which AWS service records API calls for auditing who did what?","o":["AWS CloudTrail","Amazon CloudWatch","AWS Config","Amazon Inspector"],"a":0,"w":["Correct.","Metrics, logs and alarms.","Configuration history and compliance rules.","Vulnerability scanning."],"x":"CloudTrail = who did it; CloudWatch = how it's performing; Config = how it's configured.","c":"CLF","d":"2.2 Security, governance and compliance"},{"t":"mc","q":"A batch job can be interrupted and restarted at any time. Which EC2 pricing option is cheapest?","o":["Spot Instances","On-Demand","Dedicated Hosts","Reserved Instances for 3 years"],"a":0,"w":["Correct: up to ~90% off, can be reclaimed with 2 minutes' notice.","Most expensive per hour.","Most expensive; for licensing or compliance.","Commitment for steady workloads."],"x":"Spot suits fault-tolerant, flexible workloads.","c":"CLF","d":"4.1 Pricing models"},{"t":"mc","q":"What should you do with the AWS account root user?","o":["Enable MFA, lock away the credentials and use IAM identities for daily work","Share it with the whole team","Use it for all daily administration","Delete it"],"a":0,"w":["Correct.","Never share credentials.","Use least privilege instead.","You can't delete the root user."],"x":"Only a few tasks need root, such as changing the support plan or closing the account.","c":"CLF","d":"2.3 Access management"},{"t":"mc","q":"Which storage service is best for storing millions of photos accessed over HTTP?","o":["Amazon S3","Amazon EBS","Instance store","Amazon EFS"],"a":0,"w":["Correct: object storage, virtually unlimited.","Block storage for one instance.","Temporary block storage.","Shared file system; more costly for this."],"x":"S3 storage classes (Standard, Intelligent-Tiering, Glacier) cut costs for less-used data.","c":"CLF","d":"3.6 Storage"},{"t":"ms","q":"Which are pillars of the AWS Well-Architected Framework? (Select all that apply.)","o":["Reliability","Cost optimization","Sustainability","Scalability","Security"],"a":[0,1,2,4],"w":["Correct.","Correct.","Correct (the sixth pillar, added 2021).","Important, but part of performance efficiency and reliability, not a pillar.","Correct."],"x":"The six pillars: operational excellence, security, reliability, performance efficiency, cost optimization, sustainability.","c":"CLF","d":"1.1 Benefits and design principles"},{"t":"mc","q":"Which service lets you run code without provisioning servers and pay only when it runs?","o":["AWS Lambda","Amazon EC2","Amazon Lightsail","AWS Outposts"],"a":0,"w":["Correct.","You manage instances.","Simple VPS bundles.","AWS hardware in your data center."],"x":"Serverless: no servers to manage, automatic scaling, pay per use.","c":"CLF","d":"3.3 Compute"},{"t":"mc","q":"Where do you download AWS's SOC 2 and ISO 27001 reports for your auditors?","o":["AWS Artifact","AWS Trusted Advisor","AWS Marketplace","AWS Health Dashboard"],"a":0,"w":["Correct.","Best-practice checks.","Third-party software.","Service events."],"x":"Artifact also holds agreements such as the BAA for HIPAA.","c":"CLF","d":"2.2 Security, governance and compliance"},{"t":"mc","q":"Which tool estimates the monthly cost of a planned AWS architecture before you build it?","o":["AWS Pricing Calculator","AWS Cost Explorer","AWS Budgets","AWS CloudTrail"],"a":0,"w":["Correct.","Analyses past and current spend.","Alerts when spend crosses a threshold.","Audit log."],"x":"Calculator = before; Cost Explorer = after; Budgets = alerts.","c":"CLF","d":"4.2 Billing and cost management"},{"t":"order","q":"Order these AWS infrastructure terms from largest to smallest.","o":["Region","Availability Zone","Data center","Rack"],"x":"A Region has 3+ AZs; an AZ has one or more data centers.","c":"CLF","d":"3.2 Global infrastructure"},{"t":"mc","sc":"A startup's website must stay up if a whole data center fails, at the lowest reasonable cost.","q":"What is the BEST design?","o":["EC2 instances in two Availability Zones behind a load balancer with Auto Scaling","One large EC2 instance","Two instances in the same AZ","Instances in three different Regions"],"a":0,"w":["Correct: Multi-AZ survives a data center failure.","Single point of failure.","Same AZ shares the failure.","Works but costs more and is more complex than needed."],"x":"Multi-AZ for high availability; multi-Region for disaster recovery or global users.","c":"CLF","d":"1.1 Benefits and design principles"},{"t":"mc","q":"Which support plan is the lowest-cost option that gives 24/7 phone access to Cloud Support Engineers?","o":["Business","Basic","Developer","Enterprise"],"a":0,"w":["Correct (verify current plan names and features).","No technical support cases.","Business-hours email only.","Includes it but costs more."],"x":"Enterprise adds a Technical Account Manager (TAM).","c":"CLF","d":"4.3 Support resources"}],"flashcards":[["Highly available on AWS usually means","Spread across multiple Availability Zones."],["RDS Multi-AZ","A standby database copy in another zone that takes over automatically."],["First cost control to set up","An AWS Budgets alert."],["Region / AZ / edge location","Geographic area / isolated data center(s) in a Region / CDN and DNS point of presence"],["Shared responsibility","AWS: security OF the cloud. You: security IN the cloud."],["EC2 / Lambda / ECS / EKS / Fargate","VMs / serverless functions / containers / Kubernetes / serverless containers"],["S3 / EBS / EFS / Glacier","Objects / block for one instance / shared NFS / archive"],["RDS / Aurora / DynamoDB / Redshift","Managed SQL / AWS high-performance SQL / NoSQL key-value / data warehouse"],["VPC / security group / NACL","Private network / stateful instance firewall / stateless subnet filter"],["CloudTrail / CloudWatch / Config","Who did what / metrics and alarms / configuration history"],["GuardDuty / Inspector / Macie","Threat detection / vulnerability scanning / finds sensitive data in S3"],["Shield / WAF","DDoS protection / web application firewall"],["Pricing options","On-Demand, Savings Plans, Reserved, Spot (up to ~90% off), Dedicated"],["Pricing Calculator / Cost Explorer / Budgets","Estimate before / analyse after / alert on threshold"],["Well-Architected pillars (6)","Operational excellence, security, reliability, performance efficiency, cost optimization, sustainability"],["Root user best practice","MFA on, no access keys, use IAM roles and least privilege"],["AWS Artifact","Download AWS compliance reports (SOC, ISO, PCI)"],["Support plans","Basic, Developer, Business, Enterprise On-Ramp, Enterprise (verify)"],["CLF-C02 format","65 questions · 90 min · 700/1000 · domains 24/30/34/12%"],["AWS foundational certs","Cloud Practitioner (CLF-C02), AI Practitioner (AIF-C01)"],["AWS cert renewal","Every 3 years"]]}</script>
+<script type="application/json" id="module-data">{"module":19,"title":"Cyber Security Careers","glossary":[["Security operations center","The team that watches for attacks around the clock.","A team and facility that monitors, detects, analyses and responds to security events, often 24/7.","SOC"],["SOC analyst tiers","Levels of SOC staff from first look to deep investigation.","Tier 1 triages alerts, Tier 2 investigates and responds, Tier 3 hunts threats and handles complex incidents.",""],["SIEM","A system that collects logs and raises alerts.","Security Information and Event Management: aggregates, normalises and correlates logs to detect threats and support investigations.","Security Information and Event Management"],["SOAR","Tools that automate SOC responses.","Security Orchestration, Automation and Response: runs playbooks that enrich alerts and take response actions automatically.","Security Orchestration, Automation and Response"],["EDR","Security software that watches each computer closely.","Endpoint Detection and Response: records endpoint activity, detects malicious behaviour and enables isolation and investigation.","Endpoint Detection and Response"],["XDR","EDR extended across network, cloud and email.","Extended Detection and Response: correlates telemetry from endpoints, network, cloud, identity and email.","Extended Detection and Response"],["True positive","A real attack correctly flagged.","An alert that correctly identifies malicious activity.",""],["False positive","A false alarm.","An alert raised for benign activity.",""],["False negative","A real attack that was missed.","Malicious activity that generated no alert; the most dangerous error.",""],["Threat hunting","Proactively searching for hidden attackers.","Hypothesis-driven searching through data for threats that evaded automated detection.",""],["Threat intelligence","Knowledge about attackers and their methods.","Evidence-based information about threats (actors, TTPs, indicators) used to inform defence.","CTI"],["Indicator of compromise","A clue that a system was attacked.","An artefact such as a malicious IP, domain, file hash or registry key indicating intrusion.","IoC"],["TTPs","How attackers operate.","Tactics, techniques and procedures: the behaviour patterns of threat actors.","Tactics, Techniques and Procedures"],["MITRE ATT&CK","A big public map of attacker techniques.","A knowledge base of adversary tactics and techniques based on real-world observations (14 Enterprise tactics).",""],["Cyber Kill Chain","The seven stages of an attack.","Lockheed Martin model: reconnaissance, weaponization, delivery, exploitation, installation, command and control, actions on objectives.",""],["Diamond Model","Four corners of an intrusion.","Analysis model linking adversary, capability, infrastructure and victim for each event.",""],["CVE","An ID number for a known vulnerability.","Common Vulnerabilities and Exposures: a public catalogue of uniquely identified vulnerabilities (e.g., CVE-2021-44228).","Common Vulnerabilities and Exposures"],["CVSS","A 0–10 severity score for vulnerabilities.","Common Vulnerability Scoring System; base metrics include attack vector, complexity, privileges, user interaction and impact (v3.1 and v4.0).","Common Vulnerability Scoring System"],["KEV catalog","CISA's list of vulnerabilities attackers are actually using.","CISA Known Exploited Vulnerabilities catalog; a strong signal for patch priority.","Known Exploited Vulnerabilities"],["EPSS","A score for how likely a vulnerability is to be exploited soon.","Exploit Prediction Scoring System: probability of exploitation in the next 30 days.","Exploit Prediction Scoring System"],["Compensating control","A different safeguard when the normal fix isn't possible.","An alternative control that reduces risk when the primary control can't be applied (e.g., isolate an unpatchable server).",""],["Penetration test","An authorised, simulated attack to find weaknesses.","A scoped, permitted exercise that exploits vulnerabilities to demonstrate real risk, followed by a report.","Pentest"],["Rules of engagement","The written permission and limits for a test.","Document defining scope, timing, methods, contacts and legal authorisation for security testing.","RoE"],["Red / blue / purple team","Attackers, defenders, and both working together.","Red emulates adversaries, blue defends and detects, purple combines both to improve detections.",""],["MTTD / MTTR","How fast we spot and fix incidents.","Mean time to detect and mean time to respond (or recover); key SOC metrics.",""],["Playbook","Step-by-step instructions for a type of incident.","A documented, repeatable response procedure, e.g., for phishing or ransomware; often automated in SOAR.",""],["Capture the flag","A legal hacking competition or practice game.","Security challenges where participants find hidden 'flags' by solving puzzles or exploiting deliberately vulnerable systems.","CTF"],["DoD 8140","US Defense rules for cyber workforce qualifications.","Department of Defense directive (replacing 8570) defining cyber work roles and qualifying certifications (verify current lists).",""]],"quiz":[{"t":"mc","q":"A Tier 1 SOC analyst's main job is to:","o":["Triage incoming alerts and escalate real incidents","Write the company security strategy","Perform full malware reverse engineering","Approve the security budget"],"a":0,"w":["Correct.","CISO or GRC.","Usually Tier 3 or a specialist.","Management."],"x":"Tier 2 investigates and responds; Tier 3 hunts and handles complex cases.","c":"CYSA","d":"1.3 Security operations processes"},{"t":"mc","q":"Which tool collects logs from many sources and correlates them to raise alerts?","o":["SIEM","Hypervisor","Load balancer","Password manager"],"a":0,"w":["Correct.","Runs VMs.","Distributes traffic.","Stores passwords."],"x":"SOAR then automates the response steps.","c":"CYSA","d":"1.3 Security operations processes"},{"t":"mc","q":"An alert fires for a login from another country, but it's the employee on approved travel using MFA. This is a:","o":["False positive","True positive","False negative","True negative"],"a":0,"w":["Correct: the alert fired on benign activity.","Would mean a real attack.","A missed attack.","No alert on benign activity."],"x":"Tune rules (e.g., with travel data) to cut false positives without creating false negatives.","c":"CYSA","d":"1.2 Indicators of malicious activity"},{"t":"order","q":"Put the Lockheed Martin Cyber Kill Chain in order.","o":["Reconnaissance","Weaponization","Delivery","Exploitation","Installation","Command and control","Actions on objectives"],"x":"Break the chain as early as possible.","c":"CYSA","d":"1.4 Threat intelligence and frameworks"},{"t":"mc","q":"Which framework catalogues real-world attacker tactics and techniques, such as T1566 Phishing?","o":["MITRE ATT&CK","ITIL 4","ISO 9001","TOGAF"],"a":0,"w":["Correct.","Service management.","Quality.","Enterprise architecture."],"x":"ATT&CK helps map detections and find coverage gaps.","c":"CYSA","d":"1.4 Threat intelligence and frameworks"},{"t":"mc","sc":"Two vulnerabilities: A is CVSS 9.8 on an isolated lab server with no network access. B is CVSS 7.5 on an internet-facing web server and is listed in CISA's KEV catalog.","q":"Which should be patched FIRST?","o":["B, because it is exposed and actively exploited","A, because it has the higher CVSS score","Neither; wait for the next quarterly patch cycle","Both at the same time next year"],"a":0,"w":["Correct: exposure plus known exploitation beats raw score.","CVSS alone ignores context.","Too slow for an actively exploited flaw.","Far too slow."],"x":"Prioritise using CVSS + exploitation (KEV, EPSS) + exposure + asset criticality.","c":"CYSA","d":"2.3 Prioritizing vulnerabilities"},{"t":"mc","q":"What should be in place BEFORE a penetration test starts?","o":["Written authorisation and agreed rules of engagement","A public announcement","Disabled logging","The attacker's tools installed on production"],"a":0,"w":["Correct: without permission it's illegal.","No.","Never.","No."],"x":"Scope, timing, contacts and legal sign-off protect everyone.","c":"S","d":"4.3 Penetration testing"},{"t":"mc","q":"Which entry-level certification from ISC2 is aimed at people new to cyber security?","o":["Certified in Cybersecurity (CC)","CISSP","CCSP","CSSLP"],"a":0,"w":["Correct.","Needs 5 years' experience.","Cloud, advanced.","Secure software, advanced."],"x":"ISC2 has offered free CC training and exams under its '1 Million Certified' programme (verify).","c":"GEN","d":"0 General"},{"t":"mc","q":"Which CompTIA certification focuses on hands-on penetration testing and vulnerability assessment?","o":["PenTest+","CySA+","Network+","A+"],"a":0,"w":["Correct (PT0-003).","Defensive analyst.","Networking.","Support."],"x":"OSCP (OffSec) is a respected, very hands-on alternative.","c":"GEN","d":"0 General"},{"t":"mc","q":"Which certification requires five years of paid work in two or more of its eight domains?","o":["CISSP","Security+","ISC2 CC","CySA+"],"a":0,"w":["Correct (a degree or other cert can waive one year; verify).","No experience requirement.","Entry level.","Recommended experience only."],"x":"Pass without the experience and you become an Associate of ISC2 until you earn it.","c":"GEN","d":"0 General"},{"t":"mc","q":"A SOC wants to measure how long attackers go unnoticed. Which metric?","o":["Mean time to detect (MTTD)","Mean time between failures","Recovery point objective","Uptime percentage"],"a":0,"w":["Correct.","Hardware reliability.","Backup data loss tolerance.","Availability."],"x":"MTTR measures how fast the team responds or recovers.","c":"CYSA","d":"4.2 Incident response reporting"},{"t":"mc","q":"During incident response, the analyst isolates an infected laptop from the network. Which phase is this?","o":["Containment","Preparation","Lessons learned","Detection"],"a":0,"w":["Correct.","Before incidents.","After recovery.","Before containment."],"x":"NIST phases: preparation; detection and analysis; containment, eradication and recovery; post-incident activity.","c":"CYSA","d":"3.2 Incident response activities"},{"t":"mc","q":"What is the BEST legal way to practise hacking skills?","o":["Your own lab VMs, CTFs and training platforms designed for it","Scanning your neighbour's Wi-Fi","Testing a company website without permission to 'help' them","Trying passwords on a friend's account"],"a":0,"w":["Correct.","Illegal without permission.","Illegal without permission.","Illegal."],"x":"Laws such as the US Computer Fraud and Abuse Act and the UK Computer Misuse Act apply even with good intentions.","c":"GEN","d":"0 General"}],"flashcards":[["SOC shift handover","The outgoing team explains open cases and issues to the incoming team."],["Alert tuning","Adjusting rules to cut false positives without hiding real threats."],["Legal place to practise attacks","Your own lab or a platform built for it (CTFs, training ranges)."],["SOC tiers","T1 triage · T2 investigate/respond · T3 hunt and complex incidents"],["SIEM vs SOAR","Collect and correlate logs, raise alerts vs automate response playbooks"],["EDR vs XDR","Endpoint detection and response vs extended across network, cloud, email, identity"],["True / false positive / false negative","Real attack flagged / false alarm / missed attack (worst)"],["Kill Chain (7)","Recon, weaponize, deliver, exploit, install, C2, actions on objectives"],["MITRE ATT&CK","Public knowledge base of adversary tactics and techniques"],["Diamond Model","Adversary, capability, infrastructure, victim"],["CVE / CVSS / KEV / EPSS","ID / 0–10 severity / known exploited list / exploit probability"],["Patch priority","Exploited (KEV) + exposed + critical asset first, not CVSS alone"],["MTTD / MTTR","Mean time to detect / respond (recover)"],["NIST IR phases","Prepare → Detect & analyse → Contain, eradicate, recover → Post-incident"],["Red / blue / purple","Attack / defend / work together"],["Entry certs","ISC2 CC, CompTIA Security+, Google Cybersecurity Certificate"],["Analyst certs","CySA+, GIAC GCIH/GCIA, Blue Team Level 1, SC-200"],["Offensive certs","PenTest+, OSCP, CEH, GIAC GPEN"],["Advanced / management","CISSP, CISM, CISA, SecurityX (formerly CASP+), CCSP"],["Cloud security certs","AWS Security Specialty, CCSP, Azure AZ-500"],["CySA+ CS0-003 format","Up to 85 q · 165 min · 750/900 · 33/30/20/17%"],["CISSP requirement","5 years in 2+ of 8 domains (or Associate of ISC2)"],["Legal practice","Own lab, CTFs, training platforms, written permission only"]]}</script>
 <!-- module-data:end -->
 </body>
 </html>

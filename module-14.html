@@ -3,17 +3,12 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Module 14 · Security Foundations and Cryptography | Datacenter Omnibus</title>
-<meta name="description" content="CIA, AAA, zero trust, security controls, identity and access management, symmetric and asymmetric cryptography, hashing, PKI, TLS 1.3 and post-quantum cryptography, with five labs using real Web Crypto.">
+<title>Module 14 · Cisco Networking and the CCNA | Datacenter Omnibus</title>
+<meta name="description" content="Cisco networking for the CCNA 200-301: IOS modes and commands, VLANs, trunks, spanning tree, EtherChannel, static routing, OSPF, administrative distance, DHCP, NAT, syslog, ACLs and network automation.">
 <link rel="stylesheet" href="assets/omnibus.css">
 <style>
-  .hexout { font-family: var(--mono); font-size: .82rem; word-break: break-all; background: var(--surface-2); border-radius: 8px; padding: 8px 10px; border: 1px solid var(--line); }
-  .hexout .d { background: var(--bad-soft); color: var(--bad); border-radius: 2px; }
-  .chain { display: flex; flex-wrap: wrap; gap: 10px; align-items: stretch; justify-content: center; }
-  .cert { flex: 1 1 200px; border: 2px solid var(--line); border-radius: 10px; padding: 10px; background: var(--surface); cursor: pointer; text-align: left; }
-  .cert.ok { border-color: var(--good); } .cert.bad { border-color: var(--bad); background: var(--bad-soft); }
-  .cert h4 { margin: 0 0 4px; }
-  .arrowdown { align-self: center; font-size: 1.4rem; color: var(--ink-2); }
+  .chip.ok { border-color: var(--good); background: var(--good-soft); }
+  .chip.bad { border-color: var(--bad); background: var(--bad-soft); }
 </style>
 </head>
 <body data-module="14">
@@ -22,16 +17,16 @@
 <main class="page" id="main">
 
 <section class="intro">
-  <div class="kicker">Part 4 · Security and Cyber Careers · Module 14</div>
-  <h1>Security Foundations and Cryptography</h1>
-  <p class="why"><b>Why this matters.</b> Every security decision traces back to a few principles (confidentiality, integrity, availability, least privilege, zero trust) and a toolbox of controls and cryptography. Security+ Domain 1 (General Security Concepts) is built on exactly this, and the same ideas reappear in CISM (Certified Information Security Manager) and CISA (Certified Information Systems Auditor) as governance. The labs here use your browser's real Web Crypto engine.</p>
+  <div class="kicker">Part 3 · Networking and Fiber · Module 14</div>
+  <h1>Cisco Networking and the CCNA</h1>
+  <p class="why"><b>Why this matters.</b> Cisco equipment runs a large share of enterprise networks, and the CCNA (Cisco Certified Network Associate) is one of the most requested networking certifications in job adverts. Network+ (Modules 9 to 13) gave you the concepts. This module turns them into Cisco practice: how to move around IOS, configure switches and routers, read a routing table, write ACLs (Access Control List) and understand network automation.</p>
   <h3>You will be able to</h3>
   <ul class="outcomes">
-    <li>Apply CIA, AAA (Authentication, Authorization, Accounting), non-repudiation, least privilege, defense in depth and zero trust.</li>
-    <li>Classify controls by category (technical, managerial, operational, physical) and type (preventive, detective…).</li>
-    <li>Explain MFA (Multifactor Authentication), SSO (Single Sign-On), SAML (Security Assertion Markup Language), OAuth 2.0, OIDC (OpenID Connect), Kerberos, RADIUS/TACACS (RADIUS: Remote Authentication Dial-In User Service; TACACS: Terminal Access Controller Access-Control System)+ and access control models.</li>
-    <li>Choose symmetric vs asymmetric crypto, hashing, salting and key stretching correctly.</li>
-    <li>Follow a certificate chain and a TLS (Transport Layer Security) 1.3 handshake, and explain where post-quantum crypto stands.</li>
+    <li>Navigate Cisco IOS modes and save configurations correctly.</li>
+    <li>Configure and verify VLANs (Virtual Local Area Network), trunks, spanning tree and EtherChannel.</li>
+    <li>Read a routing table and predict path selection using longest prefix and administrative distance.</li>
+    <li>Explain DHCP (Dynamic Host Configuration Protocol) relay, NAT/PAT (NAT: Network Address Translation; PAT: Port Address Translation), NTP (Network Time Protocol), SNMP (Simple Network Management Protocol) and syslog severity levels.</li>
+    <li>Write and place standard and extended ACLs, and describe controller-based networking and REST APIs (Application Programming Interface).</li>
   </ul>
   <nav class="jumpnav" id="jumpnav" aria-label="On this page"></nav>
 </section>
@@ -41,227 +36,193 @@
   <div id="certmap-badges"></div>
 </section>
 
-<section class="lesson" id="concepts">
-  <h2>1. Core security concepts</h2>
-  <div class="grid3">
-    <div class="tile"><h4>Confidentiality</h4><p>Only authorized people can read it. Tools: encryption, access control, data classification.</p></div>
-    <div class="tile"><h4>Integrity</h4><p>Data isn't altered without detection. Tools: hashing, digital signatures, change control.</p></div>
-    <div class="tile"><h4>Availability</h4><p>Systems are up when needed. Tools: redundancy, backups, DDoS protection, patching.</p></div>
-  </div>
-  <ul>
-    <li><b>AAA</b>: <b>Authentication</b> (prove who you are), <b>Authorization</b> (what you may do), <b>Accounting</b> (logging what you did). Systems and devices authenticate too (certificates, keys).</li>
-    <li><b>Non-repudiation</b>: the sender can't deny sending: digital signatures plus logs.</li>
-    <li><b>Least privilege</b>: minimum access needed; <b>defense in depth</b>: layered controls so one failure isn't fatal.</li>
-    <li><b>Zero trust</b>: "never trust, always verify." No implicit trust from network location. The <b>control plane</b> decides (policy engine, policy administrator; adaptive identity, threat scope reduction); the <b>data plane</b> enforces through a <b>policy enforcement point</b> (PEP) in front of each resource; implicit trust zones disappear.</li>
-    <li><b>Gap analysis</b>: compare the current state with a target framework to find missing controls.</li>
-    <li><b>Deception</b>: <b>honeypot</b> (fake system), <b>honeynet</b> (fake network), <b>honeyfile</b>, <b>honeytoken</b> (fake credential or record that alerts when used), DNS (Domain Name System) sinkholes.</li>
-    <li><b>Physical security basics</b>: bollards, fencing, lighting, access badges, guards, cameras, access control vestibules (mantraps), sensors (infrared, pressure, microwave, ultrasonic).</li>
-  </ul>
-  <h3>Control categories and types</h3>
-  <div class="tablewrap"><table>
-    <thead><tr><th>Category</th><th>Meaning</th><th>Examples</th></tr></thead>
-    <tbody>
-      <tr><td><b>Technical</b></td><td>Implemented by systems</td><td>Firewalls, encryption, MFA, EDR (Endpoint Detection and Response)</td></tr>
-      <tr><td><b>Managerial</b></td><td>Administrative: policy and oversight</td><td>Risk assessments, policies, security planning</td></tr>
-      <tr><td><b>Operational</b></td><td>Done by people day to day</td><td>Awareness training, guards, change management</td></tr>
-      <tr><td><b>Physical</b></td><td>Tangible barriers</td><td>Locks, fences, bollards, cameras</td></tr>
-    </tbody>
-  </table></div>
-  <div class="tablewrap"><table>
-    <thead><tr><th>Type</th><th>Purpose</th><th>Example</th></tr></thead>
-    <tbody>
-      <tr><td><b>Preventive</b></td><td>Stop it happening</td><td>Firewall rule, door lock</td></tr>
-      <tr><td><b>Deterrent</b></td><td>Discourage the attempt</td><td>Warning sign, visible camera</td></tr>
-      <tr><td><b>Detective</b></td><td>Notice it happening</td><td>IDS (Intrusion Detection System), log review, motion sensor</td></tr>
-      <tr><td><b>Corrective</b></td><td>Fix after the event</td><td>Restore from backup, patch</td></tr>
-      <tr><td><b>Compensating</b></td><td>Alternative when the primary isn't possible</td><td>Isolate a legacy system that can't be patched</td></tr>
-      <tr><td><b>Directive</b></td><td>Tell people what to do</td><td>Policy, "authorized personnel only" sign</td></tr>
-    </tbody>
-  </table></div>
-</section>
-
-<section class="lesson" id="iam">
-  <h2>2. Identity and access management</h2>
-  <div class="tablewrap"><table>
-    <thead><tr><th>Factor</th><th>Something…</th><th>Examples</th></tr></thead>
-    <tbody>
-      <tr><td>Knowledge</td><td>you know</td><td>Password, PIN (Personal Identification Number)</td></tr>
-      <tr><td>Possession</td><td>you have</td><td>Phone authenticator, hardware key, smart card</td></tr>
-      <tr><td>Inherence</td><td>you are</td><td>Fingerprint, face</td></tr>
-      <tr><td>Location</td><td>somewhere you are</td><td>GPS (Global Positioning System), IP (Internet Protocol) geolocation</td></tr>
-    </tbody>
-  </table></div>
-  <p><b>MFA</b> combines different factor types (two passwords is not MFA). Phishing-resistant MFA uses FIDO2/WebAuthn (FIDO2: Fast Identity Online 2): <b>passkeys</b> store a private key on your device; the server keeps only the public key, and the browser binds it to the real site's domain. Password best practice (NIST (National Institute of Standards and Technology) SP (Special Publication) 800-63B): long passphrases, check against breached lists, no forced periodic changes without cause, no composition rules, and use a password manager.</p>
-  <div class="tablewrap"><table>
-    <thead><tr><th>Protocol</th><th>Does what</th><th>Notes</th></tr></thead>
-    <tbody>
-      <tr><td><b>SSO</b></td><td>One login for many apps</td><td>Implemented with SAML, OIDC or Kerberos</td></tr>
-      <tr><td><b>SAML 2.0</b></td><td>Federated authentication via XML (Extensible Markup Language) assertions</td><td>Identity provider (IdP) vouches for the user to a service provider (SP); enterprise web SSO</td></tr>
-      <tr><td><b>OAuth 2.0</b></td><td><b>Authorization</b>: delegated access with tokens</td><td>"Let this app read my calendar" without sharing your password</td></tr>
-      <tr><td><b>OpenID Connect</b></td><td><b>Authentication</b> layer on top of OAuth 2.0</td><td>ID (Identification) token (JWT); "Sign in with…" buttons</td></tr>
-      <tr><td><b>Kerberos</b></td><td>Ticket-based authentication</td><td>Active Directory; KDC (Key Distribution Center) issues a TGT (Ticket-Granting Ticket) then service tickets; needs time sync; UDP/TCP (UDP: User Datagram Protocol; TCP: Transmission Control Protocol) 88</td></tr>
-      <tr><td><b>LDAP (Lightweight Directory Access Protocol) / LDAPS (Lightweight Directory Access Protocol Secure)</b></td><td>Directory queries</td><td>389 / 636</td></tr>
-      <tr><td><b>RADIUS</b></td><td>AAA for network access</td><td>UDP 1812/1813; encrypts only the password; Wi-Fi 802.1X, VPN (Virtual Private Network)</td></tr>
-      <tr><td><b>TACACS+</b></td><td>AAA for device administration</td><td>TCP 49; encrypts the whole payload; separates authN, authZ and accounting; per-command authorization</td></tr>
-    </tbody>
-  </table></div>
-  <div class="tablewrap"><table>
-    <thead><tr><th>Access model</th><th>Who decides</th><th>Example</th></tr></thead>
-    <tbody>
-      <tr><td><b>DAC (Discretionary Access Control)</b> (discretionary)</td><td>The owner</td><td>Sharing your own file</td></tr>
-      <tr><td><b>MAC (Mandatory Access Control)</b> (mandatory)</td><td>System labels and clearances</td><td>Top Secret data, SELinux</td></tr>
-      <tr><td><b>RBAC (Role-Based Access Control)</b> (role-based)</td><td>Job role</td><td>"Nurse" role can read charts</td></tr>
-      <tr><td><b>ABAC (Attribute-Based Access Control)</b> (attribute-based)</td><td>Attributes of user, resource, environment</td><td>Allow if department = finance AND device compliant AND 9-to-5</td></tr>
-      <tr><td><b>Rule-based</b></td><td>Admin-defined rules for everyone</td><td>Firewall ACL (Access Control List), time-of-day rules</td></tr>
-    </tbody>
-  </table></div>
-  <p><b>PAM</b> (privileged access management) vaults admin credentials, rotates them, records sessions and grants <b>just-in-time</b> (temporary) elevation instead of standing admin rights. Account lifecycle: provisioning, regular access reviews (attestation), and prompt deprovisioning.</p>
-</section>
-
-<section class="lesson" id="crypto">
-  <h2>3. Cryptography essentials</h2>
-  <div class="grid2">
-    <div class="tile"><h4>Symmetric</h4><p>One shared key encrypts and decrypts. Fast, for bulk data.</p><ul><li><b>AES (Advanced Encryption Standard)</b> (128/192/256-bit keys), modes: <b>GCM (Galois/Counter Mode)</b> (authenticated, preferred), CBC (Cipher Block Chaining; older).</li><li><b>ChaCha20-Poly1305</b>: fast in software and on phones.</li><li>Problem: securely sharing the key, and n(n−1)/2 keys for n people.</li><li>Legacy/broken: DES (Data Encryption Standard), 3DES, RC4.</li></ul></div>
-    <div class="tile"><h4>Asymmetric (public key)</h4><p>A key pair: public key shared, private key kept secret. Slow; used for key exchange and signatures.</p><ul><li><b>RSA (Rivest-Shamir-Adleman)</b> (2048-bit minimum; 3072+ recommended).</li><li><b>ECC (Elliptic Curve Cryptography)</b> (256-bit ECC ≈ 3072-bit RSA strength): ECDSA (Elliptic Curve Digital Signature Algorithm), Ed25519.</li><li><b>Diffie-Hellman / ECDHE (Elliptic Curve Diffie-Hellman Ephemeral)</b>: agree on a shared secret over an open channel; ephemeral keys give <b>perfect forward secrecy</b>.</li></ul></div>
-  </div>
-  <div class="callout analogy">Asymmetric encryption is a mailbox: anyone can drop a letter through the slot (public key), only the owner has the key to open it (private key). A digital signature is a wax seal only you can make, which anyone can check against your known seal design.</div>
-  <h3>Hashing, salting and key stretching</h3>
-  <p>A <dfn>hash</dfn> is a one-way, fixed-length fingerprint: the same input always gives the same output, and a tiny change flips about half the bits (the <b>avalanche effect</b>). Use <b>SHA-256/SHA-384 (SHA: Secure Hash Algorithm)</b> (SHA-2) or <b>SHA-3</b>. <b>MD5 (Message Digest 5)</b> and <b>SHA-1</b> are broken: attackers can create <b>collisions</b> (two inputs with the same hash). <b>HMAC (Hash-based Message Authentication Code)</b> combines a hash with a secret key to prove integrity and authenticity.</p>
-  <p>Passwords are stored as <b>salted, stretched</b> hashes: a random <b>salt</b> per user defeats rainbow tables and makes identical passwords look different; <b>key stretching</b> (<b>PBKDF2 (Password-Based Key Derivation Function 2)</b>, <b>bcrypt</b>, <b>scrypt</b>, <b>Argon2</b>) makes each guess slow.</p>
-  <h3>Digital signatures</h3>
-  <p>The sender hashes the message and encrypts the hash with their <b>private key</b>. Anyone decrypts it with the sender's <b>public key</b> and compares it to their own hash of the message. A match proves integrity, authenticity and non-repudiation.</p>
-</section>
-
-<section class="lesson" id="pki">
-  <h2>4. PKI and certificates</h2>
-  <p>A <dfn>certificate</dfn> (X.509) binds a public key to an identity, signed by a <b>Certificate Authority</b> (CA). Browsers trust a set of <b>root CAs</b>; roots sign <b>intermediate CAs</b>, which sign <b>leaf</b> (end-entity) certificates. A <b>Registration Authority</b> (RA) verifies identities for the CA. A <b>CSR</b> (certificate signing request) contains your public key and requested names.</p>
-  <div class="tablewrap"><table>
-    <thead><tr><th>Term</th><th>Meaning</th></tr></thead>
-    <tbody>
-      <tr><td><b>CRL</b></td><td>Certificate Revocation List published by the CA.</td></tr>
-      <tr><td><b>OCSP (Online Certificate Status Protocol)</b> / <b>OCSP stapling</b></td><td>Real-time revocation check; stapling lets the server attach a fresh signed OCSP response, so clients don't query the CA.</td></tr>
-      <tr><td><b>Pinning</b></td><td>An app accepts only a specific certificate or key (now mostly used in mobile apps).</td></tr>
-      <tr><td><b>Wildcard</b></td><td>*.example.com covers one level of subdomains.</td></tr>
-      <tr><td><b>SAN</b></td><td>Subject Alternative Name: one cert lists many names.</td></tr>
-      <tr><td><b>Self-signed</b></td><td>Signed by its own key: fine for labs or internal roots, but untrusted by default.</td></tr>
-      <tr><td><b>Key escrow</b></td><td>A trusted third party holds a copy of keys for recovery.</td></tr>
-      <tr><td><b>Certificate transparency</b></td><td>Public logs of issued certificates to catch mis-issuance.</td></tr>
-    </tbody>
-  </table></div>
-  <h3>TLS 1.2 vs TLS 1.3</h3>
-  <div class="tablewrap"><table>
-    <thead><tr><th>&nbsp;</th><th>TLS 1.2</th><th>TLS 1.3 (RFC 8446)</th></tr></thead>
-    <tbody>
-      <tr><td>Handshake round trips</td><td>2</td><td>1 (0-RTT resumption optional, with replay risk)</td></tr>
-      <tr><td>Key exchange</td><td>RSA or (EC)DHE (Diffie-Hellman Ephemeral)</td><td>Only ephemeral (EC)DHE: forward secrecy always</td></tr>
-      <tr><td>Ciphers</td><td>Many, some weak (CBC, RC4, SHA-1)</td><td>Five AEAD (Authenticated Encryption with Associated Data) suites (AES-GCM (Galois/Counter Mode), ChaCha20-Poly1305)</td></tr>
-      <tr><td>Certificate</td><td>Sent in cleartext</td><td>Encrypted</td></tr>
-    </tbody>
-  </table></div>
-</section>
-
-<section class="lesson" id="datastates">
-  <h2>5. Protecting data and keys</h2>
-  <ul>
-    <li><b>Data states</b>: <b>at rest</b> (disk encryption, database TDE (Transparent Data Encryption)), <b>in transit</b> (TLS, IPsec (Internet Protocol Security), SSH (Secure Shell)), <b>in use</b> (memory; protected by secure enclaves and confidential computing).</li>
-    <li><b>Full-disk encryption</b> (BitLocker, FileVault, LUKS (Linux Unified Key Setup)), partition, file, volume, database and record-level encryption.</li>
-    <li><b>TPM (Trusted Platform Module)</b>: chip in a computer that stores keys and measures boot integrity. <b>HSM (Hardware Security Module)</b>: hardened appliance or cloud service for high-value keys (CAs, payments). <b>Secure enclave</b>: isolated processor area. <b>KMS</b>: key management service.</li>
-    <li><b>Obfuscation</b>: <b>steganography</b> (hide data inside images/audio), <b>tokenization</b> (replace a card number with a random token; the mapping lives in a vault), <b>data masking</b> (show ****1234).</li>
-    <li><b>Blockchain</b>: an append-only, distributed ledger where each block contains the previous block's hash; an <b>open public ledger</b>.</li>
-  </ul>
-  <h3>Post-quantum cryptography</h3>
-  <p>A large quantum computer running Shor's algorithm would break RSA, Diffie-Hellman and ECC. Symmetric crypto and hashes are much less affected (use AES-256, SHA-384+). NIST published its first PQC standards in August 2024: <b>FIPS (Federal Information Processing Standards) 203 ML-KEM (Module-Lattice-based Key Encapsulation Mechanism)</b> (Kyber, key encapsulation), <b>FIPS 204 ML-DSA (Module-Lattice-based Digital Signature Algorithm)</b> (Dilithium, signatures) and <b>FIPS 205 SLH-DSA (Stateless Hash-based Digital Signature Algorithm)</b> (SPHINCS+, hash-based signatures). FN-DSA (Fast-Fourier Lattice-based Digital Signature Algorithm; Falcon) is being standardized as FIPS 206, and HQC (Hamming Quasi-Cyclic) was selected in 2025 as a backup KEM (Key Encapsulation Mechanism). "Harvest now, decrypt later" is why organizations are inventorying crypto and adopting <b>hybrid</b> key exchange (classical + ML-KEM) today. Check NIST for the latest status.</p>
-</section>
-
-<section class="lesson" id="crypto-choose">
-  <h2>6. Choosing the right crypto tool</h2>
-  <p>Cryptography questions usually boil down to: which tool solves this problem? Match the goal to the tool.</p>
-  <div class="tablewrap"><table><thead><tr><th>Goal</th><th>Tool</th><th>Example</th></tr></thead><tbody>
-    <tr><td>Keep data secret, fast, large amounts</td><td>Symmetric encryption</td><td>AES-256 for disk encryption (BitLocker, FileVault)</td></tr>
-    <tr><td>Share a secret key with someone you've never met</td><td>Asymmetric key exchange</td><td>Elliptic-curve Diffie-Hellman inside TLS</td></tr>
-    <tr><td>Prove a file hasn't changed</td><td>Hashing</td><td>SHA-256 checksum on a download</td></tr>
-    <tr><td>Prove who sent something and that it wasn't changed</td><td>Digital signature (hash + private key)</td><td>Signed software updates, signed email</td></tr>
-    <tr><td>Prove a website is genuine</td><td>Certificate from a trusted certificate authority</td><td>The padlock in your browser</td></tr>
-    <tr><td>Store passwords safely</td><td>Slow, salted password hashing</td><td>bcrypt, scrypt, Argon2, PBKDF2</td></tr>
-    <tr><td>Protect data in use</td><td>Secure enclaves, confidential computing</td><td>Encrypted memory regions in cloud servers</td></tr>
+<section class="lesson" id="ccna">
+  <h2>1. Cisco and the CCNA</h2>
+  <p>Cisco is one of the largest makers of enterprise network equipment, and its <b>CCNA</b> (Cisco Certified Network Associate) is one of the most recognised networking certifications in the world. Network+ (Modules 9 to 13) teaches vendor-neutral concepts; the CCNA tests the same ideas more deeply and expects you to configure and troubleshoot real Cisco devices from the command line.</p>
+  <div class="tablewrap"><table><thead><tr><th>Exam fact</th><th>CCNA 200-301 (verify on cisco.com)</th></tr></thead><tbody>
+    <tr><td>Length</td><td>120 minutes, roughly 100 questions</td></tr>
+    <tr><td>Question types</td><td>Multiple choice, drag and drop, and simulations where you type commands</td></tr>
+    <tr><td>Prerequisites</td><td>None formally; about a year of networking experience is recommended</td></tr>
+    <tr><td>Validity</td><td>3 years, renewed by exam or continuing education credits</td></tr>
   </tbody></table></div>
-  <h3>How the pieces fit in one HTTPS visit</h3>
-  <ol>
-    <li>The server sends its certificate. Your browser checks the signature chain up to a trusted root.</li>
-    <li>Browser and server use asymmetric key exchange to agree on a shared secret.</li>
-    <li>That secret becomes a symmetric key, and AES or ChaCha20 encrypts the rest of the session quickly.</li>
-    <li>Each message carries an integrity check so tampering is detected.</li>
-  </ol>
-  <div class="callout trap">Encoding (like Base64) is not encryption. Anyone can decode it. Hashing is not encryption either: you cannot "decrypt" a hash.</div>
+  <div class="tablewrap"><table><thead><tr><th>Domain</th><th>Weight</th><th>Where it is taught</th></tr></thead><tbody>
+    <tr><td>1. Network Fundamentals</td><td>20%</td><td>Modules 9 to 11 and this module</td></tr>
+    <tr><td>2. Network Access</td><td>20%</td><td>Modules 12, 13 and section 3 below</td></tr>
+    <tr><td>3. IP (Internet Protocol) Connectivity</td><td>25%</td><td>Module 12 and section 4 below</td></tr>
+    <tr><td>4. IP Services</td><td>10%</td><td>Module 10, Module 12 and section 5 below</td></tr>
+    <tr><td>5. Security Fundamentals</td><td>15%</td><td>Modules 15 to 17 and section 6 below</td></tr>
+    <tr><td>6. Automation and Programmability</td><td>10%</td><td>Section 7 below</td></tr>
+  </tbody></table></div>
+  <p class="figcap">Exam code, length and weights as published at time of writing for CCNA v1.1. Cisco updates its exams periodically; always check the current exam topics before booking.</p>
 </section>
 
-<section class="lesson" id="iam-lifecycle">
-  <h2>7. Identity in real life: joiners, movers and leavers</h2>
-  <p>Most identity failures are process failures. The joiner-mover-leaver process keeps accounts matched to real people and real jobs.</p>
-  <div class="tablewrap"><table><thead><tr><th>Event</th><th>What should happen</th><th>What goes wrong if skipped</th></tr></thead><tbody>
-    <tr><td><b>Joiner</b> (new hire)</td><td>HR (Human Resources) triggers account creation with access based on role; MFA enrolled on day one</td><td>Copying a colleague's access gives far more than needed</td></tr>
-    <tr><td><b>Mover</b> (changes job)</td><td>New role's access added and old role's access removed</td><td>"Privilege creep": years of leftover access</td></tr>
-    <tr><td><b>Leaver</b> (leaves)</td><td>Accounts disabled on the last day (immediately for dismissals), devices collected, shared passwords changed</td><td>Former staff can still log in</td></tr>
-    <tr><td><b>Periodic review</b></td><td>Managers confirm each person's access every quarter or so</td><td>Nobody notices orphaned or excessive accounts</td></tr>
+<section class="lesson" id="ios">
+  <h2>2. Cisco IOS basics: modes, prompts and saving your work</h2>
+  <p>Cisco devices run an operating system called <b>IOS</b> (or IOS XE on newer gear). You manage them through a console cable, SSH (Secure Shell) or a web interface, but the exam focuses on the command-line interface (CLI). The prompt tells you which <b>mode</b> you are in, and each mode allows different commands.</p>
+  <div class="tablewrap"><table><thead><tr><th>Mode</th><th>Prompt</th><th>How to get there</th><th>Used for</th></tr></thead><tbody>
+    <tr><td>User EXEC</td><td><code>Switch&gt;</code></td><td>Log in</td><td>Basic, read-only checks such as <code>ping</code></td></tr>
+    <tr><td>Privileged EXEC</td><td><code>Switch#</code></td><td><code>enable</code></td><td>All <code>show</code> commands, saving, rebooting, debugging</td></tr>
+    <tr><td>Global configuration</td><td><code>Switch(config)#</code></td><td><code>configure terminal</code></td><td>Settings for the whole device (hostname, passwords, routing)</td></tr>
+    <tr><td>Interface configuration</td><td><code>Switch(config-if)#</code></td><td><code>interface g0/1</code></td><td>Settings for one port (IP address, VLAN, shutdown)</td></tr>
+    <tr><td>Line configuration</td><td><code>Switch(config-line)#</code></td><td><code>line vty 0 15</code></td><td>Console and remote-login settings</td></tr>
   </tbody></table></div>
-  <div class="callout tip">Auditors (Module 25) test this by picking a sample of leavers from HR records and checking that each account was disabled on time. It is one of the most common audit findings.</div>
+  <h3>Commands you will use constantly</h3>
+  <ul>
+    <li><code>show running-config</code>: the configuration in use right now (stored in RAM (Random Access Memory)).</li>
+    <li><code>show startup-config</code>: the configuration loaded at boot (stored in NVRAM).</li>
+    <li><code>copy running-config startup-config</code> (or <code>write memory</code>): save changes so they survive a reboot.</li>
+    <li><code>show ip interface brief</code>: a one-line summary of each interface, its IP address and whether it is up.</li>
+    <li><code>show version</code>: IOS version, uptime and hardware.</li>
+    <li><code>exit</code> goes back one level; <code>end</code> or Ctrl+Z returns to privileged EXEC.</li>
+    <li><code>?</code> lists available commands, and Tab completes a partly typed command.</li>
+  </ul>
+  <h3>Basic security on a new device</h3>
+  <ul>
+    <li><code>hostname SW1</code> names the device.</li>
+    <li><code>enable secret ...</code> sets a hashed password for privileged mode (prefer it over the older <code>enable password</code>).</li>
+    <li>Configure SSH (a domain name, RSA (Rivest-Shamir-Adleman) keys, a local user, and <code>transport input ssh</code> on the VTY lines) and disable Telnet, which sends passwords in clear text.</li>
+    <li><code>banner motd</code> shows a legal warning at login.</li>
+  </ul>
+  <div class="callout trap">The most common real-world mistake: making changes and forgetting to save. After a power cut, the device boots from the startup configuration and the changes are gone.</div>
+</section>
+
+<section class="lesson" id="switching">
+  <h2>3. Switching on Cisco: VLANs, trunks and spanning tree</h2>
+  <p>Module 12 explained why we use VLANs and trunks. The CCNA expects you to configure and verify them.</p>
+  <div class="tablewrap"><table><thead><tr><th>Feature</th><th>What it does</th><th>Key commands</th></tr></thead><tbody>
+    <tr><td>VLAN</td><td>Splits one switch into separate Layer 2 networks</td><td><code>vlan 10</code>, <code>name STAFF</code>, <code>show vlan brief</code></td></tr>
+    <tr><td>Access port</td><td>Carries one VLAN to an end device</td><td><code>switchport mode access</code>, <code>switchport access vlan 10</code></td></tr>
+    <tr><td>Trunk port</td><td>Carries many VLANs between switches using 802.1Q tags</td><td><code>switchport mode trunk</code>, <code>show interfaces trunk</code></td></tr>
+    <tr><td>Native VLAN</td><td>The one VLAN sent untagged on a trunk; must match on both ends</td><td><code>switchport trunk native vlan 99</code></td></tr>
+    <tr><td>Voice VLAN</td><td>Lets an IP phone and a PC (Personal Computer) share one port with separate VLANs</td><td><code>switchport voice vlan 20</code></td></tr>
+    <tr><td>Rapid PVST+</td><td>Cisco's per-VLAN rapid spanning tree, preventing loops</td><td><code>spanning-tree mode rapid-pvst</code></td></tr>
+    <tr><td>PortFast and BPDU (Bridge Protocol Data Unit) Guard</td><td>Bring end-device ports up instantly, and shut a port down if a switch is plugged in</td><td><code>spanning-tree portfast</code>, <code>spanning-tree bpduguard enable</code></td></tr>
+    <tr><td>EtherChannel</td><td>Bundles several links into one logical link (LACP (Link Aggregation Control Protocol) or Cisco's PAgP)</td><td><code>channel-group 1 mode active</code></td></tr>
+    <tr><td>Port security</td><td>Limits which or how many MAC addresses can use a port</td><td><code>switchport port-security maximum 2</code></td></tr>
+    <tr><td>CDP (Cisco Discovery Protocol) and LLDP (Link Layer Discovery Protocol)</td><td>Discover neighbouring devices (CDP is Cisco's; LLDP is the open standard)</td><td><code>show cdp neighbors</code>, <code>show lldp neighbors</code></td></tr>
+  </tbody></table></div>
+  <p>Spanning tree elects a <b>root bridge</b> (lowest bridge ID (Identification): priority, then MAC address). Each other switch picks its best path to the root (root port), each link segment gets one designated port, and remaining redundant ports are blocked. Set the root deliberately with a lower priority on your core switch instead of letting the oldest switch win by having the lowest MAC address.</p>
+  <div class="callout tip">If two switches can't pass traffic for some VLANs, check that both ends are trunking, that the native VLAN matches, and that the VLAN is allowed on the trunk.</div>
+</section>
+
+<section class="lesson" id="routing">
+  <h2>4. Routing on Cisco: static routes, OSPF and redundancy</h2>
+  <p>IP Connectivity is the biggest CCNA domain. Here are the essentials beyond Module 12.</p>
+  <h3>Reading the routing table</h3>
+  <p><code>show ip route</code> lists every known network with a code showing where it came from: <b>C</b> connected, <b>L</b> local (the router's own address), <b>S</b> static, <b>O</b> OSPF (Open Shortest Path First), <b>D</b> EIGRP (Enhanced Interior Gateway Routing Protocol), and <b>S*</b> for a static default route. The router always picks the longest matching prefix first; if two sources offer the same prefix, it prefers the lower <b>administrative distance</b>.</p>
+  <div class="tablewrap"><table><thead><tr><th>Route source</th><th>Administrative distance</th></tr></thead><tbody>
+    <tr><td>Connected</td><td>0</td></tr><tr><td>Static</td><td>1</td></tr><tr><td>eBGP</td><td>20</td></tr><tr><td>EIGRP (internal)</td><td>90</td></tr><tr><td>OSPF</td><td>110</td></tr><tr><td>RIP (Routing Information Protocol)</td><td>120</td></tr><tr><td>iBGP</td><td>200</td></tr>
+  </tbody></table></div>
+  <h3>Static and default routes</h3>
+  <ul>
+    <li><code>ip route 10.20.0.0 255.255.0.0 192.168.1.2</code> sends traffic for 10.20.0.0/16 to the next hop 192.168.1.2.</li>
+    <li><code>ip route 0.0.0.0 0.0.0.0 203.0.113.1</code> is a default route ("everything else goes to the ISP (Internet Service Provider)").</li>
+    <li>A <b>floating static route</b> has a higher administrative distance so it is used only if the main route disappears.</li>
+  </ul>
+  <h3>OSPF (single area) in brief</h3>
+  <ul>
+    <li>OSPF is a link-state protocol: routers share a map of the network and each runs the shortest-path-first algorithm.</li>
+    <li>Neighbours must agree on area, subnet, hello and dead timers, and authentication before they become adjacent.</li>
+    <li>Each router has a <b>router ID</b> (set it manually, or the highest loopback IP, or highest active interface IP).</li>
+    <li>On shared Ethernet segments, a <b>DR</b> (designated router) and <b>BDR</b> reduce update traffic; the highest priority wins, then the highest router ID.</li>
+    <li>Cost = reference bandwidth ÷ interface bandwidth. The default reference is 100 Mbps, so set it higher on modern networks so 1 and 10 Gbps links get different costs.</li>
+    <li>Verify with <code>show ip ospf neighbor</code> and <code>show ip route ospf</code>.</li>
+  </ul>
+  <h3>First hop redundancy</h3>
+  <p>PCs have one default gateway. <b>HSRP (Hot Standby Router Protocol)</b> (Cisco), VRRP (Virtual Router Redundancy Protocol; open standard) and GLBP (Gateway Load Balancing Protocol; Cisco, load-balancing) let two routers share a virtual gateway IP so one can take over if the other fails.</p>
+  <div class="callout trap">Administrative distance only breaks ties between <b>different sources for the same prefix</b>. A more specific prefix always wins first, even if it comes from a source with a higher distance.</div>
+</section>
+
+<section class="lesson" id="services">
+  <h2>5. IP services: DHCP, NAT, NTP, SNMP and syslog</h2>
+  <div class="tablewrap"><table><thead><tr><th>Service</th><th>CCNA focus</th></tr></thead><tbody>
+    <tr><td>DHCP</td><td>A router can be a DHCP server for a subnet. If the server is on another subnet, the router facing the clients needs <code>ip helper-address</code> to relay DHCP requests.</td></tr>
+    <tr><td>NAT and PAT</td><td>Inside and outside interfaces; static NAT (one-to-one), dynamic NAT (pool) and PAT ("overload", many-to-one using ports). Verify with <code>show ip nat translations</code>.</td></tr>
+    <tr><td>NTP</td><td>Keeps clocks in sync so logs and certificates make sense. Lower stratum numbers are closer to the reference clock.</td></tr>
+    <tr><td>DNS (Domain Name System)</td><td>Devices can resolve names with <code>ip name-server</code>.</td></tr>
+    <tr><td>SNMP</td><td>Monitoring. SNMPv3 adds authentication and encryption; v1 and v2c use clear-text community strings.</td></tr>
+    <tr><td>Syslog</td><td>Device messages sent to a central server, with severity levels 0 to 7.</td></tr>
+    <tr><td>QoS (Quality of Service)</td><td>Classify, mark (DSCP), queue and police traffic so voice and video go first (Module 12).</td></tr>
+    <tr><td>TFTP (Trivial File Transfer Protocol) and FTP (File Transfer Protocol)</td><td>Used to copy IOS images and configuration backups.</td></tr>
+  </tbody></table></div>
+  <div class="tablewrap"><table><thead><tr><th>Level</th><th>Syslog severity</th></tr></thead><tbody>
+    <tr><td>0</td><td>Emergency</td></tr><tr><td>1</td><td>Alert</td></tr><tr><td>2</td><td>Critical</td></tr><tr><td>3</td><td>Error</td></tr><tr><td>4</td><td>Warning</td></tr><tr><td>5</td><td>Notification</td></tr><tr><td>6</td><td>Informational</td></tr><tr><td>7</td><td>Debugging</td></tr>
+  </tbody></table></div>
+  <div class="callout tip">Syslog memory aid: <b>"Every Awesome Cisco Engineer Will Need Ice cream Daily"</b>: Emergency, Alert, Critical, Error, Warning, Notification, Informational, Debugging.</div>
+</section>
+
+<section class="lesson" id="acl">
+  <h2>6. Security fundamentals: ACLs, device hardening and wireless</h2>
+  <p>An <b>access control list</b> (ACL) is an ordered list of permit and deny rules applied to an interface, inbound or outbound.</p>
+  <ul>
+    <li><b>Standard ACLs</b> (numbers 1 to 99 and 1300 to 1999) match only the source IP address. Place them <b>close to the destination</b> so they don't block too much.</li>
+    <li><b>Extended ACLs</b> (100 to 199 and 2000 to 2699) match source, destination, protocol and port. Place them <b>close to the source</b> to drop unwanted traffic early.</li>
+    <li>Named ACLs work the same way but are easier to read and edit.</li>
+    <li>Rules are checked top to bottom; the first match wins.</li>
+    <li>Every ACL ends with an invisible <b>implicit deny any</b>. An ACL with only deny lines blocks everything.</li>
+    <li>ACLs use <b>wildcard masks</b>, the inverse of a subnet mask: /24 is 0.0.0.255, and <code>host 10.1.1.5</code> means one address.</li>
+  </ul>
+  <h3>Other security topics</h3>
+  <ul>
+    <li><b>Layer 2 protections:</b> port security, DHCP snooping (blocks rogue DHCP servers), Dynamic ARP (Address Resolution Protocol) Inspection (blocks ARP poisoning).</li>
+    <li><b>AAA (Authentication, Authorization, Accounting)</b> with RADIUS (Remote Authentication Dial-In User Service) or TACACS (Terminal Access Controller Access-Control System)+ for central device logins (Module 15).</li>
+    <li><b>Wireless:</b> lightweight access points managed by a wireless LAN (Local Area Network) controller (WLC), WPA2 and WPA3 personal and enterprise (Module 13).</li>
+    <li><b>VPNs (Virtual Private Network):</b> site-to-site and remote-access IPsec (Internet Protocol Security) concepts.</li>
+  </ul>
+  <div class="callout trap">If you apply an ACL to permit one host and forget a final <code>permit</code> line, every other host is blocked by the implicit deny. Always ask: "what happens to traffic that matches nothing?"</div>
+</section>
+
+<section class="lesson" id="automation">
+  <h2>7. Automation and programmability</h2>
+  <p>Modern networks are increasingly managed by software instead of typing commands on each device. The CCNA covers the concepts.</p>
+  <div class="tablewrap"><table><thead><tr><th>Concept</th><th>Meaning</th></tr></thead><tbody>
+    <tr><td>Planes</td><td><b>Data plane</b> forwards traffic; <b>control plane</b> decides where traffic goes (routing protocols, STP (Spanning Tree Protocol)); <b>management plane</b> is how admins configure and monitor.</td></tr>
+    <tr><td>Controller-based / SDN</td><td>A central controller (such as Cisco Catalyst Center, formerly DNA Center) holds policy and pushes configuration to devices. <b>Northbound APIs</b> face apps and admins; <b>southbound APIs</b> face devices.</td></tr>
+    <tr><td>REST APIs</td><td>Web-style APIs using HTTP (HyperText Transfer Protocol) verbs that map to CRUD: POST = create, GET = read, PUT/PATCH = update, DELETE = delete. Responses are usually JSON (JavaScript Object Notation).</td></tr>
+    <tr><td>JSON</td><td>A text data format of key-value pairs in braces, lists in square brackets: <code>{"hostname": "SW1", "vlans": [10, 20]}</code></td></tr>
+    <tr><td>Configuration management tools</td><td><b>Ansible</b> (agentless, uses SSH, YAML playbooks), <b>Puppet</b> and <b>Chef</b> (agent-based), and <b>Terraform</b> (infrastructure as code, declarative).</td></tr>
+    <tr><td>AI (Artificial Intelligence) and machine learning in networking</td><td>Analytics that spot anomalies and predict problems; newer exam versions mention them conceptually.</td></tr>
+  </tbody></table></div>
+  <div class="callout analogy">Traditional networking is like adjusting the thermostat in every room by hand. Controller-based networking is a smart home app: set the policy once and every room follows it.</div>
+</section>
+
+<section class="lesson" id="path">
+  <h2>8. Cisco certification path and how to practise</h2>
+  <div class="tablewrap"><table><thead><tr><th>Level</th><th>Certifications</th></tr></thead><tbody>
+    <tr><td>Entry</td><td>Cisco Certified Support Technician (CCST) in networking or cybersecurity</td></tr>
+    <tr><td>Associate</td><td>CCNA; CyberOps Associate (security operations)</td></tr>
+    <tr><td>Professional</td><td>CCNP Enterprise, Security, Data Center, Service Provider, Collaboration; DevNet Professional (now rebranded as part of Cisco's automation track; verify)</td></tr>
+    <tr><td>Expert</td><td>CCIE (hands-on lab exam) in the same tracks</td></tr>
+  </tbody></table></div>
+  <h3>How to get hands-on</h3>
+  <ul>
+    <li><b>Cisco Packet Tracer:</b> a free network simulator from Cisco's Networking Academy. Ideal for VLAN, routing and ACL practice.</li>
+    <li><b>Cisco Modeling Labs</b> or other emulators run real IOS images for more advanced labs.</li>
+    <li><b>Used equipment:</b> a couple of older switches and routers make a good home lab, but check power use and noise.</li>
+    <li><b>Subnetting speed:</b> the CCNA is timed; practise until you can subnet in your head (Module 10).</li>
+  </ul>
+  <div class="callout tip">A practical plan: Network+ concepts first (Modules 9 to 13), then this module, then two to three months of daily Packet Tracer labs before booking the CCNA.</div>
 </section>
 
 <section class="lab" id="labs">
   <h2>Interactive labs</h2>
 
-  <div class="lab-card" id="lab-enc" data-lab="Encryption Playground: Caesar cipher, then real AES-GCM in your browser with the Web Crypto API; the right key decrypts and a wrong key fails.">
-    <h3>Lab 1: Encryption Playground</h3>
-    <h4>Part A: Caesar cipher (why simple substitution fails)</h4>
-    <div class="row"><label>Text <input type="text" id="cz-in" value="ATTACK AT DAWN" style="width:min(18em,100%)"></label><label>Shift <input type="range" id="cz-k" min="1" max="25" value="3"> <b id="cz-kv"></b></label></div>
-    <div class="hexout" id="cz-out"></div>
-    <h4>Part B: AES-256-GCM (real, in your browser)</h4>
-    <div class="controls">
-      <label class="field"><span>Message</span><input type="text" id="ae-msg" value="Meet at the data center at 9."></label>
-      <label class="field"><span>Passphrase to encrypt</span><input type="text" id="ae-pass" value="correct horse battery staple"></label>
-      <label class="field"><span>Passphrase to decrypt</span><input type="text" id="ae-pass2" value="correct horse battery staple"></label>
-    </div>
-    <div class="row"><button type="button" class="primary" id="ae-enc">Encrypt</button><button type="button" id="ae-dec">Decrypt</button><button type="button" id="ae-tamper">Flip one ciphertext bit</button></div>
-    <div class="hexout" id="ae-out">Ciphertext appears here.</div>
-    <div class="caption" id="enc-cap" aria-live="polite"></div>
+  <div class="lab-card" id="lab-mode" data-lab="Which Mode Am I In? Sort Cisco IOS commands into user EXEC, privileged EXEC, global configuration and interface configuration.">
+    <h3>Lab 1: Which Mode Am I In?</h3>
+    <div id="lab-mode-host"></div>
+    <div class="caption" id="lab-mode-cap" aria-live="polite"></div>
   </div>
 
-  <div class="lab-card" id="lab-pk" data-lab="Public Key Visualizer: Alice and Bob animations for public-key encryption, digital signatures and a Diffie-Hellman paint-mixing exchange.">
-    <h3>Lab 2: Public Key Visualizer</h3>
-    <div class="row" role="group" aria-label="Scenario"><button type="button" class="primary" data-pk="enc">Encrypt to Bob</button><button type="button" data-pk="sig">Alice signs</button><button type="button" data-pk="dh">Diffie-Hellman paint mixing</button></div>
-    <div id="pk-step"></div>
-    <div class="stage"><svg id="pk-svg" viewBox="0 0 760 270" width="760" role="img" aria-label="Alice, Bob and Eve key exchange"></svg></div>
-    <div class="caption" id="pk-cap" aria-live="polite"></div>
+  <div class="lab-card" id="lab-cmd" data-lab="IOS Command Trainer: pick the right Cisco show or configuration command for each situation.">
+    <h3>Lab 2: IOS Command Trainer</h3>
+    <div id="lab-cmd-host"></div>
+    <div class="caption" id="lab-cmd-cap" aria-live="polite"></div>
   </div>
 
-  <div class="lab-card" id="lab-hash" data-lab="Hash Demo: live SHA-256 with Web Crypto, the avalanche effect when one character changes, and salted password hashes.">
-    <h3>Lab 3: Hash Demo (SHA-256)</h3>
-    <div class="controls">
-      <label class="field"><span>Input A</span><input type="text" id="hs-a" value="Transfer $100 to Bob"></label>
-      <label class="field"><span>Input B (change one character)</span><input type="text" id="hs-b" value="Transfer $900 to Bob"></label>
-    </div>
-    <p><b>SHA-256(A)</b></p><div class="hexout" id="hs-ha"></div>
-    <p><b>SHA-256(B)</b> (differing hex digits highlighted)</p><div class="hexout" id="hs-hb"></div>
-    <p id="hs-diff" style="font-weight:700"></p>
-    <h4>Salted password storage</h4>
-    <div class="row"><label>Password <input type="text" id="hs-pw" value="Summer2026!"></label><button type="button" id="hs-salt">Store for two users</button></div>
-    <div class="tablewrap"><table><thead><tr><th>User</th><th>Salt (random)</th><th>SHA-256(salt + password), first 32 hex</th></tr></thead><tbody id="hs-tbl"></tbody></table></div>
-    <div class="caption" id="hs-cap" aria-live="polite"></div>
-  </div>
-
-  <div class="lab-card" id="lab-tls" data-lab="TLS 1.3 Handshake Stepper: step through ClientHello, ServerHello, certificate, key exchange and Finished messages with what each proves.">
-    <h3>Lab 4: TLS 1.3 Handshake Stepper</h3>
-    <div id="tl-step"></div>
-    <div class="stage"><svg id="tl-svg" viewBox="0 0 760 360" width="760" role="img" aria-label="TLS 1.3 handshake sequence"></svg></div>
-    <div class="caption" id="tl-cap" aria-live="polite"></div>
-  </div>
-
-  <div class="lab-card" id="lab-chain" data-lab="Certificate Chain Inspector: click through root, intermediate and leaf certificates and see what breaks when a certificate expires, is revoked, or has the wrong name.">
-    <h3>Lab 5: Certificate Chain Inspector</h3>
-    <div class="row"><label><input type="checkbox" id="ch-exp"> Leaf expired</label><label><input type="checkbox" id="ch-rev"> Intermediate revoked</label><label><input type="checkbox" id="ch-name"> Visiting shop.example.org instead</label><label><input type="checkbox" id="ch-root"> Root not in trust store</label></div>
-    <div class="chain" id="ch-cards"></div>
-    <div class="tile" id="ch-fields" style="margin-top:10px"></div>
-    <div class="caption" id="ch-cap" aria-live="polite"></div>
+  <div class="lab-card" id="lab-route" data-lab="Route Picker: predict which route a Cisco router uses, using longest prefix match, administrative distance and OSPF rules.">
+    <h3>Lab 3: Route Picker</h3>
+    <div id="lab-route-host"></div>
+    <div class="caption" id="lab-route-cap" aria-live="polite"></div>
   </div>
 </section>
 
@@ -272,24 +233,15 @@
 
 <section class="memory" id="memory">
   <h2>Memory aids</h2>
-  <div class="mnemonic"><b>Encrypt</b> with the <b>recipient's public</b> key; <b>sign</b> with <b>your own private</b> key. "Lock with theirs, sign with mine."</div>
-  <div class="mnemonic">OAuth = <b>Auth</b>ori<b>z</b>ation ("OAuth lets an app <i>do</i> things"); OIDC = <b>ID</b>entity ("OIDC tells the app <i>who</i> you are").</div>
-  <div class="mnemonic">RADIUS vs TACACS+: <b>R</b>ADIUS for <b>R</b>emote network access (UDP, password only encrypted); <b>T</b>ACACS+ for <b>T</b>erminal/admin (TCP 49, everything encrypted).</div>
-  <div class="mnemonic">Control types: "<b>P</b>lease <b>D</b>on't <b>D</b>o <b>C</b>razy <b>C</b>omputer <b>D</b>amage": Preventive, Deterrent, Detective, Corrective, Compensating, Directive.</div>
-  <div class="tablewrap"><table><thead><tr><th>Number</th><th>Meaning</th></tr></thead><tbody>
-    <tr><td>AES 128/192/256</td><td>AES key sizes (block size is always 128 bits)</td></tr>
-    <tr><td>SHA-256 = 256 bits</td><td>64 hex characters</td></tr>
-    <tr><td>RSA 2048+</td><td>Minimum RSA key size today</td></tr>
-    <tr><td>256-bit ECC ≈ 3072-bit RSA</td><td>Why ECC keys are smaller</td></tr>
-    <tr><td>88 / 389 / 636 / 1812 / 49</td><td>Kerberos / LDAP / LDAPS / RADIUS auth / TACACS+</td></tr>
-    <tr><td>FIPS 203 / 204 / 205</td><td>ML-KEM / ML-DSA / SLH-DSA (NIST PQC, 2024)</td></tr>
-  </tbody></table></div>
+  <div class="mnemonic">Syslog levels 0 to 7: <b>"Every Awesome Cisco Engineer Will Need Ice cream Daily"</b>.</div>
+  <div class="mnemonic">Administrative distance: <b>Connected 0, Static 1, eBGP 20, EIGRP 90, OSPF 110, RIP 120, iBGP 200</b>. Lower is more trusted.</div>
+  <div class="mnemonic">ACL placement: <b>Standard near the Destination, Extended near the Source</b> ("SD, ES").</div>
   <div class="tablewrap"><table><thead><tr><th>Exam trap</th><th>Why it is wrong</th></tr></thead><tbody>
-    <tr><td>"Hashing is encryption."</td><td>Hashes are one-way; encryption is reversible with a key.</td></tr>
-    <tr><td>"Encrypt with your private key for confidentiality."</td><td>Anyone with your public key could read it; that's a signature, not secrecy.</td></tr>
-    <tr><td>"A password plus a security question is MFA."</td><td>Both are knowledge factors.</td></tr>
-    <tr><td>"OAuth authenticates users."</td><td>OAuth authorizes; OIDC adds authentication.</td></tr>
-    <tr><td>"Salts must be secret."</td><td>Salts are stored with the hash; their job is uniqueness, not secrecy (a secret extra value is a "pepper").</td></tr>
+    <tr><td>"Lower AD beats a longer prefix."</td><td>Longest prefix always wins first.</td></tr>
+    <tr><td>"An ACL with only deny lines blocks just those hosts."</td><td>The implicit deny blocks everything else too.</td></tr>
+    <tr><td>"enable password is more secure than enable secret."</td><td>enable secret is hashed; use it.</td></tr>
+    <tr><td>"Changes are saved automatically."</td><td>Copy running-config to startup-config.</td></tr>
+    <tr><td>"PortFast belongs on trunk links between switches."</td><td>Only on end-device access ports, with BPDU Guard.</td></tr>
   </tbody></table></div>
 </section>
 
@@ -306,182 +258,28 @@
 <section class="deeper" id="deeper">
   <h2>Go deeper (official sources)</h2>
   <ul>
-    <li><a href="https://www.comptia.org/en-us/certifications/security/" rel="noopener">CompTIA Security+ exam objectives</a></li>
-    <li><a href="https://csrc.nist.gov/pubs/sp/800/207/final" rel="noopener">NIST SP 800-207: Zero Trust Architecture</a></li>
-    <li><a href="https://pages.nist.gov/800-63-4/" rel="noopener">NIST SP 800-63: Digital Identity Guidelines</a></li>
-    <li><a href="https://csrc.nist.gov/projects/post-quantum-cryptography" rel="noopener">NIST Post-Quantum Cryptography project (FIPS 203, 204, 205)</a></li>
-    <li><a href="https://www.rfc-editor.org/rfc/rfc8446" rel="noopener">RFC 8446: TLS 1.3</a></li>
-    <li><a href="https://www.rfc-editor.org/rfc/rfc5280" rel="noopener">RFC 5280: X.509 certificates and CRLs</a></li>
-    <li><a href="https://fidoalliance.org/passkeys/" rel="noopener">FIDO Alliance: Passkeys</a></li>
+    <li><a href="https://www.cisco.com/site/us/en/learn/training-certifications/certifications/enterprise/ccna/index.html" rel="noopener">Cisco CCNA certification</a> (exam topics)</li>
+    <li><a href="https://www.netacad.com/cisco-packet-tracer" rel="noopener">Cisco Packet Tracer (free simulator)</a></li>
+    <li><a href="https://learningnetwork.cisco.com/" rel="noopener">Cisco Learning Network</a></li>
+    <li><a href="https://developer.cisco.com/" rel="noopener">Cisco DevNet (automation and APIs)</a></li>
+    <li><a href="https://www.rfc-editor.org/rfc/rfc2328" rel="noopener">RFC 2328: OSPF version 2</a></li>
+    <li><a href="https://www.rfc-editor.org/rfc/rfc5424" rel="noopener">RFC 5424: The Syslog Protocol</a></li>
   </ul>
 </section>
 </main>
 <footer class="foot">Datacenter Omnibus · Original, independent study material. Not affiliated with or endorsed by any certification body, vendor or standards organisation. All trademarks belong to their owners. Exam details change; always verify on the vendor site. <a href="legal.html">Trademarks and copyright</a></footer>
 
+<!-- module-data:start -->
+<script type="application/json" id="module-data">{"module":14,"title":"Cisco Networking and the CCNA","glossary":[["Cisco IOS","The operating system on Cisco routers and switches.","Cisco's Internetwork Operating System (and IOS XE), managed through a mode-based command-line interface.","IOS"],["Running configuration","The settings in use right now.","The active configuration held in RAM; lost on reboot unless saved.","running-config"],["Startup configuration","The settings loaded at boot.","The saved configuration in NVRAM used when the device starts.","startup-config"],["Privileged EXEC mode","The # prompt with full access.","IOS mode, entered with enable, that allows show, debug, copy and reload commands.",""],["Administrative distance","How much a router trusts a route source.","A value from 0 to 255 used to choose between routes to the same prefix from different sources; lower is preferred.","AD"],["Floating static route","A backup static route.","A static route with a higher administrative distance than the primary route, used only if the primary disappears.",""],["Router ID","An OSPF router's name tag.","A 32-bit identifier (written like an IPv4 address) that uniquely identifies an OSPF router.","RID"],["Designated router","The OSPF router that coordinates a shared segment.","The router elected on a multi-access OSPF network to reduce adjacencies and flooding; a BDR is the backup.","DR"],["HSRP","Two routers share one gateway address.","Hot Standby Router Protocol: Cisco first-hop redundancy using a virtual IP and MAC.","Hot Standby Router Protocol"],["Wildcard mask","The upside-down subnet mask used in ACLs.","A mask where 0 bits must match and 1 bits are ignored, e.g., 0.0.0.255 for a /24.",""],["Implicit deny","The invisible last rule that blocks everything else.","The unseen deny-all statement at the end of every ACL.",""],["ip helper-address","Lets DHCP requests cross a router.","An interface command that relays broadcast DHCP requests to a server on another subnet.",""],["PortFast","Brings a PC port up instantly.","A spanning-tree feature that moves access ports straight to forwarding.",""],["BPDU Guard","Shuts a port if a switch is plugged in.","Disables a PortFast port that receives a spanning-tree BPDU, preventing loops and rogue switches.",""],["Northbound API","How apps talk to the controller.","The interface between an SDN controller and applications or administrators (often REST).",""],["Southbound API","How the controller talks to devices.","The interface between an SDN controller and network devices (for example NETCONF or OpenFlow).",""]],"quiz":[{"t":"mc","q":"Which prompt shows global configuration mode?","o":["Router#","Router>","Router(config-if)#","Router(config)#"],"a":3,"w":["Privileged EXEC.","User EXEC.","Interface configuration.","Correct."],"x":"Enter it with configure terminal from privileged EXEC.","c":"CCNA","d":"1.1"},{"t":"mc","q":"Which command saves the configuration so it survives a reboot?","o":["erase startup-config","reload","copy running-config startup-config","show running-config"],"a":2,"w":["Deletes the saved config.","Reboots, losing unsaved changes.","Correct.","Only displays it."],"x":"write memory is an older equivalent.","c":"CCNA","d":"1.1"},{"t":"mc","q":"A router has routes to 10.0.0.0/8 (OSPF) and 10.1.1.0/24 (RIP). Which is used for 10.1.1.20?","o":["10.0.0.0/8 via OSPF","Both, load-balanced","Neither","10.1.1.0/24 via RIP"],"a":3,"w":["AD only compares identical prefixes.","Different prefixes don't load-balance.","A match exists.","Correct: longest prefix match."],"x":"Longest prefix first, then administrative distance.","c":"CCNA","d":"3.2"},{"t":"mc","q":"What is the default administrative distance of OSPF?","o":["90","120","110","1"],"a":2,"w":["EIGRP.","RIP.","Correct.","Static."],"x":"Lower administrative distance is more trusted.","c":"CCNA","d":"3.1"},{"t":"mc","q":"Where should a standard ACL normally be placed?","o":["As close to the source as possible","On every interface","Only on the internet link","As close to the destination as possible"],"a":3,"w":["That is for extended ACLs.","Unnecessary.","Not a rule.","Correct."],"x":"Standard ACLs match only source addresses, so placing them near the source could block too much.","c":"CCNA","d":"5.6"},{"t":"mc","q":"Which wildcard mask matches all hosts in 192.168.5.0/24?","o":["255.255.255.0","255.255.255.255","0.0.0.0","0.0.0.255"],"a":3,"w":["That's the subnet mask.","Matches anything.","Matches one host.","Correct."],"x":"A wildcard is the inverse of the subnet mask.","c":"CCNA","d":"5.6"},{"t":"mc","q":"Clients can't reach a DHCP server located on a different subnet. What should be configured on their gateway interface?","o":["spanning-tree portfast","ip nat inside","ip helper-address","switchport mode trunk"],"a":2,"w":["Port startup, unrelated.","NAT is unrelated.","Correct.","Trunking is unrelated."],"x":"Routers don't forward broadcasts unless relaying is configured.","c":"CCNA","d":"4.6"},{"t":"mc","q":"Which syslog severity level is 'Warning'?","o":["2","7","4","6"],"a":2,"w":["Critical.","Debugging.","Correct.","Informational."],"x":"0 Emergency to 7 Debugging; lower numbers are more severe.","c":"CCNA","d":"4.5"},{"t":"mc","q":"Which HTTP verb is used in a REST API to read data?","o":["GET","DELETE","POST","PUT"],"a":0,"w":["Correct.","Delete.","Create.","Update/replace."],"x":"CRUD maps to POST, GET, PUT/PATCH and DELETE.","c":"CCNA","d":"6.5"},{"t":"mc","q":"Which tool is agentless and uses SSH with YAML playbooks?","o":["Chef","SNMPv1","Ansible","Puppet"],"a":2,"w":["Agent-based.","A monitoring protocol.","Correct.","Agent-based."],"x":"Agentless tools need nothing installed on managed devices.","c":"CCNA","d":"6.6"},{"t":"mc","q":"Two switches won't pass VLAN 20 traffic across their link. Both ends show the link up. What should you check FIRST?","o":["The NTP server","The routing table","The syslog level","Both ends are trunking, the native VLAN matches, and VLAN 20 is allowed"],"a":3,"w":["Unrelated.","Layer 2 issue first.","Unrelated.","Correct."],"x":"show interfaces trunk shows mode, native VLAN and allowed VLANs.","c":"CCNA","d":"2.2"},{"t":"mc","q":"Which feature shuts down a PortFast port if it receives a BPDU?","o":["DHCP snooping","Port security","Root Guard","BPDU Guard"],"a":3,"w":["Blocks rogue DHCP servers.","Limits MAC addresses.","Prevents a port becoming a root port.","Correct."],"x":"It prevents someone plugging in a switch and causing a loop.","c":"CCNA","d":"2.5"}],"flashcards":[["IOS mode prompts","> user EXEC, # privileged EXEC, (config)# global, (config-if)# interface."],["Save a Cisco config","copy running-config startup-config (or write memory)."],["Quick interface summary","show ip interface brief."],["Administrative distances","Connected 0, static 1, eBGP 20, EIGRP 90, OSPF 110, RIP 120, iBGP 200."],["Route selection order","Longest prefix, then lowest administrative distance, then lowest metric."],["Floating static route","Static route with a higher AD, used as a backup."],["OSPF DR election","Highest priority, then highest router ID; priority 0 never becomes DR."],["OSPF cost","Reference bandwidth ÷ interface bandwidth (default reference 100 Mbps)."],["Standard vs extended ACL","Standard: source only, place near destination. Extended: source, destination, port, place near source."],["Implicit deny","Every ACL ends with an invisible deny any."],["Wildcard for /24","0.0.0.255."],["DHCP relay command","ip helper-address."],["Syslog levels 0 to 7","Emergency, Alert, Critical, Error, Warning, Notification, Informational, Debugging."],["REST verbs and CRUD","POST create, GET read, PUT/PATCH update, DELETE delete."],["SDN APIs","Northbound to apps; southbound to devices."]]}</script>
+<!-- module-data:end -->
 <script src="data/catalog.js"></script>
 <script src="assets/omnibus.js"></script>
+<script src="assets/labkit.js"></script>
 <script src="data/m14.js"></script>
 <script>
-(function () {
-  var h = OMNI.h, S = OMNI.svg, $ = function (id) { return document.getElementById(id); };
-  function txt(p, x, y, t, a) { var e = S("text", Object.assign({ x: x, y: y, class: "svg-text", "font-size": 12 }, a || {}), p); e.textContent = t; return e; }
-  var subtle = window.crypto && window.crypto.subtle;
-  var enc = new TextEncoder();
-  function hex(buf) { return Array.prototype.map.call(new Uint8Array(buf), function (b) { return b.toString(16).padStart(2, "0"); }).join(""); }
-  function b64(u8) { var s = ""; u8.forEach(function (b) { s += String.fromCharCode(b); }); return btoa(s); }
-
-  /* ================= Lab 1 ================= */
-  function caesar() {
-    var k = +$("cz-k").value, s = $("cz-in").value.toUpperCase(); $("cz-kv").textContent = k;
-    var out = s.replace(/[A-Z]/g, function (c) { return String.fromCharCode((c.charCodeAt(0) - 65 + k) % 26 + 65); });
-    $("cz-out").innerHTML = "<b>Ciphertext:</b> " + OMNI.esc(out) + "<br><b>Brute force (all 25 shifts take a computer microseconds):</b> " + [1, 2, 3, 4, 5].map(function (t) { return "shift " + t + ": " + OMNI.esc(out.replace(/[A-Z]/g, function (c) { return String.fromCharCode((c.charCodeAt(0) - 65 - t + 26) % 26 + 65); })); }).join(" · ") + " …";
-  }
-  if (!OMNI.esc) OMNI.esc = function (s) { return String(s).replace(/[&<>"]/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;" }[c]; }); };
-  $("cz-in").oninput = caesar; $("cz-k").oninput = caesar; caesar();
-  var aes = null;
-  function deriveKey(pass, salt) { return subtle.importKey("raw", enc.encode(pass), "PBKDF2", false, ["deriveKey"]).then(function (base) { return subtle.deriveKey({ name: "PBKDF2", salt: salt, iterations: 200000, hash: "SHA-256" }, base, { name: "AES-GCM", length: 256 }, false, ["encrypt", "decrypt"]); }); }
-  function noCrypto() { OMNI.say("enc-cap", "<span class='no'>Your browser blocked Web Crypto here</span> (it needs a secure context such as https:// or localhost). The rest of the page still works; open the site from a web host to try real AES."); }
-  $("ae-enc").onclick = function () {
-    if (!subtle) return noCrypto();
-    var salt = crypto.getRandomValues(new Uint8Array(16)), iv = crypto.getRandomValues(new Uint8Array(12));
-    deriveKey($("ae-pass").value, salt).then(function (key) { return subtle.encrypt({ name: "AES-GCM", iv: iv }, key, enc.encode($("ae-msg").value)); }).then(function (ct) {
-      aes = { salt: salt, iv: iv, ct: new Uint8Array(ct) };
-      $("ae-out").innerHTML = "<b>Salt:</b> " + b64(salt) + "<br><b>IV (nonce):</b> " + b64(iv) + "<br><b>Ciphertext + 16-byte GCM tag:</b> " + b64(aes.ct);
-      OMNI.say("enc-cap", "Encrypted with AES-256-GCM. The passphrase was stretched into a 256-bit key with PBKDF2 (200,000 iterations, random salt). A fresh random IV means encrypting the same message again gives different ciphertext. GCM also adds an authentication tag, so any tampering is detected. Now press Decrypt, or change the decrypt passphrase first.");
-    }).catch(function () { noCrypto(); });
-  };
-  $("ae-dec").onclick = function () {
-    if (!subtle) return noCrypto(); if (!aes) { OMNI.say("enc-cap", "Encrypt something first."); return; }
-    deriveKey($("ae-pass2").value, aes.salt).then(function (key) { return subtle.decrypt({ name: "AES-GCM", iv: aes.iv }, key, aes.ct); }).then(function (pt) {
-      OMNI.say("enc-cap", "<span class='pill-ok'>Decrypted</span> “" + OMNI.esc(new TextDecoder().decode(pt)) + "”. Same passphrase + same salt → same key. That's symmetric encryption: one shared secret both locks and unlocks.");
-    }).catch(function () { OMNI.say("enc-cap", "<span class='pill-no'>Decryption failed</span> The key is wrong or the ciphertext was modified, so the GCM authentication tag didn't verify. AES-GCM refuses to return any plaintext rather than returning garbage: that's <b>integrity</b> as well as confidentiality."); });
-  };
-  $("ae-tamper").onclick = function () { if (!aes) { OMNI.say("enc-cap", "Encrypt something first."); return; } aes.ct[0] ^= 1; $("ae-out").innerHTML += "<br><span class='no'>Bit 0 of the ciphertext flipped.</span>"; OMNI.say("enc-cap", "One bit of ciphertext changed in transit. Press Decrypt and watch GCM detect it."); };
-
-  /* ================= Lab 2 ================= */
-  var pkMode = "enc", pkStep;
-  var PK = {
-    enc: [
-      { c: "Bob generates a key pair. He publishes his <b>public key</b> (the open padlock) for anyone; his <b>private key</b> never leaves his device.", d: { bobPub: 1 } },
-      { c: "Alice gets Bob's public key (from his certificate, so she knows it's really his).", d: { bobPub: 1, aliceHas: 1 } },
-      { c: "Alice encrypts the message with <b>Bob's public key</b>: she snaps Bob's padlock shut on the box.", d: { bobPub: 1, aliceHas: 1, locked: "bob" } },
-      { c: "The locked box crosses the internet. Eve copies it, but she only has the public key, which can't open it.", d: { bobPub: 1, locked: "bob", travel: 1, eve: "✗ can't open" } },
-      { c: "Bob opens it with his <b>private key</b>. Confidentiality achieved. In practice, Alice encrypts a random AES key this way and uses AES for the actual data (hybrid encryption).", d: { bobPub: 1, opened: 1 } }],
-    sig: [
-      { c: "Alice writes a message and computes its <b>hash</b> (fingerprint), e.g., SHA-256.", d: { hash: 1 } },
-      { c: "Alice encrypts the hash with <b>her own private key</b>. That encrypted hash is the <b>digital signature</b>.", d: { hash: 1, sig: 1 } },
-      { c: "She sends the message plus signature. The message itself is NOT secret here; anyone, including Eve, can read it.", d: { sig: 1, travel: 1, eve: "can read, can't forge" } },
-      { c: "Bob decrypts the signature with <b>Alice's public key</b> and hashes the message himself.", d: { sig: 1, verify: 1 } },
-      { c: "The hashes match: the message wasn't changed (<b>integrity</b>), it came from Alice's key (<b>authenticity</b>), and she can't deny it (<b>non-repudiation</b>). If Eve changed one character, the hashes would differ.", d: { sig: 1, verify: 2 } }],
-    dh: [
-      { c: "Alice and Bob publicly agree on a common color (yellow). Eve sees it.", d: { dh: 1 } },
-      { c: "Each secretly picks a private color: Alice red, Bob blue. These never leave their devices.", d: { dh: 2 } },
-      { c: "Each mixes the common color with their secret: Alice gets orange, Bob gets green.", d: { dh: 3 } },
-      { c: "They swap the mixtures in public. Eve sees yellow, orange and green, but 'un-mixing' paint is hard (like the discrete logarithm problem).", d: { dh: 4 } },
-      { c: "Each adds their own secret to the other's mixture. Both end up with the same brown: a <b>shared secret</b> that never crossed the wire. Ephemeral DH (ECDHE) does this fresh for every session, giving forward secrecy.", d: { dh: 5 } }]
-  };
-  function mix() { var a = Array.prototype.slice.call(arguments), r = 0, g = 0, b = 0; a.forEach(function (c) { r += c[0]; g += c[1]; b += c[2]; }); return "rgb(" + Math.round(r / a.length) + "," + Math.round(g / a.length) + "," + Math.round(b / a.length) + ")"; }
-  function person(s, x, name, col) { S("circle", { cx: x, cy: 60, r: 22, fill: col }, s); S("rect", { x: x - 26, y: 85, width: 52, height: 50, rx: 14, fill: col }, s); txt(s, x, 160, name, { "text-anchor": "middle", "font-weight": 800 }); }
-  function lock(s, x, y, col, closed) { S("rect", { x: x - 14, y: y, width: 28, height: 22, rx: 4, fill: col }, s); S("path", { d: closed ? "M" + (x - 9) + " " + y + " v-8 a9 9 0 0 1 18 0 v8" : "M" + (x - 9) + " " + y + " v-8 a9 9 0 0 1 18 0 v-4", fill: "none", stroke: col, "stroke-width": 4 }, s); }
-  function key(s, x, y, col, label) { S("circle", { cx: x, cy: y, r: 7, fill: "none", stroke: col, "stroke-width": 4 }, s); S("line", { x1: x + 7, y1: y, x2: x + 28, y2: y, stroke: col, "stroke-width": 4 }, s); S("line", { x1: x + 22, y1: y, x2: x + 22, y2: y + 7, stroke: col, "stroke-width": 4 }, s); if (label) txt(s, x + 10, y + 22, label, { "font-size": 10, "text-anchor": "middle" }); }
-  function drawPk(i) {
-    var s = $("pk-svg"); s.innerHTML = ""; var d = i >= 0 ? PK[pkMode][i].d : {};
-    person(s, 80, "Alice", "#f472b6"); person(s, 680, "Bob", "#60a5fa"); person(s, 380, "Eve (listening)", "#94a3b8");
-    S("line", { x1: 130, y1: 210, x2: 630, y2: 210, stroke: "var(--ink-2)", "stroke-dasharray": "6 5" }, s); txt(s, 380, 252, "the internet (public)", { "text-anchor": "middle", class: "svg-muted" });
-    if (pkMode === "enc") {
-      if (d.bobPub) { lock(s, 650, 180, "#2563eb", false); txt(s, 650, 255, "Bob's public", { "text-anchor": "middle", "font-size": 10 }); key(s, 700, 190, "#1e3a8a", "private"); }
-      if (d.aliceHas) { lock(s, 110, 180, "#2563eb", false); txt(s, 110, 255, "copy of Bob's public", { "text-anchor": "middle", "font-size": 10 }); }
-      if (d.locked) { var bx = d.travel ? 360 : 170; S("rect", { x: bx, y: 180, width: 44, height: 34, rx: 4, fill: "#fde68a", stroke: "#92400e" }, s); lock(s, bx + 22, 168, "#2563eb", true); }
-      if (d.opened) { S("rect", { x: 600, y: 190, width: 44, height: 30, rx: 4, fill: "#fde68a", stroke: "#92400e" }, s); txt(s, 620, 182, "“Meet at 9”", { "text-anchor": "middle", "font-size": 11, "font-weight": 700 }); }
-      if (d.eve) txt(s, 380, 18, d.eve, { "text-anchor": "middle", fill: "var(--bad)", "font-weight": 700 });
-    } else if (pkMode === "sig") {
-      key(s, 40, 190, "#be185d", "Alice private");
-      if (d.hash) { S("rect", { x: 130, y: 175, width: 110, height: 26, rx: 4, fill: "var(--surface)", stroke: "var(--line)" }, s); txt(s, 185, 192, "hash: 9f2c…a71", { "text-anchor": "middle", "font-size": 10, "font-family": "var(--mono)" }); }
-      if (d.sig) { var x = d.travel ? 330 : (d.verify ? 560 : 140); S("rect", { x: x, y: 180, width: 100, height: 24, rx: 4, fill: "#fbcfe8", stroke: "#be185d" }, s); txt(s, x + 50, 196, "msg + signature", { "text-anchor": "middle", "font-size": 10 }); }
-      if (d.verify) { lock(s, 690, 182, "#be185d", false); txt(s, 690, 255, "Alice's public", { "text-anchor": "middle", "font-size": 10 }); }
-      if (d.verify === 2) txt(s, 610, 30, "✓ hashes match", { "text-anchor": "middle", fill: "var(--good)", "font-weight": 800 });
-      if (d.eve) txt(s, 380, 18, d.eve, { "text-anchor": "middle", fill: "var(--warn)", "font-weight": 700 });
-    } else {
-      var Y = [250, 220, 40], R = [220, 40, 50], B = [40, 90, 230];
-      function pot(x, y, col, lab) { S("circle", { cx: x, cy: y, r: 16, fill: col, stroke: "var(--ink-2)" }, s); if (lab) txt(s, x, y + 30, lab, { "text-anchor": "middle", "font-size": 10 }); }
-      if (d.dh >= 1) { pot(160, 40, mix(Y), "common"); pot(600, 40, mix(Y), "common"); pot(380, 190, mix(Y), "Eve sees"); }
-      if (d.dh >= 2) { pot(40, 200, mix(R), "secret red"); pot(720, 200, mix(B), "secret blue"); }
-      if (d.dh >= 3) { pot(160, 120, mix(Y, R), "Y+R"); pot(600, 120, mix(Y, B), "Y+B"); }
-      if (d.dh >= 4) { pot(330, 190, mix(Y, R)); pot(430, 190, mix(Y, B)); pot(230, 190, mix(Y, B), "from Bob"); pot(530, 190, mix(Y, R), "from Alice"); }
-      if (d.dh >= 5) { pot(130, 250, mix(Y, B, R), "shared!"); pot(630, 250, mix(Y, R, B), "shared!"); }
-    }
-  }
-  function setPk(m) { pkMode = m; OMNI.$$("#lab-pk [data-pk]").forEach(function (b) { b.classList.toggle("primary", b.dataset.pk === m); }); $("pk-step").innerHTML = ""; pkStep = OMNI.stepper($("pk-step"), PK[m], function (i, st) { drawPk(i); OMNI.say("pk-cap", i < 0 ? "Press Next step." : st.c); }, { speed: 2200 }); }
-  OMNI.$$("#lab-pk [data-pk]").forEach(function (b) { b.onclick = function () { setPk(b.dataset.pk); }; });
-  setPk("enc");
-
-  /* ================= Lab 3: hash ================= */
-  function sha(s) { return subtle ? subtle.digest("SHA-256", enc.encode(s)).then(hex) : Promise.reject(); }
-  function bitsDiff(a, b) { var n = 0; for (var i = 0; i < a.length; i++) { var x = parseInt(a[i], 16) ^ parseInt(b[i], 16); while (x) { n += x & 1; x >>= 1; } } return n; }
-  function hashes() {
-    if (!subtle) { $("hs-ha").textContent = "Web Crypto unavailable in this context (needs https or localhost)."; return; }
-    Promise.all([sha($("hs-a").value), sha($("hs-b").value)]).then(function (r) {
-      $("hs-ha").textContent = r[0];
-      $("hs-hb").innerHTML = r[1].split("").map(function (c, i) { return c === r[0][i] ? c : "<span class='d'>" + c + "</span>"; }).join("");
-      var bd = bitsDiff(r[0], r[1]);
-      $("hs-diff").textContent = r[0] === r[1] ? "Identical inputs → identical hashes (deterministic)." : bd + " of 256 bits differ (" + Math.round(bd / 2.56) + "%). Ideal is ~50%: the avalanche effect.";
-      OMNI.say("hs-cap", "SHA-256 always outputs 256 bits (64 hex characters) no matter how long the input. " + (r[0] === r[1] ? "Change one character in B to see the avalanche effect." : "Changing a tiny part of the input changed about half the output bits, so you can't tell how 'close' two inputs are from their hashes. Integrity checks (file downloads, signatures) rely on this."));
-    });
-  }
-  $("hs-a").oninput = hashes; $("hs-b").oninput = hashes; hashes();
-  $("hs-salt").onclick = function () {
-    if (!subtle) return; var pw = $("hs-pw").value, tb = $("hs-tbl"); tb.innerHTML = "";
-    var users = ["alice", "bob"].map(function (u) { var s = hex(crypto.getRandomValues(new Uint8Array(8))); return { u: u, s: s }; });
-    Promise.all(users.map(function (x) { return sha(x.s + pw); }).concat([sha(pw)])).then(function (r) {
-      users.forEach(function (x, i) { tb.appendChild(h("tr", null, [h("td", null, x.u), h("td", null, h("code", null, x.s)), h("td", null, h("code", null, r[i].slice(0, 32) + "…"))])); });
-      tb.appendChild(h("tr", { style: "background:var(--bad-soft)" }, [h("td", null, "(unsalted)"), h("td", null, "none"), h("td", null, h("code", null, r[2].slice(0, 32) + "…"))]));
-      OMNI.say("hs-cap", "Both users chose the same password, but different random salts make their stored hashes completely different, so a rainbow table (precomputed hashes) is useless and cracking one doesn't reveal the other. The unsalted row is what an attacker can look up instantly. Real systems also <b>stretch</b> with bcrypt, scrypt, Argon2 or PBKDF2 so each guess costs real time; plain SHA-256 is far too fast for passwords.");
-    });
-  };
-
-  /* ================= Lab 4: TLS ================= */
-  var TL = [
-    [0, "ClientHello", "Client offers TLS 1.3, cipher suites (e.g., TLS_AES_128_GCM_SHA256), a random value, the server name (SNI) and an ECDHE <b>key share</b> (its public half). Proves nothing yet: it's an offer."],
-    [1, "ServerHello + key share", "Server picks the suite and sends its own ECDHE key share. Both sides can now compute the same handshake secret (Diffie-Hellman). Everything after this is <b>encrypted</b>."],
-    [1, "{EncryptedExtensions}", "Server's remaining settings (e.g., ALPN: h2 or http/1.1), now hidden from observers."],
-    [1, "{Certificate}", "Server sends its certificate chain (leaf + intermediate). The client checks the chain to a trusted root, validity dates, revocation and that the name matches. Proves: this public key belongs to example.com."],
-    [1, "{CertificateVerify}", "Server signs the handshake transcript with its <b>private key</b>. Proves: the server actually holds the private key for that certificate (not just a copied cert)."],
-    [1, "{Finished}", "An HMAC over the whole handshake. Proves: nobody tampered with any handshake message (no downgrade)."],
-    [0, "{Finished}", "Client sends its own Finished. Proves the client saw the same handshake. Total: 1 round trip before application data."],
-    [0, "[Application data: GET /]", "HTTP now flows encrypted with AES-GCM using keys derived from the ECDHE secret. Because keys were ephemeral, recording this traffic and stealing the server key later still can't decrypt it: <b>perfect forward secrecy</b>."]
-  ];
-  function drawTl(i) {
-    var s = $("tl-svg"); s.innerHTML = ""; var d = S("defs", {}, s), m = S("marker", { id: "tla", viewBox: "0 0 10 10", refX: 9, refY: 5, markerWidth: 7, markerHeight: 7, orient: "auto" }, d); S("path", { d: "M0,0 L10,5 L0,10 z", fill: "var(--sec)" }, m);
-    [["Client (browser)", 110], ["Server (example.com)", 650]].forEach(function (p) { txt(s, p[1], 20, p[0], { "text-anchor": "middle", "font-weight": 800 }); S("line", { x1: p[1], y1: 28, x2: p[1], y2: 350, stroke: "var(--ink-2)", "stroke-width": 2 }, s); });
-    if (i >= 1) { S("rect", { x: 110, y: 100, width: 540, height: 250, fill: "var(--good-soft)", opacity: .5 }, s); txt(s, 380, 345, "encrypted from here", { "text-anchor": "middle", fill: "var(--good)", "font-size": 11, "font-weight": 700 }); }
-    for (var k = 0; k <= i && k < TL.length; k++) { var y = 50 + k * 38 + (k > 0 ? 10 : 0), fromC = TL[k][0] === 0; S("line", { x1: fromC ? 110 : 650, y1: y, x2: fromC ? 647 : 113, y2: y + 14, stroke: "var(--sec)", "stroke-width": k === i ? 3 : 1.6, "marker-end": "url(#tla)", opacity: k === i ? 1 : .6 }, s); txt(s, 380, y + 2, TL[k][1], { "text-anchor": "middle", "font-weight": k === i ? 800 : 400, "paint-order": "stroke", stroke: "var(--surface-2)", "stroke-width": 4 }); }
-  }
-  OMNI.stepper($("tl-step"), TL.map(function (t) { return { c: t[2] }; }), function (i, st) { drawTl(i); OMNI.say("tl-cap", i < 0 ? "Press Next step to connect to https://example.com." : st.c); }, { speed: 2400 });
-
-  /* ================= Lab 5: chain ================= */
-  var CERTS = [
-    { n: "Root CA", f: [["Subject", "CN=Example Root CA R1, O=Example Trust"], ["Issuer", "itself (self-signed)"], ["Valid", "2015-01-01 to 2040-01-01"], ["Key", "RSA 4096"], ["Basic constraints", "CA: TRUE"], ["Where it lives", "Pre-installed in the OS/browser trust store; kept offline in an HSM"]] },
-    { n: "Intermediate CA", f: [["Subject", "CN=Example TLS Issuing CA 2"], ["Issuer", "Example Root CA R1"], ["Valid", "2023-06-01 to 2033-06-01"], ["Key", "ECDSA P-384"], ["Basic constraints", "CA: TRUE, pathlen 0"], ["Revocation", "CRL + OCSP published by the root"]] },
-    { n: "Leaf: www.example.com", f: [["Subject", "CN=www.example.com"], ["SAN", "www.example.com, example.com"], ["Issuer", "Example TLS Issuing CA 2"], ["Valid", "2026-09-01 to 2026-11-30"], ["Key", "ECDSA P-256"], ["Extended key usage", "TLS Web Server Authentication"], ["OCSP", "Stapled by the server"]] }
-  ];
-  var chSel = 2;
-  function chain() {
-    var exp = $("ch-exp").checked, rev = $("ch-rev").checked, name = $("ch-name").checked, root = $("ch-root").checked;
-    var st = [root ? "Not in trust store" : "Trusted anchor", rev ? "REVOKED (on CRL / OCSP says revoked)" : "Valid, not revoked", exp ? "EXPIRED (notAfter in the past)" : name ? "Name mismatch: SAN doesn't include shop.example.org" : "Valid for this site"];
-    var bad = [root, rev, exp || name];
-    if (!bad[2] && (root || rev)) { st[2] = "Its own fields are fine, but the chain above it is broken"; bad[2] = true; }
-    var box = $("ch-cards"); box.innerHTML = "";
-    CERTS.forEach(function (c, i) { if (i) box.appendChild(h("div", { class: "arrowdown", "aria-hidden": "true" }, "→")); var b = h("button", { type: "button", class: "cert " + (bad[i] ? "bad" : "ok") }, [h("h4", null, (bad[i] ? "✗ " : "✓ ") + c.n), h("div", { class: "figcap" }, st[i])]); b.onclick = function () { chSel = i; chain(); }; box.appendChild(b); });
-    var fb = $("ch-fields"); fb.innerHTML = ""; fb.appendChild(h("h4", null, CERTS[chSel].n + " fields")); var t = h("table"); CERTS[chSel].f.forEach(function (r) { t.appendChild(h("tr", null, [h("th", null, r[0]), h("td", null, r[1])])); }); fb.appendChild(h("div", { class: "tablewrap" }, t));
-    var why = bad.some(Boolean) ? "<span class='pill-no'>Connection not trusted</span> The browser shows a full-page warning. " + [root ? "The chain doesn't end at a root in the trust store (typical of self-signed or private-CA certs not distributed to clients)." : "", rev ? "The intermediate was revoked, so everything it signed is untrusted (a compromised CA key does this)." : "", exp ? "The leaf certificate expired: renew it (automate with ACME). Certificate lifetimes are shrinking, so automation matters." : "", name && !exp ? "The certificate is valid but for different names; a cert for www.example.com can't vouch for shop.example.org." : ""].filter(Boolean).join(" ") : "<span class='pill-ok'>Trusted</span> The browser builds the path leaf → intermediate → root, checks each signature with the issuer's public key, checks dates, revocation and the hostname. All pass.";
-    OMNI.say("ch-cap", why + " Click any certificate to inspect its fields.");
-  }
-  ["ch-exp", "ch-rev", "ch-name", "ch-root"].forEach(function (id) { $(id).onchange = chain; });
-  chain();
-})();
+  OMNI.sorter("lab-mode-host", {"zones": [["user", "User EXEC (>)"], ["priv", "Privileged EXEC (#)"], ["global", "Global config (config)#"], ["intf", "Interface config (config-if)#"]], "items": [["ping 8.8.8.8 (basic check)", "user", "Available in user EXEC."], ["enable", "user", "Typed at the > prompt to enter privileged EXEC."], ["show running-config", "priv", "Viewing the full config needs privileged EXEC."], ["copy running-config startup-config", "priv", "Saving is done from privileged EXEC."], ["reload", "priv", "Rebooting needs privileged EXEC."], ["hostname SW1", "global", "Device-wide setting."], ["vlan 10", "global", "Creates a VLAN from global config."], ["ip route 0.0.0.0 0.0.0.0 203.0.113.1", "global", "Routes are global settings."], ["ip address 192.168.1.1 255.255.255.0", "intf", "Addresses are set on an interface."], ["switchport access vlan 10", "intf", "Port settings are interface config."], ["no shutdown", "intf", "Enables an interface."], ["spanning-tree portfast", "intf", "Per-port STP setting."]], "intro": "Drag each command to the IOS mode where you would normally type it.", "done": "Every command is in the right mode. On the exam, read the prompt first: it tells you where you are.", "cap": "lab-mode-cap"});
+  OMNI.trainer("lab-cmd-host", {"label": "tasks", "intro": "Pick the command that does the job. Then read why.", "items": [{"s": "<p>You changed the configuration and want it to survive a reboot.</p>", "o": ["copy running-config startup-config", "show startup-config", "reload", "erase startup-config"], "a": 0, "x": "Saves RAM config to NVRAM. <code>write memory</code> does the same."}, {"s": "<p>You want a one-line summary of every interface, its IP address and up/down status.</p>", "o": ["show ip interface brief", "show version", "show vlan brief", "show cdp neighbors"], "a": 0, "x": "The quickest health check on any Cisco router or switch."}, {"s": "<p>You need to see which VLANs exist and which access ports belong to each.</p>", "o": ["show vlan brief", "show interfaces trunk", "show ip route", "show mac address-table"], "a": 0, "x": "Trunk ports don't appear in <code>show vlan brief</code>; use <code>show interfaces trunk</code> for those."}, {"s": "<p>Clients on VLAN 30 can't get addresses from a DHCP server on another subnet.</p>", "o": ["Configure ip helper-address on the VLAN 30 gateway interface", "Enable PortFast", "Add a static route to 0.0.0.0", "Change the native VLAN"], "a": 0, "x": "DHCP discovers are broadcasts; routers don't forward broadcasts unless told to relay them."}, {"s": "<p>You want to know which Cisco device is plugged into port Gi0/24.</p>", "o": ["show cdp neighbors", "show running-config", "show ip nat translations", "show clock"], "a": 0, "x": "CDP (or LLDP with show lldp neighbors) discovers directly connected neighbours."}, {"s": "<p>OSPF routes are missing; you want to check whether adjacencies formed.</p>", "o": ["show ip ospf neighbor", "show vlan brief", "show interfaces trunk", "show version"], "a": 0, "x": "Neighbours should reach the FULL state (or 2WAY between non-DR routers)."}, {"s": "<p>A user's PC port should come up immediately without waiting for spanning tree.</p>", "o": ["spanning-tree portfast", "spanning-tree mode pvst", "switchport mode trunk", "channel-group 1 mode active"], "a": 0, "x": "PortFast is for end-device ports only; pair it with BPDU Guard."}, {"s": "<p>You want to check whether PAT is translating inside addresses.</p>", "o": ["show ip nat translations", "show ip route", "show arp", "show logging"], "a": 0, "x": "Shows inside local, inside global, outside addresses and ports."}], "cap": "lab-cmd-cap"});
+  OMNI.trainer("lab-route-host", {"label": "routing puzzles", "intro": "Predict what the router does. Remember: longest prefix first, then administrative distance.", "items": [{"s": "<p>A router learns 10.1.0.0/16 from OSPF and 10.1.5.0/24 from a static route. A packet arrives for 10.1.5.9.</p>", "o": ["The static /24 route (longest prefix)", "The OSPF /16 route (dynamic is preferred)", "It is dropped", "It load-balances"], "a": 0, "x": "Longest prefix match comes first; administrative distance only compares the same prefix."}, {"s": "<p>A router learns 172.16.0.0/16 from both OSPF and EIGRP.</p>", "o": ["EIGRP (AD 90 beats OSPF 110)", "OSPF (AD 110)", "Whichever arrived first", "Both equally"], "a": 0, "x": "Same prefix, different sources: lower administrative distance wins."}, {"s": "<p>A static route to the backup ISP is configured with administrative distance 250, and the main default route is learned by OSPF.</p>", "o": ["A floating static route used only if the OSPF route disappears", "The preferred route", "An invalid configuration", "A route that load-balances with OSPF"], "a": 0, "x": "Raising a static route's distance above the dynamic one makes it a backup."}, {"s": "<p>Two OSPF routers on the same Ethernet segment have priorities 1 and 100.</p>", "o": ["The priority 100 router becomes the DR", "The priority 1 router becomes the DR", "The lowest router ID wins", "Neither becomes DR"], "a": 0, "x": "Highest priority wins the DR election; ties go to the highest router ID. Priority 0 never becomes DR."}, {"s": "<p>A packet arrives for 8.8.8.8 and no specific route exists, but S* 0.0.0.0/0 is present.</p>", "o": ["It uses the default route", "It is dropped", "It is broadcast", "It goes to the lowest-numbered interface"], "a": 0, "x": "The default route matches everything when nothing more specific does."}, {"s": "<p>OSPF uses the default reference bandwidth of 100 Mbps. What cost do a 1 Gbps and a 10 Gbps interface get?</p>", "o": ["Both get cost 1, so OSPF can't tell them apart", "10 and 1", "100 and 10", "1 and 0.1"], "a": 0, "x": "Cost can't go below 1. Raise the reference bandwidth so faster links get lower costs."}], "cap": "lab-route-cap"});
 </script>
-<!-- module-data:start -->
-<script type="application/json" id="module-data">{"module":14,"title":"Security Foundations and Cryptography","glossary":[["CIA triad","The three goals of security: secrecy, correctness, uptime.","Confidentiality, Integrity and Availability: the core properties that security controls protect.","Confidentiality, Integrity, Availability"],["Non-repudiation","Proof someone can't deny they did it.","Assurance that the sender of data cannot later deny having sent it, usually achieved with digital signatures.",""],["AAA","Who you are, what you may do, what you did.","Authentication, Authorization and Accounting, often provided by RADIUS or TACACS+.","Authentication, Authorization, Accounting"],["Least privilege","Give only the access needed.","Granting users and processes the minimum permissions required to perform their function.",""],["Zero trust","Never trust, always verify.","An architecture that removes implicit trust based on network location; every request is authenticated, authorized and continuously evaluated (NIST SP 800-207).",""],["Policy Enforcement Point","The gate that lets a request through or not.","The zero-trust component that enables, monitors and terminates connections based on decisions from the Policy Decision Point.","PEP"],["Gap analysis","Compare where you are with where you should be.","Assessment of current controls against a target framework to find missing or weak controls.",""],["Control categories","Technical, managerial, operational, physical.","SY0-701 groups controls by how they are implemented: technical, managerial, operational and physical.",""],["Control types","What the control does.","Preventive, deterrent, detective, corrective, compensating and directive.",""],["Compensating control","A substitute when the ideal control isn't possible.","An alternative control that reduces risk to an acceptable level when the primary control can't be applied.",""],["Honeypot","A decoy system to lure attackers.","A deception resource with no production value; any interaction with it is suspicious. Related: honeynet, honeyfile, honeytoken.",""],["MFA","Two or more different kinds of proof.","Multifactor authentication combining factors from different categories: something you know, have, are (or somewhere you are).","Multifactor Authentication"],["SSO","Log in once, use many apps.","Single sign-on: one authentication grants access to multiple systems, often using SAML, OpenID Connect or Kerberos.","Single Sign-On"],["Federation","Trusting another organization's logins.","A trust relationship where an identity provider vouches for users to service providers in other domains.",""],["SAML","XML-based SSO for web apps.","Security Assertion Markup Language: an identity provider sends signed XML assertions to a service provider.","Security Assertion Markup Language"],["OAuth 2.0","Lets an app act for you without your password.","An authorization framework that issues access tokens to clients; OpenID Connect adds authentication on top.",""],["RBAC","Access by job role.","Role-based access control: permissions are assigned to roles, and users get roles.","Role-Based Access Control"],["ABAC","Access by attributes and conditions.","Attribute-based access control: decisions use attributes of user, resource, action and environment.","Attribute-Based Access Control"],["MAC (access control)","Labels decide, not owners.","Mandatory access control: the system enforces access by classification labels and clearances.","Mandatory Access Control"],["DAC","Owner decides who gets access.","Discretionary access control: the resource owner sets permissions (e.g., NTFS file permissions).","Discretionary Access Control"],["Symmetric encryption","One shared key locks and unlocks.","Encryption where the same secret key encrypts and decrypts; fast, used for bulk data (AES, ChaCha20).",""],["Asymmetric encryption","A public key and a private key.","Encryption using a mathematically related key pair; what one key encrypts, only the other decrypts (RSA, ECC).",""],["AES","The standard symmetric cipher.","Advanced Encryption Standard (FIPS 197), a block cipher with 128-bit blocks and 128/192/256-bit keys.","Advanced Encryption Standard"],["AES-GCM","AES that also detects tampering.","Galois/Counter Mode: an authenticated encryption mode providing confidentiality plus an integrity tag.","Galois/Counter Mode"],["Diffie-Hellman","Agree on a secret in public.","A key exchange that lets two parties derive a shared secret over an insecure channel; ECDHE is its ephemeral elliptic-curve form.",""],["Perfect forward secrecy","Old sessions stay safe if a key leaks later.","Using ephemeral session keys so compromise of a long-term private key does not expose past sessions.","PFS"],["Hash","A fixed-size fingerprint of data.","A one-way function producing a fixed-length digest; any change to the input changes the output (SHA-256).",""],["Salt","Random extra data added before hashing.","A unique random value combined with a password before hashing so identical passwords produce different hashes and rainbow tables fail.",""],["Key stretching","Make each guess slow.","Repeatedly hashing or using memory-hard functions (PBKDF2, bcrypt, scrypt, Argon2) to slow brute-force attacks.",""],["Digital signature","Proves who signed and that nothing changed.","A hash of the data encrypted with the signer's private key; verified with the public key. Provides integrity, authentication and non-repudiation.",""],["PKI","The system that issues and checks certificates.","Public key infrastructure: CAs, RAs, certificates, revocation and policies that bind public keys to identities.","Public Key Infrastructure"],["Certificate authority","The trusted issuer of certificates.","An entity that signs certificates; root CAs are self-signed and kept offline, intermediates issue end-entity certificates.","CA"],["CRL / OCSP","Ways to check if a certificate was revoked.","Certificate Revocation List (a published list) and Online Certificate Status Protocol (a real-time query); OCSP stapling lets the server attach the response.","Certificate Revocation List / Online Certificate Status Protocol"],["CSR","Your request to get a certificate.","Certificate signing request: contains the public key and subject info, signed by the requester's private key.","Certificate Signing Request"],["Wildcard / SAN certificate","One certificate for many names.","A wildcard covers one level of subdomains (*.example.com); Subject Alternative Name lists specific names.","SAN = Subject Alternative Name"],["HSM","A hardened box that guards keys.","Hardware security module: tamper-resistant hardware that generates, stores and uses keys without exposing them.","Hardware Security Module"],["TPM","A security chip on the motherboard.","Trusted Platform Module: stores keys and measurements for secure/measured boot and disk encryption such as BitLocker.","Trusted Platform Module"],["Tokenization","Swap real data for a meaningless stand-in.","Replacing sensitive data with a token that maps back to the original only through a secured vault.",""],["Data masking","Hide part of the data.","Obscuring data (e.g., showing only last four card digits) so it remains usable without being fully revealed.",""],["Steganography","Hiding data inside other data.","Concealing a message inside another file (image, audio) so its existence isn't obvious.",""],["Data states","At rest, in transit, in use.","Data stored (at rest), moving across networks (in transit/in motion) and being processed in memory (in use).",""],["Post-quantum cryptography","Crypto that resists future quantum computers.","Algorithms believed secure against quantum attacks; NIST standards FIPS 203 (ML-KEM), 204 (ML-DSA), 205 (SLH-DSA).","PQC"]],"quiz":[{"t":"mc","q":"A bank wants proof that a customer approved a transfer and can't later deny it. Which property is that?","o":["Confidentiality","Availability","Non-repudiation","Obfuscation"],"a":2,"w":["Keeps data secret, doesn't prove who acted.","Keeps systems up.","Correct: provided by digital signatures.","Hides meaning, proves nothing."],"x":"Non-repudiation comes from a signature made with a private key only the signer holds.","c":"S","d":"1.2 Fundamental security concepts"},{"t":"mc","q":"A security guard at a lobby desk is which control category?","o":["Technical","Managerial","Operational","Physical"],"a":2,"w":["Technical controls are implemented by systems.","Managerial are policies and risk assessments.","Correct: SY0-701 classes guards as operational (people doing day-to-day tasks).","Common trap: a fence or lock is physical; a guard is a person carrying out procedures, so CompTIA lists guards as operational. Verify against the current objectives."],"x":"Categories: technical, managerial, operational, physical. Types: preventive, deterrent, detective, corrective, compensating, directive.","c":"S","d":"1.1 Security controls"},{"t":"mc","q":"Legacy equipment can't support MFA, so the team isolates it on a separate VLAN with strict ACLs. What control type is this?","o":["Directive","Compensating","Deterrent","Corrective"],"a":1,"w":["Directive tells people what to do (policy).","Correct: an alternative that reduces the risk.","Deterrent discourages (a warning sign).","Corrective fixes after an incident."],"x":"Compensating controls stand in when the preferred control is not feasible.","c":"S","d":"1.1 Security controls"},{"t":"ms","q":"Which are true of a zero trust architecture? (Choose two.)","o":["Users on the internal LAN are trusted by default","Every access request is authenticated and authorized","A Policy Decision Point evaluates requests and a Policy Enforcement Point applies the decision","A VPN alone satisfies zero trust"],"a":[1,2],"w":["That's the old perimeter model zero trust replaces.","Correct.","Correct: control plane (PDP) and data plane (PEP).","A VPN grants network location trust; zero trust removes it."],"x":"NIST SP 800-207 describes the PDP (policy engine plus administrator) and PEP.","c":"S","d":"1.2 Fundamental security concepts"},{"t":"mc","q":"A user logs in with a password and a code from an authenticator app. Which factors are used?","o":["Something you know + something you are","Something you know + something you have","Something you have + somewhere you are","Two knowledge factors"],"a":1,"w":["No biometric.","Correct: the phone holds the TOTP seed.","No location factor.","The app code proves possession, not knowledge."],"x":"Password + PIN would be two of the same factor, which is not MFA.","c":"S","d":"4.6 Identity and access management"},{"t":"mc","q":"Which access control model lets the file owner decide who can read the file?","o":["MAC","DAC","RBAC","ABAC"],"a":1,"w":["Labels and the system decide.","Correct: discretionary.","Roles decide.","Attributes and policies decide."],"x":"NTFS and Linux file permissions are DAC.","c":"S","d":"4.6 Identity and access management"},{"t":"mc","q":"Why does TLS use asymmetric cryptography during the handshake but symmetric encryption for the data?","o":["Symmetric ciphers can't encrypt large data","Asymmetric is fast but less secure","Asymmetric solves key exchange; symmetric is far faster for bulk data","Browsers require two algorithms by law"],"a":2,"w":["Symmetric is ideal for bulk data.","Asymmetric is the slow one.","Correct: hybrid cryptography.","No such law."],"x":"TLS 1.3 uses (EC)DHE to agree a key, then AES-GCM or ChaCha20-Poly1305 for records.","c":"S","d":"1.4 Cryptographic solutions"},{"t":"mc","q":"Alice wants to send Bob a confidential message using asymmetric encryption. Which key does she encrypt with?","o":["Alice's private key","Alice's public key","Bob's public key","Bob's private key"],"a":2,"w":["That makes a signature, which anyone can verify.","Only Alice's private key could decrypt it, so Bob couldn't.","Correct: only Bob's private key decrypts it.","Alice never has Bob's private key."],"x":"Encrypt with the recipient's public key; sign with your own private key.","c":"S","d":"1.4 Cryptographic solutions"},{"t":"mc","q":"Two users with the same password have different stored hashes. What made the difference?","o":["Encryption","A unique salt per user","Key escrow","Steganography"],"a":1,"w":["Passwords should be hashed, not encrypted.","Correct.","Escrow stores keys with a third party.","Hides data, unrelated."],"x":"Salting defeats rainbow tables; key stretching (bcrypt, Argon2) slows guessing.","c":"S","d":"1.4 Cryptographic solutions"},{"t":"mc","q":"A browser shows a certificate warning even though the certificate hasn't expired. The CA says the key was compromised last week. How would the browser learn this?","o":["CSR","OCSP or CRL","Key stretching","Certificate pinning only"],"a":1,"w":["A CSR requests a certificate.","Correct: revocation checking.","Slows password guessing.","Pinning restricts which certificate is accepted; it doesn't report revocation."],"x":"OCSP stapling lets the server provide a fresh signed OCSP response.","c":"S","d":"1.4 Cryptographic solutions"},{"t":"order","q":"Put the certificate chain in order from the trust anchor down to the website.","o":["Root CA (in the browser's trust store)","Intermediate CA","Server (leaf) certificate for www.example.com"],"x":"The root signs the intermediate, the intermediate signs the leaf. The server sends the leaf and intermediate; the root is already trusted.","c":"S","d":"1.4 Cryptographic solutions"},{"t":"mc","q":"Where are BitLocker keys typically protected on a modern laptop?","o":["HSM","TPM","Secure enclave on the NIC","Key escrow server only"],"a":1,"w":["HSMs are network or PCIe appliances for servers and CAs.","Correct.","Not a thing.","Recovery keys may be escrowed, but the TPM seals the volume key."],"x":"The TPM also stores boot measurements so tampering with the boot chain triggers recovery.","c":"A2","d":"2.x Security measures"},{"t":"scenario","sc":"A payment system must let support staff look up orders without ever seeing full card numbers. The real numbers sit in a separately secured vault and a random value is stored in the order database.","q":"Which technique is this?","o":["Hashing","Tokenization","Masking","Steganography"],"a":1,"w":["A hash can't be mapped back to the card for charging.","Correct: random token, mapped by the vault.","Masking would show part of the real number.","Hides data inside files."],"x":"Tokenization reduces PCI DSS scope because the token is worthless if stolen.","c":"S","d":"3.3 Protecting data"},{"t":"mc","q":"Data being processed in RAM by an application is in which state?","o":["At rest","In transit","In use","Archived"],"a":2,"w":["Stored data.","Moving across a network.","Correct.","A kind of at rest."],"x":"Protecting data in use relies on secure enclaves and confidential computing.","c":"S","d":"3.3 Protecting data"},{"t":"mc","q":"Which NIST standard defines ML-KEM, the post-quantum key encapsulation mechanism?","o":["FIPS 197","FIPS 203","FIPS 204","FIPS 140-3"],"a":1,"w":["That's AES.","Correct.","ML-DSA signatures.","Requirements for crypto modules."],"x":"FIPS 203 ML-KEM, 204 ML-DSA, 205 SLH-DSA (all August 2024).","c":"S","d":"1.4 Cryptographic solutions"}],"flashcards":[["Tool to prove a file wasn't changed","A hash (for example SHA-256)."],["Digital signature uses","A hash plus the sender's private key."],["Privilege creep","Leftover access that builds up as people change jobs."],["CIA","Confidentiality, Integrity, Availability"],["AAA","Authentication, Authorization, Accounting"],["Control categories (4)","Technical, managerial, operational, physical"],["Control types (6)","Preventive, deterrent, detective, corrective, compensating, directive"],["Zero trust PDP vs PEP","PDP decides (policy engine + administrator); PEP enforces"],["MFA factors","Know, have, are (plus somewhere you are)"],["DAC vs MAC","Owner decides vs labels/system decide"],["RBAC vs ABAC","Role decides vs attributes and conditions decide"],["SAML vs OAuth vs OIDC","SSO assertions (XML) / authorization tokens / authentication on OAuth"],["Symmetric examples","AES, ChaCha20 (3DES is legacy)"],["Asymmetric examples","RSA, ECC, Diffie-Hellman (key exchange)"],["Confidentiality to Bob","Encrypt with Bob's public key"],["Sign a message","Hash it, encrypt hash with your private key"],["Verify a signature","Use the signer's public key"],["AES block size","128 bits; keys 128/192/256"],["AES-GCM adds","Authentication tag (integrity)"],["PFS comes from","Ephemeral key exchange (ECDHE)"],["SHA-256 output","256 bits = 64 hex characters"],["Salt defeats","Rainbow tables"],["Key stretching algorithms","PBKDF2, bcrypt, scrypt, Argon2"],["Revocation check","CRL (list) or OCSP (live query); OCSP stapling"],["Wildcard covers","One subdomain level: *.example.com"],["TPM vs HSM","Chip on one device vs hardened appliance for many keys"],["Tokenization vs masking","Swap for random token vs hide part of real value"],["Data states","At rest, in transit, in use"],["PQC FIPS 203/204/205","ML-KEM / ML-DSA / SLH-DSA"],["TLS 1.3 round trips","1-RTT handshake (0-RTT resumption optional)"]]}</script>
-<!-- module-data:end -->
 </body>
 </html>

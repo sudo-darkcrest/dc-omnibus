@@ -247,7 +247,7 @@
   <ol>
     <li><b>Name lookup (Layer 7).</b> Your computer asks a DNS (Domain Name System) server for the site's IP address, for example 93.184.215.14.</li>
     <li><b>Connection (Layer 4).</b> The browser opens a TCP (Transmission Control Protocol) connection to port 443 using the three-way handshake: SYN, SYN-ACK, ACK. Newer sites may use QUIC over UDP instead.</li>
-    <li><b>Encryption (Layers 5 to 6).</b> TLS (Transport Layer Security) agrees on keys and checks the site's certificate (Module 14).</li>
+    <li><b>Encryption (Layers 5 to 6).</b> TLS (Transport Layer Security) agrees on keys and checks the site's certificate (Module 15).</li>
     <li><b>Request (Layer 7).</b> The browser sends "GET /" inside the encrypted tunnel.</li>
     <li><b>Addressing (Layer 3).</b> Each packet gets your IP as the source and the server's IP as the destination. These stay the same end to end (except where NAT changes them, Module 10).</li>
     <li><b>Local delivery (Layer 2).</b> The packet is wrapped in an Ethernet or Wi-Fi frame addressed to your router's MAC address, found using ARP.</li>

@@ -24,20 +24,23 @@ OMNI.catalog = [
   { n: 11,  part: 3, cat: "net", title: "Light and Copper", sub: "Cabling, fiber optics, wavelengths and WDM", certs: ["N", "DCCA", "A1"] },
   { n: 12,  part: 3, cat: "net", title: "Switches, Routers and Services", sub: "Switching, routing and the services that run networks", certs: ["N"] },
   { n: 13,  part: 3, cat: "net", title: "Wireless, Cellular and Operations", sub: "Radio, Wi-Fi and keeping networks healthy", certs: ["N", "A1", "S"] },
-  { n: 14,  part: 4, cat: "sec", title: "Security Foundations and Cryptography", sub: "Principles, identity and crypto", certs: ["S"] },
-  { n: 15,  part: 4, cat: "sec", title: "Know the Enemy", sub: "Threats, attacks and vulnerabilities", certs: ["S", "CYSA"] },
-  { n: 16,  part: 4, cat: "sec", title: "Defending the Organization", sub: "Architecture, operations and incident response", certs: ["S", "CYSA"] },
-  { n: 17,  part: 4, cat: "sec", title: "Cyber Security Careers", sub: "SOC work, attack frameworks and the security certification landscape", certs: ["CYSA", "S"] },
-  { n: 18,  part: 5, cat: "hw",  title: "Cloud, Containers and Storage", sub: "Virtualization, cloud models and storage", certs: ["N", "S", "A1", "DCCA", "CLF"] },
-  { n: 19,  part: 5, cat: "dc",  title: "Amazon Web Services", sub: "AWS cloud, core services, pricing and AWS certifications", certs: ["CLF"] },
-  { n: 20,  part: 5, cat: "dc",  title: "The Data Center", sub: "Power, cooling, space, cabling and safety", certs: ["DCCA", "N", "S"] },
-  { n: 21,  part: 5, cat: "gen", title: "Artificial Intelligence", sub: "How AI works, what it can and can't do, and where it might lead", certs: ["AIF", "GEN"] },
-  { n: 22,  part: 6, cat: "gov", title: "Running IT as a Service", sub: "ITIL 4 Foundation", certs: ["ITIL"] },
-  { n: 23,  part: 6, cat: "gov", title: "Frameworks That Run the Enterprise", sub: "Governance, risk and compliance", certs: ["S", "CISM", "CISA"] },
-  { n: 24,  part: 6, cat: "gov", title: "Leading Security", sub: "Information security management (CISM)", certs: ["CISM"] },
-  { n: 25,  part: 6, cat: "gov", title: "Checking the System", sub: "Information systems auditing (CISA)", certs: ["CISA"] },
-  { n: 26,  part: 7, cat: "gen", title: "Who Sets the Rules", sub: "Technology standards and standards bodies", certs: ["GEN", "N", "DCCA"] },
-  { n: 27,  part: 7, cat: "gen", title: "Study Hub", sub: "Plans, crosswalk and practice exams", certs: ["A1", "A2", "N", "S", "ITIL", "DCCA", "CISM", "CISA", "CLF", "AIF", "CYSA"] }
+  { n: 14,  part: 3, cat: "net", title: "Cisco Networking and the CCNA", sub: "Cisco IOS, switching, routing, services and automation", certs: ["CCNA", "N"] },
+  { n: 15,  part: 4, cat: "sec", title: "Security Foundations and Cryptography", sub: "Principles, identity and crypto", certs: ["S"] },
+  { n: 16,  part: 4, cat: "sec", title: "Know the Enemy", sub: "Threats, attacks and vulnerabilities", certs: ["S", "CYSA"] },
+  { n: 17,  part: 4, cat: "sec", title: "Defending the Organization", sub: "Architecture, operations and incident response", certs: ["S", "CYSA"] },
+  { n: 18,  part: 4, cat: "sec", title: "Hacking: White Hats, Black Hats and the Myths", sub: "What hackers really do, ethical hacking and penetration testing, the law, and the myths", certs: ["PT", "S", "CYSA"] },
+  { n: 19,  part: 4, cat: "sec", title: "Cyber Security Careers", sub: "SOC work, attack frameworks and the security certification landscape", certs: ["CYSA", "S"] },
+  { n: 20,  part: 5, cat: "hw",  title: "Cloud, Containers and Storage", sub: "Virtualization, cloud models and storage", certs: ["N", "S", "A1", "DCCA", "CLF"] },
+  { n: 21,  part: 5, cat: "dc",  title: "Amazon Web Services", sub: "AWS cloud, core services, pricing and AWS certifications", certs: ["CLF"] },
+  { n: 22,  part: 5, cat: "dc",  title: "Microsoft Azure and Microsoft 365", sub: "Azure cloud, Entra ID, Microsoft 365 and Microsoft certifications", certs: ["AZ900", "S"] },
+  { n: 23,  part: 5, cat: "dc",  title: "The Data Center", sub: "Power, cooling, space, cabling and safety", certs: ["DCCA", "N", "S"] },
+  { n: 24,  part: 5, cat: "gen", title: "Artificial Intelligence", sub: "How AI works, what it can and can't do, and where it might lead", certs: ["AIF", "GEN"] },
+  { n: 25,  part: 6, cat: "gov", title: "Running IT as a Service", sub: "ITIL 4 Foundation", certs: ["ITIL"] },
+  { n: 26,  part: 6, cat: "gov", title: "Frameworks That Run the Enterprise", sub: "Governance, risk and compliance", certs: ["S", "CISM", "CISA"] },
+  { n: 27,  part: 6, cat: "gov", title: "Leading Security", sub: "Information security management (CISM)", certs: ["CISM"] },
+  { n: 28,  part: 6, cat: "gov", title: "Checking the System", sub: "Information systems auditing (CISA)", certs: ["CISA"] },
+  { n: 29,  part: 7, cat: "gen", title: "Who Sets the Rules", sub: "Technology standards and standards bodies", certs: ["GEN", "N", "DCCA"] },
+  { n: 30,  part: 7, cat: "gen", title: "Study Hub", sub: "Plans, crosswalk and practice exams", certs: ["A1", "A2", "N", "S", "ITIL", "DCCA", "CISM", "CISA", "CLF", "AIF", "CYSA", "CCNA", "AZ900", "PT"] }
 ];
 /* Certs, exam codes and domains used for tagging and domain scoring.
    Exam codes and weights as published at time of writing (Nov 2026). Always verify on the vendor site. */
@@ -64,8 +67,14 @@ OMNI.certs = {
           domains: { "1": "Fundamentals of AI and ML", "2": "Fundamentals of Generative AI", "3": "Applications of Foundation Models", "4": "Guidelines for Responsible AI", "5": "Security, Compliance, and Governance for AI Solutions" } },
   CYSA: { name: "CySA+", code: "CS0-003", vendor: "CompTIA", url: "https://www.comptia.org/en-us/certifications/cybersecurity-analyst/",
           domains: { "1": "Security Operations", "2": "Vulnerability Management", "3": "Incident Response and Management", "4": "Reporting and Communication" } },
+  CCNA: { name: "CCNA", code: "200-301", vendor: "Cisco", url: "https://www.cisco.com/site/us/en/learn/training-certifications/certifications/enterprise/ccna/index.html",
+          domains: { "1": "Network Fundamentals", "2": "Network Access", "3": "IP Connectivity", "4": "IP Services", "5": "Security Fundamentals", "6": "Automation and Programmability" } },
+  AZ900: { name: "Azure Fundamentals", code: "AZ-900", vendor: "Microsoft", url: "https://learn.microsoft.com/en-us/credentials/certifications/azure-fundamentals/",
+          domains: { "1": "Describe cloud concepts", "2": "Describe Azure architecture and services", "3": "Describe Azure management and governance" } },
+  PT:   { name: "PenTest+", code: "PT0-003", vendor: "CompTIA", url: "https://www.comptia.org/en-us/certifications/pentest/",
+          domains: { "1": "Engagement Management", "2": "Reconnaissance and Enumeration", "3": "Vulnerability Discovery and Analysis", "4": "Attacks and Exploits", "5": "Post-exploitation and Lateral Movement" } },
   GEN:  { name: "General", code: "All certs", vendor: "", url: "", domains: { "0": "General knowledge" } }
 };
-OMNI.certOrder = ["A1", "A2", "N", "S", "ITIL", "DCCA", "CISM", "CISA", "CLF", "AIF", "CYSA", "GEN"];
+OMNI.certOrder = ["A1", "A2", "N", "S", "ITIL", "DCCA", "CISM", "CISA", "CCNA", "CLF", "AZ900", "AIF", "CYSA", "PT", "GEN"];
 OMNI.pad = function (n) { return (n < 10 ? "0" : "") + n; };
 OMNI.file = function (n) { return "module-" + OMNI.pad(n) + ".html"; };

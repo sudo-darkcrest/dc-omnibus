@@ -31,20 +31,23 @@ const PER = {
   8: { IPS: "In-Plane Switching" },
   11: { DR: "Data center Reach", ER: "Extended Reach", OS: "Optical Single-mode", PD: "Powered Device", STP: "Shielded Twisted Pair", FDM: "Frequency-Division Multiplexing" },
   12: { EF: "Expedited Forwarding", SPF: "Shortest Path First" },
-  14: { MAC: "Mandatory Access Control", ECC: "Elliptic Curve Cryptography" },
-  16: { MSA: "Master Service Agreement" },
-  18: { FC: "Fibre Channel" },
-  20: { TR: "Telecommunications Room", IV: null, VA: "Volt-Amperes", HFC: "Hydrofluorocarbon" },
-  23: { AC: "Access Control", AU: "Audit and Accountability", CM: "Configuration Management", SOC: "System and Organization Controls", MSA: "Master Service Agreement" },
-  25: { IR: null, CR: null, DR: null },
-  26: { PD: "Power Delivery" },
-  17: { SC: null, AZ: null }
+  15: { MAC: "Mandatory Access Control", ECC: "Elliptic Curve Cryptography" },
+  17: { MSA: "Master Service Agreement" },
+  20: { FC: "Fibre Channel" },
+  23: { TR: "Telecommunications Room", IV: null, VA: "Volt-Amperes", HFC: "Hydrofluorocarbon" },
+  26: { AC: "Access Control", AU: "Audit and Accountability", CM: "Configuration Management", SOC: "System and Organization Controls", MSA: "Master Service Agreement" },
+  28: { IR: null, CR: null, DR: null },
+  29: { PD: "Power Delivery" },
+  19: { SC: null, AZ: null },
+  14: { DR: null },
+  22: { AZ: null, SC: null, ID: null, RA: null, AI: null },
+  30: { AZ: null }
 };
 const DIGIT_BASE = new Set(["DDR", "GDDR", "LPDDR", "SFP", "QSFP", "OM", "OS"]);
 const SMALL = new Set(["of", "and", "the", "for", "to", "in", "on", "a", "an", "&", "with", "over", "as", "by"]);
 const norm = s => s.toLowerCase().replace(/[^a-z0-9]/g, "");
 const decode = s => s.replace(/&nbsp;/g, " ").replace(/&amp;/g, "&").replace(/&lt;/g, "<").replace(/&gt;/g, ">").replace(/&quot;/g, '"').replace(/&#39;/g, "'");
-const SKIP = new Set(["svg", "script", "style", "h1", "h2", "h3", "h4", "h5", "h6", "code", "pre", "button", "select", "option", "a", "th", "kbd", "summary", "label"]);
+const SKIP = new Set(["kicker", "svg", "script", "style", "h1", "h2", "h3", "h4", "h5", "h6", "code", "pre", "button", "select", "option", "a", "th", "kbd", "summary", "label"]);
 const HIDE = new Set(["svg", "script", "style"]);
 
 function initialsMatch(words, acro) {
@@ -84,8 +87,9 @@ for (const f of files) {
   while ((m = re.exec(region))) {
     if (m[1]) {
       const tag = m[1].toLowerCase(), closing = m[0][1] === "/";
-      if (closing) { const i = stack.lastIndexOf(tag); if (i >= 0) stack.length = i; }
-      else if (!m[2] && !/^(br|img|input|hr|meta|link|wbr)$/.test(tag)) stack.push(tag);
+      // the page kicker ("Part 5 · Cloud, Data Center and AI · Module 21") is a label, not prose
+      if (closing) { const i = tag === "div" ? Math.max(stack.lastIndexOf("div"), stack.lastIndexOf("kicker")) : stack.lastIndexOf(tag); if (i >= 0) stack.length = i; }
+      else if (!m[2] && !/^(br|img|input|hr|meta|link|wbr)$/.test(tag)) stack.push(tag === "div" && /class="kicker"/.test(m[0]) ? "kicker" : tag);
       if (/^(p|li|td|tr|div|section|h\d|br|table|ul|ol|figcaption)$/.test(tag)) plain += " ";
       continue;
     }

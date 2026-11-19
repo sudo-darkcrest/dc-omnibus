@@ -1,4 +1,4 @@
-/* Extra CISM-style questions used by the Module 24 practice exam and the Study Hub.
+/* Extra CISM-style questions used by the Module 27 practice exam and the Study Hub.
    Domains follow the ISACA CISM 2022 job practice; verify current weights on isaca.org. */
 OMNI.registerBank("cism", [
   /* Domain 1: Information Security Governance */

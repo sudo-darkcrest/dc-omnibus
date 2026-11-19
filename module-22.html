@@ -3,42 +3,12 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Module 22 · Running IT as a Service: ITIL 4 | Datacenter Omnibus</title>
-<meta name="description" content="ITIL 4 Foundation: key concepts, the four dimensions, the service value system, seven guiding principles, the service value chain, continual improvement and the practices, with five labs and a 40-question practice exam. Includes a note on ITIL (Version 5), launched February 2026.">
+<title>Module 22 · Microsoft Azure and Microsoft 365 | Datacenter Omnibus</title>
+<meta name="description" content="Microsoft Azure and Microsoft 365 for AZ-900 Azure Fundamentals: regions and availability zones, subscriptions and resource groups, compute, networking, storage redundancy, Entra ID, RBAC, Conditional Access, Azure Policy, cost management, SLAs and the Microsoft certification path.">
 <link rel="stylesheet" href="assets/omnibus.css">
 <style>
-  .svs-part { cursor: pointer; }
-  .svs-part:focus { outline: none; }
-  .svs-part:focus rect, .svs-part:focus circle, .svs-part:hover rect, .svs-part:hover circle { stroke-width: 4; }
-  .svs-part.on rect, .svs-part.on circle { stroke: var(--accent); stroke-width: 4; }
-  .info { border: 1px solid var(--line); border-radius: 10px; padding: 12px; background: var(--surface); margin-top: 8px; }
-  .info h4 { margin: 0 0 6px; }
-  .acts { display: flex; flex-wrap: wrap; gap: 6px; }
-  .stream { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; min-height: 46px; border: 2px dashed var(--line); border-radius: 10px; padding: 8px; }
-  .stream .step { background: var(--gov-soft); border: 1px solid var(--gov); border-radius: 8px; padding: 4px 10px; font-weight: 600; }
-  .stream .arrow { color: var(--ink-2); }
-  .seg { display: flex; flex-wrap: wrap; gap: 4px; }
-  .seg button.on { background: var(--accent); color: #fff; border-color: var(--accent); }
-  .sort-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
-  @media (max-width: 700px) { .sort-grid { grid-template-columns: 1fr 1fr; } }
-  .sort-grid .dropzone { min-height: 110px; }
   .chip.ok { border-color: var(--good); background: var(--good-soft); }
   .chip.bad { border-color: var(--bad); background: var(--bad-soft); }
-  .story { border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; margin: 8px 0; background: var(--surface); }
-  .story select { max-width: 100%; margin-top: 6px; }
-  .story.ok { border-color: var(--good); background: var(--good-soft); }
-  .story.bad { border-color: var(--bad); background: var(--bad-soft); }
-  .story .fb { font-size: .9rem; margin-top: 4px; }
-  .call { border: 1px solid var(--line); border-radius: 10px; padding: 12px; background: var(--surface); }
-  .call .who { font-weight: 700; }
-  .call .msg { font-style: italic; margin: 6px 0; }
-  .pmx td, .pmx th { text-align: center; padding: 6px 8px; }
-  .pmx td.hit { outline: 3px solid var(--accent); font-weight: 800; }
-  .p1 { background: var(--bad-soft); } .p2 { background: var(--warn-soft); } .p3 { background: var(--accent-soft); } .p4 { background: var(--good-soft); }
-  .qlist { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0; }
-  .qlist span { border: 1px solid var(--line); border-radius: 999px; padding: 2px 10px; font-size: .85rem; }
-  .qlist span.now { border-color: var(--accent); background: var(--accent-soft); font-weight: 700; }
-  .qlist span.done { opacity: .6; text-decoration: line-through; }
 </style>
 </head>
 <body data-module="22">
@@ -47,26 +17,16 @@
 <main class="page" id="main">
 
 <section class="intro">
-  <div class="kicker">Part 6 · Service, Governance and Audit · Module 22</div>
-  <h1>Running IT as a Service: ITIL 4</h1>
-  <div class="callout" style="border-left-color:var(--warn);background:var(--warn-soft)" id="itil5"><b>Version note (November 2026).</b> PeopleCert launched <b>ITIL (Information Technology Infrastructure Library; Version 5)</b> and its new ITIL Foundation (Version 5) exam in <b>February 2026</b>. ITIL 4 Foundation is still offered alongside it during a transition period; PeopleCert has said the two run in parallel for at least 12 months, and some training providers quote an ITIL 4 sunset at the end of 2027 (verify on peoplecert.org before you book). What changed in Version 5, according to published summaries (verify):
-    <ul>
-      <li>ITIL is reframed from "IT (Information Technology) service management" to <b>digital product and service management</b>.</li>
-      <li>The six-activity <b>service value chain</b> is replaced by an eight-activity <b>Product and Service Lifecycle Model</b>: Discover, Design, Build, Transition, Deliver, Support, Operate, Evolve.</li>
-      <li>The <b>seven guiding principles</b> and the <b>four dimensions</b> are kept, and all 34 practices remain (practice groups are reorganized).</li>
-      <li>New guidance on <b>AI (Artificial Intelligence)</b> (governance, ethics, risk), experience (user, customer, employee) and observability.</li>
-      <li>Foundation exam format looks the same: 40 multiple-choice questions, 60 minutes, 65% to pass. ITIL 5 certificates carry a three-year renewal; existing ITIL 4 Foundation holders do not need to retake, and an optional short "Foundation Bridge" exam exists.</li>
-    </ul>
-    This module teaches the <b>ITIL 4 Foundation</b> syllabus, because most of it (concepts, principles, dimensions, practices) carries straight into Version 5. Where Version 5 differs, the lessons say so.</div>
-  <p class="why"><b>Why this matters.</b> Technology only creates value when people can rely on it. ITIL is the most widely used framework for running IT as a set of services: taking requests, fixing outages, finding root causes, making safe changes and improving over time. Service desks, operations teams, data centers and cloud providers all use its language, and many job ads ask for ITIL 4 Foundation. It also links directly to Security+ change management and incident response, and to CISA (Certified Information Systems Auditor)'s IT operations domain.</p>
+  <div class="kicker">Part 5 · Cloud, Data Center and AI · Module 22</div>
+  <h1>Microsoft Azure and Microsoft 365</h1>
+  <p class="why"><b>Why this matters.</b> Microsoft runs the second-largest public cloud and the most common business email and office platform. Almost every IT (Information Technology) job touches Entra ID and Microsoft 365, and many touch Azure. This module covers the AZ-900 Azure Fundamentals exam, shows what help desk staff do in Microsoft 365, translates Azure into AWS (Amazon Web Services) terms, and maps out the Microsoft certifications worth considering.</p>
   <h3>You will be able to</h3>
   <ul class="outcomes">
-    <li>Define service, product, service offering, value, outcomes, costs, risks, utility and warranty, and the roles of customer, user and sponsor.</li>
-    <li>Explain the four dimensions of service management and the PESTLE (Political, Economic, Social, Technological, Legal, Environmental) factors that affect them.</li>
-    <li>Describe the service value system and the six activities of the service value chain, and combine them into value streams.</li>
-    <li>Apply the seven guiding principles to real situations.</li>
-    <li>Recall the purpose of 15 ITIL practices and explain the seven practices examined in detail.</li>
-    <li>Relate ITIL to DevOps, Agile, Lean and ISO/IEC (ISO: International Organization for Standardization; IEC: International Electrotechnical Commission) 20000, and know what changed in ITIL (Version 5).</li>
+    <li>Tell Azure, Microsoft 365 and Dynamics 365 apart, and explain shared responsibility.</li>
+    <li>Describe regions, availability zones, region pairs and the management group to resource hierarchy.</li>
+    <li>Choose the right compute, networking and storage service, including storage redundancy options.</li>
+    <li>Explain Entra ID, MFA (Multifactor Authentication), Conditional Access, RBAC (Role-Based Access Control) and Zero Trust.</li>
+    <li>Use Azure Policy, locks, tags, cost tools and SLAs (Service Level Agreement) to govern a cloud estate, and plan a Microsoft certification path.</li>
   </ul>
   <nav class="jumpnav" id="jumpnav" aria-label="On this page"></nav>
 </section>
@@ -76,277 +36,226 @@
   <div id="certmap-badges"></div>
 </section>
 
-<section class="lesson" id="concepts">
-  <h2>1. Key concepts of service management</h2>
-  <div class="callout analogy">A restaurant is a service. You want the outcome "a nice dinner without cooking." The restaurant removes costs (buying ingredients, washing up) and risks (burning the food) but imposes others (the bill, the wait). The menu is the service offering. The food is the utility; the clean kitchen, short wait and safe food are the warranty.</div>
-  <div class="tablewrap"><table>
-    <thead><tr><th>Term</th><th>Plain meaning</th><th>ITIL 4 definition (paraphrased)</th></tr></thead>
-    <tbody>
-      <tr><td><b>Service</b></td><td>Useful work done for you</td><td>A means of enabling value co-creation by facilitating outcomes customers want, without them having to manage specific costs and risks</td></tr>
-      <tr><td><b>Product</b></td><td>The package of resources behind it</td><td>A configuration of an organization's resources designed to offer value for a consumer</td></tr>
-      <tr><td><b>Service offering</b></td><td>What exactly you get</td><td>A formal description of one or more services for a target consumer group: <b>goods</b> (ownership transfers, e.g., a phone), <b>access to resources</b> (e.g., a mailbox) and <b>service actions</b> (e.g., user support)</td></tr>
-      <tr><td><b>Value</b></td><td>How useful it is to you</td><td>The perceived benefits, usefulness and importance of something; it is <b>co-created</b> by provider and consumer</td></tr>
-      <tr><td><b>Output</b> vs <b>outcome</b></td><td>What we hand over vs what you achieve</td><td>Output: a tangible or intangible deliverable of an activity. Outcome: a result for a stakeholder enabled by one or more outputs</td></tr>
-      <tr><td><b>Cost</b></td><td>Money spent</td><td>Costs <b>removed</b> from the consumer (staff, hardware they no longer need) and costs <b>imposed</b> (the price, training)</td></tr>
-      <tr><td><b>Risk</b></td><td>Things that might go wrong</td><td>A possible event that could cause harm or loss, or make it harder to achieve objectives; services remove some risks and impose others</td></tr>
-      <tr><td><b>Utility</b></td><td>Fit for purpose: <i>what</i> it does</td><td>The functionality offered by a product or service to meet a particular need</td></tr>
-      <tr><td><b>Warranty</b></td><td>Fit for use: <i>how well</i></td><td>Assurance that a product or service will meet agreed requirements: availability, capacity, security, continuity</td></tr>
-    </tbody></table></div>
-  <h3 id="roles">Roles and relationships</h3>
-  <div class="tablewrap"><table>
-    <thead><tr><th>Role</th><th>Does what</th><th>Example (payroll service)</th></tr></thead>
-    <tbody>
-      <tr><td><b>Customer</b></td><td>Defines requirements and takes responsibility for outcomes</td><td>HR (Human Resources) manager</td></tr>
-      <tr><td><b>User</b></td><td>Uses the service</td><td>Payroll clerks</td></tr>
-      <tr><td><b>Sponsor</b></td><td>Authorizes budget</td><td>Finance director</td></tr>
-    </tbody></table></div>
-  <p>A <b>service relationship</b> is a cooperation between a provider and a consumer. It includes <b>service provision</b> (the provider managing resources and delivering), <b>service consumption</b> (the consumer using and paying) and <b>service relationship management</b> (joint activities to keep co-creating value). Organizations are often both providers and consumers in a chain of relationships.</p>
-  <div class="callout trap">"The customer and the user are always different people." Not true: they are roles, and one person can be customer, user and sponsor at once.</div>
-</section>
-
-<section class="lesson" id="dimensions">
-  <h2>2. The four dimensions of service management</h2>
-  <figure class="fig"><svg id="dim-fig" viewBox="0 0 760 300" width="760" role="img" aria-label="Four dimensions around a central value, surrounded by PESTLE factors"></svg>
-  <figcaption class="figcap">Every service, and the whole service value system, must consider all four dimensions. External PESTLE factors push on all of them.</figcaption></figure>
-  <div class="tablewrap"><table>
-    <thead><tr><th>Dimension</th><th>Covers</th><th>Ask yourself</th></tr></thead>
-    <tbody>
-      <tr><td><b>Organizations and people</b></td><td>Structure, roles, culture, skills, staffing, leadership, communication</td><td>Do people know their roles, and does the culture support trust and collaboration?</td></tr>
-      <tr><td><b>Information and technology</b></td><td>The information and knowledge needed, and the technology (tools, AI, cloud, databases) that supports services</td><td>What data does this service manage, and which tools do we need?</td></tr>
-      <tr><td><b>Partners and suppliers</b></td><td>Relationships with other organizations involved in design, delivery and support; sourcing strategy</td><td>What do we buy, outsource or integrate, and why?</td></tr>
-      <tr><td><b>Value streams and processes</b></td><td>How parts of the organization work together: workflows, activities, controls</td><td>What are the steps, and where is the waste?</td></tr>
-    </tbody></table></div>
-  <p><b>PESTLE</b> factors constrain and influence all four dimensions: <b>P</b>olitical, <b>E</b>conomic, <b>S</b>ocial, <b>T</b>echnological, <b>L</b>egal, <b>E</b>nvironmental. A new privacy law (legal) can change the information you can store, the suppliers you can use and the processes you follow.</p>
-</section>
-
-<section class="lesson" id="svs">
-  <h2>3. The service value system (SVS)</h2>
-  <p>The SVS shows how all of an organization's components and activities work together to turn <b>opportunity and demand</b> into <b>value</b>. Its five components are the <b>guiding principles</b>, <b>governance</b>, the <b>service value chain</b>, <b>practices</b> and <b>continual improvement</b>. The SVS aims to break down <b>silos</b> and make the organization flexible. Explore it in Lab 1.</p>
-  <ul>
-    <li><b>Opportunity</b>: options to add value for stakeholders. <b>Demand</b>: the need or desire for products and services.</li>
-    <li><b>Governance</b>: the means by which an organization is directed and controlled. The governing body <b>evaluates</b>, <b>directs</b> and <b>monitors</b>.</li>
-    <li><b>Practices</b>: sets of organizational resources for performing work. ITIL 4 has 34 practices in three groups: general management (14), service management (17) and technical management (3).</li>
-    <li><b>Continual improvement</b> happens at every level, from strategy down to individual tasks.</li>
-  </ul>
-</section>
-
-<section class="lesson" id="principles">
-  <h2>4. The seven guiding principles</h2>
-  <p>A guiding principle is a recommendation that guides an organization <b>in all circumstances</b>. Consider all seven together and decide which matter most in each situation; they interact.</p>
-  <div class="tablewrap"><table>
-    <thead><tr><th>Principle</th><th>In one line</th><th>Example</th></tr></thead>
-    <tbody>
-      <tr><td><b>Focus on value</b></td><td>Everything should link to value for someone; know your consumer</td><td>Before adding a new report, ask which decision it helps and who reads it</td></tr>
-      <tr><td><b>Start where you are</b></td><td>Don't start from scratch; observe the current state directly and reuse what works</td><td>Walk the service desk floor before redesigning its process</td></tr>
-      <tr><td><b>Progress iteratively with feedback</b></td><td>Small, manageable steps with feedback loops</td><td>Roll out self-service to one department, gather feedback, then expand</td></tr>
-      <tr><td><b>Collaborate and promote visibility</b></td><td>Work across boundaries; make work and progress visible</td><td>A shared Kanban board shows every team where requests are stuck</td></tr>
-      <tr><td><b>Think and work holistically</b></td><td>No service or part stands alone; see the whole system</td><td>Check how a database change affects monitoring, support and suppliers</td></tr>
-      <tr><td><b>Keep it simple and practical</b></td><td>Use the minimum steps; remove what adds no value; outcome-based thinking</td><td>Drop an approval step that nobody ever rejects</td></tr>
-      <tr><td><b>Optimize and automate</b></td><td>Optimize first, then automate; use technology to free people for valuable work</td><td>Simplify the onboarding workflow, then automate account creation</td></tr>
-    </tbody></table></div>
-  <div class="callout tip">In ITIL (Version 5) the seven principles keep the same names (verify).</div>
-</section>
-
-<section class="lesson" id="valuechain">
-  <h2>5. The service value chain</h2>
-  <figure class="fig"><svg id="vc-fig" viewBox="0 0 760 260" width="760" role="img" aria-label="Six service value chain activities between demand and value"></svg>
-  <figcaption class="figcap">Six activities, any order, used as often as needed. A specific path for one scenario is a value stream.</figcaption></figure>
-  <div class="tablewrap"><table>
-    <thead><tr><th>Activity</th><th>Purpose</th></tr></thead>
-    <tbody>
-      <tr><td><b>Plan</b></td><td>Shared understanding of the vision, current status and improvement direction for all four dimensions and all products and services</td></tr>
-      <tr><td><b>Improve</b></td><td>Continual improvement of products, services and practices across all value chain activities and the four dimensions</td></tr>
-      <tr><td><b>Engage</b></td><td>Good understanding of stakeholder needs, transparency, continual engagement and good relationships with all stakeholders (the main interface with users and customers)</td></tr>
-      <tr><td><b>Design and transition</b></td><td>Products and services continually meet stakeholder expectations for quality, costs and time to market</td></tr>
-      <tr><td><b>Obtain/build</b></td><td>Service components are available when and where needed and meet agreed specifications</td></tr>
-      <tr><td><b>Deliver and support</b></td><td>Services are delivered and supported according to agreed specifications and stakeholder expectations</td></tr>
-    </tbody></table></div>
-  <div class="callout detail">Value chain activities use different combinations of practices. Incident management, for example, contributes to engage, deliver and support, improve, and more. In ITIL (Version 5) the value chain is replaced by the eight-activity Product and Service Lifecycle Model (Discover, Design, Build, Transition, Deliver, Support, Operate, Evolve; verify).</div>
-</section>
-
-<section class="lesson" id="ci">
-  <h2>6. The continual improvement model</h2>
-  <figure class="fig"><svg id="ci-fig" viewBox="0 0 760 185" width="760" role="img" aria-label="Seven steps of the continual improvement model"></svg></figure>
-  <ol>
-    <li><b>What is the vision?</b> Understand the high-level business direction.</li>
-    <li><b>Where are we now?</b> Objective baseline assessment.</li>
-    <li><b>Where do we want to be?</b> Measurable targets (gap analysis).</li>
-    <li><b>How do we get there?</b> A plan, often as iterations.</li>
-    <li><b>Take action.</b> Carry out the plan.</li>
-    <li><b>Did we get there?</b> Check results against targets.</li>
-    <li><b>How do we keep the momentum going?</b> Embed the change, celebrate success, start the next loop.</li>
-  </ol>
-  <p>Ideas are recorded and prioritized in a <b>continual improvement register (CIR)</b>. Continual improvement is everyone's responsibility.</p>
-</section>
-
-<section class="lesson" id="practices">
-  <h2>7. ITIL practices</h2>
-  <h3 id="purposes">Purpose of the 15 practices you must recognize</h3>
-  <div class="tablewrap"><table>
-    <thead><tr><th>Practice</th><th>Purpose (paraphrased)</th></tr></thead>
-    <tbody>
-      <tr><td>Information security management</td><td>Protect the information needed by the organization to conduct its business</td></tr>
-      <tr><td>Relationship management</td><td>Establish and nurture links with stakeholders at strategic and tactical levels</td></tr>
-      <tr><td>Supplier management</td><td>Ensure suppliers and their performance are managed to support seamless products and services</td></tr>
-      <tr><td>Availability management</td><td>Ensure services deliver agreed levels of availability</td></tr>
-      <tr><td>IT asset management</td><td>Plan and manage the full lifecycle of all IT assets: maximize value, control costs, manage risks, support decisions</td></tr>
-      <tr><td>Monitoring and event management</td><td>Systematically observe services and components and record and report selected changes of state (events)</td></tr>
-      <tr><td>Release management</td><td>Make new and changed services and features available for use</td></tr>
-      <tr><td>Service configuration management</td><td>Ensure accurate, reliable information about services and the configuration items (CIs) that support them is available when needed</td></tr>
-      <tr><td>Deployment management</td><td>Move new or changed hardware, software, documentation, processes or other components to live (or other) environments</td></tr>
-      <tr><td>Continual improvement *</td><td>Align practices and services with changing business needs through ongoing improvement</td></tr>
-      <tr><td>Change enablement *</td><td>Maximize the number of successful changes by ensuring risks are assessed, changes are authorized and the change schedule is managed</td></tr>
-      <tr><td>Incident management *</td><td>Minimize the negative impact of incidents by restoring normal service operation as quickly as possible</td></tr>
-      <tr><td>Problem management *</td><td>Reduce the likelihood and impact of incidents by identifying actual and potential causes and managing workarounds and known errors</td></tr>
-      <tr><td>Service request management *</td><td>Support the agreed quality of a service by handling all pre-defined, user-initiated service requests effectively and user-friendly</td></tr>
-      <tr><td>Service desk *</td><td>Capture demand for incident resolution and service requests; the entry point and single point of contact for all users</td></tr>
-      <tr><td>Service level management *</td><td>Set clear business-based targets for service levels, and ensure delivery is properly assessed, monitored and managed against them</td></tr>
-    </tbody></table></div>
-  <p class="figcap">* The seven practices examined in detail. The current syllabus lists 15 practices by purpose; continual improvement appears in both lists (verify the current syllabus).</p>
-
-  <h3 id="incident">Incident management</h3>
-  <ul>
-    <li>An <b>incident</b> is an unplanned interruption to a service or a reduction in its quality. Restore service fast; finding the cause is problem management's job.</li>
-    <li>Log every incident, <b>prioritize</b> by agreed classification (impact × urgency), keep users informed and update the record with symptoms, impact, CIs and actions.</li>
-    <li><b>Major incidents</b> get a separate procedure; security incidents may too. Some incidents are resolved by users (self-help), the service desk, support teams, suppliers or temporary teams. <b>Swarming</b> brings experts together.</li>
-  </ul>
-  <h3 id="problem">Problem management</h3>
-  <ul>
-    <li>A <b>problem</b> is a cause, or potential cause, of one or more incidents. A <b>known error</b> is a problem that has been analyzed but not resolved. A <b>workaround</b> reduces impact until a permanent fix.</li>
-    <li>Three phases: <b>problem identification</b> (trend analysis, recurring incidents, information from suppliers and developers), <b>problem control</b> (analysis using all four dimensions, documenting workarounds) and <b>error control</b> (managing known errors, assessing permanent solutions).</li>
-    <li>Permanent fixes usually go through <b>change enablement</b>.</li>
-  </ul>
-  <h3 id="change">Change enablement</h3>
-  <ul>
-    <li>A <b>change</b> is adding, modifying or removing anything that could directly or indirectly affect services.</li>
-    <li><b>Standard</b>: low risk, pre-authorized, well understood, often a service request. <b>Normal</b>: scheduled, assessed and authorized by the right <b>change authority</b>. <b>Emergency</b>: implemented as soon as possible (e.g., a critical patch), possibly with a separate authority and less documentation, but still assessed.</li>
-    <li>ITIL 4 <b>decentralizes</b> change authority: a <b>CAB (Change Advisory Board)</b> is just one option; peer review in a DevOps pipeline can authorize low-risk changes. The <b>change schedule</b> helps plan, communicate and avoid conflicts.</li>
-  </ul>
-  <h3 id="request">Service request management</h3>
-  <ul>
-    <li>A <b>service request</b> is a user request that starts an agreed, normal service action: information, access, a laptop, a password reset, feedback or a complaint.</li>
-    <li>Standardize and automate as much as possible; set clear policies on approvals; set realistic, agreed fulfilment times; some requests trigger a standard change.</li>
-  </ul>
-  <h3 id="desk">Service desk</h3>
-  <ul>
-    <li>The <b>single point of contact</b> for all users. Channels: phone, chat, email, portals, walk-in, social media. Can be centralized, <b>virtual</b> or follow-the-sun.</li>
-    <li>Staff need empathy, communication, customer-service skills, incident analysis and prioritization, and a practical understanding of the business, not only technical depth.</li>
-  </ul>
-  <h3 id="slm">Service level management</h3>
-  <ul>
-    <li>Sets business-based targets and makes sure delivery is measured against them. An <b>SLA (Service Level Agreement)</b> should relate to a defined service, describe outcomes (not just operational metrics) and be written in clear language.</li>
-    <li>Beware the <b>watermelon SLA</b>: green metrics, red customers. Gather customer engagement, feedback, surveys and business metrics.</li>
-    <li>Related terms: <b>OLA (Operational Level Agreement)</b> (between internal teams) and <b>UC</b> (underpinning contract with an external supplier). These come from earlier ITIL versions and are still common at work.</li>
-  </ul>
-  <div class="callout trap">"Incident management finds the root cause." No: incident management restores service; problem management finds and manages causes. A help desk that "fixes it by rebooting" closes the incident; the problem stays open until the cause is known.</div>
-</section>
-
-<section class="lesson" id="fit">
-  <h2>8. How ITIL fits with DevOps, Agile, Lean and ISO/IEC 20000</h2>
-  <div class="tablewrap"><table>
-    <thead><tr><th>Approach</th><th>How it relates to ITIL 4</th></tr></thead>
-    <tbody>
-      <tr><td><b>Agile</b></td><td>Iterative delivery and fast feedback; matches "progress iteratively with feedback" and value streams</td></tr>
-      <tr><td><b>DevOps</b></td><td>Joins development and operations with automation (CI/CD); ITIL 4 supports this with decentralized change authority and "optimize and automate"</td></tr>
-      <tr><td><b>Lean</b></td><td>Removing waste and improving flow; matches value stream mapping and "keep it simple and practical"</td></tr>
-      <tr><td><b>ISO/IEC 20000-1</b></td><td>The international standard for a service management system (SMS); organizations can be <b>certified</b> against it. ITIL is guidance, not a certifiable standard for organizations (people get ITIL certificates; organizations get ISO/IEC 20000 certification)</td></tr>
-    </tbody></table></div>
-  <h3 id="exam">The ITIL 4 Foundation exam</h3>
-  <div class="tablewrap"><table>
-    <thead><tr><th>Item</th><th>Detail (verify on peoplecert.org)</th></tr></thead>
-    <tbody>
-      <tr><td>Questions</td><td>40 multiple choice, one correct answer each</td></tr>
-      <tr><td>Time</td><td>60 minutes (extra time for non-native speakers in some cases)</td></tr>
-      <tr><td>Pass mark</td><td>65% (26 of 40)</td></tr>
-      <tr><td>Format</td><td>Closed book, online proctored or at a test center; no prerequisites</td></tr>
-      <tr><td>Weighting</td><td>Roughly 42.5% on the seven practices in detail (17 questions); the rest on concepts, principles, dimensions, SVS, value chain and practice purposes</td></tr>
-    </tbody></table></div>
-</section>
-
-<section class="lesson" id="itil-scenario">
-  <h2>9. ITIL in action: one incident, many practices</h2>
-  <p>ITIL practices make the most sense when you see them work together. Follow one email outage through an organisation that uses ITIL 4.</p>
-  <ol>
-    <li><b>Monitoring and event management</b> detects that the email service is failing health checks at 10:02 and raises an alert.</li>
-    <li><b>Service desk</b> starts receiving calls and links them to one major incident, keeping users updated through the status page.</li>
-    <li><b>Incident management</b> aims to restore service as fast as possible. Engineers fail over to the backup server at 10:40. Service is restored; the incident is resolved.</li>
-    <li><b>Problem management</b> then asks why it happened. The root cause: a certificate expired because nobody owned its renewal. A known error is recorded with the workaround.</li>
-    <li><b>Change enablement</b> approves a change to add automatic certificate renewal and expiry alerts.</li>
-    <li><b>Service configuration management</b> updates the configuration record so certificates appear as configuration items with owners.</li>
-    <li><b>Service level management</b> reports the 38-minute outage against the agreed availability target.</li>
-    <li><b>Continual improvement</b> adds "inventory all certificates" to the improvement register.</li>
-  </ol>
-  <div class="callout trap">Exam favourite: incident management restores service quickly; problem management finds and removes the underlying cause. They are different practices with different goals.</div>
-</section>
-
-<section class="lesson" id="itil-terms">
-  <h2>10. Words ITIL uses in a specific way</h2>
-  <p>ITIL Foundation questions often hinge on precise definitions. These are the ones people mix up most.</p>
-  <div class="tablewrap"><table><thead><tr><th>Term</th><th>ITIL meaning</th></tr></thead><tbody>
-    <tr><td>Service</td><td>A means of enabling value co-creation by facilitating outcomes customers want, without the customer managing specific costs and risks</td></tr>
-    <tr><td>Output vs outcome</td><td>An output is something produced (a report); an outcome is the result for a stakeholder (a better decision)</td></tr>
-    <tr><td>Utility vs warranty</td><td>Utility: what the service does (fit for purpose). Warranty: how well it does it (fit for use: availability, capacity, security, continuity)</td></tr>
-    <tr><td>Incident</td><td>An unplanned interruption or reduction in quality of a service</td></tr>
-    <tr><td>Problem</td><td>A cause, or potential cause, of one or more incidents</td></tr>
-    <tr><td>Known error</td><td>A problem that has been analysed but not yet resolved</td></tr>
-    <tr><td>Change</td><td>Adding, modifying or removing anything that could directly or indirectly affect services</td></tr>
-    <tr><td>Service request</td><td>A user request that is a normal part of service delivery (a password reset, a new laptop)</td></tr>
+<section class="lesson" id="family">
+  <h2>1. The Microsoft cloud family</h2>
+  <p>Microsoft sells three big cloud offerings that people often mix up. Knowing which is which is the first thing the AZ-900 (Azure Fundamentals) exam checks.</p>
+  <div class="tablewrap"><table><thead><tr><th>Offering</th><th>Cloud model</th><th>What it gives you</th><th>Who manages most of it</th></tr></thead><tbody>
+    <tr><td><b>Microsoft Azure</b></td><td>IaaS (Infrastructure as a Service) and PaaS (Platform as a Service; plus some SaaS (Software as a Service))</td><td>Virtual machines, networks, storage, databases, AI and hundreds of other building blocks</td><td>You build and run your own systems on Microsoft's hardware</td></tr>
+    <tr><td><b>Microsoft 365</b></td><td>SaaS</td><td>Email (Exchange Online), files (OneDrive, SharePoint), chat and meetings (Teams), Office apps, device management</td><td>Microsoft runs the service; you manage users, settings and data</td></tr>
+    <tr><td><b>Dynamics 365 and Power Platform</b></td><td>SaaS and low-code</td><td>Business apps (sales, finance, field service) and tools to build apps and automations without much code</td><td>Microsoft runs the platform; business teams build on it</td></tr>
   </tbody></table></div>
-  <div class="callout tip">A password reset is a service request, not an incident: nothing is broken; the user needs a standard thing done.</div>
+  <p>All three share one identity system, <b>Microsoft Entra ID</b> (formerly Azure Active Directory). Sign in once and the same account, groups and security rules apply across Azure, Microsoft 365 and Dynamics.</p>
+  <div class="callout analogy"><b>Analogy.</b> Azure is a huge hardware store where you buy parts and build your own house. Microsoft 365 is a fully furnished apartment: you just move in, decide who gets a key, and arrange the furniture.</div>
+  <h3>Cloud concepts AZ-900 expects you to know</h3>
+  <p>Module 20 covers cloud basics in depth. For AZ-900 the key ideas are:</p>
+  <ul>
+    <li><b>Shared responsibility.</b> The customer always owns their data, devices, accounts and identities. Microsoft always owns the physical data centers, hosts and network. Everything in between shifts towards Microsoft as you move from IaaS to PaaS to SaaS.</li>
+    <li><b>Public, private and hybrid cloud.</b> Azure is public cloud. Azure Stack and Azure Arc help you run or manage Azure-style services in your own data center (hybrid).</li>
+    <li><b>Consumption-based pricing.</b> You pay for what you use (operating expenditure, OpEx) instead of buying servers up front (capital expenditure, CapEx).</li>
+    <li><b>Benefits.</b> High availability, scalability (vertical: bigger machine; horizontal: more machines), elasticity (scaling automatically with demand), reliability, predictability, security, governance and manageability.</li>
+    <li><b>Serverless.</b> You supply code or a workflow and pay only when it runs; Microsoft manages servers entirely (Azure Functions, Logic Apps).</li>
+  </ul>
+</section>
+
+<section class="lesson" id="infra">
+  <h2>2. How Azure is organised: regions to resources</h2>
+  <p>Azure is built in two directions: <b>physical</b> (where things run) and <b>management</b> (how you organise and control them).</p>
+  <h3>Physical infrastructure</h3>
+  <div class="tablewrap"><table><thead><tr><th>Term</th><th>What it is</th><th>Why it matters</th></tr></thead><tbody>
+    <tr><td>Data center</td><td>A building full of servers, power and cooling (see Module 23)</td><td>You never pick one directly</td></tr>
+    <tr><td>Region</td><td>A geographic area with one or more data centers linked by a fast, low-latency network (for example East US or West Europe)</td><td>You choose a region for each resource, based on users, laws and price</td></tr>
+    <tr><td>Availability zone</td><td>A physically separate group of data centers inside a region, with its own power, cooling and network</td><td>Spreading copies across zones protects against one building failing</td></tr>
+    <tr><td>Region pair</td><td>Two regions in the same geography, usually at least 300 miles apart, that Microsoft updates one at a time</td><td>Used for disaster recovery and geo-redundant storage</td></tr>
+    <tr><td>Sovereign region</td><td>Isolated instances such as Azure Government (US) and Azure operated by 21Vianet (China)</td><td>Meets strict legal or government requirements</td></tr>
+  </tbody></table></div>
+  <h3>Management hierarchy</h3>
+  <ol>
+    <li><b>Management groups</b> hold subscriptions so you can apply policy and access rules to many at once. They can be nested.</li>
+    <li><b>Subscriptions</b> are billing and access boundaries. Many companies have separate subscriptions for production, development and each department.</li>
+    <li><b>Resource groups</b> are folders for resources that share a lifecycle. Delete the resource group and everything in it is deleted. A resource belongs to exactly one resource group.</li>
+    <li><b>Resources</b> are the actual things: a virtual machine, a storage account, a database.</li>
+  </ol>
+  <p>Every request to create or change something, whether from the portal, the command line, PowerShell or code, goes through <b>Azure Resource Manager (ARM)</b>. ARM checks who you are, whether you're allowed, and which policies apply. Infrastructure as code tools (ARM templates, <b>Bicep</b>, Terraform) describe resources in a file so ARM can build them the same way every time.</p>
+  <div class="callout tip">Memory aid for the hierarchy, top to bottom: <b>"My Small Red Robot"</b>: Management group, Subscription, Resource group, Resource. Settings flow downwards (inheritance).</div>
+  <div class="callout trap"><b>Exam trap.</b> A resource group can contain resources from different regions. The resource group's own region only stores its metadata.</div>
+</section>
+
+<section class="lesson" id="services">
+  <h2>3. Core Azure services</h2>
+  <h3>Compute</h3>
+  <div class="tablewrap"><table><thead><tr><th>Service</th><th>Type</th><th>Use it when</th></tr></thead><tbody>
+    <tr><td>Azure Virtual Machines</td><td>IaaS</td><td>You need full control of the operating system or must move an existing server ("lift and shift")</td></tr>
+    <tr><td>Virtual Machine Scale Sets</td><td>IaaS</td><td>You need many identical VMs that grow and shrink automatically</td></tr>
+    <tr><td>Azure Virtual Desktop</td><td>Desktop as a service</td><td>Users need a Windows desktop delivered from the cloud</td></tr>
+    <tr><td>Azure App Service</td><td>PaaS</td><td>You want to host a website or API (Application Programming Interface) without managing servers</td></tr>
+    <tr><td>Azure Container Instances / Container Apps</td><td>PaaS</td><td>You want to run containers quickly without a cluster</td></tr>
+    <tr><td>Azure Kubernetes Service (AKS)</td><td>Managed Kubernetes</td><td>You run many containers and need orchestration (Module 20)</td></tr>
+    <tr><td>Azure Functions</td><td>Serverless</td><td>Short pieces of code that run when an event happens</td></tr>
+  </tbody></table></div>
+  <h3>Networking</h3>
+  <ul>
+    <li><b>Virtual network (VNet)</b>: your private network in Azure, split into subnets. <b>VNet peering</b> connects VNets privately.</li>
+    <li><b>VPN (Virtual Private Network) Gateway</b>: encrypted tunnel to your office over the internet. <b>ExpressRoute</b>: a private dedicated connection that does not use the public internet.</li>
+    <li><b>Azure DNS (Domain Name System)</b> hosts domain records. <b>Load Balancer</b> spreads traffic at Layer 4; <b>Application Gateway</b> at Layer 7 with a web application firewall; <b>Front Door</b> globally.</li>
+    <li><b>Network security groups (NSGs)</b> are allow/deny rule lists on subnets or network cards. <b>Azure Firewall</b> is a managed, stateful firewall service. <b>Azure DDoS Protection</b> absorbs flood attacks.</li>
+    <li><b>Private endpoints</b> give a PaaS service a private IP (Internet Protocol) inside your VNet so traffic never crosses the internet.</li>
+  </ul>
+  <h3>Storage</h3>
+  <p>A <b>storage account</b> holds four main services: <b>Blob</b> (objects such as files, images and backups), <b>Files</b> (SMB/NFS file shares), <b>Queue</b> (messages between apps) and <b>Table</b> (simple NoSQL key-value data). VMs use <b>managed disks</b>.</p>
+  <div class="tablewrap"><table><thead><tr><th>Redundancy</th><th>Copies</th><th>Survives</th></tr></thead><tbody>
+    <tr><td>LRS (Locally redundant)</td><td>3 copies in one data center</td><td>A failed disk or server</td></tr>
+    <tr><td>ZRS (Zone-redundant)</td><td>3 copies across availability zones</td><td>A whole data center or zone failing</td></tr>
+    <tr><td>GRS (Geo-redundant)</td><td>LRS in the main region plus LRS in the paired region</td><td>A whole region failing</td></tr>
+    <tr><td>GZRS (Geo-zone-redundant)</td><td>ZRS in the main region plus LRS in the paired region</td><td>A zone failure and a region failure</td></tr>
+  </tbody></table></div>
+  <p>Add <b>RA-</b> (read access, as in RA-GRS) to let you read the secondary copy at any time. Blob <b>access tiers</b> trade storage price against access price: <b>Hot</b> (used often), <b>Cool</b> (30 days minimum), <b>Cold</b> (90 days) and <b>Archive</b> (180 days, offline, hours to restore).</p>
+  <p>Moving data in: <b>AzCopy</b> (command line), <b>Azure Storage Explorer</b> (desktop app), <b>Azure File Sync</b> (keeps Windows file servers in sync), <b>Azure Migrate</b> (assesses and moves servers) and <b>Azure Data Box</b> (a rugged physical device shipped to you for terabytes of data).</p>
+  <h3>Databases</h3>
+  <p><b>Azure SQL (Structured Query Language) Database</b> (managed SQL Server), <b>Azure Database for PostgreSQL and MySQL</b>, and <b>Azure Cosmos DB</b> (globally distributed NoSQL with single-digit-millisecond reads).</p>
+</section>
+
+<section class="lesson" id="identity">
+  <h2>4. Identity and security in Azure</h2>
+  <p>In the cloud, identity is the new perimeter. Most breaches start with a stolen password, so Microsoft puts identity at the centre of its security story.</p>
+  <ul>
+    <li><b>Microsoft Entra ID</b>: the cloud directory for users, groups, devices and apps. It is <i>not</i> the same as on-premises Active Directory Domain Services; it uses web protocols (OAuth 2.0, OpenID Connect, SAML (Security Assertion Markup Language)) instead of Kerberos and Group Policy. <b>Entra Connect</b> syncs on-premises accounts to the cloud. <b>Microsoft Entra Domain Services</b> offers managed classic domain features for old apps.</li>
+    <li><b>Single sign-on (SSO)</b>: one sign-in for many apps.</li>
+    <li><b>Multifactor authentication (MFA)</b>: something you know plus something you have or are (Module 15). <b>Passwordless</b> options include Windows Hello, FIDO2 (Fast Identity Online 2) security keys and the Microsoft Authenticator app.</li>
+    <li><b>Conditional Access</b>: if-then rules. "If a user signs in from an unknown country on an unmanaged device, then require MFA or block."</li>
+    <li><b>Azure role-based access control (RBAC)</b>: give people roles (Owner, Contributor, Reader, or specific built-in roles) at a scope (management group, subscription, resource group or resource). Permissions inherit downwards. Follow least privilege.</li>
+    <li><b>External identities</b>: B2B lets partners sign in with their own accounts; B2C lets customers sign up to your apps.</li>
+  </ul>
+  <div class="callout detail"><b>Zero Trust</b> is Microsoft's stated model: <b>verify explicitly</b>, <b>use least-privilege access</b> and <b>assume breach</b>. <b>Defense in depth</b> layers protections: physical, identity, perimeter, network, compute, application and data.</div>
+  <h3>Security services</h3>
+  <div class="tablewrap"><table><thead><tr><th>Service</th><th>Job</th></tr></thead><tbody>
+    <tr><td>Microsoft Defender for Cloud</td><td>Scores your security posture and protects workloads in Azure, other clouds and on-premises</td></tr>
+    <tr><td>Azure Key Vault</td><td>Stores secrets, keys and certificates safely so they are not written into code</td></tr>
+    <tr><td>Microsoft Sentinel</td><td>Cloud SIEM (Security Information and Event Management) and SOAR (Security Orchestration, Automation and Response): collects logs, detects threats and automates response (Module 17)</td></tr>
+    <tr><td>Microsoft Defender XDR (Extended Detection and Response)</td><td>Joins signals from endpoints, email, identities and cloud apps into single incidents</td></tr>
+    <tr><td>Microsoft Purview</td><td>Data governance, classification, data loss prevention and compliance</td></tr>
+  </tbody></table></div>
+</section>
+
+<section class="lesson" id="govern">
+  <h2>5. Governance, cost and monitoring</h2>
+  <h3>Keep things under control</h3>
+  <ul>
+    <li><b>Azure Policy</b>: rules that resources must follow, such as "only these regions" or "every resource must have a cost-center tag". Policy can audit, deny or fix (remediate). Group policies into <b>initiatives</b>.</li>
+    <li><b>Resource locks</b>: <b>CanNotDelete</b> stops deletion; <b>ReadOnly</b> stops any change. Locks apply even to Owners until removed.</li>
+    <li><b>Tags</b>: name-value labels (Department = Finance) for cost reports, automation and ownership. Tags don't inherit by default; use Policy to enforce them.</li>
+    <li><b>Microsoft Purview</b> maps and classifies data across the estate; the <b>Service Trust Portal</b> holds Microsoft's audit reports and compliance documents.</li>
+  </ul>
+  <div class="callout trap"><b>Exam trap.</b> RBAC controls <i>who</i> can do things. Azure Policy controls <i>what</i> resources may look like. Locks stop accidents. Three different tools.</div>
+  <h3>Understand and lower costs</h3>
+  <ul>
+    <li>Cost depends on resource type, size, region, usage time, data leaving Azure (egress; data going in is generally free) and the purchase model.</li>
+    <li><b>Pricing calculator</b>: estimate the cost of new resources. <b>TCO calculator</b> (total cost of ownership): compare running servers yourself with Azure.</li>
+    <li><b>Microsoft Cost Management</b>: see spending, set <b>budgets</b> and alerts, and split costs by tag.</li>
+    <li>Savings: <b>reservations</b> (commit for 1 or 3 years), <b>savings plans</b>, <b>spot VMs</b> (cheap spare capacity that can be taken away) and <b>Azure Hybrid Benefit</b> (reuse your existing Windows Server and SQL Server licences).</li>
+  </ul>
+  <h3>Service level agreements</h3>
+  <p>An <b>SLA</b> is Microsoft's uptime promise, such as 99.9% or 99.99%, with service credits if missed. Running two VMs across availability zones gives a higher SLA than one VM. Combining services multiplies their SLAs, so the overall figure goes <i>down</i>: 99.9% × 99.9% ≈ 99.8%. Preview features usually have no SLA.</p>
+  <h3>Manage and monitor</h3>
+  <div class="tablewrap"><table><thead><tr><th>Tool</th><th>Use it to</th></tr></thead><tbody>
+    <tr><td>Azure portal</td><td>Manage everything in a web browser</td></tr>
+    <tr><td>Azure Cloud Shell, Azure CLI, Azure PowerShell</td><td>Script and automate from a command line</td></tr>
+    <tr><td>Azure Arc</td><td>Manage servers, Kubernetes and databases outside Azure (on-premises or other clouds) as if they were Azure resources</td></tr>
+    <tr><td>Azure Advisor</td><td>Get free recommendations on cost, security, reliability, performance and operations</td></tr>
+    <tr><td>Azure Service Health</td><td>See Azure outages and planned maintenance affecting <i>your</i> resources</td></tr>
+    <tr><td>Azure Monitor (with Log Analytics and Application Insights)</td><td>Collect metrics and logs, query them, and set alerts</td></tr>
+  </tbody></table></div>
+</section>
+
+<section class="lesson" id="m365">
+  <h2>6. Microsoft 365 for IT support</h2>
+  <p>Even if you never build in Azure, you will almost certainly support Microsoft 365. It is the most common office platform in business.</p>
+  <div class="tablewrap"><table><thead><tr><th>Service</th><th>What users see</th><th>What admins manage</th></tr></thead><tbody>
+    <tr><td>Exchange Online</td><td>Outlook email, calendars, contacts</td><td>Mailboxes, shared mailboxes, mail flow rules, spam and phishing filters</td></tr>
+    <tr><td>SharePoint Online</td><td>Team sites and document libraries</td><td>Sites, permissions and external sharing</td></tr>
+    <tr><td>OneDrive</td><td>Personal cloud file storage</td><td>Storage limits, sync, retention</td></tr>
+    <tr><td>Microsoft Teams</td><td>Chat, meetings, calls</td><td>Teams policies, guest access, meeting rules</td></tr>
+    <tr><td>Microsoft Intune</td><td>Company apps on phones and laptops</td><td>Device enrolment, compliance policies, app deployment, remote wipe (mobile device management, Module 6)</td></tr>
+    <tr><td>Microsoft Purview</td><td>Sensitivity labels on documents</td><td>Data loss prevention, retention, eDiscovery, audit logs</td></tr>
+    <tr><td>Microsoft Defender for Office 365</td><td>Safe Links and Safe Attachments</td><td>Phishing protection and attack simulation training</td></tr>
+  </tbody></table></div>
+  <h3>Common help desk tasks</h3>
+  <ul>
+    <li>Create a user in the <b>Microsoft 365 admin center</b> and assign a licence. No licence, no mailbox.</li>
+    <li>Reset a password or MFA method (or let users do it themselves with self-service password reset).</li>
+    <li>Give a colleague access to a shared mailbox or a SharePoint site using groups, not one-off permissions.</li>
+    <li>Offboard a leaver: block sign-in, revoke sessions, convert the mailbox to shared or hand OneDrive to a manager, then remove the licence.</li>
+    <li>Check the <b>Service health</b> page before troubleshooting a "Teams is down" call. It may be Microsoft, not you.</li>
+  </ul>
+  <div class="callout tip">Rule of thumb: Microsoft 365 problems are usually <b>licence</b>, <b>permission</b>, <b>sync</b> or <b>sign-in (MFA or Conditional Access)</b>. Check those four first.</div>
+</section>
+
+<section class="lesson" id="compare">
+  <h2>7. Azure next to AWS</h2>
+  <p>If you studied AWS in Module 21, most Azure services have a close match. Employers like people who can translate between clouds.</p>
+  <div class="tablewrap"><table><thead><tr><th>Need</th><th>AWS</th><th>Azure</th></tr></thead><tbody>
+    <tr><td>Virtual machines</td><td>Amazon EC2 (Elastic Compute Cloud)</td><td>Azure Virtual Machines</td></tr>
+    <tr><td>Serverless functions</td><td>AWS Lambda</td><td>Azure Functions</td></tr>
+    <tr><td>Object storage</td><td>Amazon S3</td><td>Azure Blob Storage</td></tr>
+    <tr><td>Private network</td><td>Amazon VPC (Virtual Private Cloud)</td><td>Azure Virtual Network (VNet)</td></tr>
+    <tr><td>Private line to the cloud</td><td>AWS Direct Connect</td><td>Azure ExpressRoute</td></tr>
+    <tr><td>Managed relational database</td><td>Amazon RDS (Relational Database Service)</td><td>Azure SQL Database</td></tr>
+    <tr><td>Global NoSQL database</td><td>Amazon DynamoDB</td><td>Azure Cosmos DB</td></tr>
+    <tr><td>Managed Kubernetes</td><td>Amazon EKS (Elastic Kubernetes Service)</td><td>Azure Kubernetes Service (AKS)</td></tr>
+    <tr><td>Identity and access</td><td>AWS IAM (Identity and Access Management) / IAM Identity Center</td><td>Microsoft Entra ID plus Azure RBAC</td></tr>
+    <tr><td>Monitoring</td><td>Amazon CloudWatch</td><td>Azure Monitor</td></tr>
+    <tr><td>Audit log of API calls</td><td>AWS CloudTrail</td><td>Azure Activity Log</td></tr>
+    <tr><td>Infrastructure as code</td><td>AWS CloudFormation</td><td>ARM templates and Bicep</td></tr>
+    <tr><td>Grouping and billing boundary</td><td>AWS accounts and Organizations</td><td>Subscriptions and management groups</td></tr>
+    <tr><td>Recommendations</td><td>AWS Trusted Advisor</td><td>Azure Advisor</td></tr>
+    <tr><td>Secrets and keys</td><td>AWS KMS (Key Management Service) / Secrets Manager</td><td>Azure Key Vault</td></tr>
+  </tbody></table></div>
+  <p class="figcap">Services are similar, not identical. Features, limits and prices differ.</p>
+</section>
+
+<section class="lesson" id="path">
+  <h2>8. Microsoft certifications: where to start</h2>
+  <p>Microsoft certifications come in three levels. <b>Fundamentals</b> exams do not expire. <b>Associate</b> and <b>Expert</b> certifications must be renewed every year with a free online assessment on Microsoft Learn.</p>
+  <div class="tablewrap"><table><thead><tr><th>Exam</th><th>Certification</th><th>Level</th><th>Who it suits</th></tr></thead><tbody>
+    <tr><td>AZ-900</td><td>Azure Fundamentals</td><td>Fundamentals</td><td>Everyone new to Azure; the subject of this module</td></tr>
+    <tr><td>SC-900</td><td>Security, Compliance and Identity Fundamentals</td><td>Fundamentals</td><td>Anyone heading into security (pairs with Modules 15 to 19)</td></tr>
+    <tr><td>AI-901</td><td>Azure AI Fundamentals</td><td>Fundamentals</td><td>Replaced AI-900, which retired on June 30, 2026 (pairs with Module 24)</td></tr>
+    <tr><td>MS-900</td><td>Microsoft 365 Fundamentals</td><td>Fundamentals</td><td>Help desk and Microsoft 365 support (verify current status)</td></tr>
+    <tr><td>AZ-104</td><td>Azure Administrator Associate</td><td>Associate</td><td>Cloud administrators; on the top-paying lists</td></tr>
+    <tr><td>MS-102</td><td>Microsoft 365 Administrator Expert</td><td>Expert</td><td>Microsoft 365 administrators (verify current status)</td></tr>
+    <tr><td>SC-200</td><td>Security Operations Analyst Associate</td><td>Associate</td><td>Security operations center (SOC) analysts using Sentinel and Defender (Module 19)</td></tr>
+    <tr><td>SC-500</td><td>Azure security engineering</td><td>Associate</td><td>Replaces AZ-500 (announced for August 2026; verify)</td></tr>
+    <tr><td>AZ-305</td><td>Azure Solutions Architect Expert</td><td>Expert</td><td>Senior cloud architects; requires AZ-104</td></tr>
+  </tbody></table></div>
+  <p class="figcap">Microsoft retires and renames exams often. Exam codes here were believed correct in November 2026; always check Microsoft Learn before booking.</p>
+  <h3>AZ-900 exam facts (verify)</h3>
+  <div class="tablewrap"><table><thead><tr><th>Domain</th><th>Approximate weight</th><th>Sections in this module</th></tr></thead><tbody>
+    <tr><td>1. Describe cloud concepts</td><td>25 to 30%</td><td>1 and Module 20</td></tr>
+    <tr><td>2. Describe Azure architecture and services</td><td>35 to 40%</td><td>2, 3 and 4</td></tr>
+    <tr><td>3. Describe Azure management and governance</td><td>30 to 35%</td><td>5</td></tr>
+  </tbody></table></div>
+  <p>About 45 minutes, a passing score of 700 out of 1000, and roughly 40 to 60 questions. Microsoft Learn has a free learning path and a free practice assessment, and Microsoft often runs "Virtual Training Days" that include a free exam voucher.</p>
+  <div class="callout tip">A practical plan: Module 20 (cloud basics), then this module, then the free Microsoft Learn AZ-900 path and its practice assessment. Most beginners are ready in two to four weeks.</div>
 </section>
 
 <section class="lab" id="labs">
   <h2>Interactive labs</h2>
 
-  <div class="lab-card" id="lab-svs" data-lab="Service Value System Explorer: click each part of the SVS diagram to see its plain meaning, exam definition and an example.">
-    <h3>Lab 1: Service Value System Explorer</h3>
-    <p class="figcap">Click (or Tab to and press Enter on) any part of the diagram.</p>
-    <div class="stage"><svg id="svs-svg" viewBox="0 0 760 330" width="760" role="group" aria-label="Clickable service value system diagram"></svg></div>
-    <div class="info" id="svs-info">Choose a part of the SVS.</div>
-    <div class="caption" id="svs-cap" aria-live="polite"></div>
+  <div class="lab-card" id="lab-svc" data-lab="Azure Service Sorter: drag each Azure service into compute, networking, storage and data, identity and security, or governance and management.">
+    <h3>Lab 1: Azure Service Sorter</h3>
+    <div id="lab-svc-host"></div>
+    <div class="caption" id="lab-svc-cap" aria-live="polite"></div>
   </div>
 
-  <div class="lab-card" id="lab-vc" data-lab="Value Chain Builder: build a value stream for a scenario from the six value chain activities and get feedback on the order and alternatives.">
-    <h3>Lab 2: Value Chain Builder</h3>
-    <div class="row"><span>Scenario:</span><div class="seg" id="vc-scen"></div></div>
-    <p id="vc-desc"></p>
-    <p class="figcap">Click activities in the order your value stream uses them. You can use an activity more than once.</p>
-    <div class="acts" id="vc-acts"></div>
-    <div class="stream" id="vc-stream" aria-label="Your value stream" aria-live="polite"></div>
-    <div class="row"><button type="button" id="vc-undo">Undo last</button><button type="button" id="vc-clear">Clear</button><button type="button" class="primary" id="vc-check">Check my value stream</button><button type="button" id="vc-show">Show a model answer</button></div>
-    <div class="caption" id="vc-cap" aria-live="polite"></div>
+  <div class="lab-card" id="lab-xlate" data-lab="AWS to Azure Translator: pick the Azure service that matches each AWS service.">
+    <h3>Lab 2: AWS to Azure Translator</h3>
+    <div id="lab-xlate-host"></div>
+    <div class="caption" id="lab-xlate-cap" aria-live="polite"></div>
   </div>
 
-  <div class="lab-card" id="lab-sort" data-lab="Incident vs Problem vs Change Sorter: sort scenario cards into incident management, problem management, change enablement or service request management.">
-    <h3>Lab 3: Incident vs Problem vs Change Sorter</h3>
-    <p class="figcap">Drag each card (or click it, then click a box) to the practice that should handle it.</p>
-    <div class="dropzone" id="so-bank" aria-label="Unsorted cards"><span class="zone-title">Unsorted</span></div>
-    <div class="sort-grid" id="so-zones" style="margin-top:8px"></div>
-    <div class="row"><button type="button" class="primary" id="so-check">Check</button><button type="button" id="so-reset">Reset</button></div>
-    <div class="caption" id="so-cap" aria-live="polite"></div>
-  </div>
-
-  <div class="lab-card" id="lab-gp" data-lab="Guiding Principle Matcher: match short workplace stories to the ITIL 4 guiding principle each one shows.">
-    <h3>Lab 4: Guiding Principle Matcher</h3>
-    <div id="gp-list"></div>
-    <div class="row"><button type="button" class="primary" id="gp-check">Check answers</button><button type="button" id="gp-reset">Reset</button></div>
-    <div class="caption" id="gp-cap" aria-live="polite"></div>
-  </div>
-
-  <div class="lab-card" id="lab-desk" data-lab="Service Desk Simulator: work a queue of calls; log, categorize, prioritize with an impact × urgency matrix, then escalate or resolve.">
-    <h3>Lab 5: Service Desk Simulator</h3>
-    <div class="qlist" id="sd-queue" aria-label="Call queue"></div>
-    <div class="call" id="sd-call"></div>
-    <div class="controls">
-      <label class="field"><span>1. Log as</span><select id="sd-type"><option value="">Choose…</option><option value="incident">Incident</option><option value="request">Service request</option></select></label>
-      <label class="field"><span>2. Category</span><select id="sd-cat"><option value="">Choose…</option><option>Email and collaboration</option><option>Network and connectivity</option><option>Accounts and access</option><option>Hardware</option><option>Business application</option><option>Security</option></select></label>
-      <label class="field"><span>3. Impact</span><select id="sd-imp"><option value="">Choose…</option><option value="0">High (many users or critical business)</option><option value="1">Medium (a team or department)</option><option value="2">Low (one user)</option></select></label>
-      <label class="field"><span>4. Urgency</span><select id="sd-urg"><option value="">Choose…</option><option value="0">High (work stopped or deadline now)</option><option value="1">Medium (degraded, can wait hours)</option><option value="2">Low (can wait days)</option></select></label>
-      <label class="field"><span>5. Action</span><select id="sd-act"><option value="">Choose…</option><option value="first">Resolve or fulfil at first line (service desk)</option><option value="escalate">Escalate to a second-line or specialist team</option><option value="major">Declare a major incident</option><option value="security">Hand to the security incident procedure</option></select></label>
-    </div>
-    <div class="tablewrap"><table class="pmx" id="sd-mx" aria-label="Priority matrix"></table></div>
-    <div class="row"><button type="button" class="primary" id="sd-submit">Submit ticket</button><button type="button" id="sd-next">Next call →</button><button type="button" id="sd-restart">Restart queue</button><b id="sd-score"></b></div>
-    <div class="caption" id="sd-cap" aria-live="polite"></div>
+  <div class="lab-card" id="lab-tool" data-lab="Pick the Microsoft Tool: choose the right Azure or Microsoft 365 tool for each real workplace request.">
+    <h3>Lab 3: Pick the Microsoft Tool</h3>
+    <div id="lab-tool-host"></div>
+    <div class="caption" id="lab-tool-cap" aria-live="polite"></div>
   </div>
 </section>
 
@@ -357,39 +266,22 @@
 
 <section class="memory" id="memory">
   <h2>Memory aids</h2>
-  <div class="mnemonic">Guiding principles: "<b>F</b>ive <b>S</b>mart <b>P</b>eople <b>C</b>an <b>T</b>hink <b>K</b>indly <b>O</b>ften": Focus on value, Start where you are, Progress iteratively, Collaborate and promote visibility, Think holistically, Keep it simple, Optimize and automate.</div>
-  <div class="mnemonic">Value chain: "<b>P</b>lease <b>I</b>mprove <b>E</b>very <b>D</b>esign, <b>O</b>btain and <b>D</b>eliver": Plan, Improve, Engage, Design and transition, Obtain/build, Deliver and support.</div>
-  <div class="mnemonic">Four dimensions: "<b>O</b>ur <b>I</b>T <b>P</b>artners <b>V</b>alue": Organizations and people, Information and technology, Partners and suppliers, Value streams and processes.</div>
-  <div class="mnemonic">Roles: <b>C</b>ustomer <b>C</b>hooses (requirements), <b>U</b>ser <b>U</b>ses, <b>S</b>ponsor <b>S</b>pends.</div>
-  <div class="tablewrap"><table><thead><tr><th>Number</th><th>Meaning</th></tr></thead><tbody>
-    <tr><td>4</td><td>Dimensions of service management</td></tr>
-    <tr><td>5</td><td>SVS components (principles, governance, value chain, practices, continual improvement)</td></tr>
-    <tr><td>6</td><td>Value chain activities (Version 5: 8 lifecycle activities, verify)</td></tr>
-    <tr><td>7</td><td>Guiding principles; continual improvement model steps; practices in detail</td></tr>
-    <tr><td>3</td><td>Change types; problem management phases; practice groups</td></tr>
-    <tr><td>15 / 34</td><td>Practices by purpose on the exam / practices in ITIL 4</td></tr>
-    <tr><td>40 · 60 · 65%</td><td>Foundation questions · minutes · pass mark (26/40) (verify)</td></tr>
-  </tbody></table></div>
+  <div class="mnemonic">Hierarchy top to bottom: <b>"My Small Red Robot"</b>: Management group, Subscription, Resource group, Resource.</div>
+  <div class="mnemonic">Storage redundancy, smallest to largest: <b>L, Z, G, GZ</b>: Local (one building), Zone (across buildings), Geo (two regions), Geo-Zone (both).</div>
+  <div class="mnemonic">Three control tools: <b>RBAC = who</b>, <b>Policy = what</b>, <b>Locks = oops</b>.</div>
+  <div class="mnemonic">Calculators: <b>Pricing = "What will this cost?"</b> <b>TCO = "What will we save?"</b></div>
   <div class="tablewrap"><table><thead><tr><th>Exam trap</th><th>Why it is wrong</th></tr></thead><tbody>
-    <tr><td>"Value is delivered by the provider to the consumer."</td><td>ITIL 4 says value is <b>co-created</b>.</td></tr>
-    <tr><td>"A standard change needs CAB approval."</td><td>It is pre-authorized; only the procedure was assessed.</td></tr>
-    <tr><td>"Release and deployment are the same."</td><td>Deployment moves components; release makes them available for use.</td></tr>
-    <tr><td>"The value chain has a fixed order."</td><td>Activities combine in any order into value streams.</td></tr>
-    <tr><td>"Optimize and automate means automate first."</td><td>Optimize first; automating waste speeds up waste.</td></tr>
-    <tr><td>"A password reset is an incident."</td><td>It's a service request: a normal, agreed service action.</td></tr>
-    <tr><td>"Utility = available, warranty = features."</td><td>Reversed: utility is what it does, warranty is how well.</td></tr>
+    <tr><td>"Entra ID is just Active Directory in the cloud."</td><td>Different protocols and no Group Policy or OUs; Entra Domain Services fills that gap.</td></tr>
+    <tr><td>"Combining two 99.9% services keeps 99.9%."</td><td>Composite SLAs multiply and go down.</td></tr>
+    <tr><td>"Resource groups must match the region of their resources."</td><td>Resources in a group can be in any region.</td></tr>
+    <tr><td>"Data going into Azure costs money."</td><td>Ingress is generally free; egress is charged.</td></tr>
+    <tr><td>"Fundamentals certifications expire every year."</td><td>Fundamentals don't expire; Associate and Expert renew yearly for free.</td></tr>
   </tbody></table></div>
 </section>
 
 <section class="quiz" id="quiz">
   <h2>Knowledge check</h2>
   <div id="quiz-area"></div>
-</section>
-
-<section class="quiz" id="readiness">
-  <h2>ITIL 4 Foundation-style practice exam (40 questions)</h2>
-  <p>Forty multiple-choice questions, one correct answer each, like the real exam. Questions are drawn by syllabus area in roughly the real proportions (about 17 of 40 on the seven practices in detail). Turn on the timer for the real 60-minute pace. Aim for 65% (26 of 40) or better, the published pass mark (verify on peoplecert.org).</p>
-  <div id="readiness-area"></div>
 </section>
 
 <section class="flashcards" id="flashcards">
@@ -400,297 +292,29 @@
 <section class="deeper" id="deeper">
   <h2>Go deeper (official sources)</h2>
   <ul>
-    <li><a href="https://www.peoplecert.org/browse-certifications/it-governance-and-service-management/ITIL-1" rel="noopener">PeopleCert: ITIL certifications (ITIL 4 and ITIL Version 5)</a></li>
-    <li><a href="https://www.peoplecert.org/" rel="noopener">PeopleCert: exam booking, syllabus and sample papers</a></li>
-    <li><a href="https://www.iso.org/standard/70636.html" rel="noopener">ISO/IEC 20000-1:2018 Service management system requirements</a></li>
-    <li><a href="https://www.comptia.org/certifications/security" rel="noopener">CompTIA Security+ (change management objectives)</a></li>
+    <li><a href="https://learn.microsoft.com/en-us/credentials/certifications/azure-fundamentals/" rel="noopener">Microsoft Learn: Azure Fundamentals (AZ-900)</a> (study guide and free practice assessment)</li>
+    <li><a href="https://learn.microsoft.com/en-us/azure/" rel="noopener">Azure documentation</a></li>
+    <li><a href="https://learn.microsoft.com/en-us/entra/" rel="noopener">Microsoft Entra documentation</a></li>
+    <li><a href="https://learn.microsoft.com/en-us/microsoft-365/" rel="noopener">Microsoft 365 documentation</a></li>
+    <li><a href="https://azure.microsoft.com/en-us/pricing/calculator/" rel="noopener">Azure pricing calculator</a></li>
+    <li><a href="https://learn.microsoft.com/en-us/azure/architecture/aws-professional/" rel="noopener">Azure for AWS professionals</a></li>
+    <li><a href="https://learn.microsoft.com/en-us/credentials/browse/" rel="noopener">Browse all Microsoft credentials</a> (check for retirements)</li>
   </ul>
 </section>
 </main>
 <footer class="foot">Datacenter Omnibus · Original, independent study material. Not affiliated with or endorsed by any certification body, vendor or standards organisation. All trademarks belong to their owners. Exam details change; always verify on the vendor site. <a href="legal.html">Trademarks and copyright</a></footer>
 
+<!-- module-data:start -->
+<script type="application/json" id="module-data">{"module":22,"title":"Microsoft Azure and Microsoft 365","glossary":[["Region","A geographic area where Azure has data centers.","A set of data centers within a latency-defined perimeter connected by a dedicated low-latency network.",""],["Availability zone","A separate building group inside a region.","Physically separate locations within an Azure region, each with independent power, cooling and networking.","AZ"],["Region pair","Two linked regions for disaster recovery.","Two Azure regions in the same geography, updated one at a time and used for geo-redundant replication.",""],["Subscription","Azure's billing and access boundary.","A logical container linked to an account that groups resources for billing, quotas and access control.",""],["Resource group","A folder for related Azure resources.","A container that holds resources sharing a lifecycle; deleting it deletes everything inside.",""],["Management group","A folder for subscriptions.","A container above subscriptions used to apply policy and access at scale.",""],["Azure Resource Manager","The front door for every Azure change.","The deployment and management service that authenticates, authorises and applies every create, update and delete request.","ARM"],["Microsoft Entra ID","Microsoft's cloud identity service.","Cloud-based identity and access management for users, groups, devices and apps, formerly Azure Active Directory.","Azure AD"],["Conditional Access","If-then rules for signing in.","Entra ID policies that grant, require MFA for, or block sign-ins based on user, location, device, app and risk.",""],["Azure RBAC","Who can do what, where.","Role-based access control that assigns roles to users, groups or identities at a scope; permissions inherit down the hierarchy.","role-based access control"],["Azure Policy","Rules resources must obey.","A service that evaluates resources against rules and can audit, deny or remediate non-compliant ones.",""],["Resource lock","A safety catch on a resource.","A setting (CanNotDelete or ReadOnly) that prevents accidental deletion or modification.",""],["Geo-redundant storage","Copies kept in a second region.","Storage redundancy that replicates data to the paired region, protecting against a regional outage.","GRS"],["Archive tier","The cheapest, slowest blob storage.","An offline blob access tier for rarely used data, with hours of rehydration time and a 180-day minimum.",""],["Total cost of ownership calculator","Compares on-premises with Azure.","A Microsoft tool that estimates savings from moving on-premises workloads to Azure.","TCO calculator"],["Azure Arc","Azure management for things outside Azure.","A service that projects on-premises and multicloud servers, Kubernetes clusters and databases into Azure Resource Manager.",""]],"quiz":[{"t":"mc","q":"Which Azure feature protects an application if an entire data center in a region fails?","o":["Adding tags","Placing it in a resource group","Deploying across availability zones","Using a single larger VM"],"a":2,"w":["Tags are labels only.","Resource groups are logical, not physical.","Correct.","Still one location."],"x":"Availability zones are physically separate within a region.","c":"AZ900","d":"2"},{"t":"mc","q":"What happens when you delete a resource group?","o":["Resources move to another group","All resources in it are deleted","Only empty resources are deleted","Nothing; resource groups can't be deleted"],"a":1,"w":["They aren't moved.","Correct.","Everything goes.","They can."],"x":"That's why resources that share a lifecycle belong together.","c":"AZ900","d":"2"},{"t":"mc","q":"Which storage redundancy option survives the loss of a whole region?","o":["LRS","Premium SSD","GRS","ZRS"],"a":2,"w":["One data center only.","A disk type, not redundancy.","Correct.","One region only."],"x":"GRS and GZRS copy data to the paired region.","c":"AZ900","d":"2"},{"t":"mc","q":"A company must ensure no one creates resources outside approved regions. Which tool should they use?","o":["Azure Advisor","Resource locks","Azure RBAC","Azure Policy"],"a":3,"w":["Only recommends.","Stops deletion or change.","Controls who, not what.","Correct."],"x":"Allowed locations is a built-in policy.","c":"AZ900","d":"3"},{"t":"mc","q":"Which statement about Microsoft Entra ID is TRUE?","o":["It is identical to on-premises Active Directory with Group Policy","It stores virtual machine disks","It is a cloud identity service that supports SSO, MFA and Conditional Access","It only works with Azure, not Microsoft 365"],"a":2,"w":["Different protocols, no Group Policy.","That's managed disks.","Correct.","It's the identity behind Microsoft 365 too."],"x":"Formerly Azure Active Directory.","c":"AZ900","d":"2"},{"t":"mc","q":"Which cloud model is Microsoft 365?","o":["On-premises","IaaS","SaaS","PaaS"],"a":2,"w":["It's hosted by Microsoft.","You don't manage servers.","Correct.","You don't deploy code to it."],"x":"Microsoft runs the application; you manage users and data.","c":"AZ900","d":"1"},{"t":"mc","q":"Under the shared responsibility model, which is ALWAYS the customer's responsibility?","o":["Their data and user accounts","Physical data center security","The hypervisor","Network cabling in Azure data centers"],"a":0,"w":["Correct.","Microsoft.","Microsoft.","Microsoft."],"x":"Information, data, devices, accounts and identities always stay with the customer.","c":"AZ900","d":"1"},{"t":"mc","q":"Two services each have a 99.9% SLA and an application needs both. What is the composite SLA?","o":["99.99%","About 99.8%","100%","99.9%"],"a":1,"w":["Higher, not lower.","Correct.","No SLA promises 100%.","Too high."],"x":"Multiply: 0.999 × 0.999 ≈ 0.998.","c":"AZ900","d":"3"},{"t":"mc","q":"Which tool estimates what you'd save by moving your server room to Azure?","o":["TCO calculator","Azure Service Health","Azure Monitor","Pricing calculator"],"a":0,"w":["Correct.","Outages.","Monitoring.","Estimates new Azure resources."],"x":"TCO = total cost of ownership.","c":"AZ900","d":"3"},{"t":"ms","q":"Which TWO are serverless or PaaS compute options in Azure? (Choose two.)","o":["Azure Functions","Azure App Service","Azure Virtual Machines","Azure Data Box"],"a":[0,1],"w":["Correct.","Correct.","IaaS.","Data transfer device."],"x":"With Functions and App Service you don't manage the operating system.","c":"AZ900","d":"2"},{"t":"mc","q":"Which service manages on-premises servers as if they were Azure resources?","o":["Azure Advisor","Azure Files","Azure Arc","ExpressRoute"],"a":2,"w":["Recommendations.","File shares.","Correct.","Private connectivity."],"x":"Arc extends Azure management to other locations.","c":"AZ900","d":"3"},{"t":"order","q":"Put the Azure management hierarchy in order from top to bottom.","o":["Management group","Subscription","Resource group","Resource"],"a":[0,1,2,3],"x":"My Small Red Robot. Settings and permissions inherit downwards.","c":"AZ900","d":"2"}],"flashcards":[["Azure vs Microsoft 365","Azure is IaaS/PaaS you build on; Microsoft 365 is SaaS you use."],["Availability zone","Separate building group inside a region with its own power, cooling and network."],["Region pair","Two regions in one geography for disaster recovery; updated one at a time."],["Management hierarchy","Management group, subscription, resource group, resource."],["Azure Resource Manager","Every create or change request goes through ARM."],["LRS, ZRS, GRS, GZRS","One building, across zones, second region, zones plus second region."],["Blob access tiers","Hot, Cool (30 days), Cold (90), Archive (180, offline)."],["Entra ID","Microsoft's cloud identity service, formerly Azure Active Directory."],["Conditional Access","If-then sign-in rules based on user, location, device and risk."],["RBAC vs Policy vs Locks","Who can act; what resources may look like; stop accidents."],["Pricing vs TCO calculator","Cost of new Azure resources; savings from moving to Azure."],["Composite SLA","Multiply the SLAs; the result is lower than each one."],["Azure Arc","Manage on-premises and other clouds through Azure."],["Microsoft cert renewal","Fundamentals never expire; Associate and Expert renew yearly for free."],["AI-900 status","Retired June 30, 2026; replaced by AI-901."]]}</script>
+<!-- module-data:end -->
 <script src="data/catalog.js"></script>
 <script src="assets/omnibus.js"></script>
+<script src="assets/labkit.js"></script>
 <script src="data/m22.js"></script>
-<script src="data/bank-itil.js"></script>
 <script>
-(function () {
-  var h = OMNI.h, S = OMNI.svg, $ = function (id) { return document.getElementById(id); };
-  var esc = OMNI.esc || function (s) { return String(s).replace(/[&<>"']/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]; }); };
-  function txt(p, x, y, t, a) { var e = S("text", Object.assign({ x: x, y: y, class: "svg-text", "font-size": 12 }, a || {}), p); e.textContent = t; return e; }
-  function rect(p, x, y, w, hh, fill, stroke, extra) { return S("rect", Object.assign({ x: x, y: y, width: w, height: hh, rx: 8, fill: fill, stroke: stroke || "none", "stroke-width": 2 }, extra || {}), p); }
-  function arrow(p, x1, y1, x2, y2) {
-    S("line", { x1: x1, y1: y1, x2: x2, y2: y2, stroke: "var(--ink-2)", "stroke-width": 2 }, p);
-    var a = Math.atan2(y2 - y1, x2 - x1), s = 8;
-    S("polygon", { points: x2 + "," + y2 + " " + (x2 - s * Math.cos(a - .45)) + "," + (y2 - s * Math.sin(a - .45)) + " " + (x2 - s * Math.cos(a + .45)) + "," + (y2 - s * Math.sin(a + .45)), fill: "var(--ink-2)" }, p);
-  }
-  OMNI.readiness({ el: "readiness-area", id: "itil", modules: [19], banks: ["itil"], certs: ["ITIL"], count: 40, timerMin: 60, weights: { 1: 12.5, 2: 15, 3: 5, 4: 2.5, 5: 5, 6: 17.5, 7: 42.5 } });
-
-  /* ===== Figures ===== */
-  (function () {
-    var g = $("dim-fig");
-    rect(g, 10, 10, 740, 280, "var(--surface-2)", "var(--line)");
-    "POLITICAL ECONOMIC SOCIAL TECHNOLOGICAL LEGAL ENVIRONMENTAL".split(" ").forEach(function (w, i) { txt(g, 70 + i * 124, 32, w, { "text-anchor": "middle", "font-size": 11, class: "svg-muted", "font-weight": 700 }); });
-    var D = [["Organizations", "and people", 150, 100, "var(--gov)"], ["Information", "and technology", 610, 100, "var(--net)"], ["Partners", "and suppliers", 150, 230, "var(--dc)"], ["Value streams", "and processes", 610, 230, "var(--sec)"]];
-    S("circle", { cx: 380, cy: 165, r: 52, fill: "var(--accent-soft)", stroke: "var(--accent)", "stroke-width": 2 }, g);
-    txt(g, 380, 162, "Value", { "text-anchor": "middle", "font-weight": 800, "font-size": 15 }); txt(g, 380, 180, "co-created", { "text-anchor": "middle", "font-size": 10, class: "svg-muted" });
-    D.forEach(function (d) {
-      S("line", { x1: d[2], y1: d[3], x2: 380, y2: 165, stroke: d[4], "stroke-width": 2, "stroke-dasharray": "5 4" }, g);
-      rect(g, d[2] - 85, d[3] - 26, 170, 52, "var(--surface)", d[4]);
-      txt(g, d[2], d[3] - 4, d[0], { "text-anchor": "middle", "font-weight": 700 }); txt(g, d[2], d[3] + 13, d[1], { "text-anchor": "middle", "font-weight": 700 });
-    });
-    txt(g, 380, 280, "PESTLE factors act on all four dimensions", { "text-anchor": "middle", "font-size": 11, class: "svg-muted" });
-  })();
-  (function () {
-    var g = $("vc-fig"), A = ["Plan", "Improve", "Engage", "Design and transition", "Obtain/build", "Deliver and support"];
-    rect(g, 10, 95, 110, 70, "var(--surface)", "var(--ink-2)"); txt(g, 65, 125, "Demand", { "text-anchor": "middle", "font-weight": 700 }); txt(g, 65, 142, "and opportunity", { "text-anchor": "middle", "font-size": 10, class: "svg-muted" });
-    rect(g, 640, 95, 110, 70, "var(--good-soft)", "var(--good)"); txt(g, 695, 125, "Products and", { "text-anchor": "middle", "font-weight": 700 }); txt(g, 695, 142, "services → value", { "text-anchor": "middle", "font-weight": 700 });
-    rect(g, 150, 15, 460, 230, "var(--gov-soft)", "var(--gov)");
-    txt(g, 380, 36, "Service value chain: activities combine into value streams", { "text-anchor": "middle", "font-weight": 700, "font-size": 12 });
-    A.forEach(function (a, i) {
-      var x = 165 + (i % 3) * 150, y = 55 + Math.floor(i / 3) * 95;
-      rect(g, x, y, 130, 70, "var(--surface)", "var(--gov)");
-      txt(g, x + 65, y + 40, a, { "text-anchor": "middle", "font-weight": 700, "font-size": a.length > 14 ? 11 : 13 });
-    });
-    arrow(g, 120, 130, 150, 130); arrow(g, 610, 130, 640, 130);
-  })();
-  (function () {
-    var g = $("ci-fig"), st = ["What is the vision?", "Where are we now?", "Where do we want to be?", "How do we get there?", "Take action", "Did we get there?", "Keep the momentum going"];
-    st.forEach(function (s, i) {
-      var x = 10 + i * 107;
-      rect(g, x, 40, 95, 90, i === 4 ? "var(--accent-soft)" : "var(--surface)", "var(--gov)");
-      txt(g, x + 47, 62, String(i + 1), { "text-anchor": "middle", "font-weight": 800, "font-size": 18, fill: "var(--gov)" });
-      var words = s.split(" "), l1 = [], l2 = [];
-      words.forEach(function (w) { (l1.join(" ").length + w.length < 12 ? l1 : l2).push(w); });
-      txt(g, x + 47, 90, l1.join(" "), { "text-anchor": "middle", "font-size": 11 }); txt(g, x + 47, 106, l2.join(" "), { "text-anchor": "middle", "font-size": 11 });
-      if (i < 6) arrow(g, x + 95, 85, x + 107, 85);
-    });
-    S("path", { d: "M 700 130 C 700 165, 57 165, 57 132", fill: "none", stroke: "var(--ink-2)", "stroke-width": 1.5, "stroke-dasharray": "5 4" }, g);
-    txt(g, 380, 180, "…and loop back to the vision", { "text-anchor": "middle", "font-size": 10, class: "svg-muted" });
-    txt(g, 380, 22, "Each loop is recorded in the continual improvement register (CIR)", { "text-anchor": "middle", "font-size": 11, class: "svg-muted" });
-  })();
-
-  /* ===== Lab 1: SVS explorer ===== */
-  var SVS = {
-    od: { n: "Opportunity and demand", p: "The reasons to do anything: chances to add value, and requests or needs from customers.", d: "Opportunity represents options or possibilities to add value for stakeholders or otherwise improve the organization. Demand is the need or desire for products and services among internal and external consumers.", e: "Staff ask for remote access (demand); a new cloud platform could cut costs (opportunity)." },
-    gp: { n: "Guiding principles", p: "Seven pieces of advice that apply in every situation.", d: "Recommendations that can guide an organization in all circumstances, regardless of changes in its goals, strategies, type of work or management structure.", e: "Before building a new portal, the team 'starts where they are' by reviewing the existing one." },
-    gov: { n: "Governance", p: "How the top of the organization steers and checks.", d: "The means by which an organization is directed and controlled. The governing body evaluates the organization, directs it by assigning responsibility for strategies and policies, and monitors performance and compliance.", e: "The board sets a policy that all customer data stays in the EU and checks quarterly reports against it." },
-    svc: { n: "Service value chain", p: "Six activities you mix and match to create and deliver value.", d: "An operating model which outlines the key activities required to respond to demand and facilitate value realization: plan, improve, engage, design and transition, obtain/build, deliver and support.", e: "A new-laptop request flows engage → deliver and support → obtain/build → deliver and support." },
-    pr: { n: "Practices", p: "Toolkits of people, processes, information and tools for a type of work.", d: "Sets of organizational resources designed for performing work or accomplishing an objective. ITIL 4 describes 34 practices: general management, service management and technical management.", e: "Incident management, change enablement and the service desk are practices." },
-    ci: { n: "Continual improvement", p: "Always getting a little better, at every level.", d: "A recurring organizational activity performed at all levels to ensure that an organization's performance continually meets stakeholders' expectations, supported by the continual improvement model and register.", e: "The service desk cuts average wait time by 30% after analysing call data, then picks the next target." },
-    val: { n: "Value", p: "The result: benefits that matter to the stakeholders.", d: "The perceived benefits, usefulness and importance of something. In ITIL 4, value is co-created by service providers and consumers.", e: "Sales staff close deals faster because the CRM is reliable and quick." }
-  };
-  (function () {
-    var g = $("svs-svg");
-    function part(key, draw) {
-      var grp = S("g", { class: "svs-part", tabindex: "0", role: "button", "aria-label": SVS[key].n, "data-k": key }, g);
-      draw(grp);
-      grp.addEventListener("click", function () { svsShow(key); });
-      grp.addEventListener("keydown", function (e) { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); svsShow(key); } });
-    }
-    part("od", function (p) { rect(p, 10, 125, 120, 80, "var(--surface)", "var(--ink-2)"); txt(p, 70, 160, "Opportunity", { "text-anchor": "middle", "font-weight": 700 }); txt(p, 70, 178, "and demand", { "text-anchor": "middle", "font-weight": 700 }); });
-    arrow(g, 130, 165, 160, 165);
-    rect(g, 160, 10, 440, 310, "var(--gov-soft)", "var(--gov)");
-    txt(g, 380, 30, "Service value system", { "text-anchor": "middle", "font-weight": 800, "font-size": 13, fill: "var(--gov)" });
-    part("gp", function (p) { rect(p, 180, 45, 400, 40, "var(--surface)", "var(--gov)"); txt(p, 380, 70, "Guiding principles", { "text-anchor": "middle", "font-weight": 700 }); });
-    part("gov", function (p) { rect(p, 180, 95, 400, 40, "var(--surface)", "var(--gov)"); txt(p, 380, 120, "Governance", { "text-anchor": "middle", "font-weight": 700 }); });
-    part("svc", function (p) { rect(p, 180, 145, 400, 70, "var(--surface)", "var(--gov)"); txt(p, 380, 172, "Service value chain", { "text-anchor": "middle", "font-weight": 700 }); txt(p, 380, 192, "plan · improve · engage · design and transition · obtain/build · deliver and support", { "text-anchor": "middle", "font-size": 10, class: "svg-muted" }); });
-    part("pr", function (p) { rect(p, 180, 225, 400, 40, "var(--surface)", "var(--gov)"); txt(p, 380, 250, "Practices (34)", { "text-anchor": "middle", "font-weight": 700 }); });
-    part("ci", function (p) { rect(p, 180, 275, 400, 34, "var(--surface)", "var(--gov)"); txt(p, 380, 297, "Continual improvement", { "text-anchor": "middle", "font-weight": 700 }); });
-    arrow(g, 600, 165, 630, 165);
-    part("val", function (p) { S("circle", { cx: 690, cy: 165, r: 58, fill: "var(--good-soft)", stroke: "var(--good)", "stroke-width": 2 }, p); txt(p, 690, 170, "Value", { "text-anchor": "middle", "font-weight": 800, "font-size": 16 }); });
-  })();
-  var svsSeen = {};
-  function svsShow(k) {
-    var s = SVS[k]; svsSeen[k] = 1;
-    OMNI.$$("#svs-svg .svs-part").forEach(function (x) { x.classList.toggle("on", x.getAttribute("data-k") === k); });
-    $("svs-info").innerHTML = "<h4>" + s.n + "</h4><p><b>Plain meaning:</b> " + s.p + "</p><p><b>Exam definition:</b> " + s.d + "</p><p><b>Example:</b> " + s.e + "</p>";
-    var n = Object.keys(svsSeen).length;
-    OMNI.say("svs-cap", "You opened <b>" + s.n + "</b>. " + (k === "od" ? "This is the SVS input: everything starts with opportunity or demand." : k === "val" ? "This is the SVS output: value, co-created with the consumer." : "This is one of the five SVS components that sit between the input and the output.") + " You have explored " + n + " of 7 parts." + (n === 7 ? " That's all of them: input → five components → value." : ""));
-  }
-  OMNI.say("svs-cap", "The SVS takes opportunity and demand in on the left and produces value on the right. Click a part to explore it.");
-
-  /* ===== Lab 2: Value chain builder ===== */
-  var ACT = ["Plan", "Improve", "Engage", "Design and transition", "Obtain/build", "Deliver and support"];
-  var SCEN = [
-    { n: "New hire needs a laptop", d: "HR tells IT that a new employee starts Monday and needs a laptop with standard software.",
-      model: ["Engage", "Deliver and support", "Obtain/build", "Deliver and support", "Engage"],
-      rules: [
-        function (s) { return s[0] === "Engage" ? null : "Start with <b>Engage</b>: the request arrives through the service desk or portal."; },
-        function (s) { return s.indexOf("Obtain/build") >= 0 ? null : "Include <b>Obtain/build</b>: the laptop has to come from stock or be bought and imaged."; },
-        function (s) { return s.indexOf("Deliver and support") >= 0 ? null : "Include <b>Deliver and support</b>: the request is logged, fulfilled and handed over."; },
-        function (s) { return s.length < 8 ? null : "Keep it simple: a standard request rarely needs more than five or six steps."; }
-      ],
-      why: "This is a standard service request. Engage (request received), deliver and support (logged and routed), obtain/build (take a laptop from stock and image it), deliver and support (deliver and set up), engage (confirm the user is happy and close). Plan and design and transition are not needed because the offering already exists. If the request is common, automating it is 'optimize and automate'." },
-    { n: "Website outage", d: "The online store is down for all customers on a Saturday morning.",
-      model: ["Engage", "Deliver and support", "Obtain/build", "Design and transition", "Deliver and support", "Engage", "Improve"],
-      rules: [
-        function (s) { return s[0] === "Engage" || s[0] === "Deliver and support" ? null : "Begin with <b>Engage</b> (customers or monitoring report the outage) or <b>Deliver and support</b> (operations detect it)."; },
-        function (s) { return s.indexOf("Deliver and support") >= 0 ? null : "<b>Deliver and support</b> is essential: that's where incident management restores service."; },
-        function (s) { return s.indexOf("Plan") < 0 || s.indexOf("Plan") > s.indexOf("Deliver and support") ? null : "Don't start with <b>Plan</b>: restore service first; planning comes later."; },
-        function (s) { return s[s.length - 1] === "Improve" ? null : "End with <b>Improve</b>: a post-incident review (and maybe a problem record) stops it happening again."; }
-      ],
-      why: "A major incident value stream: engage (reports arrive), deliver and support (incident management diagnoses and works around), obtain/build and design and transition (if a fix or rollback must be built, tested and deployed as an emergency change), deliver and support (service restored), engage (customers told), improve (post-incident review, problem management). If a rollback is enough, obtain/build can be skipped." },
-    { n: "Business wants a new feature", d: "Marketing asks for customers to be able to save items to a wish list on the website.",
-      model: ["Engage", "Plan", "Design and transition", "Obtain/build", "Design and transition", "Deliver and support", "Improve"],
-      rules: [
-        function (s) { return s[0] === "Engage" ? null : "Start with <b>Engage</b>: understand what marketing actually needs."; },
-        function (s) { return s.indexOf("Plan") >= 0 ? null : "Include <b>Plan</b>: priority, budget and roadmap fit must be agreed."; },
-        function (s) { return s.indexOf("Design and transition") >= 0 && s.indexOf("Obtain/build") >= 0 ? null : "A new feature needs both <b>Design and transition</b> and <b>Obtain/build</b>."; },
-        function (s) { var b = s.indexOf("Obtain/build"), d = s.lastIndexOf("Deliver and support"); return d > b ? null : "<b>Deliver and support</b> should come after the feature is built and transitioned."; }
-      ],
-      why: "A new-service value stream: engage (requirements), plan (prioritize, fund), design and transition (design), obtain/build (develop and test), design and transition (release and deploy), deliver and support (live use and support), improve (measure use and feedback). In an Agile team this loop repeats in short iterations: 'progress iteratively with feedback'." }
-  ];
-  var vcS = 0, vcSeq = [];
-  SCEN.forEach(function (s, i) { var b = h("button", { type: "button" }, s.n); b.onclick = function () { vcS = i; vcSeq = []; vcDraw(); OMNI.say("vc-cap", "New scenario. Build the value stream from the six activities."); }; $("vc-scen").appendChild(b); });
-  ACT.forEach(function (a) { var b = h("button", { type: "button" }, "+ " + a); b.onclick = function () { if (vcSeq.length < 12) { vcSeq.push(a); vcDraw(); } }; $("vc-acts").appendChild(b); });
-  function vcDraw() {
-    OMNI.$$("#vc-scen button").forEach(function (b, i) { b.classList.toggle("on", i === vcS); });
-    $("vc-desc").innerHTML = "<b>" + SCEN[vcS].n + ":</b> " + SCEN[vcS].d;
-    var st = $("vc-stream"); st.innerHTML = "";
-    if (!vcSeq.length) st.appendChild(h("span", { class: "figcap" }, "Your value stream will appear here."));
-    vcSeq.forEach(function (a, i) { if (i) st.appendChild(h("span", { class: "arrow", "aria-hidden": "true" }, "→")); st.appendChild(h("span", { class: "step" }, (i + 1) + ". " + a)); });
-  }
-  $("vc-undo").onclick = function () { vcSeq.pop(); vcDraw(); };
-  $("vc-clear").onclick = function () { vcSeq = []; vcDraw(); };
-  $("vc-check").onclick = function () {
-    var sc = SCEN[vcS];
-    if (vcSeq.length < 2) { OMNI.say("vc-cap", "Add at least two activities first."); return; }
-    var notes = sc.rules.map(function (r) { return r(vcSeq); }).filter(Boolean);
-    OMNI.say("vc-cap", (notes.length ? "Nearly. " + notes.join(" ") : "Good value stream: it meets all the key checks for this scenario.") + "<br><b>Why:</b> " + sc.why + "<br><small>There is no single correct answer in ITIL; value streams vary between organizations. These checks look for the essential activities and a sensible order.</small>");
-  };
-  $("vc-show").onclick = function () { vcSeq = SCEN[vcS].model.slice(); vcDraw(); OMNI.say("vc-cap", "Model answer loaded. " + SCEN[vcS].why); };
-  vcDraw(); OMNI.say("vc-cap", "Pick a scenario, then click activities in order to build a value stream.");
-
-  /* ===== Lab 3: Sorter ===== */
-  var ZONES = [["inc", "Incident management"], ["prb", "Problem management"], ["chg", "Change enablement"], ["req", "Service request management"]];
-  var CARDS = [
-    ["The payroll app shows an error for every user in Finance.", "inc", "An unplanned interruption: restore service fast."],
-    ["Printers on floor 3 have jammed every Monday for six weeks; find out why.", "prb", "Recurring incidents point to an underlying cause."],
-    ["Upgrade the core switch firmware next Sunday night.", "chg", "Modifying infrastructure that affects services needs assessment and authorization."],
-    ["A user needs access to the Sales shared drive.", "req", "Access is a normal, pre-defined request."],
-    ["Analyse why the VPN keeps dropping after each update and document a workaround.", "prb", "Problem control: analysis and workarounds."],
-    ["Laptop won't power on; the user can't work.", "inc", "A failure affecting a user: incident."],
-    ["Apply a critical security patch today because the flaw is being actively exploited.", "chg", "An emergency change."],
-    ["Order a second monitor for a new designer.", "req", "Hardware from the catalogue: service request (may trigger a standard change)."],
-    ["Email is slow for everyone this morning.", "inc", "A reduction in service quality is also an incident."],
-    ["Add a new firewall rule to allow a partner's API traffic.", "chg", "Changes the configuration of a service component."],
-    ["Trend analysis shows 40% of tickets relate to one database; investigate the cause.", "prb", "Problem identification through trend analysis."],
-    ["Reset a forgotten password.", "req", "The classic service request (often self-service)."]
-  ];
-  var soDnd;
-  function soReset() {
-    var bank = $("so-bank"); bank.innerHTML = '<span class="zone-title">Unsorted</span>';
-    var Z = $("so-zones"); Z.innerHTML = "";
-    ZONES.forEach(function (z) { Z.appendChild(h("div", { class: "dropzone", "data-z": z[0], "aria-label": z[1] }, h("span", { class: "zone-title" }, z[1]))); });
-    OMNI.shuffle(CARDS.map(function (c, i) { return i; })).forEach(function (i) { bank.appendChild(h("span", { class: "chip", "data-id": String(i) }, CARDS[i][0])); });
-    if (soDnd) soDnd.refresh();
-    OMNI.say("so-cap", "Twelve cards to sort. Hint: ask \"Is something broken now?\" (incident), \"Why does it keep breaking?\" (problem), \"Are we altering something?\" (change), or \"Is this a normal ask?\" (request).");
-  }
-  soReset();
-  soDnd = OMNI.dnd($("lab-sort"), function () { OMNI.$$("#lab-sort .chip").forEach(function (c) { c.classList.remove("ok", "bad"); }); });
-  $("so-reset").onclick = soReset;
-  $("so-check").onclick = function () {
-    var right = 0, placed = 0, notes = [];
-    OMNI.$$("#so-zones .dropzone").forEach(function (z) {
-      OMNI.$$(".chip", z).forEach(function (c) {
-        placed++; var cd = CARDS[+c.dataset.id], ok = cd[1] === z.dataset.z;
-        c.classList.toggle("ok", ok); c.classList.toggle("bad", !ok);
-        if (ok) right++; else notes.push("“" + esc(cd[0]) + "” belongs in <b>" + ZONES.filter(function (x) { return x[0] === cd[1]; })[0][1] + "</b>: " + esc(cd[2]));
-      });
-    });
-    OMNI.say("so-cap", right + " of " + placed + " placed cards are correct" + (placed < CARDS.length ? " (" + (CARDS.length - placed) + " still unsorted)" : "") + ". " + (notes.length ? notes.join(" ") : placed === CARDS.length ? "Perfect sort. Remember the links: incidents can raise problems, and problem fixes usually need changes." : ""));
-  };
-
-  /* ===== Lab 4: Guiding principle matcher ===== */
-  var GP = ["Focus on value", "Start where you are", "Progress iteratively with feedback", "Collaborate and promote visibility", "Think and work holistically", "Keep it simple and practical", "Optimize and automate"];
-  var STORIES = [
-    ["Before replacing the ticketing tool, the manager sits with agents for a day to see how they really use the current one.", 1, "Observing the current state directly and reusing what works is 'start where you are'."],
-    ["The team asks customers which parts of the monthly report they actually read, and drops the rest.", 0, "Linking the work to what consumers value is 'focus on value'. (Dropping unused content also shows 'keep it simple'.)"],
-    ["A new self-service portal launches for one office first; feedback shapes the next release before the global rollout.", 2, "Small steps with feedback loops: 'progress iteratively with feedback'."],
-    ["Development, operations and security share one board showing every change and where it is stuck.", 3, "Working across teams and making work visible: 'collaborate and promote visibility'."],
-    ["Before changing the backup schedule, the team checks the impact on network load, the database team, the supplier contract and the DR plan.", 4, "Considering the whole system: 'think and work holistically'."],
-    ["An approval step that no manager has ever rejected in three years is removed.", 5, "Removing steps that add no value: 'keep it simple and practical'."],
-    ["After cutting the onboarding form from 40 fields to 12, the team scripts account creation so it runs automatically.", 6, "Optimize first, then automate: 'optimize and automate'."]
-  ];
-  var gpOrder;
-  function gpReset() {
-    gpOrder = OMNI.shuffle(STORIES.map(function (s, i) { return i; }));
-    var L = $("gp-list"); L.innerHTML = "";
-    gpOrder.forEach(function (si, k) {
-      var sel = h("select", { "aria-label": "Principle for story " + (k + 1), "data-s": String(si) }, [h("option", { value: "" }, "Choose a principle…")].concat(GP.map(function (g, gi) { return h("option", { value: String(gi) }, g); })));
-      L.appendChild(h("div", { class: "story" }, [h("div", null, (k + 1) + ". " + STORIES[si][0]), sel, h("div", { class: "fb" })]));
-    });
-    OMNI.say("gp-cap", "Match each story to the principle it best shows. Several principles can apply to one story; pick the strongest.");
-  }
-  gpReset();
-  $("gp-reset").onclick = gpReset;
-  $("gp-check").onclick = function () {
-    var right = 0, answered = 0;
-    OMNI.$$("#gp-list .story").forEach(function (d) {
-      var sel = d.querySelector("select"), st = STORIES[+sel.dataset.s], fb = d.querySelector(".fb");
-      d.classList.remove("ok", "bad"); fb.textContent = "";
-      if (sel.value === "") return;
-      answered++; var ok = +sel.value === st[1]; if (ok) right++;
-      d.classList.add(ok ? "ok" : "bad");
-      fb.innerHTML = (ok ? "✓ " : "✗ Best answer: <b>" + GP[st[1]] + "</b>. ") + st[2];
-    });
-    OMNI.say("gp-cap", right + " of " + answered + " answered correctly" + (answered < STORIES.length ? " (" + (STORIES.length - answered) + " left)" : "") + ". " + (right === STORIES.length ? "All seven! On the exam, look for the key phrase: 'already exists' → start where you are; 'small steps' → iteratively; 'visible' → collaborate; 'whole' → holistically; 'remove' → simple; 'automate' → optimize and automate." : "Read the explanations under each story."));
-  };
-
-  /* ===== Lab 5: Service desk simulator ===== */
-  var PM = [[1, 2, 3], [2, 3, 4], [3, 4, 5]]; // impact row × urgency col → priority (1 highest)
-  var PNAME = { 1: "P1 Critical", 2: "P2 High", 3: "P3 Medium", 4: "P4 Low", 5: "P5 Planning" };
-  var CALLS = [
-    { who: "Priya, Accounts Payable", msg: "None of us in Finance can open the payments system. We have to release supplier payments by 3 pm today!", type: "incident", cat: "Business application", imp: 1, urg: 0, act: ["escalate"], why: "A whole department (medium impact) with an imminent deadline (high urgency) gives P2. The service desk can't fix an application fault, so escalate to the application team; keep Finance updated." },
-    { who: "Tom, new starter", msg: "Hi, could I get access to the Marketing shared drive? No rush, sometime this week is fine.", type: "request", cat: "Accounts and access", imp: 2, urg: 2, act: ["first"], why: "A normal access request: service request, one user, can wait (P5 planning). Fulfil at first line using the standard approval workflow." },
-    { who: "Monitoring alert + 30 calls", msg: "The online store checkout is failing for all customers. Calls are flooding in.", type: "incident", cat: "Business application", imp: 0, urg: 0, act: ["major"], why: "All customers and lost revenue: high impact, high urgency = P1. Declare a major incident: separate procedure, dedicated team, regular communications." },
-    { who: "Luis, Sales", msg: "I forgot my password and I'm locked out. I have a client call in 20 minutes.", type: "request", cat: "Accounts and access", imp: 2, urg: 0, act: ["first"], why: "A password reset is a service request (some organizations log lockouts as incidents; either is defensible, but ITIL lists password resets as requests). One user, urgent: P3. Resolve at first line or point to self-service reset." },
-    { who: "Grace, HR", msg: "I clicked a link in an email about my 'parcel' and entered my login. Now my mailbox is sending messages I didn't write.", type: "incident", cat: "Security", imp: 1, urg: 0, act: ["security"], why: "A likely compromised account spreading phishing: treat it as a security incident. Impact could spread fast, so at least P2. Hand to the security incident procedure (disable sessions, reset credentials) rather than handling it as a normal ticket." },
-    { who: "Ahmed, Warehouse", msg: "My second monitor flickers sometimes. It's annoying but I can still work.", type: "incident", cat: "Hardware", imp: 2, urg: 2, act: ["first", "escalate"], why: "Degraded quality for one user who can keep working: incident, low impact, low urgency (P5). Try first-line fixes (cable, settings); escalate to desktop support for a swap if needed." }
-  ];
-  (function () {
-    var t = $("sd-mx"), U = ["High", "Medium", "Low"];
-    var head = h("tr", null, [h("th", null, "Impact ↓ / Urgency →")].concat(U.map(function (u) { return h("th", null, u); })));
-    t.appendChild(head);
-    ["High", "Medium", "Low"].forEach(function (im, r) { t.appendChild(h("tr", null, [h("th", null, im)].concat(PM[r].map(function (p, c) { return h("td", { class: "p" + Math.min(4, p), "data-rc": r + "-" + c }, PNAME[p]); })))); });
-  })();
-  var sdI = 0, sdScore = 0, sdDone = {};
-  function sdLoad() {
-    var c = CALLS[sdI];
-    $("sd-call").innerHTML = '<div class="who">📞 Call ' + (sdI + 1) + " of " + CALLS.length + ": " + esc(c.who) + '</div><div class="msg">“' + esc(c.msg) + "”</div>";
-    ["sd-type", "sd-cat", "sd-imp", "sd-urg", "sd-act"].forEach(function (id) { $(id).value = ""; $(id).disabled = !!sdDone[sdI]; });
-    $("sd-submit").disabled = !!sdDone[sdI];
-    var Q = $("sd-queue"); Q.innerHTML = "";
-    CALLS.forEach(function (x, i) { Q.appendChild(h("span", { class: (i === sdI ? "now " : "") + (sdDone[i] ? "done" : "") }, "Call " + (i + 1))); });
-    sdHit(); OMNI.say("sd-cap", "Read the call, then work through steps 1 to 5 and submit the ticket.");
-  }
-  function sdHit() {
-    OMNI.$$("#sd-mx td").forEach(function (td) { td.classList.toggle("hit", td.dataset.rc === $("sd-imp").value + "-" + $("sd-urg").value); });
-  }
-  $("sd-imp").onchange = sdHit; $("sd-urg").onchange = sdHit;
-  $("sd-submit").onclick = function () {
-    var c = CALLS[sdI], v = { type: $("sd-type").value, cat: $("sd-cat").value, imp: $("sd-imp").value, urg: $("sd-urg").value, act: $("sd-act").value };
-    if (!v.type || !v.cat || v.imp === "" || v.urg === "" || !v.act) { OMNI.say("sd-cap", "Complete all five steps first: log type, category, impact, urgency and action."); return; }
-    var pts = 0, notes = [];
-    var pYou = PM[+v.imp][+v.urg], pExp = PM[c.imp][c.urg];
-    if (v.type === c.type) pts++; else notes.push("Log it as a <b>" + (c.type === "incident" ? "incident" : "service request") + "</b>.");
-    if (v.cat === c.cat) pts++; else notes.push("Category: <b>" + c.cat + "</b>.");
-    if (Math.abs(pYou - pExp) <= 0) pts += 2; else if (Math.abs(pYou - pExp) === 1) { pts += 1; notes.push("Priority close: you chose " + PNAME[pYou] + ", expected " + PNAME[pExp] + "."); } else notes.push("Priority: you chose " + PNAME[pYou] + ", expected <b>" + PNAME[pExp] + "</b>.");
-    if (c.act.indexOf(v.act) >= 0) pts++; else notes.push("Action: <b>" + $("sd-act").querySelector('option[value="' + c.act[0] + '"]').textContent + "</b>.");
-    sdScore += pts; sdDone[sdI] = 1;
-    $("sd-score").textContent = "Score: " + sdScore + " / " + Object.keys(sdDone).length * 5;
-    ["sd-type", "sd-cat", "sd-imp", "sd-urg", "sd-act"].forEach(function (id) { $(id).disabled = true; }); $("sd-submit").disabled = true;
-    $("sd-queue").children[sdI].classList.add("done");
-    OMNI.say("sd-cap", "Ticket logged: " + pts + " of 5 points. " + (notes.length ? notes.join(" ") + " " : "Spot on. ") + "<br><b>Why:</b> " + c.why + (Object.keys(sdDone).length === CALLS.length ? "<br><b>Queue cleared!</b> Final score " + sdScore + " / " + CALLS.length * 5 + ". Note how priority came from impact × urgency, not from who shouted loudest or who called first." : ""));
-  };
-  $("sd-next").onclick = function () { sdI = (sdI + 1) % CALLS.length; sdLoad(); };
-  $("sd-restart").onclick = function () { sdI = 0; sdScore = 0; sdDone = {}; $("sd-score").textContent = ""; sdLoad(); };
-  sdLoad();
-})();
+  OMNI.sorter("lab-svc-host", {"zones": [["compute", "Compute"], ["network", "Networking"], ["storage", "Storage and data"], ["identity", "Identity and security"], ["govern", "Governance and management"]], "items": [["Azure Virtual Machines", "compute", "Full control of the operating system."], ["Azure Functions", "compute", "Serverless code that runs on events."], ["Azure App Service", "compute", "PaaS hosting for websites and APIs."], ["Azure Kubernetes Service", "compute", "Managed container orchestration."], ["Virtual Network (VNet)", "network", "Your private network in Azure."], ["ExpressRoute", "network", "Private dedicated link that avoids the internet."], ["VPN Gateway", "network", "Encrypted tunnel over the internet."], ["Network security group", "network", "Allow and deny rules on subnets and network cards."], ["Blob Storage", "storage", "Object storage for files, images and backups."], ["Azure Files", "storage", "Managed SMB and NFS file shares."], ["Azure Data Box", "storage", "Physical device for shipping large amounts of data."], ["Azure SQL Database", "storage", "Managed relational database (data services)."], ["Microsoft Entra ID", "identity", "Cloud identity directory."], ["Conditional Access", "identity", "If-then sign-in rules."], ["Azure Key Vault", "identity", "Stores secrets, keys and certificates."], ["Microsoft Defender for Cloud", "identity", "Security posture and workload protection."], ["Azure Policy", "govern", "Rules that resources must follow."], ["Resource lock", "govern", "Stops deletion or changes."], ["Microsoft Cost Management", "govern", "Budgets, alerts and cost analysis."], ["Azure Advisor", "govern", "Free best-practice recommendations."], ["Azure Monitor", "govern", "Metrics, logs and alerts."], ["Azure Arc", "govern", "Manages resources outside Azure."]], "intro": "Drag each Azure service to the category it belongs to.", "done": "All sorted. AZ-900 questions often hinge on knowing which category a service lives in.", "cap": "lab-svc-cap"});
+  OMNI.trainer("lab-xlate-host", {"label": "translations", "intro": "You know the AWS name. Pick the Azure match.", "items": [{"s": "<p>Your AWS team uses <b>Amazon S3</b>. What is the Azure equivalent?</p>", "o": ["Azure Blob Storage", "Azure Files", "Azure Disk Storage", "Azure Cosmos DB"], "a": 0, "x": "Both are object storage for unstructured data."}, {"s": "<p>Which Azure service matches <b>AWS Lambda</b>?</p>", "o": ["Azure Functions", "Azure Virtual Machines", "Azure Logic Apps only", "Azure Batch"], "a": 0, "x": "Event-driven serverless code. Logic Apps is a low-code workflow service."}, {"s": "<p>Which Azure service matches <b>Amazon EC2</b>?</p>", "o": ["Azure Virtual Machines", "Azure App Service", "Azure Container Instances", "Azure Arc"], "a": 0, "x": "Both are IaaS virtual servers."}, {"s": "<p>Which Azure service matches <b>AWS Direct Connect</b>?</p>", "o": ["ExpressRoute", "VPN Gateway", "Azure Front Door", "VNet peering"], "a": 0, "x": "A private connection that doesn't cross the public internet."}, {"s": "<p>Which Azure feature matches an <b>Amazon VPC</b>?</p>", "o": ["Azure Virtual Network", "Resource group", "Subscription", "Availability zone"], "a": 0, "x": "Both are isolated private networks with subnets."}, {"s": "<p>Which Azure tool matches <b>AWS CloudFormation</b>?</p>", "o": ["ARM templates and Bicep", "Azure Monitor", "Azure Policy", "Azure Advisor"], "a": 0, "x": "Infrastructure as code that Azure Resource Manager deploys."}, {"s": "<p>Which Azure service matches <b>Amazon CloudWatch</b>?</p>", "o": ["Azure Monitor", "Azure Advisor", "Azure Service Health", "Microsoft Sentinel"], "a": 0, "x": "Metrics, logs and alerts for your resources."}, {"s": "<p>Which Azure service matches <b>Amazon DynamoDB</b>?</p>", "o": ["Azure Cosmos DB", "Azure SQL Database", "Azure Table Storage only", "Azure Database for PostgreSQL"], "a": 0, "x": "Fully managed, globally distributed NoSQL."}], "cap": "lab-xlate-cap"});
+  OMNI.trainer("lab-tool-host", {"label": "requests", "intro": "A colleague asks for help. Pick the tool that does the job.", "items": [{"s": "<p>Finance wants an email alert when monthly cloud spend passes $5,000.</p>", "o": ["Set a budget in Microsoft Cost Management", "Apply a ReadOnly lock", "Create an Azure Policy", "Use the TCO calculator"], "a": 0, "x": "Budgets in Cost Management send alerts at thresholds you set."}, {"s": "<p>Every new resource must be created only in EU regions.</p>", "o": ["Azure Policy (allowed locations)", "Azure RBAC", "Resource lock", "Azure Advisor"], "a": 0, "x": "Policy controls what resources may look like, including their region."}, {"s": "<p>Someone almost deleted the production database by mistake. Stop it happening again.</p>", "o": ["Apply a CanNotDelete resource lock", "Add a tag", "Move it to another region", "Enable Azure Arc"], "a": 0, "x": "Locks block deletion even for Owners until removed."}, {"s": "<p>A developer needs to manage VMs in one resource group but nothing else.</p>", "o": ["Assign Virtual Machine Contributor at that resource group scope (RBAC)", "Make them subscription Owner", "Create a management group", "Apply Azure Policy"], "a": 0, "x": "RBAC with least privilege at the narrowest scope."}, {"s": "<p>Users signing in from outside the country must use MFA.</p>", "o": ["Conditional Access policy", "Network security group", "Azure Policy", "Resource lock"], "a": 0, "x": "Conditional Access applies sign-in conditions such as location and device."}, {"s": "<p>Your boss asks how much the company would save by closing its server room and moving to Azure.</p>", "o": ["TCO calculator", "Pricing calculator", "Azure Service Health", "Azure Monitor"], "a": 0, "x": "TCO compares on-premises costs with Azure. The pricing calculator estimates new Azure resources."}, {"s": "<p>An application's database password is written in plain text in its code.</p>", "o": ["Move it to Azure Key Vault", "Tag the resource", "Use ExpressRoute", "Use LRS storage"], "a": 0, "x": "Key Vault stores secrets so code fetches them securely at run time."}, {"s": "<p>Users report Teams is slow. Before troubleshooting your network, you want to know whether Microsoft has a known problem.</p>", "o": ["Check Service health", "Run the pricing calculator", "Apply a lock", "Create a resource group"], "a": 0, "x": "Service health in the Microsoft 365 admin center (or Azure Service Health) shows known incidents."}], "cap": "lab-tool-cap"});
 </script>
-<!-- module-data:start -->
-<script type="application/json" id="module-data">{"module":22,"title":"Running IT as a Service","glossary":[["Service","Something useful done for someone, without them owning the costs and risks.","A means of enabling value co-creation by facilitating outcomes that customers want to achieve, without the customer having to manage specific costs and risks.",""],["Product","A packaged set of resources an organization offers.","A configuration of an organization's resources designed to offer value for a consumer.",""],["Service offering","What exactly the customer gets: goods, access and actions.","A formal description of one or more services, designed to address the needs of a target consumer group; may include goods, access to resources and service actions.",""],["Value","How useful and important something is to someone.","The perceived benefits, usefulness and importance of something.",""],["Value co-creation","Value is made together by provider and consumer.","The ITIL 4 view that value is created jointly through active collaboration between providers and consumers.",""],["Output","What the provider produces.","A tangible or intangible deliverable of an activity.",""],["Outcome","What the customer actually achieves.","A result for a stakeholder enabled by one or more outputs.",""],["Utility","Fit for purpose: what it does.","The functionality offered by a product or service to meet a particular need.",""],["Warranty","Fit for use: how well it does it.","Assurance that a product or service will meet agreed requirements (availability, capacity, security, continuity).",""],["Customer","The person who defines the requirements.","A person who defines the requirements for a service and takes responsibility for the outcomes of service consumption.",""],["User","The person who uses the service.","A person who uses services.",""],["Sponsor","The person who approves the budget.","A person who authorizes budget for service consumption.",""],["Service relationship","The working partnership between provider and consumer.","A cooperation between a service provider and service consumer, including service provision, service consumption and service relationship management.",""],["Four dimensions","Four viewpoints you must cover for any service.","Organizations and people; information and technology; partners and suppliers; value streams and processes.",""],["PESTLE","Outside forces that affect all four dimensions.","Political, economic, social, technological, legal and environmental external factors.","Political, Economic, Social, Technological, Legal, Environmental"],["Service value system","The whole ITIL machine that turns demand into value.","A model showing how all components and activities of an organization work together to enable value creation.","SVS"],["Service value chain","Six activities you combine to deliver value.","An operating model of six interconnected activities: plan, improve, engage, design and transition, obtain/build, deliver and support.","SVC"],["Value stream","A specific path through the value chain for one scenario.","A series of steps an organization undertakes to create and deliver products and services to consumers.",""],["Guiding principle","Advice that applies in every situation.","A recommendation that guides an organization in all circumstances, regardless of changes in its goals, strategies, type of work or management structure.",""],["Governance","Direction and control from the top.","The means by which an organization is directed and controlled (evaluate, direct, monitor).",""],["Practice","A set of resources for doing a type of work.","A set of organizational resources designed for performing work or accomplishing an objective.",""],["Incident","Something broke or got worse.","An unplanned interruption to a service or reduction in the quality of a service.",""],["Major incident","A big outage that gets a special procedure.","An incident with significant business impact, requiring a separate procedure, often with a dedicated team.",""],["Problem","The hidden cause behind incidents.","A cause, or potential cause, of one or more incidents.",""],["Known error","A problem we've analyzed but not fixed yet.","A problem that has been analyzed but has not been resolved.",""],["Workaround","A way to reduce the impact until the real fix.","A solution that reduces or eliminates the impact of an incident or problem for which a full resolution is not yet available.",""],["Change","Adding, modifying or removing something that matters.","The addition, modification or removal of anything that could have a direct or indirect effect on services.",""],["Standard change","Low-risk, pre-approved, done often.","A low-risk, pre-authorized change that is well understood and fully documented; implemented without additional authorization.",""],["Normal change","A change that needs assessment and authorization.","A change that must be scheduled, assessed and authorized following a standard process.",""],["Emergency change","Must be done as soon as possible.","A change that must be implemented as soon as possible, e.g., to resolve an incident or implement a security patch; may use a separate change authority.",""],["Change authority","The person or group who approves a change.","A person or group responsible for authorizing a change; ITIL 4 decentralizes this rather than using a single CAB for everything.",""],["CAB","A committee that reviews changes.","Change advisory board: a traditional group that advises on or authorizes changes; in ITIL 4, one possible change authority.","Change Advisory Board"],["Service request","An ordinary ask, not a failure.","A request from a user that initiates a service action agreed as a normal part of service delivery (e.g., a password reset, a laptop, information).",""],["Service desk","The single point of contact for users.","The practice that captures demand for incident resolution and service requests; the entry point and single point of contact between the provider and all users.","SPOC"],["SLA","Written agreement on service targets with a customer.","Service level agreement: a documented agreement between a service provider and a customer that identifies services required and the expected level of service.","Service Level Agreement"],["OLA","Internal agreement between teams.","Operational level agreement between internal parts of the same organization supporting an SLA (an ITIL term not emphasized in the ITIL 4 Foundation glossary).","Operational Level Agreement"],["UC","Contract with an outside supplier.","Underpinning contract: a contract with an external supplier that supports the provider's service levels.","Underpinning Contract"],["Watermelon SLA","Green outside, red inside.","A situation where SLA metrics are met but customers are still unhappy, because metrics don't reflect real outcomes.",""],["Continual improvement model","Seven steps to improve anything.","Vision, where are we now, where do we want to be, how do we get there, take action, did we get there, how do we keep the momentum going.",""],["Impact","How much it hurts the business.","A measure of the effect of an incident on business processes (users affected, revenue, safety).",""],["Urgency","How fast it needs fixing.","How quickly an incident must be resolved to avoid business impact.",""],["Priority","Impact plus urgency decide the order of work.","The relative importance of an incident, usually derived from a matrix of impact and urgency.",""],["Swarming","Many experts tackle a ticket together.","An incident management technique where people with different expertise work together on an incident until it is clear who is best placed to continue.",""],["Configuration item","Anything tracked because it supports a service.","Any component that needs to be managed in order to deliver an IT service.","CI"],["ITIL (Version 5)","The 2026 update of ITIL.","PeopleCert's update to ITIL launched in February 2026, reframing ITIL as digital product and service management, with a Product and Service Lifecycle Model and added AI guidance (verify on peoplecert.org).","ITIL 5"]],"quiz":[{"t":"mc","q":"Which term describes 'the perceived benefits, usefulness and importance of something'?","o":["Outcome","Value","Utility","Output"],"a":1,"w":["An outcome is a result for a stakeholder.","Correct: the ITIL 4 definition of value.","Utility is the functionality offered.","An output is a deliverable of an activity."],"x":"Value is subjective and is co-created by provider and consumer.","c":"ITIL","d":"1.1 Key concepts: value"},{"t":"mc","sc":"A finance director approves the money for a new payroll service. The HR manager defined what the service must do. Payroll clerks log in to it every day.","q":"Which role does the finance director have?","o":["Customer","User","Sponsor","Supplier"],"a":2,"w":["The HR manager is the customer: defines requirements.","The clerks are users.","Correct: authorizes budget.","A supplier provides goods or services to the provider."],"x":"Customer defines requirements, user uses, sponsor pays (authorizes budget). One person can hold several roles.","c":"ITIL","d":"1.2 Key concepts: roles"},{"t":"mc","q":"Which guiding principle recommends assessing what already exists before building something new?","o":["Focus on value","Start where you are","Optimize and automate","Keep it simple and practical"],"a":1,"w":["About knowing who the value is for.","Correct: observe current state directly and reuse what works.","About maximizing value of work, then automating.","About removing unnecessary steps."],"x":"Don't start from scratch without considering what is already available to be leveraged.","c":"ITIL","d":"2.1 Guiding principles"},{"t":"mc","sc":"A team plans to automate a 14-step approval workflow. An analyst points out that 6 of the steps add nothing and should be removed first.","q":"Which guiding principle is being applied?","o":["Optimize and automate","Collaborate and promote visibility","Progress iteratively with feedback","Think and work holistically"],"a":0,"w":["Correct: optimize first (simplify), then automate.","About involving the right people and making work visible.","About small steps with feedback.","About seeing the whole system."],"x":"Automating a bad process just makes mistakes faster. 'Keep it simple and practical' also fits removal of waste, but the automate context points to optimize and automate.","c":"ITIL","d":"2.1 Guiding principles"},{"t":"mc","q":"Which of the four dimensions includes workflows, value streams and how activities are coordinated?","o":["Organizations and people","Information and technology","Partners and suppliers","Value streams and processes"],"a":3,"w":["Covers culture, roles, skills and structures.","Covers data, tools and technology.","Covers relationships with other organizations.","Correct."],"x":"All four dimensions apply to every service and to the SVS as a whole; PESTLE factors influence them.","c":"ITIL","d":"3.1 Four dimensions"},{"t":"mc","q":"What is the input to the ITIL service value system?","o":["Value","Opportunity and demand","Governance","Practices"],"a":1,"w":["Value is the output.","Correct.","Governance is a component inside the SVS.","Practices are a component inside the SVS."],"x":"Opportunity and demand → SVS (guiding principles, governance, service value chain, practices, continual improvement) → value.","c":"ITIL","d":"4.1 Service value system"},{"t":"mc","q":"Which value chain activity provides the main interface with users and other stakeholders?","o":["Plan","Engage","Deliver and support","Obtain/build"],"a":1,"w":["Creates shared understanding of vision and direction.","Correct: understanding needs, transparency, good relationships.","Ensures services are delivered and supported to specification.","Ensures components are available when needed."],"x":"Engage handles demand coming in and communication going out.","c":"ITIL","d":"5.1 Service value chain"},{"t":"mc","q":"What is the purpose of the information security management practice?","o":["To protect the information needed by the organization to conduct its business","To ensure services achieve agreed availability","To set clear business-based targets for service levels","To maximize the number of successful changes"],"a":0,"w":["Correct.","That's availability management.","That's service level management.","That's change enablement."],"x":"Foundation expects you to recognize the purpose of 15 practices.","c":"ITIL","d":"6.1 Practices: purpose"},{"t":"mc","q":"Which practice has the purpose of ensuring accurate and reliable information about the configuration of services and the CIs that support them is available when needed?","o":["IT asset management","Service configuration management","Deployment management","Monitoring and event management"],"a":1,"w":["Plans and manages the full lifecycle of IT assets (value, cost, risk).","Correct.","Moves components into live environments.","Observes services and records state changes."],"x":"Configuration management cares about relationships between CIs; asset management cares about financial lifecycle.","c":"ITIL","d":"6.1 Practices: purpose"},{"t":"mc","q":"What is the purpose of incident management?","o":["To minimize the negative impact of incidents by restoring normal service operation as quickly as possible","To find and remove the causes of incidents","To handle all pre-defined user-initiated requests","To capture demand and act as a single point of contact"],"a":0,"w":["Correct.","That's problem management.","That's service request management.","That's the service desk."],"x":"Incident = restore fast; problem = find the cause.","c":"ITIL","d":"7.3 Incident management"},{"t":"mc","q":"Which is a phase of problem management?","o":["Error control","Change scheduling","Request fulfilment","Event correlation"],"a":0,"w":["Correct: problem identification, problem control, error control.","Part of change enablement.","Part of service request management.","Part of monitoring and event management."],"x":"Error control manages known errors, including workarounds and possible permanent fixes.","c":"ITIL","d":"7.4 Problem management"},{"t":"mc","q":"Which type of change is low risk, pre-authorized and typically initiated as a service request?","o":["Normal change","Emergency change","Standard change","Major change"],"a":2,"w":["Needs assessment and authorization each time.","Must be done ASAP; expedited authorization.","Correct.","Not an ITIL 4 change type."],"x":"Standard changes have a risk assessment done once, when the procedure is created.","c":"ITIL","d":"7.2 Change enablement"},{"t":"mc","q":"How should timescales for service requests be set?","o":["Agreed and based on what the organization can realistically deliver","Always as short as possible","Set by the service desk agent for each request","Identical for every request type"],"a":0,"w":["Correct: expectations should be clear and realistic.","Unrealistic promises damage trust.","Should be standardized, not ad hoc.","Different requests have different steps."],"x":"Service requests should be standardized and automated as much as possible, with clear policies on what can be fulfilled with limited or no approvals.","c":"ITIL","d":"7.5 Service request management"},{"t":"mc","q":"Which statement about the service desk is correct?","o":["It should be highly technical so it can resolve every incident itself","It needs practical understanding of the wider organization, the business processes and the users","It is always a physical team in a single location","It only handles incidents, not requests"],"a":1,"w":["Agents need empathy and business understanding, not only deep tech skills.","Correct.","Can be virtual, follow-the-sun, or use self-service and chatbots.","Handles incidents and service requests."],"x":"The focus is on support for people and the business, not just technical issues.","c":"ITIL","d":"7.6 Service desk"},{"t":"mc","q":"Which approach does service level management use to make sure targets reflect what customers actually experience?","o":["Only measure system uptime","Engage customers to understand and confirm their needs, and capture business metrics and feedback","Let technical teams set targets they find easy to meet","Avoid measuring to save effort"],"a":1,"w":["Single technical metrics cause the 'watermelon effect'.","Correct.","Targets should be based on business needs.","SLM needs metrics and feedback."],"x":"SLAs should relate to defined outcomes, not just operational metrics.","c":"ITIL","d":"7.7 Service level management"}],"flashcards":[["Incident vs problem management","Incident restores service fast; problem finds and removes the root cause."],["Utility vs warranty","Utility = fit for purpose (what it does). Warranty = fit for use (how well)."],["Known error","A problem that has been analysed but not yet resolved."],["Service (ITIL 4)","Enables value co-creation by facilitating outcomes customers want, without them managing specific costs and risks"],["Output vs outcome","Deliverable of an activity vs result for a stakeholder"],["Utility vs warranty","Fit for purpose (what it does) vs fit for use (how well: availability, capacity, security, continuity)"],["Customer / user / sponsor","Defines requirements / uses the service / authorizes budget"],["Service offering contents","Goods, access to resources, service actions"],["Service relationship management","Joint activities by provider and consumer to ensure continual value co-creation"],["Four dimensions","Organizations and people; information and technology; partners and suppliers; value streams and processes"],["PESTLE","Political, economic, social, technological, legal, environmental"],["SVS components","Guiding principles, governance, service value chain, practices, continual improvement"],["SVS input and output","Opportunity and demand → value"],["Value chain activities","Plan, improve, engage, design and transition, obtain/build, deliver and support"],["The 7 guiding principles","Focus on value; start where you are; progress iteratively with feedback; collaborate and promote visibility; think and work holistically; keep it simple and practical; optimize and automate"],["Continual improvement model (7 steps)","Vision? Where are we now? Where do we want to be? How do we get there? Take action. Did we get there? Keep the momentum going"],["Incident vs problem","Restore service fast vs find and manage the cause"],["Problem management phases","Problem identification, problem control, error control"],["Known error","A problem analyzed but not yet resolved"],["Three change types","Standard (pre-authorized), normal (assessed and authorized), emergency (ASAP)"],["Change authority","Person or group who authorizes a change; decentralized in ITIL 4"],["Purpose of change enablement","Maximize successful changes by ensuring risks are assessed, changes authorized and the schedule managed"],["Service request examples","Password reset, new laptop, access, information, feedback"],["Service desk","Single point of contact; captures demand for incidents and requests"],["SLA vs OLA vs UC","With customer vs between internal teams vs with external supplier"],["Watermelon SLA","Green metrics, red customer experience"],["Priority","Impact × urgency"],["ITIL 4 Foundation exam (verify)","40 multiple choice, 60 minutes, closed book, pass 65% (26/40)"],["ITIL (Version 5)","Launched Feb 2026: digital product and service management; 8-activity Product and Service Lifecycle Model (verify)"]]}</script>
-<!-- module-data:end -->
 </body>
 </html>

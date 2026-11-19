@@ -1,0 +1,434 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Module 29 · Who Sets the Rules: Technology Standards and Standards Bodies | Datacenter Omnibus</title>
+<meta name="description" content="Why standards exist, how they are made, and the bodies behind them: IEEE, IETF, ITU-T, ISO/IEC, ANSI, TIA, BICSI, NIST, W3C, USB-IF, Wi-Fi Alliance, JEDEC, Uptime Institute, ASHRAE, NFPA and more, with a searchable standards finder, a 'who made this?' game and an IEEE 802 family tree.">
+<link rel="stylesheet" href="assets/omnibus.css">
+<style>
+  .seg { display: flex; flex-wrap: wrap; gap: 4px; }
+  .seg button.on { background: var(--accent); color: #fff; border-color: var(--accent); }
+  .finder td, .finder th { font-size: .86rem; padding: 5px 7px; vertical-align: top; }
+  .finder mark { background: var(--warn-soft); color: inherit; padding: 0 1px; border-radius: 2px; }
+  .game-card { border: 1px solid var(--line); border-radius: 12px; padding: 16px; background: var(--surface); text-align: center; }
+  .game-card .tech { font-size: 1.5rem; font-weight: 800; margin: 6px 0 12px; }
+  .game-opts { display: grid; grid-template-columns: repeat(2, 1fr); gap: 8px; }
+  @media (max-width: 700px) { .game-opts { grid-template-columns: 1fr; } }
+  .game-opts button.ok { border-color: var(--good); background: var(--good-soft); }
+  .game-opts button.bad { border-color: var(--bad); background: var(--bad-soft); }
+  .tree-node { cursor: pointer; }
+  .tree-node:focus { outline: none; }
+  .tree-node:focus rect, .tree-node:hover rect { stroke-width: 3.5; }
+  .tree-node.on rect { stroke: var(--accent); stroke-width: 3.5; }
+  .info { border: 1px solid var(--line); border-radius: 10px; padding: 12px; background: var(--surface); margin-top: 8px; }
+  .info h4 { margin: 0 0 6px; }
+</style>
+</head>
+<body data-module="29">
+<a class="skip" href="#main">Skip to content</a>
+<div id="topbar"></div>
+<main class="page" id="main">
+
+<section class="intro">
+  <div class="kicker">Part 7 · Standards and Study Tools · Module 29</div>
+  <h1>Who Sets the Rules: Technology Standards and Standards Bodies</h1>
+  <p class="why"><b>Why this matters.</b> Every module in this Omnibus has quoted a standard: Cat 6A, 802.11ax, TLS (Transport Layer Security) 1.3, Tier III, ISO (International Organization for Standardization) 27001 Annex A. Exams expect you to know which body owns which standard, and at work you will read standard names on spec sheets, contracts and audit reports. This module ties them all together, explains how standards are made and teaches you to decode a standard's name.</p>
+  <h3>You will be able to</h3>
+  <ul class="outcomes">
+    <li>Explain why standards exist and how a standard or RFC (Request for Comments) is made.</li>
+    <li>Match the main standards bodies to their best-known standards.</li>
+    <li>Recognize consumer standards you meet every day (USB (Universal Serial Bus), HDMI (High-Definition Multimedia Interface), Bluetooth, Qi, Matter, Wi-Fi labels).</li>
+    <li>Read a standard's name and version, such as "IEEE (Institute of Electrical and Electronics Engineers) 802.3bt-2018" or "ISO/IEC (IEC: International Electrotechnical Commission) 27001:2022".</li>
+  </ul>
+  <nav class="jumpnav" id="jumpnav" aria-label="On this page"></nav>
+</section>
+
+<section class="certmap" id="certmap">
+  <h2>Cert map</h2>
+  <div id="certmap-badges"></div>
+</section>
+
+<section class="lesson" id="why">
+  <h2>1. Why standards exist and how they are made</h2>
+  <div class="grid3">
+    <div class="tile"><h4>Interoperability</h4><p>A Dell laptop joins a Cisco Wi-Fi network and talks to a Linux server because they all follow 802.11, IP (Internet Protocol) and TLS.</p></div>
+    <div class="tile"><h4>Safety</h4><p>Electrical, fire and cabling codes (NEC (National Electrical Code), NFPA (National Fire Protection Association), IEC) protect people and buildings.</p></div>
+    <div class="tile"><h4>Trust</h4><p>Certification against ISO 27001, PCI (Payment Card Industry) DSS (Data Security Standard) or Uptime Tiers lets customers trust what they can't inspect.</p></div>
+  </div>
+  <div class="callout analogy">Standards are like the rules of a sport. Teams (vendors) compete hard, but everyone agrees on the size of the ball and the field so a match can happen at all.</div>
+  <figure class="fig"><svg id="make-fig" viewBox="0 0 760 150" width="760" role="img" aria-label="Standard development process from need to maintenance"></svg>
+  <figcaption class="figcap">Formal bodies (IEEE, ISO, TIA (Telecommunications Industry Association)) use working groups and ballots. The IETF (Internet Engineering Task Force) uses Internet-Drafts and "rough consensus and running code" before a document becomes an RFC.</figcaption></figure>
+  <ul>
+    <li><b>De jure</b> standards are formally approved; <b>de facto</b> standards win by popularity (and are sometimes formalized later, like PDF (Portable Document Format) as ISO 32000).</li>
+    <li><b>Open</b> standards are publicly available (IETF RFCs are free); many ISO, IEC and TIA documents are paid.</li>
+    <li><b>Industry consortia</b> (Wi-Fi Alliance, Bluetooth SIG (Special Interest Group), USB-IF) publish specifications and run certification and logo programs.</li>
+    <li><b>RFC process</b>: Internet-Draft → working group review → IETF last call → IESG (Internet Engineering Steering Group) approval → RFC. RFCs are never edited after publication; changes come as new RFCs that "update" or "obsolete" old ones.</li>
+  </ul>
+</section>
+
+<section class="lesson" id="bodies">
+  <h2>2. The bodies and their key standards</h2>
+  <p>Search the full table in Lab 1. The highlights:</p>
+  <div class="tablewrap"><table>
+    <thead><tr><th>Body</th><th>Best-known standards</th><th>Module</th></tr></thead>
+    <tbody>
+      <tr><td><b>IEEE</b></td><td>802.3 Ethernet, 802.11 Wi-Fi, 802.1Q VLANs (Virtual Local Area Network), 802.1X, 802.15 WPAN (Wireless Personal Area Network) (802.15.4 under Zigbee/Thread), 802.3af/at/bt PoE (Power over Ethernet)</td><td>8–10</td></tr>
+      <tr><td><b>IETF</b></td><td>RFC 791 IPv4 (Internet Protocol version 4), RFC 8200 IPv6 (Internet Protocol version 6), RFC 9293 TCP (Transmission Control Protocol), RFC 768 UDP (User Datagram Protocol), RFC 1034/1035 DNS (Domain Name System), RFC 9110 HTTP (HyperText Transfer Protocol) semantics, RFC 8446 TLS 1.3, RFC 1918 private addresses</td><td>8–9, 14</td></tr>
+      <tr><td><b>ITU-T</b></td><td>G.652 single-mode fiber, G.694.1 DWDM (Dense Wavelength Division Multiplexing) grid, G.694.2 CWDM (Coarse Wavelength Division Multiplexing) grid, G.984 GPON (Gigabit Passive Optical Network), G.9807 XGS-PON (10-Gigabit Symmetric Passive Optical Network), X.509 certificates</td><td>11, 14</td></tr>
+      <tr><td><b>ISO / IEC</b></td><td>27001, 27002, 20000, 22301, 9001, 11801 cabling, 22237 data centers</td><td>11, 18–20</td></tr>
+      <tr><td><b>ANSI (American National Standards Institute) / TIA</b></td><td>ANSI accredits; TIA-568 cabling, 606 labeling, 607 grounding and bonding, 942 data centers</td><td>11, 18</td></tr>
+      <tr><td><b>BICSI (Building Industry Consulting Service International)</b></td><td>BICSI 002 data center design; TDMM (Telecommunications Distribution Methods Manual); RCDD (Registered Communications Distribution Designer) credential</td><td>18</td></tr>
+      <tr><td><b>NIST (National Institute of Standards and Technology)</b></td><td>CSF (Cybersecurity Framework) 2.0, SP (Special Publication) 800 series, FIPS (Federal Information Processing Standards) 140-3, FIPS 197 AES (Advanced Encryption Standard), FIPS 203/204/205 post-quantum</td><td>14, 20</td></tr>
+      <tr><td><b>W3C (World Wide Web Consortium)</b></td><td>HTML (HyperText Markup Language; living standard with WHATWG (Web Hypertext Application Technology Working Group)), CSS (Cascading Style Sheets), WCAG (Web Content Accessibility Guidelines) accessibility</td><td>23</td></tr>
+      <tr><td><b>Consortia</b></td><td>USB-IF (USB4), HDMI Forum (HDMI 2.1/2.2), VESA (Video Electronics Standards Association; DisplayPort 2.1), Wi-Fi Alliance (Wi-Fi 7, WPA3 (Wi-Fi Protected Access 3)), Bluetooth SIG, PCI-SIG (PCIe (Peripheral Component Interconnect Express) 6/7), JEDEC (Joint Electron Device Engineering Council; DDR5 (Double Data Rate)), SNIA (Storage Networking Industry Association; storage)</td><td>4–5, 10</td></tr>
+      <tr><td><b>Facility</b></td><td>Uptime Institute (Tiers), ASHRAE (American Society of Heating, Refrigerating and Air-Conditioning Engineers; TC 9.9 thermal), NFPA (70, 70E, 75, 76, 2001)</td><td>18</td></tr>
+      <tr><td><b>Certification bodies</b></td><td>ISACA (Information Systems Audit and Control Association; CISM (Certified Information Security Manager), CISA (Certified Information Systems Auditor), COBIT (Control Objectives for Information and Related Technologies)), PeopleCert (ITIL (Information Technology Infrastructure Library); AXELOS was acquired by PeopleCert in 2021), CompTIA (A+, Network+, Security+), ISC2 (International Information System Security Certification Consortium; CISSP (Certified Information Systems Security Professional), CC)</td><td>1, 19–22</td></tr>
+    </tbody></table></div>
+  <div class="callout trap">"The Wi-Fi Alliance wrote 802.11." IEEE writes 802.11; the Wi-Fi Alliance certifies products and gives the generations friendly names (Wi-Fi 6 = 802.11ax, Wi-Fi 7 = 802.11be).</div>
+</section>
+
+<section class="lesson" id="consumer">
+  <h2>3. Consumer standards in daily life</h2>
+  <div class="tablewrap"><table>
+    <thead><tr><th>You see…</th><th>Standard and owner</th><th>What to know</th></tr></thead>
+    <tbody>
+      <tr><td>USB-C port</td><td>USB4 / USB 3.2 / USB PD (Power Delivery; USB-IF)</td><td>USB-C is the connector shape; the speed (USB 2.0 to USB4 80 Gbps) and power (up to 240 W with PD 3.1 EPR (Extended Power Range)) depend on the device and cable</td></tr>
+      <tr><td>HDMI port</td><td>HDMI 2.1 / 2.2 (HDMI Forum, licensed by HDMI LA)</td><td>HDMI 2.1 up to 48 Gbps (4K120, 8K60); HDMI 2.2 up to 96 Gbps (verify)</td></tr>
+      <tr><td>Bluetooth headphones</td><td>Bluetooth 5.x / 6.0 (Bluetooth SIG)</td><td>LE (Low Energy) Audio and Auracast broadcast audio in newer versions</td></tr>
+      <tr><td>Wireless charging pad</td><td>Qi / Qi2 (Wireless Power Consortium)</td><td>Qi2 adds magnetic alignment (based on MagSafe)</td></tr>
+      <tr><td>Smart bulb with "Works with Matter"</td><td>Matter (Connectivity Standards Alliance)</td><td>Works across ecosystems over Wi-Fi, Ethernet and Thread</td></tr>
+      <tr><td>"Wi-Fi 7 Certified" label</td><td>Wi-Fi Alliance, based on IEEE 802.11be</td><td>Certification proves interoperability testing</td></tr>
+      <tr><td>Tap-to-pay</td><td>NFC (Near Field Communication; ISO/IEC 14443, 18092; NFC Forum) and EMV (Europay, Mastercard and Visa chip-card standard; EMVCo)</td><td>Short range, around 4 cm</td></tr>
+    </tbody></table></div>
+</section>
+
+<section class="lesson" id="names">
+  <h2>4. How to read a standard's name</h2>
+  <figure class="fig"><svg id="name-fig" viewBox="0 0 760 230" width="760" role="img" aria-label="Anatomy of the names IEEE 802.3bt-2018 and ISO/IEC 27001:2022"></svg></figure>
+  <ul>
+    <li><b>ANSI/TIA-568.2-D</b>: an ANSI-approved TIA standard, part 568.2 (balanced twisted-pair), revision D.</li>
+    <li><b>NIST SP 800-53 Rev. 5</b>: Special Publication series 800, number 53, fifth revision.</li>
+    <li><b>RFC 8446</b>: just a number; check the RFC's header to see if it obsoletes or updates others (8446 obsoletes 5246, TLS 1.2's spec, for TLS 1.3 purposes).</li>
+    <li><b>FIPS 140-3</b>: standard 140, third version.</li>
+    <li><b>EN 50600</b>: a European Norm (CENELEC); the international version is ISO/IEC 22237.</li>
+  </ul>
+</section>
+
+<section class="lesson" id="standards-life">
+  <h2>5. How a standard is made</h2>
+  <p>Standards don't appear from nowhere. Most follow a similar path, and understanding it explains why new technology takes years to become "official".</p>
+  <ol>
+    <li><b>A need is identified.</b> For example, Wi-Fi needs higher speeds, or data centers need a common way to measure efficiency.</li>
+    <li><b>A working group forms.</b> Engineers from competing companies, universities and governments volunteer to write it.</li>
+    <li><b>Drafts are proposed and argued over</b>, sometimes for years. Companies push for approaches that match their products.</li>
+    <li><b>Ballots and comments:</b> members vote; every objection must be answered.</li>
+    <li><b>Publication.</b> IETF RFCs are free to read; ISO, IEC and many IEEE and TIA documents are sold.</li>
+    <li><b>Certification programs</b> run by industry groups (such as the Wi-Fi Alliance or USB-IF) test products so the logo means they work together.</li>
+    <li><b>Revision:</b> standards are reviewed every few years and updated, amended or withdrawn.</li>
+  </ol>
+  <div class="callout analogy">A standard is like agreeing on which side of the road to drive. It doesn't matter much which side is chosen, but everyone choosing the same one is what makes the system work.</div>
+</section>
+
+<section class="lesson" id="reading-specs">
+  <h2>6. Reading a spec sheet like a pro</h2>
+  <p>Standards show up in daily work on product spec sheets. Being able to decode them saves money and prevents mismatches.</p>
+  <div class="tablewrap"><table><thead><tr><th>Spec line</th><th>What it tells you</th></tr></thead><tbody>
+    <tr><td>"802.11ax, 2×2 MU-MIMO (Multi-User Multiple-Input Multiple-Output)"</td><td>Wi-Fi 6 with two antennas for transmit and receive</td></tr>
+    <tr><td>"802.3bt Type 4, 90 W"</td><td>High-power PoE; check the switch supports it</td></tr>
+    <tr><td>"Cat 6A, CMP (Communications Plenum cable rating), TIA-568.2-D"</td><td>Copper cable rated for 10 Gbps at 100 m, plenum-rated, made to the TIA standard</td></tr>
+    <tr><td>"USB-C, USB4 40 Gbps, PD 100 W"</td><td>Speed and power depend on the cable and the device at both ends</td></tr>
+    <tr><td>"IP67"</td><td>Dust-tight and survives temporary immersion in water</td></tr>
+    <tr><td>"FIPS 140-3 Level 2 validated"</td><td>Cryptographic module tested under the US government program</td></tr>
+    <tr><td>"80 PLUS Gold"</td><td>Power supply efficiency of roughly 87 to 90%</td></tr>
+  </tbody></table></div>
+  <div class="callout trap">"Compatible with" or "designed to meet" a standard is weaker than "certified" or "validated". When it matters (security, safety, interoperability), look for the official certification.</div>
+</section>
+
+<section class="lab" id="labs">
+  <h2>Interactive labs</h2>
+
+  <div class="lab-card" id="lab-find" data-lab="Standards Finder: search or filter standards by topic and see the body, what it covers and which module and cert it relates to.">
+    <h3>Lab 1: Standards Finder</h3>
+    <div class="row"><label>Search <input type="text" id="sf-q" placeholder="e.g. fiber, AES, 942, wireless" style="min-width:14em"></label></div>
+    <div class="row"><span>Topic:</span><div class="seg" id="sf-topic"></div></div>
+    <div class="tablewrap"><table class="finder" id="sf-table"></table></div>
+    <div class="caption" id="sf-cap" aria-live="polite"></div>
+  </div>
+
+  <div class="lab-card" id="lab-who" data-lab="Who Made This? game: see a technology such as Wi-Fi 7, Cat 6A, TLS 1.3, Tier III or Annex A and pick the body that governs it.">
+    <h3>Lab 2: "Who Made This?"</h3>
+    <div class="row"><b id="wg-count"></b><span id="wg-score"></span></div>
+    <div class="game-card"><div class="figcap">Which body governs…</div><div class="tech" id="wg-tech"></div><div class="game-opts" id="wg-opts"></div></div>
+    <div class="row"><button type="button" class="primary" id="wg-next">Next →</button><button type="button" id="wg-restart">New game</button></div>
+    <div class="caption" id="wg-cap" aria-live="polite"></div>
+  </div>
+
+  <div class="lab-card" id="lab-tree" data-lab="IEEE 802 Family Tree: a clickable tree of IEEE 802 working groups and their best-known amendments.">
+    <h3>Lab 3: IEEE 802 Family Tree</h3>
+    <p class="figcap">Click (or Tab to and press Enter on) a working group to see its best-known standards and amendments.</p>
+    <div class="stage"><svg id="tr-svg" viewBox="0 0 760 300" width="760" role="group" aria-label="IEEE 802 family tree"></svg></div>
+    <div class="info" id="tr-info">Choose a working group.</div>
+    <div class="caption" id="tr-cap" aria-live="polite"></div>
+  </div>
+</section>
+
+<section class="glossary" id="glossary">
+  <h2>Key terms</h2>
+  <div id="glossary-list"></div>
+</section>
+
+<section class="memory" id="memory">
+  <h2>Memory aids</h2>
+  <div class="mnemonic"><b>IEEE</b> = the <b>E</b>thernet and <b>E</b>ther (wireless) people. <b>IETF</b> = the <b>I</b>nternet <b>T</b>raffic rules (RFCs). <b>ITU-T</b> = the <b>T</b>elecom and <b>T</b>hin glass (fiber) people.</div>
+  <div class="mnemonic">TIA cabling numbers "<b>568</b> cables, <b>606</b> labels, <b>607</b> grounds, <b>942</b> data centers": think "cable, label, ground, room".</div>
+  <div class="mnemonic">"<b>X</b>.509 is for e<b>X</b>changing identities; 802.1<b>X</b> is for e<b>X</b>tra port security." Different bodies, similar letters.</div>
+  <div class="tablewrap"><table><thead><tr><th>Number</th><th>Meaning</th></tr></thead><tbody>
+    <tr><td>802.3 / 802.11 / 802.1Q / 802.1X</td><td>Ethernet / Wi-Fi / VLANs / port access control</td></tr>
+    <tr><td>802.3af / at / bt</td><td>PoE 15.4 W / PoE+ 30 W / PoE++ 60–90 W (at the source)</td></tr>
+    <tr><td>RFC 1918</td><td>10/8, 172.16/12, 192.168/16</td></tr>
+    <tr><td>RFC 8446</td><td>TLS 1.3</td></tr>
+    <tr><td>G.652 / G.657</td><td>Standard / bend-insensitive single-mode fiber</td></tr>
+    <tr><td>FIPS 197 / 140-3 / 203–205</td><td>AES / crypto modules / post-quantum</td></tr>
+    <tr><td>TIA-942 / ISO/IEC 22237</td><td>Data center infrastructure</td></tr>
+  </tbody></table></div>
+  <div class="tablewrap"><table><thead><tr><th>Exam trap</th><th>Why it is wrong</th></tr></thead><tbody>
+    <tr><td>"USB-C means USB 3."</td><td>USB-C is a connector; it can carry anything from USB 2.0 to USB4 and Thunderbolt.</td></tr>
+    <tr><td>"ISO writes Wi-Fi."</td><td>IEEE writes 802.11; ISO/IEC sometimes adopts IEEE standards later (e.g., ISO/IEC/IEEE 8802-3).</td></tr>
+    <tr><td>"Uptime Tiers are in TIA-942."</td><td>TIA-942 uses Rated-1 to Rated-4; Tiers are Uptime Institute's.</td></tr>
+    <tr><td>"An RFC can be edited to fix it."</td><td>Published RFCs never change; errata or new RFCs are issued.</td></tr>
+  </tbody></table></div>
+</section>
+
+<section class="quiz" id="quiz">
+  <h2>Knowledge check</h2>
+  <div id="quiz-area"></div>
+</section>
+
+<section class="flashcards" id="flashcards">
+  <h2>Flashcards</h2>
+  <div id="deck-area"></div>
+</section>
+
+<section class="deeper" id="deeper">
+  <h2>Go deeper (official sources)</h2>
+  <ul>
+    <li><a href="https://standards.ieee.org/" rel="noopener">IEEE Standards Association</a> · <a href="https://www.ieee802.org/" rel="noopener">IEEE 802 LAN/MAN Standards Committee</a></li>
+    <li><a href="https://www.ietf.org/process/rfcs/" rel="noopener">IETF: RFCs</a> · <a href="https://www.rfc-editor.org/" rel="noopener">RFC Editor</a></li>
+    <li><a href="https://www.itu.int/en/ITU-T/" rel="noopener">ITU-T Recommendations</a></li>
+    <li><a href="https://www.iso.org/" rel="noopener">ISO</a> · <a href="https://www.iec.ch/" rel="noopener">IEC</a> · <a href="https://www.ansi.org/" rel="noopener">ANSI</a> · <a href="https://tiaonline.org/" rel="noopener">TIA</a> · <a href="https://www.bicsi.org/" rel="noopener">BICSI</a></li>
+    <li><a href="https://csrc.nist.gov/publications" rel="noopener">NIST Computer Security Resource Center</a></li>
+    <li><a href="https://www.w3.org/standards/" rel="noopener">W3C standards</a> · <a href="https://www.w3.org/WAI/standards-guidelines/wcag/" rel="noopener">WCAG</a></li>
+    <li><a href="https://www.usb.org/" rel="noopener">USB-IF</a> · <a href="https://www.wi-fi.org/" rel="noopener">Wi-Fi Alliance</a> · <a href="https://www.bluetooth.com/" rel="noopener">Bluetooth SIG</a> · <a href="https://www.jedec.org/" rel="noopener">JEDEC</a> · <a href="https://pcisig.com/" rel="noopener">PCI-SIG</a> · <a href="https://csa-iot.org/" rel="noopener">Connectivity Standards Alliance</a></li>
+  </ul>
+</section>
+</main>
+<footer class="foot">Datacenter Omnibus · Original, independent study material. Not affiliated with or endorsed by any certification body, vendor or standards organisation. All trademarks belong to their owners. Exam details change; always verify on the vendor site. <a href="legal.html">Trademarks and copyright</a></footer>
+
+<script src="data/catalog.js"></script>
+<script src="assets/omnibus.js"></script>
+<script src="data/m29.js"></script>
+<script>
+(function () {
+  var h = OMNI.h, S = OMNI.svg, $ = function (id) { return document.getElementById(id); };
+  var esc = OMNI.esc || function (s) { return String(s).replace(/[&<>"']/g, function (c) { return { "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;" }[c]; }); };
+  function txt(p, x, y, t, a) { var e = S("text", Object.assign({ x: x, y: y, class: "svg-text", "font-size": 12 }, a || {}), p); e.textContent = t; return e; }
+  function rect(p, x, y, w, hh, fill, stroke, extra) { return S("rect", Object.assign({ x: x, y: y, width: w, height: hh, rx: 8, fill: fill, stroke: stroke || "none", "stroke-width": 2 }, extra || {}), p); }
+  function arrow(p, x1, y1, x2, y2) {
+    S("line", { x1: x1, y1: y1, x2: x2, y2: y2, stroke: "var(--ink-2)", "stroke-width": 2 }, p);
+    var a = Math.atan2(y2 - y1, x2 - x1), s = 8;
+    S("polygon", { points: x2 + "," + y2 + " " + (x2 - s * Math.cos(a - .45)) + "," + (y2 - s * Math.sin(a - .45)) + " " + (x2 - s * Math.cos(a + .45)) + "," + (y2 - s * Math.sin(a + .45)), fill: "var(--ink-2)" }, p);
+  }
+
+  /* ===== Figures ===== */
+  (function () {
+    var g = $("make-fig"), P = [["Need", "industry problem"], ["Working group", "experts volunteer"], ["Drafts", "proposals, debate"], ["Ballot", "vote, resolve comments"], ["Publish", "approved standard"], ["Maintain", "amend, revise"]];
+    P.forEach(function (p, i) { var x = 10 + i * 125; rect(g, x, 30, 108, 60, i === 4 ? "var(--good-soft)" : "var(--surface)", "var(--gen)"); txt(g, x + 54, 56, p[0], { "text-anchor": "middle", "font-weight": 700 }); txt(g, x + 54, 74, p[1], { "text-anchor": "middle", "font-size": 10, class: "svg-muted" }); if (i < 5) arrow(g, x + 108, 60, x + 125, 60); });
+    S("path", { d: "M 690 90 C 690 130, 64 130, 64 92", fill: "none", stroke: "var(--ink-2)", "stroke-width": 1.5, "stroke-dasharray": "5 4" }, g);
+    txt(g, 380, 140, "new needs start the next amendment", { "text-anchor": "middle", "font-size": 10, class: "svg-muted" });
+  })();
+  (function () {
+    var g = $("name-fig");
+    function anat(y, parts) {
+      var x = 40; parts.forEach(function (p) {
+        var w = Math.max(p[0].length * 15 + 16, p[1].length * 6.2 + 14); rect(g, x, y, w, 40, p[2], "var(--line)", { rx: 6 }); txt(g, x + w / 2, y + 27, p[0], { "text-anchor": "middle", "font-weight": 800, "font-size": 18, "font-family": "var(--mono)" });
+        S("line", { x1: x + w / 2, y1: y + 40, x2: x + w / 2, y2: y + 56, stroke: "var(--ink-2)" }, g); txt(g, x + w / 2, y + 70, p[1], { "text-anchor": "middle", "font-size": 10.5, class: "svg-muted" }); x += w + 8;
+      });
+    }
+    anat(15, [["IEEE", "body", "var(--net-soft)"], ["802", "LAN/MAN family", "var(--surface)"], [".3", "Ethernet group", "var(--surface)"], ["bt", "amendment (PoE)", "var(--warn-soft)"], ["-2018", "year approved", "var(--good-soft)"]]);
+    anat(125, [["ISO/IEC", "joint bodies", "var(--gov-soft)"], ["27001", "standard number", "var(--surface)"], [":2022", "edition year", "var(--good-soft)"]]);
+  })();
+
+  /* ===== Lab 1: Standards finder ===== */
+  var STD = [
+    ["IEEE 802.3", "IEEE", "Networking", "Ethernet (copper and fiber, 10 Mb/s to 800 Gb/s)", 9, "N"],
+    ["IEEE 802.3af / at / bt", "IEEE", "Networking", "Power over Ethernet: 15.4 W / 30 W / 60–90 W", 9, "N"],
+    ["IEEE 802.11 (a/b/g/n/ac/ax/be)", "IEEE", "Wireless", "Wireless LAN; Wi-Fi 4 = n, 5 = ac, 6/6E = ax, 7 = be", 10, "N"],
+    ["IEEE 802.1Q", "IEEE", "Networking", "VLAN tagging and bridging", 9, "N"],
+    ["IEEE 802.1X", "IEEE", "Security", "Port-based network access control (with EAP and RADIUS)", 10, "S"],
+    ["IEEE 802.1D / 802.1w", "IEEE", "Networking", "Spanning Tree / Rapid Spanning Tree (now within 802.1Q)", 9, "N"],
+    ["IEEE 802.15.1 / 802.15.4", "IEEE", "Wireless", "WPAN: Bluetooth's original basis / low-rate PHY used by Zigbee and Thread", 10, "N"],
+    ["IEEE 802.3ad / 802.1AX", "IEEE", "Networking", "Link aggregation (LACP)", 9, "N"],
+    ["RFC 791", "IETF", "Networking", "Internet Protocol version 4", 8, "N"],
+    ["RFC 8200", "IETF", "Networking", "Internet Protocol version 6", 8, "N"],
+    ["RFC 9293", "IETF", "Networking", "Transmission Control Protocol (replaces RFC 793)", 8, "N"],
+    ["RFC 768", "IETF", "Networking", "User Datagram Protocol", 8, "N"],
+    ["RFC 1034 / 1035", "IETF", "Networking", "Domain Name System concepts and implementation", 8, "N"],
+    ["RFC 1918", "IETF", "Networking", "Private IPv4 address ranges", 8, "N"],
+    ["RFC 9110 / 9113 / 9114", "IETF", "Web", "HTTP semantics / HTTP/2 / HTTP/3", 8, "N"],
+    ["RFC 8446", "IETF", "Security", "TLS 1.3", 14, "S"],
+    ["RFC 5280", "IETF", "Security", "Internet X.509 certificate and CRL profile", 14, "S"],
+    ["RFC 2131", "IETF", "Networking", "DHCP", 8, "N"],
+    ["ITU-T G.652", "ITU-T", "Optical", "Standard single-mode fiber", 11, "N"],
+    ["ITU-T G.657", "ITU-T", "Optical", "Bend-insensitive single-mode fiber", 11, "N"],
+    ["ITU-T G.694.1", "ITU-T", "Optical", "DWDM frequency grid", 11, "N"],
+    ["ITU-T G.694.2", "ITU-T", "Optical", "CWDM wavelength grid (20 nm spacing)", 11, "N"],
+    ["ITU-T G.984 / G.9807", "ITU-T", "Optical", "GPON / XGS-PON passive optical networks", 11, "N"],
+    ["ITU-T X.509", "ITU-T", "Security", "Public key certificate format", 14, "S"],
+    ["ISO/IEC 27001", "ISO/IEC", "Security", "Information security management system requirements (certifiable)", 20, "CISM"],
+    ["ISO/IEC 27002", "ISO/IEC", "Security", "Information security controls guidance", 20, "CISA"],
+    ["ISO/IEC 20000-1", "ISO/IEC", "Service management", "Service management system requirements", 19, "ITIL"],
+    ["ISO 22301", "ISO", "Service management", "Business continuity management system", 21, "CISM"],
+    ["ISO 9001", "ISO", "Service management", "Quality management system", 22, "CISA"],
+    ["ISO 31000", "ISO", "Security", "Risk management guidelines", 20, "CISM"],
+    ["ISO/IEC 11801", "ISO/IEC", "Cabling", "Generic cabling for customer premises (Class EA, F, FA…)", 11, "N"],
+    ["ISO/IEC 22237", "ISO/IEC", "Data center", "Data centre facilities and infrastructures (based on EN 50600)", 18, "DCCA"],
+    ["EN 50600", "CENELEC", "Data center", "European data centre facility standard series", 18, "DCCA"],
+    ["ANSI/TIA-568", "TIA", "Cabling", "Commercial building telecommunications cabling (Cat 5e, 6, 6A, 8; T568A/B)", 11, "N"],
+    ["ANSI/TIA-606", "TIA", "Cabling", "Administration and labeling of telecom infrastructure", 11, "DCCA"],
+    ["ANSI/TIA-607", "TIA", "Cabling", "Grounding and bonding for telecommunications", 18, "DCCA"],
+    ["ANSI/TIA-942", "TIA", "Data center", "Telecommunications infrastructure for data centers, Rated-1 to 4", 18, "DCCA"],
+    ["BICSI 002", "BICSI", "Data center", "Data center design and implementation best practices", 18, "DCCA"],
+    ["Uptime Tier Standard", "Uptime Institute", "Data center", "Tier I–IV topology and operational sustainability", 18, "DCCA"],
+    ["ASHRAE TC 9.9 Thermal Guidelines", "ASHRAE", "Data center", "Recommended 18–27 °C inlet; allowable classes A1–A4", 18, "DCCA"],
+    ["NFPA 75 / 76", "NFPA", "Data center", "Fire protection of IT equipment / telecom facilities", 18, "DCCA"],
+    ["NFPA 70 (NEC) / 70E", "NFPA", "Data center", "Electrical code / electrical workplace safety (arc flash)", 18, "DCCA"],
+    ["NIST CSF 2.0", "NIST", "Security", "Cybersecurity Framework: Govern, Identify, Protect, Detect, Respond, Recover", 20, "S"],
+    ["NIST SP 800-53 Rev. 5", "NIST", "Security", "Security and privacy controls catalogue", 20, "CISA"],
+    ["NIST SP 800-61 Rev. 3", "NIST", "Security", "Incident response recommendations", 21, "CISM"],
+    ["NIST SP 800-63", "NIST", "Security", "Digital identity guidelines (authentication assurance)", 14, "S"],
+    ["FIPS 197", "NIST", "Security", "AES encryption", 14, "S"],
+    ["FIPS 140-3", "NIST", "Security", "Security requirements for cryptographic modules", 14, "S"],
+    ["FIPS 180-4 / 202", "NIST", "Security", "SHA-2 / SHA-3 hash functions", 14, "S"],
+    ["FIPS 203 / 204 / 205", "NIST", "Security", "Post-quantum: ML-KEM, ML-DSA, SLH-DSA", 14, "S"],
+    ["HTML Living Standard", "WHATWG / W3C", "Web", "The structure of web pages", 23, "GEN"],
+    ["CSS", "W3C", "Web", "Styling of web pages", 23, "GEN"],
+    ["WCAG 2.2", "W3C", "Web", "Web accessibility guidelines (A, AA, AAA)", 23, "GEN"],
+    ["USB4 / USB Power Delivery", "USB-IF", "Consumer", "USB data up to 80 Gb/s (USB4 v2.0) and up to 240 W charging", 5, "A1"],
+    ["HDMI 2.1 / 2.2", "HDMI Forum", "Consumer", "Digital audio/video interface (48 / 96 Gb/s, verify 2.2)", 5, "A1"],
+    ["DisplayPort 2.1", "VESA", "Consumer", "Display interface up to UHBR20 (80 Gb/s)", 5, "A1"],
+    ["Wi-Fi CERTIFIED 7 / WPA3", "Wi-Fi Alliance", "Wireless", "Interoperability certification and security for Wi-Fi", 10, "N"],
+    ["Bluetooth Core 6.0", "Bluetooth SIG", "Wireless", "Bluetooth Classic and Low Energy (verify current version)", 10, "A1"],
+    ["PCI Express 6.0 / 7.0", "PCI-SIG", "Hardware", "Expansion bus: 64 / 128 GT/s per lane", 4, "A1"],
+    ["DDR5 (JESD79-5)", "JEDEC", "Hardware", "System memory standard", 4, "A1"],
+    ["SNIA Swordfish / SMI-S", "SNIA", "Hardware", "Storage management interfaces", 17, "GEN"],
+    ["Qi / Qi2", "Wireless Power Consortium", "Consumer", "Wireless charging", 5, "A1"],
+    ["Matter", "Connectivity Standards Alliance", "Consumer", "Smart home interoperability over IP", 10, "GEN"],
+    ["COBIT 2019", "ISACA", "Service management", "Governance and management of enterprise IT", 20, "CISA"],
+    ["ITIL 4 / ITIL (Version 5)", "PeopleCert", "Service management", "IT/digital service management best practice", 19, "ITIL"],
+    ["PCI DSS v4.0.1", "PCI SSC", "Security", "Payment card data security requirements", 20, "S"]
+  ];
+  var TOPICS = ["All"].concat(STD.map(function (s) { return s[2]; }).filter(function (t, i, a) { return a.indexOf(t) === i; }).sort());
+  var sfTopic = "All";
+  TOPICS.forEach(function (t) { var b = h("button", { type: "button" }, t); b.onclick = function () { sfTopic = t; sfDraw(); }; $("sf-topic").appendChild(b); });
+  function hl(s, q) { s = esc(s); if (!q) return s; var i = s.toLowerCase().indexOf(q.toLowerCase()); return i < 0 ? s : s.slice(0, i) + "<mark>" + s.slice(i, i + q.length) + "</mark>" + s.slice(i + q.length); }
+  function sfDraw() {
+    OMNI.$$("#sf-topic button").forEach(function (b) { b.classList.toggle("on", b.textContent === sfTopic); });
+    var q = $("sf-q").value.trim(), ql = q.toLowerCase();
+    var rows = STD.filter(function (s) { return (sfTopic === "All" || s[2] === sfTopic) && (!ql || s.join(" ").toLowerCase().indexOf(ql) >= 0); });
+    var t = $("sf-table");
+    t.innerHTML = "<thead><tr><th>Standard</th><th>Body</th><th>Covers</th><th>Module</th><th>Cert</th></tr></thead><tbody>" + rows.map(function (s) {
+      return "<tr><td><b>" + hl(s[0], q) + "</b></td><td>" + hl(s[1], q) + "</td><td>" + hl(s[3], q) + "</td><td><a href=\"" + OMNI.file(s[4]) + "\">" + s[4] + "</a></td><td>" + esc(OMNI.certName ? OMNI.certName(s[5]) : s[5]) + "</td></tr>";
+    }).join("") + "</tbody>";
+    OMNI.say("sf-cap", rows.length + " of " + STD.length + " standards shown" + (sfTopic !== "All" ? " in " + sfTopic : "") + (q ? " matching \"" + esc(q) + "\"" : "") + ". " + (rows.length ? "Notice how many bodies a single topic involves: " + rows.map(function (r) { return r[1]; }).filter(function (b, i, a) { return a.indexOf(b) === i; }).slice(0, 6).join(", ") + "." : "No matches; try a shorter word."));
+  }
+  $("sf-q").oninput = sfDraw; sfDraw();
+
+  /* ===== Lab 2: Who made this ===== */
+  var WHO = [
+    ["Wi-Fi 7 (802.11be)", "IEEE", "IEEE writes 802.11be; the Wi-Fi Alliance certifies and brands it 'Wi-Fi 7'."],
+    ["Cat 6A cabling", "TIA", "ANSI/TIA-568 defines Cat 6A (ISO/IEC 11801 calls the channel Class EA)."],
+    ["TLS 1.3", "IETF", "RFC 8446."],
+    ["Tier III data center", "Uptime Institute", "Concurrently maintainable; Uptime's Tier Standard."],
+    ["Annex A controls", "ISO/IEC", "ISO/IEC 27001:2022 Annex A, 93 controls."],
+    ["AES", "NIST", "FIPS 197 (2001), based on the Rijndael cipher."],
+    ["X.509 certificates", "ITU-T", "ITU-T Recommendation X.509, profiled for the internet in RFC 5280."],
+    ["DDR5 memory", "JEDEC", "JESD79-5."],
+    ["USB4", "USB-IF", "USB Implementers Forum."],
+    ["WCAG 2.2", "W3C", "Web Content Accessibility Guidelines."],
+    ["Single-mode fiber G.652", "ITU-T", "ITU-T G-series recommendation."],
+    ["IPv6", "IETF", "RFC 8200."],
+    ["VLAN tagging", "IEEE", "IEEE 802.1Q."],
+    ["Data center thermal guidelines", "ASHRAE", "TC 9.9 recommends 18–27 °C inlet."],
+    ["ITIL", "PeopleCert", "AXELOS was acquired by PeopleCert in 2021."],
+    ["COBIT", "ISACA", "COBIT 2019."],
+    ["PCIe 6.0", "PCI-SIG", "PCI Special Interest Group."],
+    ["Clean agent fire suppression (NFPA 2001)", "NFPA", "National Fire Protection Association."],
+    ["ML-KEM post-quantum encryption", "NIST", "FIPS 203 (2024)."],
+    ["Matter smart home", "Connectivity Standards Alliance", "Formerly the Zigbee Alliance."]
+  ];
+  var BODIES = WHO.map(function (w) { return w[1]; }).filter(function (b, i, a) { return a.indexOf(b) === i; });
+  var wgList, wgI, wgRight, wgDone;
+  function wgNew() { wgList = OMNI.shuffle(WHO.slice()).slice(0, 10); wgI = 0; wgRight = 0; wgDone = false; wgShow(); }
+  function wgShow() {
+    var w = wgList[wgI]; wgDone = false;
+    $("wg-count").textContent = "Round " + (wgI + 1) + " of " + wgList.length; $("wg-score").textContent = " · Score " + wgRight;
+    $("wg-tech").textContent = w[0];
+    var opts = OMNI.shuffle([w[1]].concat(OMNI.shuffle(BODIES.filter(function (b) { return b !== w[1]; })).slice(0, 3)));
+    var O = $("wg-opts"); O.innerHTML = "";
+    opts.forEach(function (o) { var b = h("button", { type: "button" }, o); b.onclick = function () { wgPick(o, b); }; O.appendChild(b); });
+    OMNI.say("wg-cap", "Pick the body that publishes or governs this technology.");
+  }
+  function wgPick(o, btn) {
+    if (wgDone) return; wgDone = true; var w = wgList[wgI], ok = o === w[1]; if (ok) wgRight++;
+    OMNI.$$("#wg-opts button").forEach(function (b) { b.disabled = true; if (b.textContent === w[1]) b.classList.add("ok"); else if (b === btn) b.classList.add("bad"); });
+    $("wg-score").textContent = " · Score " + wgRight;
+    OMNI.say("wg-cap", (ok ? "Correct! " : "Not quite: it's <b>" + w[1] + "</b>. ") + w[2] + (wgI === wgList.length - 1 ? " Game over: " + wgRight + " of " + wgList.length + ". Press New game to play again." : ""));
+  }
+  $("wg-next").onclick = function () { if (wgI < wgList.length - 1) { wgI++; wgShow(); } else wgNew(); };
+  $("wg-restart").onclick = wgNew; wgNew();
+
+  /* ===== Lab 3: IEEE 802 family tree ===== */
+  var TREE = [
+    { k: "802.1", n: "802.1 Higher layer LAN protocols", d: "Bridging, VLANs and network management.", a: ["802.1Q: VLAN tagging, bridging (now includes Spanning Tree 802.1D/w and MSTP 802.1s)", "802.1X: port-based network access control", "802.1AX: link aggregation (LACP, formerly 802.3ad)", "802.1AE: MACsec link encryption", "802.1AB: LLDP neighbor discovery", "802.1 TSN: time-sensitive networking"], m: "Modules 9, 10 and 16" },
+    { k: "802.3", n: "802.3 Ethernet", d: "Wired Ethernet from 10 Mb/s to 800 Gb/s and beyond.", a: ["802.3u: Fast Ethernet 100BASE-TX", "802.3ab: 1000BASE-T", "802.3an: 10GBASE-T", "802.3bz: 2.5/5GBASE-T (multi-gig)", "802.3af / at / bt: Power over Ethernet", "802.3ba / bs / ck / df: 40/100, 200/400, 100–400 G electrical, 800 G"], m: "Modules 9 and 11" },
+    { k: "802.11", n: "802.11 Wireless LAN", d: "Wi-Fi physical and MAC layers.", a: ["802.11n: Wi-Fi 4 (MIMO, 2.4/5 GHz)", "802.11ac: Wi-Fi 5 (5 GHz, MU-MIMO downlink)", "802.11ax: Wi-Fi 6 / 6E (OFDMA, 6 GHz for 6E)", "802.11be: Wi-Fi 7 (320 MHz, multi-link operation)", "802.11i: security (basis of WPA2)", "802.11r / k / v: fast roaming and assisted roaming"], m: "Module 10" },
+    { k: "802.15", n: "802.15 Wireless personal area networks", d: "Short-range, low-power wireless.", a: ["802.15.1: original Bluetooth basis (Bluetooth now maintained by the Bluetooth SIG)", "802.15.4: low-rate WPAN used by Zigbee, Thread (and so Matter over Thread)", "802.15.4z: ultra-wideband (UWB) precise ranging", "802.15.7: visible light communication"], m: "Module 10" },
+    { k: "802.16", n: "802.16 Broadband wireless access (WiMAX)", d: "Metropolitan wireless broadband; now hibernated, largely replaced by LTE/5G.", a: ["802.16e: mobile WiMAX"], m: "Module 10 (history)" },
+    { k: "802.22", n: "802.22 Wireless regional area networks", d: "Long-range broadband using TV white space spectrum.", a: ["802.22: cognitive radio in unused TV channels"], m: "Background" },
+    { k: "802.24", n: "802.24 Vertical applications TAG", d: "Technical advisory group on smart grid, IoT and vertical markets.", a: ["Coordinates 802 work for industries such as utilities and automotive"], m: "Background" },
+    { k: "802.18/19", n: "802.18 Radio regulatory / 802.19 Coexistence", d: "Advises regulators on spectrum and makes sure wireless standards share bands fairly.", a: ["802.18: regulatory input on spectrum (e.g., 6 GHz opening)", "802.19: coexistence between unlicensed wireless standards"], m: "Background" }
+  ];
+  (function () {
+    var g = $("tr-svg");
+    rect(g, 280, 15, 200, 46, "var(--net-soft)", "var(--net)"); txt(g, 380, 36, "IEEE 802 LMSC", { "text-anchor": "middle", "font-weight": 800 }); txt(g, 380, 52, "LAN/MAN Standards Committee", { "text-anchor": "middle", "font-size": 10, class: "svg-muted" });
+    S("line", { x1: 380, y1: 61, x2: 380, y2: 90, stroke: "var(--ink-2)", "stroke-width": 2 }, g); S("line", { x1: 90, y1: 90, x2: 645, y2: 90, stroke: "var(--ink-2)", "stroke-width": 2 }, g);
+    TREE.forEach(function (t, i) {
+      var row = Math.floor(i / 4), col = i % 4, x = 20 + col * 185, y = 115 + row * 95;
+      if (row === 0) S("line", { x1: x + 70, y1: 90, x2: x + 70, y2: y, stroke: "var(--ink-2)", "stroke-width": 2 }, g);
+      else S("line", { x1: x + 70, y1: y - 25, x2: x + 70, y2: y, stroke: "var(--ink-2)", "stroke-width": 1.5, "stroke-dasharray": "4 3" }, g);
+      var grp = S("g", { class: "tree-node", tabindex: "0", role: "button", "aria-label": t.n, "data-i": String(i) }, g);
+      var main = i < 4;
+      rect(grp, x, y, 140, 60, main ? "var(--surface)" : "var(--surface-2)", main ? "var(--net)" : "var(--line)");
+      txt(grp, x + 70, y + 26, t.k, { "text-anchor": "middle", "font-weight": 800, "font-size": 16 });
+      txt(grp, x + 70, y + 45, ["Bridging, VLANs, 802.1X", "Ethernet", "Wireless LAN (Wi-Fi)", "Wireless PAN", "WiMAX (hibernated)", "Regional (TV white space)", "Vertical applications", "Regulatory, coexistence"][i], { "text-anchor": "middle", "font-size": 9.5, class: "svg-muted" });
+      grp.addEventListener("click", function () { trShow(i); });
+      grp.addEventListener("keydown", function (e) { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); trShow(i); } });
+    });
+    S("line", { x1: 20, y1: 192, x2: 740, y2: 192, stroke: "none" }, g);
+  })();
+  var trSeen = {};
+  function trShow(i) {
+    var t = TREE[i]; trSeen[i] = 1;
+    OMNI.$$("#tr-svg .tree-node").forEach(function (n) { n.classList.toggle("on", +n.dataset.i === i); });
+    $("tr-info").innerHTML = "<h4>" + t.n + "</h4><p>" + t.d + "</p><ul>" + t.a.map(function (a) { return "<li>" + a + "</li>"; }).join("") + "</ul><p class='figcap'>Covered in: " + t.m + "</p>";
+    OMNI.say("tr-cap", "You opened <b>" + t.n + "</b>. " + (i < 4 ? "This is one of the four 802 groups you'll meet constantly on Network+ and A+." : "A smaller or inactive group: good background, rarely examined.") + " Amendments are lettered (a, b… then aa, ab…) and later rolled into the next full revision of the base standard. Explored " + Object.keys(trSeen).length + " of " + TREE.length + ".");
+  }
+  OMNI.say("tr-cap", "IEEE 802 is a committee with many working groups. Each group owns a base standard and its lettered amendments.");
+})();
+</script>
+<!-- module-data:start -->
+<script type="application/json" id="module-data">{"module":29,"title":"Who Sets the Rules","glossary":[["Standard","An agreed way of doing something so things work together.","A document, established by consensus and approved by a recognized body, that provides rules, guidelines or characteristics for common and repeated use.",""],["De jure standard","Official standard from a standards body.","A standard formally approved by a recognized standards organization (e.g., ISO, IEEE).",""],["De facto standard","Standard by popularity.","A specification that became standard through widespread use rather than formal approval (e.g., PDF before ISO adoption).",""],["Interoperability","Different products working together.","The ability of systems or components from different vendors to exchange and use information.",""],["Working group","Experts who write a standard.","A committee within a standards body that develops a specific standard or amendment.","WG"],["RFC","An IETF document describing internet standards.","Request for Comments: the IETF's document series; some RFCs are Internet Standards, others informational or experimental.","Request for Comments"],["Amendment","An addition to a base standard.","A document that adds to or changes an existing standard (e.g., IEEE 802.3bt adds 90 W PoE to 802.3).",""],["IEEE","Engineers who make Ethernet and Wi-Fi standards.","Institute of Electrical and Electronics Engineers; its Standards Association publishes 802 LAN/MAN standards and more.","Institute of Electrical and Electronics Engineers"],["IETF","The group that writes internet protocol standards.","Internet Engineering Task Force: open community developing internet standards (IP, TCP, DNS, HTTP, TLS) as RFCs.","Internet Engineering Task Force"],["ITU-T","UN agency for telecom standards.","International Telecommunication Union Telecommunication Standardization Sector; publishes 'Recommendations' such as G.652 fiber and X.509.",""],["ISO","International standards organization.","International Organization for Standardization: publishes international standards across industries (e.g., ISO 9001, ISO/IEC 27001 with IEC).",""],["IEC","International electrical standards body.","International Electrotechnical Commission; works with ISO on IT standards through Joint Technical Committee 1 (JTC 1).","International Electrotechnical Commission"],["ANSI","Coordinates US standards.","American National Standards Institute: accredits US standards developers (like TIA) and represents the US at ISO.","American National Standards Institute"],["TIA","US telecom and cabling standards.","Telecommunications Industry Association: publishes ANSI/TIA-568 cabling, 606 labeling, 607 grounding, 942 data centers.","Telecommunications Industry Association"],["BICSI","Cabling and data center design association.","Professional association for ICT infrastructure; publishes BICSI 002 data center design and the TDMM manual.",""],["NIST","US agency for measurement and security standards.","National Institute of Standards and Technology: publishes FIPS, the SP 800 series and the Cybersecurity Framework.","National Institute of Standards and Technology"],["FIPS","US federal information processing standards.","Mandatory standards for US federal systems, e.g., FIPS 197 (AES), FIPS 140-3 (crypto modules), FIPS 203/204/205 (post-quantum).","Federal Information Processing Standards"],["W3C","Web standards body.","World Wide Web Consortium: develops HTML (with WHATWG), CSS, WCAG accessibility guidelines and other web standards.","World Wide Web Consortium"],["WCAG","Rules for accessible websites.","Web Content Accessibility Guidelines (2.2 current, verify): perceivable, operable, understandable, robust; levels A, AA, AAA.","Web Content Accessibility Guidelines"],["USB-IF","Owns USB standards.","USB Implementers Forum: publishes USB specifications (USB 2.0 to USB4 v2.0) and USB Power Delivery.",""],["Wi-Fi Alliance","Certifies Wi-Fi products.","Industry group that certifies interoperability and markets generations (Wi-Fi 6, 6E, 7) based on IEEE 802.11 amendments, plus WPA3.",""],["Bluetooth SIG","Owns Bluetooth.","Bluetooth Special Interest Group: develops and licenses Bluetooth specifications.","Special Interest Group"],["PCI-SIG","Owns PCI Express.","Peripheral Component Interconnect Special Interest Group: develops PCIe specifications.",""],["JEDEC","Memory standards body.","JEDEC Solid State Technology Association: publishes DDR4, DDR5 and LPDDR memory standards.",""],["VESA","Display standards.","Video Electronics Standards Association: DisplayPort, VESA mounts, DisplayHDR.",""],["SNIA","Storage industry standards.","Storage Networking Industry Association: storage standards and education (e.g., SMI-S, Swordfish).",""],["Uptime Institute","Data center Tier ratings.","Organization that publishes the Tier Standard (I–IV) and certifies data center designs and facilities.",""],["ASHRAE","Heating and cooling engineers.","American Society of Heating, Refrigerating and Air-Conditioning Engineers; TC 9.9 publishes data center thermal guidelines.",""],["NFPA","US fire codes.","National Fire Protection Association: NFPA 70 (NEC), 70E, 75, 76, 2001 and others.",""],["CSA","Wireless charging and smart home standards.","Connectivity Standards Alliance: maintains Matter and Zigbee. (Qi is from the Wireless Power Consortium.)","Connectivity Standards Alliance"],["Matter","Smart home devices working together.","Royalty-free smart home connectivity standard from the CSA running over Wi-Fi, Ethernet and Thread.",""],["Qi","Wireless phone charging standard.","Wireless Power Consortium standard for inductive charging; Qi2 adds magnetic alignment.",""]],"quiz":[{"t":"mc","q":"Which organization publishes the 802.3 Ethernet and 802.11 Wi-Fi standards?","o":["IETF","IEEE","ITU-T","Wi-Fi Alliance"],"a":1,"w":["Writes internet protocols.","Correct.","Telecom recommendations.","Certifies and markets Wi-Fi products, but doesn't write 802.11."],"x":"The Wi-Fi Alliance names generations (Wi-Fi 7 = 802.11be).","c":"N","d":"2.x Ethernet and wireless standards"},{"t":"mc","q":"Which body publishes RFCs such as RFC 791 (IPv4) and RFC 8200 (IPv6)?","o":["IEEE","IETF","ISO","W3C"],"a":1,"w":["LANs.","Correct.","General international.","Web."],"x":"RFC 1918 defines private IPv4 ranges.","c":"N","d":"1.x Networking concepts"},{"t":"mc","q":"Which standard defines X.509 public key certificates?","o":["IEEE 802.1X","ITU-T X.509","FIPS 197","RFC 1918"],"a":1,"w":["Port-based network access control.","Correct (profiled for the internet in RFC 5280).","AES.","Private addressing."],"x":"Watch the similar names: X.509 vs 802.1X.","c":"S","d":"1.4 PKI"},{"t":"mc","q":"Which TIA standard covers data center telecommunications infrastructure?","o":["TIA-568","TIA-606","TIA-607","TIA-942"],"a":3,"w":["Commercial building cabling.","Labeling/administration.","Grounding and bonding.","Correct."],"x":"ISO/IEC 22237 and EN 50600 are the international/European equivalents.","c":"DCCA","d":"1.x Standards and site"},{"t":"mc","q":"In 'ISO/IEC 27001:2022', what does ':2022' indicate?","o":["The edition year","The number of controls","The page count","The version of IEC"],"a":0,"w":["Correct.","93 controls, unrelated.","No.","No."],"x":"ISO/IEC means a joint ISO and IEC standard.","c":"GEN","d":"0 General"},{"t":"mc","q":"In 'IEEE 802.3bt-2018', what does 'bt' identify?","o":["An amendment to 802.3 (here, up to 90 W PoE)","Bluetooth","Base-T copper only","The working group chair"],"a":0,"w":["Correct.","Bluetooth is 802.15.1 heritage, now Bluetooth SIG.","Not the meaning.","No."],"x":"Amendments get letters; they're later rolled into the base standard.","c":"N","d":"2.x Ethernet standards"},{"t":"mc","q":"Which NIST standards specify the first post-quantum cryptography algorithms (ML-KEM, ML-DSA, SLH-DSA)?","o":["FIPS 140-3","FIPS 197","FIPS 203, 204 and 205","SP 800-53"],"a":2,"w":["Crypto module validation.","AES.","Correct (published August 2024).","Security controls."],"x":"FIPS 206 (FN-DSA) and HQC are follow-on work (verify status).","c":"S","d":"1.4 Cryptographic solutions"},{"t":"mc","q":"Which organization publishes the Tier I to IV data center classification?","o":["TIA","Uptime Institute","ASHRAE","BICSI"],"a":1,"w":["Rated-1 to 4 in TIA-942.","Correct.","Thermal guidelines.","Classes F0–F4."],"x":"Don't mix Uptime Tiers with TIA Rated levels.","c":"DCCA","d":"1.x Standards and site"},{"t":"mc","q":"Which body publishes the WCAG accessibility guidelines?","o":["W3C","IETF","ISO only","USB-IF"],"a":0,"w":["Correct.","Internet protocols.","WCAG 2.0 was also adopted as ISO/IEC 40500, but W3C publishes WCAG.","USB."],"x":"WCAG has levels A, AA and AAA.","c":"GEN","d":"0 General"},{"t":"mc","q":"Which organization defines DDR5 memory?","o":["JEDEC","PCI-SIG","VESA","SNIA"],"a":0,"w":["Correct.","PCIe.","DisplayPort.","Storage."],"x":"JEDEC also defines LPDDR for phones.","c":"A1","d":"3.x Hardware: memory"},{"t":"ms","q":"Which of these are IEEE 802 standards? (Select all that apply.)","o":["802.1Q VLAN tagging","802.1X port-based access control","RFC 2131 DHCP","802.11 wireless LAN"],"a":[0,1,3],"w":["Correct.","Correct.","An IETF RFC.","Correct."],"x":"802.1 = bridging and management; 802.3 = Ethernet; 802.11 = WLAN; 802.15 = WPAN.","c":"N","d":"2.x Ethernet and wireless standards"},{"t":"order","q":"Put the typical stages of developing a formal standard in order.","o":["Identify the need and form a working group","Draft the standard","Ballot and resolve comments","Approve and publish","Maintain, amend or revise"],"x":"Consensus and balloting make a standard trusted.","c":"GEN","d":"0 General"},{"t":"mc","q":"ITU-T G.652 specifies:","o":["Standard single-mode optical fiber","Wi-Fi channels","DWDM channel spacing","Ethernet frames"],"a":0,"w":["Correct.","No.","That's G.694.1.","IEEE 802.3."],"x":"G.694.2 is the CWDM grid; G.984/G.9807 are PON families.","c":"N","d":"1.x Cables and fiber"}],"flashcards":[["Who certifies Wi-Fi products","The Wi-Fi Alliance."],["IP67 means","Dust-tight and survives temporary immersion."],["Certified vs compatible","Certified means independently tested; compatible is the maker's claim."],["IEEE 802.3 / 802.11 / 802.1Q / 802.1X","Ethernet / Wi-Fi / VLAN tagging / port-based access control"],["IEEE 802.15","Wireless personal area networks (Bluetooth heritage, Zigbee's base 802.15.4)"],["IETF publishes…","RFCs: IP, TCP, UDP, DNS, HTTP, TLS"],["RFC 791 / 8200 / 1918","IPv4 / IPv6 / private IPv4 ranges"],["ITU-T G.652 / G.694.1 / G.694.2","Single-mode fiber / DWDM grid / CWDM grid"],["ITU-T G.984 / G.9807","GPON / XGS-PON"],["ITU-T X.509","Public key certificates"],["ISO/IEC 27001 / 27002 / 20000 / 22301 / 9001","ISMS / controls guidance / service mgmt / continuity / quality"],["ISO/IEC 11801 / 22237","Generic cabling / data center facilities"],["TIA-568 / 606 / 607 / 942","Cabling / labeling / grounding / data centers"],["BICSI 002","Data center design best practices"],["NIST FIPS 197 / 140-3","AES / crypto module validation"],["NIST FIPS 203 / 204 / 205","ML-KEM / ML-DSA / SLH-DSA (post-quantum)"],["W3C","HTML (with WHATWG), CSS, WCAG"],["USB-IF / HDMI Forum / VESA","USB / HDMI 2.x / DisplayPort"],["Wi-Fi Alliance","Certifies Wi-Fi 6/6E/7 and WPA3"],["Bluetooth SIG / PCI-SIG / JEDEC","Bluetooth / PCIe / DDR memory"],["Uptime / ASHRAE / NFPA","Tiers / thermal guidelines / fire codes"],["ISACA / PeopleCert / CompTIA / ISC2","CISM, CISA, COBIT / ITIL / A+, Net+, Sec+ / CISSP"],["Reading 'IEEE 802.3bt-2018'","Body · standard · amendment · year"],["Reading 'ISO/IEC 27001:2022'","Joint ISO/IEC · number · edition year"],["Matter / Qi","Smart home (CSA) / wireless charging (WPC)"]]}</script>
+<!-- module-data:end -->
+</body>
+</html>

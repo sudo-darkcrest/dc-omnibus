@@ -184,7 +184,7 @@
   <ul>
     <li><b>GPU</b> (graphics processing unit): thousands of simpler cores doing the same math on lots of data at once. Built for graphics, now central to AI (Artificial Intelligence) training and inference and scientific computing. Has its own fast memory (GDDR (Graphics Double Data Rate) or HBM (High Bandwidth Memory)).</li>
     <li><b>NPU</b> (neural processing unit): low-power AI inference engine in phones and laptops ("AI PCs"), measured in TOPS (trillions of operations per second).</li>
-    <li><b>Others</b>: TPUs (Tensor Processing Unit) and other AI ASICs (Application-Specific Integrated Circuit), FPGAs (Field-Programmable Gate Array; reprogrammable logic), DPUs/SmartNICs (DPU: Data Processing Unit; offload networking and storage in data centers), video encoders, crypto engines (AES-NI instructions), and the TPM (Trusted Platform Module) security chip (Module 14).</li>
+    <li><b>Others</b>: TPUs (Tensor Processing Unit) and other AI ASICs (Application-Specific Integrated Circuit), FPGAs (Field-Programmable Gate Array; reprogrammable logic), DPUs/SmartNICs (DPU: Data Processing Unit; offload networking and storage in data centers), video encoders, crypto engines (AES-NI instructions), and the TPM (Trusted Platform Module) security chip (Module 15).</li>
   </ul>
 </section>
 
@@ -207,7 +207,7 @@
     <li>Repeat for ADD 7: the ALU (Arithmetic Logic Unit) adds 5. Accumulator = 12.</li>
     <li>STORE 8 writes 12 back to RAM. HALT stops the clock.</li>
   </ol>
-  <p>Notice that instructions and data live in the same memory. That is the <b>von Neumann architecture</b>, and it is why a bug that writes to the wrong address can overwrite program code, which attackers exploit in buffer overflows (Module 15).</p>
+  <p>Notice that instructions and data live in the same memory. That is the <b>von Neumann architecture</b>, and it is why a bug that writes to the wrong address can overwrite program code, which attackers exploit in buffer overflows (Module 16).</p>
   <div class="callout detail">A real 4 GHz CPU does this four billion times a second per core, and modern cores overlap the steps (pipelining) and run several instructions at once, so they finish more than one instruction per tick.</div>
 </section>
 

@@ -3,33 +3,42 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1">
-<title>Module 25 · Checking the System: Information Systems Auditing (CISA) | Datacenter Omnibus</title>
-<meta name="description" content="ISACA CISA: the audit process, IT governance, acquisition and development, operations and resilience, and protection of information assets, with an auditor's mindset, five labs and a 75-question domain-weighted practice exam.">
+<title>Module 25 · Running IT as a Service: ITIL 4 | Datacenter Omnibus</title>
+<meta name="description" content="ITIL 4 Foundation: key concepts, the four dimensions, the service value system, seven guiding principles, the service value chain, continual improvement and the practices, with five labs and a 40-question practice exam. Includes a note on ITIL (Version 5), launched February 2026.">
 <link rel="stylesheet" href="assets/omnibus.css">
 <style>
+  .svs-part { cursor: pointer; }
+  .svs-part:focus { outline: none; }
+  .svs-part:focus rect, .svs-part:focus circle, .svs-part:hover rect, .svs-part:hover circle { stroke-width: 4; }
+  .svs-part.on rect, .svs-part.on circle { stroke: var(--accent); stroke-width: 4; }
+  .info { border: 1px solid var(--line); border-radius: 10px; padding: 12px; background: var(--surface); margin-top: 8px; }
+  .info h4 { margin: 0 0 6px; }
+  .acts { display: flex; flex-wrap: wrap; gap: 6px; }
+  .stream { display: flex; flex-wrap: wrap; gap: 6px; align-items: center; min-height: 46px; border: 2px dashed var(--line); border-radius: 10px; padding: 8px; }
+  .stream .step { background: var(--gov-soft); border: 1px solid var(--gov); border-radius: 8px; padding: 4px 10px; font-weight: 600; }
+  .stream .arrow { color: var(--ink-2); }
   .seg { display: flex; flex-wrap: wrap; gap: 4px; }
   .seg button.on { background: var(--accent); color: #fff; border-color: var(--accent); }
-  .metric { font-size: 1.5rem; font-weight: 800; line-height: 1.1; }
-  .phase-card { border: 1px solid var(--line); border-radius: 10px; padding: 12px; background: var(--surface); }
-  .phase-card .t { font-weight: 700; color: var(--accent); }
-  .act { display: block; margin: 6px 0; padding: 6px 8px; border-radius: 8px; border: 1px solid transparent; }
-  .act.ok { border-color: var(--good); background: var(--good-soft); }
-  .act.bad { border-color: var(--bad); background: var(--bad-soft); }
-  .act.miss { border-color: var(--warn); background: var(--warn-soft); }
-  .act .fb { display: block; font-size: .85rem; color: var(--ink-2); margin-left: 24px; }
-  .phases { display: flex; flex-wrap: wrap; gap: 6px; margin-bottom: 8px; }
-  .phases span { border: 1px solid var(--line); border-radius: 999px; padding: 2px 10px; font-size: .85rem; }
-  .phases span.now { border-color: var(--accent); background: var(--accent-soft); font-weight: 700; }
-  .phases span.done { border-color: var(--good); background: var(--good-soft); }
-  .sod td, .sod th { text-align: center; padding: 4px 6px; font-size: .84rem; }
-  .sod td:first-child, .sod th:first-child { text-align: left; }
-  .sod tr.ok td:first-child { box-shadow: inset 4px 0 0 var(--good); }
-  .sod tr.bad td:first-child { box-shadow: inset 4px 0 0 var(--bad); }
-  .sod tr.miss td:first-child { box-shadow: inset 4px 0 0 var(--warn); }
-  .ev { border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; margin: 10px 0; background: var(--surface); }
-  .ev .mock { font-family: var(--mono); font-size: .8rem; background: var(--surface-2); border-radius: 8px; padding: 8px; overflow-x: auto; white-space: pre; margin: 6px 0; }
-  .ev.ok { border-color: var(--good); } .ev.bad { border-color: var(--bad); }
-  .ev .fb { font-size: .9rem; margin-top: 6px; }
+  .sort-grid { display: grid; grid-template-columns: repeat(4, 1fr); gap: 8px; }
+  @media (max-width: 700px) { .sort-grid { grid-template-columns: 1fr 1fr; } }
+  .sort-grid .dropzone { min-height: 110px; }
+  .chip.ok { border-color: var(--good); background: var(--good-soft); }
+  .chip.bad { border-color: var(--bad); background: var(--bad-soft); }
+  .story { border: 1px solid var(--line); border-radius: 10px; padding: 10px 12px; margin: 8px 0; background: var(--surface); }
+  .story select { max-width: 100%; margin-top: 6px; }
+  .story.ok { border-color: var(--good); background: var(--good-soft); }
+  .story.bad { border-color: var(--bad); background: var(--bad-soft); }
+  .story .fb { font-size: .9rem; margin-top: 4px; }
+  .call { border: 1px solid var(--line); border-radius: 10px; padding: 12px; background: var(--surface); }
+  .call .who { font-weight: 700; }
+  .call .msg { font-style: italic; margin: 6px 0; }
+  .pmx td, .pmx th { text-align: center; padding: 6px 8px; }
+  .pmx td.hit { outline: 3px solid var(--accent); font-weight: 800; }
+  .p1 { background: var(--bad-soft); } .p2 { background: var(--warn-soft); } .p3 { background: var(--accent-soft); } .p4 { background: var(--good-soft); }
+  .qlist { display: flex; flex-wrap: wrap; gap: 6px; margin: 8px 0; }
+  .qlist span { border: 1px solid var(--line); border-radius: 999px; padding: 2px 10px; font-size: .85rem; }
+  .qlist span.now { border-color: var(--accent); background: var(--accent-soft); font-weight: 700; }
+  .qlist span.done { opacity: .6; text-decoration: line-through; }
 </style>
 </head>
 <body data-module="25">
@@ -39,15 +48,25 @@
 
 <section class="intro">
   <div class="kicker">Part 6 · Service, Governance and Audit · Module 25</div>
-  <h1>Checking the System: Information Systems Auditing</h1>
-  <p class="why"><b>Why this matters.</b> Every control in this Omnibus, from a firewall rule to a backup schedule, only counts if someone can prove it works. IT (Information Technology) auditors give boards, regulators and customers that independent assurance. ISACA (Information Systems Audit and Control Association)'s Certified Information Systems Auditor (CISA) is the leading credential for it and is valued in audit firms, banks, government and any organization under SOX (Sarbanes-Oxley Act), PCI (Payment Card Industry) DSS (Data Security Standard) or ISO (International Organization for Standardization) 27001. This module teaches the auditor's mindset (independence, evidence, risk, reporting) across all five CISA domains and ends with a 75-question practice exam.</p>
+  <h1>Running IT as a Service: ITIL 4</h1>
+  <div class="callout" style="border-left-color:var(--warn);background:var(--warn-soft)" id="itil5"><b>Version note (November 2026).</b> PeopleCert launched <b>ITIL (Information Technology Infrastructure Library; Version 5)</b> and its new ITIL Foundation (Version 5) exam in <b>February 2026</b>. ITIL 4 Foundation is still offered alongside it during a transition period; PeopleCert has said the two run in parallel for at least 12 months, and some training providers quote an ITIL 4 sunset at the end of 2027 (verify on peoplecert.org before you book). What changed in Version 5, according to published summaries (verify):
+    <ul>
+      <li>ITIL is reframed from "IT (Information Technology) service management" to <b>digital product and service management</b>.</li>
+      <li>The six-activity <b>service value chain</b> is replaced by an eight-activity <b>Product and Service Lifecycle Model</b>: Discover, Design, Build, Transition, Deliver, Support, Operate, Evolve.</li>
+      <li>The <b>seven guiding principles</b> and the <b>four dimensions</b> are kept, and all 34 practices remain (practice groups are reorganized).</li>
+      <li>New guidance on <b>AI (Artificial Intelligence)</b> (governance, ethics, risk), experience (user, customer, employee) and observability.</li>
+      <li>Foundation exam format looks the same: 40 multiple-choice questions, 60 minutes, 65% to pass. ITIL 5 certificates carry a three-year renewal; existing ITIL 4 Foundation holders do not need to retake, and an optional short "Foundation Bridge" exam exists.</li>
+    </ul>
+    This module teaches the <b>ITIL 4 Foundation</b> syllabus, because most of it (concepts, principles, dimensions, practices) carries straight into Version 5. Where Version 5 differs, the lessons say so.</div>
+  <p class="why"><b>Why this matters.</b> Technology only creates value when people can rely on it. ITIL is the most widely used framework for running IT as a set of services: taking requests, fixing outages, finding root causes, making safe changes and improving over time. Service desks, operations teams, data centers and cloud providers all use its language, and many job ads ask for ITIL 4 Foundation. It also links directly to Security+ change management and incident response, and to CISA (Certified Information Systems Auditor)'s IT operations domain.</p>
   <h3>You will be able to</h3>
   <ul class="outcomes">
-    <li>Plan and run a risk-based IS audit under ISACA standards, collect evidence, sample, use CAATs (Computer-Assisted Audit Techniques), report and follow up.</li>
-    <li>Evaluate IT governance, strategy, organizational structure, segregation of duties, risk, vendors and performance.</li>
-    <li>Audit system acquisition and development: business cases, SDLC (System Development Life Cycle), Agile and DevOps controls, testing, changeover and post-implementation review.</li>
-    <li>Audit IT operations and resilience: scheduling, change, configuration, patching, incidents, assets, databases, capacity, BIA (Business Impact Analysis), backup, BCP (Business Continuity Plan) and DRP (Disaster Recovery Plan).</li>
-    <li>Audit protection of information assets: frameworks, privacy, physical controls, IAM (Identity and Access Management), network, data, encryption, cloud and monitoring.</li>
+    <li>Define service, product, service offering, value, outcomes, costs, risks, utility and warranty, and the roles of customer, user and sponsor.</li>
+    <li>Explain the four dimensions of service management and the PESTLE (Political, Economic, Social, Technological, Legal, Environmental) factors that affect them.</li>
+    <li>Describe the service value system and the six activities of the service value chain, and combine them into value streams.</li>
+    <li>Apply the seven guiding principles to real situations.</li>
+    <li>Recall the purpose of 15 ITIL practices and explain the seven practices examined in detail.</li>
+    <li>Relate ITIL to DevOps, Agile, Lean and ISO/IEC (ISO: International Organization for Standardization; IEC: International Electrotechnical Commission) 20000, and know what changed in ITIL (Version 5).</li>
   </ul>
   <nav class="jumpnav" id="jumpnav" aria-label="On this page"></nav>
 </section>
@@ -57,186 +76,277 @@
   <div id="certmap-badges"></div>
 </section>
 
-<section class="lesson" id="exam">
-  <h2>1. The CISA exam and the auditor's mindset</h2>
-  <figure class="fig"><svg id="dom-fig" viewBox="0 0 760 140" width="760" role="img" aria-label="Bar showing CISA domain weights 18, 18, 12, 26 and 26 percent"></svg>
-  <figcaption class="figcap">CISA 2024 job practice domain weights (verify on isaca.org).</figcaption></figure>
+<section class="lesson" id="concepts">
+  <h2>1. Key concepts of service management</h2>
+  <div class="callout analogy">A restaurant is a service. You want the outcome "a nice dinner without cooking." The restaurant removes costs (buying ingredients, washing up) and risks (burning the food) but imposes others (the bill, the wait). The menu is the service offering. The food is the utility; the clean kitchen, short wait and safe food are the warranty.</div>
   <div class="tablewrap"><table>
-    <thead><tr><th>Item</th><th>Detail (verify on isaca.org)</th></tr></thead>
+    <thead><tr><th>Term</th><th>Plain meaning</th><th>ITIL 4 definition (paraphrased)</th></tr></thead>
     <tbody>
-      <tr><td>Format</td><td>150 multiple-choice questions, 4 hours, test center or remote proctored</td></tr>
-      <tr><td>Scoring</td><td>Scaled 200–800; 450 or higher passes</td></tr>
-      <tr><td>Experience</td><td>5 years in IS/IT audit, control, assurance or security; some substitutions (e.g., a degree) can waive up to 3 years; apply within 5 years of passing</td></tr>
-      <tr><td>Keeping it</td><td>Annual fee, 20 CPE hours per year and 120 per three-year cycle, ISACA Code of Professional Ethics, IS audit standards</td></tr>
+      <tr><td><b>Service</b></td><td>Useful work done for you</td><td>A means of enabling value co-creation by facilitating outcomes customers want, without them having to manage specific costs and risks</td></tr>
+      <tr><td><b>Product</b></td><td>The package of resources behind it</td><td>A configuration of an organization's resources designed to offer value for a consumer</td></tr>
+      <tr><td><b>Service offering</b></td><td>What exactly you get</td><td>A formal description of one or more services for a target consumer group: <b>goods</b> (ownership transfers, e.g., a phone), <b>access to resources</b> (e.g., a mailbox) and <b>service actions</b> (e.g., user support)</td></tr>
+      <tr><td><b>Value</b></td><td>How useful it is to you</td><td>The perceived benefits, usefulness and importance of something; it is <b>co-created</b> by provider and consumer</td></tr>
+      <tr><td><b>Output</b> vs <b>outcome</b></td><td>What we hand over vs what you achieve</td><td>Output: a tangible or intangible deliverable of an activity. Outcome: a result for a stakeholder enabled by one or more outputs</td></tr>
+      <tr><td><b>Cost</b></td><td>Money spent</td><td>Costs <b>removed</b> from the consumer (staff, hardware they no longer need) and costs <b>imposed</b> (the price, training)</td></tr>
+      <tr><td><b>Risk</b></td><td>Things that might go wrong</td><td>A possible event that could cause harm or loss, or make it harder to achieve objectives; services remove some risks and impose others</td></tr>
+      <tr><td><b>Utility</b></td><td>Fit for purpose: <i>what</i> it does</td><td>The functionality offered by a product or service to meet a particular need</td></tr>
+      <tr><td><b>Warranty</b></td><td>Fit for use: <i>how well</i></td><td>Assurance that a product or service will meet agreed requirements: availability, capacity, security, continuity</td></tr>
     </tbody></table></div>
-  <h3 id="mindset">Think like an auditor</h3>
-  <ul>
-    <li><b>Independence</b>: you evaluate and recommend; you don't design, operate or fix the controls you audit.</li>
-    <li><b>Evidence</b>: conclusions must rest on sufficient, reliable, relevant evidence. Evidence you obtain directly from the system beats what someone tells you.</li>
-    <li><b>Risk-based</b>: focus effort where risk to the business is highest.</li>
-    <li><b>Report</b>: the auditor's output is a report to management and the audit committee, with findings and recommendations. Management owns remediation.</li>
-  </ul>
-  <div class="callout trap">Answers where the auditor "fixes the problem", "rolls back the change" or "disables the account." The auditor reports it, with evidence and a recommendation, to the right level of management.</div>
-</section>
-
-<section class="lesson" id="d1">
-  <h2>2. Domain 1: The IS auditing process</h2>
-  <figure class="fig"><svg id="life-fig" viewBox="0 0 760 120" width="760" role="img" aria-label="Audit lifecycle: plan, fieldwork, report, follow up"></svg></figure>
-  <ul>
-    <li><b>Standards and ethics</b>: ISACA IS Audit and Assurance Standards (general, performance, reporting), guidelines, tools and techniques, and the Code of Professional Ethics. Also IIA (Institute of Internal Auditors) standards for internal audit generally.</li>
-    <li><b>Audit charter</b>: approved by the board/audit committee; defines authority, scope, responsibility and reporting line (functionally to the audit committee).</li>
-    <li><b>Risk-based planning</b>: understand the business, assess <b>inherent risk</b>, <b>control risk</b> and <b>detection risk</b> (audit risk = IR × CR × DR), then set scope and objectives.</li>
-    <li><b>Types of audit</b>: compliance, financial, operational, integrated, IS, forensic, specialized (e.g., third-party/SOC), administrative; internal vs external.</li>
-    <li><b>Controls</b>: preventive, detective, corrective (also deterrent, compensating); <b>general</b> (ITGC, Information Technology General Controls: access, change, operations, backup) vs <b>application</b> (input, processing, output).</li>
-    <li><b>Testing</b>: <b>compliance tests</b> check controls operate; <b>substantive tests</b> check the data. Weak controls mean more substantive testing.</li>
-    <li><b>Evidence</b>: inquiry (weakest), observation, inspection, reperformance, analytics, confirmation. Independent and system-generated is strongest.</li>
-    <li><b>Sampling</b>: statistical (random, systematic, stratified; projectable) vs judgmental. <b>Attribute</b> sampling for rates (compliance), <b>variable</b> sampling for amounts (substantive). Higher confidence or lower tolerable error means a larger sample. Try Lab 2.</li>
-    <li><b>CAATs and analytics</b>: generalized audit software, scripts, test data, integrated test facility, embedded audit modules, continuous auditing; test 100% of a population where possible.</li>
-    <li><b>Reporting</b>: findings with criteria, condition, cause, effect and recommendation; management responses and action dates; communicated to the right level.</li>
-    <li><b>Follow-up</b>: verify that agreed actions were completed; escalate if risk is accepted without authority.</li>
-  </ul>
-</section>
-
-<section class="lesson" id="d2">
-  <h2>3. Domain 2: Governance and management of IT</h2>
-  <ul>
-    <li><b>IT governance</b>: strategy aligned with business strategy, steering committees, frameworks (COBIT (Control Objectives for Information and Related Technologies) 2019; see Module 23), value delivery and benefits realization.</li>
-    <li><b>Policies, standards and procedures</b>: approved by senior management, communicated, reviewed regularly.</li>
-    <li><b>Organizational structure</b>: CIO (Chief Information Officer), CISO (Chief Information Security Officer) and audit reporting lines; security independent of operations.</li>
-    <li><b>Segregation of duties</b>: separate <b>authorization</b>, <b>recording</b>, <b>custody</b> and <b>reconciliation</b>; in IT, separate development, testing, production operations and security administration. Where SoD isn't possible, use <b>compensating controls</b> (supervisory review, logging). Try Lab 3.</li>
-    <li><b>Enterprise architecture</b> (TOGAF (The Open Group Architecture Framework), Zachman), <b>IT risk management</b>, <b>maturity models</b>, <b>resource and vendor management</b> (contracts, SLAs (Service Level Agreement), right to audit, exit plans), <b>quality management</b> (ISO 9001) and <b>performance monitoring</b> (balanced scorecard, KPIs (Key Performance Indicator)).</li>
-  </ul>
-</section>
-
-<section class="lesson" id="d3">
-  <h2>4. Domain 3: Acquisition, development and implementation</h2>
-  <ul>
-    <li><b>Project governance</b>: sponsor, steering committee, project manager; scope, time, cost, quality; earned value; stage gates.</li>
-    <li><b>Business case and feasibility</b>: technical, economic (ROI (Return on Investment), NPV (Net Present Value), payback), operational, legal and schedule feasibility.</li>
-    <li><b>SDLC models</b>: waterfall (sequential, heavy documentation), Agile (iterative sprints, backlog, definition of done), DevOps / DevSecOps (CI/CD (Continuous Integration / Continuous Delivery) with automated tests and security gates), prototyping, RAD (Rapid Application Development).</li>
-    <li><b>Development controls</b>: requirements sign-off, secure coding, code review, separate dev/test/prod environments, version control, migration by someone other than the developer (or automated pipeline with approvals).</li>
-    <li><b>Testing</b>: unit → integration → system (functional, performance, security, regression) → UAT (User Acceptance Testing) by business users; test data should not be live sensitive data unless masked.</li>
-    <li><b>Migration and changeover</b>: data conversion with reconciliation (record counts, control totals); parallel, pilot, phased or direct cutover with a fallback plan. Try Lab 4.</li>
-    <li><b>Post-implementation review</b>: benefits vs the business case, lessons learned, usually some months after go-live.</li>
-  </ul>
-</section>
-
-<section class="lesson" id="d4">
-  <h2>5. Domain 4: Operations and business resilience</h2>
+  <h3 id="roles">Roles and relationships</h3>
   <div class="tablewrap"><table>
-    <thead><tr><th>Area</th><th>What the auditor checks</th></tr></thead>
+    <thead><tr><th>Role</th><th>Does what</th><th>Example (payroll service)</th></tr></thead>
     <tbody>
-      <tr><td>IT operations and job scheduling</td><td>Authorized schedules, exception handling, operator logs, restart procedures</td></tr>
-      <tr><td>Change, configuration, release and patch management</td><td>Changes approved, tested and documented; trace system changes back to tickets to find unauthorized ones; CMDB (Configuration Management Database) accuracy; patch compliance</td></tr>
-      <tr><td>Incident and problem management</td><td>Logging, prioritization, escalation, root cause analysis, recurring incidents</td></tr>
-      <tr><td>IT asset management</td><td>Complete inventory, ownership, lifecycle, licensing, secure disposal</td></tr>
-      <tr><td>Database management</td><td>DBA (Database Administrator) privileges, logging of privileged activity, integrity controls, backup</td></tr>
-      <tr><td>Capacity and performance</td><td>Monitoring, forecasting, thresholds</td></tr>
-      <tr><td>BIA</td><td>Critical processes identified with RTO (Recovery Time Objective), RPO (Recovery Point Objective) and MTD (Maximum Tolerable Downtime) approved by business owners</td></tr>
-      <tr><td>Backup and restore</td><td>Schedules match RPO, offsite/immutable copies, encryption, <b>restore tests</b></td></tr>
-      <tr><td>BCP and DRP</td><td>Plans current, roles assigned, recovery sites (hot, warm, cold, mirrored, reciprocal, cloud), tested regularly, results acted on</td></tr>
+      <tr><td><b>Customer</b></td><td>Defines requirements and takes responsibility for outcomes</td><td>HR (Human Resources) manager</td></tr>
+      <tr><td><b>User</b></td><td>Uses the service</td><td>Payroll clerks</td></tr>
+      <tr><td><b>Sponsor</b></td><td>Authorizes budget</td><td>Finance director</td></tr>
     </tbody></table></div>
-  <div class="callout tip">A backup job's "success" log only proves the job ran. Restore tests prove recovery works. On the exam, the evidence that tests the outcome usually beats the evidence that shows activity.</div>
+  <p>A <b>service relationship</b> is a cooperation between a provider and a consumer. It includes <b>service provision</b> (the provider managing resources and delivering), <b>service consumption</b> (the consumer using and paying) and <b>service relationship management</b> (joint activities to keep co-creating value). Organizations are often both providers and consumers in a chain of relationships.</p>
+  <div class="callout trap">"The customer and the user are always different people." Not true: they are roles, and one person can be customer, user and sponsor at once.</div>
 </section>
 
-<section class="lesson" id="d5">
-  <h2>6. Domain 5: Protection of information assets</h2>
+<section class="lesson" id="dimensions">
+  <h2>2. The four dimensions of service management</h2>
+  <figure class="fig"><svg id="dim-fig" viewBox="0 0 760 300" width="760" role="img" aria-label="Four dimensions around a central value, surrounded by PESTLE factors"></svg>
+  <figcaption class="figcap">Every service, and the whole service value system, must consider all four dimensions. External PESTLE factors push on all of them.</figcaption></figure>
+  <div class="tablewrap"><table>
+    <thead><tr><th>Dimension</th><th>Covers</th><th>Ask yourself</th></tr></thead>
+    <tbody>
+      <tr><td><b>Organizations and people</b></td><td>Structure, roles, culture, skills, staffing, leadership, communication</td><td>Do people know their roles, and does the culture support trust and collaboration?</td></tr>
+      <tr><td><b>Information and technology</b></td><td>The information and knowledge needed, and the technology (tools, AI, cloud, databases) that supports services</td><td>What data does this service manage, and which tools do we need?</td></tr>
+      <tr><td><b>Partners and suppliers</b></td><td>Relationships with other organizations involved in design, delivery and support; sourcing strategy</td><td>What do we buy, outsource or integrate, and why?</td></tr>
+      <tr><td><b>Value streams and processes</b></td><td>How parts of the organization work together: workflows, activities, controls</td><td>What are the steps, and where is the waste?</td></tr>
+    </tbody></table></div>
+  <p><b>PESTLE</b> factors constrain and influence all four dimensions: <b>P</b>olitical, <b>E</b>conomic, <b>S</b>ocial, <b>T</b>echnological, <b>L</b>egal, <b>E</b>nvironmental. A new privacy law (legal) can change the information you can store, the suppliers you can use and the processes you follow.</p>
+</section>
+
+<section class="lesson" id="svs">
+  <h2>3. The service value system (SVS)</h2>
+  <p>The SVS shows how all of an organization's components and activities work together to turn <b>opportunity and demand</b> into <b>value</b>. Its five components are the <b>guiding principles</b>, <b>governance</b>, the <b>service value chain</b>, <b>practices</b> and <b>continual improvement</b>. The SVS aims to break down <b>silos</b> and make the organization flexible. Explore it in Lab 1.</p>
   <ul>
-    <li><b>Frameworks</b>: ISO 27001/27002, NIST (National Institute of Standards and Technology) CSF (Cybersecurity Framework), CIS (Center for Internet Security; Module 23). <b>Privacy principles</b>: lawfulness, purpose limitation, data minimization, accuracy, storage limitation, integrity and confidentiality, accountability; privacy by design; DPIAs (Data Protection Impact Assessment).</li>
-    <li><b>Physical and environmental</b>: perimeter, mantraps, badges, CCTV (Closed-Circuit Television), visitor logs; fire suppression, temperature and humidity, water detection, UPS (Uninterruptible Power Supply; Module 20).</li>
-    <li><b>Identity and access management</b>: joiner-mover-leaver, least privilege, role-based access, MFA (Multifactor Authentication), privileged access management, periodic access reviews by owners.</li>
-    <li><b>Network and endpoint</b>: segmentation, firewalls, IDS/IPS (IDS: Intrusion Detection System; IPS: Intrusion Prevention System), VPN (Virtual Private Network), wireless (WPA3-Enterprise), EDR (Endpoint Detection and Response), hardening, MDM (Mobile Device Management).</li>
-    <li><b>Data</b>: classification by owners, DLP (Data Loss Prevention), retention, secure disposal (wipe, degauss, shred, crypto-erase).</li>
-    <li><b>Encryption and PKI (Public Key Infrastructure)</b>: symmetric vs asymmetric, hashing, digital signatures (integrity, authentication, non-repudiation), CA/RA/CRL/OCSP (CA: Certificate Authority; OCSP: Online Certificate Status Protocol), key management.</li>
-    <li><b>Cloud and virtualization</b>: shared responsibility, SOC 2 reports, right to audit, hypervisor hardening, data location.</li>
-    <li><b>Monitoring, incident response and evidence</b>: centralized time-synced logs, SIEM (Security Information and Event Management), IR plans, forensics with chain of custody and hashes.</li>
+    <li><b>Opportunity</b>: options to add value for stakeholders. <b>Demand</b>: the need or desire for products and services.</li>
+    <li><b>Governance</b>: the means by which an organization is directed and controlled. The governing body <b>evaluates</b>, <b>directs</b> and <b>monitors</b>.</li>
+    <li><b>Practices</b>: sets of organizational resources for performing work. ITIL 4 has 34 practices in three groups: general management (14), service management (17) and technical management (3).</li>
+    <li><b>Continual improvement</b> happens at every level, from strategy down to individual tasks.</li>
   </ul>
 </section>
 
-<section class="lesson" id="audit-walk">
-  <h2>7. An audit from start to finish</h2>
-  <p>Here is how an IT audit of user access management unfolds, so the phases in this module feel concrete.</p>
+<section class="lesson" id="principles">
+  <h2>4. The seven guiding principles</h2>
+  <p>A guiding principle is a recommendation that guides an organization <b>in all circumstances</b>. Consider all seven together and decide which matter most in each situation; they interact.</p>
+  <div class="tablewrap"><table>
+    <thead><tr><th>Principle</th><th>In one line</th><th>Example</th></tr></thead>
+    <tbody>
+      <tr><td><b>Focus on value</b></td><td>Everything should link to value for someone; know your consumer</td><td>Before adding a new report, ask which decision it helps and who reads it</td></tr>
+      <tr><td><b>Start where you are</b></td><td>Don't start from scratch; observe the current state directly and reuse what works</td><td>Walk the service desk floor before redesigning its process</td></tr>
+      <tr><td><b>Progress iteratively with feedback</b></td><td>Small, manageable steps with feedback loops</td><td>Roll out self-service to one department, gather feedback, then expand</td></tr>
+      <tr><td><b>Collaborate and promote visibility</b></td><td>Work across boundaries; make work and progress visible</td><td>A shared Kanban board shows every team where requests are stuck</td></tr>
+      <tr><td><b>Think and work holistically</b></td><td>No service or part stands alone; see the whole system</td><td>Check how a database change affects monitoring, support and suppliers</td></tr>
+      <tr><td><b>Keep it simple and practical</b></td><td>Use the minimum steps; remove what adds no value; outcome-based thinking</td><td>Drop an approval step that nobody ever rejects</td></tr>
+      <tr><td><b>Optimize and automate</b></td><td>Optimize first, then automate; use technology to free people for valuable work</td><td>Simplify the onboarding workflow, then automate account creation</td></tr>
+    </tbody></table></div>
+  <div class="callout tip">In ITIL (Version 5) the seven principles keep the same names (verify).</div>
+</section>
+
+<section class="lesson" id="valuechain">
+  <h2>5. The service value chain</h2>
+  <figure class="fig"><svg id="vc-fig" viewBox="0 0 760 260" width="760" role="img" aria-label="Six service value chain activities between demand and value"></svg>
+  <figcaption class="figcap">Six activities, any order, used as often as needed. A specific path for one scenario is a value stream.</figcaption></figure>
+  <div class="tablewrap"><table>
+    <thead><tr><th>Activity</th><th>Purpose</th></tr></thead>
+    <tbody>
+      <tr><td><b>Plan</b></td><td>Shared understanding of the vision, current status and improvement direction for all four dimensions and all products and services</td></tr>
+      <tr><td><b>Improve</b></td><td>Continual improvement of products, services and practices across all value chain activities and the four dimensions</td></tr>
+      <tr><td><b>Engage</b></td><td>Good understanding of stakeholder needs, transparency, continual engagement and good relationships with all stakeholders (the main interface with users and customers)</td></tr>
+      <tr><td><b>Design and transition</b></td><td>Products and services continually meet stakeholder expectations for quality, costs and time to market</td></tr>
+      <tr><td><b>Obtain/build</b></td><td>Service components are available when and where needed and meet agreed specifications</td></tr>
+      <tr><td><b>Deliver and support</b></td><td>Services are delivered and supported according to agreed specifications and stakeholder expectations</td></tr>
+    </tbody></table></div>
+  <div class="callout detail">Value chain activities use different combinations of practices. Incident management, for example, contributes to engage, deliver and support, improve, and more. In ITIL (Version 5) the value chain is replaced by the eight-activity Product and Service Lifecycle Model (Discover, Design, Build, Transition, Deliver, Support, Operate, Evolve; verify).</div>
+</section>
+
+<section class="lesson" id="ci">
+  <h2>6. The continual improvement model</h2>
+  <figure class="fig"><svg id="ci-fig" viewBox="0 0 760 185" width="760" role="img" aria-label="Seven steps of the continual improvement model"></svg></figure>
   <ol>
-    <li><b>Planning:</b> the auditor reviews the risk assessment. Access management is high-risk because the company recently had a breach involving an ex-employee's account. Scope: the finance system, last 12 months.</li>
-    <li><b>Understanding controls:</b> interviews and documents show three key controls: access is approved by the manager before creation; leavers are disabled within one business day; access is reviewed quarterly.</li>
-    <li><b>Testing design:</b> do these controls, if they work, address the risk? Yes.</li>
-    <li><b>Testing operating effectiveness:</b> the auditor samples 25 new accounts (checking for approval), 25 leavers from HR (Human Resources) records (checking disable dates) and all four quarterly reviews.</li>
-    <li><b>Findings:</b> 3 of 25 leavers were disabled 5 to 12 days late; one quarterly review was never done.</li>
-    <li><b>Reporting:</b> each finding lists the condition (what was found), criteria (what should happen), cause, effect (risk) and a recommendation. Management responds with an action plan and dates.</li>
-    <li><b>Follow-up:</b> months later, the auditor checks whether the actions were completed and work.</li>
+    <li><b>What is the vision?</b> Understand the high-level business direction.</li>
+    <li><b>Where are we now?</b> Objective baseline assessment.</li>
+    <li><b>Where do we want to be?</b> Measurable targets (gap analysis).</li>
+    <li><b>How do we get there?</b> A plan, often as iterations.</li>
+    <li><b>Take action.</b> Carry out the plan.</li>
+    <li><b>Did we get there?</b> Check results against targets.</li>
+    <li><b>How do we keep the momentum going?</b> Embed the change, celebrate success, start the next loop.</li>
   </ol>
-  <div class="callout trap">Auditors recommend; they don't implement fixes themselves. Doing so would damage their independence, because they would later be auditing their own work.</div>
+  <p>Ideas are recorded and prioritized in a <b>continual improvement register (CIR)</b>. Continual improvement is everyone's responsibility.</p>
 </section>
 
-<section class="lesson" id="evidence">
-  <h2>8. What makes good audit evidence?</h2>
-  <p>CISA questions often ask which evidence is the most reliable. Use these rules.</p>
-  <div class="tablewrap"><table><thead><tr><th>More reliable</th><th>Less reliable</th></tr></thead><tbody>
-    <tr><td>Evidence from an independent outside source (bank confirmation)</td><td>Evidence produced by the person being audited</td></tr>
-    <tr><td>Evidence the auditor obtains directly (re-performing a calculation, observing a process)</td><td>Evidence obtained indirectly (being told)</td></tr>
-    <tr><td>System-generated logs with integrity controls</td><td>Spreadsheets someone typed by hand</td></tr>
-    <tr><td>Documents</td><td>Verbal statements in interviews</td></tr>
-    <tr><td>Original documents</td><td>Photocopies or screenshots that could be edited</td></tr>
+<section class="lesson" id="practices">
+  <h2>7. ITIL practices</h2>
+  <h3 id="purposes">Purpose of the 15 practices you must recognize</h3>
+  <div class="tablewrap"><table>
+    <thead><tr><th>Practice</th><th>Purpose (paraphrased)</th></tr></thead>
+    <tbody>
+      <tr><td>Information security management</td><td>Protect the information needed by the organization to conduct its business</td></tr>
+      <tr><td>Relationship management</td><td>Establish and nurture links with stakeholders at strategic and tactical levels</td></tr>
+      <tr><td>Supplier management</td><td>Ensure suppliers and their performance are managed to support seamless products and services</td></tr>
+      <tr><td>Availability management</td><td>Ensure services deliver agreed levels of availability</td></tr>
+      <tr><td>IT asset management</td><td>Plan and manage the full lifecycle of all IT assets: maximize value, control costs, manage risks, support decisions</td></tr>
+      <tr><td>Monitoring and event management</td><td>Systematically observe services and components and record and report selected changes of state (events)</td></tr>
+      <tr><td>Release management</td><td>Make new and changed services and features available for use</td></tr>
+      <tr><td>Service configuration management</td><td>Ensure accurate, reliable information about services and the configuration items (CIs) that support them is available when needed</td></tr>
+      <tr><td>Deployment management</td><td>Move new or changed hardware, software, documentation, processes or other components to live (or other) environments</td></tr>
+      <tr><td>Continual improvement *</td><td>Align practices and services with changing business needs through ongoing improvement</td></tr>
+      <tr><td>Change enablement *</td><td>Maximize the number of successful changes by ensuring risks are assessed, changes are authorized and the change schedule is managed</td></tr>
+      <tr><td>Incident management *</td><td>Minimize the negative impact of incidents by restoring normal service operation as quickly as possible</td></tr>
+      <tr><td>Problem management *</td><td>Reduce the likelihood and impact of incidents by identifying actual and potential causes and managing workarounds and known errors</td></tr>
+      <tr><td>Service request management *</td><td>Support the agreed quality of a service by handling all pre-defined, user-initiated service requests effectively and user-friendly</td></tr>
+      <tr><td>Service desk *</td><td>Capture demand for incident resolution and service requests; the entry point and single point of contact for all users</td></tr>
+      <tr><td>Service level management *</td><td>Set clear business-based targets for service levels, and ensure delivery is properly assessed, monitored and managed against them</td></tr>
+    </tbody></table></div>
+  <p class="figcap">* The seven practices examined in detail. The current syllabus lists 15 practices by purpose; continual improvement appears in both lists (verify the current syllabus).</p>
+
+  <h3 id="incident">Incident management</h3>
+  <ul>
+    <li>An <b>incident</b> is an unplanned interruption to a service or a reduction in its quality. Restore service fast; finding the cause is problem management's job.</li>
+    <li>Log every incident, <b>prioritize</b> by agreed classification (impact × urgency), keep users informed and update the record with symptoms, impact, CIs and actions.</li>
+    <li><b>Major incidents</b> get a separate procedure; security incidents may too. Some incidents are resolved by users (self-help), the service desk, support teams, suppliers or temporary teams. <b>Swarming</b> brings experts together.</li>
+  </ul>
+  <h3 id="problem">Problem management</h3>
+  <ul>
+    <li>A <b>problem</b> is a cause, or potential cause, of one or more incidents. A <b>known error</b> is a problem that has been analyzed but not resolved. A <b>workaround</b> reduces impact until a permanent fix.</li>
+    <li>Three phases: <b>problem identification</b> (trend analysis, recurring incidents, information from suppliers and developers), <b>problem control</b> (analysis using all four dimensions, documenting workarounds) and <b>error control</b> (managing known errors, assessing permanent solutions).</li>
+    <li>Permanent fixes usually go through <b>change enablement</b>.</li>
+  </ul>
+  <h3 id="change">Change enablement</h3>
+  <ul>
+    <li>A <b>change</b> is adding, modifying or removing anything that could directly or indirectly affect services.</li>
+    <li><b>Standard</b>: low risk, pre-authorized, well understood, often a service request. <b>Normal</b>: scheduled, assessed and authorized by the right <b>change authority</b>. <b>Emergency</b>: implemented as soon as possible (e.g., a critical patch), possibly with a separate authority and less documentation, but still assessed.</li>
+    <li>ITIL 4 <b>decentralizes</b> change authority: a <b>CAB (Change Advisory Board)</b> is just one option; peer review in a DevOps pipeline can authorize low-risk changes. The <b>change schedule</b> helps plan, communicate and avoid conflicts.</li>
+  </ul>
+  <h3 id="request">Service request management</h3>
+  <ul>
+    <li>A <b>service request</b> is a user request that starts an agreed, normal service action: information, access, a laptop, a password reset, feedback or a complaint.</li>
+    <li>Standardize and automate as much as possible; set clear policies on approvals; set realistic, agreed fulfilment times; some requests trigger a standard change.</li>
+  </ul>
+  <h3 id="desk">Service desk</h3>
+  <ul>
+    <li>The <b>single point of contact</b> for all users. Channels: phone, chat, email, portals, walk-in, social media. Can be centralized, <b>virtual</b> or follow-the-sun.</li>
+    <li>Staff need empathy, communication, customer-service skills, incident analysis and prioritization, and a practical understanding of the business, not only technical depth.</li>
+  </ul>
+  <h3 id="slm">Service level management</h3>
+  <ul>
+    <li>Sets business-based targets and makes sure delivery is measured against them. An <b>SLA (Service Level Agreement)</b> should relate to a defined service, describe outcomes (not just operational metrics) and be written in clear language.</li>
+    <li>Beware the <b>watermelon SLA</b>: green metrics, red customers. Gather customer engagement, feedback, surveys and business metrics.</li>
+    <li>Related terms: <b>OLA (Operational Level Agreement)</b> (between internal teams) and <b>UC</b> (underpinning contract with an external supplier). These come from earlier ITIL versions and are still common at work.</li>
+  </ul>
+  <div class="callout trap">"Incident management finds the root cause." No: incident management restores service; problem management finds and manages causes. A help desk that "fixes it by rebooting" closes the incident; the problem stays open until the cause is known.</div>
+</section>
+
+<section class="lesson" id="fit">
+  <h2>8. How ITIL fits with DevOps, Agile, Lean and ISO/IEC 20000</h2>
+  <div class="tablewrap"><table>
+    <thead><tr><th>Approach</th><th>How it relates to ITIL 4</th></tr></thead>
+    <tbody>
+      <tr><td><b>Agile</b></td><td>Iterative delivery and fast feedback; matches "progress iteratively with feedback" and value streams</td></tr>
+      <tr><td><b>DevOps</b></td><td>Joins development and operations with automation (CI/CD); ITIL 4 supports this with decentralized change authority and "optimize and automate"</td></tr>
+      <tr><td><b>Lean</b></td><td>Removing waste and improving flow; matches value stream mapping and "keep it simple and practical"</td></tr>
+      <tr><td><b>ISO/IEC 20000-1</b></td><td>The international standard for a service management system (SMS); organizations can be <b>certified</b> against it. ITIL is guidance, not a certifiable standard for organizations (people get ITIL certificates; organizations get ISO/IEC 20000 certification)</td></tr>
+    </tbody></table></div>
+  <h3 id="exam">The ITIL 4 Foundation exam</h3>
+  <div class="tablewrap"><table>
+    <thead><tr><th>Item</th><th>Detail (verify on peoplecert.org)</th></tr></thead>
+    <tbody>
+      <tr><td>Questions</td><td>40 multiple choice, one correct answer each</td></tr>
+      <tr><td>Time</td><td>60 minutes (extra time for non-native speakers in some cases)</td></tr>
+      <tr><td>Pass mark</td><td>65% (26 of 40)</td></tr>
+      <tr><td>Format</td><td>Closed book, online proctored or at a test center; no prerequisites</td></tr>
+      <tr><td>Weighting</td><td>Roughly 42.5% on the seven practices in detail (17 questions); the rest on concepts, principles, dimensions, SVS, value chain and practice purposes</td></tr>
+    </tbody></table></div>
+</section>
+
+<section class="lesson" id="itil-scenario">
+  <h2>9. ITIL in action: one incident, many practices</h2>
+  <p>ITIL practices make the most sense when you see them work together. Follow one email outage through an organisation that uses ITIL 4.</p>
+  <ol>
+    <li><b>Monitoring and event management</b> detects that the email service is failing health checks at 10:02 and raises an alert.</li>
+    <li><b>Service desk</b> starts receiving calls and links them to one major incident, keeping users updated through the status page.</li>
+    <li><b>Incident management</b> aims to restore service as fast as possible. Engineers fail over to the backup server at 10:40. Service is restored; the incident is resolved.</li>
+    <li><b>Problem management</b> then asks why it happened. The root cause: a certificate expired because nobody owned its renewal. A known error is recorded with the workaround.</li>
+    <li><b>Change enablement</b> approves a change to add automatic certificate renewal and expiry alerts.</li>
+    <li><b>Service configuration management</b> updates the configuration record so certificates appear as configuration items with owners.</li>
+    <li><b>Service level management</b> reports the 38-minute outage against the agreed availability target.</li>
+    <li><b>Continual improvement</b> adds "inventory all certificates" to the improvement register.</li>
+  </ol>
+  <div class="callout trap">Exam favourite: incident management restores service quickly; problem management finds and removes the underlying cause. They are different practices with different goals.</div>
+</section>
+
+<section class="lesson" id="itil-terms">
+  <h2>10. Words ITIL uses in a specific way</h2>
+  <p>ITIL Foundation questions often hinge on precise definitions. These are the ones people mix up most.</p>
+  <div class="tablewrap"><table><thead><tr><th>Term</th><th>ITIL meaning</th></tr></thead><tbody>
+    <tr><td>Service</td><td>A means of enabling value co-creation by facilitating outcomes customers want, without the customer managing specific costs and risks</td></tr>
+    <tr><td>Output vs outcome</td><td>An output is something produced (a report); an outcome is the result for a stakeholder (a better decision)</td></tr>
+    <tr><td>Utility vs warranty</td><td>Utility: what the service does (fit for purpose). Warranty: how well it does it (fit for use: availability, capacity, security, continuity)</td></tr>
+    <tr><td>Incident</td><td>An unplanned interruption or reduction in quality of a service</td></tr>
+    <tr><td>Problem</td><td>A cause, or potential cause, of one or more incidents</td></tr>
+    <tr><td>Known error</td><td>A problem that has been analysed but not yet resolved</td></tr>
+    <tr><td>Change</td><td>Adding, modifying or removing anything that could directly or indirectly affect services</td></tr>
+    <tr><td>Service request</td><td>A user request that is a normal part of service delivery (a password reset, a new laptop)</td></tr>
   </tbody></table></div>
-  <p>Evidence should be <b>sufficient</b> (enough of it), <b>appropriate</b> (relevant and reliable) and documented in working papers so another auditor could reach the same conclusion.</p>
-  <div class="callout tip">Interviews are useful for understanding a process, but an auditor should always confirm what they are told with documents, system data or observation.</div>
+  <div class="callout tip">A password reset is a service request, not an incident: nothing is broken; the user needs a standard thing done.</div>
 </section>
 
 <section class="lab" id="labs">
   <h2>Interactive labs</h2>
 
-  <div class="lab-card" id="lab-life" data-lab="Audit Lifecycle Walkthrough: plan, fieldwork, reporting and follow-up for a fictional company, choosing actions and evidence and seeing what a real auditor would do.">
-    <h3>Lab 1: Audit Lifecycle Walkthrough</h3>
-    <p class="figcap">Engagement: an audit of <b>user access management</b> for the ERP system at <b>Tamarack Foods</b> (fictional food distributor, 2,400 staff). At each phase, tick every action a good IS auditor would take, then check.</p>
-    <div class="phases" id="lf-phases"></div>
-    <div class="phase-card" id="lf-card"></div>
-    <div class="row"><button type="button" class="primary" id="lf-check">Check this phase</button><button type="button" id="lf-next">Next phase →</button><button type="button" id="lf-restart">Restart</button><b id="lf-score"></b></div>
-    <div class="caption" id="lf-cap" aria-live="polite"></div>
+  <div class="lab-card" id="lab-svs" data-lab="Service Value System Explorer: click each part of the SVS diagram to see its plain meaning, exam definition and an example.">
+    <h3>Lab 1: Service Value System Explorer</h3>
+    <p class="figcap">Click (or Tab to and press Enter on) any part of the diagram.</p>
+    <div class="stage"><svg id="svs-svg" viewBox="0 0 760 330" width="760" role="group" aria-label="Clickable service value system diagram"></svg></div>
+    <div class="info" id="svs-info">Choose a part of the SVS.</div>
+    <div class="caption" id="svs-cap" aria-live="polite"></div>
   </div>
 
-  <div class="lab-card" id="lab-samp" data-lab="Sampling Simulator: choose a population and sampling method, draw a sample from fake transactions and see how confidence and error estimates change.">
-    <h3>Lab 2: Sampling Simulator</h3>
-    <p class="figcap">Population: 2,000 fake expense claims. Some lack the required manager approval (a control deviation). You don't know the true rate; your sample estimates it.</p>
+  <div class="lab-card" id="lab-vc" data-lab="Value Chain Builder: build a value stream for a scenario from the six value chain activities and get feedback on the order and alternatives.">
+    <h3>Lab 2: Value Chain Builder</h3>
+    <div class="row"><span>Scenario:</span><div class="seg" id="vc-scen"></div></div>
+    <p id="vc-desc"></p>
+    <p class="figcap">Click activities in the order your value stream uses them. You can use an activity more than once.</p>
+    <div class="acts" id="vc-acts"></div>
+    <div class="stream" id="vc-stream" aria-label="Your value stream" aria-live="polite"></div>
+    <div class="row"><button type="button" id="vc-undo">Undo last</button><button type="button" id="vc-clear">Clear</button><button type="button" class="primary" id="vc-check">Check my value stream</button><button type="button" id="vc-show">Show a model answer</button></div>
+    <div class="caption" id="vc-cap" aria-live="polite"></div>
+  </div>
+
+  <div class="lab-card" id="lab-sort" data-lab="Incident vs Problem vs Change Sorter: sort scenario cards into incident management, problem management, change enablement or service request management.">
+    <h3>Lab 3: Incident vs Problem vs Change Sorter</h3>
+    <p class="figcap">Drag each card (or click it, then click a box) to the practice that should handle it.</p>
+    <div class="dropzone" id="so-bank" aria-label="Unsorted cards"><span class="zone-title">Unsorted</span></div>
+    <div class="sort-grid" id="so-zones" style="margin-top:8px"></div>
+    <div class="row"><button type="button" class="primary" id="so-check">Check</button><button type="button" id="so-reset">Reset</button></div>
+    <div class="caption" id="so-cap" aria-live="polite"></div>
+  </div>
+
+  <div class="lab-card" id="lab-gp" data-lab="Guiding Principle Matcher: match short workplace stories to the ITIL 4 guiding principle each one shows.">
+    <h3>Lab 4: Guiding Principle Matcher</h3>
+    <div id="gp-list"></div>
+    <div class="row"><button type="button" class="primary" id="gp-check">Check answers</button><button type="button" id="gp-reset">Reset</button></div>
+    <div class="caption" id="gp-cap" aria-live="polite"></div>
+  </div>
+
+  <div class="lab-card" id="lab-desk" data-lab="Service Desk Simulator: work a queue of calls; log, categorize, prioritize with an impact × urgency matrix, then escalate or resolve.">
+    <h3>Lab 5: Service Desk Simulator</h3>
+    <div class="qlist" id="sd-queue" aria-label="Call queue"></div>
+    <div class="call" id="sd-call"></div>
     <div class="controls">
-      <label class="field"><span>Population scenario</span><select id="sp-pop"><option value="0.02">Mostly clean (true rate hidden)</option><option value="0.06" selected>Some problems (true rate hidden)</option><option value="0.12">Weak control (true rate hidden)</option></select></label>
-      <label class="field"><span>Sampling method</span><select id="sp-method"><option value="random">Statistical: simple random</option><option value="systematic">Statistical: systematic (every k-th)</option><option value="judgmental">Judgmental: biggest claims</option><option value="haphazard">Haphazard: first ones in the file</option></select></label>
-      <label class="field"><span>Sample size: <b id="sp-nv">60</b></span><input type="range" id="sp-n" min="10" max="300" step="5" value="60"></label>
-      <label class="field"><span>Confidence level</span><select id="sp-conf"><option value="1.645">90%</option><option value="1.96" selected>95%</option><option value="2.576">99%</option></select></label>
+      <label class="field"><span>1. Log as</span><select id="sd-type"><option value="">Choose…</option><option value="incident">Incident</option><option value="request">Service request</option></select></label>
+      <label class="field"><span>2. Category</span><select id="sd-cat"><option value="">Choose…</option><option>Email and collaboration</option><option>Network and connectivity</option><option>Accounts and access</option><option>Hardware</option><option>Business application</option><option>Security</option></select></label>
+      <label class="field"><span>3. Impact</span><select id="sd-imp"><option value="">Choose…</option><option value="0">High (many users or critical business)</option><option value="1">Medium (a team or department)</option><option value="2">Low (one user)</option></select></label>
+      <label class="field"><span>4. Urgency</span><select id="sd-urg"><option value="">Choose…</option><option value="0">High (work stopped or deadline now)</option><option value="1">Medium (degraded, can wait hours)</option><option value="2">Low (can wait days)</option></select></label>
+      <label class="field"><span>5. Action</span><select id="sd-act"><option value="">Choose…</option><option value="first">Resolve or fulfil at first line (service desk)</option><option value="escalate">Escalate to a second-line or specialist team</option><option value="major">Declare a major incident</option><option value="security">Hand to the security incident procedure</option></select></label>
     </div>
-    <div class="row"><button type="button" class="primary" id="sp-draw">Draw a sample</button><button type="button" id="sp-reveal">Reveal the true rate</button></div>
-    <div class="grid3">
-      <div class="tile"><div class="figcap">Deviations found</div><div class="metric" id="sp-found">–</div></div>
-      <div class="tile"><div class="figcap">Estimated deviation rate</div><div class="metric" id="sp-rate">–</div></div>
-      <div class="tile"><div class="figcap">Upper limit at chosen confidence</div><div class="metric" id="sp-ul">–</div></div>
-    </div>
-    <div class="stage"><svg id="sp-svg" viewBox="0 0 760 210" width="760" role="img" aria-label="Grid of 2,000 transactions with sampled items highlighted"></svg></div>
-    <div class="caption" id="sp-cap" aria-live="polite"></div>
-  </div>
-
-  <div class="lab-card" id="lab-sod" data-lab="Segregation of Duties Checker: a matrix of users and system permissions; spot the conflicts, such as the same person creating vendors and approving payments.">
-    <h3>Lab 3: Segregation of Duties Checker</h3>
-    <p class="figcap">Tamarack Foods ERP permissions. Tick the box in the last column for every user whose permissions create a segregation of duties conflict, then check.</p>
-    <div class="tablewrap"><table class="sod" id="sd-table"></table></div>
-    <div class="row"><button type="button" class="primary" id="sd-check">Check</button><button type="button" id="sd-reset">Reset</button></div>
+    <div class="tablewrap"><table class="pmx" id="sd-mx" aria-label="Priority matrix"></table></div>
+    <div class="row"><button type="button" class="primary" id="sd-submit">Submit ticket</button><button type="button" id="sd-next">Next call →</button><button type="button" id="sd-restart">Restart queue</button><b id="sd-score"></b></div>
     <div class="caption" id="sd-cap" aria-live="polite"></div>
-  </div>
-
-  <div class="lab-card" id="lab-chg" data-lab="Changeover Strategy Picker: compare parallel, phased, pilot and direct cutover on risk, cost and time with a visual, then choose for a scenario.">
-    <h3>Lab 4: Changeover Strategy Picker</h3>
-    <div class="row"><span>Strategy:</span><div class="seg" id="cg-strat"></div></div>
-    <div class="stage"><svg id="cg-svg" viewBox="0 0 760 230" width="760" role="img" aria-label="Timeline of old and new systems with risk, cost and time bars"></svg></div>
-    <div class="row"><span>Scenario:</span><select id="cg-scen" aria-label="Scenario"></select></div>
-    <p id="cg-desc"></p>
-    <div class="row"><span>Your pick:</span><div class="seg" id="cg-pick"></div></div>
-    <div class="caption" id="cg-cap" aria-live="polite"></div>
-  </div>
-
-  <div class="lab-card" id="lab-ctl" data-lab="Control Testing Lab: review mock evidence such as logs, screenshots and change tickets and decide whether a control is designed and operating effectively.">
-    <h3>Lab 5: Control Testing Lab</h3>
-    <p class="figcap">For each control, read the evidence and decide: is the control <b>designed</b> effectively (would it work if followed?) and <b>operating</b> effectively (was it actually followed throughout the period?).</p>
-    <div id="ct-list"></div>
-    <div class="row"><button type="button" class="primary" id="ct-check">Check my conclusions</button><button type="button" id="ct-reset">Reset</button></div>
-    <div class="caption" id="ct-cap" aria-live="polite"></div>
   </div>
 </section>
 
@@ -247,25 +357,27 @@
 
 <section class="memory" id="memory">
   <h2>Memory aids</h2>
-  <div class="mnemonic">Domains "<b>A</b>uditors <b>G</b>et <b>A</b>ll <b>O</b>ur <b>P</b>apers": Audit process 18, Governance 18, Acquisition/development 12, Operations and resilience 26, Protection of assets 26.</div>
-  <div class="mnemonic">Auditor's mindset "<b>I-E-R-R</b>": Independent, Evidence-based, Risk-based, Report (don't fix).</div>
-  <div class="mnemonic">Finding elements "<b>C-C-C-E-R</b>": Criteria (what should be), Condition (what is), Cause, Effect, Recommendation.</div>
-  <div class="mnemonic">Sampling: <b>A</b>ttribute = <b>A</b>re controls working (yes/no rate); <b>V</b>ariable = <b>V</b>alue (amounts).</div>
+  <div class="mnemonic">Guiding principles: "<b>F</b>ive <b>S</b>mart <b>P</b>eople <b>C</b>an <b>T</b>hink <b>K</b>indly <b>O</b>ften": Focus on value, Start where you are, Progress iteratively, Collaborate and promote visibility, Think holistically, Keep it simple, Optimize and automate.</div>
+  <div class="mnemonic">Value chain: "<b>P</b>lease <b>I</b>mprove <b>E</b>very <b>D</b>esign, <b>O</b>btain and <b>D</b>eliver": Plan, Improve, Engage, Design and transition, Obtain/build, Deliver and support.</div>
+  <div class="mnemonic">Four dimensions: "<b>O</b>ur <b>I</b>T <b>P</b>artners <b>V</b>alue": Organizations and people, Information and technology, Partners and suppliers, Value streams and processes.</div>
+  <div class="mnemonic">Roles: <b>C</b>ustomer <b>C</b>hooses (requirements), <b>U</b>ser <b>U</b>ses, <b>S</b>ponsor <b>S</b>pends.</div>
   <div class="tablewrap"><table><thead><tr><th>Number</th><th>Meaning</th></tr></thead><tbody>
-    <tr><td>18 / 18 / 12 / 26 / 26%</td><td>CISA domain weights (verify)</td></tr>
-    <tr><td>150 · 4 h · 450/800</td><td>Questions · time · passing scaled score (verify)</td></tr>
-    <tr><td>5 years</td><td>Experience (up to 3 can be waived by substitutions)</td></tr>
-    <tr><td>IR × CR × DR</td><td>Audit risk model</td></tr>
-    <tr><td>90 / 95 / 99%</td><td>Common confidence levels (z ≈ 1.645 / 1.96 / 2.576)</td></tr>
-    <tr><td>Parallel → pilot/phased → direct</td><td>Changeover from lowest to highest risk</td></tr>
+    <tr><td>4</td><td>Dimensions of service management</td></tr>
+    <tr><td>5</td><td>SVS components (principles, governance, value chain, practices, continual improvement)</td></tr>
+    <tr><td>6</td><td>Value chain activities (Version 5: 8 lifecycle activities, verify)</td></tr>
+    <tr><td>7</td><td>Guiding principles; continual improvement model steps; practices in detail</td></tr>
+    <tr><td>3</td><td>Change types; problem management phases; practice groups</td></tr>
+    <tr><td>15 / 34</td><td>Practices by purpose on the exam / practices in ITIL 4</td></tr>
+    <tr><td>40 · 60 · 65%</td><td>Foundation questions · minutes · pass mark (26/40) (verify)</td></tr>
   </tbody></table></div>
   <div class="tablewrap"><table><thead><tr><th>Exam trap</th><th>Why it is wrong</th></tr></thead><tbody>
-    <tr><td>"The auditor should fix the control."</td><td>Report and recommend; management fixes.</td></tr>
-    <tr><td>"Interviewing the manager is enough evidence."</td><td>Inquiry alone is the weakest evidence; corroborate.</td></tr>
-    <tr><td>"Judgmental samples can be projected."</td><td>Only statistical samples support projection with measurable confidence.</td></tr>
-    <tr><td>"The backup log proves recoverability."</td><td>Only restore tests prove it.</td></tr>
-    <tr><td>"A policy proves the control operates."</td><td>A policy shows design; operation needs testing over the period.</td></tr>
-    <tr><td>"Direct cutover is safest because it's quick."</td><td>It's the riskiest: no fallback running.</td></tr>
+    <tr><td>"Value is delivered by the provider to the consumer."</td><td>ITIL 4 says value is <b>co-created</b>.</td></tr>
+    <tr><td>"A standard change needs CAB approval."</td><td>It is pre-authorized; only the procedure was assessed.</td></tr>
+    <tr><td>"Release and deployment are the same."</td><td>Deployment moves components; release makes them available for use.</td></tr>
+    <tr><td>"The value chain has a fixed order."</td><td>Activities combine in any order into value streams.</td></tr>
+    <tr><td>"Optimize and automate means automate first."</td><td>Optimize first; automating waste speeds up waste.</td></tr>
+    <tr><td>"A password reset is an incident."</td><td>It's a service request: a normal, agreed service action.</td></tr>
+    <tr><td>"Utility = available, warranty = features."</td><td>Reversed: utility is what it does, warranty is how well.</td></tr>
   </tbody></table></div>
 </section>
 
@@ -275,8 +387,8 @@
 </section>
 
 <section class="quiz" id="readiness">
-  <h2>CISA-style practice exam (75 questions)</h2>
-  <p>Seventy-five questions weighted like the real exam's domains (about 14, 14, 9, 19 and 19 questions), drawn from Modules 23 and 25 plus an extra CISA bank. The real exam has 150 questions in 4 hours; the 120-minute timer keeps the same pace. Aim for 75% or better before booking (ISACA's 450 of 800 scaled pass mark is not a simple percentage).</p>
+  <h2>ITIL 4 Foundation-style practice exam (40 questions)</h2>
+  <p>Forty multiple-choice questions, one correct answer each, like the real exam. Questions are drawn by syllabus area in roughly the real proportions (about 17 of 40 on the seven practices in detail). Turn on the timer for the real 60-minute pace. Aim for 65% (26 of 40) or better, the published pass mark (verify on peoplecert.org).</p>
   <div id="readiness-area"></div>
 </section>
 
@@ -288,11 +400,10 @@
 <section class="deeper" id="deeper">
   <h2>Go deeper (official sources)</h2>
   <ul>
-    <li><a href="https://www.isaca.org/credentialing/cisa" rel="noopener">ISACA: CISA certification and exam content outline</a></li>
-    <li><a href="https://www.isaca.org/resources/isaca-journal" rel="noopener">ISACA Journal</a></li>
-    <li><a href="https://www.isaca.org/resources/frameworks-standards-and-models" rel="noopener">ISACA: IS audit and assurance standards and frameworks</a></li>
-    <li><a href="https://www.theiia.org/en/standards/" rel="noopener">The IIA: Global Internal Audit Standards</a></li>
-    <li><a href="https://www.aicpa-cima.com/topic/audit-assurance/audit-and-assurance-greater-than-soc-2" rel="noopener">AICPA: SOC 2</a></li>
+    <li><a href="https://www.peoplecert.org/browse-certifications/it-governance-and-service-management/ITIL-1" rel="noopener">PeopleCert: ITIL certifications (ITIL 4 and ITIL Version 5)</a></li>
+    <li><a href="https://www.peoplecert.org/" rel="noopener">PeopleCert: exam booking, syllabus and sample papers</a></li>
+    <li><a href="https://www.iso.org/standard/70636.html" rel="noopener">ISO/IEC 20000-1:2018 Service management system requirements</a></li>
+    <li><a href="https://www.comptia.org/certifications/security" rel="noopener">CompTIA Security+ (change management objectives)</a></li>
   </ul>
 </section>
 </main>
@@ -300,9 +411,8 @@
 
 <script src="data/catalog.js"></script>
 <script src="assets/omnibus.js"></script>
-<script src="data/m23.js"></script>
 <script src="data/m25.js"></script>
-<script src="data/bank-cisa.js"></script>
+<script src="data/bank-itil.js"></script>
 <script>
 (function () {
   var h = OMNI.h, S = OMNI.svg, $ = function (id) { return document.getElementById(id); };
@@ -314,213 +424,273 @@
     var a = Math.atan2(y2 - y1, x2 - x1), s = 8;
     S("polygon", { points: x2 + "," + y2 + " " + (x2 - s * Math.cos(a - .45)) + "," + (y2 - s * Math.sin(a - .45)) + " " + (x2 - s * Math.cos(a + .45)) + "," + (y2 - s * Math.sin(a + .45)), fill: "var(--ink-2)" }, p);
   }
-  OMNI.readiness({ el: "readiness-area", id: "cisa", modules: [20, 22], banks: ["cisa"], certs: ["CISA"], count: 75, timerMin: 120, weights: { 1: 18, 2: 18, 3: 12, 4: 26, 5: 26 } });
+  OMNI.readiness({ el: "readiness-area", id: "itil", modules: [19], banks: ["itil"], certs: ["ITIL"], count: 40, timerMin: 60, weights: { 1: 12.5, 2: 15, 3: 5, 4: 2.5, 5: 5, 6: 17.5, 7: 42.5 } });
 
   /* ===== Figures ===== */
   (function () {
-    var g = $("dom-fig"), D = [["1 Audit process", 18, "var(--gov)"], ["2 Governance", 18, "var(--sec)"], ["3 Acq./dev.", 12, "var(--hw)"], ["4 Operations", 26, "var(--net)"], ["5 Protection", 26, "var(--dc)"]], x = 20;
-    D.forEach(function (d) { var w = d[1] * 7.2; rect(g, x, 30, w - 4, 60, d[2], "none", { opacity: .85, rx: 6 }); txt(g, x + w / 2 - 2, 66, d[1] + "%", { "text-anchor": "middle", "font-weight": 800, "font-size": 16, fill: "#fff" }); txt(g, x + w / 2 - 2, 112, d[0], { "text-anchor": "middle", "font-size": 11.5, "font-weight": 700 }); x += w; });
-    txt(g, 380, 18, "Share of exam questions by domain", { "text-anchor": "middle", "font-size": 11, class: "svg-muted" });
+    var g = $("dim-fig");
+    rect(g, 10, 10, 740, 280, "var(--surface-2)", "var(--line)");
+    "POLITICAL ECONOMIC SOCIAL TECHNOLOGICAL LEGAL ENVIRONMENTAL".split(" ").forEach(function (w, i) { txt(g, 70 + i * 124, 32, w, { "text-anchor": "middle", "font-size": 11, class: "svg-muted", "font-weight": 700 }); });
+    var D = [["Organizations", "and people", 150, 100, "var(--gov)"], ["Information", "and technology", 610, 100, "var(--net)"], ["Partners", "and suppliers", 150, 230, "var(--dc)"], ["Value streams", "and processes", 610, 230, "var(--sec)"]];
+    S("circle", { cx: 380, cy: 165, r: 52, fill: "var(--accent-soft)", stroke: "var(--accent)", "stroke-width": 2 }, g);
+    txt(g, 380, 162, "Value", { "text-anchor": "middle", "font-weight": 800, "font-size": 15 }); txt(g, 380, 180, "co-created", { "text-anchor": "middle", "font-size": 10, class: "svg-muted" });
+    D.forEach(function (d) {
+      S("line", { x1: d[2], y1: d[3], x2: 380, y2: 165, stroke: d[4], "stroke-width": 2, "stroke-dasharray": "5 4" }, g);
+      rect(g, d[2] - 85, d[3] - 26, 170, 52, "var(--surface)", d[4]);
+      txt(g, d[2], d[3] - 4, d[0], { "text-anchor": "middle", "font-weight": 700 }); txt(g, d[2], d[3] + 13, d[1], { "text-anchor": "middle", "font-weight": 700 });
+    });
+    txt(g, 380, 280, "PESTLE factors act on all four dimensions", { "text-anchor": "middle", "font-size": 11, class: "svg-muted" });
   })();
   (function () {
-    var g = $("life-fig"), P = [["Plan", "risk assessment, scope, program"], ["Fieldwork", "test controls, gather evidence"], ["Report", "findings, recommendations, responses"], ["Follow-up", "verify actions were taken"]];
-    P.forEach(function (p, i) { var x = 15 + i * 185; rect(g, x, 20, 160, 64, "var(--surface)", "var(--gov)"); txt(g, x + 80, 46, p[0], { "text-anchor": "middle", "font-weight": 800, "font-size": 14 }); txt(g, x + 80, 66, p[1], { "text-anchor": "middle", "font-size": 10, class: "svg-muted" }); if (i < 3) arrow(g, x + 160, 52, x + 185, 52); });
-    txt(g, 380, 108, "Independence and professional skepticism apply throughout", { "text-anchor": "middle", "font-size": 10.5, class: "svg-muted" });
+    var g = $("vc-fig"), A = ["Plan", "Improve", "Engage", "Design and transition", "Obtain/build", "Deliver and support"];
+    rect(g, 10, 95, 110, 70, "var(--surface)", "var(--ink-2)"); txt(g, 65, 125, "Demand", { "text-anchor": "middle", "font-weight": 700 }); txt(g, 65, 142, "and opportunity", { "text-anchor": "middle", "font-size": 10, class: "svg-muted" });
+    rect(g, 640, 95, 110, 70, "var(--good-soft)", "var(--good)"); txt(g, 695, 125, "Products and", { "text-anchor": "middle", "font-weight": 700 }); txt(g, 695, 142, "services → value", { "text-anchor": "middle", "font-weight": 700 });
+    rect(g, 150, 15, 460, 230, "var(--gov-soft)", "var(--gov)");
+    txt(g, 380, 36, "Service value chain: activities combine into value streams", { "text-anchor": "middle", "font-weight": 700, "font-size": 12 });
+    A.forEach(function (a, i) {
+      var x = 165 + (i % 3) * 150, y = 55 + Math.floor(i / 3) * 95;
+      rect(g, x, y, 130, 70, "var(--surface)", "var(--gov)");
+      txt(g, x + 65, y + 40, a, { "text-anchor": "middle", "font-weight": 700, "font-size": a.length > 14 ? 11 : 13 });
+    });
+    arrow(g, 120, 130, 150, 130); arrow(g, 610, 130, 640, 130);
+  })();
+  (function () {
+    var g = $("ci-fig"), st = ["What is the vision?", "Where are we now?", "Where do we want to be?", "How do we get there?", "Take action", "Did we get there?", "Keep the momentum going"];
+    st.forEach(function (s, i) {
+      var x = 10 + i * 107;
+      rect(g, x, 40, 95, 90, i === 4 ? "var(--accent-soft)" : "var(--surface)", "var(--gov)");
+      txt(g, x + 47, 62, String(i + 1), { "text-anchor": "middle", "font-weight": 800, "font-size": 18, fill: "var(--gov)" });
+      var words = s.split(" "), l1 = [], l2 = [];
+      words.forEach(function (w) { (l1.join(" ").length + w.length < 12 ? l1 : l2).push(w); });
+      txt(g, x + 47, 90, l1.join(" "), { "text-anchor": "middle", "font-size": 11 }); txt(g, x + 47, 106, l2.join(" "), { "text-anchor": "middle", "font-size": 11 });
+      if (i < 6) arrow(g, x + 95, 85, x + 107, 85);
+    });
+    S("path", { d: "M 700 130 C 700 165, 57 165, 57 132", fill: "none", stroke: "var(--ink-2)", "stroke-width": 1.5, "stroke-dasharray": "5 4" }, g);
+    txt(g, 380, 180, "…and loop back to the vision", { "text-anchor": "middle", "font-size": 10, class: "svg-muted" });
+    txt(g, 380, 22, "Each loop is recorded in the continual improvement register (CIR)", { "text-anchor": "middle", "font-size": 11, class: "svg-muted" });
   })();
 
-  /* ===== Lab 1: Audit lifecycle ===== */
-  var PH = [
-    { n: "Plan", s: "You've been assigned the ERP access audit. Fieldwork starts in three weeks.", a: [
-      ["Review the audit charter, prior audit reports and the ERP's role in the business", 1, "Context and prior issues shape scope."],
-      ["Assess inherent and control risk to decide scope and focus (e.g., finance and purchasing roles)", 1, "Risk-based planning."],
-      ["Agree objectives, scope and timing with the auditee in an engagement memo", 1, "Sets expectations and access to evidence."],
-      ["Reset weak passwords you notice during planning", 0, "Fixing controls breaks independence; note it as a potential issue."],
-      ["Decide the conclusion now so fieldwork goes faster", 0, "Conclusions must follow evidence."]] },
-    { n: "Fieldwork", s: "You have read-only access to the ERP and its user and role tables.", a: [
-      ["Extract the full user list directly from the ERP and compare it to HR's leaver list", 1, "System-generated evidence obtained by the auditor; full-population analytics."],
-      ["Select a statistical sample of new-user requests and check for documented approval", 1, "Attribute sampling tests the provisioning control."],
-      ["Run an SoD analysis across roles (e.g., create vendor + approve payment)", 1, "Tests a key fraud risk."],
-      ["Accept the IT manager's statement that 'all access is reviewed quarterly'", 0, "Inquiry alone is weak; inspect review evidence."],
-      ["Disable the 14 leaver accounts you found", 0, "Management's job; you report them, with urgency if risk is high."]] },
-    { n: "Report", s: "You found 14 active leaver accounts (2 used after departure), 6 SoD conflicts and missing approvals for 5 of 60 sampled requests.", a: [
-      ["Write each finding with criteria, condition, cause, effect and a recommendation", 1, "Standard finding structure."],
-      ["Discuss draft findings with management and include their responses and action dates", 1, "Fair, accurate and actionable."],
-      ["Escalate the two leaver accounts used after departure immediately as a possible fraud or security incident", 1, "Significant issues need prompt escalation, not just the final report."],
-      ["Remove a finding because the CFO disagrees, even though evidence supports it", 0, "Compromises objectivity; include management's response instead."],
-      ["Send the report only to the IT team", 0, "Report to the appropriate level, including the audit committee."]] },
-    { n: "Follow-up", s: "Six months later, management says all actions are complete.", a: [
-      ["Obtain evidence (new user list, SoD report, sample of approvals) to verify the fixes", 1, "Verify, don't just accept."],
-      ["Report any open items or risk acceptance to the audit committee", 1, "Keeps governance informed."],
-      ["Close the findings based on management's email", 0, "Inquiry without verification."],
-      ["Redesign the provisioning workflow yourself", 0, "Independence."]] }
-  ];
-  var lfI = 0, lfPts = 0, lfDone = {};
-  function lfShow() {
-    var P = $("lf-phases"); P.innerHTML = ""; PH.forEach(function (p, i) { P.appendChild(h("span", { class: i === lfI ? "now" : lfDone[i] ? "done" : "" }, (i + 1) + ". " + p.n)); });
-    var ph = PH[lfI], c = $("lf-card"); c.innerHTML = "";
-    c.appendChild(h("div", { class: "t" }, "Phase " + (lfI + 1) + ": " + ph.n)); c.appendChild(h("p", null, ph.s));
-    OMNI.shuffle(ph.a.map(function (x, i) { return i; })).forEach(function (ai) { var cb = h("input", { type: "checkbox", "data-a": String(ai) }); if (lfDone[lfI]) cb.disabled = true; c.appendChild(h("label", { class: "act" }, [cb, " ", ph.a[ai][0], h("span", { class: "fb" })])); });
-    $("lf-check").disabled = !!lfDone[lfI];
-    OMNI.say("lf-cap", "Tick every action a good IS auditor would take in the " + ph.n.toLowerCase() + " phase.");
-  }
-  $("lf-check").onclick = function () {
-    var ph = PH[lfI], right = 0, total = 0;
-    OMNI.$$("#lf-card .act").forEach(function (l) {
-      var cb = l.querySelector("input"), a = ph.a[+cb.dataset.a], fb = l.querySelector(".fb"); cb.disabled = true; total++;
-      var ok = cb.checked === !!a[1]; if (ok) right++;
-      l.classList.add(a[1] ? (cb.checked ? "ok" : "miss") : (cb.checked ? "bad" : "ok"));
-      fb.textContent = (a[1] ? (cb.checked ? "✓ " : "Missed: ") : (cb.checked ? "✗ " : "✓ Rightly skipped: ")) + a[2];
-    });
-    lfDone[lfI] = 1; lfPts += right; $("lf-check").disabled = true;
-    var tot = PH.reduce(function (s, p, i) { return s + (lfDone[i] ? p.a.length : 0); }, 0);
-    $("lf-score").textContent = "Score: " + lfPts + " / " + tot;
-    OMNI.say("lf-cap", right + " of " + total + " decisions matched what an experienced IS auditor would do. " + ["Planning is risk-based and agreed with the auditee; the auditor doesn't fix anything.", "Fieldwork gathers evidence the auditor obtains directly and can reperform; analytics test the whole population.", "Reports are evidence-based, fair and go to the right level; urgent issues are escalated straight away.", "Follow-up verifies with evidence and keeps the audit committee informed."][lfI] + (Object.keys(lfDone).length === PH.length ? " Engagement complete!" : " Press Next phase."));
+  /* ===== Lab 1: SVS explorer ===== */
+  var SVS = {
+    od: { n: "Opportunity and demand", p: "The reasons to do anything: chances to add value, and requests or needs from customers.", d: "Opportunity represents options or possibilities to add value for stakeholders or otherwise improve the organization. Demand is the need or desire for products and services among internal and external consumers.", e: "Staff ask for remote access (demand); a new cloud platform could cut costs (opportunity)." },
+    gp: { n: "Guiding principles", p: "Seven pieces of advice that apply in every situation.", d: "Recommendations that can guide an organization in all circumstances, regardless of changes in its goals, strategies, type of work or management structure.", e: "Before building a new portal, the team 'starts where they are' by reviewing the existing one." },
+    gov: { n: "Governance", p: "How the top of the organization steers and checks.", d: "The means by which an organization is directed and controlled. The governing body evaluates the organization, directs it by assigning responsibility for strategies and policies, and monitors performance and compliance.", e: "The board sets a policy that all customer data stays in the EU and checks quarterly reports against it." },
+    svc: { n: "Service value chain", p: "Six activities you mix and match to create and deliver value.", d: "An operating model which outlines the key activities required to respond to demand and facilitate value realization: plan, improve, engage, design and transition, obtain/build, deliver and support.", e: "A new-laptop request flows engage → deliver and support → obtain/build → deliver and support." },
+    pr: { n: "Practices", p: "Toolkits of people, processes, information and tools for a type of work.", d: "Sets of organizational resources designed for performing work or accomplishing an objective. ITIL 4 describes 34 practices: general management, service management and technical management.", e: "Incident management, change enablement and the service desk are practices." },
+    ci: { n: "Continual improvement", p: "Always getting a little better, at every level.", d: "A recurring organizational activity performed at all levels to ensure that an organization's performance continually meets stakeholders' expectations, supported by the continual improvement model and register.", e: "The service desk cuts average wait time by 30% after analysing call data, then picks the next target." },
+    val: { n: "Value", p: "The result: benefits that matter to the stakeholders.", d: "The perceived benefits, usefulness and importance of something. In ITIL 4, value is co-created by service providers and consumers.", e: "Sales staff close deals faster because the CRM is reliable and quick." }
   };
-  $("lf-next").onclick = function () { lfI = Math.min(PH.length - 1, lfI + 1); lfShow(); };
-  $("lf-restart").onclick = function () { lfI = 0; lfPts = 0; lfDone = {}; $("lf-score").textContent = ""; lfShow(); };
-  lfShow();
-
-  /* ===== Lab 2: Sampling ===== */
-  var POP = [], N = 2000, popRate = 0;
-  function rng(seed) { return function () { seed = (seed * 1664525 + 1013904223) % 4294967296; return seed / 4294967296; }; }
-  function buildPop() {
-    popRate = +$("sp-pop").value; var r = rng(Math.round(popRate * 1e6) + 7); POP = [];
-    for (var i = 0; i < N; i++) { var amt = Math.round(20 + Math.pow(r(), 3) * 4800); var dev = r() < popRate * (amt > 2500 ? 0.4 : 1.08); POP.push({ amt: amt, dev: dev }); }
-    // haphazard bias: first 200 entered by a careful team → fewer deviations
-    for (var k = 0; k < 200; k++) if (POP[k].dev && r() < 0.9) POP[k].dev = false;
-  }
-  function trueRate() { return POP.filter(function (x) { return x.dev; }).length / N; }
-  var lastSample = [];
-  function draw() {
-    var n = +$("sp-n").value, m = $("sp-method").value, idx = [];
-    if (m === "random") { idx = OMNI.shuffle(POP.map(function (x, i) { return i; })).slice(0, n); }
-    else if (m === "systematic") { var k = Math.floor(N / n), st = Math.floor(Math.random() * k); for (var i = st; i < N && idx.length < n; i += k) idx.push(i); }
-    else if (m === "judgmental") { idx = POP.map(function (x, i) { return i; }).sort(function (a, b) { return POP[b].amt - POP[a].amt; }).slice(0, n); }
-    else { for (var j = 0; j < n; j++) idx.push(j); }
-    lastSample = idx;
-    var found = idx.filter(function (i) { return POP[i].dev; }).length, p = found / n, z = +$("sp-conf").value;
-    var ul = Math.min(1, p + z * Math.sqrt(Math.max(p * (1 - p), 1 / n / 4) / n) * Math.sqrt((N - n) / (N - 1)));
-    $("sp-found").textContent = found + " of " + n; $("sp-rate").textContent = (100 * p).toFixed(1) + "%";
-    var stat = m === "random" || m === "systematic";
-    $("sp-ul").textContent = stat ? (100 * ul).toFixed(1) + "%" : "n/a";
-    plot();
-    var conf = $("sp-conf").selectedOptions[0].textContent;
-    OMNI.say("sp-cap", "You sampled " + n + " claims using " + $("sp-method").selectedOptions[0].textContent.toLowerCase() + " and found " + found + " without approval (" + (100 * p).toFixed(1) + "%). " + (stat ? "Because the sample is statistical, you can say with " + conf + " confidence that the true deviation rate is no higher than about " + (100 * ul).toFixed(1) + "%. If the tolerable rate is 5%, the control " + (ul <= 0.05 ? "can be relied on." : "cannot be relied on: expand substantive testing or report a finding.") + " Bigger samples or lower confidence narrow the gap between the estimate and the upper limit." : m === "judgmental" ? "Judgmental samples are useful to target risk (big claims), but the result can't be projected to the whole population with measurable confidence. Here big claims are actually checked more carefully, so this sample likely understates the problem." : "Haphazard 'first in the file' selection is biased: these early claims were handled by a careful team, so the sample understates deviations and can't be projected.") + " (Upper limit uses a normal approximation with finite population correction; real audits often use attribute sampling tables.)");
-  }
-  function plot() {
-    var g = $("sp-svg"); g.innerHTML = ""; var cols = 100, cs = 7.4, set = {}; lastSample.forEach(function (i) { set[i] = 1; });
-    var rev = $("sp-svg").dataset.rev === "1";
-    for (var i = 0; i < N; i++) {
-      var x = 10 + (i % cols) * cs, y = 8 + Math.floor(i / cols) * 9.6, s = set[i], d = POP[i].dev;
-      var fill = s ? (d ? "var(--bad)" : "var(--accent)") : (rev && d ? "var(--warn)" : "var(--line)");
-      S("rect", { x: x, y: y, width: 6, height: 7.6, rx: 1, fill: fill, opacity: s || (rev && d) ? 1 : .55 }, g);
+  (function () {
+    var g = $("svs-svg");
+    function part(key, draw) {
+      var grp = S("g", { class: "svs-part", tabindex: "0", role: "button", "aria-label": SVS[key].n, "data-k": key }, g);
+      draw(grp);
+      grp.addEventListener("click", function () { svsShow(key); });
+      grp.addEventListener("keydown", function (e) { if (e.key === "Enter" || e.key === " ") { e.preventDefault(); svsShow(key); } });
     }
+    part("od", function (p) { rect(p, 10, 125, 120, 80, "var(--surface)", "var(--ink-2)"); txt(p, 70, 160, "Opportunity", { "text-anchor": "middle", "font-weight": 700 }); txt(p, 70, 178, "and demand", { "text-anchor": "middle", "font-weight": 700 }); });
+    arrow(g, 130, 165, 160, 165);
+    rect(g, 160, 10, 440, 310, "var(--gov-soft)", "var(--gov)");
+    txt(g, 380, 30, "Service value system", { "text-anchor": "middle", "font-weight": 800, "font-size": 13, fill: "var(--gov)" });
+    part("gp", function (p) { rect(p, 180, 45, 400, 40, "var(--surface)", "var(--gov)"); txt(p, 380, 70, "Guiding principles", { "text-anchor": "middle", "font-weight": 700 }); });
+    part("gov", function (p) { rect(p, 180, 95, 400, 40, "var(--surface)", "var(--gov)"); txt(p, 380, 120, "Governance", { "text-anchor": "middle", "font-weight": 700 }); });
+    part("svc", function (p) { rect(p, 180, 145, 400, 70, "var(--surface)", "var(--gov)"); txt(p, 380, 172, "Service value chain", { "text-anchor": "middle", "font-weight": 700 }); txt(p, 380, 192, "plan · improve · engage · design and transition · obtain/build · deliver and support", { "text-anchor": "middle", "font-size": 10, class: "svg-muted" }); });
+    part("pr", function (p) { rect(p, 180, 225, 400, 40, "var(--surface)", "var(--gov)"); txt(p, 380, 250, "Practices (34)", { "text-anchor": "middle", "font-weight": 700 }); });
+    part("ci", function (p) { rect(p, 180, 275, 400, 34, "var(--surface)", "var(--gov)"); txt(p, 380, 297, "Continual improvement", { "text-anchor": "middle", "font-weight": 700 }); });
+    arrow(g, 600, 165, 630, 165);
+    part("val", function (p) { S("circle", { cx: 690, cy: 165, r: 58, fill: "var(--good-soft)", stroke: "var(--good)", "stroke-width": 2 }, p); txt(p, 690, 170, "Value", { "text-anchor": "middle", "font-weight": 800, "font-size": 16 }); });
+  })();
+  var svsSeen = {};
+  function svsShow(k) {
+    var s = SVS[k]; svsSeen[k] = 1;
+    OMNI.$$("#svs-svg .svs-part").forEach(function (x) { x.classList.toggle("on", x.getAttribute("data-k") === k); });
+    $("svs-info").innerHTML = "<h4>" + s.n + "</h4><p><b>Plain meaning:</b> " + s.p + "</p><p><b>Exam definition:</b> " + s.d + "</p><p><b>Example:</b> " + s.e + "</p>";
+    var n = Object.keys(svsSeen).length;
+    OMNI.say("svs-cap", "You opened <b>" + s.n + "</b>. " + (k === "od" ? "This is the SVS input: everything starts with opportunity or demand." : k === "val" ? "This is the SVS output: value, co-created with the consumer." : "This is one of the five SVS components that sit between the input and the output.") + " You have explored " + n + " of 7 parts." + (n === 7 ? " That's all of them: input → five components → value." : ""));
   }
-  $("sp-n").oninput = function () { $("sp-nv").textContent = $("sp-n").value; };
-  $("sp-pop").onchange = function () { buildPop(); lastSample = []; $("sp-svg").dataset.rev = "0"; ["sp-found", "sp-rate", "sp-ul"].forEach(function (id) { $(id).textContent = "–"; }); plot(); OMNI.say("sp-cap", "New population loaded. Draw a sample."); };
-  $("sp-draw").onclick = draw;
-  $("sp-reveal").onclick = function () { $("sp-svg").dataset.rev = "1"; plot(); OMNI.say("sp-cap", "True deviation rate: " + (100 * trueRate()).toFixed(1) + "% (" + POP.filter(function (x) { return x.dev; }).length + " of 2,000, shown in orange; red = deviations you sampled, purple = clean sampled items). Compare it with your estimate: statistical methods land close on average; judgmental and haphazard methods are biased."); };
-  buildPop(); plot(); OMNI.say("sp-cap", "Choose a method and sample size, then draw a sample. Try the same size with each method and compare.");
+  OMNI.say("svs-cap", "The SVS takes opportunity and demand in on the left and produces value on the right. Click a part to explore it.");
 
-  /* ===== Lab 3: SoD ===== */
-  var PERM = ["Create/edit vendors", "Enter invoices", "Approve payments", "Release payment run", "Bank reconciliation", "Manage user access", "Post journal entries", "Approve journal entries"];
-  var USERS = [
-    ["A. Okafor (AP clerk)", [1, 1, 0, 0, 0, 0, 0, 0], 0, "Normal AP clerk duties."],
-    ["B. Lindqvist (AP supervisor)", [1, 0, 1, 0, 0, 0, 0, 0], 1, "Can create a vendor and approve payments to it: classic fake-vendor fraud risk."],
-    ["C. Haddad (Treasury)", [0, 0, 0, 1, 1, 0, 0, 0], 1, "Releases payments and reconciles the bank account, so could hide an improper payment."],
-    ["D. Mbeki (GL accountant)", [0, 0, 0, 0, 0, 0, 1, 0], 0, "Posts entries; approval sits with someone else."],
-    ["E. Novak (Controller)", [0, 0, 0, 0, 0, 0, 0, 1], 0, "Approves entries only."],
-    ["F. Ruiz (IT admin)", [0, 0, 0, 0, 0, 1, 1, 0], 1, "IT security admin who can also post financial entries: could grant themselves more access and hide it."],
-    ["G. Chen (Finance manager)", [0, 0, 1, 0, 0, 0, 0, 1], 0, "Two approval roles in different processes; no incompatible pair (but watch workload)."],
-    ["H. Patel (Accountant)", [0, 0, 0, 0, 0, 0, 1, 1], 1, "Can post and approve their own journal entries."],
-    ["I. Silva (AP clerk)", [0, 1, 1, 0, 0, 0, 0, 0], 1, "Enters invoices and approves payment of them: no independent check."]
+  /* ===== Lab 2: Value chain builder ===== */
+  var ACT = ["Plan", "Improve", "Engage", "Design and transition", "Obtain/build", "Deliver and support"];
+  var SCEN = [
+    { n: "New hire needs a laptop", d: "HR tells IT that a new employee starts Monday and needs a laptop with standard software.",
+      model: ["Engage", "Deliver and support", "Obtain/build", "Deliver and support", "Engage"],
+      rules: [
+        function (s) { return s[0] === "Engage" ? null : "Start with <b>Engage</b>: the request arrives through the service desk or portal."; },
+        function (s) { return s.indexOf("Obtain/build") >= 0 ? null : "Include <b>Obtain/build</b>: the laptop has to come from stock or be bought and imaged."; },
+        function (s) { return s.indexOf("Deliver and support") >= 0 ? null : "Include <b>Deliver and support</b>: the request is logged, fulfilled and handed over."; },
+        function (s) { return s.length < 8 ? null : "Keep it simple: a standard request rarely needs more than five or six steps."; }
+      ],
+      why: "This is a standard service request. Engage (request received), deliver and support (logged and routed), obtain/build (take a laptop from stock and image it), deliver and support (deliver and set up), engage (confirm the user is happy and close). Plan and design and transition are not needed because the offering already exists. If the request is common, automating it is 'optimize and automate'." },
+    { n: "Website outage", d: "The online store is down for all customers on a Saturday morning.",
+      model: ["Engage", "Deliver and support", "Obtain/build", "Design and transition", "Deliver and support", "Engage", "Improve"],
+      rules: [
+        function (s) { return s[0] === "Engage" || s[0] === "Deliver and support" ? null : "Begin with <b>Engage</b> (customers or monitoring report the outage) or <b>Deliver and support</b> (operations detect it)."; },
+        function (s) { return s.indexOf("Deliver and support") >= 0 ? null : "<b>Deliver and support</b> is essential: that's where incident management restores service."; },
+        function (s) { return s.indexOf("Plan") < 0 || s.indexOf("Plan") > s.indexOf("Deliver and support") ? null : "Don't start with <b>Plan</b>: restore service first; planning comes later."; },
+        function (s) { return s[s.length - 1] === "Improve" ? null : "End with <b>Improve</b>: a post-incident review (and maybe a problem record) stops it happening again."; }
+      ],
+      why: "A major incident value stream: engage (reports arrive), deliver and support (incident management diagnoses and works around), obtain/build and design and transition (if a fix or rollback must be built, tested and deployed as an emergency change), deliver and support (service restored), engage (customers told), improve (post-incident review, problem management). If a rollback is enough, obtain/build can be skipped." },
+    { n: "Business wants a new feature", d: "Marketing asks for customers to be able to save items to a wish list on the website.",
+      model: ["Engage", "Plan", "Design and transition", "Obtain/build", "Design and transition", "Deliver and support", "Improve"],
+      rules: [
+        function (s) { return s[0] === "Engage" ? null : "Start with <b>Engage</b>: understand what marketing actually needs."; },
+        function (s) { return s.indexOf("Plan") >= 0 ? null : "Include <b>Plan</b>: priority, budget and roadmap fit must be agreed."; },
+        function (s) { return s.indexOf("Design and transition") >= 0 && s.indexOf("Obtain/build") >= 0 ? null : "A new feature needs both <b>Design and transition</b> and <b>Obtain/build</b>."; },
+        function (s) { var b = s.indexOf("Obtain/build"), d = s.lastIndexOf("Deliver and support"); return d > b ? null : "<b>Deliver and support</b> should come after the feature is built and transitioned."; }
+      ],
+      why: "A new-service value stream: engage (requirements), plan (prioritize, fund), design and transition (design), obtain/build (develop and test), design and transition (release and deploy), deliver and support (live use and support), improve (measure use and feedback). In an Agile team this loop repeats in short iterations: 'progress iteratively with feedback'." }
   ];
-  function sdBuild() {
-    var t = $("sd-table"); t.innerHTML = "";
-    t.appendChild(h("tr", null, [h("th", null, "User")].concat(PERM.map(function (p) { return h("th", null, p); })).concat([h("th", null, "Conflict?")])));
-    USERS.forEach(function (u, i) { t.appendChild(h("tr", null, [h("td", null, u[0])].concat(u[1].map(function (v) { return h("td", null, v ? "✔" : ""); })).concat([h("td", null, h("input", { type: "checkbox", "aria-label": "Conflict for " + u[0], "data-u": String(i) }))]))); });
-    OMNI.say("sd-cap", "Incompatible pairs to look for: create vendor + approve payment; enter invoice + approve payment; release payments + reconcile bank; post + approve journal entries; user administration + any financial transaction.");
+  var vcS = 0, vcSeq = [];
+  SCEN.forEach(function (s, i) { var b = h("button", { type: "button" }, s.n); b.onclick = function () { vcS = i; vcSeq = []; vcDraw(); OMNI.say("vc-cap", "New scenario. Build the value stream from the six activities."); }; $("vc-scen").appendChild(b); });
+  ACT.forEach(function (a) { var b = h("button", { type: "button" }, "+ " + a); b.onclick = function () { if (vcSeq.length < 12) { vcSeq.push(a); vcDraw(); } }; $("vc-acts").appendChild(b); });
+  function vcDraw() {
+    OMNI.$$("#vc-scen button").forEach(function (b, i) { b.classList.toggle("on", i === vcS); });
+    $("vc-desc").innerHTML = "<b>" + SCEN[vcS].n + ":</b> " + SCEN[vcS].d;
+    var st = $("vc-stream"); st.innerHTML = "";
+    if (!vcSeq.length) st.appendChild(h("span", { class: "figcap" }, "Your value stream will appear here."));
+    vcSeq.forEach(function (a, i) { if (i) st.appendChild(h("span", { class: "arrow", "aria-hidden": "true" }, "→")); st.appendChild(h("span", { class: "step" }, (i + 1) + ". " + a)); });
   }
-  $("sd-check").onclick = function () {
-    var right = 0, notes = [];
-    OMNI.$$("#sd-table input").forEach(function (cb) {
-      var u = USERS[+cb.dataset.u], tr = cb.closest("tr"), conflict = !!u[2], ok = cb.checked === conflict; if (ok) right++;
-      tr.classList.remove("ok", "bad", "miss"); tr.classList.add(ok ? "ok" : conflict ? "miss" : "bad");
-      if (!ok) notes.push("<b>" + u[0] + "</b>: " + (conflict ? "missed conflict. " : "no conflict. ") + u[3]);
-    });
-    OMNI.say("sd-cap", right + " of " + USERS.length + " users assessed correctly. " + (notes.length ? notes.join(" ") : "All conflicts found: Lindqvist, Haddad, Ruiz, Patel and Silva.") + " An auditor would report these, recommend removing incompatible access or adding compensating controls (independent review of vendor changes and payment runs), and check whether the conflicts were ever exploited.");
+  $("vc-undo").onclick = function () { vcSeq.pop(); vcDraw(); };
+  $("vc-clear").onclick = function () { vcSeq = []; vcDraw(); };
+  $("vc-check").onclick = function () {
+    var sc = SCEN[vcS];
+    if (vcSeq.length < 2) { OMNI.say("vc-cap", "Add at least two activities first."); return; }
+    var notes = sc.rules.map(function (r) { return r(vcSeq); }).filter(Boolean);
+    OMNI.say("vc-cap", (notes.length ? "Nearly. " + notes.join(" ") : "Good value stream: it meets all the key checks for this scenario.") + "<br><b>Why:</b> " + sc.why + "<br><small>There is no single correct answer in ITIL; value streams vary between organizations. These checks look for the essential activities and a sensible order.</small>");
   };
-  $("sd-reset").onclick = sdBuild; sdBuild();
+  $("vc-show").onclick = function () { vcSeq = SCEN[vcS].model.slice(); vcDraw(); OMNI.say("vc-cap", "Model answer loaded. " + SCEN[vcS].why); };
+  vcDraw(); OMNI.say("vc-cap", "Pick a scenario, then click activities in order to build a value stream.");
 
-  /* ===== Lab 4: Changeover ===== */
-  var CG = {
-    "Parallel": { risk: 1, cost: 5, time: 4, d: "Old and new systems run side by side; outputs are compared until the new one is trusted. Lowest risk and an easy fallback, but double the work and cost." },
-    "Pilot": { risk: 2, cost: 3, time: 3, d: "The new system goes live at one site or group first. Problems affect only the pilot; lessons improve the full rollout." },
-    "Phased": { risk: 3, cost: 3, time: 5, d: "The new system is introduced module by module (or region by region). Each step is smaller, but the full change takes longest and interfaces between old and new parts must work." },
-    "Direct cutover": { risk: 5, cost: 1, time: 1, d: "Old system off, new system on, at once (big bang). Cheapest and fastest, but highest risk: if it fails there is no running fallback." }
-  };
-  var CGS = [
-    { n: "Core banking ledger replacement", d: "A bank replaces the system that holds every account balance. Errors could misstate customer money and breach regulations.", best: "Parallel", alt: { Pilot: "Better than direct, but balances must be verified across the whole system.", Phased: "Possible for some functions, but the ledger is one integrated system." , "Direct cutover": "Far too risky for customer balances." }, why: "Parallel lets the bank reconcile both ledgers until results match." },
-    { n: "Retail chain point-of-sale upgrade (300 stores)", d: "New POS software for all stores. Each store works independently.", best: "Pilot", alt: { Parallel: "Running two tills in every store isn't practical.", Phased: "Close: rolling out region by region after a pilot is common.", "Direct cutover": "One bug would stop sales in 300 stores at once." }, why: "Pilot in a few stores, fix issues, then roll out." },
-    { n: "ERP with finance, HR and purchasing modules", d: "A company replaces several connected back-office systems over two years.", best: "Phased", alt: { Parallel: "Running two full ERPs for years is too costly.", Pilot: "Possible per site, but the main challenge is modules.", "Direct cutover": "Changing everything at once is very risky for an ERP." }, why: "Finance first, then HR, then purchasing, each with its own go-live." },
-    { n: "Office intranet with a legal deadline", d: "The old intranet's hosting contract ends Friday and can't be extended. The content is simple and low risk.", best: "Direct cutover", alt: { Parallel: "The old system won't exist after Friday.", Pilot: "No time and little benefit.", Phased: "No time." }, why: "Low risk, simple, and the old system disappears anyway: direct cutover with a tested rollback of content is reasonable." }
+  /* ===== Lab 3: Sorter ===== */
+  var ZONES = [["inc", "Incident management"], ["prb", "Problem management"], ["chg", "Change enablement"], ["req", "Service request management"]];
+  var CARDS = [
+    ["The payroll app shows an error for every user in Finance.", "inc", "An unplanned interruption: restore service fast."],
+    ["Printers on floor 3 have jammed every Monday for six weeks; find out why.", "prb", "Recurring incidents point to an underlying cause."],
+    ["Upgrade the core switch firmware next Sunday night.", "chg", "Modifying infrastructure that affects services needs assessment and authorization."],
+    ["A user needs access to the Sales shared drive.", "req", "Access is a normal, pre-defined request."],
+    ["Analyse why the VPN keeps dropping after each update and document a workaround.", "prb", "Problem control: analysis and workarounds."],
+    ["Laptop won't power on; the user can't work.", "inc", "A failure affecting a user: incident."],
+    ["Apply a critical security patch today because the flaw is being actively exploited.", "chg", "An emergency change."],
+    ["Order a second monitor for a new designer.", "req", "Hardware from the catalogue: service request (may trigger a standard change)."],
+    ["Email is slow for everyone this morning.", "inc", "A reduction in service quality is also an incident."],
+    ["Add a new firewall rule to allow a partner's API traffic.", "chg", "Changes the configuration of a service component."],
+    ["Trend analysis shows 40% of tickets relate to one database; investigate the cause.", "prb", "Problem identification through trend analysis."],
+    ["Reset a forgotten password.", "req", "The classic service request (often self-service)."]
   ];
-  var cgSel = "Parallel";
-  Object.keys(CG).forEach(function (k) { var b = h("button", { type: "button" }, k); b.onclick = function () { cgSel = k; cgDraw(); }; $("cg-strat").appendChild(b); var p = h("button", { type: "button" }, k); p.onclick = function () { cgPick(k); }; $("cg-pick").appendChild(p); });
-  CGS.forEach(function (s, i) { $("cg-scen").appendChild(h("option", { value: String(i) }, s.n)); });
-  $("cg-scen").onchange = function () { $("cg-desc").textContent = CGS[+$("cg-scen").value].d; OMNI.$$("#cg-pick button").forEach(function (b) { b.classList.remove("on"); }); OMNI.say("cg-cap", "Pick the strategy you'd recommend for this scenario."); };
-  function cgDraw() {
-    OMNI.$$("#cg-strat button").forEach(function (b) { b.classList.toggle("on", b.textContent === cgSel); });
-    var g = $("cg-svg"); g.innerHTML = ""; var c = CG[cgSel];
-    txt(g, 20, 22, "Timeline", { "font-weight": 700 }); S("line", { x1: 120, y1: 110, x2: 500, y2: 110, stroke: "var(--ink-2)" }, g); txt(g, 120, 126, "start", { "font-size": 10, class: "svg-muted" }); txt(g, 470, 126, "done", { "font-size": 10, class: "svg-muted" });
-    txt(g, 20, 54, "Old system", { "font-size": 11 }); txt(g, 20, 88, "New system", { "font-size": 11 });
-    if (cgSel === "Parallel") { rect(g, 120, 40, 280, 22, "var(--line)", "none", { rx: 4 }); rect(g, 180, 74, 320, 22, "var(--good)", "none", { rx: 4, opacity: .8 }); txt(g, 290, 145, "overlap: both run", { "text-anchor": "middle", "font-size": 10.5, class: "svg-muted" }); S("rect", { x: 180, y: 36, width: 220, height: 64, fill: "none", stroke: "var(--accent)", "stroke-dasharray": "5 4", rx: 6 }, g); }
-    else if (cgSel === "Direct cutover") { rect(g, 120, 40, 180, 22, "var(--line)", "none", { rx: 4 }); rect(g, 300, 74, 200, 22, "var(--good)", "none", { rx: 4, opacity: .8 }); S("line", { x1: 300, y1: 32, x2: 300, y2: 104, stroke: "var(--bad)", "stroke-width": 3 }, g); txt(g, 300, 145, "switch-over day", { "text-anchor": "middle", "font-size": 10.5, fill: "var(--bad)" }); }
-    else if (cgSel === "Pilot") { rect(g, 120, 40, 300, 22, "var(--line)", "none", { rx: 4 }); rect(g, 160, 74, 100, 22, "var(--warn)", "none", { rx: 4, opacity: .8 }); rect(g, 300, 74, 200, 22, "var(--good)", "none", { rx: 4, opacity: .8 }); txt(g, 210, 145, "pilot site", { "text-anchor": "middle", "font-size": 10.5, class: "svg-muted" }); txt(g, 400, 145, "everyone else", { "text-anchor": "middle", "font-size": 10.5, class: "svg-muted" }); }
-    else { [0, 1, 2].forEach(function (k) { rect(g, k === 0 ? 120 : 180 + k * 110, 40, k === 0 ? 170 : 110, 22, "var(--line)", "none", { rx: 4, opacity: 1 - k * .3 }); rect(g, 180 + k * 110, 74, 320 - k * 110, 22, "var(--good)", "none", { rx: 4, opacity: .35 + k * .2 }); txt(g, 225 + k * 110, 145, "module " + (k + 1), { "text-anchor": "middle", "font-size": 10.5, class: "svg-muted" }); }); }
-    [["Risk", c.risk, "var(--bad)"], ["Cost", c.cost, "var(--warn)"], ["Time", c.time, "var(--net)"]].forEach(function (b, i) { var y = 40 + i * 32; txt(g, 540, y + 14, b[0], { "font-size": 11, "font-weight": 700 }); rect(g, 590, y, 150, 18, "var(--surface)", "var(--line)", { rx: 4 }); rect(g, 590, y, b[1] * 30, 18, b[2], "none", { rx: 4, opacity: .85 }); });
-    txt(g, 380, 210, c.d.split(".")[0] + ".", { "text-anchor": "middle", "font-size": 11 });
-    OMNI.say("cg-cap", "<b>" + cgSel + "</b>: " + c.d);
+  var soDnd;
+  function soReset() {
+    var bank = $("so-bank"); bank.innerHTML = '<span class="zone-title">Unsorted</span>';
+    var Z = $("so-zones"); Z.innerHTML = "";
+    ZONES.forEach(function (z) { Z.appendChild(h("div", { class: "dropzone", "data-z": z[0], "aria-label": z[1] }, h("span", { class: "zone-title" }, z[1]))); });
+    OMNI.shuffle(CARDS.map(function (c, i) { return i; })).forEach(function (i) { bank.appendChild(h("span", { class: "chip", "data-id": String(i) }, CARDS[i][0])); });
+    if (soDnd) soDnd.refresh();
+    OMNI.say("so-cap", "Twelve cards to sort. Hint: ask \"Is something broken now?\" (incident), \"Why does it keep breaking?\" (problem), \"Are we altering something?\" (change), or \"Is this a normal ask?\" (request).");
   }
-  function cgPick(k) {
-    var s = CGS[+$("cg-scen").value]; OMNI.$$("#cg-pick button").forEach(function (b) { b.classList.toggle("on", b.textContent === k); });
-    OMNI.say("cg-cap", (k === s.best ? "<b>Good choice.</b> " + s.why : "<b>" + k + "</b>: " + s.alt[k] + " Best fit: <b>" + s.best + "</b>. " + s.why) + " An auditor checks that the chosen approach matches the risk, that data conversion is reconciled and that a fallback plan exists.");
-  }
-  cgDraw(); $("cg-desc").textContent = CGS[0].d;
+  soReset();
+  soDnd = OMNI.dnd($("lab-sort"), function () { OMNI.$$("#lab-sort .chip").forEach(function (c) { c.classList.remove("ok", "bad"); }); });
+  $("so-reset").onclick = soReset;
+  $("so-check").onclick = function () {
+    var right = 0, placed = 0, notes = [];
+    OMNI.$$("#so-zones .dropzone").forEach(function (z) {
+      OMNI.$$(".chip", z).forEach(function (c) {
+        placed++; var cd = CARDS[+c.dataset.id], ok = cd[1] === z.dataset.z;
+        c.classList.toggle("ok", ok); c.classList.toggle("bad", !ok);
+        if (ok) right++; else notes.push("“" + esc(cd[0]) + "” belongs in <b>" + ZONES.filter(function (x) { return x[0] === cd[1]; })[0][1] + "</b>: " + esc(cd[2]));
+      });
+    });
+    OMNI.say("so-cap", right + " of " + placed + " placed cards are correct" + (placed < CARDS.length ? " (" + (CARDS.length - placed) + " still unsorted)" : "") + ". " + (notes.length ? notes.join(" ") : placed === CARDS.length ? "Perfect sort. Remember the links: incidents can raise problems, and problem fixes usually need changes." : ""));
+  };
 
-  /* ===== Lab 5: Control testing ===== */
-  var CT = [
-    { n: "Change management: all production changes require an approved ticket", ev: "Policy CM-01 (approved 2025): changes need CAB or delegated approval before deployment.\nSample of 25 changes from deployment logs:\n  CHG-1042  approved 03-04  deployed 03-05  ✔\n  CHG-1057  approved 03-19  deployed 03-18  ✖ deployed before approval\n  CHG-1063  no ticket found for deployment 04-02  ✖\n  ... 22 others approved before deployment  ✔", d: 1, o: 0, why: "The policy is well designed, but 2 of 25 sampled changes broke it (one deployed before approval, one with no ticket). The control is not operating effectively: report a finding." },
-    { n: "Terminated users are disabled within 24 hours", ev: "Procedure: HR emails IT on leaving date; IT disables account.\nHR leavers (Q1): 41\nAD accounts disabled within 24 h: 41 of 41\nAD 'lastLogon' after termination: none\nEvidence: auditor's own extract from AD and HR system", d: 1, o: 1, why: "A sensible design, and the auditor's own full-population comparison shows 41 of 41 handled on time with no logins after leaving. Designed and operating effectively." },
-    { n: "Firewall rule review: rules are reviewed every six months", ev: "Screenshot of firewall management console:\n  Rule 1   allow  any -> any  tcp/any   'temp - vendor test 2022'\n  Rule 2   allow  10.1.0.0/16 -> DMZ web tcp/443\n  ...\nNo review procedure document exists.\nIT manager: 'we look at the rules when we have time.'", d: 0, o: 0, why: "There is no defined review procedure (design gap), and an 'any any' rule from 2022 shows reviews aren't happening (operation gap). Neither designed nor operating effectively." },
-    { n: "Daily backup with quarterly restore tests", ev: "Backup policy: nightly full + hourly incremental for ERP (RPO 1 h).\nBackup console: 90 of 90 nights successful.\nRestore test records: Q1 test restored ERP in 3 h (RTO 4 h) ✔; Q2 test restored, verified by finance ✔", d: 1, o: 1, why: "Backups meet the RPO, and restore tests prove recoverability within the RTO. Designed and operating effectively." },
-    { n: "Quarterly user access reviews by system owners", ev: "Procedure UA-02: owner reviews access each quarter and signs.\nQ1 review: signed by owner, 3 removals actioned ✔\nQ2 review: spreadsheet signed by IT administrator, not owner; 0 changes\nQ3 review: not performed", d: 1, o: 0, why: "Designed well, but in the period the review was done by the wrong person once and skipped once. Not operating effectively." }
+  /* ===== Lab 4: Guiding principle matcher ===== */
+  var GP = ["Focus on value", "Start where you are", "Progress iteratively with feedback", "Collaborate and promote visibility", "Think and work holistically", "Keep it simple and practical", "Optimize and automate"];
+  var STORIES = [
+    ["Before replacing the ticketing tool, the manager sits with agents for a day to see how they really use the current one.", 1, "Observing the current state directly and reusing what works is 'start where you are'."],
+    ["The team asks customers which parts of the monthly report they actually read, and drops the rest.", 0, "Linking the work to what consumers value is 'focus on value'. (Dropping unused content also shows 'keep it simple'.)"],
+    ["A new self-service portal launches for one office first; feedback shapes the next release before the global rollout.", 2, "Small steps with feedback loops: 'progress iteratively with feedback'."],
+    ["Development, operations and security share one board showing every change and where it is stuck.", 3, "Working across teams and making work visible: 'collaborate and promote visibility'."],
+    ["Before changing the backup schedule, the team checks the impact on network load, the database team, the supplier contract and the DR plan.", 4, "Considering the whole system: 'think and work holistically'."],
+    ["An approval step that no manager has ever rejected in three years is removed.", 5, "Removing steps that add no value: 'keep it simple and practical'."],
+    ["After cutting the onboarding form from 40 fields to 12, the team scripts account creation so it runs automatically.", 6, "Optimize first, then automate: 'optimize and automate'."]
   ];
-  function ctBuild() {
-    var L = $("ct-list"); L.innerHTML = "";
-    CT.forEach(function (c, i) {
-      function sel(lbl, key) { return h("label", null, [lbl + " ", h("select", { "data-i": String(i), "data-k": key, "aria-label": lbl + " for " + c.n }, [h("option", { value: "" }, "Choose…"), h("option", { value: "1" }, "Effective"), h("option", { value: "0" }, "Not effective")])]); }
-      L.appendChild(h("div", { class: "ev" }, [h("b", null, (i + 1) + ". " + c.n), h("div", { class: "mock" }, c.ev), h("div", { class: "row" }, [sel("Design:", "d"), sel("Operation:", "o")]), h("div", { class: "fb" })]));
+  var gpOrder;
+  function gpReset() {
+    gpOrder = OMNI.shuffle(STORIES.map(function (s, i) { return i; }));
+    var L = $("gp-list"); L.innerHTML = "";
+    gpOrder.forEach(function (si, k) {
+      var sel = h("select", { "aria-label": "Principle for story " + (k + 1), "data-s": String(si) }, [h("option", { value: "" }, "Choose a principle…")].concat(GP.map(function (g, gi) { return h("option", { value: String(gi) }, g); })));
+      L.appendChild(h("div", { class: "story" }, [h("div", null, (k + 1) + ". " + STORIES[si][0]), sel, h("div", { class: "fb" })]));
     });
-    OMNI.say("ct-cap", "Design asks \"would this control work if followed?\" Operation asks \"was it followed every time during the period?\" A control can be well designed yet fail in operation.");
+    OMNI.say("gp-cap", "Match each story to the principle it best shows. Several principles can apply to one story; pick the strongest.");
   }
-  $("ct-check").onclick = function () {
-    var right = 0, done = 0;
-    OMNI.$$("#ct-list .ev").forEach(function (box, i) {
-      var c = CT[i], d = box.querySelector('[data-k="d"]').value, o = box.querySelector('[data-k="o"]').value, fb = box.querySelector(".fb");
-      box.classList.remove("ok", "bad"); fb.textContent = "";
-      if (d === "" || o === "") return; done++;
-      var ok = +d === c.d && +o === c.o; if (ok) right++;
-      box.classList.add(ok ? "ok" : "bad");
-      fb.innerHTML = (ok ? "✓ " : "✗ Design: <b>" + (c.d ? "effective" : "not effective") + "</b>, operation: <b>" + (c.o ? "effective" : "not effective") + "</b>. ") + c.why;
+  gpReset();
+  $("gp-reset").onclick = gpReset;
+  $("gp-check").onclick = function () {
+    var right = 0, answered = 0;
+    OMNI.$$("#gp-list .story").forEach(function (d) {
+      var sel = d.querySelector("select"), st = STORIES[+sel.dataset.s], fb = d.querySelector(".fb");
+      d.classList.remove("ok", "bad"); fb.textContent = "";
+      if (sel.value === "") return;
+      answered++; var ok = +sel.value === st[1]; if (ok) right++;
+      d.classList.add(ok ? "ok" : "bad");
+      fb.innerHTML = (ok ? "✓ " : "✗ Best answer: <b>" + GP[st[1]] + "</b>. ") + st[2];
     });
-    OMNI.say("ct-cap", right + " of " + done + " controls concluded correctly" + (done < CT.length ? " (" + (CT.length - done) + " not answered)" : "") + ". Notice which evidence was strongest: the auditor's own extracts and reperformance beat screenshots supplied by the auditee and verbal statements.");
+    OMNI.say("gp-cap", right + " of " + answered + " answered correctly" + (answered < STORIES.length ? " (" + (STORIES.length - answered) + " left)" : "") + ". " + (right === STORIES.length ? "All seven! On the exam, look for the key phrase: 'already exists' → start where you are; 'small steps' → iteratively; 'visible' → collaborate; 'whole' → holistically; 'remove' → simple; 'automate' → optimize and automate." : "Read the explanations under each story."));
   };
-  $("ct-reset").onclick = ctBuild; ctBuild();
+
+  /* ===== Lab 5: Service desk simulator ===== */
+  var PM = [[1, 2, 3], [2, 3, 4], [3, 4, 5]]; // impact row × urgency col → priority (1 highest)
+  var PNAME = { 1: "P1 Critical", 2: "P2 High", 3: "P3 Medium", 4: "P4 Low", 5: "P5 Planning" };
+  var CALLS = [
+    { who: "Priya, Accounts Payable", msg: "None of us in Finance can open the payments system. We have to release supplier payments by 3 pm today!", type: "incident", cat: "Business application", imp: 1, urg: 0, act: ["escalate"], why: "A whole department (medium impact) with an imminent deadline (high urgency) gives P2. The service desk can't fix an application fault, so escalate to the application team; keep Finance updated." },
+    { who: "Tom, new starter", msg: "Hi, could I get access to the Marketing shared drive? No rush, sometime this week is fine.", type: "request", cat: "Accounts and access", imp: 2, urg: 2, act: ["first"], why: "A normal access request: service request, one user, can wait (P5 planning). Fulfil at first line using the standard approval workflow." },
+    { who: "Monitoring alert + 30 calls", msg: "The online store checkout is failing for all customers. Calls are flooding in.", type: "incident", cat: "Business application", imp: 0, urg: 0, act: ["major"], why: "All customers and lost revenue: high impact, high urgency = P1. Declare a major incident: separate procedure, dedicated team, regular communications." },
+    { who: "Luis, Sales", msg: "I forgot my password and I'm locked out. I have a client call in 20 minutes.", type: "request", cat: "Accounts and access", imp: 2, urg: 0, act: ["first"], why: "A password reset is a service request (some organizations log lockouts as incidents; either is defensible, but ITIL lists password resets as requests). One user, urgent: P3. Resolve at first line or point to self-service reset." },
+    { who: "Grace, HR", msg: "I clicked a link in an email about my 'parcel' and entered my login. Now my mailbox is sending messages I didn't write.", type: "incident", cat: "Security", imp: 1, urg: 0, act: ["security"], why: "A likely compromised account spreading phishing: treat it as a security incident. Impact could spread fast, so at least P2. Hand to the security incident procedure (disable sessions, reset credentials) rather than handling it as a normal ticket." },
+    { who: "Ahmed, Warehouse", msg: "My second monitor flickers sometimes. It's annoying but I can still work.", type: "incident", cat: "Hardware", imp: 2, urg: 2, act: ["first", "escalate"], why: "Degraded quality for one user who can keep working: incident, low impact, low urgency (P5). Try first-line fixes (cable, settings); escalate to desktop support for a swap if needed." }
+  ];
+  (function () {
+    var t = $("sd-mx"), U = ["High", "Medium", "Low"];
+    var head = h("tr", null, [h("th", null, "Impact ↓ / Urgency →")].concat(U.map(function (u) { return h("th", null, u); })));
+    t.appendChild(head);
+    ["High", "Medium", "Low"].forEach(function (im, r) { t.appendChild(h("tr", null, [h("th", null, im)].concat(PM[r].map(function (p, c) { return h("td", { class: "p" + Math.min(4, p), "data-rc": r + "-" + c }, PNAME[p]); })))); });
+  })();
+  var sdI = 0, sdScore = 0, sdDone = {};
+  function sdLoad() {
+    var c = CALLS[sdI];
+    $("sd-call").innerHTML = '<div class="who">📞 Call ' + (sdI + 1) + " of " + CALLS.length + ": " + esc(c.who) + '</div><div class="msg">“' + esc(c.msg) + "”</div>";
+    ["sd-type", "sd-cat", "sd-imp", "sd-urg", "sd-act"].forEach(function (id) { $(id).value = ""; $(id).disabled = !!sdDone[sdI]; });
+    $("sd-submit").disabled = !!sdDone[sdI];
+    var Q = $("sd-queue"); Q.innerHTML = "";
+    CALLS.forEach(function (x, i) { Q.appendChild(h("span", { class: (i === sdI ? "now " : "") + (sdDone[i] ? "done" : "") }, "Call " + (i + 1))); });
+    sdHit(); OMNI.say("sd-cap", "Read the call, then work through steps 1 to 5 and submit the ticket.");
+  }
+  function sdHit() {
+    OMNI.$$("#sd-mx td").forEach(function (td) { td.classList.toggle("hit", td.dataset.rc === $("sd-imp").value + "-" + $("sd-urg").value); });
+  }
+  $("sd-imp").onchange = sdHit; $("sd-urg").onchange = sdHit;
+  $("sd-submit").onclick = function () {
+    var c = CALLS[sdI], v = { type: $("sd-type").value, cat: $("sd-cat").value, imp: $("sd-imp").value, urg: $("sd-urg").value, act: $("sd-act").value };
+    if (!v.type || !v.cat || v.imp === "" || v.urg === "" || !v.act) { OMNI.say("sd-cap", "Complete all five steps first: log type, category, impact, urgency and action."); return; }
+    var pts = 0, notes = [];
+    var pYou = PM[+v.imp][+v.urg], pExp = PM[c.imp][c.urg];
+    if (v.type === c.type) pts++; else notes.push("Log it as a <b>" + (c.type === "incident" ? "incident" : "service request") + "</b>.");
+    if (v.cat === c.cat) pts++; else notes.push("Category: <b>" + c.cat + "</b>.");
+    if (Math.abs(pYou - pExp) <= 0) pts += 2; else if (Math.abs(pYou - pExp) === 1) { pts += 1; notes.push("Priority close: you chose " + PNAME[pYou] + ", expected " + PNAME[pExp] + "."); } else notes.push("Priority: you chose " + PNAME[pYou] + ", expected <b>" + PNAME[pExp] + "</b>.");
+    if (c.act.indexOf(v.act) >= 0) pts++; else notes.push("Action: <b>" + $("sd-act").querySelector('option[value="' + c.act[0] + '"]').textContent + "</b>.");
+    sdScore += pts; sdDone[sdI] = 1;
+    $("sd-score").textContent = "Score: " + sdScore + " / " + Object.keys(sdDone).length * 5;
+    ["sd-type", "sd-cat", "sd-imp", "sd-urg", "sd-act"].forEach(function (id) { $(id).disabled = true; }); $("sd-submit").disabled = true;
+    $("sd-queue").children[sdI].classList.add("done");
+    OMNI.say("sd-cap", "Ticket logged: " + pts + " of 5 points. " + (notes.length ? notes.join(" ") + " " : "Spot on. ") + "<br><b>Why:</b> " + c.why + (Object.keys(sdDone).length === CALLS.length ? "<br><b>Queue cleared!</b> Final score " + sdScore + " / " + CALLS.length * 5 + ". Note how priority came from impact × urgency, not from who shouted loudest or who called first." : ""));
+  };
+  $("sd-next").onclick = function () { sdI = (sdI + 1) % CALLS.length; sdLoad(); };
+  $("sd-restart").onclick = function () { sdI = 0; sdScore = 0; sdDone = {}; $("sd-score").textContent = ""; sdLoad(); };
+  sdLoad();
 })();
 </script>
 <!-- module-data:start -->
-<script type="application/json" id="module-data">{"module":25,"title":"Checking the System","glossary":[["CISA","ISACA's certification for IT auditors.","Certified Information Systems Auditor: validates the ability to audit, control, monitor and assess IT and business systems; requires 5 years of relevant experience.","Certified Information Systems Auditor"],["Audit charter","The document that authorizes the audit function.","A formal document approved by the board or audit committee defining internal audit's purpose, authority, responsibility and independence.",""],["Independence","Auditors must not audit their own work.","Freedom from conditions that threaten the auditor's objectivity, both in fact and in appearance.",""],["Risk-based audit planning","Audit the riskiest areas first.","Prioritizing audit work based on assessment of inherent risk, control risk and business significance.",""],["Inherent risk","Risk before controls.","The susceptibility to material error assuming no related controls.",""],["Control risk","Risk controls won't catch it.","The risk that a material error will not be prevented or detected by internal controls.",""],["Detection risk","Risk the auditor misses it.","The risk that audit procedures fail to detect a material error.",""],["Audit risk","Risk of a wrong audit conclusion.","Audit risk = inherent risk × control risk × detection risk.",""],["Preventive control","Stops problems before they happen.","A control designed to prevent errors or irregularities (e.g., access control, segregation of duties).",""],["Detective control","Finds problems after they happen.","A control designed to identify errors or irregularities (e.g., log reviews, reconciliations).",""],["Corrective control","Fixes problems after detection.","A control that remedies errors or irregularities (e.g., restore from backup).",""],["General controls","Controls over the whole IT environment.","IT general controls (ITGCs): access, change management, operations, backup; apply across many applications.","ITGC"],["Application controls","Controls inside a specific system.","Input, processing and output controls built into an application (e.g., validation checks, edit checks).",""],["Audit evidence","Proof that supports a conclusion.","Information used by the auditor to support findings; should be sufficient, reliable, relevant and useful.",""],["Statistical sampling","Sampling using probability math.","Selecting a sample using probability so results can be projected to the population with measurable confidence.",""],["Judgmental sampling","Auditor picks the sample.","Non-statistical sampling based on the auditor's judgment; results cannot be statistically projected.",""],["Attribute sampling","Yes/no: does the control work?","Sampling to estimate the rate of occurrence of a characteristic, used for compliance testing.",""],["Variable sampling","How much: estimate a value.","Sampling to estimate a monetary amount or quantity, used for substantive testing.",""],["Compliance testing","Does the control work as designed?","Tests whether controls are operating as intended.",""],["Substantive testing","Are the numbers right?","Tests the integrity of actual processing or balances.",""],["CAAT","Software tools for auditing data.","Computer-assisted audit techniques: generalized audit software, data analytics, embedded audit modules, test data.","Computer-Assisted Audit Techniques"],["Continuous auditing","Automated, near-real-time audit checks.","Techniques that perform audit procedures on an ongoing basis, often with embedded modules or analytics.",""],["Finding","An issue the audit discovered.","A documented condition with criteria, cause, effect and recommendation.",""],["Follow-up","Check that issues were fixed.","Audit activity verifying that management has implemented agreed corrective actions.",""],["Segregation of duties","No one person controls a whole process.","Separating incompatible duties (authorize, record, custody, reconcile) to prevent fraud and error.","SoD"],["Enterprise architecture","Blueprint of business and IT.","A structured description of an organization's business processes, information, applications and technology (e.g., TOGAF, Zachman).","EA"],["SDLC","Steps to build a system.","System development life cycle: feasibility, requirements, design, build, test, implement, post-implementation review.","System Development Life Cycle"],["UAT","Users confirm it meets their needs.","User acceptance testing: final testing by users before go-live.","User Acceptance Testing"],["Parallel changeover","Run old and new systems together.","Implementation where both systems run simultaneously until the new one is proven; lowest risk, highest cost.",""],["Direct cutover","Switch everything at once.","Implementation where the old system is turned off and the new one turned on at once; highest risk.","Big bang"],["Phased changeover","Switch in modules or stages.","Implementation of a new system in parts over time.",""],["Pilot changeover","Try it in one location first.","Implementation at one site or group before full rollout.",""],["Post-implementation review","Did the project deliver what was promised?","Review after go-live comparing results to the business case and lessons learned.","PIR"],["Escrow","Third party holds the source code.","An agreement where software source code is held by a third party and released if the vendor fails.",""],["Job scheduling","Running batch jobs in the right order.","Controlled automation of batch processing with authorization, monitoring and exception handling.",""],["Recovery sites","Places to restore operations.","Hot, warm, cold, mirrored and mobile sites, or cloud DR, chosen by RTO and cost.",""],["Data classification","Labeling data by sensitivity.","Assigning levels (e.g., public, internal, confidential, restricted) to determine handling controls.",""],["DLP","Stop sensitive data leaving.","Data loss prevention tools and processes that detect and block unauthorized data transfer.","Data Loss Prevention"],["Chain of custody","Who held the evidence and when.","Documented, unbroken record of evidence handling to preserve integrity.",""]],"quiz":[{"t":"mc","q":"Which document grants the internal audit function its authority?","o":["Audit charter","Audit plan","Engagement letter","Audit report"],"a":0,"w":["Correct: approved by the board or audit committee.","Lists planned audits.","Used for external engagements.","The output of an audit."],"x":"The charter defines purpose, authority, responsibility and reporting lines.","c":"CISA","d":"1.1 Audit standards and charter"},{"t":"mc","q":"To whom should the head of internal audit report functionally to preserve independence?","o":["The audit committee of the board","The CIO","The CFO only","The IT security manager"],"a":0,"w":["Correct.","Audits IT; conflict.","Possible administrative line, not functional.","Conflict of interest."],"x":"Functional reporting to the audit committee protects independence.","c":"CISA","d":"1.1 Audit standards: independence"},{"t":"mc","q":"An IS auditor is asked to help design controls for a new system and later audit it. What is the MAIN concern?","o":["Loss of independence","Too much documentation","Project delay","Higher audit fees"],"a":0,"w":["Correct: auditing own work.","Not the concern.","Not the concern.","Not the concern."],"x":"Auditors may advise but must not take management responsibility; disclose any impairment.","c":"CISA","d":"1.1 Audit standards: independence"},{"t":"mc","q":"When planning an audit, the IS auditor should FIRST:","o":["Understand the business and assess risk","Select a sample","Write the report","Interview users about complaints"],"a":0,"w":["Correct: risk-based planning.","Later, during fieldwork.","Last.","Part of fieldwork."],"x":"Risk assessment determines scope and focus.","c":"CISA","d":"1.2 Risk-based audit planning"},{"t":"mc","q":"An auditor wants to test whether every purchase order over $10,000 has a second approval. Which sampling method fits BEST?","o":["Attribute sampling","Variable sampling","Stop-or-go sampling only","No sampling; ask the manager"],"a":0,"w":["Correct: yes/no compliance attribute.","For estimating amounts.","A form of attribute sampling for low expected error, but attribute is the general answer.","Inquiry alone is weak evidence."],"x":"Attribute sampling estimates the rate of deviation.","c":"CISA","d":"1.3 Evidence and sampling"},{"t":"ms","q":"Which are examples of detective controls? (Select all that apply.)","o":["Reviewing access logs","Bank reconciliations","Requiring passwords","Restoring from backup"],"a":[0,1],"w":["Correct.","Correct.","Preventive.","Corrective."],"x":"Preventive stops, detective finds, corrective fixes.","c":"CISA","d":"1.2 Controls"},{"t":"mc","q":"Which is the MOST reliable audit evidence?","o":["A system-generated report obtained directly by the auditor","An oral statement from the system owner","A copy of a report emailed by the auditee","The auditor's memory of a meeting"],"a":0,"w":["Correct: independent and objective.","Weakest: inquiry.","Could be altered.","Undocumented."],"x":"Evidence from independent sources and obtained directly is more reliable.","c":"CISA","d":"1.3 Evidence"},{"t":"mc","q":"Which segregation of duties conflict creates the GREATEST risk of fraud?","o":["The same person can create vendors and approve payments","The same person can read reports and print them","Two people share a printer","A developer reads the user manual"],"a":0,"w":["Correct: could pay a fake vendor.","Not a conflict.","Not a conflict.","Not a conflict."],"x":"Separate authorization, recording and custody.","c":"CISA","d":"2.3 Segregation of duties"},{"t":"mc","q":"IT strategy should be aligned PRIMARILY with:","o":["Business strategy","Vendor roadmaps","The latest technology trends","Audit recommendations"],"a":0,"w":["Correct.","Not primary.","Not primary.","Inputs, not the driver."],"x":"Governance ensures IT delivers business value.","c":"CISA","d":"2.1 IT governance and strategy"},{"t":"mc","q":"Which changeover approach has the LOWEST risk but the HIGHEST cost?","o":["Parallel","Direct cutover","Phased","Pilot"],"a":0,"w":["Correct: both systems run.","Highest risk, lowest cost.","Moderate.","Moderate, limited scope."],"x":"Parallel allows comparing outputs before retiring the old system.","c":"CISA","d":"3.3 Implementation and changeover"},{"t":"mc","q":"Who should perform user acceptance testing?","o":["Business users","Developers","The IS auditor","The vendor's sales team"],"a":0,"w":["Correct.","Do unit testing.","Reviews, not tests for management.","Not appropriate."],"x":"UAT confirms the system meets business requirements.","c":"CISA","d":"3.2 Testing"},{"t":"order","q":"Put these testing stages in the usual order.","o":["Unit testing","Integration testing","System testing","User acceptance testing"],"x":"Small parts to the whole, then users accept.","c":"CISA","d":"3.2 Testing"},{"t":"mc","q":"An auditor finds production changes made without approval. What should the auditor do?","o":["Document the finding with evidence and report it with a recommendation","Roll back the changes","Approve the changes retroactively","Ignore it if nothing broke"],"a":0,"w":["Correct: report, don't fix.","Management's job.","Not the auditor's role.","Control failure regardless of outcome."],"x":"Auditors evaluate and report; management remediates.","c":"CISA","d":"4.2 Change management"},{"t":"mc","q":"Which is the BEST evidence that backups can be restored?","o":["Results of periodic restore tests","The backup job success log","The backup policy","Vendor documentation"],"a":0,"w":["Correct.","Shows backup ran, not that restore works.","Design, not operation.","Not evidence of operation."],"x":"Test restores prove recoverability.","c":"CISA","d":"4.4 Backup and recovery"},{"t":"mc","q":"When reviewing user access, the auditor's GREATEST concern would be:","o":["Terminated employees still have active accounts","Users have long passwords","Accounts follow a naming convention","Users change passwords often"],"a":0,"w":["Correct: unauthorized access risk.","Positive.","Positive.","Not a concern."],"x":"Check joiner-mover-leaver processes and periodic access reviews.","c":"CISA","d":"5.2 Identity and access management"}],"flashcards":[["Parts of an audit finding","Condition, criteria, cause, effect, recommendation."],["Why auditors don't implement fixes","It would impair independence."],["Most reliable evidence type","Obtained directly by the auditor or from an independent source."],["CISA domains and weights (verify)","1 Audit process 18% · 2 Governance 18% · 3 Acquisition/dev 12% · 4 Operations and resilience 26% · 5 Protection of assets 26%"],["CISA exam (verify)","150 questions, 4 hours, scaled 200–800, pass 450"],["Think like an auditor","Independence, evidence, risk-based, report (don't fix)"],["Audit charter","Authority, purpose, responsibility; approved by board/audit committee"],["Audit risk","Inherent × control × detection"],["Preventive / detective / corrective","Stop / find / fix"],["ITGC vs application controls","Whole environment (access, change, ops) vs inside one system"],["Evidence qualities","Sufficient, reliable, relevant, useful"],["Most reliable evidence","Obtained directly by auditor from independent/system source"],["Attribute vs variable sampling","Rate of deviation (compliance) vs amount (substantive)"],["Statistical vs judgmental","Projectable with confidence vs auditor's choice"],["Higher confidence or lower tolerable error means…","Larger sample size"],["CAATs","GAS, data analytics, test data, embedded audit modules"],["Finding elements","Criteria, condition, cause, effect, recommendation"],["SoD classic conflict","Create vendor + approve payment"],["Changeover risk order","Parallel (lowest) → pilot/phased → direct cutover (highest)"],["Testing order","Unit → integration → system → UAT"],["PIR","Compare results to business case; lessons learned"],["Backup evidence","Restore test results"],["Recovery sites","Hot (hours), warm (days), cold (weeks)"],["BIA drives","RTO, RPO, recovery priorities"],["Access review concern","Terminated users still active"],["Evidence handling","Chain of custody; work on copies; hash"]]}</script>
+<script type="application/json" id="module-data">{"module":25,"title":"Running IT as a Service","glossary":[["Service","Something useful done for someone, without them owning the costs and risks.","A means of enabling value co-creation by facilitating outcomes that customers want to achieve, without the customer having to manage specific costs and risks.",""],["Product","A packaged set of resources an organization offers.","A configuration of an organization's resources designed to offer value for a consumer.",""],["Service offering","What exactly the customer gets: goods, access and actions.","A formal description of one or more services, designed to address the needs of a target consumer group; may include goods, access to resources and service actions.",""],["Value","How useful and important something is to someone.","The perceived benefits, usefulness and importance of something.",""],["Value co-creation","Value is made together by provider and consumer.","The ITIL 4 view that value is created jointly through active collaboration between providers and consumers.",""],["Output","What the provider produces.","A tangible or intangible deliverable of an activity.",""],["Outcome","What the customer actually achieves.","A result for a stakeholder enabled by one or more outputs.",""],["Utility","Fit for purpose: what it does.","The functionality offered by a product or service to meet a particular need.",""],["Warranty","Fit for use: how well it does it.","Assurance that a product or service will meet agreed requirements (availability, capacity, security, continuity).",""],["Customer","The person who defines the requirements.","A person who defines the requirements for a service and takes responsibility for the outcomes of service consumption.",""],["User","The person who uses the service.","A person who uses services.",""],["Sponsor","The person who approves the budget.","A person who authorizes budget for service consumption.",""],["Service relationship","The working partnership between provider and consumer.","A cooperation between a service provider and service consumer, including service provision, service consumption and service relationship management.",""],["Four dimensions","Four viewpoints you must cover for any service.","Organizations and people; information and technology; partners and suppliers; value streams and processes.",""],["PESTLE","Outside forces that affect all four dimensions.","Political, economic, social, technological, legal and environmental external factors.","Political, Economic, Social, Technological, Legal, Environmental"],["Service value system","The whole ITIL machine that turns demand into value.","A model showing how all components and activities of an organization work together to enable value creation.","SVS"],["Service value chain","Six activities you combine to deliver value.","An operating model of six interconnected activities: plan, improve, engage, design and transition, obtain/build, deliver and support.","SVC"],["Value stream","A specific path through the value chain for one scenario.","A series of steps an organization undertakes to create and deliver products and services to consumers.",""],["Guiding principle","Advice that applies in every situation.","A recommendation that guides an organization in all circumstances, regardless of changes in its goals, strategies, type of work or management structure.",""],["Governance","Direction and control from the top.","The means by which an organization is directed and controlled (evaluate, direct, monitor).",""],["Practice","A set of resources for doing a type of work.","A set of organizational resources designed for performing work or accomplishing an objective.",""],["Incident","Something broke or got worse.","An unplanned interruption to a service or reduction in the quality of a service.",""],["Major incident","A big outage that gets a special procedure.","An incident with significant business impact, requiring a separate procedure, often with a dedicated team.",""],["Problem","The hidden cause behind incidents.","A cause, or potential cause, of one or more incidents.",""],["Known error","A problem we've analyzed but not fixed yet.","A problem that has been analyzed but has not been resolved.",""],["Workaround","A way to reduce the impact until the real fix.","A solution that reduces or eliminates the impact of an incident or problem for which a full resolution is not yet available.",""],["Change","Adding, modifying or removing something that matters.","The addition, modification or removal of anything that could have a direct or indirect effect on services.",""],["Standard change","Low-risk, pre-approved, done often.","A low-risk, pre-authorized change that is well understood and fully documented; implemented without additional authorization.",""],["Normal change","A change that needs assessment and authorization.","A change that must be scheduled, assessed and authorized following a standard process.",""],["Emergency change","Must be done as soon as possible.","A change that must be implemented as soon as possible, e.g., to resolve an incident or implement a security patch; may use a separate change authority.",""],["Change authority","The person or group who approves a change.","A person or group responsible for authorizing a change; ITIL 4 decentralizes this rather than using a single CAB for everything.",""],["CAB","A committee that reviews changes.","Change advisory board: a traditional group that advises on or authorizes changes; in ITIL 4, one possible change authority.","Change Advisory Board"],["Service request","An ordinary ask, not a failure.","A request from a user that initiates a service action agreed as a normal part of service delivery (e.g., a password reset, a laptop, information).",""],["Service desk","The single point of contact for users.","The practice that captures demand for incident resolution and service requests; the entry point and single point of contact between the provider and all users.","SPOC"],["SLA","Written agreement on service targets with a customer.","Service level agreement: a documented agreement between a service provider and a customer that identifies services required and the expected level of service.","Service Level Agreement"],["OLA","Internal agreement between teams.","Operational level agreement between internal parts of the same organization supporting an SLA (an ITIL term not emphasized in the ITIL 4 Foundation glossary).","Operational Level Agreement"],["UC","Contract with an outside supplier.","Underpinning contract: a contract with an external supplier that supports the provider's service levels.","Underpinning Contract"],["Watermelon SLA","Green outside, red inside.","A situation where SLA metrics are met but customers are still unhappy, because metrics don't reflect real outcomes.",""],["Continual improvement model","Seven steps to improve anything.","Vision, where are we now, where do we want to be, how do we get there, take action, did we get there, how do we keep the momentum going.",""],["Impact","How much it hurts the business.","A measure of the effect of an incident on business processes (users affected, revenue, safety).",""],["Urgency","How fast it needs fixing.","How quickly an incident must be resolved to avoid business impact.",""],["Priority","Impact plus urgency decide the order of work.","The relative importance of an incident, usually derived from a matrix of impact and urgency.",""],["Swarming","Many experts tackle a ticket together.","An incident management technique where people with different expertise work together on an incident until it is clear who is best placed to continue.",""],["Configuration item","Anything tracked because it supports a service.","Any component that needs to be managed in order to deliver an IT service.","CI"],["ITIL (Version 5)","The 2026 update of ITIL.","PeopleCert's update to ITIL launched in February 2026, reframing ITIL as digital product and service management, with a Product and Service Lifecycle Model and added AI guidance (verify on peoplecert.org).","ITIL 5"]],"quiz":[{"t":"mc","q":"Which term describes 'the perceived benefits, usefulness and importance of something'?","o":["Outcome","Value","Utility","Output"],"a":1,"w":["An outcome is a result for a stakeholder.","Correct: the ITIL 4 definition of value.","Utility is the functionality offered.","An output is a deliverable of an activity."],"x":"Value is subjective and is co-created by provider and consumer.","c":"ITIL","d":"1.1 Key concepts: value"},{"t":"mc","sc":"A finance director approves the money for a new payroll service. The HR manager defined what the service must do. Payroll clerks log in to it every day.","q":"Which role does the finance director have?","o":["Customer","User","Sponsor","Supplier"],"a":2,"w":["The HR manager is the customer: defines requirements.","The clerks are users.","Correct: authorizes budget.","A supplier provides goods or services to the provider."],"x":"Customer defines requirements, user uses, sponsor pays (authorizes budget). One person can hold several roles.","c":"ITIL","d":"1.2 Key concepts: roles"},{"t":"mc","q":"Which guiding principle recommends assessing what already exists before building something new?","o":["Focus on value","Start where you are","Optimize and automate","Keep it simple and practical"],"a":1,"w":["About knowing who the value is for.","Correct: observe current state directly and reuse what works.","About maximizing value of work, then automating.","About removing unnecessary steps."],"x":"Don't start from scratch without considering what is already available to be leveraged.","c":"ITIL","d":"2.1 Guiding principles"},{"t":"mc","sc":"A team plans to automate a 14-step approval workflow. An analyst points out that 6 of the steps add nothing and should be removed first.","q":"Which guiding principle is being applied?","o":["Optimize and automate","Collaborate and promote visibility","Progress iteratively with feedback","Think and work holistically"],"a":0,"w":["Correct: optimize first (simplify), then automate.","About involving the right people and making work visible.","About small steps with feedback.","About seeing the whole system."],"x":"Automating a bad process just makes mistakes faster. 'Keep it simple and practical' also fits removal of waste, but the automate context points to optimize and automate.","c":"ITIL","d":"2.1 Guiding principles"},{"t":"mc","q":"Which of the four dimensions includes workflows, value streams and how activities are coordinated?","o":["Organizations and people","Information and technology","Partners and suppliers","Value streams and processes"],"a":3,"w":["Covers culture, roles, skills and structures.","Covers data, tools and technology.","Covers relationships with other organizations.","Correct."],"x":"All four dimensions apply to every service and to the SVS as a whole; PESTLE factors influence them.","c":"ITIL","d":"3.1 Four dimensions"},{"t":"mc","q":"What is the input to the ITIL service value system?","o":["Value","Opportunity and demand","Governance","Practices"],"a":1,"w":["Value is the output.","Correct.","Governance is a component inside the SVS.","Practices are a component inside the SVS."],"x":"Opportunity and demand → SVS (guiding principles, governance, service value chain, practices, continual improvement) → value.","c":"ITIL","d":"4.1 Service value system"},{"t":"mc","q":"Which value chain activity provides the main interface with users and other stakeholders?","o":["Plan","Engage","Deliver and support","Obtain/build"],"a":1,"w":["Creates shared understanding of vision and direction.","Correct: understanding needs, transparency, good relationships.","Ensures services are delivered and supported to specification.","Ensures components are available when needed."],"x":"Engage handles demand coming in and communication going out.","c":"ITIL","d":"5.1 Service value chain"},{"t":"mc","q":"What is the purpose of the information security management practice?","o":["To protect the information needed by the organization to conduct its business","To ensure services achieve agreed availability","To set clear business-based targets for service levels","To maximize the number of successful changes"],"a":0,"w":["Correct.","That's availability management.","That's service level management.","That's change enablement."],"x":"Foundation expects you to recognize the purpose of 15 practices.","c":"ITIL","d":"6.1 Practices: purpose"},{"t":"mc","q":"Which practice has the purpose of ensuring accurate and reliable information about the configuration of services and the CIs that support them is available when needed?","o":["IT asset management","Service configuration management","Deployment management","Monitoring and event management"],"a":1,"w":["Plans and manages the full lifecycle of IT assets (value, cost, risk).","Correct.","Moves components into live environments.","Observes services and records state changes."],"x":"Configuration management cares about relationships between CIs; asset management cares about financial lifecycle.","c":"ITIL","d":"6.1 Practices: purpose"},{"t":"mc","q":"What is the purpose of incident management?","o":["To minimize the negative impact of incidents by restoring normal service operation as quickly as possible","To find and remove the causes of incidents","To handle all pre-defined user-initiated requests","To capture demand and act as a single point of contact"],"a":0,"w":["Correct.","That's problem management.","That's service request management.","That's the service desk."],"x":"Incident = restore fast; problem = find the cause.","c":"ITIL","d":"7.3 Incident management"},{"t":"mc","q":"Which is a phase of problem management?","o":["Error control","Change scheduling","Request fulfilment","Event correlation"],"a":0,"w":["Correct: problem identification, problem control, error control.","Part of change enablement.","Part of service request management.","Part of monitoring and event management."],"x":"Error control manages known errors, including workarounds and possible permanent fixes.","c":"ITIL","d":"7.4 Problem management"},{"t":"mc","q":"Which type of change is low risk, pre-authorized and typically initiated as a service request?","o":["Normal change","Emergency change","Standard change","Major change"],"a":2,"w":["Needs assessment and authorization each time.","Must be done ASAP; expedited authorization.","Correct.","Not an ITIL 4 change type."],"x":"Standard changes have a risk assessment done once, when the procedure is created.","c":"ITIL","d":"7.2 Change enablement"},{"t":"mc","q":"How should timescales for service requests be set?","o":["Agreed and based on what the organization can realistically deliver","Always as short as possible","Set by the service desk agent for each request","Identical for every request type"],"a":0,"w":["Correct: expectations should be clear and realistic.","Unrealistic promises damage trust.","Should be standardized, not ad hoc.","Different requests have different steps."],"x":"Service requests should be standardized and automated as much as possible, with clear policies on what can be fulfilled with limited or no approvals.","c":"ITIL","d":"7.5 Service request management"},{"t":"mc","q":"Which statement about the service desk is correct?","o":["It should be highly technical so it can resolve every incident itself","It needs practical understanding of the wider organization, the business processes and the users","It is always a physical team in a single location","It only handles incidents, not requests"],"a":1,"w":["Agents need empathy and business understanding, not only deep tech skills.","Correct.","Can be virtual, follow-the-sun, or use self-service and chatbots.","Handles incidents and service requests."],"x":"The focus is on support for people and the business, not just technical issues.","c":"ITIL","d":"7.6 Service desk"},{"t":"mc","q":"Which approach does service level management use to make sure targets reflect what customers actually experience?","o":["Only measure system uptime","Engage customers to understand and confirm their needs, and capture business metrics and feedback","Let technical teams set targets they find easy to meet","Avoid measuring to save effort"],"a":1,"w":["Single technical metrics cause the 'watermelon effect'.","Correct.","Targets should be based on business needs.","SLM needs metrics and feedback."],"x":"SLAs should relate to defined outcomes, not just operational metrics.","c":"ITIL","d":"7.7 Service level management"}],"flashcards":[["Incident vs problem management","Incident restores service fast; problem finds and removes the root cause."],["Utility vs warranty","Utility = fit for purpose (what it does). Warranty = fit for use (how well)."],["Known error","A problem that has been analysed but not yet resolved."],["Service (ITIL 4)","Enables value co-creation by facilitating outcomes customers want, without them managing specific costs and risks"],["Output vs outcome","Deliverable of an activity vs result for a stakeholder"],["Utility vs warranty","Fit for purpose (what it does) vs fit for use (how well: availability, capacity, security, continuity)"],["Customer / user / sponsor","Defines requirements / uses the service / authorizes budget"],["Service offering contents","Goods, access to resources, service actions"],["Service relationship management","Joint activities by provider and consumer to ensure continual value co-creation"],["Four dimensions","Organizations and people; information and technology; partners and suppliers; value streams and processes"],["PESTLE","Political, economic, social, technological, legal, environmental"],["SVS components","Guiding principles, governance, service value chain, practices, continual improvement"],["SVS input and output","Opportunity and demand → value"],["Value chain activities","Plan, improve, engage, design and transition, obtain/build, deliver and support"],["The 7 guiding principles","Focus on value; start where you are; progress iteratively with feedback; collaborate and promote visibility; think and work holistically; keep it simple and practical; optimize and automate"],["Continual improvement model (7 steps)","Vision? Where are we now? Where do we want to be? How do we get there? Take action. Did we get there? Keep the momentum going"],["Incident vs problem","Restore service fast vs find and manage the cause"],["Problem management phases","Problem identification, problem control, error control"],["Known error","A problem analyzed but not yet resolved"],["Three change types","Standard (pre-authorized), normal (assessed and authorized), emergency (ASAP)"],["Change authority","Person or group who authorizes a change; decentralized in ITIL 4"],["Purpose of change enablement","Maximize successful changes by ensuring risks are assessed, changes authorized and the schedule managed"],["Service request examples","Password reset, new laptop, access, information, feedback"],["Service desk","Single point of contact; captures demand for incidents and requests"],["SLA vs OLA vs UC","With customer vs between internal teams vs with external supplier"],["Watermelon SLA","Green metrics, red customer experience"],["Priority","Impact × urgency"],["ITIL 4 Foundation exam (verify)","40 multiple choice, 60 minutes, closed book, pass 65% (26/40)"],["ITIL (Version 5)","Launched Feb 2026: digital product and service management; 8-activity Product and Service Lifecycle Model (verify)"]]}</script>
 <!-- module-data:end -->
 </body>
 </html>
