@@ -285,3 +285,7 @@ footer.foot { text-align: center; color: var(--ink-2); font-size: .85rem; paddin
   .topbar, .tb-tools, .fc-controls, .lab .controls { display: none; }
   .page > section { box-shadow: none; break-inside: avoid; }
 }
+
+/* long unbreakable strings (IPv6, URLs, hex) must not widen the page on phones */
+p, li, dd, .caption { overflow-wrap: break-word; }
+code, .qtext, .kv span, .opt, .q label { overflow-wrap: anywhere; }

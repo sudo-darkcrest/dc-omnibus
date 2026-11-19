@@ -1,0 +1,453 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Module 10 · IP Addressing and Subnetting | Datacenter Omnibus</title>
+<meta name="description" content="IPv4 and IPv6 addressing, subnetting step by step, VLSM, NAT and PAT, DHCP and DNS, with a teaching subnet calculator, practice generator, VLSM designer and animations.">
+<link rel="stylesheet" href="assets/omnibus.css">
+<style>
+  .bitrow { display: flex; flex-wrap: wrap; gap: 2px; justify-content: center; font-family: var(--mono); margin: 6px 0; }
+  .bitrow span { width: 1.35em; text-align: center; padding: 3px 0; border-radius: 3px; font-weight: 700; font-size: .9rem; }
+  .bitrow .n { background: #bfdbfe; color: #1e3a8a; } .bitrow .hb { background: #fde68a; color: #713f12; } .bitrow .dot { width: .6em; background: none; }
+  .kv { display: grid; grid-template-columns: max-content 1fr; gap: 4px 14px; font-family: var(--mono); }
+  .kv b { font-family: var(--font); }
+  .vlsm-bar { display: flex; height: 54px; border-radius: 8px; overflow: hidden; border: 1px solid var(--line); margin: 10px 0; }
+  .vlsm-bar div { display: flex; align-items: center; justify-content: center; font-size: .75rem; font-weight: 700; color: #1f2937; border-right: 1px solid #fff; overflow: hidden; white-space: nowrap; text-align: center; line-height: 1.1; padding: 0 2px; }
+  .v6 { font-family: var(--mono); font-size: 1.05rem; word-break: break-all; }
+  .v6 .z { background: var(--warn-soft); color: var(--warn); border-radius: 3px; }
+  .v6 .gap { background: var(--bad-soft); color: var(--bad); border-radius: 3px; padding: 0 2px; }
+  .streak { font-size: 1.3rem; font-weight: 800; }
+</style>
+</head>
+<body data-module="10">
+<a class="skip" href="#main">Skip to content</a>
+<div id="topbar"></div>
+<main class="page" id="main">
+
+<section class="intro">
+  <div class="kicker">Part 3 · Networking, Fiber and Wireless · Module 10</div>
+  <h1>IP Addressing and Subnetting, Made Visual</h1>
+  <p class="why"><b>Why this matters.</b> Every device that talks on a network needs an address, and every network engineer must be able to carve address space into subnets quickly and correctly. Subnetting is the single most feared Network+ topic, and it only takes practice. DHCP and DNS problems are behind a huge share of real help desk tickets.</p>
+  <h3>You will be able to</h3>
+  <ul class="outcomes">
+    <li>Read an IPv4 address and mask in binary and find the network, broadcast and usable host range.</li>
+    <li>Subnet with the "magic number" method in your head, and design a VLSM plan.</li>
+    <li>Recognize private, APIPA, loopback and special ranges, and explain NAT and PAT.</li>
+    <li>Compress and expand IPv6 addresses and name the IPv6 address types.</li>
+    <li>Step through DHCP DORA and a DNS lookup, and pick the right DNS record type.</li>
+  </ul>
+  <nav class="jumpnav" id="jumpnav" aria-label="On this page"></nav>
+</section>
+
+<section class="certmap" id="certmap">
+  <h2>Cert map</h2>
+  <div id="certmap-badges"></div>
+</section>
+
+<section class="lesson" id="ipv4">
+  <h2>1. IPv4 addresses</h2>
+  <p>An IPv4 address is <b>32 bits</b>, written as four 8-bit <dfn>octets</dfn> in decimal: <code>192.168.10.37</code>. The <dfn>subnet mask</dfn> says which bits are the <b>network</b> part and which are the <b>host</b> part. <dfn>CIDR</dfn> (Classless Inter-Domain Routing) notation writes the mask as a count of network bits: <code>/24</code> = <code>255.255.255.0</code>.</p>
+  <div class="callout analogy">An IP address is like a phone number: the area code (network bits) says which region; the rest (host bits) picks one phone. The mask tells you where the area code ends.</div>
+  <div class="tablewrap"><table>
+    <thead><tr><th>Range</th><th>Purpose</th><th>Notes</th></tr></thead>
+    <tbody>
+      <tr><td><b>10.0.0.0/8</b></td><td>Private (RFC 1918)</td><td>Large enterprises, cloud VPCs</td></tr>
+      <tr><td><b>172.16.0.0/12</b></td><td>Private (RFC 1918)</td><td>172.16.0.0 to 172.31.255.255 (a common trap)</td></tr>
+      <tr><td><b>192.168.0.0/16</b></td><td>Private (RFC 1918)</td><td>Home and small office</td></tr>
+      <tr><td><b>169.254.0.0/16</b></td><td>APIPA / link-local</td><td>Self-assigned when DHCP fails: a top troubleshooting clue</td></tr>
+      <tr><td><b>127.0.0.0/8</b></td><td>Loopback</td><td>127.0.0.1 = "this host"</td></tr>
+      <tr><td><b>100.64.0.0/10</b></td><td>Carrier-grade NAT (RFC 6598)</td><td>Shared ISP space</td></tr>
+      <tr><td><b>224.0.0.0/4</b></td><td>Multicast (old class D)</td><td>224.0.0.0 to 239.255.255.255</td></tr>
+      <tr><td><b>0.0.0.0/0</b></td><td>Default route</td><td>"Everything else"</td></tr>
+    </tbody>
+  </table></div>
+  <h3>Historic classes (still on the exam)</h3>
+  <div class="tablewrap"><table>
+    <thead><tr><th>Class</th><th>First octet</th><th>Leading bits</th><th>Default mask</th></tr></thead>
+    <tbody>
+      <tr><td>A</td><td>1 to 126</td><td>0</td><td>/8 (255.0.0.0)</td></tr>
+      <tr><td>B</td><td>128 to 191</td><td>10</td><td>/16 (255.255.0.0)</td></tr>
+      <tr><td>C</td><td>192 to 223</td><td>110</td><td>/24 (255.255.255.0)</td></tr>
+      <tr><td>D</td><td>224 to 239</td><td>1110</td><td>Multicast</td></tr>
+      <tr><td>E</td><td>240 to 255</td><td>1111</td><td>Experimental</td></tr>
+    </tbody>
+  </table></div>
+  <div class="callout trap">127 is missing from Class A because it is reserved for loopback. Classes are "classful" history; modern networks are classless (CIDR).</div>
+</section>
+
+<section class="lesson" id="subnetting">
+  <h2>2. Subnetting step by step</h2>
+  <p>In every subnet: the <b>first</b> address is the <dfn>network address</dfn> (all host bits 0), the <b>last</b> is the <dfn>broadcast address</dfn> (all host bits 1), and everything between is usable. With <i>h</i> host bits: <b>usable hosts = 2<sup>h</sup> − 2</b>. Borrowing <i>s</i> bits makes <b>2<sup>s</sup> subnets</b>.</p>
+  <h3>The magic number method</h3>
+  <ol>
+    <li>Find the <b>interesting octet</b>: the one where the mask is not 255 or 0.</li>
+    <li><b>Magic number</b> (block size) = 256 − mask value in that octet. For /26, the mask is 255.255.255.<b>192</b>, so 256 − 192 = <b>64</b>.</li>
+    <li>Subnets start at multiples of the magic number: 0, 64, 128, 192.</li>
+    <li>Find the multiple at or below your IP's octet: that's the network. The next multiple minus 1 is the broadcast.</li>
+  </ol>
+  <div class="callout detail">Example: 192.168.1.<b>100</b>/26. Magic number 64. Multiples: 0, 64, <b>128</b>. 100 falls in the 64 block. Network 192.168.1.64, broadcast 192.168.1.127, hosts .65 to .126 (62 usable).</div>
+  <div class="tablewrap"><table>
+    <thead><tr><th>CIDR</th><th>Mask</th><th>Magic #</th><th>Addresses</th><th>Usable hosts</th></tr></thead>
+    <tbody id="cidr-table"></tbody>
+  </table></div>
+  <h3>VLSM and supernetting</h3>
+  <p><dfn>VLSM</dfn> (Variable Length Subnet Masking) uses different mask lengths inside one block so each subnet fits its needs: a /30 or /31 for a point-to-point link, a /24 for a big department. Always allocate the <b>largest</b> subnet first so blocks stay aligned. <dfn>Supernetting</dfn> (route summarization) goes the other way: 192.168.0.0/24 + 192.168.1.0/24 = 192.168.0.0/23, one route instead of two.</p>
+</section>
+
+<section class="lesson" id="nat">
+  <h2>3. NAT, PAT and port forwarding</h2>
+  <figure class="figure">
+    <svg viewBox="0 0 760 200" width="760" role="img" aria-label="PAT: three inside hosts share one public address using different source ports">
+      <g font-size="13" class="svg-text">
+        <g fill="var(--surface)" stroke="var(--net)" stroke-width="2"><rect x="10" y="20" width="150" height="36" rx="6"/><rect x="10" y="80" width="150" height="36" rx="6"/><rect x="10" y="140" width="150" height="36" rx="6"/></g>
+        <text x="85" y="43" text-anchor="middle">10.0.0.11:51000</text><text x="85" y="103" text-anchor="middle">10.0.0.12:51000</text><text x="85" y="163" text-anchor="middle">10.0.0.13:49200</text>
+        <rect x="300" y="60" width="150" height="76" rx="10" fill="var(--net-soft)" stroke="var(--net)" stroke-width="2"/><text x="375" y="92" text-anchor="middle" font-weight="800">Router (PAT)</text><text x="375" y="112" text-anchor="middle" font-size="12">203.0.113.5</text>
+        <g stroke="var(--net)" stroke-width="2"><line x1="160" y1="38" x2="300" y2="85"/><line x1="160" y1="98" x2="300" y2="98"/><line x1="160" y1="158" x2="300" y2="112"/><line x1="450" y1="98" x2="590" y2="98"/></g>
+        <rect x="590" y="70" width="160" height="56" rx="8" fill="var(--surface)" stroke="var(--gen)" stroke-width="2"/><text x="670" y="95" text-anchor="middle" font-weight="700">Internet</text><text x="670" y="113" text-anchor="middle" font-size="12">sees only 203.0.113.5</text>
+        <text x="520" y="30" text-anchor="middle" font-size="12">203.0.113.5:62001 ↔ .11:51000</text>
+        <text x="520" y="160" text-anchor="middle" font-size="12">203.0.113.5:62002 ↔ .12:51000</text>
+        <text x="520" y="180" text-anchor="middle" font-size="12">203.0.113.5:62003 ↔ .13:49200</text>
+      </g>
+    </svg>
+    <figcaption>PAT (Port Address Translation, also NAT overload) lets many private hosts share one public IP by tracking unique source ports in a translation table.</figcaption>
+  </figure>
+  <div class="tablewrap"><table>
+    <thead><tr><th>Type</th><th>Mapping</th><th>Use</th></tr></thead>
+    <tbody>
+      <tr><td><b>Static NAT</b></td><td>One private ↔ one public, permanently</td><td>Publishing an internal server</td></tr>
+      <tr><td><b>Dynamic NAT</b></td><td>Private ↔ next free address from a public pool</td><td>Rare today</td></tr>
+      <tr><td><b>PAT / NAT overload</b></td><td>Many private ↔ one public, by port</td><td>Every home router and most offices</td></tr>
+      <tr><td><b>Port forwarding</b></td><td>Public IP:port → inside IP:port (destination NAT)</td><td>Hosting a game or camera behind NAT</td></tr>
+    </tbody>
+  </table></div>
+  <div class="callout trap">NAT hides internal addresses but is <b>not</b> a firewall; it was invented to conserve IPv4 addresses.</div>
+</section>
+
+<section class="lesson" id="ipv6">
+  <h2>4. IPv6</h2>
+  <p>IPv6 addresses are <b>128 bits</b> written as eight groups of four hex digits: <code>2001:0db8:0000:0000:0000:ff00:0042:8329</code>. Two shortening rules: <b>(1)</b> drop leading zeros in any group (<code>0db8</code> → <code>db8</code>, <code>0000</code> → <code>0</code>); <b>(2)</b> replace <b>one</b> run of consecutive all-zero groups with <code>::</code>, only once per address (use it on the longest run). Result: <code>2001:db8::ff00:42:8329</code>.</p>
+  <div class="tablewrap"><table>
+    <thead><tr><th>Type</th><th>Prefix</th><th>Like IPv4…</th></tr></thead>
+    <tbody>
+      <tr><td><b>Global unicast</b></td><td>2000::/3</td><td>Public address</td></tr>
+      <tr><td><b>Unique local</b></td><td>fc00::/7 (in practice fd00::/8)</td><td>Private (RFC 1918)</td></tr>
+      <tr><td><b>Link-local</b></td><td>fe80::/10</td><td>APIPA, but always present on every IPv6 interface</td></tr>
+      <tr><td><b>Loopback</b></td><td>::1/128</td><td>127.0.0.1</td></tr>
+      <tr><td><b>Multicast</b></td><td>ff00::/8</td><td>Replaces broadcast (ff02::1 = all nodes)</td></tr>
+      <tr><td><b>Unspecified</b></td><td>::/128</td><td>0.0.0.0</td></tr>
+    </tbody>
+  </table></div>
+  <ul>
+    <li><b>SLAAC</b> (Stateless Address Autoconfiguration): the host takes the /64 prefix from a router advertisement and builds its own interface ID, so no DHCP server is needed. DHCPv6 can still supply DNS or full stateful addressing.</li>
+    <li><b>EUI-64</b>: builds the 64-bit interface ID from the 48-bit MAC by inserting <code>FFFE</code> in the middle and flipping the 7th bit. Many OSes now use random (privacy) IDs instead.</li>
+    <li><b>Dual stack</b>: run IPv4 and IPv6 side by side (the preferred transition). <b>Tunneling</b> (6to4, Teredo, GRE) carries IPv6 inside IPv4. <b>NAT64/DNS64</b> lets IPv6-only clients reach IPv4 servers.</li>
+    <li>Standard LAN subnet: <b>/64</b>. Sites typically receive a /48 or /56.</li>
+  </ul>
+</section>
+
+<section class="lesson" id="dhcpdns">
+  <h2>5. DHCP and DNS</h2>
+  <h3>DHCP: DORA</h3>
+  <p><dfn>DHCP</dfn> (Dynamic Host Configuration Protocol, UDP 67 server/68 client) hands out IP address, mask, default gateway, DNS servers and lease time in four messages: <b>D</b>iscover (client broadcast), <b>O</b>ffer (server), <b>R</b>equest (client broadcast, so other servers know), <b>A</b>cknowledge (server). A <dfn>scope</dfn> is the address pool; <dfn>exclusions</dfn> keep static devices out of it; <dfn>reservations</dfn> tie a MAC to a fixed IP. Clients try to renew at 50% of the lease (T1) and rebind at 87.5% (T2). Because Discover is a broadcast, routers block it; a <dfn>DHCP relay</dfn> (Cisco: <code>ip helper-address</code>) forwards it to a server on another subnet.</p>
+  <h3>DNS</h3>
+  <div class="tablewrap"><table>
+    <thead><tr><th>Record</th><th>Maps</th><th>Example</th></tr></thead>
+    <tbody>
+      <tr><td><b>A</b></td><td>Name → IPv4</td><td>www → 93.184.215.14</td></tr>
+      <tr><td><b>AAAA</b></td><td>Name → IPv6</td><td>www → 2606:2800::1</td></tr>
+      <tr><td><b>CNAME</b></td><td>Alias → canonical name</td><td>shop → www.example.com</td></tr>
+      <tr><td><b>MX</b></td><td>Domain → mail server (with priority)</td><td>10 mail.example.com</td></tr>
+      <tr><td><b>TXT</b></td><td>Free text: SPF, DKIM, DMARC, domain verification</td><td>"v=spf1 include:… -all"</td></tr>
+      <tr><td><b>PTR</b></td><td>IP → name (reverse lookup)</td><td>14.215.184.93.in-addr.arpa</td></tr>
+      <tr><td><b>NS</b></td><td>Zone → its authoritative name servers</td><td>ns1.example.com</td></tr>
+      <tr><td><b>SOA</b></td><td>Start of Authority: primary server, serial, timers</td><td>One per zone</td></tr>
+      <tr><td><b>SRV</b></td><td>Service → host and port</td><td>_ldap._tcp → dc1:389</td></tr>
+    </tbody>
+  </table></div>
+  <p>A <b>recursive</b> query asks the resolver "get me the final answer". The resolver then makes <b>iterative</b> queries: root servers → TLD servers (.com) → the domain's authoritative server, and caches the result for its <dfn>TTL</dfn>. <dfn>DNSSEC</dfn> signs records so resolvers can verify they weren't forged. <b>DoH</b> (DNS over HTTPS, port 443) and <b>DoT</b> (DNS over TLS, port 853) encrypt queries for privacy.</p>
+</section>
+
+<section class="lab" id="labs">
+  <h2>Interactive labs</h2>
+
+  <div class="lab-card" id="lab-calc" data-lab="Subnet Calculator with Teaching Mode: enter an IP and prefix to see network, broadcast, host range and the mask in colored binary, with a show-me-how walkthrough.">
+    <h3>Lab 1: Subnet Calculator (Teaching Mode)</h3>
+    <div class="row"><label>IP address <input type="text" id="sc-ip" value="192.168.1.100" inputmode="decimal" style="width:11em"></label>
+      <label>Prefix / <input type="number" id="sc-pre" value="26" min="0" max="32" style="width:4.5em"></label>
+      <button type="button" class="primary" id="sc-how">Show me how</button></div>
+    <div class="stage"><div class="figcap">IP address in binary (<span style="color:#1e3a8a;font-weight:700">blue = network bits</span>, <span style="color:#a16207;font-weight:700">yellow = host bits</span>)</div><div class="bitrow" id="sc-bits-ip"></div><div class="figcap">Subnet mask in binary</div><div class="bitrow" id="sc-bits-mask"></div></div>
+    <div class="kv" id="sc-out"></div>
+    <ol id="sc-steps" class="tile" style="display:none"></ol>
+    <div class="caption" id="sc-cap" aria-live="polite"></div>
+  </div>
+
+  <div class="lab-card" id="lab-prac" data-lab="Subnetting Practice Generator: random subnetting problems with instant feedback and a streak counter.">
+    <h3>Lab 2: Subnetting Practice</h3>
+    <div class="row"><label>Difficulty <select id="sp-lvl"><option value="1">Easy (/24 to /30)</option><option value="2" selected>Medium (/17 to /30)</option><option value="3">Hard (/9 to /30)</option></select></label>
+      <button type="button" id="sp-new">New problem</button><span class="streak" id="sp-streak" aria-live="polite">Streak 0</span></div>
+    <p class="drill" id="sp-q" style="font-size:1.2rem;font-weight:700"></p>
+    <div class="controls">
+      <label class="field"><span>Network address</span><input type="text" id="sp-net" inputmode="decimal"></label>
+      <label class="field"><span>Broadcast address</span><input type="text" id="sp-bc" inputmode="decimal"></label>
+      <label class="field"><span>Usable hosts</span><input type="number" id="sp-hosts"></label>
+    </div>
+    <div class="row"><button type="button" class="primary" id="sp-check">Check</button><button type="button" id="sp-reveal">Show answer</button></div>
+    <div class="caption" id="sp-cap" aria-live="polite">Fill in all three, then press Check.</div>
+  </div>
+
+  <div class="lab-card" id="lab-vlsm" data-lab="VLSM Designer: enter host counts for several departments and see an efficient address plan drawn as blocks.">
+    <h3>Lab 3: VLSM Designer</h3>
+    <div class="row"><label>Starting block <input type="text" id="vl-base" value="10.20.0.0/22" style="width:10em"></label><button type="button" id="vl-add">+ Add department</button><button type="button" class="primary" id="vl-go">Design plan</button></div>
+    <div id="vl-rows"></div>
+    <div class="vlsm-bar" id="vl-bar" aria-hidden="true"></div>
+    <div class="tablewrap"><table><thead><tr><th>Department</th><th>Needs</th><th>Subnet</th><th>Mask</th><th>Usable range</th><th>Broadcast</th><th>Spare</th></tr></thead><tbody id="vl-out"></tbody></table></div>
+    <div class="caption" id="vl-cap" aria-live="polite"></div>
+  </div>
+
+  <div class="lab-card" id="lab-dora" data-lab="DHCP DORA and DNS Lookup Animation: step through each message between client, DHCP server, resolver, root, TLD and authoritative servers.">
+    <h3>Lab 4: DHCP DORA and DNS Lookup</h3>
+    <div class="row" role="group" aria-label="Choose animation"><button type="button" class="primary" id="dd-dhcp" aria-pressed="true">DHCP DORA</button><button type="button" id="dd-dns" aria-pressed="false">DNS lookup</button>
+      <label><input type="checkbox" id="dd-cache"> Resolver already has it cached</label></div>
+    <div id="dd-step"></div>
+    <div class="stage"><svg id="dd-svg" viewBox="0 0 760 300" width="760" style="max-width:100%;height:auto" role="img" aria-label="Message flow animation"></svg></div>
+    <div class="caption" id="dd-cap" aria-live="polite"></div>
+  </div>
+
+  <div class="lab-card" id="lab-v6" data-lab="IPv6 Shortener: type a full IPv6 address and see it compressed and expanded, with the rules highlighted.">
+    <h3>Lab 5: IPv6 Shortener</h3>
+    <div class="row"><label>IPv6 address <input type="text" id="v6-in" value="2001:0db8:0000:0000:0000:ff00:0042:8329" style="width:min(30em,100%)"></label>
+      <button type="button" id="v6-rand">Random example</button></div>
+    <div class="tile"><p><b>Full (expanded):</b></p><p class="v6" id="v6-full"></p><p><b>Rule 1, drop leading zeros:</b></p><p class="v6" id="v6-r1"></p><p><b>Rule 2, longest zero run → ::</b></p><p class="v6" id="v6-r2"></p><p id="v6-type"></p></div>
+    <div class="caption" id="v6-cap" aria-live="polite"></div>
+  </div>
+</section>
+
+<section class="glossary" id="glossary">
+  <h2>Key terms</h2>
+  <div id="glossary-list"></div>
+</section>
+
+<section class="memory" id="memory">
+  <h2>Memory aids</h2>
+  <div class="mnemonic">Mask values in order: <b>128, 192, 224, 240, 248, 252, 254, 255</b>. Say it like a phone number: "one-twenty-eight, one-ninety-two, two-twenty-four…"</div>
+  <div class="mnemonic">Powers of two you need: <b>2, 4, 8, 16, 32, 64, 128, 256</b>. Hosts = 2<sup>h</sup> − 2 ("minus the two bookends: network and broadcast").</div>
+  <div class="mnemonic">DHCP is <b>DORA</b> the Explorer: Discover, Offer, Request, Acknowledge.</div>
+  <div class="mnemonic">172.<b>16</b> to 172.<b>31</b>: "sixteen to thirty-one is private fun."</div>
+  <div class="tablewrap"><table><thead><tr><th>Exam trap</th><th>Why it is wrong</th></tr></thead><tbody>
+    <tr><td>"172.32.0.1 is private."</td><td>The private /12 ends at 172.31.255.255.</td></tr>
+    <tr><td>"A /30 has 4 usable hosts."</td><td>4 addresses, 2 usable. (/31 is a special case for point-to-point links: 2 usable, RFC 3021.)</td></tr>
+    <tr><td>"Use :: twice to shorten more."</td><td>Only one :: is allowed, or the address becomes ambiguous.</td></tr>
+    <tr><td>"169.254.x.x means the network is fine."</td><td>APIPA means DHCP failed; check cabling, VLAN and the DHCP server or relay.</td></tr>
+    <tr><td>"PTR records map names to IPs."</td><td>PTR is reverse (IP → name); A/AAAA are forward.</td></tr>
+  </tbody></table></div>
+</section>
+
+<section class="quiz" id="quiz">
+  <h2>Knowledge check</h2>
+  <div id="quiz-area"></div>
+</section>
+
+<section class="flashcards" id="flashcards">
+  <h2>Flashcards</h2>
+  <div id="deck-area"></div>
+</section>
+
+<section class="deeper" id="deeper">
+  <h2>Go deeper (official sources)</h2>
+  <ul>
+    <li><a href="https://www.comptia.org/en-us/certifications/network/" rel="noopener">CompTIA Network+ (N10-009) exam objectives</a></li>
+    <li><a href="https://www.rfc-editor.org/rfc/rfc1918" rel="noopener">RFC 1918: Address Allocation for Private Internets</a></li>
+    <li><a href="https://www.rfc-editor.org/rfc/rfc5952" rel="noopener">RFC 5952: Recommendation for IPv6 Address Text Representation</a></li>
+    <li><a href="https://www.rfc-editor.org/rfc/rfc4291" rel="noopener">RFC 4291: IPv6 Addressing Architecture</a></li>
+    <li><a href="https://www.rfc-editor.org/rfc/rfc2131" rel="noopener">RFC 2131: Dynamic Host Configuration Protocol</a></li>
+    <li><a href="https://www.rfc-editor.org/rfc/rfc1035" rel="noopener">RFC 1035: Domain Names, Implementation and Specification</a></li>
+    <li><a href="https://www.iana.org/assignments/iana-ipv4-special-registry/" rel="noopener">IANA IPv4 Special-Purpose Address Registry</a></li>
+  </ul>
+</section>
+</main>
+<footer class="foot">Datacenter Omnibus · Original study material. Not affiliated with or endorsed by any certification body.</footer>
+
+<script src="data/catalog.js"></script>
+<script src="assets/omnibus.js"></script>
+<script src="data/m10.js"></script>
+<script>
+(function () {
+  var h = OMNI.h, $ = function (id) { return document.getElementById(id); };
+
+  /* ---------- IPv4 helpers ---------- */
+  function parse(ip) { var p = String(ip).trim().split("."); if (p.length !== 4) return null; var n = 0; for (var i = 0; i < 4; i++) { if (!/^\d{1,3}$/.test(p[i])) return null; var v = +p[i]; if (v > 255) return null; n = n * 256 + v; } return n >>> 0; }
+  function str(n) { return [n >>> 24, (n >>> 16) & 255, (n >>> 8) & 255, n & 255].join("."); }
+  function maskOf(p) { return p === 0 ? 0 : (0xFFFFFFFF << (32 - p)) >>> 0; }
+  function info(ip, p) { var m = maskOf(p), net = (ip & m) >>> 0, bc = (net | (~m >>> 0)) >>> 0, size = Math.pow(2, 32 - p); var usable = p >= 31 ? (p === 31 ? 2 : 1) : size - 2; return { m: m, net: net, bc: bc, size: size, usable: usable, first: p >= 31 ? net : net + 1, last: p >= 31 ? bc : bc - 1 }; }
+
+  /* CIDR reference table */
+  var ct = $("cidr-table");
+  for (var p = 16; p <= 30; p++) { var m = maskOf(p), oct = p > 24 ? 3 : 2, mv = (m >>> (8 * (3 - oct))) & 255; ct.appendChild(h("tr", null, [h("td", null, h("b", null, "/" + p)), h("td", null, str(m)), h("td", null, String(256 - mv) + (oct === 2 ? " (3rd octet)" : "")), h("td", null, Math.pow(2, 32 - p).toLocaleString()), h("td", null, (Math.pow(2, 32 - p) - 2).toLocaleString())])); }
+
+  /* ================= Lab 1: calculator ================= */
+  function bitsRow(el, n, pre) { el.innerHTML = ""; for (var i = 0; i < 32; i++) { if (i && i % 8 === 0) el.appendChild(h("span", { class: "dot" }, ".")); el.appendChild(h("span", { class: i < pre ? "n" : "hb" }, String((n >>> (31 - i)) & 1))); } }
+  function calc() {
+    var ip = parse($("sc-ip").value), pre = parseInt($("sc-pre").value, 10);
+    $("sc-steps").style.display = "none";
+    if (ip === null || isNaN(pre) || pre < 0 || pre > 32) { OMNI.say("sc-cap", "<span class='no'>Enter a valid IPv4 address (four numbers 0 to 255) and a prefix from 0 to 32.</span>"); return null; }
+    var r = info(ip, pre);
+    bitsRow($("sc-bits-ip"), ip, pre); bitsRow($("sc-bits-mask"), r.m, pre);
+    var out = $("sc-out"); out.innerHTML = "";
+    var first = ip >>> 24, cls = first < 128 ? "A" : first < 192 ? "B" : first < 224 ? "C" : first < 240 ? "D (multicast)" : "E";
+    var kind = (first === 10 || (first === 172 && ((ip >>> 16) & 255) >= 16 && ((ip >>> 16) & 255) <= 31) || (first === 192 && ((ip >>> 16) & 255) === 168)) ? "Private (RFC 1918)" : first === 127 ? "Loopback" : (first === 169 && ((ip >>> 16) & 255) === 254) ? "APIPA / link-local" : (first === 100 && ((ip >>> 16) & 255) >= 64 && ((ip >>> 16) & 255) <= 127) ? "Carrier-grade NAT" : first >= 224 ? "Multicast/reserved" : "Public";
+    [["Mask", str(r.m) + "  (/" + pre + ")"], ["Wildcard", str(~r.m >>> 0)], ["Network", str(r.net)], ["Broadcast", pre >= 31 ? "n/a" : str(r.bc)], ["First host", str(r.first)], ["Last host", str(r.last)], ["Total addresses", r.size.toLocaleString()], ["Usable hosts", r.usable.toLocaleString()], ["Class (historic)", cls], ["Type", kind]].forEach(function (kv) { out.appendChild(h("b", null, kv[0])); out.appendChild(h("span", null, kv[1])); });
+    OMNI.say("sc-cap", "The first " + pre + " bits (blue) are the network; the last " + (32 - pre) + " (yellow) are hosts. 2<sup>" + (32 - pre) + "</sup> = " + r.size.toLocaleString() + " addresses" + (pre < 31 ? ", minus network and broadcast = " + r.usable.toLocaleString() + " usable." : (pre === 31 ? ": a /31 point-to-point link uses both addresses (RFC 3021)." : ": a /32 is a single host route.")) + " " + str(ip) + " is a " + kind.toLowerCase() + " address.");
+    return { ip: ip, pre: pre, r: r };
+  }
+  $("sc-ip").oninput = calc; $("sc-pre").oninput = calc;
+  $("sc-how").onclick = function () {
+    var c = calc(); if (!c) return; var pre = c.pre, ip = c.ip, r = c.r;
+    var ol = $("sc-steps"); ol.innerHTML = ""; ol.style.display = "";
+    if (pre === 0 || pre === 32 || pre % 8 === 0) {
+      ol.appendChild(h("li", null, "/" + pre + " falls on an octet boundary, so no magic number is needed: the network keeps the first " + pre / 8 + " octet(s) and zeros the rest."));
+      ol.appendChild(h("li", null, "Network = " + str(r.net) + "; broadcast = " + str(r.bc) + "."));
+      return;
+    }
+    var oi = Math.floor(pre / 8), mv = (r.m >>> (8 * (3 - oi))) & 255, mg = 256 - mv, val = (ip >>> (8 * (3 - oi))) & 255, base = Math.floor(val / mg) * mg;
+    var names = ["first", "second", "third", "fourth"];
+    [
+      "The prefix /" + pre + " means the mask is " + str(r.m) + ". The " + names[oi] + " octet (" + mv + ") is the interesting octet, because it is neither 255 nor 0.",
+      "Magic number = 256 − " + mv + " = " + mg + ". Subnets in that octet start at 0, " + mg + ", " + 2 * mg + (2 * mg < 256 ? ", " + (3 * mg < 256 ? 3 * mg + ", …" : "…") : "") + ".",
+      "Your " + names[oi] + " octet is " + val + ". The largest multiple of " + mg + " that is ≤ " + val + " is " + base + ". So the network is " + str(r.net) + ".",
+      "The next subnet starts at " + (base + mg) + " in that octet, so the broadcast is one less: " + str(r.bc) + ".",
+      "Usable hosts: " + str(r.first) + " to " + str(r.last) + ". Count = 2^" + (32 - pre) + " − 2 = " + r.usable.toLocaleString() + "."
+    ].forEach(function (t) { ol.appendChild(h("li", null, t)); });
+  };
+  calc();
+
+  /* ================= Lab 2: practice ================= */
+  var prob = null, streak = OMNI.store.get("m10-streak-best", 0), cur = 0;
+  function rnd(a, b) { return a + Math.floor(Math.random() * (b - a + 1)); }
+  function newProb() {
+    var lvl = +$("sp-lvl").value, pre = lvl === 1 ? rnd(24, 30) : lvl === 2 ? rnd(17, 30) : rnd(9, 30);
+    var first = [10, 172, 192][rnd(0, 2)], ip = ((first << 24) >>> 0) + (first === 172 ? (rnd(16, 31) << 16) : first === 192 ? (168 << 16) : (rnd(0, 255) << 16)) + (rnd(0, 255) << 8) + rnd(1, 254);
+    ip = ip >>> 0; prob = { ip: ip, pre: pre, r: info(ip, pre) };
+    $("sp-q").textContent = "What are the network, broadcast and usable host count for " + str(ip) + "/" + pre + "?";
+    ["sp-net", "sp-bc", "sp-hosts"].forEach(function (id) { $(id).value = ""; $(id).style.borderColor = ""; });
+    OMNI.say("sp-cap", "Fill in all three, then press Check. Hint: find the interesting octet first.");
+  }
+  function sstat() { $("sp-streak").textContent = "Streak " + cur + " · Best " + streak; }
+  $("sp-new").onclick = newProb; $("sp-lvl").onchange = newProb;
+  $("sp-check").onclick = function () {
+    var r = prob.r, okN = parse($("sp-net").value) === r.net, okB = parse($("sp-bc").value) === r.bc, okH = +$("sp-hosts").value === r.usable;
+    $("sp-net").style.borderColor = okN ? "var(--good)" : "var(--bad)"; $("sp-bc").style.borderColor = okB ? "var(--good)" : "var(--bad)"; $("sp-hosts").style.borderColor = okH ? "var(--good)" : "var(--bad)";
+    if (okN && okB && okH) { cur++; if (cur > streak) { streak = cur; OMNI.store.set("m10-streak-best", streak); } OMNI.say("sp-cap", "✓ All correct! Streak " + cur + ". A new problem is loading…"); sstat(); setTimeout(newProb, 1400); }
+    else { cur = 0; sstat(); OMNI.say("sp-cap", "Not quite: " + [okN ? "" : "network", okB ? "" : "broadcast", okH ? "" : "host count"].filter(Boolean).join(", ") + " wrong. Streak reset. Try again or press Show answer."); }
+  };
+  $("sp-reveal").onclick = function () { var r = prob.r; cur = 0; sstat(); $("sp-net").value = str(r.net); $("sp-bc").value = str(r.bc); $("sp-hosts").value = r.usable; var oi = Math.floor(prob.pre / 8); OMNI.say("sp-cap", "Answer: network " + str(r.net) + ", broadcast " + str(r.bc) + ", " + r.usable.toLocaleString() + " usable hosts (2^" + (32 - prob.pre) + " − 2)." + (prob.pre % 8 ? " Magic number " + (256 - ((r.m >>> (8 * (3 - oi))) & 255)) + " in octet " + (oi + 1) + "." : "")); };
+  newProb(); sstat();
+
+  /* ================= Lab 3: VLSM ================= */
+  var depts = [["Sales", 200], ["Engineering", 100], ["HR", 25], ["Servers", 12], ["WAN link A", 2], ["WAN link B", 2]];
+  var COLORS = ["#93c5fd", "#86efac", "#fcd34d", "#f9a8d4", "#c4b5fd", "#fdba74", "#67e8f9", "#bef264"];
+  function rows() {
+    var box = $("vl-rows"); box.innerHTML = "";
+    depts.forEach(function (d, i) {
+      var n = h("input", { type: "text", value: d[0], "aria-label": "Department name", style: "width:10em" }), c = h("input", { type: "number", min: 1, max: 100000, value: d[1], "aria-label": "Hosts needed", style: "width:6em" });
+      n.oninput = function () { d[0] = n.value; }; c.oninput = function () { d[1] = Math.max(1, +c.value || 1); };
+      box.appendChild(h("div", { class: "row" }, [n, h("span", null, "needs"), c, h("span", null, "hosts"), h("button", { type: "button", onclick: function () { depts.splice(i, 1); rows(); } }, "Remove")]));
+    });
+  }
+  $("vl-add").onclick = function () { if (depts.length < 8) { depts.push(["Dept " + (depts.length + 1), 10]); rows(); } };
+  $("vl-go").onclick = function () {
+    var b = $("vl-base").value.split("/"), base = parse(b[0]), bp = parseInt(b[1], 10);
+    var out = $("vl-out"), bar = $("vl-bar"); out.innerHTML = ""; bar.innerHTML = "";
+    if (base === null || isNaN(bp) || bp < 8 || bp > 30) { OMNI.say("vl-cap", "<span class='no'>Enter a starting block like 10.20.0.0/22 (prefix 8 to 30).</span>"); return; }
+    base = (base & maskOf(bp)) >>> 0; var total = Math.pow(2, 32 - bp), ptr = base, fail = [];
+    var sorted = depts.map(function (d, i) { return { n: d[0], need: d[1], col: COLORS[i % COLORS.length] }; }).sort(function (a, b) { return b.need - a.need; });
+    sorted.forEach(function (d) {
+      var hb = 2; while (Math.pow(2, hb) - 2 < d.need) hb++; var pre = 32 - hb, size = Math.pow(2, hb);
+      if (ptr - base + size > total) { fail.push(d.n); return; }
+      var r = info(ptr, pre);
+      out.appendChild(h("tr", null, [h("td", null, [h("span", { style: "display:inline-block;width:12px;height:12px;border-radius:3px;margin-right:6px;background:" + d.col }), d.n]), h("td", null, String(d.need)), h("td", null, h("b", null, str(r.net) + "/" + pre)), h("td", null, str(r.m)), h("td", null, str(r.first) + " – " + str(r.last)), h("td", null, str(r.bc)), h("td", null, String(r.usable - d.need))]));
+      bar.appendChild(h("div", { style: "flex:" + size + ";background:" + d.col, title: d.n + " " + str(r.net) + "/" + pre }, size / total > .07 ? d.n + " /" + pre : ""));
+      ptr += size;
+    });
+    var free = total - (ptr - base);
+    if (free > 0) bar.appendChild(h("div", { style: "flex:" + free + ";background:var(--surface-2);color:var(--ink-2)" }, free / total > .07 ? "free " + free : ""));
+    OMNI.say("vl-cap", (fail.length ? "<span class='no'>Not enough space for: " + fail.join(", ") + ".</span> Use a bigger starting block. " : "") + "Departments were sorted largest first, and each got the smallest block where 2<sup>h</sup> − 2 ≥ hosts needed. Allocating big blocks first keeps every subnet aligned on its boundary. " + free.toLocaleString() + " of " + total.toLocaleString() + " addresses remain free for growth.");
+  };
+  rows(); $("vl-go").click();
+
+  /* ================= Lab 4: DORA / DNS ================= */
+  var mode = "dhcp", ddStep;
+  var NODES = { dhcp: [["Client (no IP yet)", 150], ["DHCP server 192.168.1.1", 610]], dns: [["Your PC", 70], ["Resolver", 225], ["Root (.)", 385], ["TLD (.com)", 540], ["Authoritative", 690]] };
+  var FLOWS = {
+    dhcp: [[0, 1, "DISCOVER (broadcast)", "The client has no address, so it sends DHCPDISCOVER from 0.0.0.0 to 255.255.255.255 (UDP 68 → 67): \"Is there a DHCP server?\""],
+      [1, 0, "OFFER 192.168.1.57", "The server offers an address from its scope: 192.168.1.57/24, gateway 192.168.1.1, DNS 192.168.1.1, lease 24 h."],
+      [0, 1, "REQUEST 192.168.1.57 (broadcast)", "The client broadcasts DHCPREQUEST for that address. It is broadcast so any other DHCP servers that made offers know they were declined."],
+      [1, 0, "ACK", "The server confirms with DHCPACK. The client configures the address (often after an ARP probe to check nobody else uses it). It will try to renew at 50% of the lease."]],
+    dns: [[0, 1, "Recursive query: www.example.com A?", "Your PC checks its own cache and hosts file, then sends a recursive query to its configured resolver: \"Get me the final answer.\""],
+      [1, 2, "Iterative: www.example.com?", "The resolver doesn't know, so it asks a root server (it knows the 13 root server names from its root hints)."],
+      [2, 1, "Referral: ask .com TLD", "The root server doesn't know the answer but refers the resolver to the .com TLD servers (an NS referral)."],
+      [1, 3, "Iterative: www.example.com?", "The resolver asks a .com TLD server."],
+      [3, 1, "Referral: ask ns1.example.com", "The TLD server refers it to example.com's authoritative name servers."],
+      [1, 4, "Iterative: www.example.com?", "The resolver asks the authoritative server for example.com."],
+      [4, 1, "Answer: A 93.184.215.14, TTL 3600", "The authoritative server answers with the A record and a TTL. The resolver caches it for up to 3600 seconds."],
+      [1, 0, "Answer: 93.184.215.14", "The resolver returns the final answer to your PC, which caches it too. Now the browser can open a TCP connection to that IP."]]
+  };
+  function drawDD(i) {
+    var s = $("dd-svg"); s.innerHTML = ""; var nodes = NODES[mode];
+    var flows = FLOWS[mode]; if (mode === "dns" && $("dd-cache").checked) flows = [flows[0], [1, 0, "Answer from cache", "The resolver already has www.example.com cached (TTL not expired), so it answers immediately. No root, TLD or authoritative queries are needed: this is why DNS is fast most of the time."]];
+    var H = 80 + flows.length * 34; s.setAttribute("viewBox", "0 0 760 " + H); s.setAttribute("height", H);
+    var defs = OMNI.svg("defs", {}, s), mk = OMNI.svg("marker", { id: "dda", viewBox: "0 0 10 10", refX: 9, refY: 5, markerWidth: 7, markerHeight: 7, orient: "auto" }, defs); OMNI.svg("path", { d: "M0,0 L10,5 L0,10 z", fill: "var(--net)" }, mk);
+    var bw = mode === "dhcp" ? 190 : 136;
+    nodes.forEach(function (n) { OMNI.svg("line", { x1: n[1], y1: 44, x2: n[1], y2: H - 6, stroke: "var(--ink-2)", "stroke-width": 1.5, "stroke-dasharray": "4 4" }, s); OMNI.svg("rect", { x: n[1] - bw / 2, y: 6, width: bw, height: 38, rx: 8, fill: "var(--net-soft)", stroke: "var(--net)", "stroke-width": 2 }, s); var t = OMNI.svg("text", { x: n[1], y: 30, "text-anchor": "middle", class: "svg-text", "font-size": 12, "font-weight": 700 }, s); t.textContent = n[0]; });
+    for (var k = 0; k <= i && k < flows.length; k++) {
+      var f = flows[k], x1 = nodes[f[0]][1], x2 = nodes[f[1]][1], y = 76 + k * 34, cur = k === i;
+      OMNI.svg("line", { x1: x1, y1: y, x2: x2 + (x2 > x1 ? -3 : 3), y2: y, stroke: cur ? "var(--accent)" : "var(--net)", "stroke-width": cur ? 3 : 1.6, "marker-end": "url(#dda)", opacity: cur ? 1 : .6 }, s);
+      var t2 = OMNI.svg("text", { x: Math.min(x1, x2) + 6, y: y - 6, "text-anchor": "start", class: "svg-text", "font-size": 11.5, "font-weight": cur ? 700 : 400, "paint-order": "stroke", stroke: "var(--surface-2)", "stroke-width": 4 }, s); t2.textContent = (k + 1) + ". " + f[2];
+    }
+    return flows;
+  }
+  function setupDD() {
+    var root = $("dd-step"); root.innerHTML = "";
+    var flows = drawDD(-1);
+    ddStep = OMNI.stepper(root, flows.map(function (f) { return { c: f[3] }; }), function (i, st) { drawDD(i); OMNI.say("dd-cap", i < 0 ? (mode === "dhcp" ? "A laptop just joined the network. Press Next step to watch it get an address." : "You typed www.example.com. Press Next step to resolve it.") : st.c); }, { speed: 1800 });
+    $("dd-dhcp").setAttribute("aria-pressed", mode === "dhcp"); $("dd-dns").setAttribute("aria-pressed", mode === "dns");
+    $("dd-dhcp").classList.toggle("primary", mode === "dhcp"); $("dd-dns").classList.toggle("primary", mode === "dns");
+  }
+  $("dd-dhcp").onclick = function () { mode = "dhcp"; setupDD(); };
+  $("dd-dns").onclick = function () { mode = "dns"; setupDD(); };
+  $("dd-cache").onchange = function () { if (mode === "dns") setupDD(); };
+  setupDD();
+
+  /* ================= Lab 5: IPv6 ================= */
+  function expand(a) {
+    a = a.trim().toLowerCase(); if (!/^[0-9a-f:]+$/.test(a) || (a.match(/::/g) || []).length > 1) return null;
+    var parts; if (a.indexOf("::") >= 0) { var sp = a.split("::"), L = sp[0] ? sp[0].split(":") : [], R = sp[1] ? sp[1].split(":") : []; if (L.length + R.length > 7) return null; parts = L.concat(Array(8 - L.length - R.length).fill("0"), R); } else parts = a.split(":");
+    if (parts.length !== 8) return null;
+    for (var i = 0; i < 8; i++) { if (!/^[0-9a-f]{1,4}$/.test(parts[i])) return null; parts[i] = parts[i].padStart(4, "0"); }
+    return parts;
+  }
+  function v6() {
+    var p = expand($("v6-in").value);
+    if (!p) { ["v6-full", "v6-r1", "v6-r2"].forEach(function (id) { $(id).textContent = "—"; }); $("v6-type").textContent = ""; OMNI.say("v6-cap", "<span class='no'>That isn't a valid IPv6 address.</span> It needs 8 groups of up to 4 hex digits (0-9, a-f), with at most one ::."); return; }
+    $("v6-full").innerHTML = p.map(function (g) { return g.replace(/^(0+)(?=.)/, "<span class='z'>$1</span>"); }).join(":");
+    var r1 = p.map(function (g) { return g.replace(/^0+(?=.)/, ""); });
+    $("v6-r1").textContent = r1.join(":");
+    var best = -1, bl = 0; for (var i = 0; i < 8;) { if (r1[i] === "0") { var j = i; while (j < 8 && r1[j] === "0") j++; if (j - i > bl) { bl = j - i; best = i; } i = j; } else i++; }
+    var html, plain;
+    if (bl >= 2) { var L = r1.slice(0, best).join(":"), R = r1.slice(best + bl).join(":"); plain = L + "::" + R; html = L + "<span class='gap'>::</span>" + R; } else { plain = r1.join(":"); html = plain; }
+    $("v6-r2").innerHTML = html;
+    var f = parseInt(p[0], 16), t = p.join("") === "0".repeat(31) + "1" ? "Loopback (::1)" : p.join("") === "0".repeat(32) ? "Unspecified (::)" : (f & 0xffc0) === 0xfe80 ? "Link-local (fe80::/10)" : (f & 0xfe00) === 0xfc00 ? "Unique local (fc00::/7)" : (f & 0xff00) === 0xff00 ? "Multicast (ff00::/8)" : (f & 0xe000) === 0x2000 ? "Global unicast (2000::/3)" : "Other/reserved";
+    $("v6-type").innerHTML = "<b>Type:</b> " + t + (p[0] === "2001" && p[1] === "0db8" ? " · 2001:db8::/32 is reserved for documentation examples." : "");
+    OMNI.say("v6-cap", "Rule 1 removed the leading zeros highlighted in yellow. " + (bl >= 2 ? "Rule 2 replaced the longest run of " + bl + " zero groups with :: (red). Final: <b>" + plain + "</b>." : bl === 1 ? "Only a single zero group exists; RFC 5952 says not to use :: for just one group, so it stays as 0. Final: <b>" + plain + "</b>." : "There are no zero groups to compress. Final: <b>" + plain + "</b>."));
+  }
+  $("v6-in").oninput = v6;
+  var EX = ["2001:0db8:0000:0000:0000:ff00:0042:8329", "fe80:0000:0000:0000:02aa:00ff:fe28:9c5a", "ff02:0000:0000:0000:0000:0000:0000:0001", "0000:0000:0000:0000:0000:0000:0000:0001", "fd12:3456:789a:0001:0000:0000:0000:0010", "2001:0db8:0000:0001:0000:0000:0000:0001", "2607:f8b0:4004:0c07:0000:0000:0000:0064"];
+  var ei = 0; $("v6-rand").onclick = function () { ei = (ei + 1) % EX.length; $("v6-in").value = EX[ei]; v6(); };
+  v6();
+})();
+</script>
+<!-- module-data:start -->
+<script type="application/json" id="module-data">{"module":10,"title":"IP Addressing and Subnetting","glossary":[["IPv4","32-bit internet address.","Internet Protocol version 4: 32-bit addresses written as four decimal octets (RFC 791).","Internet Protocol version 4"],["IPv6","128-bit internet address.","Internet Protocol version 6: 128-bit addresses written as eight groups of four hex digits (RFC 8200).","Internet Protocol version 6"],["Subnet mask","Says which part of an IP is the network.","A 32-bit value with contiguous 1s marking network bits and 0s marking host bits.",""],["CIDR","Writing the mask as /number.","Classless Inter-Domain Routing: prefix-length notation and classless allocation/aggregation of addresses.","Classless Inter-Domain Routing"],["Network address","The first address of a subnet.","The address with all host bits set to 0; identifies the subnet itself and is not assignable to a host.",""],["Broadcast address","The last address of a subnet.","The address with all host bits set to 1; delivers to every host on the IPv4 subnet.",""],["Magic number","Block size of a subnet.","256 minus the mask value in the interesting octet; subnets begin at multiples of it.",""],["VLSM","Different-sized subnets in one block.","Variable Length Subnet Masking: using multiple prefix lengths within one address space to match subnet sizes to need.","Variable Length Subnet Masking"],["Supernetting","Combining networks into one route.","Route summarization/aggregation: advertising contiguous prefixes as a single shorter prefix.",""],["RFC 1918","The private IPv4 ranges.","10.0.0.0/8, 172.16.0.0/12 and 192.168.0.0/16, not routed on the public internet.",""],["APIPA","Self-assigned 169.254 address.","Automatic Private IP Addressing: IPv4 link-local 169.254.0.0/16, used when DHCP fails.","Automatic Private IP Addressing"],["Loopback","The address meaning 'this computer'.","127.0.0.0/8 (usually 127.0.0.1) in IPv4 and ::1 in IPv6; traffic never leaves the host.",""],["NAT","Translating private to public addresses.","Network Address Translation: rewriting IP addresses in packet headers as they pass a router.","Network Address Translation"],["PAT","Many devices sharing one public IP.","Port Address Translation (NAT overload): maps many inside sockets to one public IP using unique source ports.","Port Address Translation"],["CGNAT","ISP-level NAT.","Carrier-grade NAT using 100.64.0.0/10 shared address space (RFC 6598).","Carrier-Grade NAT"],["Link-local (IPv6)","Automatic local-only IPv6 address.","fe80::/10 address present on every IPv6 interface, valid only on the local link.",""],["Unique local address","IPv6 private address.","fc00::/7 (fd00::/8 in use) addresses for internal use, not globally routed.",""],["Global unicast","Public IPv6 address.","Globally routable IPv6 unicast addresses, currently allocated from 2000::/3.",""],["SLAAC","IPv6 hosts configure themselves.","Stateless Address Autoconfiguration: hosts build addresses from router-advertised prefixes (RFC 4862).","Stateless Address Autoconfiguration"],["EUI-64","Making an IPv6 host ID from the MAC.","Extended Unique Identifier: forms a 64-bit interface ID by inserting FFFE into the MAC and flipping the U/L bit.","Extended Unique Identifier 64-bit"],["Dual stack","Running IPv4 and IPv6 together.","A transition approach in which hosts and network devices run both protocol stacks simultaneously.",""],["DHCP","Hands out IP settings automatically.","Dynamic Host Configuration Protocol: assigns IP, mask, gateway, DNS and lease via UDP 67/68 (RFC 2131).","Dynamic Host Configuration Protocol"],["DORA","The 4 DHCP messages.","Discover, Offer, Request, Acknowledge.","Discover, Offer, Request, Acknowledge"],["DHCP scope","The pool DHCP hands out.","The configured range of addresses and options a DHCP server leases for a subnet.",""],["DHCP reservation","Same IP every time for one device.","A scope entry binding a client identifier/MAC to a specific address.",""],["DHCP relay","Forwards DHCP across routers.","An agent (IP helper) that forwards client broadcasts to a DHCP server on another subnet as unicast.",""],["DNS","The internet's phone book.","Domain Name System: hierarchical distributed database mapping names to records (RFC 1034/1035).","Domain Name System"],["Recursive query","Ask the resolver for the final answer.","A query requiring the server to return the complete answer or an error, performing lookups on the client's behalf.",""],["Iterative query","Ask and get a referral.","A query where the server returns the best information it has, often a referral to another server.",""],["TTL (DNS)","How long to cache a record.","Time To Live: seconds a resolver may cache a DNS record before re-querying.","Time To Live"],["DNSSEC","Signed DNS answers.","DNS Security Extensions: digital signatures on records providing origin authentication and integrity.","DNS Security Extensions"],["DoH / DoT","Encrypted DNS.","DNS over HTTPS (443) and DNS over TLS (853) encrypt DNS queries in transit.","DNS over HTTPS / DNS over TLS"],["PTR record","Reverse DNS.","Pointer record mapping an IP address (in-addr.arpa / ip6.arpa) to a hostname.","Pointer record"]],"quiz":[{"t":"mc","q":"What is the network address of 172.16.45.200/20?","o":["172.16.32.0","172.16.45.0","172.16.40.0","172.16.0.0"],"a":0,"w":["Correct: /20 mask 255.255.240.0, magic 16 in the 3rd octet; 45 falls in the 32 block.","That would be /24.","40 is not a multiple of 16.","That would be /16."],"x":"Interesting octet is the third; 32 ≤ 45 \u003c 48. Broadcast 172.16.47.255.","c":"N","d":"1.7 IPv4 addressing"},{"t":"mc","q":"How many usable hosts are in a /27?","o":["30","32","62","14"],"a":0,"w":["Correct: 2^5 − 2.","That's total addresses.","That's /26.","That's /28."],"x":"Hosts = 2^(32−prefix) − 2.","c":"N","d":"1.7 IPv4 addressing"},{"t":"mc","sc":"A user's PC shows 169.254.33.10 and has no internet.","q":"What does this indicate?","o":["DNS is misconfigured","The PC could not reach a DHCP server","The default gateway is down","The IP is a public address"],"a":1,"w":["DNS isn't involved in getting an address.","Correct: APIPA self-assignment after DHCP failure.","A gateway problem wouldn't cause APIPA.","169.254/16 is link-local."],"x":"Check the cable/Wi-Fi, VLAN, DHCP server and any DHCP relay.","c":"A1","d":"2.6 Network configuration (APIPA)"},{"t":"ms","q":"Which addresses are private (RFC 1918)? (Choose two.)","o":["172.20.5.1","172.32.0.1","10.255.0.9","192.169.1.1"],"a":[0,2],"w":["Correct: within 172.16-172.31.","Outside the /12.","Correct: within 10/8.","192.169 is public; private is 192.168."],"x":"10/8, 172.16/12, 192.168/16.","c":"N","d":"1.7 IPv4 addressing"},{"t":"mc","q":"Which is the correct canonical (RFC 5952) short form of 2001:0db8:0000:0000:0001:0000:0000:0001?","o":["2001:db8::1::1","2001:db8::1:0:0:1","2001:db8:0:1::1","2001:db8:0:0:1:0:0:1"],"a":1,"w":["Two :: makes the address ambiguous, so it is invalid.","Correct: both zero runs are two groups long; on a tie, compress the first (leftmost) run.","This drops groups: it expands to 2001:db8:0:1:0:0:0:1, a different address.","Valid, but not shortened: rule 2 was not applied."],"x":"Only one :: per address; longest run first, leftmost on a tie.","c":"N","d":"1.8 IPv6 addressing"},{"t":"mc","q":"Which IPv6 prefix identifies link-local addresses?","o":["2000::/3","fc00::/7","fe80::/10","ff00::/8"],"a":2,"w":["Global unicast.","Unique local.","Correct.","Multicast."],"x":"Every IPv6 interface has a link-local address.","c":"N","d":"1.8 IPv6 addressing"},{"t":"order","q":"Put the DHCP lease process in order.","o":["Discover","Offer","Request","Acknowledge"],"x":"DORA. Discover and Request are broadcasts.","c":"N","d":"3.4 Network services (DHCP)"},{"t":"mc","q":"Clients on a new VLAN don't get DHCP addresses; the DHCP server is on another subnet. What's missing?","o":["A DNS forwarder","A DHCP relay (IP helper) on the VLAN's router interface","A larger lease time","A PTR record"],"a":1,"w":["DNS is unrelated.","Correct: routers don't forward broadcasts by default.","Lease time doesn't affect reachability.","Reverse DNS is unrelated."],"x":"Configure ip helper-address pointing to the DHCP server.","c":"N","d":"3.4 Network services (DHCP)"},{"t":"mc","q":"Which DNS record specifies the mail server for a domain?","o":["A","CNAME","MX","TXT"],"a":2,"w":["Name to IPv4.","Alias.","Correct.","TXT holds SPF/DKIM/DMARC text, related to mail but not the mail server itself."],"x":"MX records include a preference value; lower = preferred.","c":"N","d":"3.4 Network services (DNS)"},{"t":"mc","q":"Which technology lets 50 home devices share one public IPv4 address?","o":["Static NAT","PAT","DNSSEC","SLAAC"],"a":1,"w":["One-to-one.","Correct: many-to-one using ports.","Signs DNS data.","IPv6 autoconfiguration."],"x":"PAT is also called NAT overload.","c":"N","d":"1.7 IPv4 addressing"},{"t":"mc","q":"An admin must split 192.168.10.0/24 into subnets of at least 50 hosts each. Which prefix maximizes the number of subnets?","o":["/25","/26","/27","/28"],"a":1,"w":["126 hosts but only 2 subnets.","Correct: 62 hosts, 4 subnets.","Only 30 hosts.","Only 14 hosts."],"x":"Smallest block with 2^h − 2 ≥ 50 is h = 6 → /26.","c":"N","d":"1.7 IPv4 addressing"},{"t":"mc","q":"Which protocol encrypts DNS queries using port 853?","o":["DNSSEC","DoH","DoT","LDAPS"],"a":2,"w":["DNSSEC signs, it doesn't encrypt.","DoH uses 443.","Correct: DNS over TLS.","Directory, port 636."],"x":"DNSSEC = integrity; DoH/DoT = confidentiality.","c":"S","d":"4.5 DNS security"},{"t":"mc","q":"Which method lets IPv6-only clients reach IPv4-only servers?","o":["Dual stack","NAT64 with DNS64","EUI-64","APIPA"],"a":1,"w":["Dual stack requires both stacks on the client.","Correct.","Interface ID generation.","IPv4 link-local."],"x":"DNS64 synthesizes AAAA records; NAT64 translates the packets.","c":"N","d":"1.8 IPv6 transition"},{"t":"ms","q":"Which are true of a DNS resolver performing a full lookup with an empty cache? (Choose two.)","o":["It sends iterative queries to root, TLD and authoritative servers","The root server returns the final A record","It caches the answer for the record's TTL","The client sends iterative queries to each server itself"],"a":[0,2],"w":["Correct.","Root servers only refer.","Correct.","The client (stub) sends one recursive query to the resolver."],"x":"Stub → recursive query → resolver → iterative queries.","c":"N","d":"3.4 Network services (DNS)"}],"flashcards":[["RFC 1918 ranges","10.0.0.0/8 · 172.16.0.0/12 · 192.168.0.0/16"],["APIPA","169.254.0.0/16: DHCP failed"],["Loopback v4 / v6","127.0.0.1 / ::1"],["Usable hosts formula","2^h − 2"],["Magic number","256 − mask octet value"],["/26 mask, hosts","255.255.255.192, 62"],["/27 mask, hosts","255.255.255.224, 30"],["/28 mask, hosts","255.255.255.240, 14"],["/29 mask, hosts","255.255.255.248, 6"],["/30 mask, hosts","255.255.255.252, 2"],["/20 mask","255.255.240.0 (4,094 hosts)"],["Class A/B/C first octet","1–126 / 128–191 / 192–223"],["CGNAT range","100.64.0.0/10"],["IPv6 length","128 bits, 8 groups of 4 hex"],["IPv6 :: rule","Once per address, longest zero run"],["fe80::/10","IPv6 link-local"],["fc00::/7","IPv6 unique local (private)"],["2000::/3","IPv6 global unicast"],["ff00::/8","IPv6 multicast"],["SLAAC","Host self-configures from router advertisement prefix"],["DORA","Discover, Offer, Request, Acknowledge"],["DHCP relay","ip helper-address: forwards broadcasts to remote server"],["A / AAAA","Name → IPv4 / IPv6"],["CNAME / MX / PTR","Alias / mail server / reverse lookup"],["SOA / NS / SRV","Zone authority / name servers / service + port"],["DoH / DoT ports","443 / 853"],["PAT","Many-to-one NAT using ports"]]}</script>
+<!-- module-data:end -->
+</body>
+</html>
